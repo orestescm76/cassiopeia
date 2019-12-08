@@ -1,0 +1,36 @@
+5
+Español
+4
+Gestor de discos
+Archivo
+Opciones
+Salir
+0
+English
+4
+Music records manager
+File
+Language
+Exit
+0
+Català
+4
+Gestor de discs
+Fitxer
+Idioma
+Sortir
+0
+Русский
+4
+Диспетчер дисков
+файл
+язык
+Выход
+0
+Български
+4
+Музикален мениджър
+досие
+език
+изход
+0
