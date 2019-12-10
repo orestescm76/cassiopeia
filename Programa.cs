@@ -17,7 +17,9 @@ namespace aplicacion_ipo
         public static List<int> idiomasIndices;
         public static int numIdiomas;
         public static String idioma;
-
+        public static String[] generos = {"clasica9", "prog10", "rock11", "heavymetal12", "blackmetal13", "electronica14", "postrock15", "indierock16", "stoner17",
+        "pop18", "jazz19", "disco20", "vaporwave21", "chiptune22"};
+        public static Coleccion miColeccion;
         public static void cambiarIdioma(String idioma)
         {
             Programa.idioma = idioma;
@@ -29,6 +31,7 @@ namespace aplicacion_ipo
         [STAThread]
         static void Main(String[] args)
         {
+            miColeccion = new Coleccion();
             textos = File.ReadAllLines("inter.txt");
             idioma = textos[1];
             codigosIdiomas = new List<string>();

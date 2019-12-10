@@ -1,36 +1,29 @@
-5
+1
 Español
-4
-Gestor de discos
+25
+Gestor de música v0.1.0
 Archivo
-Opciones
+Cambiar de idioma 
+Agregar álbum
+Arista
+Título
+Año
+Número de canciones
+Género
+Añadir
+Música clásica
+Progresivo
+Rock
+Heavy Metal
+Metal Negro
+Electrónica
+Post Rock
+Indie Rock
+Stoner
+Pop
+Jazz
+Disco
+Vaporwave
+Chiptune
 Salir
-0
-English
-4
-Music records manager
-File
-Language
-Exit
-0
-Català
-4
-Gestor de discs
-Fitxer
-Idioma
-Sortir
-0
-Русский
-4
-Диспетчер дисков
-файл
-язык
-Выход
-0
-Български
-4
-Музикален мениджър
-досие
-език
-изход
 0

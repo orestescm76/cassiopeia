@@ -1,0 +1,5 @@
+#ignorar las carpetas
+bin/
+obj/*
+#ignorar fichero
+guardado.mdb

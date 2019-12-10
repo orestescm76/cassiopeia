@@ -1,4 +1,4 @@
-﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -6,8 +6,9 @@
     <OutputType>WinExe</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>WindowsApplication</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -19,6 +20,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>aplicacion_ipo</RootNamespace>
@@ -75,17 +78,25 @@
     <None Include=".vs\ProjectSettings.json" />
     <None Include=".vs\slnx.sqlite" />
     <None Include=".vs\VSWorkspaceState.json" />
+    <None Include="app.config" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Album.cs" />
-    <Compile Include="Cancion.cs" />
-    <Compile Include="opciones.cs">
+    <Compile Include="agregarAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="opciones.Designer.cs">
-      <DependentUpon>opciones.cs</DependentUpon>
+    <Compile Include="agregarAlbum.Designer.cs">
+      <DependentUpon>agregarAlbum.cs</DependentUpon>
     </Compile>
+    <Compile Include="agregarCancion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="agregarCancion.Designer.cs">
+      <DependentUpon>agregarCancion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Album.cs" />
+    <Compile Include="Cancion.cs" />
+    <Compile Include="Coleccion.cs" />
     <Compile Include="Programa.cs" />
     <Compile Include="principal.cs">
       <SubType>Form</SubType>
@@ -100,8 +111,11 @@
     <Folder Include=".git\refs\tags\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="opciones.resx">
-      <DependentUpon>opciones.cs</DependentUpon>
+    <EmbeddedResource Include="agregarAlbum.resx">
+      <DependentUpon>agregarAlbum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="agregarCancion.resx">
+      <DependentUpon>agregarCancion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="principal.resx">
       <DependentUpon>principal.cs</DependentUpon>

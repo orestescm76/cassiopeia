@@ -5,7 +5,7 @@ using System.Text;
 
 namespace aplicacion_ipo
 {
-    class Cancion
+    public class Cancion
     {
         public Cancion(string t, TimeSpan d)
         {

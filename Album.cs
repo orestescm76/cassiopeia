@@ -5,18 +5,20 @@ using System.Text;
 
 namespace aplicacion_ipo
 {
-    class Album
+    public class Album
     {
-        Album(TimeSpan dur = new TimeSpan(), string n = "", string a = "", short y = 0, short nc = 0)
+        public Album(string n = "", string a = "", short y = 0, short nc = 0, string g = "", string c = "")
         {
-            duracion = dur;
+            duracion = new TimeSpan();
             nombre = n;
             artista = a;
             year = y;
             numCanciones = nc;
             canciones = new Cancion[nc];
+            caratula = c;
+            genero = g;
         }
-        Album(Album a)
+        public Album(Album a)
         {
             duracion = a.duracion;
             nombre = a.nombre;
@@ -24,10 +26,11 @@ namespace aplicacion_ipo
             year = a.year;
             numCanciones = a.numCanciones;
             canciones = a.canciones;
+            caratula = a.caratula;
         }
-        void agregarCancion(Cancion c)
+        public void agregarCancion(Cancion c, int cual)
         {
-            canciones[canciones.Length] = c;
+            canciones[cual] = c;
             duracion += c.duracion;
         }
         public TimeSpan duracion { get; set; }
@@ -36,5 +39,7 @@ namespace aplicacion_ipo
         public short year { get; set; }
         public short numCanciones { get; set; }
         public Cancion[] canciones { get; set; }
+        public String caratula { get; set; }
+        public String genero { get; set; }
     }
 }
