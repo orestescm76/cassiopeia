@@ -15,6 +15,11 @@ namespace aplicacion_ipo
 
         public string titulo { get; set; }
         public TimeSpan duracion { get; set; }
+        public String[] toStringArray()
+        {
+            String[] datos = { titulo, duracion.ToString() };
+            return datos;
+        }
     }
 
 }

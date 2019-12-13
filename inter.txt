@@ -1,29 +1,196 @@
-1
+5
 Español
-25
-Gestor de música v0.1.0
+36
+Gestor de música
 Archivo
 Cambiar de idioma 
 Agregar álbum
-Arista
+Artista
 Título
 Año
 Número de canciones
 Género
 Añadir
+Añadir canción
+Cancelar
+Introduce el título de la canción
+minutos:segundos
+Abrir registros desde un fichero
+El idioma que ha seleccionado es inválido, por favor contacta con el desarrollador o tradúcelo tu mismo
+¿Quiere cargar los últimos álbumes guardados?
+Duración
+Refrescar
 Música clásica
-Progresivo
-Rock
-Heavy Metal
-Metal Negro
-Electrónica
-Post Rock
-Indie Rock
-Stoner
+Rock duro
+Rock progresivo
+Metal progresivo
+Rock psicodélico
+Heavy metal
+Metal negro
+Música electrónica
+Post-rock
+Rock indie
+Stoner rock/metal
 Pop
 Jazz
-Disco
+Música disco
 Vaporwave
 Chiptune
 Salir
+0
+Català
+36
+Gestor de música
+Fitxer
+Canviar d'idioma
+Afegir àlbum
+Artista
+Títol
+Any
+Nombre de cançós
+Gènere
+Afegir
+Afegir cançó
+Cancel·lar
+Introdueix el títol de la cançó
+minuts:segons
+Obrir registres d'un fitxer
+L'idioma que ha seleccionat es invàlid, per favor contacta amb el desenvolupador o tradueix-lo tu mateix
+Voleu carregar els últims álbums desats?
+Durada
+Refrescar
+Música clàssica
+Rock dur
+Rock progressiu
+Metal progressiu
+Rock psicodèlic
+Heavy Metal
+Metal negre
+Música electrònica
+Post-rock
+Indie rock
+Stoner rock/metal
+Pop
+Jazz
+Música disco
+Vaporwave
+Chiptune
+Sortir
+0
+English
+36
+Music manager
+File
+Change language
+Add new album
+Artist
+Title
+Year
+Number of songs
+Genre
+Add
+Add song
+Cancel
+Insert song title
+minutes:seconds
+Open entries from file
+The language you selected is invalid. Please contact the developer or you translate it.
+Do you want to load the saved albums?
+Duration
+Refresh
+Classical music
+Hard rock
+Progressive rock
+Progressive metal
+Psychedellic rock
+Heavy metal
+Black metal
+Electronic music
+Post-rock
+Indie rock
+Stoner rock/metal
+Pop
+Jazz
+Disco music
+Vaporwave
+Chiptune
+Exit
+0
+Suomi
+36
+Musiikin johtaja
+Tiedosto
+Vaihda kieli
+Lisää albumi
+Taiteilija
+Otsikko
+Vuosi
+Kappaleiden lukumäärä
+Sukupuoli
+Lisätä
+Lisätä kappale
+Peruuttaa
+Kirjoita kappaleen nimi
+minuuttia:sekuntia
+Avaa tietueet tiedostosta
+Valitsemasi kieli on virheellinen, ota yhteyttä kehittäjään tai käännä se itse
+Haluatko ladata viimeksi tallennetut albumit?
+Kesto
+Virkistää
+Taidemusiikki
+Hard rock
+Progressiivinen rock
+Progressiivinen metal
+Psykedeelinen rock
+Metallimusiikki
+Black metal
+Elektroninen musiikki
+Post-rock
+Indie rock
+Stoner rock/metal
+Popmusiikki
+Jazz
+Disko
+Vaporwave
+Chiptune
+Poistu sovelluksesta
+0
+اللغة العربية
+36
+مدير الموسيقى
+أرشيف
+تغيير اللغة
+إضافة ألبوم
+فنان
+لقب
+عام
+عدد الأغاني
+جنس
+إضافة
+إضافة أغنية
+إلغاء
+أدخل عنوان الأغنية
+دقائق: ثواني
+افتح السجلات من ملف
+أنت الأحمق وغير طبيعي من الكرات
+تريد تحميل آخر ألبومات محفوظة؟
+مدة
+تحديث
+موسيقى كلاسيكية
+هارد روك
+بروغريسيف روك
+بروجريسف ميتال
+روك سايكدلي
+موسيقى الميتال
+بلاك ميتال
+موسيقى إلكترونية
+صخرة بعد
+إيندي روك
+معدن ستونر
+بوب
+جاز
+موسيقى ديسكو
+Vaporwave
+Chiptune
+الخروج من التطبيق
 0

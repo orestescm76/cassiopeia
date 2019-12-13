@@ -28,15 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(principal));
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.archivoMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.agregarAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
+            this.vistaAlbumes = new System.Windows.Forms.ListView();
+            this.refrescarButton = new System.Windows.Forms.Button();
+            this.banderaImageBox = new System.Windows.Forms.PictureBox();
             this.menuStrip2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.banderaImageBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip2
@@ -46,7 +50,7 @@
             this.opcionesToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(710, 24);
+            this.menuStrip2.Size = new System.Drawing.Size(759, 24);
             this.menuStrip2.TabIndex = 0;
             this.menuStrip2.Text = "menuStrip2";
             // 
@@ -64,14 +68,21 @@
             // agregarAlbumToolStripMenuItem
             // 
             this.agregarAlbumToolStripMenuItem.Name = "agregarAlbumToolStripMenuItem";
-            this.agregarAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.agregarAlbumToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.agregarAlbumToolStripMenuItem.Text = "agregarAlbum3";
             this.agregarAlbumToolStripMenuItem.Click += new System.EventHandler(this.agregarAlbumToolStripMenuItem_Click);
+            // 
+            // abrirToolStripMenuItem
+            // 
+            this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
+            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.abrirToolStripMenuItem.Text = "abrirDesdeFichero14";
+            this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
             // 
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.salirToolStripMenuItem.Text = "salirult";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
             // 
@@ -86,33 +97,60 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // abrirToolStripMenuItem
+            // vistaAlbumes
             // 
-            this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
-            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.abrirToolStripMenuItem.Text = "abrir";
-            this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
+            this.vistaAlbumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vistaAlbumes.FullRowSelect = true;
+            this.vistaAlbumes.HideSelection = false;
+            this.vistaAlbumes.Location = new System.Drawing.Point(12, 75);
+            this.vistaAlbumes.Name = "vistaAlbumes";
+            this.vistaAlbumes.ShowGroups = false;
+            this.vistaAlbumes.Size = new System.Drawing.Size(735, 258);
+            this.vistaAlbumes.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.vistaAlbumes.TabIndex = 1;
+            this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
+            this.vistaAlbumes.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ordenarColumnas);
+            this.vistaAlbumes.SelectedIndexChanged += new System.EventHandler(this.vistaAlbumes_SelectedIndexChanged);
+            this.vistaAlbumes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vistaAlbumes_KeyDown);
+            this.vistaAlbumes.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaAlbumes_MouseDoubleClick);
             // 
-            // label1
+            // refrescarButton
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(108, 116);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.refrescarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refrescarButton.Location = new System.Drawing.Point(669, 339);
+            this.refrescarButton.Name = "refrescarButton";
+            this.refrescarButton.Size = new System.Drawing.Size(78, 30);
+            this.refrescarButton.TabIndex = 2;
+            this.refrescarButton.Text = "Refrescar";
+            this.refrescarButton.UseVisualStyleBackColor = true;
+            this.refrescarButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // banderaImageBox
+            // 
+            this.banderaImageBox.Location = new System.Drawing.Point(705, 27);
+            this.banderaImageBox.Name = "banderaImageBox";
+            this.banderaImageBox.Size = new System.Drawing.Size(42, 42);
+            this.banderaImageBox.TabIndex = 3;
+            this.banderaImageBox.TabStop = false;
             // 
             // principal
             // 
-            this.ClientSize = new System.Drawing.Size(710, 516);
-            this.Controls.Add(this.label1);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(759, 374);
+            this.Controls.Add(this.banderaImageBox);
+            this.Controls.Add(this.refrescarButton);
+            this.Controls.Add(this.vistaAlbumes);
             this.Controls.Add(this.menuStrip2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "principal";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gestor de álbumes 0";
             this.Load += new System.EventHandler(this.principal_Load);
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.banderaImageBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,6 +167,8 @@
         private System.Windows.Forms.ToolStripMenuItem opcionesToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem abrirToolStripMenuItem;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListView vistaAlbumes;
+        private System.Windows.Forms.Button refrescarButton;
+        private System.Windows.Forms.PictureBox banderaImageBox;
     }
 }

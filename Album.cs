@@ -7,7 +7,7 @@ namespace aplicacion_ipo
 {
     public class Album
     {
-        public Album(string n = "", string a = "", short y = 0, short nc = 0, string g = "", string c = "")
+        public Album(Genero g, string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
             duracion = new TimeSpan();
             nombre = n;
@@ -33,6 +33,28 @@ namespace aplicacion_ipo
             canciones[cual] = c;
             duracion += c.duracion;
         }
+        public String[] toStringArray()
+        {
+            String[] datos = { artista, nombre, year.ToString(), duracion.ToString(), genero.traducido };
+            return datos;
+        }
+        private string getID()
+        {
+            return artista + nombre + year + genero.traducido;
+        }
+        public bool sonIguales(Album otro)
+        {
+            if (getID() == otro.getID())
+                return true;
+            else return false;
+        }
+        public int buscarCancion(string t)
+        {
+            int i = 0;
+            while (t != canciones[i].titulo)
+                i++;
+            return i;
+        }
         public TimeSpan duracion { get; set; }
         public String nombre{ get; set; }
         public String artista { get; set; }
@@ -40,6 +62,6 @@ namespace aplicacion_ipo
         public short numCanciones { get; set; }
         public Cancion[] canciones { get; set; }
         public String caratula { get; set; }
-        public String genero { get; set; }
+        public Genero genero { get; set; }
     }
 }

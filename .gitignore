@@ -1,5 +1,8 @@
 #ignorar las carpetas
+.vs/
 bin/
 obj/*
+Resources/
+Properties/
 #ignorar fichero
 guardado.mdb
