@@ -207,9 +207,7 @@ namespace aplicacion_ipo
         {
             if(vistaAlbumes.SelectedItems.Count != 0 && e.KeyCode == Keys.Delete)
             {
-                Debug.WriteLine(vistaAlbumes.SelectedItems.Count + Environment.NewLine + vistaAlbumes.SelectedItems.Count);
                 string[] s = new string[Programa.miColeccion.albumes.Count];
-                //aqui pasa algo que no borra bien
                 int cuantos = vistaAlbumes.SelectedItems.Count;
                 ListViewItem[] itemsABorrar = new ListViewItem[cuantos];
                 for (int i = 0; i < cuantos; i++)
@@ -219,17 +217,15 @@ namespace aplicacion_ipo
                     itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
                     //vistaAlbumes.Items.Remove(vistaAlbumes.Items[vistaAlbumes.SelectedIndices[i]]);
                 }
-                for (int i = 0; i < cuantos; i++)
-                {
-                    vistaAlbumes.Items.Remove(itemsABorrar[i]);
-                }
-                Debug.WriteLine(vistaAlbumes.SelectedIndices.Count + Environment.NewLine + vistaAlbumes.SelectedItems.Count);
                 for (int i = 0; i < vistaAlbumes.SelectedIndices.Count; i++)
                 {
                     Album a = Programa.miColeccion.devolverAlbum(s[i]);
                     Programa.miColeccion.quitarAlbum(ref a);
                 }
-                Debug.WriteLine(vistaAlbumes.SelectedIndices.Count + Environment.NewLine + vistaAlbumes.SelectedItems.Count);
+                for (int i = 0; i < cuantos; i++)
+                {
+                    vistaAlbumes.Items.Remove(itemsABorrar[i]);
+                }
                 vistaAlbumes.Refresh();
             }
         }

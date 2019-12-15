@@ -22,7 +22,7 @@ namespace aplicacion_ipo
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.0.1"; //borrado arreglado, 1.0 todo implementado
+        public static readonly string version = "1.0.2"; //borrado arreglado, 1.0 todo implementado
         public static string ErrorIdioma;
         private static readonly int ultimaCadena = 28;
         public static void cambiarIdioma(String idioma)
