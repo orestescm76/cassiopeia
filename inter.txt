@@ -1,6 +1,6 @@
 5
 Español
-36
+45
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -20,6 +20,15 @@ El idioma que ha seleccionado es inválido, por favor contacta con el desarrolla
 ¿Quiere cargar los últimos álbumes guardados?
 Duración
 Refrescar
+Visualizando
+Editar
+Hecho
+Error al intentar realizar la operación, revisa que los campos que soliciten números no haya texto.
+Error al intentar realizar la operación, algún campo está sin rellenar.
+Añadir carátula
+Buscar
+Carátula
+Editando
 Música clásica
 Rock duro
 Rock progresivo
@@ -37,9 +46,11 @@ Música disco
 Vaporwave
 Chiptune
 Salir
-0
+2
+./iconosBanderas/esp.png
+./fotos/esp.png
 Català
-36
+45
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -47,7 +58,7 @@ Afegir àlbum
 Artista
 Títol
 Any
-Nombre de cançós
+Nombre de cançons
 Gènere
 Afegir
 Afegir cançó
@@ -59,6 +70,15 @@ L'idioma que ha seleccionat es invàlid, per favor contacta amb el desenvolupado
 Voleu carregar els últims álbums desats?
 Durada
 Refrescar
+Visualitzant
+Editar
+Fet
+Error al provar fer l'operació, revisa que els camps que sol·liciten nombres no hi ha text.
+Error al provar fer l'operació, algun paràmetre està sense text.
+Afegir caràtula.
+Cerca
+Caràtula
+Editant
 Música clàssica
 Rock dur
 Rock progressiu
@@ -76,9 +96,11 @@ Música disco
 Vaporwave
 Chiptune
 Sortir
-0
+2
+./iconosBanderas/cat.png
+./fotos/netejant la taula.png
 English
-36
+45
 Music manager
 File
 Change language
@@ -96,8 +118,17 @@ minutes:seconds
 Open entries from file
 The language you selected is invalid. Please contact the developer or you translate it.
 Do you want to load the saved albums?
-Duration
+Length
 Refresh
+Visualizing
+Edit
+Done
+Error while trying to do the operation, avoid text in number only fields.
+Error while trying to do the operation, some field is empty.
+Add album art
+Search
+Album art
+Editing
 Classical music
 Hard rock
 Progressive rock
@@ -115,9 +146,71 @@ Disco music
 Vaporwave
 Chiptune
 Exit
-0
+2
+./iconosBanderas/uk.png
+./fotos/stop.png
+Pусский
+45
+Музыкальный менеджер
+файл
+изменение языка
+Добавить альбом
+группа
+заглавие
+год
+Количество песен
+Жанр
+Добавлять
+Добавлять альбом
+Отмена
+Введите название песни
+минуты:секунды
+Открыть регистрацию из файла
+Выбранный вами язык недействителен, пожалуйста, поговорите с разработчиком или переведите его
+Вы хотите загрузить сохраненные альбомы?
+Длительность
+перезарядка
+Просмотр
+редактировать
+Выполнено
+Ошибка при попытке выполнить операцию, избегайте текста в числовых полях.
+Ошибка при попытке выполнить операцию, какое-то поле пусто.
+Добавить обложку альбома
+поиск
+обложка альбома
+Редактирование
+Классическая музыка
+Тяжелый рок
+Прогрессивный рок
+Прогрессивный метал
+Психоделический рок
+Метал
+Блэк-метал
+Электронная музыка
+Построк
+Инди-рок
+Стоунер-рок/метал
+Поп-музыка
+Джаз
+Диско музыка
+вэйпорвэйв
+Чиптюн
+Выйти из приложения
+2
+./iconosBanderas/ru.png
+./fotos/russianOverkill.png
+Magyar
+45
+2
+./iconosBanderas/hu.png
+./fotos/russianOverkill.png
+Ελληνική
+45
+2
+./iconosBanderas/gr.png
+./fotos/billetes.png
 Suomi
-36
+45
 Musiikin johtaja
 Tiedosto
 Vaihda kieli
@@ -137,6 +230,15 @@ Valitsemasi kieli on virheellinen, ota yhteyttä kehittäjään tai käännä se
 Haluatko ladata viimeksi tallennetut albumit?
 Kesto
 Virkistää
+Koska
+Muokata
+Päättynyt
+Virhe yrittäessäsi suorittaa toimenpide. Tarkista, että numeroita pyytävät kentät eivät sisällä tekstiä.
+Virhe yritettäessä suorittaa toimenpide, jotakin kenttää ei ole täytetty.
+Lisää albumikuva
+Hae
+Albumikuva
+Muokkaaminen
 Taidemusiikki
 Hard rock
 Progressiivinen rock
@@ -154,43 +256,6 @@ Disko
 Vaporwave
 Chiptune
 Poistu sovelluksesta
-0
-اللغة العربية
-36
-مدير الموسيقى
-أرشيف
-تغيير اللغة
-إضافة ألبوم
-فنان
-لقب
-عام
-عدد الأغاني
-جنس
-إضافة
-إضافة أغنية
-إلغاء
-أدخل عنوان الأغنية
-دقائق: ثواني
-افتح السجلات من ملف
-أنت الأحمق وغير طبيعي من الكرات
-تريد تحميل آخر ألبومات محفوظة؟
-مدة
-تحديث
-موسيقى كلاسيكية
-هارد روك
-بروغريسيف روك
-بروجريسف ميتال
-روك سايكدلي
-موسيقى الميتال
-بلاك ميتال
-موسيقى إلكترونية
-صخرة بعد
-إيندي روك
-معدن ستونر
-بوب
-جاز
-موسيقى ديسكو
-Vaporwave
-Chiptune
-الخروج من التطبيق
-0
+2
+./iconosBanderas/fi.png
+./fotos/sherLock.png
