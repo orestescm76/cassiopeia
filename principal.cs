@@ -77,7 +77,8 @@ namespace aplicacion_ipo
                 banderaImageBox.SizeMode = PictureBoxSizeMode.StretchImage;
                 cargarVista();
                 //banderaImageBox.Update();
-                //banderaImageBox.Refresh();
+                //banderaImageBox.Refresh()
+                prescindible.ImageLocation = Programa.imagenesLocal[1];
             }
             catch(IndexOutOfRangeException ex)
             {
