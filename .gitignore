@@ -1,5 +1,6 @@
 #ignorar las carpetas
 .vs/
+.vs/aplicacion-ipo/v16
 bin/
 obj/*
 Resources/
