@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
-
+//VESION 1.0.2
 namespace aplicacion_ipo
 {
     static class Programa
