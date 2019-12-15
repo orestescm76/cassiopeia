@@ -1,0 +1,10 @@
+#ignorar las carpetas
+.vs/
+.vs/aplicacion-ipo/v16/*.suo
+bin/
+obj/*
+Resources/
+Properties/
+#ignorar fichero
+guardado.mdb
+*.suo
