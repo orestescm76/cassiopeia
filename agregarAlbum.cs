@@ -91,19 +91,24 @@ namespace aplicacion_ipo
                 DialogResult cancelar = DialogResult.OK;
                 for (int i = 0; i < nC; i++)
                 {
+                    if (cancelar == DialogResult.Cancel)
+                    {
+                        Programa.miColeccion.quitarAlbum(ref a);
+                        Close();
+                        break;
+                    }
                     agregarCancion agregarCancion = new agregarCancion(ref a,i);
                     cancelar = agregarCancion.ShowDialog();
                 }
-                if (cancelar == DialogResult.Cancel)
-                    Programa.miColeccion.quitarAlbum(ref a);
+
                 Close();
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 MessageBox.Show(Programa.textosLocal[23]);
             }
 
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 MessageBox.Show(Programa.textosLocal[22]);
                 //throw;

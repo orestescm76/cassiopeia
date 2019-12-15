@@ -69,29 +69,29 @@ namespace aplicacion_ipo
                 {
                     cancion.titulo = t;
                     cancion.duracion = new TimeSpan(0, min, sec);
+                    this.DialogResult = DialogResult.OK;
                     Close();
                 }
                 else
                 {
                     Cancion c = new Cancion(t, new TimeSpan(0, min, sec));
                     album.agregarCancion(c, cual);
+                    this.DialogResult = DialogResult.OK;
                     Close();
                 }
 
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK);
-                agregarCancion nuevo = new agregarCancion(ref album, cual);
-                nuevo.Show();
+                MessageBox.Show(Programa.textosLocal[23]);
             }
-            catch (FormatException ex)
+
+            catch (FormatException)
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK);
-                agregarCancion nuevo = new agregarCancion(ref album, cual);
-                nuevo.Show();
+                MessageBox.Show(Programa.textosLocal[22]);
+                //throw;
             }
-            this.DialogResult = DialogResult.OK;
+
 
         }
 
@@ -134,6 +134,11 @@ namespace aplicacion_ipo
         {
             this.DialogResult =  DialogResult.Cancel;
             Close();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
