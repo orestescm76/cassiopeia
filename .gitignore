@@ -8,3 +8,6 @@ Properties/
 #ignorar fichero
 guardado.mdb
 *.suo
+aplicacion-ipo.csproj
+aplicacion-ipo.csproj.user
+aplicacion-ipo.sln
