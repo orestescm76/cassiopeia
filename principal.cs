@@ -41,6 +41,7 @@ namespace aplicacion_ipo
                 cargarVista();
             vistaAlbumes.FullRowSelect = true;
             Debug.WriteLine(vistaAlbumes.Columns.Count);
+            
         }
         private void cargarVista()
         {
@@ -76,11 +77,8 @@ namespace aplicacion_ipo
                 Debug.WriteLine(Programa.imagenesLocal.First());
                 banderaImageBox.SizeMode = PictureBoxSizeMode.StretchImage;
                 cargarVista();
-                //banderaImageBox.Update();
-                //banderaImageBox.Refresh()
-                prescindible.ImageLocation = Programa.imagenesLocal[1];
             }
-            catch(IndexOutOfRangeException ex)
+            catch(IndexOutOfRangeException)
             {
 
                 MessageBox.Show(Programa.ErrorIdioma, "", MessageBoxButtons.OK);
@@ -150,7 +148,13 @@ namespace aplicacion_ipo
                         salida.WriteLine(a.nombre + ";" + a.artista + ";" + a.year + ";" + a.numCanciones + ";" + a.genero.Id + ";" + a.caratula);
                         for (int i = 0; i < a.numCanciones; i++)
                         {
-                            salida.WriteLine(a.canciones[i].titulo + ";" + a.canciones[i].duracion.Minutes + ";" + a.canciones[i].duracion.Seconds);
+                            if(a.canciones[i].duracion.Hours >= 1)
+                            {
+                                int minutos = a.canciones[i].duracion.Minutes + 60 * a.canciones[i].duracion.Hours;
+                                salida.WriteLine(a.canciones[i].titulo + ";" + minutos + ";" + a.canciones[i].duracion.Seconds);
+                            }
+                            else
+                                salida.WriteLine(a.canciones[i].titulo + ";" + a.canciones[i].duracion.Minutes + ";" + a.canciones[i].duracion.Seconds);
                         }
                     }
 
@@ -186,8 +190,7 @@ namespace aplicacion_ipo
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            cargarVista();
-            vistaAlbumes.Refresh();
+
         }
         private void dobleClickItem(object sender, EventArgs e)
         {
@@ -207,27 +210,43 @@ namespace aplicacion_ipo
         {
             if(vistaAlbumes.SelectedItems.Count != 0 && e.KeyCode == Keys.Delete)
             {
-                string[] s = new string[Programa.miColeccion.albumes.Count];
-                int cuantos = vistaAlbumes.SelectedItems.Count;
-                ListViewItem[] itemsABorrar = new ListViewItem[cuantos];
-                for (int i = 0; i < cuantos; i++)
-                {
-                    s[i] = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "," + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
-                    //s[i] = vistaAlbumes.SelectedItems[i].SubItems[0].Text + ',' + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
-                    itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
-                    //vistaAlbumes.Items.Remove(vistaAlbumes.Items[vistaAlbumes.SelectedIndices[i]]);
-                }
-                for (int i = 0; i < vistaAlbumes.SelectedIndices.Count; i++)
-                {
-                    Album a = Programa.miColeccion.devolverAlbum(s[i]);
-                    Programa.miColeccion.quitarAlbum(ref a);
-                }
-                for (int i = 0; i < cuantos; i++)
-                {
-                    vistaAlbumes.Items.Remove(itemsABorrar[i]);
-                }
-                vistaAlbumes.Refresh();
+                borrarAlbumesSeleccionados();
             }
+        }
+
+        private void refrescarButton_Click(object sender, EventArgs e)
+        {
+            cargarVista();
+            //vistaAlbumes.Refresh();
+        }
+
+        private void borrarButton_Click(object sender, EventArgs e)
+        {
+            if(vistaAlbumes.SelectedItems.Count != 0)
+                borrarAlbumesSeleccionados();
+        }
+        private void borrarAlbumesSeleccionados()
+        {
+            string[] s = new string[Programa.miColeccion.albumes.Count];
+            int cuantos = vistaAlbumes.SelectedItems.Count;
+            ListViewItem[] itemsABorrar = new ListViewItem[cuantos];
+            for (int i = 0; i < cuantos; i++)
+            {
+                s[i] = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "," + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
+                //s[i] = vistaAlbumes.SelectedItems[i].SubItems[0].Text + ',' + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
+                itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
+                //vistaAlbumes.Items.Remove(vistaAlbumes.Items[vistaAlbumes.SelectedIndices[i]]);
+            }
+            for (int i = 0; i < vistaAlbumes.SelectedIndices.Count; i++)
+            {
+                Album a = Programa.miColeccion.devolverAlbum(s[i]);
+                Programa.miColeccion.quitarAlbum(ref a);
+            }
+            for (int i = 0; i < cuantos; i++)
+            {
+                vistaAlbumes.Items.Remove(itemsABorrar[i]);
+            }
+            vistaAlbumes.Refresh();
         }
     }
 }

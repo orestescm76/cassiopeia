@@ -55,11 +55,12 @@ namespace aplicacion_ipo
                 i++;
             return i;
         }
-        public TimeSpan duracion { get; set; }
+
         public String nombre{ get; set; }
         public String artista { get; set; }
         public short year { get; set; }
         public short numCanciones { get; set; }
+        public TimeSpan duracion { get; set; }
         public Cancion[] canciones { get; set; }
         public String caratula { get; set; }
         public Genero genero { get; set; }

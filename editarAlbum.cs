@@ -70,12 +70,12 @@ namespace aplicacion_ipo
                 }
                 albumAEditar.duracion = nuevaDuracion;
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 MessageBox.Show(Programa.textosLocal[23]);
             }
 
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 MessageBox.Show(Programa.textosLocal[22]);
                 //throw;

@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
-//VERSIÓN 1.0.2
+/*VERSIÓN 1.1 - TODO
+ * botón borrado -fet pero falta meter idioma
+ * perfilado el visualizar (añadir el numero de cancion) -fet
+ * quitar imágenes -fet
+ * rediseño ??
+ * más generos...
+ * +arreglado el bug de canciones +60 min
+ */
 namespace aplicacion_ipo
 {
     static class Programa
@@ -22,7 +27,7 @@ namespace aplicacion_ipo
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.0.2"; //borrado arreglado, 1.0 todo implementado
+        public static readonly string version = "1.1";
         public static string ErrorIdioma;
         private static readonly int ultimaCadena = 28;
         public static void cambiarIdioma(String idioma)
@@ -42,7 +47,7 @@ namespace aplicacion_ipo
                 textosLocal = textosLocalNou;
                 refrescarGeneros();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show(ErrorIdioma);
                 Programa.idioma = idiomatemp;

@@ -39,7 +39,7 @@
             // 
             // vistaCaratula
             // 
-            this.vistaCaratula.Location = new System.Drawing.Point(405, 6);
+            this.vistaCaratula.Location = new System.Drawing.Point(441, 6);
             this.vistaCaratula.Name = "vistaCaratula";
             this.vistaCaratula.Size = new System.Drawing.Size(300, 300);
             this.vistaCaratula.TabIndex = 0;
@@ -51,7 +51,7 @@
             this.vistaCanciones.HideSelection = false;
             this.vistaCanciones.Location = new System.Drawing.Point(11, 161);
             this.vistaCanciones.Name = "vistaCanciones";
-            this.vistaCanciones.Size = new System.Drawing.Size(388, 145);
+            this.vistaCanciones.Size = new System.Drawing.Size(424, 145);
             this.vistaCanciones.TabIndex = 1;
             this.vistaCanciones.UseCompatibleStateImageBehavior = false;
             this.vistaCanciones.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ordenarColumnas);
@@ -70,9 +70,9 @@
             // okDoomerButton
             // 
             this.okDoomerButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.okDoomerButton.Location = new System.Drawing.Point(255, 325);
+            this.okDoomerButton.Location = new System.Drawing.Point(274, 325);
             this.okDoomerButton.Name = "okDoomerButton";
-            this.okDoomerButton.Size = new System.Drawing.Size(237, 23);
+            this.okDoomerButton.Size = new System.Drawing.Size(237, 30);
             this.okDoomerButton.TabIndex = 3;
             this.okDoomerButton.Text = "button1";
             this.okDoomerButton.UseVisualStyleBackColor = true;
@@ -81,9 +81,9 @@
             // editarButton
             // 
             this.editarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editarButton.Location = new System.Drawing.Point(630, 325);
+            this.editarButton.Location = new System.Drawing.Point(657, 325);
             this.editarButton.Name = "editarButton";
-            this.editarButton.Size = new System.Drawing.Size(75, 23);
+            this.editarButton.Size = new System.Drawing.Size(84, 30);
             this.editarButton.TabIndex = 3;
             this.editarButton.Text = "editar";
             this.editarButton.UseVisualStyleBackColor = true;
@@ -93,7 +93,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(717, 360);
+            this.ClientSize = new System.Drawing.Size(753, 367);
             this.Controls.Add(this.editarButton);
             this.Controls.Add(this.okDoomerButton);
             this.Controls.Add(this.infoAlbum);
