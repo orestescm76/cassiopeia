@@ -140,6 +140,7 @@
             this.prescindible.Location = new System.Drawing.Point(13, 28);
             this.prescindible.Name = "prescindible";
             this.prescindible.Size = new System.Drawing.Size(260, 100);
+            this.prescindible.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.prescindible.TabIndex = 4;
             this.prescindible.TabStop = false;
             // 

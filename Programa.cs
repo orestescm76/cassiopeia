@@ -111,7 +111,7 @@ namespace aplicacion_ipo
                 codigosIdiomas.Add(textos[(2 + i * cadenas)-1]);
                 idiomasIndices.Add((2 + i * cadenas) - 1);
             }
-            if(args.Length != 0 && args[0] == "-preguntar")
+            if(args.Length != 0 && args[0] == "-preguntar")//cambiar parametro para cargar otro fichero
             {
                 DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
                 if (resultado == DialogResult.Yes)

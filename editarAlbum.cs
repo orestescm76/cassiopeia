@@ -55,7 +55,7 @@ namespace aplicacion_ipo
 
         private void botonOkDoomer_Click(object sender, EventArgs e)
         {
-            try
+            try//si está vacío pues guarda vacío
             {
                 albumAEditar.artista = textBoxArtista.Text;
                 albumAEditar.nombre = textBoxTitulo.Text;
