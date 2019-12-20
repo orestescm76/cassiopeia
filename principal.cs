@@ -12,10 +12,13 @@ namespace aplicacion_ipo
 {
     public partial class principal : Form
     {
+        StatusBar barraAbajo;
+        StatusBarPanel duracionSeleccionada;
         private ListViewItemComparer lvwColumnSorter;
         public principal()
         {
             InitializeComponent();
+
             foreach (var idioma in Programa.codigosIdiomas)
             {
                 ToolStripItem subIdioma = new ToolStripMenuItem(idioma);
@@ -41,7 +44,15 @@ namespace aplicacion_ipo
                 cargarVista();
             vistaAlbumes.FullRowSelect = true;
             Debug.WriteLine(vistaAlbumes.Columns.Count);
-            
+            barraAbajo = new StatusBar();
+            duracionSeleccionada = new StatusBarPanel();
+            duracionSeleccionada.AutoSize = StatusBarPanelAutoSize.Spring;
+            barraAbajo.Panels.Add(duracionSeleccionada);
+            barraAbajo.Visible = true;
+            barraAbajo.ShowPanels = true;
+            barraAbajo.Font = new Font("Segoe UI", 10);
+            duracionSeleccionada.Text = Programa.textosLocal[29] + ": 00:00:00";
+            Controls.Add(barraAbajo);
         }
         private void cargarVista()
         {
@@ -248,6 +259,22 @@ namespace aplicacion_ipo
                 vistaAlbumes.Items.Remove(itemsABorrar[i]);
             }
             vistaAlbumes.Refresh();
+        }
+        private void vistaAlbumes_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
+        {
+
+        }
+
+        private void vistaAlbumes_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            TimeSpan seleccion = new TimeSpan();
+            foreach (ListViewItem album in vistaAlbumes.SelectedItems)
+            {
+                String a = album.SubItems[0].Text + "," + album.SubItems[1].Text;
+                Album ad = Programa.miColeccion.devolverAlbum(a);
+                seleccion += ad.duracion;
+            }
+            duracionSeleccionada.Text = Programa.textosLocal[29] + ": "+ seleccion.ToString();
         }
     }
 }

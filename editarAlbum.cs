@@ -26,7 +26,7 @@ namespace aplicacion_ipo
             vistaCanciones.View = View.List;
             ponerTextos();
             cargarVista();
-            comboBoxGeneros.SelectedIndex = Programa.findGenero(albumAEditar.genero.Id);
+
         }
         private void ponerTextos()
         {
@@ -43,7 +43,15 @@ namespace aplicacion_ipo
             {
                 generosTraducidos[i] = Programa.generos[i].traducido;
             }
+            Array.Sort(generosTraducidos);
             comboBoxGeneros.Items.AddRange(generosTraducidos);
+            int index = 0;
+            for (int i = 0; i < generosTraducidos.Length; i++)
+            {
+                if (albumAEditar.genero.traducido == generosTraducidos[i])
+                    index = i;
+            }
+            comboBoxGeneros.SelectedIndex = index;
         }
         private void cargarVista()
         {
@@ -60,7 +68,8 @@ namespace aplicacion_ipo
                 albumAEditar.artista = textBoxArtista.Text;
                 albumAEditar.nombre = textBoxTitulo.Text;
                 albumAEditar.year = Convert.ToInt16(textBoxAño.Text);
-                Genero g = Programa.generos[comboBoxGeneros.SelectedIndex];
+                string gn = comboBoxGeneros.SelectedItem.ToString();
+                Genero g = Programa.generos[Programa.findGeneroTraducido(gn)];
                 albumAEditar.genero = g;
                 albumAEditar.caratula = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();

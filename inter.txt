@@ -1,6 +1,6 @@
-7
+3
 [ES] Español
-50
+52
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -30,6 +30,7 @@ Buscar
 Carátula
 Editando
 Borrar selección
+Duración total
 Música clásica
 Rock duro
 Rock progresivo
@@ -46,7 +47,8 @@ Jazz
 Música disco
 Vaporwave
 Chiptune
-Post-Punk
+Punk
+Pospunk
 Folk
 Blues rock
 Funk (y derivados)
@@ -54,7 +56,7 @@ Salir
 1
 ./iconosBanderas/esp.png
 [CAT] Català
-50
+52
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -84,6 +86,7 @@ Cerca
 Caràtula
 Editant
 Esborrar selecció
+Durada total
 Música clàssica
 Rock dur
 Rock progressiu
@@ -100,6 +103,7 @@ Jazz
 Música disco
 Vaporwave
 Chiptune
+Punk
 Post-Punk
 Folk
 Blues rock
@@ -108,7 +112,7 @@ Sortir
 1
 ./iconosBanderas/cat.png
 [EN] English
-46
+52
 Music manager
 File
 Change language
@@ -138,6 +142,7 @@ Search
 Album art
 Editing
 Delete selection
+Total length
 Classical music
 Hard rock
 Progressive rock
@@ -154,206 +159,11 @@ Jazz
 Disco music
 Vaporwave
 Chiptune
+Punk
+Post Punk
+Folk
+Blues rock
+Funk (and derivatives)
 Exit
 1
 ./iconosBanderas/uk.png
-[RU] Pусский
-46
-Музыкальный менеджер
-файл
-изменение языка
-Добавить альбом
-группа
-заглавие
-год
-Количество песен
-Жанр
-Добавлять
-Добавлять альбом
-Отмена
-Введите название песни
-минуты:секунды
-Открыть регистрацию из файла
-Выбранный вами язык недействителен, пожалуйста, поговорите с разработчиком или переведите его
-Вы хотите загрузить сохраненные альбомы?
-Длительность
-перезарядка
-Просмотр
-редактировать
-Выполнено
-Ошибка при попытке выполнить операцию, избегайте текста в числовых полях.
-Ошибка при попытке выполнить операцию, какое-то поле пусто.
-Добавить обложку альбома
-поиск
-обложка альбома
-Редактирование
-Удалить выбор
-Классическая музыка
-Тяжелый рок
-Прогрессивный рок
-Прогрессивный метал
-Психоделический рок
-Метал
-Блэк-метал
-Электронная музыка
-Построк
-Инди-рок
-Стоунер-рок/метал
-Поп-музыка
-Джаз
-Диско музыка
-вэйпорвэйв
-Чиптюн
-Выйти из приложения
-1
-./iconosBanderas/ru.png
-[HU] Magyar
-46
-Alkalmazás a zene kezelésére
-Archív
-[HU] Nyelvváltás
-Album hozzáadása
-Művész
-Cím
-Év
-Dalok száma
-Nem
-Hozzáad
-Add dal
-Megszünteti
-Írja be a dal címét
-perc:másodperc
-Nyisson meg rekordokat egy fájlból
-A kiválasztott nyelv érvénytelen, kérjük, forduljon a fejlesztőhöz, vagy fordítsa le saját maga
-Betölti az utoljára mentett albumokat?
-Tartam
-Újratöltés
-Megtekintés
-Szerkesztés
-Csinált
-Hiba történt a művelet végrehajtása közben. Ellenőrizze, hogy a számokat kérő mezőkben nincs szöveg.
-Hiba történt a művelet végrehajtása közben, néhány mező nincs kitöltve.
-Adja hozzá a fedelet
-Keresés
-Album borítója
-Szerkesztés
-Törölje a választást
-Klasszikus zene
-Kemény rock
-Progresszív rock
-Progresszív fém
-Pszichedelikus szikla
-Heavy metal
-Black metál
-Elektronikus zene
-Post-rock
-Indie rock
-Stoner rock / fém
-Popzene
-Dzsessz
-Disco zene
-Vaporwave
-Chiptune
-Kilépés az alkalmazásból
-1
-./iconosBanderas/hu.png
-[GR] Ελληνική
-46
-Αίτηση για διαχείριση μουσικής
-Αρχείο
-Αλλαξε γλώσσα
-Προσθήκη άλμπουμ
-Καλλιτέχνης
-Τίτλος
-Ετος
-Αριθμός τραγουδιών
-Είδος
-Προσθέτω
-Προσθήκη τραγουδιού
-Ματαίωση
-Εισάγετε τον τίτλο τραγουδιού
-λεπτά: δευτερόλεπτα
-Ανοίξτε τις καταχωρήσεις από το αρχείο
-Η γλώσσα που επιλέξατε δεν είναι έγκυρη. Επικοινωνήστε με τον προγραμματιστή ή μεταφράστε τον.
-Θέλετε να φορτώσετε τα αποθηκευμένα άλμπουμ;
-Μήκος
-Φορτώνω πάλι
-Προβολή
-Επεξεργασία
-Ολοκληρώθηκε
-Παρουσιάστηκε σφάλμα κατά την προσπάθεια να γίνει η λειτουργία, αποφύγετε τα κείμενα σε πεδία μόνο αριθμών.
-Σφάλμα κατά την προσπάθεια να γίνει η λειτουργία, κάποιο πεδίο είναι άδειο.
-Προσθήκη αρχείου άλμπουμ
-Ψάξιμο
-Τέχνη άλμπουμ
-Επεξεργασία
-Διαγραφή επιλογής
-Κλασσική μουσική
-Σκληρό ροκ
-προοδευτικό ροκ
-Προοδευτικό μέταλλο
-Ψυχεδελικό βράχο
-βαρέων μετάλλων
-Μαύρο μέταλλο
-Ηλεκτρονική μουσική
-Post-rock
-Indie rock
-Stoner rock/metal
-Μουσική ποπ
-Τζαζ
-Ντίσκο μουσική
-Vaporwave
-Chiptune
-Έξοδος από την εφαρμογή
-1
-./iconosBanderas/gr.png
-[FI] Suomi
-46
-Musiikin johtaja
-Tiedosto
-Vaihda kieli
-Lisää albumi
-Taiteilija
-Otsikko
-Vuosi
-Kappaleiden lukumäärä
-Sukupuoli
-Lisätä
-Lisätä kappale
-Peruuttaa
-Kirjoita kappaleen nimi
-minuuttia:sekuntia
-Avaa tietueet tiedostosta
-Valitsemasi kieli on virheellinen, ota yhteyttä kehittäjään tai käännä se itse
-Haluatko ladata viimeksi tallennetut albumit?
-Kesto
-Virkistää
-Koska
-Muokata
-Päättynyt
-Virhe yrittäessäsi suorittaa toimenpide. Tarkista, että numeroita pyytävät kentät eivät sisällä tekstiä.
-Virhe yritettäessä suorittaa toimenpide, jotakin kenttää ei ole täytetty.
-Lisää albumikuva
-Hae
-Albumikuva
-Muokkaaminen
-Poista valinta
-Taidemusiikki
-Hard rock
-Progressiivinen rock
-Progressiivinen metal
-Psykedeelinen rock
-Metallimusiikki
-Black metal
-Elektroninen musiikki
-Post-rock
-Indie rock
-Stoner rock/metal
-Popmusiikki
-Jazz
-Disko
-Vaporwave
-Chiptune
-Poistu sovelluksesta
-1
-./iconosBanderas/fi.png

@@ -9,8 +9,9 @@ using System.Diagnostics;
  * perfilado el visualizar (añadir el numero de cancion) -fet
  * quitar imágenes -fet
  * rediseño -fet
- * más generos...
+ * más generos...-fet
  * +arreglado el bug de canciones +60 min
+ * +agregado un status bar muy majo que te pone la duracción total de los discos seleccionados
  */
 namespace aplicacion_ipo
 {
@@ -24,12 +25,12 @@ namespace aplicacion_ipo
         public static int numIdiomas;
         public static String idioma;
         public static String[] idGeneros = {"clasica", "hardrock", "rockprog", "progmetal", "rockpsicodelico", "heavymetal", "blackmetal", "electronica", "postrock", "indierock",
-            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
+            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
         public static readonly string version = "1.1";
         public static string ErrorIdioma;
-        private static readonly int ultimaCadena = 29;
+        private static readonly int ultimaCadena = 30;
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;
