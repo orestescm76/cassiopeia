@@ -37,7 +37,9 @@ namespace aplicacion_ipo
             {
                 generosTraducidos[i] = Programa.generos[i].traducido;
             }
+            Array.Sort(generosTraducidos);
             comboBox1.Items.AddRange(generosTraducidos);
+            
         }
         private void agregarAlbum_Load(object sender, EventArgs e)
         {

@@ -39,10 +39,9 @@
             this.vistaAlbumes = new System.Windows.Forms.ListView();
             this.refrescarButton = new System.Windows.Forms.Button();
             this.banderaImageBox = new System.Windows.Forms.PictureBox();
-            this.prescindible = new System.Windows.Forms.PictureBox();
+            this.borrarButton = new System.Windows.Forms.Button();
             this.menuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.banderaImageBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.prescindible)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip2
@@ -104,15 +103,16 @@
             this.vistaAlbumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vistaAlbumes.FullRowSelect = true;
             this.vistaAlbumes.HideSelection = false;
-            this.vistaAlbumes.Location = new System.Drawing.Point(12, 134);
+            this.vistaAlbumes.Location = new System.Drawing.Point(12, 83);
             this.vistaAlbumes.Name = "vistaAlbumes";
             this.vistaAlbumes.ShowGroups = false;
-            this.vistaAlbumes.Size = new System.Drawing.Size(735, 258);
+            this.vistaAlbumes.Size = new System.Drawing.Size(735, 309);
             this.vistaAlbumes.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.vistaAlbumes.TabIndex = 1;
             this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
             this.vistaAlbumes.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ordenarColumnas);
-            this.vistaAlbumes.SelectedIndexChanged += new System.EventHandler(this.vistaAlbumes_SelectedIndexChanged);
+            this.vistaAlbumes.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.vistaAlbumes_ItemMouseHover);
+            this.vistaAlbumes.SelectedIndexChanged += new System.EventHandler(this.vistaAlbumes_SelectedIndexChanged_1);
             this.vistaAlbumes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vistaAlbumes_KeyDown);
             this.vistaAlbumes.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaAlbumes_MouseDoubleClick);
             // 
@@ -123,32 +123,35 @@
             this.refrescarButton.Name = "refrescarButton";
             this.refrescarButton.Size = new System.Drawing.Size(78, 30);
             this.refrescarButton.TabIndex = 2;
-            this.refrescarButton.Text = "Refrescar";
+            this.refrescarButton.Text = "refresh";
             this.refrescarButton.UseVisualStyleBackColor = true;
-            this.refrescarButton.Click += new System.EventHandler(this.button1_Click);
+            this.refrescarButton.Click += new System.EventHandler(this.refrescarButton_Click);
             // 
             // banderaImageBox
             // 
-            this.banderaImageBox.Location = new System.Drawing.Point(647, 27);
+            this.banderaImageBox.Location = new System.Drawing.Point(697, 27);
             this.banderaImageBox.Name = "banderaImageBox";
-            this.banderaImageBox.Size = new System.Drawing.Size(100, 100);
+            this.banderaImageBox.Size = new System.Drawing.Size(50, 50);
             this.banderaImageBox.TabIndex = 3;
             this.banderaImageBox.TabStop = false;
             // 
-            // prescindible
+            // borrarButton
             // 
-            this.prescindible.Location = new System.Drawing.Point(13, 28);
-            this.prescindible.Name = "prescindible";
-            this.prescindible.Size = new System.Drawing.Size(260, 100);
-            this.prescindible.TabIndex = 4;
-            this.prescindible.TabStop = false;
+            this.borrarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.borrarButton.Location = new System.Drawing.Point(12, 398);
+            this.borrarButton.Name = "borrarButton";
+            this.borrarButton.Size = new System.Drawing.Size(147, 30);
+            this.borrarButton.TabIndex = 2;
+            this.borrarButton.Text = "borrar";
+            this.borrarButton.UseVisualStyleBackColor = true;
+            this.borrarButton.Click += new System.EventHandler(this.borrarButton_Click);
             // 
             // principal
             // 
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(759, 440);
-            this.Controls.Add(this.prescindible);
+            this.ClientSize = new System.Drawing.Size(759, 459);
             this.Controls.Add(this.banderaImageBox);
+            this.Controls.Add(this.borrarButton);
             this.Controls.Add(this.refrescarButton);
             this.Controls.Add(this.vistaAlbumes);
             this.Controls.Add(this.menuStrip2);
@@ -162,7 +165,6 @@
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.banderaImageBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.prescindible)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,6 +184,6 @@
         private System.Windows.Forms.ListView vistaAlbumes;
         private System.Windows.Forms.Button refrescarButton;
         private System.Windows.Forms.PictureBox banderaImageBox;
-        private System.Windows.Forms.PictureBox prescindible;
+        private System.Windows.Forms.Button borrarButton;
     }
 }

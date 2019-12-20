@@ -99,7 +99,7 @@
             // 
             this.labelRuta.AutoSize = true;
             this.labelRuta.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRuta.Location = new System.Drawing.Point(14, 316);
+            this.labelRuta.Location = new System.Drawing.Point(14, 323);
             this.labelRuta.Name = "labelRuta";
             this.labelRuta.Size = new System.Drawing.Size(49, 15);
             this.labelRuta.TabIndex = 5;
@@ -108,7 +108,7 @@
             // botonOkDoomer
             // 
             this.botonOkDoomer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonOkDoomer.Location = new System.Drawing.Point(226, 483);
+            this.botonOkDoomer.Location = new System.Drawing.Point(226, 485);
             this.botonOkDoomer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonOkDoomer.Name = "botonOkDoomer";
             this.botonOkDoomer.Size = new System.Drawing.Size(87, 30);
@@ -120,7 +120,7 @@
             // botonCancelar
             // 
             this.botonCancelar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonCancelar.Location = new System.Drawing.Point(441, 483);
+            this.botonCancelar.Location = new System.Drawing.Point(441, 485);
             this.botonCancelar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonCancelar.Name = "botonCancelar";
             this.botonCancelar.Size = new System.Drawing.Size(87, 30);

@@ -1,6 +1,6 @@
-5
-Español
-45
+3
+[ES] Español
+52
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -29,6 +29,8 @@ Añadir carátula
 Buscar
 Carátula
 Editando
+Borrar selección
+Duración total
 Música clásica
 Rock duro
 Rock progresivo
@@ -45,12 +47,16 @@ Jazz
 Música disco
 Vaporwave
 Chiptune
+Punk
+Pospunk
+Folk
+Blues rock
+Funk (y derivados)
 Salir
-2
+1
 ./iconosBanderas/esp.png
-./fotos/esp.png
-Català
-45
+[CAT] Català
+52
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -79,6 +85,8 @@ Afegir caràtula.
 Cerca
 Caràtula
 Editant
+Esborrar selecció
+Durada total
 Música clàssica
 Rock dur
 Rock progressiu
@@ -95,12 +103,16 @@ Jazz
 Música disco
 Vaporwave
 Chiptune
+Punk
+Post-Punk
+Folk
+Blues rock
+Funk (i derivats)
 Sortir
-2
+1
 ./iconosBanderas/cat.png
-./fotos/netejant la taula.png
-English
-45
+[EN] English
+52
 Music manager
 File
 Change language
@@ -129,6 +141,8 @@ Add album art
 Search
 Album art
 Editing
+Delete selection
+Total length
 Classical music
 Hard rock
 Progressive rock
@@ -145,117 +159,11 @@ Jazz
 Disco music
 Vaporwave
 Chiptune
+Punk
+Post Punk
+Folk
+Blues rock
+Funk (and derivatives)
 Exit
-2
+1
 ./iconosBanderas/uk.png
-./fotos/stop.png
-Pусский
-45
-Музыкальный менеджер
-файл
-изменение языка
-Добавить альбом
-группа
-заглавие
-год
-Количество песен
-Жанр
-Добавлять
-Добавлять альбом
-Отмена
-Введите название песни
-минуты:секунды
-Открыть регистрацию из файла
-Выбранный вами язык недействителен, пожалуйста, поговорите с разработчиком или переведите его
-Вы хотите загрузить сохраненные альбомы?
-Длительность
-перезарядка
-Просмотр
-редактировать
-Выполнено
-Ошибка при попытке выполнить операцию, избегайте текста в числовых полях.
-Ошибка при попытке выполнить операцию, какое-то поле пусто.
-Добавить обложку альбома
-поиск
-обложка альбома
-Редактирование
-Классическая музыка
-Тяжелый рок
-Прогрессивный рок
-Прогрессивный метал
-Психоделический рок
-Метал
-Блэк-метал
-Электронная музыка
-Построк
-Инди-рок
-Стоунер-рок/метал
-Поп-музыка
-Джаз
-Диско музыка
-вэйпорвэйв
-Чиптюн
-Выйти из приложения
-2
-./iconosBanderas/ru.png
-./fotos/russianOverkill.png
-Magyar
-45
-2
-./iconosBanderas/hu.png
-./fotos/russianOverkill.png
-Ελληνική
-45
-2
-./iconosBanderas/gr.png
-./fotos/billetes.png
-Suomi
-45
-Musiikin johtaja
-Tiedosto
-Vaihda kieli
-Lisää albumi
-Taiteilija
-Otsikko
-Vuosi
-Kappaleiden lukumäärä
-Sukupuoli
-Lisätä
-Lisätä kappale
-Peruuttaa
-Kirjoita kappaleen nimi
-minuuttia:sekuntia
-Avaa tietueet tiedostosta
-Valitsemasi kieli on virheellinen, ota yhteyttä kehittäjään tai käännä se itse
-Haluatko ladata viimeksi tallennetut albumit?
-Kesto
-Virkistää
-Koska
-Muokata
-Päättynyt
-Virhe yrittäessäsi suorittaa toimenpide. Tarkista, että numeroita pyytävät kentät eivät sisällä tekstiä.
-Virhe yritettäessä suorittaa toimenpide, jotakin kenttää ei ole täytetty.
-Lisää albumikuva
-Hae
-Albumikuva
-Muokkaaminen
-Taidemusiikki
-Hard rock
-Progressiivinen rock
-Progressiivinen metal
-Psykedeelinen rock
-Metallimusiikki
-Black metal
-Elektroninen musiikki
-Post-rock
-Indie rock
-Stoner rock/metal
-Popmusiikki
-Jazz
-Disko
-Vaporwave
-Chiptune
-Poistu sovelluksesta
-2
-./iconosBanderas/fi.png
-./fotos/sherLock.png

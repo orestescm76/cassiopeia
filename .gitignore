@@ -1,4 +1,6 @@
 #ignorar las carpetas
+./aplicacion-ipo.csproj
+./aplicacion-ipo.csproj.user
 .vs/
 .vs/aplicacion-ipo/v16/*.suo
 bin/
@@ -7,4 +9,6 @@ Resources/
 Properties/
 #ignorar fichero
 guardado.mdb
+./app.config
 *.suo
+aplicacion-ipo.sln

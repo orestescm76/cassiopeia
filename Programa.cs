@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
-//VERSIÓN 1.0.2
+/*VERSIÓN 1.1 - TODO
+ * botón borrado -fet pero falta meter idioma
+ * perfilado el visualizar (añadir el numero de cancion) -fet
+ * quitar imágenes -fet
+ * rediseño -fet
+ * más generos...-fet
+ * +arreglado el bug de canciones +60 min
+ * +agregado un status bar muy majo que te pone la duracción total de los discos seleccionados
+ */
 namespace aplicacion_ipo
 {
     static class Programa
@@ -19,12 +25,12 @@ namespace aplicacion_ipo
         public static int numIdiomas;
         public static String idioma;
         public static String[] idGeneros = {"clasica", "hardrock", "rockprog", "progmetal", "rockpsicodelico", "heavymetal", "blackmetal", "electronica", "postrock", "indierock",
-            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
+            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.0.2"; //borrado arreglado, 1.0 todo implementado
+        public static readonly string version = "1.1";
         public static string ErrorIdioma;
-        private static readonly int ultimaCadena = 28;
+        private static readonly int ultimaCadena = 30;
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;
@@ -42,7 +48,7 @@ namespace aplicacion_ipo
                 textosLocal = textosLocalNou;
                 refrescarGeneros();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show(ErrorIdioma);
                 Programa.idioma = idiomatemp;
@@ -111,7 +117,7 @@ namespace aplicacion_ipo
                 codigosIdiomas.Add(textos[(2 + i * cadenas)-1]);
                 idiomasIndices.Add((2 + i * cadenas) - 1);
             }
-            if(args.Length != 0 && args[0] == "-preguntar")
+            if(args.Length != 0 && args[0] == "-preguntar")//cambiar parametro para cargar otro fichero
             {
                 DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
                 if (resultado == DialogResult.Yes)

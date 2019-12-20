@@ -33,9 +33,11 @@ namespace aplicacion_ipo
             lvwColumnSorter = new ListViewItemComparer();
             vistaCanciones.ListViewItemSorter = lvwColumnSorter;
             vistaCanciones.View = View.Details;
+            vistaCanciones.Columns.Add("#", -2, HorizontalAlignment.Left);
             vistaCanciones.Columns.Add(Programa.textosLocal[5], 280, HorizontalAlignment.Left);
             vistaCanciones.Columns.Add(Programa.textosLocal[17], -2, HorizontalAlignment.Left);
             cargarVista();
+
         }
         private void ponerTextos()
         {
@@ -49,7 +51,9 @@ namespace aplicacion_ipo
             int i = 0;
             foreach (Cancion c in albumAVisualizar.canciones)
             {
-                String[] datos = c.toStringArray();
+                String[] datos = new string[3];
+                datos[0] = (i + 1).ToString();
+                c.toStringArray().CopyTo(datos,1);
                 items[i] = new ListViewItem(datos);
                 i++;
             }
