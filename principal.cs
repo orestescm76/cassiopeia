@@ -73,6 +73,7 @@ namespace aplicacion_ipo
                 vistaAlbumes.Columns[3].Text = Programa.textosLocal[17];
                 vistaAlbumes.Columns[4].Text = Programa.textosLocal[8];
                 refrescarButton.Text = Programa.textosLocal[18];
+                borrarButton.Text = Programa.textosLocal[28];
                 banderaImageBox.ImageLocation = Programa.imagenesLocal.First();
                 Debug.WriteLine(Programa.imagenesLocal.First());
                 banderaImageBox.SizeMode = PictureBoxSizeMode.StretchImage;

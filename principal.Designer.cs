@@ -139,7 +139,7 @@
             this.borrarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.borrarButton.Location = new System.Drawing.Point(12, 398);
             this.borrarButton.Name = "borrarButton";
-            this.borrarButton.Size = new System.Drawing.Size(119, 30);
+            this.borrarButton.Size = new System.Drawing.Size(147, 30);
             this.borrarButton.TabIndex = 2;
             this.borrarButton.Text = "borrar";
             this.borrarButton.UseVisualStyleBackColor = true;

@@ -8,7 +8,7 @@ using System.Diagnostics;
  * botón borrado -fet pero falta meter idioma
  * perfilado el visualizar (añadir el numero de cancion) -fet
  * quitar imágenes -fet
- * rediseño ??
+ * rediseño -fet
  * más generos...
  * +arreglado el bug de canciones +60 min
  */
@@ -29,7 +29,7 @@ namespace aplicacion_ipo
         public static Genero[] generos = new Genero[idGeneros.Length];
         public static readonly string version = "1.1";
         public static string ErrorIdioma;
-        private static readonly int ultimaCadena = 28;
+        private static readonly int ultimaCadena = 29;
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;

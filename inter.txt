@@ -1,6 +1,6 @@
-5
-Español
-45
+7
+[ES] Español
+50
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -29,6 +29,7 @@ Añadir carátula
 Buscar
 Carátula
 Editando
+Borrar selección
 Música clásica
 Rock duro
 Rock progresivo
@@ -45,12 +46,15 @@ Jazz
 Música disco
 Vaporwave
 Chiptune
+Post-Punk
+Folk
+Blues rock
+Funk (y derivados)
 Salir
-2
+1
 ./iconosBanderas/esp.png
-./fotos/esp.png
-Català
-45
+[CAT] Català
+50
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -79,6 +83,7 @@ Afegir caràtula.
 Cerca
 Caràtula
 Editant
+Esborrar selecció
 Música clàssica
 Rock dur
 Rock progressiu
@@ -95,12 +100,15 @@ Jazz
 Música disco
 Vaporwave
 Chiptune
+Post-Punk
+Folk
+Blues rock
+Funk (i derivats)
 Sortir
-2
+1
 ./iconosBanderas/cat.png
-./fotos/netejant la taula.png
-English
-45
+[EN] English
+46
 Music manager
 File
 Change language
@@ -129,6 +137,7 @@ Add album art
 Search
 Album art
 Editing
+Delete selection
 Classical music
 Hard rock
 Progressive rock
@@ -146,11 +155,10 @@ Disco music
 Vaporwave
 Chiptune
 Exit
-2
+1
 ./iconosBanderas/uk.png
-./fotos/stop.png
-Pусский
-45
+[RU] Pусский
+46
 Музыкальный менеджер
 файл
 изменение языка
@@ -179,6 +187,7 @@ Pусский
 поиск
 обложка альбома
 Редактирование
+Удалить выбор
 Классическая музыка
 Тяжелый рок
 Прогрессивный рок
@@ -196,21 +205,110 @@ Pусский
 вэйпорвэйв
 Чиптюн
 Выйти из приложения
-2
+1
 ./iconosBanderas/ru.png
-./fotos/russianOverkill.png
-Magyar
-45
-2
+[HU] Magyar
+46
+Alkalmazás a zene kezelésére
+Archív
+[HU] Nyelvváltás
+Album hozzáadása
+Művész
+Cím
+Év
+Dalok száma
+Nem
+Hozzáad
+Add dal
+Megszünteti
+Írja be a dal címét
+perc:másodperc
+Nyisson meg rekordokat egy fájlból
+A kiválasztott nyelv érvénytelen, kérjük, forduljon a fejlesztőhöz, vagy fordítsa le saját maga
+Betölti az utoljára mentett albumokat?
+Tartam
+Újratöltés
+Megtekintés
+Szerkesztés
+Csinált
+Hiba történt a művelet végrehajtása közben. Ellenőrizze, hogy a számokat kérő mezőkben nincs szöveg.
+Hiba történt a művelet végrehajtása közben, néhány mező nincs kitöltve.
+Adja hozzá a fedelet
+Keresés
+Album borítója
+Szerkesztés
+Törölje a választást
+Klasszikus zene
+Kemény rock
+Progresszív rock
+Progresszív fém
+Pszichedelikus szikla
+Heavy metal
+Black metál
+Elektronikus zene
+Post-rock
+Indie rock
+Stoner rock / fém
+Popzene
+Dzsessz
+Disco zene
+Vaporwave
+Chiptune
+Kilépés az alkalmazásból
+1
 ./iconosBanderas/hu.png
-./fotos/russianOverkill.png
-Ελληνική
-45
-2
+[GR] Ελληνική
+46
+Αίτηση για διαχείριση μουσικής
+Αρχείο
+Αλλαξε γλώσσα
+Προσθήκη άλμπουμ
+Καλλιτέχνης
+Τίτλος
+Ετος
+Αριθμός τραγουδιών
+Είδος
+Προσθέτω
+Προσθήκη τραγουδιού
+Ματαίωση
+Εισάγετε τον τίτλο τραγουδιού
+λεπτά: δευτερόλεπτα
+Ανοίξτε τις καταχωρήσεις από το αρχείο
+Η γλώσσα που επιλέξατε δεν είναι έγκυρη. Επικοινωνήστε με τον προγραμματιστή ή μεταφράστε τον.
+Θέλετε να φορτώσετε τα αποθηκευμένα άλμπουμ;
+Μήκος
+Φορτώνω πάλι
+Προβολή
+Επεξεργασία
+Ολοκληρώθηκε
+Παρουσιάστηκε σφάλμα κατά την προσπάθεια να γίνει η λειτουργία, αποφύγετε τα κείμενα σε πεδία μόνο αριθμών.
+Σφάλμα κατά την προσπάθεια να γίνει η λειτουργία, κάποιο πεδίο είναι άδειο.
+Προσθήκη αρχείου άλμπουμ
+Ψάξιμο
+Τέχνη άλμπουμ
+Επεξεργασία
+Διαγραφή επιλογής
+Κλασσική μουσική
+Σκληρό ροκ
+προοδευτικό ροκ
+Προοδευτικό μέταλλο
+Ψυχεδελικό βράχο
+βαρέων μετάλλων
+Μαύρο μέταλλο
+Ηλεκτρονική μουσική
+Post-rock
+Indie rock
+Stoner rock/metal
+Μουσική ποπ
+Τζαζ
+Ντίσκο μουσική
+Vaporwave
+Chiptune
+Έξοδος από την εφαρμογή
+1
 ./iconosBanderas/gr.png
-./fotos/billetes.png
-Suomi
-45
+[FI] Suomi
+46
 Musiikin johtaja
 Tiedosto
 Vaihda kieli
@@ -239,6 +337,7 @@ Lisää albumikuva
 Hae
 Albumikuva
 Muokkaaminen
+Poista valinta
 Taidemusiikki
 Hard rock
 Progressiivinen rock
@@ -256,6 +355,5 @@ Disko
 Vaporwave
 Chiptune
 Poistu sovelluksesta
-2
+1
 ./iconosBanderas/fi.png
-./fotos/sherLock.png
