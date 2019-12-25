@@ -4,14 +4,9 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
-/*VERSIÓN 1.1 - TODO
- * botón borrado -fet pero falta meter idioma
- * perfilado el visualizar (añadir el numero de cancion) -fet
- * quitar imágenes -fet
- * rediseño -fet
- * más generos...-fet
- * +arreglado el bug de canciones +60 min
- * +agregado un status bar muy majo que te pone la duracción total de los discos seleccionados
+/*VERSIÓN 1.2 TODO:
+ * cambiar EEDD por array porque O(1) en acceso aleatorio como es lógico en una coleccion real
+ * arreglar el bug de agregar una imagen con mucha resolución.
  */
 namespace aplicacion_ipo
 {
@@ -28,7 +23,7 @@ namespace aplicacion_ipo
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.1";
+        public static readonly string version = "1.2";
         public static string ErrorIdioma;
         private static readonly int ultimaCadena = 30;
         public static void cambiarIdioma(String idioma)

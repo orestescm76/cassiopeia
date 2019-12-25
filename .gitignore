@@ -1,6 +1,6 @@
 #ignorar las carpetas
-./aplicacion-ipo.csproj
-./aplicacion-ipo.csproj.user
+aplicacion-ipo.csproj
+aplicacion-ipo.csproj.user
 .vs/
 .vs/aplicacion-ipo/v16/*.suo
 bin/
