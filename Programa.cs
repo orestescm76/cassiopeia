@@ -4,14 +4,18 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
-/*VERSIÓN 1.2 TODO:
+using System.Net;
+using SpotifyAPI.Web;
+
+/*VERSIÓN 1.2 SPOTIFY TODO:
  * cambiar EEDD por array porque O(1) en acceso aleatorio como es lógico en una coleccion real
  * arreglar el bug de agregar una imagen con mucha resolución.
  */
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     static class Programa
     {
+        
         static String[] textos; //carga TODOS los textos
         public static String[] textosLocal;
         public static String[] imagenesLocal;
@@ -23,9 +27,10 @@ namespace aplicacion_ipo
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.2";
+        public static readonly string version = "1.2 (bulid Spotify)";
         public static string ErrorIdioma;
         private static readonly int ultimaCadena = 30;
+        public static Spotify _spotify;
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;
@@ -89,10 +94,12 @@ namespace aplicacion_ipo
             int numImagenes = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(2 + numCadenas).First());
             textosLocal = textos.SkipWhile(linea => linea != idioma).Skip(2).Take(numCadenas).ToArray();
             imagenesLocal = textos.SkipWhile(linea => linea != idioma).Skip(3 + numCadenas).Take(numImagenes).ToArray();
-
             ErrorIdioma = textosLocal[15];
             numIdiomas = Convert.ToInt32(textos[0]);
             //textosLocal = 
+            _spotify = new Spotify();
+            
+            
             for (int i = 0; i < idGeneros.Length; i++)
             {
                 if (idGeneros[i] == "")

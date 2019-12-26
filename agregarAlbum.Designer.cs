@@ -1,4 +1,4 @@
-﻿namespace aplicacion_ipo
+﻿namespace aplicacion_musica
 {
     partial class agregarAlbum
     {

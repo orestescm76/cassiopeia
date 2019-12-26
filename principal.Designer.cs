@@ -1,4 +1,4 @@
-﻿namespace aplicacion_ipo
+﻿namespace aplicacion_musica
 {
     partial class principal
     {
@@ -40,6 +40,7 @@
             this.refrescarButton = new System.Windows.Forms.Button();
             this.banderaImageBox = new System.Windows.Forms.PictureBox();
             this.borrarButton = new System.Windows.Forms.Button();
+            this.buscarEnSpotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.banderaImageBox)).BeginInit();
             this.SuspendLayout();
@@ -60,6 +61,7 @@
             this.archivoMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.agregarAlbumToolStripMenuItem,
             this.abrirToolStripMenuItem,
+            this.buscarEnSpotifyToolStripMenuItem,
             this.salirToolStripMenuItem});
             this.archivoMenuItem1.Name = "archivoMenuItem1";
             this.archivoMenuItem1.Size = new System.Drawing.Size(64, 20);
@@ -146,6 +148,13 @@
             this.borrarButton.UseVisualStyleBackColor = true;
             this.borrarButton.Click += new System.EventHandler(this.borrarButton_Click);
             // 
+            // buscarEnSpotifyToolStripMenuItem
+            // 
+            this.buscarEnSpotifyToolStripMenuItem.Name = "buscarEnSpotifyToolStripMenuItem";
+            this.buscarEnSpotifyToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.buscarEnSpotifyToolStripMenuItem.Text = "buscarEnSpotify";
+            this.buscarEnSpotifyToolStripMenuItem.Click += new System.EventHandler(this.buscarEnSpotifyToolStripMenuItem_Click);
+            // 
             // principal
             // 
             this.AutoSize = true;
@@ -185,5 +194,6 @@
         private System.Windows.Forms.Button refrescarButton;
         private System.Windows.Forms.PictureBox banderaImageBox;
         private System.Windows.Forms.Button borrarButton;
+        private System.Windows.Forms.ToolStripMenuItem buscarEnSpotifyToolStripMenuItem;
     }
 }

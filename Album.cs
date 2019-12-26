@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     public class Album
     {

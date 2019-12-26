@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     public partial class agregarCancion : Form
     {

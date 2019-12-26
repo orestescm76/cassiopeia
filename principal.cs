@@ -6,17 +6,18 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     public partial class principal : Form
     {
         StatusBar barraAbajo;
         StatusBarPanel duracionSeleccionada;
+        public static string BusquedaSpotify;
         private ListViewItemComparer lvwColumnSorter;
         public principal()
         {
             InitializeComponent();
-
+            BusquedaSpotify = "";
             foreach (var idioma in Programa.codigosIdiomas)
             {
                 ToolStripItem subIdioma = new ToolStripMenuItem(idioma);
@@ -222,6 +223,13 @@ namespace aplicacion_ipo
             {
                 borrarAlbumesSeleccionados();
             }
+            if(e.KeyCode == Keys.F1)
+            {
+                SpotifyAPI.Web.Models.FullTrack test = Programa._spotify.cancion("abre la puerta");
+                string artista = Programa._spotify._spotify.GetArtist(test.Artists.First().Id).Name;
+                Debug.WriteLine(artista + " - " + test.Name);
+            }
+
         }
 
         private void refrescarButton_Click(object sender, EventArgs e)
@@ -273,6 +281,25 @@ namespace aplicacion_ipo
                 seleccion += ad.duracion;
             }
             duracionSeleccionada.Text = Programa.textosLocal[29] + ": "+ seleccion.ToString();
+        }
+
+        private void buscarEnSpotifyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            busquedaSpotify b = new busquedaSpotify();
+            b.ShowDialog();
+            SpotifyAPI.Web.Models.FullTrack test = Programa._spotify.cancion(BusquedaSpotify);
+            string artista = Programa._spotify._spotify.GetArtist(test.Artists.First().Id).Name;
+            TimeSpan duracion = new TimeSpan(0, 0, 0, 0, test.DurationMs);
+            if (duracion.Milliseconds < 500)
+                duracion = duracion.Subtract(new TimeSpan(0, 0, 0, 0, duracion.Milliseconds));
+            else
+            {
+                duracion = duracion.Add(new TimeSpan(0, 0, 0, 1, 1000-duracion.Milliseconds));
+            }
+
+            MessageBox.Show(artista + " - " + test.Name + Environment.NewLine +
+                "La canción dura: " + duracion.ToString());
         }
     }
 }
