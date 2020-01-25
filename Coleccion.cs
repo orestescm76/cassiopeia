@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     class Coleccion
     {
-        public List<Album> albumes { get; }
+        public List<Album> albumes { get; private set; }
         public Coleccion()
         {
             albumes = new List<Album>();
@@ -44,8 +44,25 @@ namespace aplicacion_ipo
                         {
                             exito = true;
                             string[] datosCancion = linea.Split(';');
-                            Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])));
-                            a.agregarCancion(c, i);
+                            if(datosCancion.Length == 3)
+                            {
+                                Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])), ref a);
+                                a.agregarCancion(c, i);
+                            }
+                            else
+                            {
+                                CancionLarga cl = new CancionLarga(datosCancion[0], ref a);
+                                int np = Convert.ToInt32(datosCancion[1]);
+                                for (int j = 0; j < np; j++)
+                                {
+                                    linea = lector.ReadLine();
+                                    datosCancion = linea.Split(';');
+                                    Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])), ref a);
+                                    cl.addParte(ref c);
+                                }
+                                a.agregarCancion(cl, i);
+                            }
+
                         }
                     }
                     if (estaEnColeccion(a))
@@ -81,7 +98,7 @@ namespace aplicacion_ipo
         }
         public Album devolverAlbum(string s)
         {
-            String[] busqueda = s.Split(',');
+            String[] busqueda = s.Split('_');
             foreach (Album album in albumes)
             {
                 if (album.artista == busqueda[0] && album.nombre == busqueda[1])
@@ -89,5 +106,10 @@ namespace aplicacion_ipo
             }
             return null;
         }
+        public void cambiarLista(ref List<Album> n)
+        {
+            albumes = n;
+        }
+
     }
 }

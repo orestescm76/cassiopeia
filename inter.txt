@@ -1,6 +1,6 @@
 3
 [ES] Español
-52
+58
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -52,11 +52,17 @@ Pospunk
 Folk
 Blues rock
 Funk (y derivados)
+New wave
+Rock sinfónico
+Ska
+Flamenco
+House
+Jazz fusion
 Salir
 1
 ./iconosBanderas/esp.png
 [CAT] Català
-52
+58
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -108,11 +114,17 @@ Post-Punk
 Folk
 Blues rock
 Funk (i derivats)
+New wave
+Rock simfònic
+Ska
+Flamenc
+House
+Jazz fusion
 Sortir
 1
 ./iconosBanderas/cat.png
 [EN] English
-52
+58
 Music manager
 File
 Change language
@@ -164,6 +176,12 @@ Post Punk
 Folk
 Blues rock
 Funk (and derivatives)
+New wave
+Symphonic rock
+Ska
+Flamenco
+House
+Jazz fusion
 Exit
 1
 ./iconosBanderas/uk.png

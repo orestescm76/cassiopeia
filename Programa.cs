@@ -5,10 +5,20 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 /*VERSIÓN 1.2 TODO:
- * cambiar EEDD por array porque O(1) en acceso aleatorio como es lógico en una coleccion real
- * arreglar el bug de agregar una imagen con mucha resolución.
+ *  busqueda album mas largo y más corto
+ *  igual con cancion
+ *  ---cambios
+ *  perfilado el visualizar y cambiada tipografia
+ *  al editar si cancelas vuelve a aparecer la ventana
+ *  columnas con tamaño estándar aunque no haya discos
+ *  soporte para portapapeles, copia y pega tus albumes con fashion
+ *  ahora los albumes se guardan en función de como se ven en la lista principal
+ *  nuevos generos
+ *  duraccion seleccionada en el visualizado del álbum
+ *  arreglado el no reconocimiento de ficheros *.jpeg
+ *  añadidas las canciones con varias partes
  */
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     static class Programa
     {
@@ -20,7 +30,7 @@ namespace aplicacion_ipo
         public static int numIdiomas;
         public static String idioma;
         public static String[] idGeneros = {"clasica", "hardrock", "rockprog", "progmetal", "rockpsicodelico", "heavymetal", "blackmetal", "electronica", "postrock", "indierock",
-            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
+            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
         public static readonly string version = "1.2";
@@ -112,7 +122,7 @@ namespace aplicacion_ipo
                 codigosIdiomas.Add(textos[(2 + i * cadenas)-1]);
                 idiomasIndices.Add((2 + i * cadenas) - 1);
             }
-            if(args.Length != 0 && args[0] == "-preguntar")//cambiar parametro para cargar otro fichero
+            if(args.Length != 0 && args.Contains("-preguntar"))//cambiar parametro para cargar otro fichero
             {
                 DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
                 if (resultado == DialogResult.Yes)

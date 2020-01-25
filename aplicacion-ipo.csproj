@@ -134,6 +134,7 @@
     </Compile>
     <Compile Include="Album.cs" />
     <Compile Include="Cancion.cs" />
+    <Compile Include="CancionLarga.cs" />
     <Compile Include="Coleccion.cs" />
     <Compile Include="editarAlbum.cs">
       <SubType>Form</SubType>

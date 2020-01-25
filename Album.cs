@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     public class Album
     {
@@ -52,7 +52,14 @@ namespace aplicacion_ipo
                 i++;
             return i;
         }
-
+        public void RefrescarDuracion()
+        {
+            duracion = new TimeSpan();
+            for (int i = 0; i < canciones.Length; i++)
+            {
+                duracion += canciones[i].duracion;
+            }
+        }
         public String nombre{ get; set; }
         public String artista { get; set; }
         public short year { get; set; }
@@ -61,5 +68,6 @@ namespace aplicacion_ipo
         public Cancion[] canciones { get; set; }
         public String caratula { get; set; }
         public Genero genero { get; set; }
+        public Cancion getCancion(int n) { return canciones[n]; }
     }
 }

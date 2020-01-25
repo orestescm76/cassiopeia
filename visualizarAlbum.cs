@@ -2,17 +2,19 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     public partial class visualizarAlbum : Form
     {
+        private StatusBar barraAbajo;
+        private StatusBarPanel duracionSeleccionada;
         private Album albumAVisualizar;
         private ListViewItemComparer lvwColumnSorter;
         public visualizarAlbum(ref Album a)
         {
             InitializeComponent();
             albumAVisualizar = a;
-            ponerTextos();
+
             infoAlbum.Text = Programa.textosLocal[4] + ": " + a.artista + Environment.NewLine +
                 Programa.textosLocal[5] + ": " + a.nombre + Environment.NewLine +
                 Programa.textosLocal[6] + ": " + a.year + Environment.NewLine +
@@ -27,17 +29,28 @@ namespace aplicacion_ipo
             lvwColumnSorter = new ListViewItemComparer();
             vistaCanciones.ListViewItemSorter = lvwColumnSorter;
             vistaCanciones.View = View.Details;
-            vistaCanciones.Columns.Add("#", -2, HorizontalAlignment.Left);
-            vistaCanciones.Columns.Add(Programa.textosLocal[5], 280, HorizontalAlignment.Left);
-            vistaCanciones.Columns.Add(Programa.textosLocal[17], -2, HorizontalAlignment.Left);
+            vistaCanciones.MultiSelect = true;
+            barraAbajo = new StatusBar();
+            duracionSeleccionada = new StatusBarPanel();
+            duracionSeleccionada.AutoSize = StatusBarPanelAutoSize.Spring;
+            barraAbajo.Panels.Add(duracionSeleccionada);
+            barraAbajo.Visible = true;
+            barraAbajo.ShowPanels = true;
+            barraAbajo.Font = new Font("Segoe UI", 10);
+            Controls.Add(barraAbajo);
+            ponerTextos();
             cargarVista();
 
         }
         private void ponerTextos()
         {
             Text = Programa.textosLocal[19] + " " + albumAVisualizar.artista + " - " + albumAVisualizar.nombre;
+            vistaCanciones.Columns[0].Text = "#";
+            vistaCanciones.Columns[1].Text = Programa.textosLocal[5];
+            vistaCanciones.Columns[2].Text = Programa.textosLocal[17];
             okDoomerButton.Text = Programa.textosLocal[21];
             editarButton.Text = Programa.textosLocal[20];
+            duracionSeleccionada.Text = Programa.textosLocal[29] + ": 00:00:00";
         }
         private void cargarVista()
         {
@@ -45,10 +58,15 @@ namespace aplicacion_ipo
             int i = 0;
             foreach (Cancion c in albumAVisualizar.canciones)
             {
+
                 String[] datos = new string[3];
                 datos[0] = (i + 1).ToString();
                 c.toStringArray().CopyTo(datos,1);
                 items[i] = new ListViewItem(datos);
+                if (c is CancionLarga cl)
+                {
+                    items[i].BackColor = Color.LightSalmon;
+                }
                 i++;
             }
             vistaCanciones.Items.AddRange(items);
@@ -87,6 +105,35 @@ namespace aplicacion_ipo
             editarAlbum editor = new editarAlbum(ref albumAVisualizar);
             editor.Show();
             Close();
+        }
+        private void vistaCanciones_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            TimeSpan seleccion = new TimeSpan();
+            foreach (ListViewItem cancion in vistaCanciones.SelectedItems)
+            {
+
+                int c = Convert.ToInt32(cancion.SubItems[0].Text); c--;
+                Cancion can = albumAVisualizar.getCancion(c);
+                seleccion += can.duracion;
+            }
+            duracionSeleccionada.Text = Programa.textosLocal[29] + ": " + seleccion.ToString();
+        }
+
+        private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int n = Convert.ToInt32(vistaCanciones.SelectedItems[0].SubItems[0].Text);
+            Cancion c = albumAVisualizar.getCancion(n-1);
+            if(c is CancionLarga cl)
+            {
+                string infoDetallada = "";
+                for (int i = 0; i < cl.Partes.Count; i++)
+                {
+                    infoDetallada += cl.GetNumeroRomano(i + 1) + ". ";
+                    infoDetallada += cl.Partes[i].titulo + " - " + cl.Partes[i].duracion;
+                    infoDetallada += Environment.NewLine;
+                }
+                MessageBox.Show(infoDetallada);
+            }
         }
     }
 }

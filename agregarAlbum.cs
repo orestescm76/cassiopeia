@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     public partial class agregarAlbum : Form
     {
@@ -53,7 +53,7 @@ namespace aplicacion_ipo
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Programa.textosLocal[1] + " .jpg, .png|*.jpg;*.png";
+            abrirImagen.Filter = Programa.textosLocal[1] + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
