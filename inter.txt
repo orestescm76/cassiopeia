@@ -1,6 +1,6 @@
 3
 [ES] Español
-58
+62
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -31,6 +31,10 @@ Carátula
 Editando
 Borrar selección
 Duración total
+Selección
+Guardar como...
+Administrar
+Generar álbum al azar
 Música clásica
 Rock duro
 Rock progresivo
@@ -62,7 +66,7 @@ Salir
 1
 ./iconosBanderas/esp.png
 [CAT] Català
-58
+62
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -93,6 +97,10 @@ Caràtula
 Editant
 Esborrar selecció
 Durada total
+Selecció
+Guardar com...
+Administrar
+Generar un àlbum al'atzar
 Música clàssica
 Rock dur
 Rock progressiu
@@ -124,7 +132,7 @@ Sortir
 1
 ./iconosBanderas/cat.png
 [EN] English
-58
+62
 Music manager
 File
 Change language
@@ -155,6 +163,10 @@ Album art
 Editing
 Delete selection
 Total length
+Selection
+Save as...
+Adminstrate
+Generate a random album
 Classical music
 Hard rock
 Progressive rock

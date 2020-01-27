@@ -5,8 +5,6 @@ using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
 /*VERSIÓN 1.2 TODO:
- *  busqueda album mas largo y más corto
- *  igual con cancion
  *  ---cambios
  *  perfilado el visualizar y cambiada tipografia
  *  al editar si cancelas vuelve a aparecer la ventana
@@ -17,6 +15,7 @@ using System.Diagnostics;
  *  duraccion seleccionada en el visualizado del álbum
  *  arreglado el no reconocimiento de ficheros *.jpeg
  *  añadidas las canciones con varias partes
+ *  añadido un menú para generar un álbum
  */
 namespace aplicacion_musica
 {
@@ -35,7 +34,7 @@ namespace aplicacion_musica
         public static Genero[] generos = new Genero[idGeneros.Length];
         public static readonly string version = "1.2";
         public static string ErrorIdioma;
-        private static readonly int ultimaCadena = 30;
+        private static readonly int ultimaCadena = 34;
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;
@@ -89,7 +88,10 @@ namespace aplicacion_musica
         {
             miColeccion = new Coleccion();
             textos = File.ReadAllLines("inter.txt");
-            idioma = File.ReadAllLines("idioma.cfg")[0];
+            if (File.Exists("idioma.cfg"))
+                idioma = File.ReadAllLines("idioma.cfg")[0];
+            else
+                idioma = textos[1]; //tiene que haber minimo un idioma
             //idioma = textos[1];
             codigosIdiomas = new List<string>();
             //codigosIdiomas.Add(idioma);
@@ -122,13 +124,18 @@ namespace aplicacion_musica
                 codigosIdiomas.Add(textos[(2 + i * cadenas)-1]);
                 idiomasIndices.Add((2 + i * cadenas) - 1);
             }
-            if(args.Length != 0 && args.Contains("-preguntar"))//cambiar parametro para cargar otro fichero
+            if (File.Exists("discos.mdb"))
             {
-                DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
-                if (resultado == DialogResult.Yes)
-                    Programa.miColeccion.cargarAlbumes("discos.mdb");
+                if (args.Length != 0 && args.Contains("-preguntar"))//cambiar parametro para cargar otro fichero
+                {
+                    DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
+                    if (resultado == DialogResult.Yes)
+                        Programa.miColeccion.cargarAlbumes("discos.mdb");
+                }
+                else Programa.miColeccion.cargarAlbumes("discos.mdb");
             }
-            else Programa.miColeccion.cargarAlbumes("discos.mdb");
+            else
+                File.Create("discos.mdb");
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -11,13 +11,14 @@ namespace aplicacion_musica
 {
     public partial class principal : Form
     {
+        private bool borrando;
         StatusBar barraAbajo;
         StatusBarPanel duracionSeleccionada;
         private ListViewItemComparer lvwColumnSorter;
         public principal()
         {
             InitializeComponent();
-
+            borrando = false;
             foreach (var idioma in Programa.codigosIdiomas)
             {
                 ToolStripItem subIdioma = new ToolStripMenuItem(idioma);
@@ -81,8 +82,12 @@ namespace aplicacion_musica
                 banderaImageBox.ImageLocation = Programa.imagenesLocal.First();
                 Debug.WriteLine(Programa.imagenesLocal.First());
                 banderaImageBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                guardarcomo.Text = Programa.textosLocal[31];
+                seleccionToolStripMenuItem.Text = Programa.textosLocal[30];
+                adminMenu.Text = Programa.textosLocal[32];
+                generarAlbumToolStripMenuItem.Text = Programa.textosLocal[33];
+                borrarseleccionToolStripMenuItem.Text = Programa.textosLocal[28];
                 cargarVista();
-                Debug.WriteLine(vistaAlbumes.Items.Count);
             }
             catch(IndexOutOfRangeException)
             {
@@ -117,7 +122,7 @@ namespace aplicacion_musica
             for (int i = 0; i < cuantos; i++)
             {
                 Debug.WriteLine(vistaAlbumes.Items.Count);
-                s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "," + vistaAlbumes.Items[i].SubItems[1].Text;
+                s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "_" + vistaAlbumes.Items[i].SubItems[1].Text;
                 Album a = Programa.miColeccion.devolverAlbum(s[i]);
                 nuevaLista.Add(a);
             }
@@ -188,8 +193,11 @@ namespace aplicacion_musica
                     salida.WriteLine();
                 }
             }
+            
             using(StreamWriter salida = new StreamWriter("idioma.cfg"))
             {
+                if ((!File.Exists("idioma.cfg")))
+                    File.Create("idioma.cfg");
                 salida.Write(Programa.idioma);
             }
 
@@ -262,6 +270,7 @@ namespace aplicacion_musica
         }
         private void borrarAlbumesSeleccionados()
         {
+            borrando = true;
             string[] s = new string[Programa.miColeccion.albumes.Count];
             int cuantos = vistaAlbumes.SelectedItems.Count;
             ListViewItem[] itemsABorrar = new ListViewItem[cuantos];
@@ -281,6 +290,8 @@ namespace aplicacion_musica
             {
                 vistaAlbumes.Items.Remove(itemsABorrar[i]);
             }
+            borrando = false;
+            duracionSeleccionada.Text = Programa.textosLocal[29] + ": 00:00:00";
             vistaAlbumes.Refresh();
         }
         private void vistaAlbumes_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
@@ -290,16 +301,18 @@ namespace aplicacion_musica
 
         private void vistaAlbumes_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            TimeSpan seleccion = new TimeSpan();
-            foreach (ListViewItem album in vistaAlbumes.SelectedItems)
+            if(!borrando)
             {
-                String a = album.SubItems[0].Text + "_" + album.SubItems[1].Text;
-                Album ad = Programa.miColeccion.devolverAlbum(a);
-                seleccion += ad.duracion;
+                TimeSpan seleccion = new TimeSpan();
+                foreach (ListViewItem album in vistaAlbumes.SelectedItems)
+                {
+                    String a = album.SubItems[0].Text + "_" + album.SubItems[1].Text;
+                    Album ad = Programa.miColeccion.devolverAlbum(a);
+                    seleccion += ad.duracion;
+                }
+                duracionSeleccionada.Text = Programa.textosLocal[29] + ": " + seleccion.ToString();
             }
-            duracionSeleccionada.Text = Programa.textosLocal[29] + ": "+ seleccion.ToString();
         }
-
         private void masCortoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Album a = Programa.miColeccion.albumes.First();
@@ -327,6 +340,21 @@ namespace aplicacion_musica
         private void borrarseleccionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             borrarAlbumesSeleccionados();
+        }
+        private void guardarcomo_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog guardarComo = new SaveFileDialog();
+            guardarComo.Filter = Programa.textosLocal[1] + ".mdb(*.mdb)|*.mdb";
+            guardarComo.InitialDirectory = Environment.CurrentDirectory;
+        }
+
+        private void generarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Random generador = new Random();
+            int ganador = generador.Next(0, Programa.miColeccion.albumes.Count);
+            Album a = Programa.miColeccion.albumes[ganador];
+            visualizarAlbum vistazo = new visualizarAlbum(ref a);
+            vistazo.ShowDialog();
         }
     }
 }

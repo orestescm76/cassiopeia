@@ -53,7 +53,7 @@
     <RootNamespace>aplicacion_musica</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\cacodemon pequeño.ico</ApplicationIcon>
+    <ApplicationIcon>icono.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>8A2FAB90381E099662F26CD2F9725CA690B87236</ManifestCertificateThumbprint>
@@ -196,6 +196,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icono.ico" />
     <Content Include="inter.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

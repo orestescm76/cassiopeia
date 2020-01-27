@@ -158,16 +158,6 @@ namespace aplicacion_musica
 
 
         }
-
-        private void agregarCancion_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
-        }
-
-        private void agregarCancion_Load(object sender, EventArgs e)
-        {
-
-        }
         private void agregarCancion_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -200,26 +190,11 @@ namespace aplicacion_musica
             Close();
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void minTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void esLarga_Click(object sender, EventArgs e)
         {
             agregarCancion larga = new agregarCancion(ref album, cual, true);
             larga.Show();
             Dispose();
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

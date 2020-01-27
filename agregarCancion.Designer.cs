@@ -49,7 +49,6 @@
             this.tituloTextBox.Name = "tituloTextBox";
             this.tituloTextBox.Size = new System.Drawing.Size(303, 25);
             this.tituloTextBox.TabIndex = 0;
-            this.tituloTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.tituloTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tituloTextBox_KeyDown);
             // 
             // secsTextBox
@@ -67,7 +66,6 @@
             this.minTextBox.Name = "minTextBox";
             this.minTextBox.Size = new System.Drawing.Size(124, 25);
             this.minTextBox.TabIndex = 1;
-            this.minTextBox.TextChanged += new System.EventHandler(this.minTextBox_TextChanged);
             // 
             // button1
             // 
@@ -89,7 +87,6 @@
             this.label2.Size = new System.Drawing.Size(20, 29);
             this.label2.TabIndex = 4;
             this.label2.Text = ":";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // labelTituloCancion
             // 
@@ -152,7 +149,7 @@
             // textBoxNumPartes
             // 
             this.textBoxNumPartes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxNumPartes.Location = new System.Drawing.Point(127, 120);
+            this.textBoxNumPartes.Location = new System.Drawing.Point(115, 120);
             this.textBoxNumPartes.Name = "textBoxNumPartes";
             this.textBoxNumPartes.Size = new System.Drawing.Size(89, 25);
             this.textBoxNumPartes.TabIndex = 9;
@@ -180,7 +177,6 @@
             this.Name = "agregarCancion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "agregarCancion";
-            this.Load += new System.EventHandler(this.agregarCancion_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.agregarCancion_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
