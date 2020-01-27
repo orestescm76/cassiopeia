@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
-/*VERSIÓN 1.2 TODO:
+/*VERSIÓN 1.2
  *  ---cambios
  *  perfilado el visualizar y cambiada tipografia
  *  al editar si cancelas vuelve a aparecer la ventana
