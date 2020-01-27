@@ -4,16 +4,20 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
-/*VERSIÓN 1.1 - TODO
- * botón borrado -fet pero falta meter idioma
- * perfilado el visualizar (añadir el numero de cancion) -fet
- * quitar imágenes -fet
- * rediseño -fet
- * más generos...-fet
- * +arreglado el bug de canciones +60 min
- * +agregado un status bar muy majo que te pone la duracción total de los discos seleccionados
+/*VERSIÓN 1.2
+ *  ---cambios
+ *  perfilado el visualizar y cambiada tipografia
+ *  al editar si cancelas vuelve a aparecer la ventana
+ *  columnas con tamaño estándar aunque no haya discos
+ *  soporte para portapapeles, copia y pega tus albumes con fashion
+ *  ahora los albumes se guardan en función de como se ven en la lista principal
+ *  nuevos generos
+ *  duraccion seleccionada en el visualizado del álbum
+ *  arreglado el no reconocimiento de ficheros *.jpeg
+ *  añadidas las canciones con varias partes
+ *  añadido un menú para generar un álbum
  */
-namespace aplicacion_ipo
+namespace aplicacion_musica
 {
     static class Programa
     {
@@ -25,12 +29,12 @@ namespace aplicacion_ipo
         public static int numIdiomas;
         public static String idioma;
         public static String[] idGeneros = {"clasica", "hardrock", "rockprog", "progmetal", "rockpsicodelico", "heavymetal", "blackmetal", "electronica", "postrock", "indierock",
-            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
+            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.1";
+        public static readonly string version = "1.2";
         public static string ErrorIdioma;
-        private static readonly int ultimaCadena = 30;
+        private static readonly int ultimaCadena = 34;
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;
@@ -84,7 +88,10 @@ namespace aplicacion_ipo
         {
             miColeccion = new Coleccion();
             textos = File.ReadAllLines("inter.txt");
-            idioma = File.ReadAllLines("idioma.cfg")[0];
+            if (File.Exists("idioma.cfg"))
+                idioma = File.ReadAllLines("idioma.cfg")[0];
+            else
+                idioma = textos[1]; //tiene que haber minimo un idioma
             //idioma = textos[1];
             codigosIdiomas = new List<string>();
             //codigosIdiomas.Add(idioma);
@@ -117,13 +124,18 @@ namespace aplicacion_ipo
                 codigosIdiomas.Add(textos[(2 + i * cadenas)-1]);
                 idiomasIndices.Add((2 + i * cadenas) - 1);
             }
-            if(args.Length != 0 && args[0] == "-preguntar")//cambiar parametro para cargar otro fichero
+            if (File.Exists("discos.mdb"))
             {
-                DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
-                if (resultado == DialogResult.Yes)
-                    Programa.miColeccion.cargarAlbumes("discos.mdb");
+                if (args.Length != 0 && args.Contains("-preguntar"))//cambiar parametro para cargar otro fichero
+                {
+                    DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
+                    if (resultado == DialogResult.Yes)
+                        Programa.miColeccion.cargarAlbumes("discos.mdb");
+                }
+                else Programa.miColeccion.cargarAlbumes("discos.mdb");
             }
-            else Programa.miColeccion.cargarAlbumes("discos.mdb");
+            else
+                File.Create("discos.mdb");
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -1,6 +1,6 @@
 #ignorar las carpetas
-./aplicacion-ipo.csproj
-./aplicacion-ipo.csproj.user
+aplicacion-ipo.csproj
+aplicacion-ipo.csproj.user
 .vs/
 .vs/aplicacion-ipo/v16/*.suo
 bin/
@@ -11,4 +11,6 @@ Properties/
 guardado.mdb
 ./app.config
 *.suo
+packages/
+packages.config
 aplicacion-ipo.sln
