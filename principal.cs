@@ -5,11 +5,13 @@ using System.Linq;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace aplicacion_musica
 {
     public partial class principal : Form
     {
+        private bool borrando;
         StatusBar barraAbajo;
         StatusBarPanel duracionSeleccionada;
         public static string BusquedaSpotify;
@@ -17,7 +19,11 @@ namespace aplicacion_musica
         public principal()
         {
             InitializeComponent();
+<<<<<<< HEAD
             BusquedaSpotify = "";
+=======
+            borrando = false;
+>>>>>>> desarrollo
             foreach (var idioma in Programa.codigosIdiomas)
             {
                 ToolStripItem subIdioma = new ToolStripMenuItem(idioma);
@@ -29,15 +35,9 @@ namespace aplicacion_musica
             vistaAlbumes.MultiSelect = true;
 
             Application.ApplicationExit += new EventHandler(salidaAplicacion);
-            //String[] columnas = { "Artista", "Título", "Número de canciones", "Duración" };
 
             vistaAlbumes.View = View.Details;
             //Debug.WriteLine(item.SubItems.Count);
-            vistaAlbumes.Columns.Add(Programa.textosLocal[4], -2, HorizontalAlignment.Left);
-            vistaAlbumes.Columns.Add(Programa.textosLocal[5], -2, HorizontalAlignment.Left);
-            vistaAlbumes.Columns.Add(Programa.textosLocal[6], -2, HorizontalAlignment.Left);
-            vistaAlbumes.Columns.Add(Programa.textosLocal[17], -2, HorizontalAlignment.Left);
-            vistaAlbumes.Columns.Add(Programa.textosLocal[8], -2, HorizontalAlignment.Left);
             ponerTextos();
             if (Programa.miColeccion.albumes.Count != 0)
                 cargarVista();
@@ -87,6 +87,11 @@ namespace aplicacion_musica
                 banderaImageBox.ImageLocation = Programa.imagenesLocal.First();
                 Debug.WriteLine(Programa.imagenesLocal.First());
                 banderaImageBox.SizeMode = PictureBoxSizeMode.StretchImage;
+                guardarcomo.Text = Programa.textosLocal[31];
+                seleccionToolStripMenuItem.Text = Programa.textosLocal[30];
+                adminMenu.Text = Programa.textosLocal[32];
+                generarAlbumToolStripMenuItem.Text = Programa.textosLocal[33];
+                borrarseleccionToolStripMenuItem.Text = Programa.textosLocal[28];
                 cargarVista();
             }
             catch(IndexOutOfRangeException)
@@ -116,6 +121,17 @@ namespace aplicacion_musica
                 lvwColumnSorter.Orden = SortOrder.Descending;
             }
             vistaAlbumes.Sort();
+            List<Album> nuevaLista = new List<Album>();
+            string[] s = new string[Programa.miColeccion.albumes.Count];
+            int cuantos = Programa.miColeccion.albumes.Count;
+            for (int i = 0; i < cuantos; i++)
+            {
+                Debug.WriteLine(vistaAlbumes.Items.Count);
+                s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "_" + vistaAlbumes.Items[i].SubItems[1].Text;
+                Album a = Programa.miColeccion.devolverAlbum(s[i]);
+                nuevaLista.Add(a);
+            }
+            Programa.miColeccion.cambiarLista(ref nuevaLista);
             vistaAlbumes.Refresh();
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -148,18 +164,27 @@ namespace aplicacion_musica
             cargarVista();
             vistaAlbumes.Refresh();
         }
-        private void salidaAplicacion(object sender, EventArgs e)
+        private void guardarDiscos(string nombre)
         {
-            using(StreamWriter salida = new StreamWriter("discos.mdb", false, System.Text.Encoding.UTF8))
+            using (StreamWriter salida = new StreamWriter(nombre, false, System.Text.Encoding.UTF8))
             {
                 foreach (Album a in Programa.miColeccion.albumes)
                 {
-                    if(!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
+                    if (!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
                     {
                         salida.WriteLine(a.nombre + ";" + a.artista + ";" + a.year + ";" + a.numCanciones + ";" + a.genero.Id + ";" + a.caratula);
                         for (int i = 0; i < a.numCanciones; i++)
                         {
-                            if(a.canciones[i].duracion.Hours >= 1)
+                            if (a.canciones[i] is CancionLarga cl)
+                            {
+                                salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar...
+                                foreach (Cancion parte in cl.Partes)
+                                {
+                                    salida.WriteLine(parte.titulo + ";" + parte.duracion.Minutes + ";" + parte.duracion.Seconds);
+                                }
+
+                            }
+                            else if (a.canciones[i].duracion.Hours >= 1)
                             {
                                 int minutos = a.canciones[i].duracion.Minutes + 60 * a.canciones[i].duracion.Hours;
                                 salida.WriteLine(a.canciones[i].titulo + ";" + minutos + ";" + a.canciones[i].duracion.Seconds);
@@ -172,8 +197,14 @@ namespace aplicacion_musica
                     salida.WriteLine();
                 }
             }
+        }
+        private void salidaAplicacion(object sender, EventArgs e)
+        {
+            guardarDiscos("discos.mdb");
             using(StreamWriter salida = new StreamWriter("idioma.cfg"))
             {
+                if ((!File.Exists("idioma.cfg")))
+                    File.Create("idioma.cfg");
                 salida.Write(Programa.idioma);
             }
 
@@ -210,7 +241,7 @@ namespace aplicacion_musica
 
         private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            string s = vistaAlbumes.SelectedItems[0].SubItems[0].Text + ',' + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            string s = vistaAlbumes.SelectedItems[0].SubItems[0].Text + '_' + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
             Album a = Programa.miColeccion.devolverAlbum(s);
             visualizarAlbum vistazo = new visualizarAlbum(ref a);
             vistazo.ShowDialog();
@@ -219,6 +250,14 @@ namespace aplicacion_musica
 
         private void vistaAlbumes_KeyDown(object sender, KeyEventArgs e)
         {
+            if(vistaAlbumes.SelectedItems.Count == 1 && (e.KeyCode == Keys.C && e.Control))
+            {
+                //black sabbath - paranoid. (1970) (00:42:29)
+                string i = vistaAlbumes.SelectedItems[0].SubItems[0].Text + " - " + vistaAlbumes.SelectedItems[0].SubItems[1].Text + ". ("
+                    + vistaAlbumes.SelectedItems[0].SubItems[2].Text + ") (" + vistaAlbumes.SelectedItems[0].SubItems[3].Text + ") (" + vistaAlbumes.SelectedItems[0].SubItems[4].Text + ")";
+                Debug.WriteLine(i);
+                Clipboard.SetText(i);
+            }
             if(vistaAlbumes.SelectedItems.Count != 0 && e.KeyCode == Keys.Delete)
             {
                 borrarAlbumesSeleccionados();
@@ -245,12 +284,13 @@ namespace aplicacion_musica
         }
         private void borrarAlbumesSeleccionados()
         {
+            borrando = true;
             string[] s = new string[Programa.miColeccion.albumes.Count];
             int cuantos = vistaAlbumes.SelectedItems.Count;
             ListViewItem[] itemsABorrar = new ListViewItem[cuantos];
             for (int i = 0; i < cuantos; i++)
             {
-                s[i] = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "," + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
+                s[i] = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "_" + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
                 //s[i] = vistaAlbumes.SelectedItems[i].SubItems[0].Text + ',' + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
                 itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
                 //vistaAlbumes.Items.Remove(vistaAlbumes.Items[vistaAlbumes.SelectedIndices[i]]);
@@ -264,6 +304,8 @@ namespace aplicacion_musica
             {
                 vistaAlbumes.Items.Remove(itemsABorrar[i]);
             }
+            borrando = false;
+            duracionSeleccionada.Text = Programa.textosLocal[29] + ": 00:00:00";
             vistaAlbumes.Refresh();
         }
         private void vistaAlbumes_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
@@ -273,14 +315,64 @@ namespace aplicacion_musica
 
         private void vistaAlbumes_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            TimeSpan seleccion = new TimeSpan();
-            foreach (ListViewItem album in vistaAlbumes.SelectedItems)
+            if(!borrando)
             {
-                String a = album.SubItems[0].Text + "," + album.SubItems[1].Text;
-                Album ad = Programa.miColeccion.devolverAlbum(a);
-                seleccion += ad.duracion;
+                TimeSpan seleccion = new TimeSpan();
+                foreach (ListViewItem album in vistaAlbumes.SelectedItems)
+                {
+                    String a = album.SubItems[0].Text + "_" + album.SubItems[1].Text;
+                    Album ad = Programa.miColeccion.devolverAlbum(a);
+                    seleccion += ad.duracion;
+                }
+                duracionSeleccionada.Text = Programa.textosLocal[29] + ": " + seleccion.ToString();
             }
-            duracionSeleccionada.Text = Programa.textosLocal[29] + ": "+ seleccion.ToString();
+        }
+        private void masCortoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Album a = Programa.miColeccion.albumes.First();
+            for (int i = 1; i < Programa.miColeccion.albumes.Count; i++)
+            {
+                if (a.duracion > Programa.miColeccion.albumes[i].duracion)
+                    a = Programa.miColeccion.albumes[i];
+            }
+            visualizarAlbum v = new visualizarAlbum(ref a);
+            v.ShowDialog();
+        }
+
+        private void masLargoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Album a = Programa.miColeccion.albumes.First();
+            for (int i = 1; i < Programa.miColeccion.albumes.Count; i++)
+            {
+                if (a.duracion < Programa.miColeccion.albumes[i].duracion)
+                    a = Programa.miColeccion.albumes[i];
+            }
+            visualizarAlbum v = new visualizarAlbum(ref a);
+            v.ShowDialog();
+        }
+
+        private void borrarseleccionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            borrarAlbumesSeleccionados();
+        }
+        private void guardarcomo_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog guardarComo = new SaveFileDialog();
+            guardarComo.Filter = Programa.textosLocal[1] + ".mdb(*.mdb)|*.mdb";
+            guardarComo.InitialDirectory = Environment.CurrentDirectory;
+            if(guardarComo.ShowDialog()==DialogResult.OK)
+            {
+                guardarDiscos(Path.GetFullPath(guardarComo.FileName));
+            }
+        }
+
+        private void generarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Random generador = new Random();
+            int ganador = generador.Next(0, Programa.miColeccion.albumes.Count);
+            Album a = Programa.miColeccion.albumes[ganador];
+            visualizarAlbum vistazo = new visualizarAlbum(ref a);
+            vistazo.ShowDialog();
         }
 
         private void buscarEnSpotifyToolStripMenuItem_Click(object sender, EventArgs e)

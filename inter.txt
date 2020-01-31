@@ -1,6 +1,6 @@
 3
 [ES] Español
-52
+62
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -31,6 +31,10 @@ Carátula
 Editando
 Borrar selección
 Duración total
+Selección
+Guardar como...
+Administrar
+Generar álbum al azar
 Música clásica
 Rock duro
 Rock progresivo
@@ -52,11 +56,17 @@ Pospunk
 Folk
 Blues rock
 Funk (y derivados)
+New wave
+Rock sinfónico
+Ska
+Flamenco
+House
+Jazz fusion
 Salir
 1
 ./iconosBanderas/esp.png
 [CAT] Català
-52
+62
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -87,6 +97,10 @@ Caràtula
 Editant
 Esborrar selecció
 Durada total
+Selecció
+Guardar com...
+Administrar
+Generar un àlbum al'atzar
 Música clàssica
 Rock dur
 Rock progressiu
@@ -108,11 +122,17 @@ Post-Punk
 Folk
 Blues rock
 Funk (i derivats)
+New wave
+Rock simfònic
+Ska
+Flamenc
+House
+Jazz fusion
 Sortir
 1
 ./iconosBanderas/cat.png
 [EN] English
-52
+62
 Music manager
 File
 Change language
@@ -143,6 +163,10 @@ Album art
 Editing
 Delete selection
 Total length
+Selection
+Save as...
+Adminstrate
+Generate a random album
 Classical music
 Hard rock
 Progressive rock
@@ -164,6 +188,12 @@ Post Punk
 Folk
 Blues rock
 Funk (and derivatives)
+New wave
+Symphonic rock
+Ska
+Flamenco
+House
+Jazz fusion
 Exit
 1
 ./iconosBanderas/uk.png

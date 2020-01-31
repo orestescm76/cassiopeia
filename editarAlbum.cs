@@ -89,13 +89,15 @@ namespace aplicacion_musica
 
         private void botonCancelar_Click(object sender, EventArgs e)
         {
+            visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
+            nuevo.Show();
             Close();
         }
 
         private void botonCaratula_Click(object sender, EventArgs e)
         {
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Programa.textosLocal[1] + " .jpg, .png|*.jpg;*.png";
+            abrirImagen.Filter = Programa.textosLocal[1] + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {

@@ -108,10 +108,10 @@
             // botonOkDoomer
             // 
             this.botonOkDoomer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonOkDoomer.Location = new System.Drawing.Point(226, 485);
+            this.botonOkDoomer.Location = new System.Drawing.Point(215, 485);
             this.botonOkDoomer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonOkDoomer.Name = "botonOkDoomer";
-            this.botonOkDoomer.Size = new System.Drawing.Size(87, 30);
+            this.botonOkDoomer.Size = new System.Drawing.Size(109, 30);
             this.botonOkDoomer.TabIndex = 5;
             this.botonOkDoomer.Text = "button1";
             this.botonOkDoomer.UseVisualStyleBackColor = true;

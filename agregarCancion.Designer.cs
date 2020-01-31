@@ -37,22 +37,24 @@
             this.labelTituloCancion = new System.Windows.Forms.Label();
             this.labelMinutosSegundos = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.esLarga = new System.Windows.Forms.Button();
+            this.labelNumPartes = new System.Windows.Forms.Label();
+            this.textBoxNumPartes = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // tituloTextBox
             // 
             this.tituloTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tituloTextBox.Location = new System.Drawing.Point(14, 48);
+            this.tituloTextBox.Location = new System.Drawing.Point(12, 58);
             this.tituloTextBox.Name = "tituloTextBox";
-            this.tituloTextBox.Size = new System.Drawing.Size(301, 25);
+            this.tituloTextBox.Size = new System.Drawing.Size(303, 25);
             this.tituloTextBox.TabIndex = 0;
-            this.tituloTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.tituloTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tituloTextBox_KeyDown);
             // 
             // secsTextBox
             // 
             this.secsTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.secsTextBox.Location = new System.Drawing.Point(190, 103);
+            this.secsTextBox.Location = new System.Drawing.Point(190, 120);
             this.secsTextBox.Name = "secsTextBox";
             this.secsTextBox.Size = new System.Drawing.Size(125, 25);
             this.secsTextBox.TabIndex = 2;
@@ -60,7 +62,7 @@
             // minTextBox
             // 
             this.minTextBox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.minTextBox.Location = new System.Drawing.Point(14, 103);
+            this.minTextBox.Location = new System.Drawing.Point(12, 120);
             this.minTextBox.Name = "minTextBox";
             this.minTextBox.Size = new System.Drawing.Size(124, 25);
             this.minTextBox.TabIndex = 1;
@@ -68,7 +70,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(12, 153);
+            this.button1.Location = new System.Drawing.Point(12, 168);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(126, 32);
             this.button1.TabIndex = 3;
@@ -80,12 +82,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(154, 103);
+            this.label2.Location = new System.Drawing.Point(154, 120);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(20, 29);
             this.label2.TabIndex = 4;
             this.label2.Text = ":";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // labelTituloCancion
             // 
@@ -106,7 +107,7 @@
             this.labelMinutosSegundos.AutoSize = true;
             this.labelMinutosSegundos.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelMinutosSegundos.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.labelMinutosSegundos.Location = new System.Drawing.Point(117, 76);
+            this.labelMinutosSegundos.Location = new System.Drawing.Point(124, 86);
             this.labelMinutosSegundos.Name = "labelMinutosSegundos";
             this.labelMinutosSegundos.Padding = new System.Windows.Forms.Padding(10, 8, 10, 0);
             this.labelMinutosSegundos.Size = new System.Drawing.Size(70, 21);
@@ -117,7 +118,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(190, 153);
+            this.button2.Location = new System.Drawing.Point(190, 168);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(125, 32);
             this.button2.TabIndex = 6;
@@ -125,12 +126,43 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // esLarga
+            // 
+            this.esLarga.Location = new System.Drawing.Point(226, 13);
+            this.esLarga.Name = "esLarga";
+            this.esLarga.Size = new System.Drawing.Size(89, 23);
+            this.esLarga.TabIndex = 7;
+            this.esLarga.Text = "eslarga?";
+            this.esLarga.UseVisualStyleBackColor = true;
+            this.esLarga.Click += new System.EventHandler(this.esLarga_Click);
+            // 
+            // labelNumPartes
+            // 
+            this.labelNumPartes.AutoSize = true;
+            this.labelNumPartes.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNumPartes.Location = new System.Drawing.Point(139, 94);
+            this.labelNumPartes.Name = "labelNumPartes";
+            this.labelNumPartes.Size = new System.Drawing.Size(65, 13);
+            this.labelNumPartes.TabIndex = 8;
+            this.labelNumPartes.Text = "num partes";
+            // 
+            // textBoxNumPartes
+            // 
+            this.textBoxNumPartes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxNumPartes.Location = new System.Drawing.Point(115, 120);
+            this.textBoxNumPartes.Name = "textBoxNumPartes";
+            this.textBoxNumPartes.Size = new System.Drawing.Size(89, 25);
+            this.textBoxNumPartes.TabIndex = 9;
+            // 
             // agregarCancion
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 197);
+            this.ClientSize = new System.Drawing.Size(327, 212);
+            this.Controls.Add(this.textBoxNumPartes);
+            this.Controls.Add(this.labelNumPartes);
+            this.Controls.Add(this.esLarga);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.labelTituloCancion);
             this.Controls.Add(this.labelMinutosSegundos);
@@ -145,7 +177,6 @@
             this.Name = "agregarCancion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "agregarCancion";
-            this.Load += new System.EventHandler(this.agregarCancion_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.agregarCancion_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -162,5 +193,8 @@
         private System.Windows.Forms.Label labelTituloCancion;
         private System.Windows.Forms.Label labelMinutosSegundos;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button esLarga;
+        private System.Windows.Forms.Label labelNumPartes;
+        private System.Windows.Forms.TextBox textBoxNumPartes;
     }
 }

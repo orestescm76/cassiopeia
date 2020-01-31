@@ -14,6 +14,8 @@ guardado.mdb
 ./app.config
 *.suo
 aplicacion-ipo.sln
-aplicacion-ipo.csproj
-aplicacion-ipo.csproj.user
 app.config
+packages/
+packages.config
+aplicacion-ipo.sln
+ClaveAPI.cs
