@@ -1,6 +1,6 @@
 3
 [ES] Español
-62
+65
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -35,6 +35,9 @@ Selección
 Guardar como...
 Administrar
 Generar álbum al azar
+¿Es larga?
+Configura el formulario para crear una cancion con varias partes.
+Número de partes
 Música clásica
 Rock duro
 Rock progresivo

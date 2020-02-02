@@ -16,6 +16,10 @@ using System.Diagnostics;
  *  arreglado el no reconocimiento de ficheros *.jpeg
  *  añadidas las canciones con varias partes
  *  añadido un menú para generar un álbum
+ *  ---1.2.1
+ *  arreglado un bug con canciones largas
+ *  nuevos textos porque no los he puesto xd
+ *  arreglado el editar cancion porque :-)
  */
 namespace aplicacion_musica
 {
@@ -32,9 +36,9 @@ namespace aplicacion_musica
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.2";
+        public static readonly string version = "1.2.1";
         public static string ErrorIdioma;
-        private static readonly int ultimaCadena = 34;
+        private static readonly int ultimaCadena = 37;
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;
