@@ -13,9 +13,11 @@ namespace aplicacion_musica
     {
         public SpotifyWebAPI _spotify;
         private CredentialsAuth _auth;
+        private readonly String clavePublica = "f49317757dd64bb190576aec028f4efc";
+        private readonly String clavePrivada = ClaveAPI.Spotify;
         public Spotify()
         {
-            _auth = new CredentialsAuth("f49317757dd64bb190576aec028f4efc", "6cd805517def403e96ff1866ae67143e");
+            _auth = new CredentialsAuth(clavePublica, clavePrivada);
             iniciar();
         }
         private async void iniciar()
@@ -26,6 +28,18 @@ namespace aplicacion_musica
                 AccessToken = token.AccessToken,
                 TokenType = token.TokenType
             };
+        }
+        public FullAlbum buscarAlbum(string a)
+        {
+            var item = _spotify.SearchItems(a, SpotifyAPI.Web.Enums.SearchType.Album,5,0,"ES"); //busco 5 albumes
+            List<SimpleAlbum> busqueda = item.Albums.Items;
+            string info = "";
+            for (int i = 0; i < busqueda.Count; i++)
+            {
+                info += i + 1 + ". " + busqueda[i].Artists.First().Name + " - " + busqueda[i].Name +" " + busqueda[i].ReleaseDate + Environment.NewLine;
+            }
+            System.Windows.Forms.MessageBox.Show(info);
+            return null; //test
         }
         public FullTrack cancion(string song)
         {

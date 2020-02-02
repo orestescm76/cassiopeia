@@ -49,11 +49,8 @@
             this.refrescarButton = new System.Windows.Forms.Button();
             this.banderaImageBox = new System.Windows.Forms.PictureBox();
             this.borrarButton = new System.Windows.Forms.Button();
-<<<<<<< HEAD
             this.buscarEnSpotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-=======
             this.guardarcomo = new System.Windows.Forms.ToolStripMenuItem();
->>>>>>> desarrollo
             this.menuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.banderaImageBox)).BeginInit();
             this.SuspendLayout();
@@ -76,11 +73,8 @@
             this.archivoMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.agregarAlbumToolStripMenuItem,
             this.abrirToolStripMenuItem,
-<<<<<<< HEAD
             this.buscarEnSpotifyToolStripMenuItem,
-=======
             this.guardarcomo,
->>>>>>> desarrollo
             this.salirToolStripMenuItem});
             this.archivoMenuItem1.Name = "archivoMenuItem1";
             this.archivoMenuItem1.Size = new System.Drawing.Size(64, 20);
@@ -223,21 +217,18 @@
             this.borrarButton.UseVisualStyleBackColor = true;
             this.borrarButton.Click += new System.EventHandler(this.borrarButton_Click);
             // 
-<<<<<<< HEAD
             // buscarEnSpotifyToolStripMenuItem
             // 
             this.buscarEnSpotifyToolStripMenuItem.Name = "buscarEnSpotifyToolStripMenuItem";
             this.buscarEnSpotifyToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.buscarEnSpotifyToolStripMenuItem.Text = "buscarEnSpotify";
             this.buscarEnSpotifyToolStripMenuItem.Click += new System.EventHandler(this.buscarEnSpotifyToolStripMenuItem_Click);
-=======
             // guardarcomo
             // 
             this.guardarcomo.Name = "guardarcomo";
             this.guardarcomo.Size = new System.Drawing.Size(249, 22);
             this.guardarcomo.Text = "guardarComoToolStripMenuItem";
             this.guardarcomo.Click += new System.EventHandler(this.guardarcomo_Click);
->>>>>>> desarrollo
             // 
             // principal
             // 
@@ -278,9 +269,7 @@
         private System.Windows.Forms.Button refrescarButton;
         private System.Windows.Forms.PictureBox banderaImageBox;
         private System.Windows.Forms.Button borrarButton;
-<<<<<<< HEAD
         private System.Windows.Forms.ToolStripMenuItem buscarEnSpotifyToolStripMenuItem;
-=======
         private System.Windows.Forms.ToolStripMenuItem adminMenu;
         private System.Windows.Forms.ToolStripMenuItem generarAlbumToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem seleccionToolStripMenuItem;
@@ -291,6 +280,5 @@
         private System.Windows.Forms.ColumnHeader duracion;
         private System.Windows.Forms.ColumnHeader genero;
         private System.Windows.Forms.ToolStripMenuItem guardarcomo;
->>>>>>> desarrollo
     }
 }

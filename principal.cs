@@ -19,11 +19,8 @@ namespace aplicacion_musica
         public principal()
         {
             InitializeComponent();
-<<<<<<< HEAD
             BusquedaSpotify = "";
-=======
             borrando = false;
->>>>>>> desarrollo
             foreach (var idioma in Programa.codigosIdiomas)
             {
                 ToolStripItem subIdioma = new ToolStripMenuItem(idioma);
@@ -377,11 +374,11 @@ namespace aplicacion_musica
 
         private void buscarEnSpotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
             busquedaSpotify b = new busquedaSpotify();
             b.ShowDialog();
-            SpotifyAPI.Web.Models.FullTrack test = Programa._spotify.cancion(BusquedaSpotify);
-            string artista = Programa._spotify._spotify.GetArtist(test.Artists.First().Id).Name;
+            SpotifyAPI.Web.Models.FullAlbum test = Programa._spotify.buscarAlbum(BusquedaSpotify);
+            //string artista = Programa._spotify._spotify.GetArtist(test.Artists.First().Id).Name;
+            /*
             TimeSpan duracion = new TimeSpan(0, 0, 0, 0, test.DurationMs);
             if (duracion.Milliseconds < 500)
                 duracion = duracion.Subtract(new TimeSpan(0, 0, 0, 0, duracion.Milliseconds));
@@ -392,6 +389,7 @@ namespace aplicacion_musica
 
             MessageBox.Show(artista + " - " + test.Name + Environment.NewLine +
                 "La canción dura: " + duracion.ToString());
+                */
         }
     }
 }

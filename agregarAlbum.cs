@@ -87,14 +87,18 @@ namespace aplicacion_musica
                 DialogResult cancelar = DialogResult.OK;
                 for (int i = 0; i < nC; i++)
                 {
+
+                    agregarCancion agregarCancion = new agregarCancion(ref a,i);
+                    Hide();
+                    cancelar = agregarCancion.ShowDialog();
                     if (cancelar == DialogResult.Cancel)
                     {
                         Programa.miColeccion.quitarAlbum(ref a);
                         Close();
                         break;
                     }
-                    agregarCancion agregarCancion = new agregarCancion(ref a,i);
-                    cancelar = agregarCancion.ShowDialog();
+                    else if (cancelar == DialogResult.None)
+                        continue;
                 }
 
                 Close();

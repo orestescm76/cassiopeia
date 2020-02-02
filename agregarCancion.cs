@@ -130,18 +130,21 @@ namespace aplicacion_musica
                         addParte.ShowDialog();
                         if (addParte.DialogResult == DialogResult.Cancel)
                             break;
+                        else
+                            DialogResult = DialogResult.OK;
                     }
-                    album.RefrescarDuracion();
                 }
-                else //parte de una cancion normal
+                else if(cancionlarga != null && larga is true)//parte de una cancion normal
                 {
                     t = tituloTextBox.Text;
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
+                    TimeSpan dur = new TimeSpan(0, min, sec);
                     np = 0;
-                    Cancion p = new Cancion(t, new TimeSpan(0, min, sec), ref album);
+                    Cancion p = new Cancion(t, dur, ref album);
                     cancionlarga.addParte(ref p);
                     DialogResult = DialogResult.OK;
+                    album.duracion += dur;
                 }
                 Dispose();
             }
@@ -193,8 +196,8 @@ namespace aplicacion_musica
         private void esLarga_Click(object sender, EventArgs e)
         {
             agregarCancion larga = new agregarCancion(ref album, cual, true);
-            larga.Show();
-            Dispose();
+            DialogResult = DialogResult.OK;
+            larga.ShowDialog();
         }
     }
 }

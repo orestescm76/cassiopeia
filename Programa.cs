@@ -4,14 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
-<<<<<<< HEAD
 using System.Net;
 using SpotifyAPI.Web;
-
-/*VERSIÓN 1.2 SPOTIFY TODO:
- * cambiar EEDD por array porque O(1) en acceso aleatorio como es lógico en una coleccion real
- * arreglar el bug de agregar una imagen con mucha resolución.
-=======
 /*VERSIÓN 1.2 TODO:
  *  ---cambios
  *  perfilado el visualizar y cambiada tipografia
@@ -24,7 +18,6 @@ using SpotifyAPI.Web;
  *  arreglado el no reconocimiento de ficheros *.jpeg
  *  añadidas las canciones con varias partes
  *  añadido un menú para generar un álbum
->>>>>>> desarrollo
  */
 namespace aplicacion_musica
 {
@@ -44,12 +37,8 @@ namespace aplicacion_musica
         public static Genero[] generos = new Genero[idGeneros.Length];
         public static readonly string version = "1.2 (bulid Spotify)";
         public static string ErrorIdioma;
-<<<<<<< HEAD
-        private static readonly int ultimaCadena = 30;
         public static Spotify _spotify;
-=======
         private static readonly int ultimaCadena = 34;
->>>>>>> desarrollo
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;

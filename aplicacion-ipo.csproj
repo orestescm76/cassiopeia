@@ -142,6 +142,7 @@
     </Compile>
     <Compile Include="Cancion.cs" />
     <Compile Include="CancionLarga.cs" />
+    <Compile Include="ClaveAPI.cs" />
     <Compile Include="Coleccion.cs" />
     <Compile Include="editarAlbum.cs">
       <SubType>Form</SubType>
