@@ -13,6 +13,7 @@ namespace aplicacion_musica
         CancionLarga cancionlarga;
         bool editar;
         bool larga;
+        ToolTip ConsejoEsLarga;
         public agregarCancion(ref Album a, int n)
         {
             InitializeComponent();
@@ -23,6 +24,8 @@ namespace aplicacion_musica
             labelNumPartes.Hide();
             cancionlarga = null;
             np = 0;
+            ConsejoEsLarga = new ToolTip();
+            ConsejoEsLarga.SetToolTip(esLarga, Programa.textosLocal[35]);
             ponerTextos();
         }
         public agregarCancion(ref Cancion c)
@@ -35,6 +38,9 @@ namespace aplicacion_musica
             tituloTextBox.Text = c.titulo;
             minTextBox.Text = c.duracion.Minutes.ToString();
             secsTextBox.Text = c.duracion.Seconds.ToString();
+            esLarga.Hide();
+            labelNumPartes.Hide();
+            textBoxNumPartes.Hide();
             np = 0;
             ponerTextos();
         }
@@ -89,7 +95,8 @@ namespace aplicacion_musica
             button2.Text = Programa.textosLocal[11];
             labelTituloCancion.Text = Programa.textosLocal[12];
             labelMinutosSegundos.Text = Programa.textosLocal[13];
-
+            esLarga.Text = Programa.textosLocal[34];
+            labelNumPartes.Text = Programa.textosLocal[36];
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -130,18 +137,21 @@ namespace aplicacion_musica
                         addParte.ShowDialog();
                         if (addParte.DialogResult == DialogResult.Cancel)
                             break;
+                        else
+                            DialogResult = DialogResult.OK;
                     }
-                    album.RefrescarDuracion();
                 }
-                else //parte de una cancion normal
+                else if(cancionlarga != null && larga is true)//parte de una cancion normal
                 {
                     t = tituloTextBox.Text;
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
+                    TimeSpan dur = new TimeSpan(0, min, sec);
                     np = 0;
-                    Cancion p = new Cancion(t, new TimeSpan(0, min, sec), ref album);
+                    Cancion p = new Cancion(t, dur, ref album);
                     cancionlarga.addParte(ref p);
                     DialogResult = DialogResult.OK;
+                    album.duracion += dur;
                 }
                 Dispose();
             }
@@ -193,8 +203,8 @@ namespace aplicacion_musica
         private void esLarga_Click(object sender, EventArgs e)
         {
             agregarCancion larga = new agregarCancion(ref album, cual, true);
-            larga.Show();
-            Dispose();
+            DialogResult = DialogResult.OK;
+            larga.ShowDialog();
         }
     }
 }

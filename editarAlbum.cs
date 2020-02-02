@@ -107,10 +107,15 @@ namespace aplicacion_musica
             }
         }
 
-        private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e) //editar cancion
         {
             agregarCancion editarCancion = new agregarCancion(ref albumAEditar.canciones[albumAEditar.buscarCancion(vistaCanciones.SelectedItems[0].Text)]);
             editarCancion.ShowDialog();
+        }
+
+        private void vistaCanciones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

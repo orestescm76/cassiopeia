@@ -188,6 +188,7 @@
             this.vistaCanciones.Size = new System.Drawing.Size(514, 109);
             this.vistaCanciones.TabIndex = 9;
             this.vistaCanciones.UseCompatibleStateImageBehavior = false;
+            this.vistaCanciones.SelectedIndexChanged += new System.EventHandler(this.vistaCanciones_SelectedIndexChanged);
             this.vistaCanciones.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaCanciones_MouseDoubleClick);
             // 
             // editarAlbum

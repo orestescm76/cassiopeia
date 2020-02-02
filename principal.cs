@@ -159,28 +159,27 @@ namespace aplicacion_musica
             cargarVista();
             vistaAlbumes.Refresh();
         }
-        private void salidaAplicacion(object sender, EventArgs e)
+        private void guardarDiscos(string nombre)
         {
-
-            using(StreamWriter salida = new StreamWriter("discos.mdb", false, System.Text.Encoding.UTF8))
+            using (StreamWriter salida = new StreamWriter(nombre, false, System.Text.Encoding.UTF8))
             {
                 foreach (Album a in Programa.miColeccion.albumes)
                 {
-                    if(!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
+                    if (!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
                     {
                         salida.WriteLine(a.nombre + ";" + a.artista + ";" + a.year + ";" + a.numCanciones + ";" + a.genero.Id + ";" + a.caratula);
                         for (int i = 0; i < a.numCanciones; i++)
                         {
-                            if(a.canciones[i] is CancionLarga cl)
+                            if (a.canciones[i] is CancionLarga cl)
                             {
-                                salida.WriteLine(cl.titulo + ";"+ cl.Partes.Count);//no tiene duracion y son 2 datos a guardar...
+                                salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar...
                                 foreach (Cancion parte in cl.Partes)
                                 {
                                     salida.WriteLine(parte.titulo + ";" + parte.duracion.Minutes + ";" + parte.duracion.Seconds);
                                 }
-                                
+
                             }
-                            else if(a.canciones[i].duracion.Hours >= 1)
+                            else if (a.canciones[i].duracion.Hours >= 1)
                             {
                                 int minutos = a.canciones[i].duracion.Minutes + 60 * a.canciones[i].duracion.Hours;
                                 salida.WriteLine(a.canciones[i].titulo + ";" + minutos + ";" + a.canciones[i].duracion.Seconds);
@@ -193,7 +192,10 @@ namespace aplicacion_musica
                     salida.WriteLine();
                 }
             }
-            
+        }
+        private void salidaAplicacion(object sender, EventArgs e)
+        {
+            guardarDiscos("discos.mdb");
             using(StreamWriter salida = new StreamWriter("idioma.cfg"))
             {
                 if ((!File.Exists("idioma.cfg")))
@@ -346,6 +348,10 @@ namespace aplicacion_musica
             SaveFileDialog guardarComo = new SaveFileDialog();
             guardarComo.Filter = Programa.textosLocal[1] + ".mdb(*.mdb)|*.mdb";
             guardarComo.InitialDirectory = Environment.CurrentDirectory;
+            if(guardarComo.ShowDialog()==DialogResult.OK)
+            {
+                guardarDiscos(Path.GetFullPath(guardarComo.FileName));
+            }
         }
 
         private void generarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
