@@ -20,7 +20,7 @@ namespace aplicacion_musica
         private void button1_Click(object sender, EventArgs e)
         {
             principal.BusquedaSpotify = textBox1.Text;
-            this.Close();
+            Dispose();
         }
     }
 }

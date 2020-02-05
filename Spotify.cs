@@ -13,6 +13,7 @@ namespace aplicacion_musica
     {
         public SpotifyWebAPI _spotify;
         private CredentialsAuth _auth;
+        private readonly char[] CaracteresProhibidosWindows = { '\\', '/', '|', '?', '*', '"', ':', '>', '<' };
         private readonly String clavePublica = "f49317757dd64bb190576aec028f4efc";
         private readonly String clavePrivada = ClaveAPI.Spotify;
         public Spotify()
@@ -29,23 +30,57 @@ namespace aplicacion_musica
                 TokenType = token.TokenType
             };
         }
-        public FullAlbum buscarAlbum(string a)
+        public void buscarAlbum(string a)
         {
-            var item = _spotify.SearchItems(a, SpotifyAPI.Web.Enums.SearchType.Album,5,0,"ES"); //busco 5 albumes
-            List<SimpleAlbum> busqueda = item.Albums.Items;
-            string info = "";
-            for (int i = 0; i < busqueda.Count; i++)
-            {
-                info += i + 1 + ". " + busqueda[i].Artists.First().Name + " - " + busqueda[i].Name +" " + busqueda[i].ReleaseDate + Environment.NewLine;
-            }
-            System.Windows.Forms.MessageBox.Show(info);
-            return null; //test
+            var item = _spotify.SearchItems(a, SpotifyAPI.Web.Enums.SearchType.Album);
+            resultadoSpotify res = new resultadoSpotify(item.Albums.Items);
+            res.ShowDialog();
+            if (res.DialogResult == System.Windows.Forms.DialogResult.Cancel)
+                return;
         }
         public FullTrack cancion(string song)
         {
             var item = _spotify.SearchItems(song, SpotifyAPI.Web.Enums.SearchType.Track, 5, 0, "ES");
             FullTrack cancionQueBusco = item.Tracks.Items.First();
             return cancionQueBusco;
+        }
+        public void procesarAlbum(SimpleAlbum album)
+        {
+            String[] parseFecha = album.ReleaseDate.Split('-');
+            string portada = album.Name + "_" + album.Artists[0].Name + ".jpg";
+            foreach (char ch in CaracteresProhibidosWindows)
+            {
+                if (portada.Contains(ch.ToString()))
+                    portada = portada.Replace(ch.ToString(), string.Empty);
+            }
+            using (System.Net.WebClient cliente = new System.Net.WebClient())
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
+                    cliente.DownloadFile(new Uri(album.Images[0].Url), Environment.CurrentDirectory + "/covers/" + portada);
+                }
+                catch (System.Net.WebException)
+                {
+                    System.Windows.Forms.MessageBox.Show("Error descargando la imagen");
+                    portada = "";
+                }
+
+            }
+            Album a = new Album(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Convert.ToInt16(album.TotalTracks), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
+            Cancion[] canciones = new Cancion[a.numCanciones];
+            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id).Items;
+            for (int i = 0; i < c.Count; i++)
+            {
+                canciones[i] = new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a);
+                if(canciones[i].duracion.Milliseconds >500)
+                    canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
+                else
+                    canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
+                a.duracion += canciones[i].duracion;
+            }
+            a.canciones = canciones;
+            Programa.miColeccion.agregarAlbum(ref a);
         }
     }
 }

@@ -35,10 +35,10 @@ namespace aplicacion_musica
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.2 (bulid Spotify)";
+        public static readonly string version = "1.2.2.1 (bulid Spotify)";
         public static string ErrorIdioma;
         public static Spotify _spotify;
-        private static readonly int ultimaCadena = 34;
+        private static readonly int ultimaCadena = 37;
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;

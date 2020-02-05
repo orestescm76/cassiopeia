@@ -15,6 +15,16 @@ namespace aplicacion_musica
             caratula = c;
             genero = g;
         }
+        public Album(string n = "", string a = "", short y = 0, short nc = 0, string c = "")
+        {
+            duracion = new TimeSpan();
+            nombre = n;
+            artista = a;
+            year = y;
+            numCanciones = nc;
+            caratula = c;
+            genero = new Genero("");
+        }
         public Album(Album a)
         {
             duracion = a.duracion;

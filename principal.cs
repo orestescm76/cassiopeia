@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
+using SpotifyAPI.Web.Models;
 
 namespace aplicacion_musica
 {
@@ -376,20 +377,7 @@ namespace aplicacion_musica
         {
             busquedaSpotify b = new busquedaSpotify();
             b.ShowDialog();
-            SpotifyAPI.Web.Models.FullAlbum test = Programa._spotify.buscarAlbum(BusquedaSpotify);
-            //string artista = Programa._spotify._spotify.GetArtist(test.Artists.First().Id).Name;
-            /*
-            TimeSpan duracion = new TimeSpan(0, 0, 0, 0, test.DurationMs);
-            if (duracion.Milliseconds < 500)
-                duracion = duracion.Subtract(new TimeSpan(0, 0, 0, 0, duracion.Milliseconds));
-            else
-            {
-                duracion = duracion.Add(new TimeSpan(0, 0, 0, 1, 1000-duracion.Milliseconds));
-            }
-
-            MessageBox.Show(artista + " - " + test.Name + Environment.NewLine +
-                "La canción dura: " + duracion.ToString());
-                */
+            Programa._spotify.buscarAlbum(BusquedaSpotify);
         }
     }
 }
