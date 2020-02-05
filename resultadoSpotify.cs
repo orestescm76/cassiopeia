@@ -14,13 +14,13 @@ namespace aplicacion_musica
 {
     public partial class resultadoSpotify : Form
     {
-        private List<SimpleAlbum> listaBusqueda;
-        public resultadoSpotify(List<SimpleAlbum> l)
+        private List<SimpleAlbum> listaBusqueda = new List<SimpleAlbum>();
+        public resultadoSpotify(ref List<SimpleAlbum> l)
         {
             InitializeComponent();
             Text = Programa.textosLocal[44];
             labelAyuda.Text = Programa.textosLocal[41];
-            labelResultado.Text = Programa.textosLocal[39] + listaBusqueda.Count + " " + Programa.textosLocal[40];
+            labelResultado.Text = Programa.textosLocal[39] + l.Count + " " + Programa.textosLocal[40];
             listaBusqueda = l;
             listViewResultadoBusqueda.Columns[1].Text = Programa.textosLocal[5];
             listViewResultadoBusqueda.Columns[2].Text = Programa.textosLocal[6];

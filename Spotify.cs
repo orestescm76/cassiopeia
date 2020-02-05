@@ -32,8 +32,9 @@ namespace aplicacion_musica
         }
         public void buscarAlbum(string a)
         {
-            var item = _spotify.SearchItems(a, SpotifyAPI.Web.Enums.SearchType.Album);
-            resultadoSpotify res = new resultadoSpotify(item.Albums.Items);
+            List<SimpleAlbum> item = _spotify.SearchItems(a, SpotifyAPI.Web.Enums.SearchType.Album).Albums.Items;
+
+            resultadoSpotify res = new resultadoSpotify(ref item);
             res.ShowDialog();
             if (res.DialogResult == System.Windows.Forms.DialogResult.Cancel)
                 return;
