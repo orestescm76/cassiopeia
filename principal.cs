@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
+using SpotifyAPI.Web.Models;
 
 namespace aplicacion_musica
 {
@@ -14,10 +15,12 @@ namespace aplicacion_musica
         private bool borrando;
         StatusBar barraAbajo;
         StatusBarPanel duracionSeleccionada;
+        public static string BusquedaSpotify;
         private ListViewItemComparer lvwColumnSorter;
         public principal()
         {
             InitializeComponent();
+            BusquedaSpotify = "";
             borrando = false;
             foreach (var idioma in Programa.codigosIdiomas)
             {
@@ -87,6 +90,7 @@ namespace aplicacion_musica
                 adminMenu.Text = Programa.textosLocal[32];
                 generarAlbumToolStripMenuItem.Text = Programa.textosLocal[33];
                 borrarseleccionToolStripMenuItem.Text = Programa.textosLocal[28];
+                acercaDeToolStripMenuItem.Text = Programa.textosLocal[46] + " " + Programa.textosLocal[0];
                 cargarVista();
             }
             catch(IndexOutOfRangeException)
@@ -257,6 +261,13 @@ namespace aplicacion_musica
             {
                 borrarAlbumesSeleccionados();
             }
+            if(e.KeyCode == Keys.F1)
+            {
+                SpotifyAPI.Web.Models.FullTrack test = Programa._spotify.cancion("abre la puerta");
+                string artista = Programa._spotify._spotify.GetArtist(test.Artists.First().Id).Name;
+                Debug.WriteLine(artista + " - " + test.Name);
+            }
+
         }
 
         private void refrescarButton_Click(object sender, EventArgs e)
@@ -361,6 +372,27 @@ namespace aplicacion_musica
             Album a = Programa.miColeccion.albumes[ganador];
             visualizarAlbum vistazo = new visualizarAlbum(ref a);
             vistazo.ShowDialog();
+        }
+
+        private void buscarEnSpotifyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                busquedaSpotify b = new busquedaSpotify();
+                b.ShowDialog();
+                Programa._spotify.buscarAlbum(BusquedaSpotify);
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show(Programa.textosLocal[45]);
+            }
+
+        }
+
+        private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            acercaDe form = new acercaDe();
+            form.ShowDialog();
         }
     }
 }
