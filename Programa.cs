@@ -3,29 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-<<<<<<< HEAD
-using System.Diagnostics;
-/*VERSIÓN 1.2
- *  ---cambios
- *  perfilado el visualizar y cambiada tipografia
- *  al editar si cancelas vuelve a aparecer la ventana
- *  columnas con tamaño estándar aunque no haya discos
- *  soporte para portapapeles, copia y pega tus albumes con fashion
- *  ahora los albumes se guardan en función de como se ven en la lista principal
- *  nuevos generos
- *  duraccion seleccionada en el visualizado del álbum
- *  arreglado el no reconocimiento de ficheros *.jpeg
- *  añadidas las canciones con varias partes
- *  añadido un menú para generar un álbum
- *  ---1.2.1
- *  arreglado un bug con canciones largas
- *  nuevos textos porque no los he puesto xd
- *  arreglado el editar cancion porque :-)
-=======
+
 /*VERSIÓN 1.3
  * integración con spotify, agrega los discos instantáneamente
  * ventana de Acerca De
->>>>>>> release1.3
+
  */
 namespace aplicacion_musica
 {

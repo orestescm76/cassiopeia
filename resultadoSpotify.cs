@@ -22,9 +22,9 @@ namespace aplicacion_musica
             labelAyuda.Text = Programa.textosLocal[41];
             labelResultado.Text = Programa.textosLocal[39] + l.Count + " " + Programa.textosLocal[40];
             listaBusqueda = l;
-            listViewResultadoBusqueda.Columns[1].Text = Programa.textosLocal[5];
-            listViewResultadoBusqueda.Columns[2].Text = Programa.textosLocal[6];
-            listViewResultadoBusqueda.Columns[3].Text = Programa.textosLocal[17];
+            listViewResultadoBusqueda.Columns[1].Text = Programa.textosLocal[4];
+            listViewResultadoBusqueda.Columns[2].Text = Programa.textosLocal[5];
+            listViewResultadoBusqueda.Columns[3].Text = Programa.textosLocal[6];
             listViewResultadoBusqueda.Columns[4].Text = Programa.textosLocal[7];
             buttonCancelar.Text = Programa.textosLocal[11];
             buttonOK.Text = Programa.textosLocal[9];
