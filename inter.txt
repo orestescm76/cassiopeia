@@ -1,6 +1,6 @@
 3
 [ES] Español
-62
+65
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -35,6 +35,9 @@ Selección
 Guardar como...
 Administrar
 Generar álbum al azar
+¿Es larga?
+Configura el formulario para crear una canción con varias partes.
+Número de partes
 Música clásica
 Rock duro
 Rock progresivo
@@ -66,7 +69,7 @@ Salir
 1
 ./iconosBanderas/esp.png
 [CAT] Català
-62
+65
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -74,7 +77,7 @@ Afegir àlbum
 Artista
 Títol
 Any
-Nombre de cançons
+Número gde cançons
 Gènere
 Afegir
 Afegir cançó
@@ -82,14 +85,14 @@ Cancel·lar
 Introdueix el títol de la cançó
 minuts:segons
 Obrir registres d'un fitxer
-L'idioma que ha seleccionat es invàlid, per favor contacta amb el desenvolupador o tradueix-lo tu mateix
+L'idioma que ha seleccionat es invàlid, si us plau contacta amb el desenvolupador o tradueix-lo tu mateix
 Voleu carregar els últims álbums desats?
 Durada
 Refrescar
 Visualitzant
 Editar
 Fet
-Error al provar fer l'operació, revisa que els camps que sol·liciten nombres no hi ha text.
+Error al provar fer l'operació, revisa que els camps que sol·liciten nombres no hi hagi text.
 Error al provar fer l'operació, algun paràmetre està sense text.
 Afegir caràtula.
 Cerca
@@ -98,9 +101,12 @@ Editant
 Esborrar selecció
 Durada total
 Selecció
-Guardar com...
+Desar com...
 Administrar
-Generar un àlbum al'atzar
+Generar un àlbum a l'atzar
+És llarga?
+Configura el formulari per crear una cançó amb diversas parts.
+Número de parts
 Música clàssica
 Rock dur
 Rock progressiu
@@ -132,7 +138,7 @@ Sortir
 1
 ./iconosBanderas/cat.png
 [EN] English
-62
+65
 Music manager
 File
 Change language
@@ -167,6 +173,9 @@ Selection
 Save as...
 Adminstrate
 Generate a random album
+Is it long?
+Configures the form to create a song with many parts.
+Number of parts
 Classical music
 Hard rock
 Progressive rock
