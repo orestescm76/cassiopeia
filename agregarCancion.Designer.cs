@@ -140,7 +140,7 @@
             // 
             this.labelNumPartes.AutoSize = true;
             this.labelNumPartes.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNumPartes.Location = new System.Drawing.Point(139, 94);
+            this.labelNumPartes.Location = new System.Drawing.Point(124, 94);
             this.labelNumPartes.Name = "labelNumPartes";
             this.labelNumPartes.Size = new System.Drawing.Size(65, 13);
             this.labelNumPartes.TabIndex = 8;

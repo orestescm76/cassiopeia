@@ -5,12 +5,16 @@ aplicacion-ipo.csproj.user
 .vs/aplicacion-ipo/v16/*.suo
 bin/
 obj/*
+packages/
+packages.config
 Resources/
 Properties/
 #ignorar fichero
 guardado.mdb
 ./app.config
 *.suo
+aplicacion-ipo.sln
+app.config
 packages/
 packages.config
 aplicacion-ipo.sln

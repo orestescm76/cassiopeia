@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Net;
+using SpotifyAPI.Web;
 /*VERSIÓN 1.2 TODO:
  *  ---cambios
  *  perfilado el visualizar y cambiada tipografia
@@ -25,6 +27,7 @@ namespace aplicacion_musica
 {
     static class Programa
     {
+        
         static String[] textos; //carga TODOS los textos
         public static String[] textosLocal;
         public static String[] imagenesLocal;
@@ -36,9 +39,10 @@ namespace aplicacion_musica
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.2.1";
+        public static readonly string version = "1.3";
         public static string ErrorIdioma;
-        private static readonly int ultimaCadena = 37;
+        public static Spotify _spotify;
+        private static readonly int ultimaCadena = 47;
         public static void cambiarIdioma(String idioma)
         {
             string idiomatemp = Programa.idioma;
@@ -105,10 +109,12 @@ namespace aplicacion_musica
             int numImagenes = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(2 + numCadenas).First());
             textosLocal = textos.SkipWhile(linea => linea != idioma).Skip(2).Take(numCadenas).ToArray();
             imagenesLocal = textos.SkipWhile(linea => linea != idioma).Skip(3 + numCadenas).Take(numImagenes).ToArray();
-
             ErrorIdioma = textosLocal[15];
             numIdiomas = Convert.ToInt32(textos[0]);
             //textosLocal = 
+            _spotify = new Spotify();
+            
+            
             for (int i = 0; i < idGeneros.Length; i++)
             {
                 if (idGeneros[i] == "")
