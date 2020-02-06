@@ -51,6 +51,7 @@ namespace aplicacion_musica
             duracionSeleccionada.Text = Programa.textosLocal[29] + ": 00:00:00";
             Controls.Add(barraAbajo);
         }
+        public void Refrescar() { cargarVista(); }
         private void cargarVista()
         {
             ListViewItem[] items = new ListViewItem[Programa.miColeccion.albumes.Count];
@@ -380,8 +381,8 @@ namespace aplicacion_musica
             try
             {
                 busquedaSpotify b = new busquedaSpotify();
-                b.ShowDialog();
-                Programa._spotify.buscarAlbum(BusquedaSpotify);
+                if(b.ShowDialog() == DialogResult.No)
+                    Programa._spotify.buscarAlbum(BusquedaSpotify);
             }
             catch (NullReferenceException)
             {
