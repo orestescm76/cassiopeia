@@ -3,25 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-using System.Diagnostics;
-using System.Net;
-using SpotifyAPI.Web;
-/*VERSIÓN 1.2 TODO:
- *  ---cambios
- *  perfilado el visualizar y cambiada tipografia
- *  al editar si cancelas vuelve a aparecer la ventana
- *  columnas con tamaño estándar aunque no haya discos
- *  soporte para portapapeles, copia y pega tus albumes con fashion
- *  ahora los albumes se guardan en función de como se ven en la lista principal
- *  nuevos generos
- *  duraccion seleccionada en el visualizado del álbum
- *  arreglado el no reconocimiento de ficheros *.jpeg
- *  añadidas las canciones con varias partes
- *  añadido un menú para generar un álbum
- *  ---1.2.1
- *  arreglado un bug con canciones largas
- *  nuevos textos porque no los he puesto xd
- *  arreglado el editar cancion porque :-)
+/*VERSION 1.3.1
+ * 
+ * 
  */
 namespace aplicacion_musica
 {
@@ -39,7 +23,7 @@ namespace aplicacion_musica
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.3";
+        public static readonly string version = "1.3.0.1";
         public static string ErrorIdioma;
         public static Spotify _spotify;
         private static readonly int ultimaCadena = 47;

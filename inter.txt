@@ -79,7 +79,7 @@ Salir
 1
 ./iconosBanderas/esp.png
 [CAT] Català
-65
+75
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -126,6 +126,7 @@ Error descarregant la imatge
 Cerca
 Resultats de la recerca
 No has posat res al formulari, abortant...
+Acerca de 
 Música clàssica
 Rock dur
 Rock progressiu
@@ -157,7 +158,7 @@ Sortir
 1
 ./iconosBanderas/cat.png
 [EN] English
-65
+75
 Music manager
 File
 Change language
@@ -195,6 +196,16 @@ Generate a random album
 Is it long?
 Configures the form to create a song with many parts.
 Number of parts
+Search in Spotify
+Enter your search term (max 20 results)
+About 
+resuls have been found
+Select the album you want to add and press "Add"
+Error downloading the album cover
+Search
+Search results
+The search term is empty, aborting...
+About
 Classical music
 Hard rock
 Progressive rock
