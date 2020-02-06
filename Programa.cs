@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-
-/*VERSIÓN 1.3
- * integración con spotify, agrega los discos instantáneamente
- * ventana de Acerca De
+ /*VERSIÓN 1.3.0.1
 
  */
 namespace aplicacion_musica
@@ -25,7 +22,7 @@ namespace aplicacion_musica
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.3";
+        public static readonly string version = "1.3.0.1";
         public static string ErrorIdioma;
         public static Spotify _spotify;
         private static readonly int ultimaCadena = 47;
