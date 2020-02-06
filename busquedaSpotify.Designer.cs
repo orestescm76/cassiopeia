@@ -32,6 +32,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buscarButton = new System.Windows.Forms.Button();
             this.labelBusqueda = new System.Windows.Forms.Label();
+            this.textBoxURISpotify = new System.Windows.Forms.TextBox();
+            this.labelAlternativa = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -43,7 +45,7 @@
             // 
             // buscarButton
             // 
-            this.buscarButton.Location = new System.Drawing.Point(139, 84);
+            this.buscarButton.Location = new System.Drawing.Point(140, 125);
             this.buscarButton.Name = "buscarButton";
             this.buscarButton.Size = new System.Drawing.Size(75, 23);
             this.buscarButton.TabIndex = 1;
@@ -60,11 +62,29 @@
             this.labelBusqueda.TabIndex = 2;
             this.labelBusqueda.Text = "Introduce lo que vayas a buscar en Spotify (máx 20 resultados)";
             // 
+            // textBoxURISpotify
+            // 
+            this.textBoxURISpotify.Location = new System.Drawing.Point(12, 99);
+            this.textBoxURISpotify.Name = "textBoxURISpotify";
+            this.textBoxURISpotify.Size = new System.Drawing.Size(330, 20);
+            this.textBoxURISpotify.TabIndex = 3;
+            // 
+            // labelAlternativa
+            // 
+            this.labelAlternativa.AutoSize = true;
+            this.labelAlternativa.Location = new System.Drawing.Point(13, 83);
+            this.labelAlternativa.Name = "labelAlternativa";
+            this.labelAlternativa.Size = new System.Drawing.Size(60, 13);
+            this.labelAlternativa.TabIndex = 4;
+            this.labelAlternativa.Text = "o introduce";
+            // 
             // busquedaSpotify
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 119);
+            this.ClientSize = new System.Drawing.Size(368, 160);
+            this.Controls.Add(this.labelAlternativa);
+            this.Controls.Add(this.textBoxURISpotify);
             this.Controls.Add(this.labelBusqueda);
             this.Controls.Add(this.buscarButton);
             this.Controls.Add(this.textBox1);
@@ -82,5 +102,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button buscarButton;
         private System.Windows.Forms.Label labelBusqueda;
+        private System.Windows.Forms.TextBox textBoxURISpotify;
+        private System.Windows.Forms.Label labelAlternativa;
     }
 }

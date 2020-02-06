@@ -47,10 +47,14 @@ namespace aplicacion_musica
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            int cual = listViewResultadoBusqueda.Items.IndexOf(listViewResultadoBusqueda.SelectedItems[0]);//la imagen tiene url
-            SimpleAlbum temp = listaBusqueda[cual];
-            Programa._spotify.procesarAlbum(temp);
-            DialogResult= DialogResult.OK;
+            for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
+            {
+                int cual = listViewResultadoBusqueda.Items.IndexOf(listViewResultadoBusqueda.SelectedItems[i]);//la imagen tiene url
+                SimpleAlbum temp = listaBusqueda[cual];
+                Programa._spotify.procesarAlbum(temp);
+            }
+            DialogResult = DialogResult.OK; //quiza molaria una pantallatita de carga
+            Programa.refrescarVista();
             Dispose();
         }
     }

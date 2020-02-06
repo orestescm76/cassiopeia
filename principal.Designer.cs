@@ -41,6 +41,7 @@
             this.adminMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.generarAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.vistaAlbumes = new System.Windows.Forms.ListView();
             this.artista = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -51,7 +52,6 @@
             this.refrescarButton = new System.Windows.Forms.Button();
             this.banderaImageBox = new System.Windows.Forms.PictureBox();
             this.borrarButton = new System.Windows.Forms.Button();
-            this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.banderaImageBox)).BeginInit();
             this.SuspendLayout();
@@ -154,6 +154,13 @@
             this.opcionesToolStripMenuItem.Size = new System.Drawing.Size(110, 20);
             this.opcionesToolStripMenuItem.Text = "opcionesIdioma2";
             // 
+            // acercaDeToolStripMenuItem
+            // 
+            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
+            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.acercaDeToolStripMenuItem.Text = "acercaDe";
+            this.acercaDeToolStripMenuItem.Click += new System.EventHandler(this.acercaDeToolStripMenuItem_Click);
+            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
@@ -233,13 +240,6 @@
             this.borrarButton.Text = "borrar";
             this.borrarButton.UseVisualStyleBackColor = true;
             this.borrarButton.Click += new System.EventHandler(this.borrarButton_Click);
-            // 
-            // acercaDeToolStripMenuItem
-            // 
-            this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
-            this.acercaDeToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
-            this.acercaDeToolStripMenuItem.Text = "acercaDe";
-            this.acercaDeToolStripMenuItem.Click += new System.EventHandler(this.acercaDeToolStripMenuItem_Click);
             // 
             // principal
             // 
