@@ -18,16 +18,43 @@ namespace aplicacion_musica
             Text = Programa.textosLocal[37];
             labelBusqueda.Text = Programa.textosLocal[38];
             buscarButton.Text = Programa.textosLocal[25];
+            labelAlternativa.Text = Programa.textosLocal[47] + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            principal.BusquedaSpotify = textBox1.Text;
-            if (textBox1.Text is null)
+            try
             {
-                throw new NullReferenceException();
+                if (textBoxURISpotify.Text is "" && textBox1.Text != "")
+                {
+                    textBoxURISpotify.Text = "";
+                    principal.BusquedaSpotify = textBox1.Text;
+                    DialogResult = DialogResult.No;
+                    Dispose();
+                }
+                else if (textBox1.Text is "" && textBoxURISpotify.Text is "")
+                {
+                    throw new NullReferenceException();
+                }
+                else
+                {
+                    String[] uri = textBoxURISpotify.Text.Split(':');
+                    if (uri[1] != "album")
+                        throw new ArgumentException();
+                    Programa._spotify.insertarAlbumFromURI(uri[2]);
+                    DialogResult = DialogResult.Yes;
+                    Dispose();
+                }
             }
-            Dispose();
+            catch (IndexOutOfRangeException)
+            {
+                MessageBox.Show(Programa.textosLocal[48] + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
+            }
+            catch(ArgumentException)
+            {
+                MessageBox.Show(Programa.textosLocal[48] + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
+
+            }
         }
     }
 }

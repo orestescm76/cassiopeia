@@ -1,6 +1,6 @@
 3
 [ES] Español
-75
+77
 Gestor de música
 Archivo
 Cambiar de idioma 
@@ -48,6 +48,8 @@ Buscar
 Resultado de la búsqueda
 No has puesto nada en el formulario, abortando...
 Acerca de
+O introduce la URI
+URI inválido, asegúrate que tenga el formato
 Música clásica
 Rock duro
 Rock progresivo
@@ -79,7 +81,7 @@ Salir
 1
 ./iconosBanderas/esp.png
 [CAT] Català
-65
+77
 Gestor de música
 Fitxer
 Canviar d'idioma
@@ -126,6 +128,9 @@ Error descarregant la imatge
 Cerca
 Resultats de la recerca
 No has posat res al formulari, abortant...
+Acerca de 
+O introdueix la URI
+URI invàlid, assegura't que tingui el format
 Música clàssica
 Rock dur
 Rock progressiu
@@ -157,7 +162,7 @@ Sortir
 1
 ./iconosBanderas/cat.png
 [EN] English
-65
+77
 Music manager
 File
 Change language
@@ -195,6 +200,18 @@ Generate a random album
 Is it long?
 Configures the form to create a song with many parts.
 Number of parts
+Search in Spotify
+Enter your search term (max 20 results)
+About 
+resuls have been found
+Select the album you want to add and press "Add"
+Error downloading the album cover
+Search
+Search results
+The search term is empty, aborting...
+About
+Or enter Spotify URI
+Invalid URI, make sure it has the format
 Classical music
 Hard rock
 Progressive rock

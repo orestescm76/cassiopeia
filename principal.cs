@@ -51,6 +51,7 @@ namespace aplicacion_musica
             duracionSeleccionada.Text = Programa.textosLocal[29] + ": 00:00:00";
             Controls.Add(barraAbajo);
         }
+        public void Refrescar() { cargarVista(); }
         private void cargarVista()
         {
             ListViewItem[] items = new ListViewItem[Programa.miColeccion.albumes.Count];
@@ -80,6 +81,7 @@ namespace aplicacion_musica
                 vistaAlbumes.Columns[2].Text = Programa.textosLocal[6];
                 vistaAlbumes.Columns[3].Text = Programa.textosLocal[17];
                 vistaAlbumes.Columns[4].Text = Programa.textosLocal[8];
+                buscarEnSpotifyToolStripMenuItem.Text = Programa.textosLocal[37];
                 refrescarButton.Text = Programa.textosLocal[18];
                 borrarButton.Text = Programa.textosLocal[28];
                 banderaImageBox.ImageLocation = Programa.imagenesLocal.First();
@@ -379,8 +381,8 @@ namespace aplicacion_musica
             try
             {
                 busquedaSpotify b = new busquedaSpotify();
-                b.ShowDialog();
-                Programa._spotify.buscarAlbum(BusquedaSpotify);
+                if(b.ShowDialog() == DialogResult.No)
+                    Programa._spotify.buscarAlbum(BusquedaSpotify);
             }
             catch (NullReferenceException)
             {
