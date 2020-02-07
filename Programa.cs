@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 /*VERSION 1.3.1
  * implementar busqueda con varios albumes
  * implementar busqueda por ID
@@ -23,13 +24,15 @@ namespace aplicacion_musica
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
-        public static readonly string version = "1.3.1 (build de desarrollo)";
+        private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
+        public static readonly string version = ver.Major + "." + ver.Minor + "." +ver.MajorRevision+"."+ ver.Revision;
         public static string ErrorIdioma;
         public static Spotify _spotify;
         private static readonly int ultimaCadena = 49;
         private static principal principal;
         public static void cambiarIdioma(String idioma)
         {
+
             string idiomatemp = Programa.idioma;
             try
             {
