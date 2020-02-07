@@ -4,9 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
-/*VERSION 1.3.1
- * implementar busqueda con varios albumes
- * implementar busqueda por ID
+/*VERSION 1.4.X - FEATURE DISCO COMPACTO
+ * 
  */
 namespace aplicacion_musica
 {
@@ -25,7 +24,7 @@ namespace aplicacion_musica
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-        public static readonly string version = ver.Major + "." + ver.Minor + "." +ver.MajorRevision+"."+ ver.Revision;
+        public static readonly string version = ver.Major + "." + ver.Minor + "." +ver.Build+"."+ ver.Revision + "  (build Disco Compacto)"; 
         public static string ErrorIdioma;
         public static Spotify _spotify;
         private static readonly int ultimaCadena = 49;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Globalization;
 namespace aplicacion_musica
 {
     class Disco : Album
@@ -34,5 +34,9 @@ namespace aplicacion_musica
         /// Año cuando salió la copia
         /// </summary>
         public short YearRelease {get;set;}
+        /// <summary>
+        /// País de publicación del medio, puede ser desconocido
+        /// </summary>
+        public RegionInfo PaisPublicacion { get; set; }
     }
 }

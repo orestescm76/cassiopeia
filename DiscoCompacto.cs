@@ -8,5 +8,12 @@ namespace aplicacion_musica
 {
     class DiscoCompacto
     {
+        /// <summary>
+        /// Especifica el tipo de CD
+        /// </summary>
+        public enum Formato
+        {
+            Jewel, Digipack, None
+        }
     }
 }
