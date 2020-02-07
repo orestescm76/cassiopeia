@@ -3,14 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-<<<<<<< HEAD
- /*VERSIÓN 1.3.0.1
-
-=======
-/*VERSION 1.3.1
- * implementar busqueda con varios albumes
- * implementar busqueda por ID
->>>>>>> release1.3
+ /*VERSIÓN 1.3.1
+  * se pueden agregar varios discos a la vez
+  * agregar discos via uri de spotify
  */
 namespace aplicacion_musica
 {
