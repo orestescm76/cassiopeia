@@ -16,7 +16,7 @@ namespace aplicacion_musica
         {
             InitializeComponent();
             labelAcercaDe.Text = labelAcercaDe.Text.Replace("{ver}", Programa.version);
-            Text = Programa.textosLocal[46] + " " + Programa.textosLocal[0] + " " + Programa.version;
+            Text = Programa.textosLocal.GetString("acerca") + " " + Programa.textosLocal.GetString("titulo_ventana_principal") + " " + Programa.version;
         }
     }
 }

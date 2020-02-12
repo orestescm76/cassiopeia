@@ -15,24 +15,24 @@ namespace aplicacion_musica
         public busquedaSpotify()
         {
             InitializeComponent();
-            Text = Programa.textosLocal[37];
-            labelBusqueda.Text = Programa.textosLocal[38];
-            buscarButton.Text = Programa.textosLocal[25];
-            labelAlternativa.Text = Programa.textosLocal[47] + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
+            Text = Programa.textosLocal.GetString("buscar_Spotify");
+            labelBusqueda.Text = Programa.textosLocal.GetString("busqueda_Spotify");
+            buscarButton.Text = Programa.textosLocal.GetString("buscar");
+            labelAlternativa.Text = Programa.textosLocal.GetString("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-                if (textBoxURISpotify.Text is "" && textBox1.Text != "")
+                if (textBoxURISpotify.Text == "" && textBox1.Text != "")
                 {
                     textBoxURISpotify.Text = "";
                     principal.BusquedaSpotify = textBox1.Text;
                     DialogResult = DialogResult.No;
                     Dispose();
                 }
-                else if (textBox1.Text is "" && textBoxURISpotify.Text is "")
+                else if (textBox1.Text == "" && textBoxURISpotify.Text == "")
                 {
                     throw new NullReferenceException();
                 }
@@ -48,11 +48,11 @@ namespace aplicacion_musica
             }
             catch (IndexOutOfRangeException)
             {
-                MessageBox.Show(Programa.textosLocal[48] + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
+                MessageBox.Show(Programa.textosLocal.GetString("error_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
             }
             catch(ArgumentException)
             {
-                MessageBox.Show(Programa.textosLocal[48] + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
+                MessageBox.Show(Programa.textosLocal.GetString("error_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
 
             }
         }

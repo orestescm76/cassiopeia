@@ -17,15 +17,15 @@ namespace aplicacion_musica
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal[3];
-            labelArtista.Text = Programa.textosLocal[4];
-            labelTitulo.Text = Programa.textosLocal[5];
-            labelAño.Text = Programa.textosLocal[6];
-            labelNumCanciones.Text = Programa.textosLocal[7];
-            labelGenero.Text = Programa.textosLocal[8];
-            add.Text = Programa.textosLocal[9];
-            addCaratula.Text = Programa.textosLocal[25];
-            labelCaratula.Text = Programa.textosLocal[24];
+            Text = Programa.textosLocal.GetString("agregar_album");
+            labelArtista.Text = Programa.textosLocal.GetString("artista");
+            labelTitulo.Text = Programa.textosLocal.GetString("titulo");
+            labelAño.Text = Programa.textosLocal.GetString("año");
+            labelNumCanciones.Text = Programa.textosLocal.GetString("num_canciones");
+            labelGenero.Text = Programa.textosLocal.GetString("genero");
+            add.Text = Programa.textosLocal.GetString("añadir");
+            addCaratula.Text = Programa.textosLocal.GetString("addcaratula");
+            labelCaratula.Text = Programa.textosLocal.GetString("caratula");
                 //TODO rediseñar sistema generos, ponerlo como ultimos string.
             for (int i = 0; i < Programa.generos.Length-1; i++)
             {
@@ -53,7 +53,7 @@ namespace aplicacion_musica
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Programa.textosLocal[1] + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
@@ -105,12 +105,12 @@ namespace aplicacion_musica
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show(Programa.textosLocal[23]);
+                MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
             }
 
             catch (FormatException)
             {
-                MessageBox.Show(Programa.textosLocal[22]);
+                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
                 //throw;
             }
 

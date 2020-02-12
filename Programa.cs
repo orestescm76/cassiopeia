@@ -4,22 +4,18 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
-/*VERSION 1.3.1
- * implementar busqueda con varios albumes
- * implementar busqueda por ID
- */
+using System.Resources;
+using System.Collections;
+using System.Globalization;
+/*VERSION 1.4.x
+* rework idioma (por fin)
+* 
+*/
 namespace aplicacion_musica
 {
     static class Programa
     {
-        
-        static String[] textos; //carga TODOS los textos
-        public static String[] textosLocal;
-        public static String[] imagenesLocal;
-        public static List<String> codigosIdiomas;
-        public static List<int> idiomasIndices;
-        public static int numIdiomas;
-        public static String idioma;
+        public static ResXResourceSet textosLocal;
         public static String[] idGeneros = {"clasica", "hardrock", "rockprog", "progmetal", "rockpsicodelico", "heavymetal", "blackmetal", "electronica", "postrock", "indierock",
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
         public static Coleccion miColeccion;
@@ -28,32 +24,31 @@ namespace aplicacion_musica
         public static readonly string version = ver.Major + "." + ver.Minor + "." +ver.MajorRevision+"."+ ver.Revision;
         public static string ErrorIdioma;
         public static Spotify _spotify;
-        private static readonly int ultimaCadena = 49;
         private static principal principal;
-        public static void cambiarIdioma(String idioma)
-        {
-
-            string idiomatemp = Programa.idioma;
-            try
-            {
-                Programa.idioma = idioma;
-                int numCadenas = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(1).First());
-                int numImagenes = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(2 + numCadenas).First());
-                String[] textosLocalNou = textos.SkipWhile(linea => linea != idioma).Skip(2).Take(numCadenas).ToArray();
-                if (textosLocalNou.Length != textosLocal.Length)
-                    throw new IndexOutOfRangeException();
-                ErrorIdioma = textosLocalNou[15];
-                String[] imagenesNuevas = textos.SkipWhile(linea => linea != idioma).Skip(3 + numCadenas).Take(numImagenes).ToArray();
-                imagenesLocal = imagenesNuevas;
-                textosLocal = textosLocalNou;
-                refrescarGeneros();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(ErrorIdioma);
-                Programa.idioma = idiomatemp;
-            }
-        }
+        public static string Idioma;
+        //public static void cambiarIdioma(String idioma)
+        //{
+        //    string idiomatemp = Programa.idioma;
+        //    try
+        //    {
+        //        Programa.idioma = idioma;
+        //        int numCadenas = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(1).First());
+        //        int numImagenes = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(2 + numCadenas).First());
+        //        String[] textosLocalNou = textos.SkipWhile(linea => linea != idioma).Skip(2).Take(numCadenas).ToArray();
+        //        if (textosLocalNou.Length != textosLocal.Length)
+        //            throw new IndexOutOfRangeException();
+        //        ErrorIdioma = textosLocalNou[15];
+        //        String[] imagenesNuevas = textos.SkipWhile(linea => linea != idioma).Skip(3 + numCadenas).Take(numImagenes).ToArray();
+        //        imagenesLocal = imagenesNuevas;
+        //        textosLocal = textosLocalNou;
+        //        refrescarGeneros();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        MessageBox.Show(ErrorIdioma);
+        //        Programa.idioma = idiomatemp;
+        //    }
+        //}
         public static void refrescarVista()
         {
             principal.Refrescar();
@@ -80,30 +75,21 @@ namespace aplicacion_musica
         {
             for (int i = 0; i < generos.Length-1; i++)
             {
-                generos[i].traducido = textosLocal[i + ultimaCadena];
+                generos[i].traducido = textosLocal.GetString("genero_" + generos[i].Id);
             }
         }
         [STAThread]
         static void Main(String[] args)
         {
+            textosLocal = new ResXResourceSet(@"./idiomas/es.resx");
+            Idioma = "es"; //provisional
+
             miColeccion = new Coleccion();
-            textos = File.ReadAllLines("inter.txt");
-            if (File.Exists("idioma.cfg"))
-                idioma = File.ReadAllLines("idioma.cfg")[0];
-            else
-                idioma = textos[1]; //tiene que haber minimo un idioma
+            //if (File.Exists("idioma.cfg"))
+            //    idioma = File.ReadAllLines("idioma.cfg")[0];
+            //else
+            //    idioma = textos[1]; //tiene que haber minimo un idioma
             //idioma = textos[1];
-            codigosIdiomas = new List<string>();
-            //codigosIdiomas.Add(idioma);
-            idiomasIndices = new List<int>();
-            //idiomasIndices.Add(1);
-            int numCadenas = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(1).First());
-            int numImagenes = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(2 + numCadenas).First());
-            textosLocal = textos.SkipWhile(linea => linea != idioma).Skip(2).Take(numCadenas).ToArray();
-            imagenesLocal = textos.SkipWhile(linea => linea != idioma).Skip(3 + numCadenas).Take(numImagenes).ToArray();
-            ErrorIdioma = textosLocal[15];
-            numIdiomas = Convert.ToInt32(textos[0]);
-            //textosLocal = 
             _spotify = new Spotify();
             
             
@@ -117,22 +103,16 @@ namespace aplicacion_musica
                 else
                 {
                     generos[i] = new Genero(idGeneros[i]);
-                    generos[i].setTraduccion(textosLocal[i + ultimaCadena]);
+                    generos[i].setTraduccion(textosLocal.GetString("genero_"+generos[i].Id));
                 }
-            }
-            int cadenas = textosLocal.Length + numImagenes + 3;
-            for (int i = 0; i < numIdiomas; i++)
-            {
-                codigosIdiomas.Add(textos[(2 + i * cadenas)-1]);
-                idiomasIndices.Add((2 + i * cadenas) - 1);
             }
             if (File.Exists("discos.mdb"))
             {
                 if (args.Length != 0 && args.Contains("-preguntar"))//cambiar parametro para cargar otro fichero
                 {
-                    DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
-                    if (resultado == DialogResult.Yes)
-                        Programa.miColeccion.cargarAlbumes("discos.mdb");
+                    ////DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
+                    //if (resultado == DialogResult.Yes)
+                    //    Programa.miColeccion.cargarAlbumes("discos.mdb");
                 }
                 else Programa.miColeccion.cargarAlbumes("discos.mdb");
             }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace aplicacion_musica
 {
-    class Disco : Album
+    public class Disco
     {
         /// <summary>
         /// Estado del medio según el estado Goldmine
@@ -15,8 +15,8 @@ namespace aplicacion_musica
         {
             ///<summary>Mint</summary>
             M,
-            ///<summary>Near Mint</summary>
-            NMinus,
+            ///<summary>Mint- o NearMint</summary>
+            NMint,
             ///<summary>Very Good +</summary>
             VGPlus,
             ///<summary>Very Good</summary>
@@ -34,5 +34,9 @@ namespace aplicacion_musica
         /// Año cuando salió la copia
         /// </summary>
         public short YearRelease {get;set;}
+        /// <summary>
+        /// Número de canciones del disco
+        /// </summary>
+        public short NumCanciones { get; set; }
     }
 }

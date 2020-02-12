@@ -23,15 +23,15 @@ namespace aplicacion_musica
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal[27] + " " + albumAEditar.artista + " - " + albumAEditar.nombre;
-            labelArtista.Text = Programa.textosLocal[4];
-            labelTitulo.Text = Programa.textosLocal[5];
-            labelAño.Text = Programa.textosLocal[6];
-            labelGeneros.Text = Programa.textosLocal[8];
-            labelCaratula.Text = Programa.textosLocal[26];
-            botonOkDoomer.Text = Programa.textosLocal[21];
-            botonCancelar.Text = Programa.textosLocal[11];
-            botonCaratula.Text = Programa.textosLocal[25];
+            Text = Programa.textosLocal.GetString("editando") + " " + albumAEditar.artista + " - " + albumAEditar.nombre;
+            labelArtista.Text = Programa.textosLocal.GetString("artista");
+            labelTitulo.Text = Programa.textosLocal.GetString("titulo");
+            labelAño.Text = Programa.textosLocal.GetString("año");
+            labelGeneros.Text = Programa.textosLocal.GetString("genero");
+            labelCaratula.Text = Programa.textosLocal.GetString("caratula");
+            botonOkDoomer.Text = Programa.textosLocal.GetString("hecho");
+            botonCancelar.Text = Programa.textosLocal.GetString("cancelar");
+            botonCaratula.Text = Programa.textosLocal.GetString("buscar");
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
                 generosTraducidos[i] = Programa.generos[i].traducido;
@@ -74,12 +74,12 @@ namespace aplicacion_musica
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show(Programa.textosLocal[23]);
+                MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
             }
 
             catch (FormatException)
             {
-                MessageBox.Show(Programa.textosLocal[22]);
+                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
                 //throw;
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
@@ -97,7 +97,7 @@ namespace aplicacion_musica
         private void botonCaratula_Click(object sender, EventArgs e)
         {
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Programa.textosLocal[1] + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
