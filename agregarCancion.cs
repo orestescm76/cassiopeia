@@ -25,7 +25,7 @@ namespace aplicacion_musica
             cancionlarga = null;
             np = 0;
             ConsejoEsLarga = new ToolTip();
-            ConsejoEsLarga.SetToolTip(esLarga, Programa.textosLocal[35]);
+            ConsejoEsLarga.SetToolTip(esLarga, Programa.textosLocal.GetString("ayuda_larga"));
             ponerTextos();
         }
         public agregarCancion(ref Cancion c)
@@ -79,24 +79,24 @@ namespace aplicacion_musica
 
             if(editar)
             {
-                Text = Programa.textosLocal[27] + " " + cancion.titulo;
-                button1.Text = Programa.textosLocal[21];
+                Text = Programa.textosLocal.GetString("editando") + " " + cancion.titulo;
+                buttonOK.Text = Programa.textosLocal.GetString("hecho");
             }
 
             else
             {
-                Text = Programa.textosLocal[10] + " " + cualdeVerdad;
-                button1.Text = Programa.textosLocal[9];
+                Text = Programa.textosLocal.GetString("añadir_cancion") + " " + cualdeVerdad;
+                buttonOK.Text = Programa.textosLocal.GetString("hecho");
             }
             if(cancionlarga != null)
             {
-                Text = Programa.textosLocal[10] + " " + cancionlarga.GetNumeroRomano(cual);
+                Text = Programa.textosLocal.GetString("añadir_cancion") + " " + cancionlarga.GetNumeroRomano(cual);
             }
-            button2.Text = Programa.textosLocal[11];
-            labelTituloCancion.Text = Programa.textosLocal[12];
-            labelMinutosSegundos.Text = Programa.textosLocal[13];
-            esLarga.Text = Programa.textosLocal[34];
-            labelNumPartes.Text = Programa.textosLocal[36];
+            buttonCancelar.Text = Programa.textosLocal.GetString("cancelar");
+            labelTituloCancion.Text = Programa.textosLocal.GetString("introduce_cancion");
+            labelMinutosSegundos.Text = Programa.textosLocal.GetString("min:sec");
+            esLarga.Text = Programa.textosLocal.GetString("esLarga");
+            labelNumPartes.Text = Programa.textosLocal.GetString("num_partes");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -141,7 +141,7 @@ namespace aplicacion_musica
                             DialogResult = DialogResult.OK;
                     }
                 }
-                else if(cancionlarga != null && larga is true)//parte de una cancion normal
+                else if(cancionlarga != null && larga == true)//parte de una cancion normal
                 {
                     t = tituloTextBox.Text;
                     min = Convert.ToInt32(minTextBox.Text);
@@ -157,12 +157,12 @@ namespace aplicacion_musica
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show(Programa.textosLocal[23]);
+                MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
             }
 
             catch (FormatException)
             {
-                MessageBox.Show(Programa.textosLocal[22]);
+                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
                 //throw;
             }
 

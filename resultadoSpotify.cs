@@ -18,16 +18,16 @@ namespace aplicacion_musica
         public resultadoSpotify(ref List<SimpleAlbum> l)
         {
             InitializeComponent();
-            Text = Programa.textosLocal[44];
-            labelAyuda.Text = Programa.textosLocal[41];
-            labelResultado.Text = Programa.textosLocal[39] + l.Count + " " + Programa.textosLocal[40];
+            Text = Programa.textosLocal.GetString("resultado_busqueda");
+            labelAyuda.Text = Programa.textosLocal.GetString("ayudaAñadir");
+            labelResultado.Text = Programa.textosLocal.GetString("seHanEncontrado") + l.Count + " " + Programa.textosLocal.GetString("resultados");
             listaBusqueda = l;
-            listViewResultadoBusqueda.Columns[1].Text = Programa.textosLocal[4];
-            listViewResultadoBusqueda.Columns[2].Text = Programa.textosLocal[5];
-            listViewResultadoBusqueda.Columns[3].Text = Programa.textosLocal[6];
-            listViewResultadoBusqueda.Columns[4].Text = Programa.textosLocal[7];
-            buttonCancelar.Text = Programa.textosLocal[11];
-            buttonOK.Text = Programa.textosLocal[9];
+            listViewResultadoBusqueda.Columns[1].Text = Programa.textosLocal.GetString("artista");
+            listViewResultadoBusqueda.Columns[2].Text = Programa.textosLocal.GetString("titulo");
+            listViewResultadoBusqueda.Columns[3].Text = Programa.textosLocal.GetString("año");
+            listViewResultadoBusqueda.Columns[4].Text = Programa.textosLocal.GetString("numcanciones");
+            buttonCancelar.Text = Programa.textosLocal.GetString("cancelar");
+            buttonOK.Text = Programa.textosLocal.GetString("añadir");
             int n = 1;
             foreach(SimpleAlbum a in listaBusqueda)
             {

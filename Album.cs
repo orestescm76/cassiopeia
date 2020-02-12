@@ -79,5 +79,6 @@ namespace aplicacion_musica
         public String caratula { get; set; }
         public Genero genero { get; set; }
         public Cancion getCancion(int n) { return canciones[n]; }
+        public Disco[] Discos { get; set; }
     }
 }

@@ -15,11 +15,11 @@ namespace aplicacion_musica
             InitializeComponent();
             albumAVisualizar = a;
 
-            infoAlbum.Text = Programa.textosLocal[4] + ": " + a.artista + Environment.NewLine +
-                Programa.textosLocal[5] + ": " + a.nombre + Environment.NewLine +
-                Programa.textosLocal[6] + ": " + a.year + Environment.NewLine +
-                Programa.textosLocal[17] + ": " + a.duracion.ToString() + Environment.NewLine +
-                Programa.textosLocal[8] + ": " + a.genero.traducido + Environment.NewLine;
+            infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + a.artista + Environment.NewLine +
+                Programa.textosLocal.GetString("titulo") + ": " + a.nombre + Environment.NewLine +
+                Programa.textosLocal.GetString("año") + ": " + a.year + Environment.NewLine +
+                Programa.textosLocal.GetString("duracion") + ": " + a.duracion.ToString() + Environment.NewLine +
+                Programa.textosLocal.GetString("genero") + ": " + a.genero.traducido + Environment.NewLine;
             if (a.caratula != "")
             {
                 Image caratula = Image.FromFile(a.caratula);
@@ -44,13 +44,13 @@ namespace aplicacion_musica
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal[19] + " " + albumAVisualizar.artista + " - " + albumAVisualizar.nombre;
+            Text = Programa.textosLocal.GetString("visualizando") + " " + albumAVisualizar.artista + " - " + albumAVisualizar.nombre;
             vistaCanciones.Columns[0].Text = "#";
-            vistaCanciones.Columns[1].Text = Programa.textosLocal[5];
-            vistaCanciones.Columns[2].Text = Programa.textosLocal[17];
-            okDoomerButton.Text = Programa.textosLocal[21];
-            editarButton.Text = Programa.textosLocal[20];
-            duracionSeleccionada.Text = Programa.textosLocal[29] + ": 00:00:00";
+            vistaCanciones.Columns[1].Text = Programa.textosLocal.GetString("titulo");
+            vistaCanciones.Columns[2].Text = Programa.textosLocal.GetString("duracion");
+            okDoomerButton.Text = Programa.textosLocal.GetString("hecho");
+            editarButton.Text = Programa.textosLocal.GetString("editar");
+            duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": 00:00:00";
         }
         private void cargarVista()
         {
@@ -63,7 +63,7 @@ namespace aplicacion_musica
                 datos[0] = (i + 1).ToString();
                 c.toStringArray().CopyTo(datos,1);
                 items[i] = new ListViewItem(datos);
-                if (c is CancionLarga cl)
+                if ((CancionLarga)c)
                 {
                     items[i].BackColor = Color.LightSalmon;
                 }
@@ -116,14 +116,14 @@ namespace aplicacion_musica
                 Cancion can = albumAVisualizar.getCancion(c);
                 seleccion += can.duracion;
             }
-            duracionSeleccionada.Text = Programa.textosLocal[29] + ": " + seleccion.ToString();
+            duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": " + seleccion.ToString();
         }
 
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int n = Convert.ToInt32(vistaCanciones.SelectedItems[0].SubItems[0].Text);
             Cancion c = albumAVisualizar.getCancion(n-1);
-            if(c is CancionLarga cl)
+            if((CancionLarga)c)
             {
                 string infoDetallada = "";
                 for (int i = 0; i < cl.Partes.Count; i++)
