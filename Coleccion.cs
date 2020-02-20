@@ -2,81 +2,26 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace aplicacion_musica
 {
     class Coleccion
     {
         public List<Album> albumes { get; private set; }
+        public List<DiscoCompacto> cds { get; private set; }
         public Coleccion()
         {
             albumes = new List<Album>();
-        }
-        public void cargarAlbumes(string fichero)
-        {
-            using(StreamReader lector = new StreamReader(fichero))
-            {
-                string linea;
-                while(!lector.EndOfStream)
-                {
-                    linea = lector.ReadLine();
-                    while (linea == "") linea = lector.ReadLine();
-                    if (linea == null) continue; //si no hay nada tu sigue, que hemos llegado al final del fichero, después del nulo porque siempre al terminar un disco pongo línea nueva.
-                    string[] datos = linea.Split(';');
-                    short nC = Convert.ToInt16(datos[3]);
-                    int gen = Programa.findGenero(datos[4]);
-                    Genero g = Programa.generos[gen];
-                    if (datos[5] == null) datos[5] = "";
-                    Album a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
-                    bool exito = false;
-                    for (int i = 0; i < nC; i++)
-                    {
-                        exito = false;
-                        linea = lector.ReadLine();
-                        if(linea == null || linea == "")
-                        {
-                            /*System.Windows.Forms.MessageBox.Show("mensajeError"+Environment.NewLine
-                                + a.nombre + " - " + a.nombre + Environment.NewLine
-                                + "saltarAlSiguiente", "error", System.Windows.Forms.MessageBoxButtons.OK);*/
-                            break; //no sigue cargando el álbum
-                        }
-                        else
-                        {
-                            exito = true;
-                            string[] datosCancion = linea.Split(';');
-                            if(datosCancion.Length == 3)
-                            {
-                                Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])), ref a);
-                                a.agregarCancion(c, i);
-                            }
-                            else
-                            {
-                                CancionLarga cl = new CancionLarga(datosCancion[0], ref a);
-                                int np = Convert.ToInt32(datosCancion[1]);
-                                for (int j = 0; j < np; j++)
-                                {
-                                    linea = lector.ReadLine();
-                                    datosCancion = linea.Split(';');
-                                    Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])), ref a);
-                                    cl.addParte(ref c);
-                                }
-                                a.agregarCancion(cl, i);
-                            }
-
-                        }
-                    }
-                    if (estaEnColeccion(a))
-                    {
-                        exito = false; //pues ya está repetido.
-                        Debug.WriteLine("Repetido");
-                    }
-                    if(exito)
-                        Programa.miColeccion.agregarAlbum(ref a);
-                }
-            }
+            cds = new List<DiscoCompacto>();
         }
         public void agregarAlbum(ref Album a) { albumes.Add(a); }
         public void quitarAlbum(ref Album a) { albumes.Remove(a); }
+        /// <summary>
+        /// busca álbumes con un título en concreto
+        /// </summary>
+        /// <param name="titulo">título del álbum a buscar</param>
+        /// <returns>un array con los álbumes encontrados</returns>
         public Album[] buscarAlbum(string titulo)
         {
             Album[] encontrados = new Album[0];
@@ -96,6 +41,11 @@ namespace aplicacion_musica
             }
             return false;
         }
+        /// <summary>
+        /// busca un álbum con formato artista_titulo
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns>el álbum encontrado</returns>
         public Album devolverAlbum(string s)
         {
             String[] busqueda = s.Split('_');
@@ -106,10 +56,53 @@ namespace aplicacion_musica
             }
             return null;
         }
+        public void devolverAlbum(string s, out DiscoCompacto cd)
+        {
+            cd = null;
+            String[] busqueda = s.Split('_');
+            foreach (DiscoCompacto cdd in cds)
+            {
+                if (cdd.Album.artista == busqueda[0] && cdd.Album.nombre == busqueda[1])
+                    cd = cdd;
+            }
+        }
+        /// <summary>
+        /// cambia la lista
+        /// </summary>
+        /// <param name="n">la nueva lista de discos</param>
         public void cambiarLista(ref List<Album> n)
         {
             albumes = n;
         }
-
+        /// <summary>
+        /// limpia los discos
+        /// </summary>
+        public void BorrarTodo()
+        {
+            albumes.Clear();
+        }
+        public void AgregarCD(ref DiscoCompacto cd)
+        {
+            cds.Add(cd);
+        }
+        /// <summary>
+        /// devuelve un cd por id, tal vez habria que cambiar la EEDD
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public DiscoCompacto getCDById(string i)
+        {
+            DiscoCompacto busqueda = null;
+            for (int j = 0; j < cds.Count; j++)
+            {
+                if (i == cds[j].Id)
+                    busqueda = cds[j];
+            }
+            return busqueda;
+        }
+        public void BorrarCD(DiscoCompacto cd)
+        {
+            cds.Remove(cd);
+        }
     }
 }

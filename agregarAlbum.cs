@@ -5,9 +5,7 @@ namespace aplicacion_musica
 {
     public partial class agregarAlbum : Form
     {
-        private string titulo;
         private string caratula = "";
-        private int min, sec;
         private String[] generosTraducidos = new string[Programa.generos.Length-1];
         public agregarAlbum()
         {
@@ -21,7 +19,7 @@ namespace aplicacion_musica
             labelArtista.Text = Programa.textosLocal.GetString("artista");
             labelTitulo.Text = Programa.textosLocal.GetString("titulo");
             labelAño.Text = Programa.textosLocal.GetString("año");
-            labelNumCanciones.Text = Programa.textosLocal.GetString("num_canciones");
+            labelNumCanciones.Text = Programa.textosLocal.GetString("numcanciones");
             labelGenero.Text = Programa.textosLocal.GetString("genero");
             add.Text = Programa.textosLocal.GetString("añadir");
             addCaratula.Text = Programa.textosLocal.GetString("addcaratula");

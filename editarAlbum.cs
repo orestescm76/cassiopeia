@@ -68,7 +68,8 @@ namespace aplicacion_musica
                 TimeSpan nuevaDuracion = new TimeSpan();
                 foreach (Cancion c in albumAEditar.canciones)
                 {
-                    nuevaDuracion += c.duracion;
+                    if(!c.Bonus)
+                        nuevaDuracion += c.duracion;
                 }
                 albumAEditar.duracion = nuevaDuracion;
             }
@@ -83,6 +84,7 @@ namespace aplicacion_musica
                 //throw;
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
+            cargarVista();
             nuevo.Show();
             Close();
         }

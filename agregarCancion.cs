@@ -14,7 +14,8 @@ namespace aplicacion_musica
         bool editar;
         bool larga;
         ToolTip ConsejoEsLarga;
-        public agregarCancion(ref Album a, int n)
+        ToolTip ConsejoEsBonus;
+        public agregarCancion(ref Album a, int n) //caso normal
         {
             InitializeComponent();
             album = a;
@@ -26,9 +27,11 @@ namespace aplicacion_musica
             np = 0;
             ConsejoEsLarga = new ToolTip();
             ConsejoEsLarga.SetToolTip(esLarga, Programa.textosLocal.GetString("ayuda_larga"));
+            ConsejoEsBonus = new ToolTip();
+            ConsejoEsBonus.SetToolTip(checkBoxBonus, Programa.textosLocal.GetString("esBonusAyuda"));
             ponerTextos();
         }
-        public agregarCancion(ref Cancion c)
+        public agregarCancion(ref Cancion c) //editar
         {
             InitializeComponent();
             esLarga.Hide();
@@ -41,10 +44,14 @@ namespace aplicacion_musica
             esLarga.Hide();
             labelNumPartes.Hide();
             textBoxNumPartes.Hide();
+            ConsejoEsBonus = new ToolTip();
+            ConsejoEsBonus.SetToolTip(checkBoxBonus, Programa.textosLocal.GetString("esBonusAyuda"));
+            if (c.Bonus)
+                checkBoxBonus.Checked = true;
             np = 0;
             ponerTextos();
         }
-        public agregarCancion(ref Album a, int n, bool l)
+        public agregarCancion(ref Album a, int n, bool l) //crear canción larga
         {
             InitializeComponent();
             larga = l;
@@ -58,8 +65,9 @@ namespace aplicacion_musica
             secsTextBox.Hide();
             minTextBox.Hide();
             esLarga.Hide();
+            checkBoxBonus.Hide();
         }
-        public agregarCancion(ref CancionLarga l, int n, ref Album a)
+        public agregarCancion(ref CancionLarga l, int n, ref Album a) //crear parte de canción larga
         {
             InitializeComponent();
             cancionlarga = l;
@@ -71,6 +79,7 @@ namespace aplicacion_musica
             labelNumPartes.Hide();
             esLarga.Hide();
             np = 0;
+            checkBoxBonus.Hide();
             ponerTextos();
         }
         private void ponerTextos()
@@ -97,6 +106,7 @@ namespace aplicacion_musica
             labelMinutosSegundos.Text = Programa.textosLocal.GetString("min:sec");
             esLarga.Text = Programa.textosLocal.GetString("esLarga");
             labelNumPartes.Text = Programa.textosLocal.GetString("num_partes");
+            checkBoxBonus.Text = Programa.textosLocal.GetString("esBonus");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -109,10 +119,11 @@ namespace aplicacion_musica
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
                     t = tituloTextBox.Text;
-                    if (editar)
+                    if (editar) //si edita
                     {
                         cancion.titulo = t;
                         cancion.duracion = new TimeSpan(0, min, sec);
+                        cancion.Bonus = checkBoxBonus.Checked;
                         this.DialogResult = DialogResult.OK;
                         Close();
                     }

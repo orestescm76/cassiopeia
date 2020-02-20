@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Net.Http;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Models;
@@ -23,19 +23,45 @@ namespace aplicacion_musica
         }
         private async void iniciar()
         {
-            Token token = await _auth.GetToken();
-            _spotify = new SpotifyWebAPI()
+            try
             {
-                AccessToken = token.AccessToken,
-                TokenType = token.TokenType
-            };
+                Console.WriteLine("Intentando conectar a Spotify asíncronamente");
+                Programa.HayInternet(false);
+                Stopwatch crono = Stopwatch.StartNew();
+                Token token = await _auth.GetToken();
+                _spotify = new SpotifyWebAPI()
+                {
+                    AccessToken = token.AccessToken,
+                    TokenType = token.TokenType
+                };
+                Programa.HayInternet(true);
+                crono.Stop();
+                Console.WriteLine("Conectado sin errores en "+crono.ElapsedMilliseconds+"ms");
+            }
+            catch (NullReferenceException)
+            {
+                Programa.HayInternet(false);
+                Console.WriteLine("No tienes internet");
+                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+            }
+            catch (HttpRequestException)
+            {
+                Programa.HayInternet(false);
+                Console.WriteLine("No tienes internet");
+                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+            }
+
         }
 
         public void buscarAlbum(string a)
         {
+            Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a)");
+            Stopwatch crono = Stopwatch.StartNew();
             List<SimpleAlbum> item = _spotify.SearchItems(a, SpotifyAPI.Web.Enums.SearchType.Album).Albums.Items;
 
             resultadoSpotify res = new resultadoSpotify(ref item);
+            crono.Stop();
+            Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a) ha terminado en "+crono.ElapsedMilliseconds+"ms");
             res.ShowDialog();
             if (res.DialogResult == System.Windows.Forms.DialogResult.Cancel)
                 return;
@@ -48,9 +74,14 @@ namespace aplicacion_musica
         }
         public void insertarAlbumFromURI(string uri)
         {
+            Console.WriteLine("Insertando álbum con URI "+uri);
+            Stopwatch crono = Stopwatch.StartNew();
             FullAlbum sa = _spotify.GetAlbum(uri);
 
             procesarAlbum(sa);
+            crono.Stop();
+            Console.WriteLine("Añadido en "+crono.ElapsedMilliseconds+"ms");
+            Programa.refrescarVista();
         }
         public void procesarAlbum(SimpleAlbum album)
         {
@@ -70,6 +101,7 @@ namespace aplicacion_musica
                 }
                 catch (System.Net.WebException)
                 {
+                    Console.WriteLine("Excepción capturada System.Net.WebException");
                     System.Windows.Forms.MessageBox.Show("");
                     portada = "";
                 }

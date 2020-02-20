@@ -217,7 +217,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox artistaTextBox;
         private System.Windows.Forms.TextBox tituloTextBox;
         private System.Windows.Forms.TextBox yearTextBox;

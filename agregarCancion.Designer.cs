@@ -40,6 +40,7 @@
             this.esLarga = new System.Windows.Forms.Button();
             this.labelNumPartes = new System.Windows.Forms.Label();
             this.textBoxNumPartes = new System.Windows.Forms.TextBox();
+            this.checkBoxBonus = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // tituloTextBox
@@ -70,7 +71,7 @@
             // buttonOK
             // 
             this.buttonOK.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonOK.Location = new System.Drawing.Point(12, 168);
+            this.buttonOK.Location = new System.Drawing.Point(12, 175);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(126, 32);
             this.buttonOK.TabIndex = 3;
@@ -118,7 +119,7 @@
             // buttonCancelar
             // 
             this.buttonCancelar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCancelar.Location = new System.Drawing.Point(190, 168);
+            this.buttonCancelar.Location = new System.Drawing.Point(190, 175);
             this.buttonCancelar.Name = "buttonCancelar";
             this.buttonCancelar.Size = new System.Drawing.Size(125, 32);
             this.buttonCancelar.TabIndex = 6;
@@ -154,12 +155,23 @@
             this.textBoxNumPartes.Size = new System.Drawing.Size(89, 25);
             this.textBoxNumPartes.TabIndex = 9;
             // 
+            // checkBoxBonus
+            // 
+            this.checkBoxBonus.AutoSize = true;
+            this.checkBoxBonus.Location = new System.Drawing.Point(13, 152);
+            this.checkBoxBonus.Name = "checkBoxBonus";
+            this.checkBoxBonus.Size = new System.Drawing.Size(55, 17);
+            this.checkBoxBonus.TabIndex = 10;
+            this.checkBoxBonus.Text = "bonus";
+            this.checkBoxBonus.UseVisualStyleBackColor = true;
+            // 
             // agregarCancion
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 212);
+            this.ClientSize = new System.Drawing.Size(327, 219);
+            this.Controls.Add(this.checkBoxBonus);
             this.Controls.Add(this.textBoxNumPartes);
             this.Controls.Add(this.labelNumPartes);
             this.Controls.Add(this.esLarga);
@@ -196,5 +208,6 @@
         private System.Windows.Forms.Button esLarga;
         private System.Windows.Forms.Label labelNumPartes;
         private System.Windows.Forms.TextBox textBoxNumPartes;
+        private System.Windows.Forms.CheckBox checkBoxBonus;
     }
 }

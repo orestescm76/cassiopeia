@@ -8,23 +8,13 @@ namespace aplicacion_musica
 {
     public class CancionLarga : Cancion
     {
-        private byte np;
         public List<Cancion> Partes { get; private set; }
         public CancionLarga(string t, ref Album a)
         {
             titulo = t;
             album = a;
             Partes = new List<Cancion>();
-            duracion = new TimeSpan();
         }
-        //public CancionLarga(ref Cancion[] p)
-        //{
-        //    Partes = p;
-        //    for (int i = 0; i < p.Length; i++)
-        //    {
-        //        duracion += p[i].duracion;
-        //    }
-        //}
         public void addParte(ref Cancion p)
         {
             Partes.Add(p);

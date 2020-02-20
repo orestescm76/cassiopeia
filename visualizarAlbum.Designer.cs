@@ -37,14 +37,19 @@
             this.infoAlbum = new System.Windows.Forms.Label();
             this.okDoomerButton = new System.Windows.Forms.Button();
             this.editarButton = new System.Windows.Forms.Button();
+            this.barraAbajo = new System.Windows.Forms.StatusStrip();
+            this.duracionSeleccionada = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
+            this.barraAbajo.SuspendLayout();
             this.SuspendLayout();
             // 
             // vistaCaratula
             // 
-            this.vistaCaratula.Location = new System.Drawing.Point(441, 6);
+            this.vistaCaratula.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.vistaCaratula.Location = new System.Drawing.Point(441, 11);
             this.vistaCaratula.Name = "vistaCaratula";
-            this.vistaCaratula.Size = new System.Drawing.Size(332, 332);
+            this.vistaCaratula.Size = new System.Drawing.Size(360, 360);
+            this.vistaCaratula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.vistaCaratula.TabIndex = 0;
             this.vistaCaratula.TabStop = false;
             // 
@@ -57,7 +62,7 @@
             this.vistaCanciones.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vistaCanciones.FullRowSelect = true;
             this.vistaCanciones.HideSelection = false;
-            this.vistaCanciones.Location = new System.Drawing.Point(11, 125);
+            this.vistaCanciones.Location = new System.Drawing.Point(11, 158);
             this.vistaCanciones.Name = "vistaCanciones";
             this.vistaCanciones.Size = new System.Drawing.Size(424, 213);
             this.vistaCanciones.TabIndex = 1;
@@ -92,7 +97,7 @@
             // okDoomerButton
             // 
             this.okDoomerButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.okDoomerButton.Location = new System.Drawing.Point(280, 344);
+            this.okDoomerButton.Location = new System.Drawing.Point(279, 377);
             this.okDoomerButton.Name = "okDoomerButton";
             this.okDoomerButton.Size = new System.Drawing.Size(237, 43);
             this.okDoomerButton.TabIndex = 3;
@@ -103,7 +108,7 @@
             // editarButton
             // 
             this.editarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editarButton.Location = new System.Drawing.Point(675, 344);
+            this.editarButton.Location = new System.Drawing.Point(678, 377);
             this.editarButton.Name = "editarButton";
             this.editarButton.Size = new System.Drawing.Size(95, 43);
             this.editarButton.TabIndex = 3;
@@ -111,11 +116,28 @@
             this.editarButton.UseVisualStyleBackColor = true;
             this.editarButton.Click += new System.EventHandler(this.editarButton_Click);
             // 
+            // barraAbajo
+            // 
+            this.barraAbajo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.duracionSeleccionada});
+            this.barraAbajo.Location = new System.Drawing.Point(0, 423);
+            this.barraAbajo.Name = "barraAbajo";
+            this.barraAbajo.Size = new System.Drawing.Size(807, 22);
+            this.barraAbajo.TabIndex = 4;
+            this.barraAbajo.Text = "statusStrip1";
+            // 
+            // duracionSeleccionada
+            // 
+            this.duracionSeleccionada.Name = "duracionSeleccionada";
+            this.duracionSeleccionada.Size = new System.Drawing.Size(118, 17);
+            this.duracionSeleccionada.Text = "toolStripStatusLabel1";
+            // 
             // visualizarAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 416);
+            this.ClientSize = new System.Drawing.Size(807, 445);
+            this.Controls.Add(this.barraAbajo);
             this.Controls.Add(this.editarButton);
             this.Controls.Add(this.okDoomerButton);
             this.Controls.Add(this.infoAlbum);
@@ -127,6 +149,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "visualizarAlbum";
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).EndInit();
+            this.barraAbajo.ResumeLayout(false);
+            this.barraAbajo.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,5 +166,7 @@
         private System.Windows.Forms.ColumnHeader num;
         private System.Windows.Forms.ColumnHeader titulo;
         private System.Windows.Forms.ColumnHeader duracion;
+        private System.Windows.Forms.StatusStrip barraAbajo;
+        private System.Windows.Forms.ToolStripStatusLabel duracionSeleccionada;
     }
 }

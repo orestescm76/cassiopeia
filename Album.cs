@@ -79,6 +79,15 @@ namespace aplicacion_musica
         public String caratula { get; set; }
         public Genero genero { get; set; }
         public Cancion getCancion(int n) { return canciones[n]; }
+        public Cancion getCancion(String b)
+        {
+            for (int i = 0; i < canciones.Length; i++)
+            {
+                if (b == canciones[i].titulo)
+                    return canciones[i];
+            }
+            return null;
+        }
         public Disco[] Discos { get; set; }
     }
 }
