@@ -100,9 +100,25 @@ namespace aplicacion_musica
             }
             return busqueda;
         }
-        public void BorrarCD(DiscoCompacto cd)
+        /// <summary>
+        /// borra un cd con la id especificada
+        /// </summary>
+        /// <param name="id"></param>
+        public void BorrarCD(String id)
         {
-            cds.Remove(cd);
+            DiscoCompacto cdABorrar = null;
+            foreach (DiscoCompacto item in cds)
+            {
+                if(item.Id == id)
+                {
+                    cds.Remove(item);
+                    return;
+                }
+            }
+        }
+        public void BorrarCD(ref DiscoCompacto cual)
+        {
+            cds.Remove(cual);
         }
     }
 }

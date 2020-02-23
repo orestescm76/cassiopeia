@@ -94,6 +94,7 @@ namespace aplicacion_musica
             EstadoMedio exterior = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), comboBoxEstadoExterior.SelectedIndex.ToString());
             EstadoMedio medio = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), comboBoxEstadoMedio.SelectedIndex.ToString());
             FormatoCD formato = (FormatoCD)Enum.Parse(typeof(FormatoCD), comboBoxFormatoCD.SelectedIndex.ToString());
+            string s = album.artista + "_" + album.nombre;
             if (NC != album.numCanciones)
             {
                 if(NDisco > 1)
@@ -103,13 +104,13 @@ namespace aplicacion_musica
                 }
                 else
                 {
-                    DiscoCompacto cd = new DiscoCompacto(ref album, Convert.ToInt16(numericUpDownNumCanciones.Value), medio, exterior, formato, numDiscos);
+                    DiscoCompacto cd = new DiscoCompacto(s, Convert.ToInt16(numericUpDownNumCanciones.Value), medio, exterior, formato, numDiscos);
                     Programa.miColeccion.AgregarCD(ref cd);
                 }
             }
             else
             {
-                DiscoCompacto cd = new DiscoCompacto(ref album, album.numCanciones, medio, exterior, formato);
+                DiscoCompacto cd = new DiscoCompacto(s, album.numCanciones, medio, exterior, formato);
                 Programa.miColeccion.AgregarCD(ref cd);
                 visualizarAlbum v = new visualizarAlbum(ref cd);
                 v.Show();

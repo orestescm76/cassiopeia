@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace aplicacion_musica
 {
@@ -11,9 +12,14 @@ namespace aplicacion_musica
     }
     public class DiscoCompacto : AlbumFisico
     {
-        public String Id { get; private set; }
+        public String Id { get; set; }
         public Disco[] Discos { get; set; }
+        public String[] Anotaciones { get; set; }
         public FormatoCD FormatoCD { get; set; }
+        public DiscoCompacto() : base()
+        {
+
+        }
         /// <summary>
         /// Crea sólo un CD a partir de un álbum de menos de 80 minutos, con todos los datos básicos
         /// </summary>
@@ -22,12 +28,14 @@ namespace aplicacion_musica
         /// <param name="e"></param>
         /// <param name="ee"></param>
         /// <param name="f"></param>
-        public DiscoCompacto(ref Album a, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f) : base(ref a, ee)
+        public DiscoCompacto(string s, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f) : base(s, ee)
         {
             FormatoCD = f;
             Discos = new Disco[1];
             Discos[0] = new Disco(nc, e);
-            Id = Guid.NewGuid().ToString(); //porque puede ser que tenga dos copias del mismo álbum
+            Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());//porque puede ser que tenga dos copias del mismo álbum
+            Id = Id.Remove(Id.Length - 2);
+            Id.Replace('+', 'm');
         }
         /// <summary>
         /// Crea un CD con varios CD
@@ -38,12 +46,14 @@ namespace aplicacion_musica
         /// <param name="ee">Estado del exterior</param>
         /// <param name="f">Formato del CD</param>
         /// <param name="nCD">número de CD</param>
-        public DiscoCompacto(ref Album a, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, int nCD) : base(ref a, ee)
+        public DiscoCompacto(string s, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, int nCD) : base(s, ee)
         {
             FormatoCD = f;
             Discos = new Disco[nCD];
             Discos[0] = new Disco(nc, e);
-            Id = Guid.NewGuid().ToString(); //porque puede ser que tenga dos copias del mismo álbum
+            Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray()); //porque puede ser que tenga dos copias del mismo álbum
+            Id = Id.Remove(Id.Length - 2);
+            Id.Replace('+', 'm');
         }
         /// <summary>
         /// Crea un CD con varios CD sin discos predefinidos
@@ -52,18 +62,20 @@ namespace aplicacion_musica
         /// <param name="ee"></param>
         /// <param name="f"></param>
         /// <param name="nCD"></param>
-        public DiscoCompacto(ref Album a, EstadoMedio ee, FormatoCD f, int nCD) : base(ref a, ee)
+        public DiscoCompacto(string s, EstadoMedio ee, FormatoCD f, int nCD) : base(s, ee)
         {
             FormatoCD = f;
             Discos = new Disco[nCD];
-            Id = Guid.NewGuid().ToString(); //porque puede ser que tenga dos copias del mismo álbum
+            Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray()); //porque puede ser que tenga dos copias del mismo álbum
+            Id = Id.Remove(Id.Length - 2);
+            Id.Replace('+', 'm');
         }
         /// <summary>
         /// Crea un CD vacío con varios discos vacíos
         /// </summary>
         /// <param name="a"></param>
         /// <param name="nCD"></param>
-        public DiscoCompacto(ref Album a, int nCD) : base(ref a)
+        public DiscoCompacto(string s, int nCD) : base(s)
         {
             Discos = new Disco[nCD];
         }
@@ -74,11 +86,10 @@ namespace aplicacion_musica
             d[5] = Id;
             return d;
         }
-        public void InstallID(string id)
+        public void InstallAlbum()
         {
-            Id = id;
+            Album = Programa.miColeccion.devolverAlbum(Artista + "_" + Nombre);
         }
-
         //public DiscoCompacto(ref Album a, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, RegionInfo p, short y) : base(ref a, nc, e, ee, y, p)
         //{
         //    FormatoCD = f;

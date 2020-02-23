@@ -39,6 +39,7 @@
             this.editarButton = new System.Windows.Forms.Button();
             this.barraAbajo = new System.Windows.Forms.StatusStrip();
             this.duracionSeleccionada = new System.Windows.Forms.ToolStripStatusLabel();
+            this.buttonAnotaciones = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
             this.barraAbajo.SuspendLayout();
             this.SuspendLayout();
@@ -97,9 +98,9 @@
             // okDoomerButton
             // 
             this.okDoomerButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.okDoomerButton.Location = new System.Drawing.Point(279, 377);
+            this.okDoomerButton.Location = new System.Drawing.Point(316, 376);
             this.okDoomerButton.Name = "okDoomerButton";
-            this.okDoomerButton.Size = new System.Drawing.Size(237, 43);
+            this.okDoomerButton.Size = new System.Drawing.Size(177, 43);
             this.okDoomerButton.TabIndex = 3;
             this.okDoomerButton.Text = "button1";
             this.okDoomerButton.UseVisualStyleBackColor = true;
@@ -108,7 +109,7 @@
             // editarButton
             // 
             this.editarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editarButton.Location = new System.Drawing.Point(678, 377);
+            this.editarButton.Location = new System.Drawing.Point(700, 377);
             this.editarButton.Name = "editarButton";
             this.editarButton.Size = new System.Drawing.Size(95, 43);
             this.editarButton.TabIndex = 3;
@@ -132,11 +133,22 @@
             this.duracionSeleccionada.Size = new System.Drawing.Size(118, 17);
             this.duracionSeleccionada.Text = "toolStripStatusLabel1";
             // 
+            // buttonAnotaciones
+            // 
+            this.buttonAnotaciones.Location = new System.Drawing.Point(12, 377);
+            this.buttonAnotaciones.Name = "buttonAnotaciones";
+            this.buttonAnotaciones.Size = new System.Drawing.Size(117, 43);
+            this.buttonAnotaciones.TabIndex = 5;
+            this.buttonAnotaciones.Text = "button1";
+            this.buttonAnotaciones.UseVisualStyleBackColor = true;
+            this.buttonAnotaciones.Click += new System.EventHandler(this.buttonAnotaciones_Click);
+            // 
             // visualizarAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(807, 445);
+            this.Controls.Add(this.buttonAnotaciones);
             this.Controls.Add(this.barraAbajo);
             this.Controls.Add(this.editarButton);
             this.Controls.Add(this.okDoomerButton);
@@ -168,5 +180,6 @@
         private System.Windows.Forms.ColumnHeader duracion;
         private System.Windows.Forms.StatusStrip barraAbajo;
         private System.Windows.Forms.ToolStripStatusLabel duracionSeleccionada;
+        private System.Windows.Forms.Button buttonAnotaciones;
     }
 }

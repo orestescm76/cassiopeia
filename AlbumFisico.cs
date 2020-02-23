@@ -28,35 +28,46 @@ namespace aplicacion_musica
         ///<summary>Poor</summary>
         P
     }
-    /// <summary>
-    /// Año cuando salió la copia
-    /// </summary>
+
     public class AlbumFisico
     {
+        /// <summary>
+        /// Cual es el álbum que tengo
+        /// </summary>
+        [Newtonsoft.Json.JsonIgnore] //no quiero guardarlo 2 veces, ni cargarlo
         public Album Album { get; protected set; }
         /// <summary>
         /// Estado de la portada y demás complementos según el estándar goldmine
         /// </summary>
         public EstadoMedio EstadoExterior { get; set; }
+        /// <summary>
+        /// Año cuando salió la copia
+        /// </summary>
         public short YearRelease {get;set;}
         /// <summary>
         /// País de publicación del medio, puede ser desconocido
         /// </summary>
-        public RegionInfo PaisPublicacion { get; set; }
-		/// <summary>
+        public String PaisPublicacion { get; set; }
+        /// <summary>
         /// Número de canciones del disco
         /// </summary>
-		///
-        public AlbumFisico(ref Album a, EstadoMedio ee, short y = 0, RegionInfo r = null)
+        public String Artista { get; set; }
+        public String Nombre { get; set; }
+        public AlbumFisico() 
         {
-            Album = a;
+        }
+        public AlbumFisico(String s, EstadoMedio ee, short y = 0, String p = null)
+        {
+            Album = Programa.miColeccion.devolverAlbum(s);
             EstadoExterior = ee;
             YearRelease = y;
-            PaisPublicacion = r;
+            PaisPublicacion = p;
+            Artista = Album.artista;
+            Nombre = Album.nombre;
         }
-        public AlbumFisico(ref Album a)
+        public AlbumFisico(String s)
         {
-            Album = a;
+            Album = Programa.miColeccion.devolverAlbum(s);
         }
     }
 }

@@ -56,6 +56,7 @@
             this.year = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.duracion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.genero = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.refrescarButton = new System.Windows.Forms.Button();
             this.borrarButton = new System.Windows.Forms.Button();
             this.barraAbajo = new System.Windows.Forms.StatusStrip();
@@ -63,6 +64,7 @@
             this.clickDerechoMenuContexto = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.crearCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cargarDiscosLegacyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -90,13 +92,13 @@
             this.nuevoToolStripMenuItem,
             this.agregarAlbumToolStripMenuItem,
             this.abrirToolStripMenuItem,
+            this.cargarDiscosLegacyToolStripMenuItem,
             this.buscarEnSpotifyToolStripMenuItem,
             this.guardarcomo,
             this.salirToolStripMenuItem});
             this.archivoMenuItem1.Name = "archivoMenuItem1";
             this.archivoMenuItem1.Size = new System.Drawing.Size(64, 20);
             this.archivoMenuItem1.Text = "archivo1";
-            this.archivoMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // nuevoToolStripMenuItem
             // 
@@ -217,12 +219,13 @@
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
             this.testToolStripMenuItem.Text = "test";
+            this.testToolStripMenuItem.Visible = false;
             // 
             // testToolStripMenuItem1
             // 
             this.testToolStripMenuItem1.CheckOnClick = true;
             this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
-            this.testToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
+            this.testToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.testToolStripMenuItem1.Text = "testOscuro";
             this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
             // 
@@ -239,7 +242,8 @@
             this.titulo,
             this.year,
             this.duracion,
-            this.genero});
+            this.genero,
+            this.columnID});
             this.vistaAlbumes.Cursor = System.Windows.Forms.Cursors.Default;
             this.vistaAlbumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vistaAlbumes.ForeColor = System.Drawing.SystemColors.WindowText;
@@ -280,6 +284,11 @@
             // genero
             // 
             this.genero.Width = 142;
+            // 
+            // columnID
+            // 
+            this.columnID.Text = "id";
+            this.columnID.Width = 0;
             // 
             // refrescarButton
             // 
@@ -325,22 +334,29 @@
             this.crearCDToolStripMenuItem,
             this.copiarToolStripMenuItem});
             this.clickDerechoMenuContexto.Name = "contextMenuStrip1";
-            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(181, 70);
+            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(108, 48);
             this.clickDerechoMenuContexto.Opening += new System.ComponentModel.CancelEventHandler(this.clickDerechoMenuContexto_Opening);
             // 
             // crearCDToolStripMenuItem
             // 
             this.crearCDToolStripMenuItem.Name = "crearCDToolStripMenuItem";
-            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.crearCDToolStripMenuItem.Text = "cd";
             this.crearCDToolStripMenuItem.Click += new System.EventHandler(this.crearCDToolStripMenuItem_Click);
             // 
             // copiarToolStripMenuItem
             // 
             this.copiarToolStripMenuItem.Name = "copiarToolStripMenuItem";
-            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.copiarToolStripMenuItem.Text = "copiar";
             this.copiarToolStripMenuItem.Click += new System.EventHandler(this.copiarToolStripMenuItem_Click);
+            // 
+            // cargarDiscosLegacyToolStripMenuItem
+            // 
+            this.cargarDiscosLegacyToolStripMenuItem.Name = "cargarDiscosLegacyToolStripMenuItem";
+            this.cargarDiscosLegacyToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.cargarDiscosLegacyToolStripMenuItem.Text = "cargarDiscosLegacy";
+            this.cargarDiscosLegacyToolStripMenuItem.Click += new System.EventHandler(this.cargarDiscosLegacyToolStripMenuItem_Click);
             // 
             // principal
             // 
@@ -402,5 +418,7 @@
         private System.Windows.Forms.ToolStripMenuItem verToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cdToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader columnID;
+        private System.Windows.Forms.ToolStripMenuItem cargarDiscosLegacyToolStripMenuItem;
     }
 }

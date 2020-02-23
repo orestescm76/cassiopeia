@@ -8,11 +8,12 @@ using System.Resources;
 using System.Collections;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Threading;
+using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Data;
 /*VERSION 1.4.X - FEATURE DISCO COMPACTO
- * 
- */
+* 
+*/
 /*para portear a netcore https://stackoverflow.com/questions/43181904/how-to-get-the-resx-file-strings-in-asp-net-core*/
 namespace aplicacion_musica
 {
@@ -26,7 +27,7 @@ namespace aplicacion_musica
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-        public static readonly string version = ver.Major + "." + ver.Minor + "." + ver.Build + "." + ver.Revision + "  (build Disco Compacto)";
+        public static readonly string version = ver.ToString();
         public static string ErrorIdioma;
         public static Spotify _spotify;
         private static principal principal;
@@ -92,175 +93,104 @@ namespace aplicacion_musica
         {
             Console.WriteLine(nameof(cargarAlbumes) + " - Cargando álbumes almacenados en " + fichero);
             Stopwatch crono = Stopwatch.StartNew();
-            bool versionAntigua = true;
-            string ver = File.ReadLines(fichero).First();
-            if (ver == "1.4")
-                versionAntigua = false;
-            if (versionAntigua)
+            using (StreamReader lector = new StreamReader(fichero))
             {
-                using (StreamReader lector = new StreamReader(fichero))
+                string LineaJson = "";
+                while (!lector.EndOfStream)
                 {
-                    string linea;
-                    while (!lector.EndOfStream)
+                    LineaJson = lector.ReadLine();
+                    Album a = JsonConvert.DeserializeObject<Album>(LineaJson);
+                    a.RefrescarDuracion();
+                    a.genero = generos[findGenero(a.genero.Id)];
+                    miColeccion.agregarAlbum(ref a);
+
+                }
+            }
+            crono.Stop();
+            Console.WriteLine(nameof(cargarAlbumes) + " - Cargados " + miColeccion.albumes.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + " ms");
+            refrescarVista();
+        }
+        public static void cargarAlbumesLegacy(string fichero)
+        {
+            Console.WriteLine(nameof(cargarAlbumes) + " - Cargando álbumes CSV almacenados en " + fichero);
+            Stopwatch crono = Stopwatch.StartNew();
+            using (StreamReader lector = new StreamReader(fichero))
+            {
+                string linea;
+                while (!lector.EndOfStream)
+                {
+                    linea = lector.ReadLine();
+                    while (linea == "") linea = lector.ReadLine();
+                    if (linea == null) continue; //si no hay nada tu sigue, que hemos llegado al final del fichero, después del nulo porque siempre al terminar un disco pongo línea nueva.
+                    string[] datos = linea.Split(';');
+                    short nC = Convert.ToInt16(datos[3]);
+                    int gen = Programa.findGenero(datos[4]);
+                    Genero g = Programa.generos[gen];
+                    if (datos[5] == null) datos[5] = "";
+                    Album a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
+                    bool exito = false;
+                    for (int i = 0; i < nC; i++)
                     {
+                        exito = false;
                         linea = lector.ReadLine();
-                        while (linea == "") linea = lector.ReadLine();
-                        if (linea == null) continue; //si no hay nada tu sigue, que hemos llegado al final del fichero, después del nulo porque siempre al terminar un disco pongo línea nueva.
-                        string[] datos = linea.Split(';');
-                        short nC = Convert.ToInt16(datos[3]);
-                        int gen = Programa.findGenero(datos[4]);
-                        Genero g = Programa.generos[gen];
-                        if (datos[5] == null) datos[5] = "";
-                        Album a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
-                        bool exito = false;
-                        for (int i = 0; i < nC; i++)
+                        if (linea == null || linea == "")
                         {
-                            exito = false;
-                            linea = lector.ReadLine();
-                            if (linea == null || linea == "")
+                            /*System.Windows.Forms.MessageBox.Show("mensajeError"+Environment.NewLine
+                                + a.nombre + " - " + a.nombre + Environment.NewLine
+                                + "saltarAlSiguiente", "error", System.Windows.Forms.MessageBoxButtons.OK);*/
+                            break; //no sigue cargando el álbum
+                        }
+                        else
+                        {
+                            exito = true;
+                            string[] datosCancion = linea.Split(';');
+                            if (datosCancion.Length == 3)
                             {
-                                /*System.Windows.Forms.MessageBox.Show("mensajeError"+Environment.NewLine
-                                    + a.nombre + " - " + a.nombre + Environment.NewLine
-                                    + "saltarAlSiguiente", "error", System.Windows.Forms.MessageBoxButtons.OK);*/
-                                break; //no sigue cargando el álbum
+                                Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])), ref a);
+                                a.agregarCancion(c, i);
                             }
                             else
                             {
-                                exito = true;
-                                string[] datosCancion = linea.Split(';');
-                                if (datosCancion.Length == 3)
+                                CancionLarga cl = new CancionLarga(datosCancion[0], ref a);
+                                int np = Convert.ToInt32(datosCancion[1]);
+                                for (int j = 0; j < np; j++)
                                 {
+                                    linea = lector.ReadLine();
+                                    datosCancion = linea.Split(';');
                                     Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])), ref a);
-                                    a.agregarCancion(c, i);
+                                    cl.addParte(ref c);
                                 }
-                                else
-                                {
-                                    CancionLarga cl = new CancionLarga(datosCancion[0], ref a);
-                                    int np = Convert.ToInt32(datosCancion[1]);
-                                    for (int j = 0; j < np; j++)
-                                    {
-                                        linea = lector.ReadLine();
-                                        datosCancion = linea.Split(';');
-                                        Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])), ref a);
-                                        cl.addParte(ref c);
-                                    }
-                                    a.agregarCancion(cl, i);
-                                }
-
+                                a.agregarCancion(cl, i);
                             }
+
                         }
-                        if (miColeccion.estaEnColeccion(a))
-                        {
-                            exito = false; //pues ya está repetido.
-                            Debug.WriteLine("Repetido");
-                        }
-                        if (exito)
-                            miColeccion.agregarAlbum(ref a);
                     }
-                }
-            }
-            else
-            {
-                using (StreamReader lector = new StreamReader(fichero))
-                {
-                    string linea;
-                    lector.ReadLine();
-                    while (!lector.EndOfStream)
+                    if (miColeccion.estaEnColeccion(a))
                     {
-                        linea = lector.ReadLine();
-
-                        while (linea == "") linea = lector.ReadLine();
-                        if (linea == null) continue; //si no hay nada tu sigue, que hemos llegado al final del fichero, después del nulo porque siempre al terminar un disco pongo línea nueva.
-                        string[] datos = linea.Split(';');
-                        short nC = Convert.ToInt16(datos[3]);
-                        int gen = Programa.findGenero(datos[4]);
-                        Genero g = Programa.generos[gen];
-                        if (datos[5] == null) datos[5] = ""; //caratula
-                        Album a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
-                        bool exito = false;
-                        for (int i = 0; i < nC; i++)
-                        {
-                            exito = false;
-                            linea = lector.ReadLine();
-                            if (linea == null || linea == "")
-                            {
-                                /*System.Windows.Forms.MessageBox.Show("mensajeError"+Environment.NewLine
-                                    + a.nombre + " - " + a.nombre + Environment.NewLine
-                                    + "saltarAlSiguiente", "error", System.Windows.Forms.MessageBoxButtons.OK);*/
-                                break; //no sigue cargando el álbum
-                            }
-                            else
-                            {
-                                exito = true;
-                                string[] datosCancion = linea.Split(';');
-                                if (datosCancion.Length == 3) //cancion, titulo;423123;0
-                                {
-                                    bool b = false;
-                                    if (datosCancion[2] == "1")
-                                        b = true;
-                                    Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, 0, 0, 0, Convert.ToInt32(datosCancion[1])), ref a, b);
-                                    a.agregarCancion(c, i);
-                                    if (c.Bonus)
-                                        a.duracion -= c.duracion;
-                                }
-                                else
-                                {
-                                    CancionLarga cl = new CancionLarga(datosCancion[0], ref a);
-                                    int np = Convert.ToInt32(datosCancion[1]);
-                                    for (int j = 0; j < np; j++)
-                                    {
-                                        linea = lector.ReadLine();
-                                        datosCancion = linea.Split(';');
-                                        Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, 0, 0, 0, Convert.ToInt32(datosCancion[1])), ref a);
-                                        cl.addParte(ref c);
-                                    }
-                                    a.agregarCancion(cl, i);
-                                }
-
-                            }
-                        }
-                        if (miColeccion.estaEnColeccion(a))
-                        {
-                            exito = false; //pues ya está repetido.
-                            Debug.WriteLine("Repetido");
-                        }
-                        if (exito)
-                            miColeccion.agregarAlbum(ref a);
+                        exito = false; //pues ya está repetido.
+                        Debug.WriteLine("Repetido");
                     }
-                    crono.Stop();
-                    Console.WriteLine(nameof(cargarAlbumes) + " - Cargados " + miColeccion.albumes.Count + " álbumes correctamente");
-                    Console.WriteLine(nameof(cargarAlbumes) + " - Cargado en " + crono.ElapsedMilliseconds + " ms");
-                    Programa.refrescarVista();
+                    if (exito)
+                        miColeccion.agregarAlbum(ref a);
                 }
+
             }
+            crono.Stop();
+            Console.WriteLine(nameof(cargarAlbumes) + " - Cargados " + miColeccion.albumes.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + " ms");
+            refrescarVista();
         }
         private static void cargarCDS()
         {
-            if (!File.Exists("cd.mdb"))
+            if (!File.Exists("cd.json"))
                 return;
-            using(StreamReader lector = new StreamReader("cd.mdb"))
+            using(StreamReader lector = new StreamReader("cd.json"))
             {
                 string linea;
-                linea = lector.ReadLine();
                 while(!lector.EndOfStream)
                 {
                     linea = lector.ReadLine();
-                    string[] datos = linea.Split(';');
-                    Album a = miColeccion.devolverAlbum(datos[1] + "_" + datos[0]);
-                    FormatoCD f = (FormatoCD)Enum.Parse(typeof(FormatoCD), datos[3]);
-                    EstadoMedio ee = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), datos[4]);
-                    int nd = Convert.ToInt32(datos[2]);
-                    DiscoCompacto cd = new DiscoCompacto(ref a, ee, f, nd);
-                    cd.InstallID(datos[7]);
-                    Disco d = null;
-                    for (int i = 0; i < nd; i++)
-                    {
-                        linea = lector.ReadLine();
-                        datos = linea.Split(';');
-                        d = new Disco(Convert.ToInt16(datos[0]), (EstadoMedio)Enum.Parse(typeof(EstadoMedio), datos[1]));
-                        cd.Discos[i] = d;
-                    }
-
+                    DiscoCompacto cd = JsonConvert.DeserializeObject<DiscoCompacto>(linea);
+                    cd.InstallAlbum();
                     miColeccion.AgregarCD(ref cd);
                 }
             }
@@ -291,8 +221,7 @@ namespace aplicacion_musica
             principal = new principal();
 
             _spotify = new Spotify();
-            
-            
+
             for (int i = 0; i < idGeneros.Length; i++)
             {
                 if (idGeneros[i] == "")
@@ -303,10 +232,10 @@ namespace aplicacion_musica
                 else
                 {
                     generos[i] = new Genero(idGeneros[i]);
-                    generos[i].setTraduccion(textosLocal.GetString("genero_"+generos[i].Id));
+                    generos[i].setTraduccion(textosLocal.GetString("genero_" + generos[i].Id));
                 }
             }
-            if (File.Exists("discos.mdb"))
+            if (File.Exists("discos.json"))
             {
                 if (args.Length != 0 && args.Contains("-pregunta"))//cambiar parametro para cargar otro fichero
                 {
@@ -316,7 +245,7 @@ namespace aplicacion_musica
                 }
                 else
                 {
-                    cargarAlbumes("discos.mdb");
+                    cargarAlbumes("discos.json");
                     cargarCDS();
                 }
             }
@@ -324,6 +253,7 @@ namespace aplicacion_musica
             {
                 Console.WriteLine("discos.mdb no existe, se creará una base de datos vacía.");
             }
+
 
 
 

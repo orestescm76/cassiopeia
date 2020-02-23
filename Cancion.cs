@@ -1,17 +1,32 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace aplicacion_musica
 {
     public class Cancion
     {
+        [JsonIgnore]
         public Album album { get; protected set; }
         public string titulo { get; set; }
+        [JsonConverter(typeof(TiempoConverter))]
         public TimeSpan duracion { get; set; }
         public bool Bonus { get; set; }
         public Cancion()
         {
-            titulo = "";
-            duracion = new TimeSpan(0, 0, 0);
+
+        }
+        public Cancion(String titulo, int ms, bool Bonus)
+        {
+            this.titulo = titulo;
+            duracion = new TimeSpan(0, 0, 0, 0, ms);
+            this.Bonus = Bonus;
+        }
+        public Cancion(Cancion c)
+        {
+            titulo = c.titulo;
+            album = c.album;
+            duracion = c.duracion;
+            Bonus = c.Bonus;
         }
         public Cancion(string t, TimeSpan d, ref Album a)
         {

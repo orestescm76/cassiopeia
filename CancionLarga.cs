@@ -9,6 +9,7 @@ namespace aplicacion_musica
     public class CancionLarga : Cancion
     {
         public List<Cancion> Partes { get; private set; }
+        public CancionLarga() { }
         public CancionLarga(string t, ref Album a)
         {
             titulo = t;

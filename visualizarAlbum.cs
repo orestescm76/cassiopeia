@@ -75,6 +75,7 @@ namespace aplicacion_musica
             okDoomerButton.Text = Programa.textosLocal.GetString("hecho");
             editarButton.Text = Programa.textosLocal.GetString("editar");
             duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": 00:00:00";
+            buttonAnotaciones.Text = Programa.textosLocal.GetString("editar_anotaciones");
         }
         private void cargarVista()
         {
@@ -123,7 +124,7 @@ namespace aplicacion_musica
                         Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(CDaVisualizar.FormatoCD.ToString()) + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
             }
-            else
+            else if (CDaVisualizar != null)
             {
                 foreach (Cancion c in albumAVisualizar.canciones)
                 {
@@ -154,9 +155,38 @@ namespace aplicacion_musica
                         Programa.textosLocal.GetString("estado_medio") + ": " + Programa.textosLocal.GetString(CDaVisualizar.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(CDaVisualizar.FormatoCD.ToString()) + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
+                
             }
+            else
+            {
+                foreach (Cancion c in albumAVisualizar.canciones)
+                {
 
+                    String[] datos = new string[3];
+                    datos[0] = (i + 1).ToString();
+                    c.ToStringArray().CopyTo(datos, 1);
+                    items[i] = new ListViewItem(datos);
 
+                    if (c is CancionLarga)
+                    {
+                        items[i].BackColor = Color.LightSalmon;
+                    }
+                    if (c.Bonus)
+                    {
+                        items[i].BackColor = Color.SkyBlue;
+                        durBonus += c.duracion;
+                    }
+                    i++;
+                }
+                if (durBonus.TotalMilliseconds != 0)
+                    infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.artista + Environment.NewLine +
+                        Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
+                        Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
+                        Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
+                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido;
+                vistaCanciones.Items.AddRange(items);
+                buttonAnotaciones.Hide();
+            }
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -198,7 +228,7 @@ namespace aplicacion_musica
             TimeSpan seleccion = new TimeSpan();
             foreach (ListViewItem cancion in vistaCanciones.SelectedItems)
             {
-                if(CDaVisualizar.Discos.Length > 1)
+                if(CDaVisualizar !=  null &&CDaVisualizar.Discos.Length > 1)
                 {
                     Cancion can = albumAVisualizar.getCancion(cancion.SubItems[1].Text);
                     seleccion += can.duracion;
@@ -209,7 +239,6 @@ namespace aplicacion_musica
                     Cancion can = albumAVisualizar.getCancion(c);
                     seleccion += can.duracion;
                 }
-
             }
             duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": " + seleccion.ToString();
         }
@@ -229,6 +258,13 @@ namespace aplicacion_musica
                 }
                 MessageBox.Show(infoDetallada);
             }
+        }
+
+        private void buttonAnotaciones_Click(object sender, EventArgs e)
+        {
+            Anotaciones anoForm = new Anotaciones(ref CDaVisualizar);
+            anoForm.ShowDialog();
+            
         }
     }
 }

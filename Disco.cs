@@ -16,6 +16,10 @@ namespace aplicacion_musica
         /// número de canciones del disco
         /// </summary>
         public short NumCanciones { get; set; }
+        public Disco()
+        {
+
+        }
         public Disco(short nc, EstadoMedio e)
         {
             NumCanciones = nc;

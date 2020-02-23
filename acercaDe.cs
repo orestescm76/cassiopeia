@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Resources;
+using System.Windows.Forms;
 
 namespace aplicacion_musica
 {

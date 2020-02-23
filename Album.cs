@@ -1,9 +1,19 @@
 ﻿using System;
-
+using Newtonsoft.Json;
 namespace aplicacion_musica
 {
     public class Album
     {
+        public String nombre { get; set; }
+        public String artista { get; set; }
+        public short year { get; set; }
+        public short numCanciones { get; set; }
+        [JsonIgnore]
+        public TimeSpan duracion { get; set; }
+        public Cancion[] canciones { get; set; }
+        public String caratula { get; set; }
+        public Genero genero { get; set; }
+        public Album() { }
         public Album(Genero g, string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
             duracion = new TimeSpan();
@@ -70,14 +80,6 @@ namespace aplicacion_musica
                 duracion += canciones[i].duracion;
             }
         }
-        public String nombre{ get; set; }
-        public String artista { get; set; }
-        public short year { get; set; }
-        public short numCanciones { get; set; }
-        public TimeSpan duracion { get; set; }
-        public Cancion[] canciones { get; set; }
-        public String caratula { get; set; }
-        public Genero genero { get; set; }
         public Cancion getCancion(int n) { return canciones[n]; }
         public Cancion getCancion(String b)
         {
@@ -88,6 +90,10 @@ namespace aplicacion_musica
             }
             return null;
         }
-        public Disco[] Discos { get; set; }
+        public override string ToString()
+        {
+            //artista - nombre (dur) (gen) 
+            return artista + " - " + nombre + "(" + duracion + ") (" + genero.traducido + ")";
+        }
     }
 }

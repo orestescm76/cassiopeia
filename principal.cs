@@ -8,7 +8,8 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using SpotifyAPI.Web.Models;
 using System.Globalization;
-using System.Reflection;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace aplicacion_musica
 {
@@ -29,6 +30,7 @@ namespace aplicacion_musica
         public TipoVista TipoVista;
         public principal()
         {
+            Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             BusquedaSpotify = "";
             borrando = false;
@@ -61,6 +63,8 @@ namespace aplicacion_musica
             vistaAlbumes.DrawItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.OwnerDraw = true;
+            crono.Stop();
+            Console.WriteLine("Formulario principal creado y cargado en "+crono.ElapsedMilliseconds+"ms");
         }
         public void Refrescar() { cargarVista(); }
         public void HayInternet(bool i)
@@ -69,7 +73,7 @@ namespace aplicacion_musica
         }
         private void cargarVista()
         {
-            Console.WriteLine(nameof(cargarVista) + " - Cargando vista");
+            Console.WriteLine(nameof(cargarVista) + " - Cargando vista " + TipoVista);
             vistaAlbumes.Items.Clear();
             Stopwatch crono = Stopwatch.StartNew();
             switch (TipoVista)
@@ -87,7 +91,6 @@ namespace aplicacion_musica
                     break;
                 case TipoVista.CD:
                     ListViewItem[] cds = new ListViewItem[Programa.miColeccion.cds.Count];
-                    vistaAlbumes.Columns.Add(new ColumnHeader());
                     vistaAlbumes.Columns[5].Width = 0;
                     int j = 0;
                     foreach (DiscoCompacto cd in Programa.miColeccion.cds)
@@ -132,6 +135,7 @@ namespace aplicacion_musica
             acercaDeToolStripMenuItem.Text = Programa.textosLocal.GetString("acerca") + " " + Programa.textosLocal.GetString("titulo_ventana_principal");
             nuevoToolStripMenuItem.Text = Programa.textosLocal.GetString("nuevaBD");
             clickDerechoMenuContexto.Items[0].Text = Programa.textosLocal.GetString("crearCD");
+            cargarDiscosLegacyToolStripMenuItem.Text = Programa.textosLocal.GetString("cargarDiscosLegacy");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -174,11 +178,6 @@ namespace aplicacion_musica
         {
             Application.Exit();
         }
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
         private void SubIdioma_Click(object sender, EventArgs e)
         {
             var menu = sender as ToolStripMenuItem;
@@ -201,43 +200,19 @@ namespace aplicacion_musica
                 Console.WriteLine(nameof(guardarDiscos) + " - Guardando la base de datos...");
                 Console.WriteLine("Nombre del fichero: "+nombre);
                 Stopwatch crono = Stopwatch.StartNew();
-                salida.WriteLine("1.4");
                 switch (nombre)
                 {
                     case "discos.mdb":
                         foreach (Album a in Programa.miColeccion.albumes)
                         {
-                            if (!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
-                            {
-                                salida.WriteLine(a.nombre + ";" + a.artista + ";" + a.year + ";" + a.numCanciones + ";" + a.genero.Id + ";" + a.caratula);
-                                for (int i = 0; i < a.numCanciones; i++)
-                                {
-                                    if (a.canciones[i] is CancionLarga cl)
-                                    {
-                                        salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar...
-                                        foreach (Cancion parte in cl.Partes)
-                                        {
-                                            salida.WriteLine(parte.titulo + ";" + parte.GetMilisegundos() + ";" + parte.GetBonus());
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        salida.WriteLine(a.canciones[i].titulo + ";" + a.canciones[i].GetMilisegundos() + ";" + a.canciones[i].GetBonus());
-                                    }
-                                }
-                            }
-                            salida.WriteLine();
+                            salida.WriteLine(JsonConvert.SerializeObject(a));
                         }
                         break;
                     case "cd.mdb":
+                        
                         foreach (DiscoCompacto compacto in Programa.miColeccion.cds)
                         {
-                            salida.WriteLine(compacto.Album.nombre + ";" + compacto.Album.artista + ";" + compacto.Discos.Length + ";" + compacto.FormatoCD + ";" + compacto.EstadoExterior + ";" + compacto.PaisPublicacion + ";" + compacto.YearRelease + ";" + compacto.Id);
-                            for (int i = 0; i < compacto.Discos.Length; i++)
-                            {
-                                salida.WriteLine(compacto.Discos[i].NumCanciones + ";" + compacto.Discos[i].EstadoDisco);
-                            }
+                            salida.WriteLine(JsonConvert.SerializeObject(compacto));
                         }
                         break;
                     default:
@@ -250,8 +225,8 @@ namespace aplicacion_musica
         }
         private void salidaAplicacion(object sender, EventArgs e)
         {
-            guardarDiscos("discos.mdb");
-            guardarDiscos("cd.mdb");
+            guardarDiscos("discos.json");
+            guardarDiscos("cd.json");
             using(StreamWriter salida = new StreamWriter("idioma.cfg",false))
             {
                 salida.Write(Programa.Idioma);
@@ -262,7 +237,7 @@ namespace aplicacion_musica
         {
             Console.WriteLine("Abriendo desde fichero");
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
-            openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .mdb (*.mdb)|*.mdb";
+            openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .json (*.json)|*.json";
             if(openFileDialog1.ShowDialog()== DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
@@ -364,15 +339,24 @@ namespace aplicacion_musica
             }
             else
             {
-                String idd = "";
                 int cuantos = vistaAlbumes.SelectedItems.Count;
                 ListViewItem[] itemsABorrar = new ListViewItem[cuantos];
                 for (int i = 0; i < cuantos; i++)
                 {
-                    DiscoCompacto cdaborrar = Programa.miColeccion.getCDById(vistaAlbumes.Columns[5].Text);
-                    Programa.miColeccion.BorrarCD(cdaborrar);
-                    vistaAlbumes.Items.Remove(vistaAlbumes.SelectedItems[i]);
+                    itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
                 }
+                for (int i = 0; i < cuantos; i++)
+                {
+                    DiscoCompacto cdaborrar = Programa.miColeccion.getCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
+
+                    Programa.miColeccion.BorrarCD(ref cdaborrar);
+
+                }
+                for (int i = 0; i < cuantos; i++)
+                {
+                    vistaAlbumes.Items.Remove(itemsABorrar[i]);
+                }
+
             }
             borrando = false;
             duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": 00:00:00";
@@ -430,7 +414,7 @@ namespace aplicacion_musica
         private void guardarcomo_Click(object sender, EventArgs e)
         {
             SaveFileDialog guardarComo = new SaveFileDialog();
-            guardarComo.Filter = Programa.textosLocal.GetString("archivo") + ".mdb(*.mdb)|*.mdb";
+            guardarComo.Filter = Programa.textosLocal.GetString("archivo") + ".json(*.json)|*.json";
             guardarComo.InitialDirectory = Environment.CurrentDirectory;
             if(guardarComo.ShowDialog()==DialogResult.OK)
             {
@@ -645,6 +629,19 @@ namespace aplicacion_musica
         {
             TipoVista = TipoVista.Digital;
             cdToolStripMenuItem.Checked = false;
+            cargarVista();
+        }
+
+        private void cargarDiscosLegacyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Abriendo desde fichero");
+            openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
+            openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .mdb (*.mdb)|*.mdb";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string fichero = openFileDialog1.FileName;
+                Programa.cargarAlbumesLegacy(fichero);
+            }
             cargarVista();
         }
     }
