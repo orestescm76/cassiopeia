@@ -6,10 +6,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
-using SpotifyAPI.Web.Models;
 using System.Globalization;
 using Newtonsoft.Json;
-using System.Runtime.Serialization;
 
 namespace aplicacion_musica
 {
@@ -202,13 +200,13 @@ namespace aplicacion_musica
                 Stopwatch crono = Stopwatch.StartNew();
                 switch (nombre)
                 {
-                    case "discos.mdb":
+                    case "discos.json":
                         foreach (Album a in Programa.miColeccion.albumes)
                         {
                             salida.WriteLine(JsonConvert.SerializeObject(a));
                         }
                         break;
-                    case "cd.mdb":
+                    case "cd.json":
                         
                         foreach (DiscoCompacto compacto in Programa.miColeccion.cds)
                         {
