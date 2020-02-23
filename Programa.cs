@@ -11,8 +11,10 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Data;
-/*VERSION 1.4.X - FEATURE DISCO COMPACTO
-* 
+/*VERSION 1.4.0.81 - FEATURE DISCO COMPACTO
+* anotaciones
+* guardado en JSON
+* cds
 */
 /*para portear a netcore https://stackoverflow.com/questions/43181904/how-to-get-the-resx-file-strings-in-asp-net-core*/
 namespace aplicacion_musica
