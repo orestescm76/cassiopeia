@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(visualizarAlbum));
             this.vistaCaratula = new System.Windows.Forms.PictureBox();
             this.vistaCanciones = new System.Windows.Forms.ListView();
@@ -41,8 +42,12 @@
             this.duracionSeleccionada = new System.Windows.Forms.ToolStripStatusLabel();
             this.buttonAnotaciones = new System.Windows.Forms.Button();
             this.labelEstadoDisco = new System.Windows.Forms.Label();
+            this.clickDerechoConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.setBonusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setLargaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
             this.barraAbajo.SuspendLayout();
+            this.clickDerechoConfig.SuspendLayout();
             this.SuspendLayout();
             // 
             // vistaCaratula
@@ -71,6 +76,7 @@
             this.vistaCanciones.UseCompatibleStateImageBehavior = false;
             this.vistaCanciones.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ordenarColumnas);
             this.vistaCanciones.SelectedIndexChanged += new System.EventHandler(this.vistaCanciones_SelectedIndexChanged_1);
+            this.vistaCanciones.MouseClick += new System.Windows.Forms.MouseEventHandler(this.vistaCanciones_MouseClick);
             this.vistaCanciones.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaCanciones_MouseDoubleClick);
             // 
             // num
@@ -158,6 +164,27 @@
             this.labelEstadoDisco.Text = "Estado del disco X: VG+ (Excelente)";
             this.labelEstadoDisco.Click += new System.EventHandler(this.labelEstadoDisco_Click);
             // 
+            // clickDerechoConfig
+            // 
+            this.clickDerechoConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setBonusToolStripMenuItem,
+            this.setLargaToolStripMenuItem});
+            this.clickDerechoConfig.Name = "clickDerechoConfig";
+            this.clickDerechoConfig.Size = new System.Drawing.Size(123, 48);
+            // 
+            // setBonusToolStripMenuItem
+            // 
+            this.setBonusToolStripMenuItem.Name = "setBonusToolStripMenuItem";
+            this.setBonusToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.setBonusToolStripMenuItem.Text = "setBonus";
+            this.setBonusToolStripMenuItem.Click += new System.EventHandler(this.setBonusToolStripMenuItem_Click);
+            // 
+            // setLargaToolStripMenuItem
+            // 
+            this.setLargaToolStripMenuItem.Name = "setLargaToolStripMenuItem";
+            this.setLargaToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.setLargaToolStripMenuItem.Text = "setPartes";
+            // 
             // visualizarAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -181,6 +208,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).EndInit();
             this.barraAbajo.ResumeLayout(false);
             this.barraAbajo.PerformLayout();
+            this.clickDerechoConfig.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,5 +228,8 @@
         private System.Windows.Forms.ToolStripStatusLabel duracionSeleccionada;
         private System.Windows.Forms.Button buttonAnotaciones;
         private System.Windows.Forms.Label labelEstadoDisco;
+        private System.Windows.Forms.ContextMenuStrip clickDerechoConfig;
+        private System.Windows.Forms.ToolStripMenuItem setBonusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setLargaToolStripMenuItem;
     }
 }

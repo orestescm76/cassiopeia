@@ -6,7 +6,6 @@ namespace aplicacion_musica
     public partial class editarAlbum : Form
     {
         private Album albumAEditar;
-        private string caratula;
         private string[] generosTraducidos = new string[Programa.generos.Length-1];
         public editarAlbum(ref Album a)
         {
@@ -104,20 +103,49 @@ namespace aplicacion_musica
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
                 string fichero = abrirImagen.FileName;
-                caratula = fichero;
                 labelRuta.Text = fichero;
             }
         }
 
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e) //editar cancion
         {
-            agregarCancion editarCancion = new agregarCancion(ref albumAEditar.canciones[albumAEditar.buscarCancion(vistaCanciones.SelectedItems[0].Text)]);
+            Cancion cancionAEditar = albumAEditar.canciones[albumAEditar.buscarCancion(vistaCanciones.SelectedItems[0].Text)];
+            agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
         }
 
-        private void vistaCanciones_SelectedIndexChanged(object sender, EventArgs e)
+        private void buttonAñadirCancion_Click(object sender, EventArgs e)
         {
-
+            agregarCancion AC = new agregarCancion(ref albumAEditar, 0);
+            AC.ShowDialog();
+            borrarVista();
+            cargarVista();
+        }
+        private void borrarVista()
+        {
+            for (int i = 0; i < vistaCanciones.Items.Count; i++)
+            {
+                vistaCanciones.Items[i].Remove();
+            }
+        }
+        private void vistaCanciones_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Delete)
+            {
+                ListViewItem[] itemsborrar = new ListViewItem[vistaCanciones.SelectedItems.Count];
+                int i = 0;
+                foreach (ListViewItem item in vistaCanciones.SelectedItems)
+                {
+                    Cancion cancionABorrar = albumAEditar.DevolverCancion(item.Text);
+                    albumAEditar.BorrarCancion(cancionABorrar);
+                    itemsborrar[i] = item;
+                    i++;
+                }
+                foreach (var item in itemsborrar)
+                {
+                    vistaCanciones.Items.Remove(item);
+                }
+            }
         }
     }
 }

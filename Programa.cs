@@ -43,7 +43,7 @@ namespace aplicacion_musica
         }
         public static void cambiarIdioma(String idioma)
         {
-            textosLocal = new ResXResourceSet(@"./idiomas/" + idioma + ".resx");
+            textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + idioma + ".resx");
             Idioma = idioma;
             refrescarGeneros();
         }
@@ -198,7 +198,7 @@ namespace aplicacion_musica
             miColeccion = new Coleccion();
             if (File.Exists("idioma.cfg"))
                 Idioma = File.ReadAllLines("idioma.cfg")[0];
-            textosLocal = new ResXResourceSet(@"./idiomas/"+Idioma+".resx");
+            textosLocal = new ResXResourceSet(@"./idiomas/"+"original."+Idioma+".resx");
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

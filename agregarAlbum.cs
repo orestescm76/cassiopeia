@@ -73,7 +73,6 @@ namespace aplicacion_musica
                 DialogResult cancelar = DialogResult.OK;
                 for (int i = 0; i < nC; i++)
                 {
-
                     agregarCancion agregarCancion = new agregarCancion(ref a,i);
                     Hide();
                     cancelar = agregarCancion.ShowDialog();

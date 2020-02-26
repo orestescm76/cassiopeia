@@ -36,13 +36,15 @@ namespace aplicacion_musica
             InitializeComponent();
             BusquedaSpotify = "";
             borrando = false;
-            DirectoryInfo id = new DirectoryInfo("./idiomas");
-            Programa.idiomas = new String[id.GetFiles().Length];
+            DirectoryInfo cod = new DirectoryInfo("./idiomas");
+            Programa.idiomas = new String[cod.GetFiles().Length];
             int i = 0;
-            foreach(var idioma in id.GetFiles())
+            foreach(var idioma in cod.GetFiles())
             {
-                CultureInfo nombreIdioma = new CultureInfo(idioma.Name.Replace(".resx",""));
-                Programa.idiomas[i] = idioma.Name.Replace(".resx", "");
+                string id = idioma.Name.Replace(".resx", "");
+                id = id.Replace("original.", "");
+                CultureInfo nombreIdioma = new CultureInfo(id);
+                Programa.idiomas[i] = id;
                 ToolStripItem subIdioma = new ToolStripMenuItem(nombreIdioma.NativeName);
                 subIdioma.Click += new EventHandler(SubIdioma_Click);
                 opcionesToolStripMenuItem.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + nombreIdioma.Name + ".png");
@@ -187,7 +189,16 @@ namespace aplicacion_musica
         }
         private void SubIdioma_Click(object sender, EventArgs e)
         {
-
+            var menu = sender as ToolStripMenuItem;
+            string idiomaNuevo = "";
+            for (int i = 0; i < opcionesToolStripMenuItem.DropDownItems.Count; i++)
+            {
+                CultureInfo c = new CultureInfo(Programa.idiomas[i]);
+                if (menu.Text == c.NativeName)
+                    idiomaNuevo = Programa.idiomas[i];
+            }
+            Programa.cambiarIdioma(idiomaNuevo);
+            ponerTextos();
         }
         private void agregarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -520,8 +531,6 @@ namespace aplicacion_musica
                 if (TipoVista == TipoVista.CD)
                     clickDerechoMenuContexto.Items[0].Visible = false;
                 clickDerechoMenuContexto.Show(vistaAlbumes,e.Location);
-
-
             }
         }
         private void crearCDToolStripMenuItem_Click(object sender, EventArgs e)

@@ -13,6 +13,7 @@ namespace aplicacion_musica
         CancionLarga cancionlarga;
         bool editar;
         bool larga;
+        bool bonus;
         ToolTip ConsejoEsLarga;
         ToolTip ConsejoEsBonus;
         public agregarCancion(ref Album a, int n) //caso normal
@@ -86,7 +87,8 @@ namespace aplicacion_musica
         private void ponerTextos()
         {
             int cualdeVerdad = cual + 1;
-
+            if (cual == 0)
+                cualdeVerdad = album.numCanciones;
             if(editar)
             {
                 Text = Programa.textosLocal.GetString("editando") + " " + cancion.titulo;
@@ -120,19 +122,23 @@ namespace aplicacion_musica
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
                     t = tituloTextBox.Text;
+                    bonus = checkBoxBonus.Checked;
                     if (editar) //si edita
                     {
                         cancion.titulo = t;
                         cancion.duracion = new TimeSpan(0, min, sec);
-                        cancion.Bonus = checkBoxBonus.Checked;
-                        this.DialogResult = DialogResult.OK;
+                        cancion.Bonus = bonus;
+                        DialogResult = DialogResult.OK;
                         Close();
                     }
                     else
                     {
-                        Cancion c = new Cancion(t, new TimeSpan(0, min, sec), ref album);
-                        album.agregarCancion(c, cual);
-                        this.DialogResult = DialogResult.OK;
+                        Cancion c = new Cancion(t, new TimeSpan(0, min, sec), ref album, bonus);
+                        if (cual != 0)
+                            album.agregarCancion(c, cual);
+                        else
+                            album.agregarCancion(c);
+                        DialogResult = DialogResult.OK;
                         Close();
                     }
                 }

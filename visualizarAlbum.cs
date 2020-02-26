@@ -81,10 +81,12 @@ namespace aplicacion_musica
             editarButton.Text = Programa.textosLocal.GetString("editar");
             duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": 00:00:00";
             buttonAnotaciones.Text = Programa.textosLocal.GetString("editar_anotaciones");
+            setBonusToolStripMenuItem.Text = Programa.textosLocal.GetString("setBonus");
+            setLargaToolStripMenuItem.Text = Programa.textosLocal.GetString("setLarga");
         }
         private void cargarVista()
         {
-            ListViewItem[] items = new ListViewItem[albumAVisualizar.canciones.Length];
+            ListViewItem[] items = new ListViewItem[albumAVisualizar.canciones.Count];
             int i = 0, j = 0, d = 0;
             TimeSpan durBonus = new TimeSpan();
             if (CDaVisualizar != null && CDaVisualizar.Discos.Length > 1)
@@ -310,6 +312,28 @@ namespace aplicacion_musica
                 {
                     item.Selected = true;
                 }
+            }
+        }
+
+        private void setBonusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in vistaCanciones.SelectedItems)
+            {
+                Cancion c = albumAVisualizar.canciones[Convert.ToInt32(item.SubItems[0].Text)-1];
+                albumAVisualizar.duracion -= c.duracion;
+                c.Bonus = true;
+            }
+            visualizarAlbum vNew = new visualizarAlbum(ref albumAVisualizar);
+            Dispose();
+            Close();
+            vNew.Show();
+        }
+
+        private void vistaCanciones_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                clickDerechoConfig.Show(vistaCanciones, e.Location);
             }
         }
     }

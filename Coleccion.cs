@@ -107,7 +107,6 @@ namespace aplicacion_musica
         /// <param name="id"></param>
         public void BorrarCD(String id)
         {
-            DiscoCompacto cdABorrar = null;
             foreach (DiscoCompacto item in cds)
             {
                 if(item.Id == id)

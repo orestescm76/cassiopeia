@@ -108,7 +108,7 @@ namespace aplicacion_musica
 
             }
             Album a = new Album(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Convert.ToInt16(album.TotalTracks), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            Cancion[] canciones = new Cancion[a.numCanciones];
+            List<Cancion> canciones = new List<Cancion>(a.numCanciones);
             List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id,a.numCanciones).Items;
             for (int i = 0; i < c.Count; i++)
             {
@@ -146,7 +146,7 @@ namespace aplicacion_musica
 
             }
             Album a = new Album(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Convert.ToInt16(album.TotalTracks), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            Cancion[] canciones = new Cancion[a.numCanciones];
+            List<Cancion> canciones = new List<Cancion>(a.numCanciones);
             List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, a.numCanciones).Items;
             for (int i = 0; i < c.Count; i++)
             {

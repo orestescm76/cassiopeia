@@ -234,13 +234,16 @@
     <EmbeddedResource Include="editarAlbum.resx">
       <DependentUpon>editarAlbum.cs</DependentUpon>
     </EmbeddedResource>
-    <Content Include="idiomas\es.resx">
+    <Content Include="idiomas\original.resx" />
+    <Content Include="idiomas\original.en.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="idiomas\en.resx">
+    <EmbeddedResource Include="idiomas\original.ca.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="idiomas\original.es.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="idiomas\ca.resx" />
     <EmbeddedResource Include="principal.resx">
       <DependentUpon>principal.cs</DependentUpon>
     </EmbeddedResource>

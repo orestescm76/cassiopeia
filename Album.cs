@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
+
 namespace aplicacion_musica
 {
     public class Album
@@ -10,7 +12,7 @@ namespace aplicacion_musica
         public short numCanciones { get; set; }
         [JsonIgnore]
         public TimeSpan duracion { get; set; }
-        public Cancion[] canciones { get; set; }
+        public List<Cancion> canciones { get; set; }
         public String caratula { get; set; }
         public Genero genero { get; set; }
         public Album() { }
@@ -21,7 +23,7 @@ namespace aplicacion_musica
             artista = a;
             year = y;
             numCanciones = nc;
-            canciones = new Cancion[nc];
+            canciones = new List<Cancion>(nc);
             caratula = c;
             genero = g;
         }
@@ -45,10 +47,17 @@ namespace aplicacion_musica
             canciones = a.canciones;
             caratula = a.caratula;
         }
+        public void agregarCancion(Cancion c)
+        {
+            canciones.Add(c);
+            if (!c.Bonus)
+                duracion += c.duracion;
+        }
         public void agregarCancion(Cancion c, int cual)
         {
-            canciones[cual] = c;
+            canciones.Insert(cual, c);
             duracion += c.duracion;
+            numCanciones = (short)canciones.Count;
         }
         public String[] toStringArray()
         {
@@ -72,18 +81,31 @@ namespace aplicacion_musica
                 i++;
             return i;
         }
+        public Cancion DevolverCancion(string t)
+        {
+            Cancion c = null;
+            int i = 0;
+            while (t != canciones[i].titulo)
+            {
+                i++;
+                c = canciones[i];
+            }
+ 
+            return c;
+        }
         public void RefrescarDuracion()
         {
             duracion = new TimeSpan();
-            for (int i = 0; i < canciones.Length; i++)
+            for (int i = 0; i < canciones.Count; i++)
             {
-                duracion += canciones[i].duracion;
+                if (!canciones[i].Bonus)
+                    duracion += canciones[i].duracion;
             }
         }
         public Cancion getCancion(int n) { return canciones[n]; }
         public Cancion getCancion(String b)
         {
-            for (int i = 0; i < canciones.Length; i++)
+            for (int i = 0; i < canciones.Count; i++)
             {
                 if (b == canciones[i].titulo)
                     return canciones[i];
@@ -94,6 +116,20 @@ namespace aplicacion_musica
         {
             //artista - nombre (dur) (gen) 
             return artista + " - " + nombre + "(" + duracion + ") (" + genero.traducido + ")";
+        }
+        public void BorrarCancion(int cual)
+        {
+            if (!canciones[cual].Bonus)
+                duracion -= canciones[cual].duracion;
+            canciones.RemoveAt(cual);
+            numCanciones--;
+        }
+        public void BorrarCancion(Cancion cancion) 
+        {
+            if (!cancion.Bonus)
+                duracion -= cancion.duracion;
+            canciones.Remove(cancion);
+            numCanciones--;
         }
     }
 }
