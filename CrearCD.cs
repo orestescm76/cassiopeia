@@ -20,6 +20,7 @@ namespace aplicacion_musica
         private short numDiscos;
         private short NDisco;
         private short NC;
+        private bool edit = false;
         /// <summary>
         /// Constructor para crear un sólo CD, para álbumes con menos de 80 minutos de duración
         /// </summary>
@@ -34,6 +35,11 @@ namespace aplicacion_musica
             NC = a.numCanciones;
             PonerTextos();
         }
+        /// <summary>
+        /// Constructor para crear el primer cd de varios.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="nd">número de discos</param>
         public CrearCD(ref Album a, short nd)
         {
             InitializeComponent();
@@ -45,16 +51,16 @@ namespace aplicacion_musica
         /// <summary>
         /// Constructor para crear un segundo, tercer CD
         /// </summary>
-        /// <param name="a">Álbun al que pertenece</param>
-        /// <param name="nc">Número de canciones del segundo CD</param>
-        /// <param name="n">Número del CD, segundo...</param>
-        public CrearCD(ref DiscoCompacto cdd, short n)
+        /// <param name="cdd">CD original</param>
+        /// <param name="n">número del disco, en el caso de editar es disco 1, 2...</param>
+        /// <param name="edit">configura el formulario para la edición</param>
+        public CrearCD(ref DiscoCompacto cdd, short n, bool edit = false)
         {
             InitializeComponent();
             NDisco = n;
             album = cdd.Album;
             cd = cdd;
-            if(n > 1)
+            if(n > 1 && !edit)
             {
                 labelFormato.Hide();
                 comboBoxFormatoCD.Hide();
@@ -63,8 +69,18 @@ namespace aplicacion_musica
                 labelEstadoExterior.Hide();
                 labelAñoPublicacion.Hide();
                 labelPaisPublicacion.Hide();
-                textBox1.Hide();
-                textBox2.Hide();
+                textBoxPais.Hide();
+                textBoxAño.Hide();
+            }
+            else if(edit)
+            {
+                this.edit = true;
+                comboBoxFormatoCD.SelectedItem = cdd.FormatoCD;
+                comboBoxEstadoMedio.SelectedItem = cdd.Discos[n-1].EstadoDisco;
+                comboBoxEstadoExterior.SelectedItem = cdd.EstadoExterior;
+                numericUpDownNumCanciones.Value = cdd.Discos[n-1].NumCanciones;
+                textBoxAño.Text = cd.YearRelease.ToString();
+                textBoxPais.Text = cd.PaisPublicacion;
             }
             PonerTextos();
         }
@@ -75,6 +91,7 @@ namespace aplicacion_musica
             labelFormato.Text = Programa.textosLocal.GetString("formato");
             labelAñoPublicacion.Text = Programa.textosLocal.GetString("añoPublicacion");
             labelPaisPublicacion.Text = Programa.textosLocal.GetString("paisPublicacion");
+            labelNumCanciones.Text = Programa.textosLocal.GetString("numcanciones");
             String[] eeT = new string[7];
             String[] fT = new string[4];
             for (int i = 0; i < eeT.Length; i++)
@@ -95,7 +112,19 @@ namespace aplicacion_musica
             EstadoMedio medio = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), comboBoxEstadoMedio.SelectedIndex.ToString());
             FormatoCD formato = (FormatoCD)Enum.Parse(typeof(FormatoCD), comboBoxFormatoCD.SelectedIndex.ToString());
             string s = album.artista + "_" + album.nombre;
-            if (NC != album.numCanciones)
+            if(edit)
+            {
+                cd.FormatoCD = formato;
+                cd.Discos[NDisco - 1].EstadoDisco = medio;
+                cd.EstadoExterior = exterior;
+                cd.Discos[NDisco - 1].NumCanciones=(short)numericUpDownNumCanciones.Value;
+                cd.YearRelease = Convert.ToInt16(textBoxAño.Text);
+                cd.PaisPublicacion = textBoxPais.Text;
+                visualizarAlbum nuevo = new visualizarAlbum(ref cd);
+                Programa.refrescarVista();
+                nuevo.Show();
+            }
+            else if (NC != album.numCanciones)
             {
                 if(NDisco > 1)
                 {

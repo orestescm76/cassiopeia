@@ -34,12 +34,12 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.comboBoxFormatoCD = new System.Windows.Forms.ComboBox();
             this.labelEstadoExterior = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxPais = new System.Windows.Forms.TextBox();
             this.labelEstadoMedio = new System.Windows.Forms.Label();
             this.labelFormato = new System.Windows.Forms.Label();
             this.labelPaisPublicacion = new System.Windows.Forms.Label();
             this.labelAñoPublicacion = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxAño = new System.Windows.Forms.TextBox();
             this.labelNumCanciones = new System.Windows.Forms.Label();
             this.numericUpDownNumCanciones = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumCanciones)).BeginInit();
@@ -88,12 +88,12 @@
             this.labelEstadoExterior.TabIndex = 4;
             this.labelEstadoExterior.Text = "label1";
             // 
-            // textBox1
+            // textBoxPais
             // 
-            this.textBox1.Location = new System.Drawing.Point(120, 145);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(121, 20);
-            this.textBox1.TabIndex = 5;
+            this.textBoxPais.Location = new System.Drawing.Point(120, 145);
+            this.textBoxPais.Name = "textBoxPais";
+            this.textBoxPais.Size = new System.Drawing.Size(121, 20);
+            this.textBoxPais.TabIndex = 5;
             // 
             // labelEstadoMedio
             // 
@@ -118,25 +118,25 @@
             this.labelPaisPublicacion.AutoSize = true;
             this.labelPaisPublicacion.Location = new System.Drawing.Point(12, 148);
             this.labelPaisPublicacion.Name = "labelPaisPublicacion";
-            this.labelPaisPublicacion.Size = new System.Drawing.Size(35, 13);
+            this.labelPaisPublicacion.Size = new System.Drawing.Size(26, 13);
             this.labelPaisPublicacion.TabIndex = 8;
-            this.labelPaisPublicacion.Text = "label4";
+            this.labelPaisPublicacion.Text = "pais";
             // 
             // labelAñoPublicacion
             // 
             this.labelAñoPublicacion.AutoSize = true;
             this.labelAñoPublicacion.Location = new System.Drawing.Point(12, 183);
             this.labelAñoPublicacion.Name = "labelAñoPublicacion";
-            this.labelAñoPublicacion.Size = new System.Drawing.Size(35, 13);
+            this.labelAñoPublicacion.Size = new System.Drawing.Size(25, 13);
             this.labelAñoPublicacion.TabIndex = 10;
-            this.labelAñoPublicacion.Text = "label4";
+            this.labelAñoPublicacion.Text = "año";
             // 
-            // textBox2
+            // textBoxAño
             // 
-            this.textBox2.Location = new System.Drawing.Point(120, 180);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(121, 20);
-            this.textBox2.TabIndex = 9;
+            this.textBoxAño.Location = new System.Drawing.Point(120, 180);
+            this.textBoxAño.Name = "textBoxAño";
+            this.textBoxAño.Size = new System.Drawing.Size(121, 20);
+            this.textBoxAño.TabIndex = 9;
             // 
             // labelNumCanciones
             // 
@@ -162,11 +162,11 @@
             this.Controls.Add(this.numericUpDownNumCanciones);
             this.Controls.Add(this.labelNumCanciones);
             this.Controls.Add(this.labelAñoPublicacion);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBoxAño);
             this.Controls.Add(this.labelPaisPublicacion);
             this.Controls.Add(this.labelFormato);
             this.Controls.Add(this.labelEstadoMedio);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxPais);
             this.Controls.Add(this.labelEstadoExterior);
             this.Controls.Add(this.comboBoxFormatoCD);
             this.Controls.Add(this.buttonOK);
@@ -190,12 +190,12 @@
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.ComboBox comboBoxFormatoCD;
         private System.Windows.Forms.Label labelEstadoExterior;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxPais;
         private System.Windows.Forms.Label labelEstadoMedio;
         private System.Windows.Forms.Label labelFormato;
         private System.Windows.Forms.Label labelPaisPublicacion;
         private System.Windows.Forms.Label labelAñoPublicacion;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxAño;
         private System.Windows.Forms.Label labelNumCanciones;
         private System.Windows.Forms.NumericUpDown numericUpDownNumCanciones;
     }

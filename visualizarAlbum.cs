@@ -8,11 +8,13 @@ namespace aplicacion_musica
     public partial class visualizarAlbum : Form
     {
         private Album albumAVisualizar;
+        private byte numDisco;
         private DiscoCompacto CDaVisualizar;
         private ListViewItemComparer lvwColumnSorter;
         public visualizarAlbum(ref Album a)
         {
             InitializeComponent();
+            numDisco = 0;
             albumAVisualizar = a;
             CDaVisualizar = null;
             infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + a.artista + Environment.NewLine +
@@ -33,6 +35,7 @@ namespace aplicacion_musica
             duracionSeleccionada.AutoSize = true;
             barraAbajo.Font = new Font("Segoe UI", 10);
             Controls.Add(barraAbajo);
+            labelEstadoDisco.Hide();
             ponerTextos();
             cargarVista();
         }
@@ -41,15 +44,17 @@ namespace aplicacion_musica
             InitializeComponent();
             CDaVisualizar = cd;
             albumAVisualizar = cd.Album;
-            infoAlbum.Font = new Font("Ubuntu", 9.5f);
+            numDisco = 1;
             infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + cd.Album.artista + Environment.NewLine +
                 Programa.textosLocal.GetString("titulo") + ": " + cd.Album.nombre + Environment.NewLine +
                 Programa.textosLocal.GetString("año") + ": " + cd.Album.year + Environment.NewLine +
                 Programa.textosLocal.GetString("duracion") + ": " + cd.Album.duracion.ToString() + Environment.NewLine +
                 Programa.textosLocal.GetString("genero") + ": " + cd.Album.genero.traducido + Environment.NewLine +
-                Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine +
-                Programa.textosLocal.GetString("estado_medio") + ": " + Programa.textosLocal.GetString(cd.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
-                Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(cd.FormatoCD.ToString()) + Environment.NewLine;
+                Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(cd.FormatoCD.ToString()) + Environment.NewLine +
+                Programa.textosLocal.GetString("añoPublicacion") + ": " + cd.YearRelease + Environment.NewLine +
+                Programa.textosLocal.GetString("paisPublicacion") + ":" + cd.PaisPublicacion + Environment.NewLine +
+                Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine;
+            labelEstadoDisco.Text = Programa.textosLocal.GetString("estado_medio") + " " + numDisco + ": " + Programa.textosLocal.GetString(cd.Discos[0].EstadoDisco.ToString()) + Environment.NewLine;
             if (cd.Album.caratula != "")
             {
                 Image caratula = Image.FromFile(cd.Album.caratula);
@@ -61,7 +66,7 @@ namespace aplicacion_musica
             vistaCanciones.View = View.Details;
             vistaCanciones.MultiSelect = true;
             duracionSeleccionada.AutoSize = true;
-            barraAbajo.Font = new Font("Ubuntu", 9);
+            barraAbajo.Font = new Font("Segoe UI", 9);
             Controls.Add(barraAbajo);
             ponerTextos();
             cargarVista();
@@ -219,8 +224,16 @@ namespace aplicacion_musica
 
         private void editarButton_Click(object sender, EventArgs e)
         {
-            editarAlbum editor = new editarAlbum(ref albumAVisualizar);
-            editor.Show();
+            if(CDaVisualizar is null)
+            {
+                editarAlbum editor = new editarAlbum(ref albumAVisualizar);
+                editor.Show();
+            }
+            else
+            {
+                CrearCD editor = new CrearCD(ref CDaVisualizar, numDisco, true);
+                editor.ShowDialog();
+            }
             Close();
         }
         private void vistaCanciones_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -265,6 +278,39 @@ namespace aplicacion_musica
             Anotaciones anoForm = new Anotaciones(ref CDaVisualizar);
             anoForm.ShowDialog();
             
+        }
+
+        private void labelEstadoDisco_Click(object sender, EventArgs e)
+        {
+            if (CDaVisualizar.Discos.Length == 1)
+                return;
+            else
+            {
+                switch (numDisco)
+                {
+                    case 1:
+                        numDisco = 2;
+                        labelEstadoDisco.Text = Programa.textosLocal.GetString("estado_medio") + " " + numDisco + ": " + Programa.textosLocal.GetString(CDaVisualizar.Discos[numDisco-1].EstadoDisco.ToString()) + Environment.NewLine;
+                        break;
+                    case 2:
+                        numDisco = 1;
+                        labelEstadoDisco.Text = Programa.textosLocal.GetString("estado_medio") + " " + numDisco + ": " + Programa.textosLocal.GetString(CDaVisualizar.Discos[numDisco - 1].EstadoDisco.ToString()) + Environment.NewLine;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void visualizarAlbum_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Control && e.KeyCode == Keys.A)
+            {
+                foreach (ListViewItem item in vistaCanciones.Items)
+                {
+                    item.Selected = true;
+                }
+            }
         }
     }
 }

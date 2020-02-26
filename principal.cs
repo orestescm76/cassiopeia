@@ -33,14 +33,18 @@ namespace aplicacion_musica
             BusquedaSpotify = "";
             borrando = false;
             DirectoryInfo id = new DirectoryInfo("./idiomas");
+            Programa.idiomas = new String[id.GetFiles().Length];
+            int i = 0;
             foreach(var idioma in id.GetFiles())
             {
                 CultureInfo nombreIdioma = new CultureInfo(idioma.Name.Replace(".resx",""));
+                Programa.idiomas[i] = idioma.Name.Replace(".resx", "");
                 ToolStripItem subIdioma = new ToolStripMenuItem(nombreIdioma.NativeName);
                 subIdioma.Click += new EventHandler(SubIdioma_Click);
                 opcionesToolStripMenuItem.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + nombreIdioma.Name + ".png");
                 subIdioma.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + nombreIdioma.Name + ".png");
                 opcionesToolStripMenuItem.DropDownItems.Add(subIdioma);
+                i++;
             }
 
             lvwColumnSorter = new ListViewItemComparer();
@@ -56,8 +60,6 @@ namespace aplicacion_musica
             barraAbajo.Visible = true;
             barraAbajo.Font = new Font("Segoe UI", 10);
             duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": 00:00:00";
-            refrescarButton.Hide();
-            borrarButton.Hide();
             vistaAlbumes.DrawItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.OwnerDraw = true;
@@ -123,8 +125,6 @@ namespace aplicacion_musica
             vistaAlbumes.Columns[3].Text = Programa.textosLocal.GetString("duracion");
             vistaAlbumes.Columns[4].Text = Programa.textosLocal.GetString("genero");
             buscarEnSpotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("buscar_Spotify");
-            refrescarButton.Text = Programa.textosLocal.GetString("refrescar");
-            borrarButton.Text = Programa.textosLocal.GetString("borrar_seleccion");
             guardarcomo.Text = Programa.textosLocal.GetString("guardar")+"...";
             seleccionToolStripMenuItem.Text = Programa.textosLocal.GetString("seleccion");
             adminMenu.Text = Programa.textosLocal.GetString("admin");
@@ -134,6 +134,11 @@ namespace aplicacion_musica
             nuevoToolStripMenuItem.Text = Programa.textosLocal.GetString("nuevaBD");
             clickDerechoMenuContexto.Items[0].Text = Programa.textosLocal.GetString("crearCD");
             cargarDiscosLegacyToolStripMenuItem.Text = Programa.textosLocal.GetString("cargarDiscosLegacy");
+            verToolStripMenuItem.Text = Programa.textosLocal.GetString("ver");
+            digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
+            cdToolStripMenuItem.Text = "CD";
+            copiarToolStripMenuItem.Text = Programa.textosLocal.GetString("copiar");
+            opcionesToolStripMenuItem.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + Programa.Idioma + ".png");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -179,8 +184,14 @@ namespace aplicacion_musica
         private void SubIdioma_Click(object sender, EventArgs e)
         {
             var menu = sender as ToolStripMenuItem;
-            string codIdioma = menu.Text;
-            //Programa.cambiarIdioma(codIdioma);
+            string idiomaNuevo = "";
+            for (int i = 0; i < opcionesToolStripMenuItem.DropDownItems.Count; i++)
+            {
+                CultureInfo c = new CultureInfo(Programa.idiomas[i]);
+                if (menu.Text == c.NativeName)
+                    idiomaNuevo = Programa.idiomas[i];
+            }
+            Programa.cambiarIdioma(idiomaNuevo);
             ponerTextos();
 
         }
@@ -285,7 +296,14 @@ namespace aplicacion_musica
                 Clipboard.SetText(i);
                 Console.WriteLine("Copiado " + i + " al portapapeles");
             }
-            if(vistaAlbumes.SelectedItems.Count != 0 && e.KeyCode == Keys.Delete)
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                foreach (ListViewItem item in vistaAlbumes.Items)
+                {
+                    item.Selected = true;
+                }
+            }
+            if (vistaAlbumes.SelectedItems.Count != 0 && e.KeyCode == Keys.Delete)
             {
                 if (TipoVista == TipoVista.Digital)
                     borrarAlbumesSeleccionados();
@@ -424,13 +442,35 @@ namespace aplicacion_musica
         {
             Console.WriteLine("Generando álbum");
             Stopwatch crono = Stopwatch.StartNew();
+            if(vistaAlbumes.Items.Count == 0)
+            {
+                crono.Stop();
+                Console.WriteLine("Cancelado por no haber álbumes");
+                MessageBox.Show(Programa.textosLocal.GetString("error_noAlbumes"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             Random generador = new Random();
-            int ganador = generador.Next(0, Programa.miColeccion.albumes.Count);
-            Album a = Programa.miColeccion.albumes[ganador];
-            visualizarAlbum vistazo = new visualizarAlbum(ref a);
+            switch (TipoVista)
+            {
+                case TipoVista.Digital:
+                    int ganador = generador.Next(0, Programa.miColeccion.albumes.Count);
+                    Album a = Programa.miColeccion.albumes[ganador];
+                    visualizarAlbum vistazo = new visualizarAlbum(ref a);
+                    vistazo.Show();
+                    break;
+                case TipoVista.CD:
+                    int ganadorCD = generador.Next(0, Programa.miColeccion.cds.Count);
+                    DiscoCompacto cd = Programa.miColeccion.cds[ganadorCD];
+                    visualizarAlbum vistazocd = new visualizarAlbum(ref cd);
+                    vistazocd.Show();
+                    break;
+                case TipoVista.Vinilo:
+                    break;
+                default:
+                    break;
+            }
             crono.Stop();
             Console.WriteLine("Generado en "+crono.ElapsedMilliseconds+"ms");
-            vistazo.ShowDialog();
         }
 
         private void buscarEnSpotifyToolStripMenuItem_Click(object sender, EventArgs e)

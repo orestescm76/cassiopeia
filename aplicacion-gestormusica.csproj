@@ -237,9 +237,10 @@
     <Content Include="idiomas\es.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="idiomas\ca.resx">
+    <Content Include="idiomas\en.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="idiomas\ca.resx" />
     <EmbeddedResource Include="principal.resx">
       <DependentUpon>principal.cs</DependentUpon>
     </EmbeddedResource>

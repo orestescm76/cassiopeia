@@ -35,6 +35,7 @@
             this.nuevoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.agregarAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cargarDiscosLegacyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buscarEnSpotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guardarcomo = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,14 +58,11 @@
             this.duracion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.genero = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.refrescarButton = new System.Windows.Forms.Button();
-            this.borrarButton = new System.Windows.Forms.Button();
             this.barraAbajo = new System.Windows.Forms.StatusStrip();
             this.duracionSeleccionada = new System.Windows.Forms.ToolStripStatusLabel();
             this.clickDerechoMenuContexto = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.crearCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cargarDiscosLegacyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -120,6 +118,13 @@
             this.abrirToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
             this.abrirToolStripMenuItem.Text = "abrirDesdeFichero14";
             this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
+            // 
+            // cargarDiscosLegacyToolStripMenuItem
+            // 
+            this.cargarDiscosLegacyToolStripMenuItem.Name = "cargarDiscosLegacyToolStripMenuItem";
+            this.cargarDiscosLegacyToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
+            this.cargarDiscosLegacyToolStripMenuItem.Text = "cargarDiscosLegacy";
+            this.cargarDiscosLegacyToolStripMenuItem.Click += new System.EventHandler(this.cargarDiscosLegacyToolStripMenuItem_Click);
             // 
             // buscarEnSpotifyToolStripMenuItem
             // 
@@ -225,7 +230,7 @@
             // 
             this.testToolStripMenuItem1.CheckOnClick = true;
             this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
-            this.testToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.testToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
             this.testToolStripMenuItem1.Text = "testOscuro";
             this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
             // 
@@ -290,28 +295,6 @@
             this.columnID.Text = "id";
             this.columnID.Width = 0;
             // 
-            // refrescarButton
-            // 
-            this.refrescarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refrescarButton.Location = new System.Drawing.Point(669, 411);
-            this.refrescarButton.Name = "refrescarButton";
-            this.refrescarButton.Size = new System.Drawing.Size(78, 30);
-            this.refrescarButton.TabIndex = 2;
-            this.refrescarButton.Text = "refresh";
-            this.refrescarButton.UseVisualStyleBackColor = true;
-            this.refrescarButton.Click += new System.EventHandler(this.refrescarButton_Click);
-            // 
-            // borrarButton
-            // 
-            this.borrarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.borrarButton.Location = new System.Drawing.Point(12, 411);
-            this.borrarButton.Name = "borrarButton";
-            this.borrarButton.Size = new System.Drawing.Size(147, 30);
-            this.borrarButton.TabIndex = 2;
-            this.borrarButton.Text = "borrar";
-            this.borrarButton.UseVisualStyleBackColor = true;
-            this.borrarButton.Click += new System.EventHandler(this.borrarButton_Click);
-            // 
             // barraAbajo
             // 
             this.barraAbajo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -351,24 +334,16 @@
             this.copiarToolStripMenuItem.Text = "copiar";
             this.copiarToolStripMenuItem.Click += new System.EventHandler(this.copiarToolStripMenuItem_Click);
             // 
-            // cargarDiscosLegacyToolStripMenuItem
-            // 
-            this.cargarDiscosLegacyToolStripMenuItem.Name = "cargarDiscosLegacyToolStripMenuItem";
-            this.cargarDiscosLegacyToolStripMenuItem.Size = new System.Drawing.Size(249, 22);
-            this.cargarDiscosLegacyToolStripMenuItem.Text = "cargarDiscosLegacy";
-            this.cargarDiscosLegacyToolStripMenuItem.Click += new System.EventHandler(this.cargarDiscosLegacyToolStripMenuItem_Click);
-            // 
             // principal
             // 
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(759, 465);
             this.Controls.Add(this.barraAbajo);
-            this.Controls.Add(this.borrarButton);
-            this.Controls.Add(this.refrescarButton);
             this.Controls.Add(this.vistaAlbumes);
             this.Controls.Add(this.barraPrincipal);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "principal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -393,8 +368,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem abrirToolStripMenuItem;
         private System.Windows.Forms.ListView vistaAlbumes;
-        private System.Windows.Forms.Button refrescarButton;
-        private System.Windows.Forms.Button borrarButton;
         private System.Windows.Forms.ToolStripMenuItem buscarEnSpotifyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem adminMenu;
         private System.Windows.Forms.ToolStripMenuItem generarAlbumToolStripMenuItem;

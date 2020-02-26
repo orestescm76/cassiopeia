@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using System.Resources;
-using System.Collections;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Data;
-/*VERSION 1.4.0.81 - FEATURE DISCO COMPACTO
+/*VERSION 1.4.0.86 - FEATURE DISCO COMPACTO
 * anotaciones
 * guardado en JSON
 * cds
+* visualizado para CD
+* editado de CD
+* soporte para doble CD
+* ctrl + a implementado
 */
 /*para portear a netcore https://stackoverflow.com/questions/43181904/how-to-get-the-resx-file-strings-in-asp-net-core*/
 namespace aplicacion_musica
@@ -30,7 +31,7 @@ namespace aplicacion_musica
         public static Genero[] generos = new Genero[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
         public static readonly string version = ver.ToString();
-        public static string ErrorIdioma;
+        public static string[] idiomas;
         public static Spotify _spotify;
         private static principal principal;
         public static string Idioma;
@@ -39,29 +40,12 @@ namespace aplicacion_musica
         {
             principal.HayInternet(i);
         }
-        //public static void cambiarIdioma(String idioma)
-        //{
-        //    string idiomatemp = Programa.idioma;
-        //    try
-        //    {
-        //        Programa.idioma = idioma;
-        //        int numCadenas = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(1).First());
-        //        int numImagenes = Convert.ToInt32(textos.SkipWhile(linea => linea != idioma).Skip(2 + numCadenas).First());
-        //        String[] textosLocalNou = textos.SkipWhile(linea => linea != idioma).Skip(2).Take(numCadenas).ToArray();
-        //        if (textosLocalNou.Length != textosLocal.Length)
-        //            throw new IndexOutOfRangeException();
-        //        ErrorIdioma = textosLocalNou[15];
-        //        String[] imagenesNuevas = textos.SkipWhile(linea => linea != idioma).Skip(3 + numCadenas).Take(numImagenes).ToArray();
-        //        imagenesLocal = imagenesNuevas;
-        //        textosLocal = textosLocalNou;
-        //        refrescarGeneros();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        MessageBox.Show(ErrorIdioma);
-        //        Programa.idioma = idiomatemp;
-        //    }
-        //}
+        public static void cambiarIdioma(String idioma)
+        {
+            textosLocal = new ResXResourceSet(@"./idiomas/" + idioma + ".resx");
+            Idioma = idioma;
+            refrescarGeneros();
+        }
         public static void refrescarVista()
         {
             principal.Refrescar();
@@ -207,16 +191,13 @@ namespace aplicacion_musica
                 Console.WriteLine("Consola habilitada, se mostrarán detalles sobre la ejecución en español.\nSi la cierra se cerrará la aplicación.");
             }
 
-            textosLocal = new ResXResourceSet(@"./idiomas/es.resx");
+
             Idioma = "es"; //provisional
 
             miColeccion = new Coleccion();
-            //if (File.Exists("idioma.cfg"))
-            //    idioma = File.ReadAllLines("idioma.cfg")[0];
-            //else
-            //    idioma = textos[1]; //tiene que haber minimo un idioma
-            //idioma = textos[1];
-
+            if (File.Exists("idioma.cfg"))
+                Idioma = File.ReadAllLines("idioma.cfg")[0];
+            textosLocal = new ResXResourceSet(@"./idiomas/"+Idioma+".resx");
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -255,10 +236,6 @@ namespace aplicacion_musica
             {
                 Console.WriteLine("discos.mdb no existe, se creará una base de datos vacía.");
             }
-
-
-
-
             Application.Run(principal);
             if(args.Contains("-consola"))
             {
