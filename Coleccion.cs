@@ -80,6 +80,7 @@ namespace aplicacion_musica
         public void BorrarTodo()
         {
             albumes.Clear();
+            cds.Clear();
         }
         public void AgregarCD(ref DiscoCompacto cd)
         {

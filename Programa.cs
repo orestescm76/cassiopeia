@@ -8,14 +8,15 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Data;
-/*VERSION 1.4.0.86 - FEATURE DISCO COMPACTO
+/*VERSION 1.4.0.91 - FEATURE DISCO COMPACTO
 * anotaciones
 * guardado en JSON
 * cds
 * visualizado para CD
 * editado de CD
 * soporte para doble CD
-* ctrl + a implementado
+* atajos de teclado
+* retoques internos
 */
 /*para portear a netcore https://stackoverflow.com/questions/43181904/how-to-get-the-resx-file-strings-in-asp-net-core*/
 namespace aplicacion_musica
@@ -165,11 +166,11 @@ namespace aplicacion_musica
             Console.WriteLine(nameof(cargarAlbumes) + " - Cargados " + miColeccion.albumes.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + " ms");
             refrescarVista();
         }
-        private static void cargarCDS()
+        public static void cargarCDS(string fichero = "cd.json")
         {
-            if (!File.Exists("cd.json"))
+            if (!File.Exists(fichero))
                 return;
-            using(StreamReader lector = new StreamReader("cd.json"))
+            using(StreamReader lector = new StreamReader(fichero))
             {
                 string linea;
                 while(!lector.EndOfStream)

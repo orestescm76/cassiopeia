@@ -17,6 +17,7 @@ namespace aplicacion_musica
         ToolTip ConsejoEsBonus;
         public agregarCancion(ref Album a, int n) //caso normal
         {
+            Console.WriteLine("Creando canción");
             InitializeComponent();
             album = a;
             cual = n;

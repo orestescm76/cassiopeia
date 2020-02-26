@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace aplicacion_musica
 {
@@ -9,9 +10,12 @@ namespace aplicacion_musica
         private String[] generosTraducidos = new string[Programa.generos.Length-1];
         public agregarAlbum()
         {
+            Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             ponerTextos();
-
+            crono.Stop();
+            Console.WriteLine("Formulario creado en "+crono.ElapsedMilliseconds+"ms");
+            Console.WriteLine("Creando álbum");
         }
         private void ponerTextos()
         {
@@ -24,7 +28,6 @@ namespace aplicacion_musica
             add.Text = Programa.textosLocal.GetString("añadir");
             addCaratula.Text = Programa.textosLocal.GetString("addcaratula");
             labelCaratula.Text = Programa.textosLocal.GetString("caratula");
-                //TODO rediseñar sistema generos, ponerlo como ultimos string.
             for (int i = 0; i < Programa.generos.Length-1; i++)
             {
                 generosTraducidos[i] = Programa.generos[i].traducido;
@@ -33,23 +36,9 @@ namespace aplicacion_musica
             comboBox1.Items.AddRange(generosTraducidos);
             
         }
-        private void agregarAlbum_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numCancionesTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
+            Console.WriteLine("Abriendo imagen");
             OpenFileDialog abrirImagen = new OpenFileDialog();
             abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
@@ -59,14 +48,13 @@ namespace aplicacion_musica
                 caratula = fichero;
                 ruta.Text = fichero;
             }
+            Console.WriteLine("Imagen "+ruta + " cargada");
         }
 
         private void add_Click(object sender, EventArgs e)
         {
             string titulo, artista;
             short year, nC;
-
-
             try
             {
                 titulo = tituloTextBox.Text;
@@ -91,6 +79,7 @@ namespace aplicacion_musica
                     cancelar = agregarCancion.ShowDialog();
                     if (cancelar == DialogResult.Cancel)
                     {
+                        Console.WriteLine("Cancelado el proceso de añadir álbum");
                         Programa.miColeccion.quitarAlbum(ref a);
                         Close();
                         break;
@@ -98,7 +87,7 @@ namespace aplicacion_musica
                     else if (cancelar == DialogResult.None)
                         continue;
                 }
-
+                Programa.refrescarVista();
                 Close();
             }
             catch (NullReferenceException)
