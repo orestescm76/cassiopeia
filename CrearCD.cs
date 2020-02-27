@@ -28,8 +28,8 @@ namespace aplicacion_musica
         public CrearCD(ref Album a)
         {
             InitializeComponent();
-            Console.WriteLine("Creando sólo un CD, duración: "+album.duracion);
             album = a;
+            Console.WriteLine("Creando sólo un CD, duración: " + album.duracion);
             numericUpDownNumCanciones.Hide();
             labelNumCanciones.Hide();
             NDisco = 1;
