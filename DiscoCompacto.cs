@@ -82,7 +82,7 @@ namespace aplicacion_musica
         public String[] toStringArray()
         {
             String[] d = new string[6];
-            Array.Copy(Album.toStringArray(), d, 5);
+            Array.Copy(Album.ToStringArray(), d, 5);
             d[5] = Id;
             return d;
         }

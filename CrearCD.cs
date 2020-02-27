@@ -28,6 +28,7 @@ namespace aplicacion_musica
         public CrearCD(ref Album a)
         {
             InitializeComponent();
+            Console.WriteLine("Creando sólo un CD, duración: "+album.duracion);
             album = a;
             numericUpDownNumCanciones.Hide();
             labelNumCanciones.Hide();
@@ -43,6 +44,7 @@ namespace aplicacion_musica
         public CrearCD(ref Album a, short nd)
         {
             InitializeComponent();
+            Console.WriteLine("Creando primer CD");
             album = a;
             NDisco = 1;
             numDiscos = nd;
@@ -71,9 +73,13 @@ namespace aplicacion_musica
                 labelPaisPublicacion.Hide();
                 textBoxPais.Hide();
                 textBoxAño.Hide();
+                numericUpDownNumCanciones.Maximum = album.numCanciones - cdd.Discos[0].NumCanciones;
+                numericUpDownNumCanciones.Value = numericUpDownNumCanciones.Maximum;
+                Console.WriteLine("Creando otro CD con un máximo de "+numericUpDownNumCanciones.Maximum);
             }
             else if(edit)
             {
+                Console.WriteLine("Editando CD");
                 this.edit = true;
                 comboBoxFormatoCD.SelectedItem = cdd.FormatoCD;
                 comboBoxEstadoMedio.SelectedItem = cdd.Discos[n-1].EstadoDisco;
@@ -145,6 +151,7 @@ namespace aplicacion_musica
                 v.Show();
             }
             Dispose();
+            Console.WriteLine("Cerrando formulario CD");
         }
     }
 }

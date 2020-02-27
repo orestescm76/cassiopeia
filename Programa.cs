@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Data;
-/*VERSION 1.4.0.91 - FEATURE DISCO COMPACTO
+/*VERSION 1.4.0.95 - FEATURE DISCO COMPACTO
 * anotaciones
 * guardado en JSON
 * cds

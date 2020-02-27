@@ -184,6 +184,7 @@
             this.setLargaToolStripMenuItem.Name = "setLargaToolStripMenuItem";
             this.setLargaToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.setLargaToolStripMenuItem.Text = "setPartes";
+            this.setLargaToolStripMenuItem.Visible = false;
             // 
             // visualizarAlbum
             // 

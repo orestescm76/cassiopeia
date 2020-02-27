@@ -88,7 +88,7 @@ namespace aplicacion_musica
         {
             int cualdeVerdad = cual + 1;
             if (cual == 0)
-                cualdeVerdad = album.numCanciones;
+                cualdeVerdad = album.numCanciones+1;
             if(editar)
             {
                 Text = Programa.textosLocal.GetString("editando") + " " + cancion.titulo;

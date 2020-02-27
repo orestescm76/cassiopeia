@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Console.WriteLine("Creando CD");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CrearCD));
             this.comboBoxEstadoExterior = new System.Windows.Forms.ComboBox();
             this.comboBoxEstadoMedio = new System.Windows.Forms.ComboBox();

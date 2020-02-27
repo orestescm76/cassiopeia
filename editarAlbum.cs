@@ -10,6 +10,7 @@ namespace aplicacion_musica
         public editarAlbum(ref Album a)
         {
             InitializeComponent();
+            Console.WriteLine("Editando canción");
             albumAEditar = a;
             textBoxArtista.Text = albumAEditar.artista;
             textBoxAño.Text = albumAEditar.year.ToString();
@@ -31,6 +32,7 @@ namespace aplicacion_musica
             botonOkDoomer.Text = Programa.textosLocal.GetString("hecho");
             botonCancelar.Text = Programa.textosLocal.GetString("cancelar");
             botonCaratula.Text = Programa.textosLocal.GetString("buscar");
+            buttonAñadirCancion.Text = Programa.textosLocal.GetString("añadir_cancion");
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
                 generosTraducidos[i] = Programa.generos[i].traducido;
@@ -47,16 +49,19 @@ namespace aplicacion_musica
         }
         private void cargarVista()
         {
-            foreach (Cancion cancion in albumAEditar.canciones)
+            ListViewItem[] items = new ListViewItem[albumAEditar.numCanciones];
+            for (int i = 0; i < items.Length; i++)
             {
-                vistaCanciones.Items.Add(cancion.titulo);
+                items[i] = new ListViewItem(albumAEditar.canciones[i].titulo);
             }
+            vistaCanciones.Items.AddRange(items);
         }
 
         private void botonOkDoomer_Click(object sender, EventArgs e)
         {
             try//si está vacío pues guarda vacío
             {
+                Console.WriteLine("Intentando guardar");
                 albumAEditar.artista = textBoxArtista.Text;
                 albumAEditar.nombre = textBoxTitulo.Text;
                 albumAEditar.year = Convert.ToInt16(textBoxAño.Text);
@@ -86,6 +91,7 @@ namespace aplicacion_musica
             cargarVista();
             nuevo.Show();
             Close();
+            Console.WriteLine("Guardado sin problema");
         }
 
         private void botonCancelar_Click(object sender, EventArgs e)
@@ -109,9 +115,11 @@ namespace aplicacion_musica
 
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e) //editar cancion
         {
+            Console.WriteLine("Editando canción");
             Cancion cancionAEditar = albumAEditar.canciones[albumAEditar.buscarCancion(vistaCanciones.SelectedItems[0].Text)];
             agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
+            Console.WriteLine("Guardado correctamente");
         }
 
         private void buttonAñadirCancion_Click(object sender, EventArgs e)
@@ -125,7 +133,7 @@ namespace aplicacion_musica
         {
             for (int i = 0; i < vistaCanciones.Items.Count; i++)
             {
-                vistaCanciones.Items[i].Remove();
+                vistaCanciones.Clear();
             }
         }
         private void vistaCanciones_KeyDown(object sender, KeyEventArgs e)

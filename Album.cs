@@ -52,6 +52,7 @@ namespace aplicacion_musica
             canciones.Add(c);
             if (!c.Bonus)
                 duracion += c.duracion;
+            numCanciones = (short)canciones.Count;
         }
         public void agregarCancion(Cancion c, int cual)
         {
@@ -59,9 +60,18 @@ namespace aplicacion_musica
             duracion += c.duracion;
             numCanciones = (short)canciones.Count;
         }
-        public String[] toStringArray()
+        public String[] ToStringArray()
         {
             String[] datos = { artista, nombre, year.ToString(), duracion.ToString(), genero.traducido };
+            return datos;
+        }
+        public String[] SongsToStringArray()
+        {
+            String[] datos = new string[numCanciones];
+            for (int i = 0; i < canciones.Count; i++)
+            {
+                datos[i] = canciones[i].titulo;
+            }
             return datos;
         }
         private string getID()
