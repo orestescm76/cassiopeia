@@ -32,14 +32,15 @@
             this.tituloTextBox = new System.Windows.Forms.TextBox();
             this.secsTextBox = new System.Windows.Forms.TextBox();
             this.minTextBox = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonOK = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.labelTituloCancion = new System.Windows.Forms.Label();
             this.labelMinutosSegundos = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonCancelar = new System.Windows.Forms.Button();
             this.esLarga = new System.Windows.Forms.Button();
             this.labelNumPartes = new System.Windows.Forms.Label();
             this.textBoxNumPartes = new System.Windows.Forms.TextBox();
+            this.checkBoxBonus = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // tituloTextBox
@@ -67,16 +68,16 @@
             this.minTextBox.Size = new System.Drawing.Size(124, 25);
             this.minTextBox.TabIndex = 1;
             // 
-            // button1
+            // buttonOK
             // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(12, 168);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(126, 32);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "añadir9";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonOK.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonOK.Location = new System.Drawing.Point(12, 175);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(126, 32);
+            this.buttonOK.TabIndex = 3;
+            this.buttonOK.Text = "añadir9";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.button1_Click);
             // 
             // label2
             // 
@@ -115,16 +116,16 @@
             this.labelMinutosSegundos.Text = "mm:ss12";
             this.labelMinutosSegundos.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button2
+            // buttonCancelar
             // 
-            this.button2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(190, 168);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(125, 32);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "cancelar10";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonCancelar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonCancelar.Location = new System.Drawing.Point(190, 175);
+            this.buttonCancelar.Name = "buttonCancelar";
+            this.buttonCancelar.Size = new System.Drawing.Size(125, 32);
+            this.buttonCancelar.TabIndex = 6;
+            this.buttonCancelar.Text = "cancelar10";
+            this.buttonCancelar.UseVisualStyleBackColor = true;
+            this.buttonCancelar.Click += new System.EventHandler(this.button2_Click);
             // 
             // esLarga
             // 
@@ -154,20 +155,31 @@
             this.textBoxNumPartes.Size = new System.Drawing.Size(89, 25);
             this.textBoxNumPartes.TabIndex = 9;
             // 
+            // checkBoxBonus
+            // 
+            this.checkBoxBonus.AutoSize = true;
+            this.checkBoxBonus.Location = new System.Drawing.Point(13, 152);
+            this.checkBoxBonus.Name = "checkBoxBonus";
+            this.checkBoxBonus.Size = new System.Drawing.Size(55, 17);
+            this.checkBoxBonus.TabIndex = 10;
+            this.checkBoxBonus.Text = "bonus";
+            this.checkBoxBonus.UseVisualStyleBackColor = true;
+            // 
             // agregarCancion
             // 
-            this.AcceptButton = this.button1;
+            this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 212);
+            this.ClientSize = new System.Drawing.Size(327, 219);
+            this.Controls.Add(this.checkBoxBonus);
             this.Controls.Add(this.textBoxNumPartes);
             this.Controls.Add(this.labelNumPartes);
             this.Controls.Add(this.esLarga);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.labelTituloCancion);
             this.Controls.Add(this.labelMinutosSegundos);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.minTextBox);
             this.Controls.Add(this.secsTextBox);
             this.Controls.Add(this.tituloTextBox);
@@ -188,13 +200,14 @@
         private System.Windows.Forms.TextBox tituloTextBox;
         private System.Windows.Forms.TextBox secsTextBox;
         private System.Windows.Forms.TextBox minTextBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelTituloCancion;
         private System.Windows.Forms.Label labelMinutosSegundos;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonCancelar;
         private System.Windows.Forms.Button esLarga;
         private System.Windows.Forms.Label labelNumPartes;
         private System.Windows.Forms.TextBox textBoxNumPartes;
+        private System.Windows.Forms.CheckBox checkBoxBonus;
     }
 }

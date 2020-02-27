@@ -19,3 +19,8 @@ packages/
 packages.config
 aplicacion-ipo.sln
 ClaveAPI.cs
+MigrationBackup/
+SpotifyAPI.Web.dll
+appmu.csproj
+appmu.sln
+idiomas/original.resx

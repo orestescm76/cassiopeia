@@ -1,32 +1,33 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace aplicacion_musica
 {
     public partial class agregarAlbum : Form
     {
-        private string titulo;
         private string caratula = "";
-        private int min, sec;
         private String[] generosTraducidos = new string[Programa.generos.Length-1];
         public agregarAlbum()
         {
+            Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             ponerTextos();
-
+            crono.Stop();
+            Console.WriteLine("Formulario creado en "+crono.ElapsedMilliseconds+"ms");
+            Console.WriteLine("Creando álbum");
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal[3];
-            labelArtista.Text = Programa.textosLocal[4];
-            labelTitulo.Text = Programa.textosLocal[5];
-            labelAño.Text = Programa.textosLocal[6];
-            labelNumCanciones.Text = Programa.textosLocal[7];
-            labelGenero.Text = Programa.textosLocal[8];
-            add.Text = Programa.textosLocal[9];
-            addCaratula.Text = Programa.textosLocal[25];
-            labelCaratula.Text = Programa.textosLocal[24];
-                //TODO rediseñar sistema generos, ponerlo como ultimos string.
+            Text = Programa.textosLocal.GetString("agregar_album");
+            labelArtista.Text = Programa.textosLocal.GetString("artista");
+            labelTitulo.Text = Programa.textosLocal.GetString("titulo");
+            labelAño.Text = Programa.textosLocal.GetString("año");
+            labelNumCanciones.Text = Programa.textosLocal.GetString("numcanciones");
+            labelGenero.Text = Programa.textosLocal.GetString("genero");
+            add.Text = Programa.textosLocal.GetString("añadir");
+            addCaratula.Text = Programa.textosLocal.GetString("addcaratula");
+            labelCaratula.Text = Programa.textosLocal.GetString("caratula");
             for (int i = 0; i < Programa.generos.Length-1; i++)
             {
                 generosTraducidos[i] = Programa.generos[i].traducido;
@@ -35,25 +36,11 @@ namespace aplicacion_musica
             comboBox1.Items.AddRange(generosTraducidos);
             
         }
-        private void agregarAlbum_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numCancionesTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
+            Console.WriteLine("Abriendo imagen");
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Programa.textosLocal[1] + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
@@ -61,14 +48,13 @@ namespace aplicacion_musica
                 caratula = fichero;
                 ruta.Text = fichero;
             }
+            Console.WriteLine("Imagen "+ruta + " cargada");
         }
 
         private void add_Click(object sender, EventArgs e)
         {
             string titulo, artista;
             short year, nC;
-
-
             try
             {
                 titulo = tituloTextBox.Text;
@@ -87,12 +73,12 @@ namespace aplicacion_musica
                 DialogResult cancelar = DialogResult.OK;
                 for (int i = 0; i < nC; i++)
                 {
-
                     agregarCancion agregarCancion = new agregarCancion(ref a,i);
                     Hide();
                     cancelar = agregarCancion.ShowDialog();
                     if (cancelar == DialogResult.Cancel)
                     {
+                        Console.WriteLine("Cancelado el proceso de añadir álbum");
                         Programa.miColeccion.quitarAlbum(ref a);
                         Close();
                         break;
@@ -100,17 +86,17 @@ namespace aplicacion_musica
                     else if (cancelar == DialogResult.None)
                         continue;
                 }
-
+                Programa.refrescarVista();
                 Close();
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show(Programa.textosLocal[23]);
+                MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
             }
 
             catch (FormatException)
             {
-                MessageBox.Show(Programa.textosLocal[22]);
+                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
                 //throw;
             }
 

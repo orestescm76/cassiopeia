@@ -76,7 +76,6 @@
             this.numCancionesTextBox.Name = "numCancionesTextBox";
             this.numCancionesTextBox.Size = new System.Drawing.Size(127, 25);
             this.numCancionesTextBox.TabIndex = 3;
-            this.numCancionesTextBox.TextChanged += new System.EventHandler(this.numCancionesTextBox_TextChanged);
             // 
             // add
             // 
@@ -163,7 +162,6 @@
             this.labelCaratula.TabIndex = 11;
             this.labelCaratula.Text = "agregarCaratula";
             this.labelCaratula.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.labelCaratula.Click += new System.EventHandler(this.label2_Click);
             // 
             // addCaratula
             // 
@@ -209,7 +207,6 @@
             this.Name = "agregarAlbum";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "agregarAlbum4";
-            this.Load += new System.EventHandler(this.agregarAlbum_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -217,7 +214,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox artistaTextBox;
         private System.Windows.Forms.TextBox tituloTextBox;
         private System.Windows.Forms.TextBox yearTextBox;

@@ -43,6 +43,7 @@
             this.textBoxAño = new System.Windows.Forms.TextBox();
             this.comboBoxGeneros = new System.Windows.Forms.ComboBox();
             this.vistaCanciones = new System.Windows.Forms.ListView();
+            this.buttonAñadirCancion = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labelArtista
@@ -113,19 +114,19 @@
             this.botonOkDoomer.Name = "botonOkDoomer";
             this.botonOkDoomer.Size = new System.Drawing.Size(109, 30);
             this.botonOkDoomer.TabIndex = 5;
-            this.botonOkDoomer.Text = "button1";
+            this.botonOkDoomer.Text = "ok";
             this.botonOkDoomer.UseVisualStyleBackColor = true;
             this.botonOkDoomer.Click += new System.EventHandler(this.botonOkDoomer_Click);
             // 
             // botonCancelar
             // 
             this.botonCancelar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonCancelar.Location = new System.Drawing.Point(441, 485);
+            this.botonCancelar.Location = new System.Drawing.Point(419, 485);
             this.botonCancelar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonCancelar.Name = "botonCancelar";
-            this.botonCancelar.Size = new System.Drawing.Size(87, 30);
+            this.botonCancelar.Size = new System.Drawing.Size(111, 30);
             this.botonCancelar.TabIndex = 8;
-            this.botonCancelar.Text = "button2";
+            this.botonCancelar.Text = "cancelar";
             this.botonCancelar.UseVisualStyleBackColor = true;
             this.botonCancelar.Click += new System.EventHandler(this.botonCancelar_Click);
             // 
@@ -188,14 +189,25 @@
             this.vistaCanciones.Size = new System.Drawing.Size(514, 109);
             this.vistaCanciones.TabIndex = 9;
             this.vistaCanciones.UseCompatibleStateImageBehavior = false;
-            this.vistaCanciones.SelectedIndexChanged += new System.EventHandler(this.vistaCanciones_SelectedIndexChanged);
+            this.vistaCanciones.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vistaCanciones_KeyDown);
             this.vistaCanciones.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaCanciones_MouseDoubleClick);
+            // 
+            // buttonAñadirCancion
+            // 
+            this.buttonAñadirCancion.Location = new System.Drawing.Point(14, 485);
+            this.buttonAñadirCancion.Name = "buttonAñadirCancion";
+            this.buttonAñadirCancion.Size = new System.Drawing.Size(113, 31);
+            this.buttonAñadirCancion.TabIndex = 10;
+            this.buttonAñadirCancion.Text = "añadir cancion";
+            this.buttonAñadirCancion.UseVisualStyleBackColor = true;
+            this.buttonAñadirCancion.Click += new System.EventHandler(this.buttonAñadirCancion_Click);
             // 
             // editarAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(542, 528);
+            this.Controls.Add(this.buttonAñadirCancion);
             this.Controls.Add(this.vistaCanciones);
             this.Controls.Add(this.comboBoxGeneros);
             this.Controls.Add(this.textBoxAño);
@@ -238,5 +250,6 @@
         private System.Windows.Forms.TextBox textBoxAño;
         private System.Windows.Forms.ComboBox comboBoxGeneros;
         private System.Windows.Forms.ListView vistaCanciones;
+        private System.Windows.Forms.Button buttonAñadirCancion;
     }
 }

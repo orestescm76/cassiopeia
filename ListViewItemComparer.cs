@@ -23,10 +23,6 @@ namespace aplicacion_musica
             listviewX = (ListViewItem)x;
             listviewY = (ListViewItem)y;
             Resultado = ObjectCompare.Compare(listviewX.SubItems[ColumnaAOrdenar].Text, listviewY.SubItems[ColumnaAOrdenar].Text);
-            if(ColumnaAOrdenar == 3)
-            {
-
-            }
             if (Orden == SortOrder.Ascending)
             {
                 // Ascending sort is selected, return normal result of compare operation

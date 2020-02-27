@@ -83,6 +83,7 @@
             // 
             // listViewResultadoBusqueda
             // 
+            this.listViewResultadoBusqueda.AllowColumnReorder = true;
             this.listViewResultadoBusqueda.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnaNum,
             this.columnaArtista,
@@ -98,6 +99,7 @@
             this.listViewResultadoBusqueda.TabIndex = 5;
             this.listViewResultadoBusqueda.UseCompatibleStateImageBehavior = false;
             this.listViewResultadoBusqueda.View = System.Windows.Forms.View.Details;
+            this.listViewResultadoBusqueda.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewResultadoBusqueda_ColumnClick);
             // 
             // columnaNum
             // 

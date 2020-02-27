@@ -5,8 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows.Forms;
 using SpotifyAPI.Web.Models;
 
@@ -14,20 +13,21 @@ namespace aplicacion_musica
 {
     public partial class resultadoSpotify : Form
     {
+        private ListViewItemComparer lvwColumnSorter;
         private List<SimpleAlbum> listaBusqueda = new List<SimpleAlbum>();
         public resultadoSpotify(ref List<SimpleAlbum> l)
         {
             InitializeComponent();
-            Text = Programa.textosLocal[44];
-            labelAyuda.Text = Programa.textosLocal[41];
-            labelResultado.Text = Programa.textosLocal[39] + l.Count + " " + Programa.textosLocal[40];
+            Text = Programa.textosLocal.GetString("resultado_busqueda");
+            labelAyuda.Text = Programa.textosLocal.GetString("ayudaAñadir");
+            labelResultado.Text = Programa.textosLocal.GetString("seHanEncontrado") + l.Count + " " + Programa.textosLocal.GetString("resultados");
             listaBusqueda = l;
-            listViewResultadoBusqueda.Columns[1].Text = Programa.textosLocal[4];
-            listViewResultadoBusqueda.Columns[2].Text = Programa.textosLocal[5];
-            listViewResultadoBusqueda.Columns[3].Text = Programa.textosLocal[6];
-            listViewResultadoBusqueda.Columns[4].Text = Programa.textosLocal[7];
-            buttonCancelar.Text = Programa.textosLocal[11];
-            buttonOK.Text = Programa.textosLocal[9];
+            listViewResultadoBusqueda.Columns[1].Text = Programa.textosLocal.GetString("artista");
+            listViewResultadoBusqueda.Columns[2].Text = Programa.textosLocal.GetString("titulo");
+            listViewResultadoBusqueda.Columns[3].Text = Programa.textosLocal.GetString("año");
+            listViewResultadoBusqueda.Columns[4].Text = Programa.textosLocal.GetString("numcanciones");
+            buttonCancelar.Text = Programa.textosLocal.GetString("cancelar");
+            buttonOK.Text = Programa.textosLocal.GetString("añadir");
             int n = 1;
             foreach(SimpleAlbum a in listaBusqueda)
             {
@@ -37,6 +37,9 @@ namespace aplicacion_musica
                 ListViewItem i = new ListViewItem(datos);
                 listViewResultadoBusqueda.Items.Add(i);
             }
+            lvwColumnSorter = new ListViewItemComparer();
+            listViewResultadoBusqueda.ListViewItemSorter = lvwColumnSorter;
+            listViewResultadoBusqueda.View = View.Details;
         }
 
         private void buttonCancelar_Click(object sender, EventArgs e)
@@ -47,6 +50,9 @@ namespace aplicacion_musica
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            Console.WriteLine("Intentando añadir " + listViewResultadoBusqueda.SelectedItems.Count +
+                " albumes");
+            Stopwatch crono = Stopwatch.StartNew();
             for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
             {
                 int cual = listViewResultadoBusqueda.Items.IndexOf(listViewResultadoBusqueda.SelectedItems[i]);//la imagen tiene url
@@ -54,8 +60,34 @@ namespace aplicacion_musica
                 Programa._spotify.procesarAlbum(temp);
             }
             DialogResult = DialogResult.OK; //quiza molaria una pantallatita de carga
+            crono.Stop();
+            Console.WriteLine("Agregdos "+listViewResultadoBusqueda.SelectedItems.Count + " albumes correctamente en "+crono.ElapsedMilliseconds+"ms");
             Programa.refrescarVista();
             Dispose();
+        }
+
+        private void listViewResultadoBusqueda_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == lvwColumnSorter.ColumnaAOrdenar) // Determine if clicked column is already the column that is being sorted.
+            {
+                if (lvwColumnSorter.Orden == SortOrder.Ascending)
+                    lvwColumnSorter.Orden = SortOrder.Descending;
+                else lvwColumnSorter.Orden = SortOrder.Ascending;
+
+            }
+            else if (e.Column != 2 && e.Column != 3)//si la columna es  la del año o la de la duracion, que lo ponga de mayor a menor.
+            {
+                lvwColumnSorter.ColumnaAOrdenar = e.Column;
+                lvwColumnSorter.Orden = SortOrder.Ascending;
+
+            }
+            else
+            {
+                lvwColumnSorter.ColumnaAOrdenar = e.Column; // Set the column number that is to be sorted; default to ascending.
+                lvwColumnSorter.Orden = SortOrder.Descending;
+            }
+            listViewResultadoBusqueda.Sort();
+            listViewResultadoBusqueda.Refresh();
         }
     }
 }
