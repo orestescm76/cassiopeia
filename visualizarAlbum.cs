@@ -125,7 +125,7 @@ namespace aplicacion_musica
                         Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
                         Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
                         Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
-                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido +
+                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido + Environment.NewLine +
                         Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("estado_medio") + ": " + Programa.textosLocal.GetString(CDaVisualizar.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(CDaVisualizar.FormatoCD.ToString()) + Environment.NewLine;
@@ -157,7 +157,7 @@ namespace aplicacion_musica
                         Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
                         Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
                         Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
-                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido + 
+                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido + Environment.NewLine + 
                         Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("estado_medio") + ": " + Programa.textosLocal.GetString(CDaVisualizar.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(CDaVisualizar.FormatoCD.ToString()) + Environment.NewLine;

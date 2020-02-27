@@ -112,7 +112,7 @@ namespace aplicacion_musica
             List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id,a.numCanciones).Items;
             for (int i = 0; i < c.Count; i++)
             {
-                canciones[i] = new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a);
+                canciones.Add(new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
                 if(canciones[i].duracion.Milliseconds >500)
                     canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
                 else
@@ -150,7 +150,7 @@ namespace aplicacion_musica
             List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, a.numCanciones).Items;
             for (int i = 0; i < c.Count; i++)
             {
-                canciones[i] = new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a);
+                canciones.Add(new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
                 if (canciones[i].duracion.Milliseconds > 500)
                     canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
                 else

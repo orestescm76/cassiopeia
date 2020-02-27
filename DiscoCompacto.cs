@@ -79,6 +79,15 @@ namespace aplicacion_musica
         {
             Discos = new Disco[nCD];
         }
+        public DiscoCompacto(string s, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, short y, string p): base(s, ee, y, p)
+        {
+            FormatoCD = f;
+            Discos = new Disco[1];
+            Discos[0] = new Disco(nc, e);
+            Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray()); //porque puede ser que tenga dos copias del mismo álbum
+            Id = Id.Remove(Id.Length - 2);
+            Id.Replace('+', 'm');
+        }
         public String[] toStringArray()
         {
             String[] d = new string[6];
@@ -90,9 +99,5 @@ namespace aplicacion_musica
         {
             Album = Programa.miColeccion.devolverAlbum(Artista + "_" + Nombre);
         }
-        //public DiscoCompacto(ref Album a, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, RegionInfo p, short y) : base(ref a, nc, e, ee, y, p)
-        //{
-        //    FormatoCD = f;
-        //}
     }
 }

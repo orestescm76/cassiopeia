@@ -88,8 +88,8 @@ namespace aplicacion_musica
                     Album a = JsonConvert.DeserializeObject<Album>(LineaJson);
                     a.RefrescarDuracion();
                     a.genero = generos[findGenero(a.genero.Id)];
+                    a.ConfigurarCanciones();
                     miColeccion.agregarAlbum(ref a);
-
                 }
             }
             crono.Stop();

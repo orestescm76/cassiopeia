@@ -54,5 +54,9 @@ namespace aplicacion_musica
         {
             return Bonus ? 1 : 0;
         }
+        public void SetAlbum(Album a)
+        {
+            album = a;
+        }
     }
 }

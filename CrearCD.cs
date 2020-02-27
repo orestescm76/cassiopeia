@@ -145,7 +145,7 @@ namespace aplicacion_musica
             }
             else
             {
-                DiscoCompacto cd = new DiscoCompacto(s, album.numCanciones, medio, exterior, formato);
+                DiscoCompacto cd = new DiscoCompacto(s, album.numCanciones, medio, exterior, formato, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
                 Programa.miColeccion.AgregarCD(ref cd);
                 visualizarAlbum v = new visualizarAlbum(ref cd);
                 v.Show();

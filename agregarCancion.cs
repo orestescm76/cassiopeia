@@ -36,6 +36,7 @@ namespace aplicacion_musica
         public agregarCancion(ref Cancion c) //editar
         {
             InitializeComponent();
+            cual = -1;
             esLarga.Hide();
             cancion = c;
             editar = true;

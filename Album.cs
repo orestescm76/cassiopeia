@@ -95,6 +95,7 @@ namespace aplicacion_musica
         {
             Cancion c = null;
             int i = 0;
+            c = canciones[i];
             while (t != canciones[i].titulo)
             {
                 i++;
@@ -140,6 +141,13 @@ namespace aplicacion_musica
                 duracion -= cancion.duracion;
             canciones.Remove(cancion);
             numCanciones--;
+        }
+        public void ConfigurarCanciones()
+        {
+            foreach (Cancion cancion in canciones)
+            {
+                cancion.SetAlbum(this);
+            }
         }
     }
 }

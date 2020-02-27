@@ -116,7 +116,8 @@ namespace aplicacion_musica
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e) //editar cancion
         {
             Console.WriteLine("Editando canción");
-            Cancion cancionAEditar = albumAEditar.canciones[albumAEditar.buscarCancion(vistaCanciones.SelectedItems[0].Text)];
+            String text = vistaCanciones.SelectedItems[0].Text;
+            Cancion cancionAEditar = albumAEditar.DevolverCancion(text);
             agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
             Console.WriteLine("Guardado correctamente");
