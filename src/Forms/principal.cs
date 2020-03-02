@@ -343,6 +343,11 @@ namespace aplicacion_musica
             {
                 vistaAlbumes_MouseDoubleClick(null,null);
             }
+            if(e.KeyCode == Keys.F11)
+            {
+                Reproductor r = new Reproductor();
+                r.Show();
+            }
         }
         private void borrarAlbumesSeleccionados(TipoVista tipoVista)
         {

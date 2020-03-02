@@ -126,64 +126,71 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="acercaDe.cs">
+    <Compile Include="src\Classes\ReproductorNucleo.cs" />
+    <Compile Include="src\Forms\acercaDe.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="acercaDe.Designer.cs">
+    <Compile Include="src\Forms\acercaDe.Designer.cs">
       <DependentUpon>acercaDe.cs</DependentUpon>
     </Compile>
-    <Compile Include="agregarAlbum.cs">
+    <Compile Include="src\Forms\agregarAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="agregarAlbum.Designer.cs">
+    <Compile Include="src\Forms\agregarAlbum.Designer.cs">
       <DependentUpon>agregarAlbum.cs</DependentUpon>
     </Compile>
-    <Compile Include="agregarCancion.cs">
+    <Compile Include="src\Forms\agregarCancion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="agregarCancion.Designer.cs">
+    <Compile Include="src\Forms\agregarCancion.Designer.cs">
       <DependentUpon>agregarCancion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Album.cs" />
-    <Compile Include="Anotaciones.cs">
+    <Compile Include="src\Classes\Album.cs" />
+    <Compile Include="src\Forms\Anotaciones.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Anotaciones.Designer.cs">
+    <Compile Include="src\Forms\Anotaciones.Designer.cs">
       <DependentUpon>Anotaciones.cs</DependentUpon>
     </Compile>
-    <Compile Include="busquedaSpotify.cs">
+    <Compile Include="src\Forms\busquedaSpotify.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="busquedaSpotify.Designer.cs">
+    <Compile Include="src\Forms\busquedaSpotify.Designer.cs">
       <DependentUpon>busquedaSpotify.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cancion.cs" />
-    <Compile Include="TiempoConverter.cs" />
-    <Compile Include="CancionLarga.cs" />
-    <Compile Include="ClaveAPI.cs" />
-    <Compile Include="Coleccion.cs" />
-    <Compile Include="CrearCD.cs">
+    <Compile Include="src\Classes\Cancion.cs" />
+    <Compile Include="src\Forms\Reproductor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CrearCD.Designer.cs">
+    <Compile Include="src\Forms\Reproductor.Designer.cs">
+      <DependentUpon>Reproductor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Misc\TiempoConverter.cs" />
+    <Compile Include="src\Classes\CancionLarga.cs" />
+    <Compile Include="src\Misc\ClaveAPI.cs" />
+    <Compile Include="src\Classes\Coleccion.cs" />
+    <Compile Include="src\Forms\CrearCD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Forms\CrearCD.Designer.cs">
       <DependentUpon>CrearCD.cs</DependentUpon>
     </Compile>
-    <Compile Include="AlbumFisico.cs" />
-    <Compile Include="Disco.cs" />
-    <Compile Include="DiscoCompacto.cs" />
-    <Compile Include="editarAlbum.cs">
+    <Compile Include="src\Classes\AlbumFisico.cs" />
+    <Compile Include="src\Classes\Disco.cs" />
+    <Compile Include="src\Classes\DiscoCompacto.cs" />
+    <Compile Include="src\Forms\editarAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="editarAlbum.Designer.cs">
+    <Compile Include="src\Forms\editarAlbum.Designer.cs">
       <DependentUpon>editarAlbum.cs</DependentUpon>
     </Compile>
-    <Compile Include="Genero.cs" />
-    <Compile Include="ListViewItemComparer.cs" />
-    <Compile Include="Programa.cs" />
-    <Compile Include="principal.cs">
+    <Compile Include="src\Classes\Genero.cs" />
+    <Compile Include="src\Misc\ListViewItemComparer.cs" />
+    <Compile Include="src\Programa.cs" />
+    <Compile Include="src\Forms\principal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="principal.Designer.cs">
+    <Compile Include="src\Forms\principal.Designer.cs">
       <DependentUpon>principal.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -197,18 +204,18 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="resultadoSpotify.cs">
+    <Compile Include="src\Forms\resultadoSpotify.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="resultadoSpotify.Designer.cs">
+    <Compile Include="src\Forms\resultadoSpotify.Designer.cs">
       <DependentUpon>resultadoSpotify.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="Spotify.cs" />
-    <Compile Include="visualizarAlbum.cs">
+    <Compile Include="src\Misc\Settings.cs" />
+    <Compile Include="src\Spotify.cs" />
+    <Compile Include="src\Forms\visualizarAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="visualizarAlbum.Designer.cs">
+    <Compile Include="src\Forms\visualizarAlbum.Designer.cs">
       <DependentUpon>visualizarAlbum.cs</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -220,25 +227,25 @@
   <ItemGroup>
     <None Include="Resources\banner.png" />
     <None Include="Resources\banner.bmp" />
-    <EmbeddedResource Include="acercaDe.resx">
+    <EmbeddedResource Include="src\Forms\acercaDe.resx">
       <DependentUpon>acercaDe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="agregarAlbum.resx">
+    <EmbeddedResource Include="src\Forms\agregarAlbum.resx">
       <DependentUpon>agregarAlbum.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="agregarCancion.resx">
+    <EmbeddedResource Include="src\Forms\agregarCancion.resx">
       <DependentUpon>agregarCancion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Anotaciones.resx">
+    <EmbeddedResource Include="src\Forms\Anotaciones.resx">
       <DependentUpon>Anotaciones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="busquedaSpotify.resx">
+    <EmbeddedResource Include="src\Forms\busquedaSpotify.resx">
       <DependentUpon>busquedaSpotify.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CrearCD.resx">
+    <EmbeddedResource Include="src\Forms\CrearCD.resx">
       <DependentUpon>CrearCD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="editarAlbum.resx">
+    <EmbeddedResource Include="src\Forms\editarAlbum.resx">
       <DependentUpon>editarAlbum.cs</DependentUpon>
     </EmbeddedResource>
     <Content Include="idiomas\original.resx" />
@@ -251,17 +258,20 @@
     <Content Include="idiomas\original.es.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="principal.resx">
+    <EmbeddedResource Include="src\Forms\principal.resx">
       <DependentUpon>principal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="resultadoSpotify.resx">
+    <EmbeddedResource Include="src\Forms\Reproductor.resx">
+      <DependentUpon>Reproductor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Forms\resultadoSpotify.resx">
       <DependentUpon>resultadoSpotify.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="visualizarAlbum.resx">
+    <EmbeddedResource Include="src\Forms\visualizarAlbum.resx">
       <DependentUpon>visualizarAlbum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -291,11 +301,20 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
+      <HintPath>packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
+    </Reference>
+    <Reference Include="CSCore.Codecs.OGG, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CSCore.Ogg.1.0.0\lib\netstandard2.0\CSCore.Codecs.OGG.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NVorbis, Version=0.8.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\NVorbis.0.8.6\lib\net35\NVorbis.dll</HintPath>
     </Reference>
     <Reference Include="SpotifyAPI.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\SpotifyAPI.Web.4.2.2\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
