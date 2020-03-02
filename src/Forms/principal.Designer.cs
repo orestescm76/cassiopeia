@@ -35,6 +35,8 @@
             this.nuevoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.agregarAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CargarCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.digitalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.cargarDiscosLegacyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buscarEnSpotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guardarcomo = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,8 +65,6 @@
             this.clickDerechoMenuContexto = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.crearCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CargarCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.digitalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -126,6 +126,21 @@
             this.abrirToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
             this.abrirToolStripMenuItem.Text = "abrirDesdeFichero14";
             // 
+            // CargarCDToolStripMenuItem
+            // 
+            this.CargarCDToolStripMenuItem.Name = "CargarCDToolStripMenuItem";
+            this.CargarCDToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.CargarCDToolStripMenuItem.Text = "CD";
+            this.CargarCDToolStripMenuItem.Click += new System.EventHandler(this.CargarCDToolStripMenuItem_Click);
+            // 
+            // digitalToolStripMenuItem1
+            // 
+            this.digitalToolStripMenuItem1.Name = "digitalToolStripMenuItem1";
+            this.digitalToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.digitalToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.digitalToolStripMenuItem1.Text = "Digital";
+            this.digitalToolStripMenuItem1.Click += new System.EventHandler(this.digitalToolStripMenuItem1_Click);
+            // 
             // cargarDiscosLegacyToolStripMenuItem
             // 
             this.cargarDiscosLegacyToolStripMenuItem.Name = "cargarDiscosLegacyToolStripMenuItem";
@@ -167,7 +182,7 @@
             // generarAlbumToolStripMenuItem
             // 
             this.generarAlbumToolStripMenuItem.Name = "generarAlbumToolStripMenuItem";
-            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.generarAlbumToolStripMenuItem.Text = "generarAlbum";
             this.generarAlbumToolStripMenuItem.Click += new System.EventHandler(this.generarAlbumToolStripMenuItem_Click);
             // 
@@ -187,7 +202,7 @@
             this.digitalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.digitalToolStripMenuItem.Name = "digitalToolStripMenuItem";
             this.digitalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.digitalToolStripMenuItem.Text = "digital";
             this.digitalToolStripMenuItem.Click += new System.EventHandler(this.digitalToolStripMenuItem_Click);
             // 
@@ -196,7 +211,7 @@
             this.cdToolStripMenuItem.CheckOnClick = true;
             this.cdToolStripMenuItem.Name = "cdToolStripMenuItem";
             this.cdToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.cdToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cdToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.cdToolStripMenuItem.Text = "CD";
             this.cdToolStripMenuItem.Click += new System.EventHandler(this.cdToolStripMenuItem_Click);
             // 
@@ -242,7 +257,7 @@
             // 
             this.testToolStripMenuItem1.CheckOnClick = true;
             this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
-            this.testToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
+            this.testToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.testToolStripMenuItem1.Text = "testOscuro";
             this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
             // 
@@ -345,21 +360,6 @@
             this.copiarToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.copiarToolStripMenuItem.Text = "copiar";
             this.copiarToolStripMenuItem.Click += new System.EventHandler(this.copiarToolStripMenuItem_Click);
-            // 
-            // CargarCDToolStripMenuItem
-            // 
-            this.CargarCDToolStripMenuItem.Name = "CargarCDToolStripMenuItem";
-            this.CargarCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.CargarCDToolStripMenuItem.Text = "CD";
-            this.CargarCDToolStripMenuItem.Click += new System.EventHandler(this.CargarCDToolStripMenuItem_Click);
-            // 
-            // digitalToolStripMenuItem1
-            // 
-            this.digitalToolStripMenuItem1.Name = "digitalToolStripMenuItem1";
-            this.digitalToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.digitalToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.digitalToolStripMenuItem1.Text = "Digital";
-            this.digitalToolStripMenuItem1.Click += new System.EventHandler(this.digitalToolStripMenuItem1_Click);
             // 
             // principal
             // 
