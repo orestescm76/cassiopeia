@@ -36,6 +36,7 @@ namespace aplicacion_musica
         private static principal principal;
         public static string Idioma;
         public static bool ModoOscuro = false;
+        public static readonly string CodeName = "Raven";
         public static void HayInternet(bool i)
         {
             principal.HayInternet(i);
