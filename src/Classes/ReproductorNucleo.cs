@@ -1,6 +1,6 @@
 ﻿using System;
+using System.IO;
 using CSCore;
-using CSCore.Codecs;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 using NVorbis.Ogg;
@@ -9,21 +9,41 @@ namespace aplicacion_musica
 {
     class ReproductorNucleo
     {
-        private ISoundOut _salida;
+        private DirectSoundOut _salida;
         private IWaveSource _sonido;
+        private MemoryStream BufferCancion;
+        private CSCore.Codecs.MP3.Mp3MediafoundationDecoder _decodificadorMP3;
+        private CSCore.Tags.ID3.ID3v2QuickInfo tags;
+        private CSCore.Codecs.FLAC.FlacFile _ficheroFLAC;
+        private CSCore.Codecs.FLAC.FlacMetadata _metadatosFLAC;
+        bool isFLAC = false;
         public void CargarCancion(string cual, MMDevice dispositivo)
         {
             if(cual.EndsWith(".ogg"))
             {
                 ContainerReader ogg = new ContainerReader(cual);
             }
-            else
+            else if(cual.EndsWith(".mp3"))
             {
-                _sonido = CodecFactory.Instance.GetCodec(cual).ToSampleSource().ToStereo().ToWaveSource();
-                _salida = new WasapiOut() { Latency = 100, Device = dispositivo };
+                _decodificadorMP3 = new CSCore.Codecs.MP3.Mp3MediafoundationDecoder(cual);
+                _sonido = _decodificadorMP3.ToStereo();
+                CSCore.Tags.ID3.ID3v2 mp3tag = CSCore.Tags.ID3.ID3v2.FromFile(cual);
+                tags = new CSCore.Tags.ID3.ID3v2QuickInfo(mp3tag);
+                _salida = new DirectSoundOut();
                 _salida.Initialize(_sonido);
             }
+            else if(cual.EndsWith(".flac"))
+            {
+                isFLAC = true;
+                _ficheroFLAC = new CSCore.Codecs.FLAC.FlacFile(cual);
+                _sonido = _ficheroFLAC.ToStereo();
+                _salida = new DirectSoundOut();
+                _salida.Initialize(_sonido);
+            }
+            else
+            {
 
+            }
         }
         public void Reproducir()
         {
@@ -57,6 +77,11 @@ namespace aplicacion_musica
             }
         }
         public void Apagar() { Limpiar(); }
+        public String CancionReproduciendose()
+        {
+            return isFLAC ? "" : tags.LeadPerformers + " - " + tags.Title;
+        }
+        public System.Drawing.Image GetCaratula() { return tags.Image == null ? null:tags.Image; }
     }
     
 }

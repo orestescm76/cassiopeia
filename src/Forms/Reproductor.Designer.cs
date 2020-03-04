@@ -47,6 +47,7 @@
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(300, 300);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -106,10 +107,11 @@
             this.labelDuracion.AutoSize = true;
             this.labelDuracion.Location = new System.Drawing.Point(269, 347);
             this.labelDuracion.Name = "labelDuracion";
-            this.labelDuracion.Size = new System.Drawing.Size(28, 13);
+            this.labelDuracion.Size = new System.Drawing.Size(10, 13);
             this.labelDuracion.TabIndex = 5;
-            this.labelDuracion.Text = "3:00";
+            this.labelDuracion.Text = "-";
             this.labelDuracion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelDuracion.Click += new System.EventHandler(this.labelDuracion_Click);
             // 
             // Reproductor
             // 

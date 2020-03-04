@@ -17,6 +17,7 @@ namespace aplicacion_musica
         private readonly ObservableCollection<MMDevice> _devices = new ObservableCollection<MMDevice>();
         private string fich;
         public EstadoReproductor estadoReproductor;
+        private bool TiempoRestante = false;
         public Reproductor()
         {
             InitializeComponent();
@@ -64,6 +65,22 @@ namespace aplicacion_musica
                 labelPosicion.Text = (int)pos.TotalMinutes + ":" + (int)pos.Seconds;
             if (pos > dur)
                 dur = pos;
+            if(TiempoRestante)
+            {
+                int secsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) % 60);
+                int minsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) / 60);
+                if(secsRestantes < 10)
+                    labelDuracion.Text = "-" + minsRestantes + ":0" + secsRestantes; //??
+                else
+                    labelDuracion.Text = "-" + minsRestantes + ":" + secsRestantes; //??
+            }
+            else
+            {
+                if (dur.Seconds < 10)
+                    labelDuracion.Text = (int)dur.TotalMinutes + ":0" + (int)dur.Seconds;
+                else
+                    labelDuracion.Text = (int)dur.TotalMinutes + ":" + (int)dur.Seconds;
+            }
             double val = pos.TotalMilliseconds / dur.TotalMilliseconds * trackBarPosicion.Maximum;
             trackBarPosicion.Value = (int)val;
         }
@@ -77,17 +94,22 @@ namespace aplicacion_musica
         private void button2_Click(object sender, EventArgs e)
         {
             string fich = null;
-            openFileDialog1.Filter = "*.mp3|*.mp3";
+            openFileDialog1.Filter = "*.mp3, *.flac|*.mp3;*.flac";
             DialogResult r = openFileDialog1.ShowDialog();
             if (r != DialogResult.Cancel)
             {
                 fich = openFileDialog1.FileName;
                 nucleo.Apagar();
+                estadoReproductor = EstadoReproductor.Detenido;
+                buttonReproducirPausar.Text = "▶";
                 this.fich = fich;
                 nucleo.CargarCancion(fich, _devices[0]);
                 trackBarPosicion.Maximum = (int)nucleo.Duracion().TotalSeconds;
                 timerCancion.Enabled = true;
                 labelDuracion.Text = (int)nucleo.Duracion().TotalMinutes + ":" + nucleo.Duracion().Seconds;
+                Text = nucleo.CancionReproduciendose();
+                if(!fich.EndsWith(".flac"))
+                    pictureBox1.Image = nucleo.GetCaratula();
             }
         }
 
@@ -109,13 +131,17 @@ namespace aplicacion_musica
                     nucleo.Reproducir();
                     estadoReproductor = EstadoReproductor.Reproduciendo;
                     buttonReproducirPausar.Text = "❚❚";
-                    Text = fich;
                     break;
                 default:
                     break;
             }
+        }
 
-            
+        private void labelDuracion_Click(object sender, EventArgs e)
+        {
+            if (TiempoRestante)
+                TiempoRestante = false;
+            else TiempoRestante = true;
         }
     }
 }
