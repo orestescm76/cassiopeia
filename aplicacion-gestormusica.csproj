@@ -11,6 +11,8 @@
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>C:\Users\Steve\Desktop\app musica\test\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -38,6 +40,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
@@ -48,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>aplicacion_musica</RootNamespace>
@@ -71,10 +75,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Debug\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
@@ -126,6 +132,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Classes\ListaReproduccion.cs" />
     <Compile Include="src\Classes\ReproductorNucleo.cs" />
     <Compile Include="src\Forms\acercaDe.cs">
       <SubType>Form</SubType>
@@ -165,6 +172,9 @@
     <Compile Include="src\Forms\Reproductor.Designer.cs">
       <DependentUpon>Reproductor.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Misc\BloqueFLAC.cs" />
+    <Compile Include="src\Misc\FicheroFLAC.cs" />
+    <Compile Include="src\Misc\NVorbisSource.cs" />
     <Compile Include="src\Misc\TiempoConverter.cs" />
     <Compile Include="src\Classes\CancionLarga.cs" />
     <Compile Include="src\Misc\ClaveAPI.cs" />
@@ -248,6 +258,7 @@
     <EmbeddedResource Include="src\Forms\editarAlbum.resx">
       <DependentUpon>editarAlbum.cs</DependentUpon>
     </EmbeddedResource>
+    <Content Include="CSCore.Ffmpeg ReadMe.txt" />
     <Content Include="idiomas\original.resx" />
     <Content Include="idiomas\original.en.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -307,22 +318,26 @@
     <Reference Include="CSCore.Codecs.OGG, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\CSCore.Ogg.1.0.0\lib\netstandard2.0\CSCore.Codecs.OGG.dll</HintPath>
     </Reference>
+    <Reference Include="CSCore.Ffmpeg, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CSCore.Ffmpeg.1.2.0-beta1\lib\net35\CSCore.Ffmpeg.dll</HintPath>
+    </Reference>
+    <Reference Include="JAudioTags">
+      <HintPath>packages\JAudioTags.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NVorbis, Version=0.8.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\NVorbis.0.8.6\lib\net35\NVorbis.dll</HintPath>
+    <Reference Include="NVorbis, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\NVorbis.0.9.1\lib\net45\NVorbis.dll</HintPath>
     </Reference>
     <Reference Include="SpotifyAPI.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SpotifyAPI.Web.4.2.2\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>packages\SpotifyAPI.Web.5.0.0\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
     </Reference>
     <Reference Include="SpotifyAPI.Web.Auth, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SpotifyAPI.Web.Auth.4.2.2\lib\netstandard2.0\SpotifyAPI.Web.Auth.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>packages\SpotifyAPI.Web.Auth.5.0.0\lib\netstandard2.0\SpotifyAPI.Web.Auth.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -355,7 +370,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Unosquare.Labs.EmbedIO, Version=2.9.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\EmbedIO.2.9.2\lib\netstandard2.0\Unosquare.Labs.EmbedIO.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Unosquare.Swan.Lite, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Unosquare.Swan.Lite.1.3.1\lib\net461\Unosquare.Swan.Lite.dll</HintPath>
@@ -371,5 +385,12 @@
       <MoveToLibFolder Include="$(OutputPath)*.dll ; $(OutputPath)*.pdb ; $(OutputPath)*.xml" />
     </ItemGroup>
     <Move SourceFiles="@(MoveToLibFolder)" DestinationFolder="$(OutputPath)lib" OverwriteReadOnlyFiles="true" />
+  </Target>
+  <Import Project="packages\CSCore.Ffmpeg.1.2.0-beta1\build\CSCore.Ffmpeg.targets" Condition="Exists('packages\CSCore.Ffmpeg.1.2.0-beta1\build\CSCore.Ffmpeg.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\CSCore.Ffmpeg.1.2.0-beta1\build\CSCore.Ffmpeg.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\CSCore.Ffmpeg.1.2.0-beta1\build\CSCore.Ffmpeg.targets'))" />
   </Target>
 </Project>

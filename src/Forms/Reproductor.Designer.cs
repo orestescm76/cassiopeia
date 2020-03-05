@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
             this.trackBarPosicion = new System.Windows.Forms.TrackBar();
             this.buttonReproducirPausar = new System.Windows.Forms.Button();
             this.timerCancion = new System.Windows.Forms.Timer(this.components);
@@ -37,19 +37,25 @@
             this.button2 = new System.Windows.Forms.Button();
             this.labelPosicion = new System.Windows.Forms.Label();
             this.labelDuracion = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.barraAbajoDatos = new System.Windows.Forms.StatusStrip();
+            this.labelDatosCancion = new System.Windows.Forms.ToolStripStatusLabel();
+            this.trackBarVolumen = new System.Windows.Forms.TrackBar();
+            this.button1 = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
+            this.barraAbajoDatos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // pictureBoxCaratula
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(300, 300);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.pictureBoxCaratula.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxCaratula.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBoxCaratula.Name = "pictureBoxCaratula";
+            this.pictureBoxCaratula.Size = new System.Drawing.Size(300, 300);
+            this.pictureBoxCaratula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxCaratula.TabIndex = 0;
+            this.pictureBoxCaratula.TabStop = false;
             // 
             // trackBarPosicion
             // 
@@ -61,11 +67,13 @@
             this.trackBarPosicion.TickFrequency = 0;
             this.trackBarPosicion.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBarPosicion.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.trackBarPosicion.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseDown);
+            this.trackBarPosicion.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseUp);
             // 
             // buttonReproducirPausar
             // 
             this.buttonReproducirPausar.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.buttonReproducirPausar.Location = new System.Drawing.Point(116, 385);
+            this.buttonReproducirPausar.Location = new System.Drawing.Point(116, 354);
             this.buttonReproducirPausar.Name = "buttonReproducirPausar";
             this.buttonReproducirPausar.Size = new System.Drawing.Size(50, 50);
             this.buttonReproducirPausar.TabIndex = 2;
@@ -85,7 +93,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 395);
+            this.button2.Location = new System.Drawing.Point(5, 398);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
@@ -105,7 +113,7 @@
             // labelDuracion
             // 
             this.labelDuracion.AutoSize = true;
-            this.labelDuracion.Location = new System.Drawing.Point(269, 347);
+            this.labelDuracion.Location = new System.Drawing.Point(267, 347);
             this.labelDuracion.Name = "labelDuracion";
             this.labelDuracion.Size = new System.Drawing.Size(10, 13);
             this.labelDuracion.TabIndex = 5;
@@ -113,23 +121,67 @@
             this.labelDuracion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelDuracion.Click += new System.EventHandler(this.labelDuracion_Click);
             // 
+            // barraAbajoDatos
+            // 
+            this.barraAbajoDatos.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.labelDatosCancion});
+            this.barraAbajoDatos.Location = new System.Drawing.Point(0, 453);
+            this.barraAbajoDatos.Name = "barraAbajoDatos";
+            this.barraAbajoDatos.Size = new System.Drawing.Size(300, 22);
+            this.barraAbajoDatos.TabIndex = 6;
+            this.barraAbajoDatos.Text = "statusStrip1";
+            // 
+            // labelDatosCancion
+            // 
+            this.labelDatosCancion.Name = "labelDatosCancion";
+            this.labelDatosCancion.Size = new System.Drawing.Size(0, 17);
+            // 
+            // trackBarVolumen
+            // 
+            this.trackBarVolumen.Location = new System.Drawing.Point(184, 405);
+            this.trackBarVolumen.Maximum = 100;
+            this.trackBarVolumen.Name = "trackBarVolumen";
+            this.trackBarVolumen.Size = new System.Drawing.Size(116, 45);
+            this.trackBarVolumen.TabIndex = 7;
+            this.trackBarVolumen.TickFrequency = 10;
+            this.trackBarVolumen.Scroll += new System.EventHandler(this.trackBarVolumen_Scroll);
+            this.trackBarVolumen.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarVolumen_MouseDown);
+            this.trackBarVolumen.MouseHover += new System.EventHandler(this.trackBarVolumen_MouseHover);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(5, 427);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Reproductor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 464);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(300, 475);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.trackBarVolumen);
+            this.Controls.Add(this.barraAbajoDatos);
             this.Controls.Add(this.labelDuracion);
             this.Controls.Add(this.labelPosicion);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.buttonReproducirPausar);
             this.Controls.Add(this.trackBarPosicion);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBoxCaratula);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Reproductor";
             this.Text = "Reproductor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reproductor_FormClosing);
             this.Load += new System.EventHandler(this.Reproductor_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).EndInit();
+            this.barraAbajoDatos.ResumeLayout(false);
+            this.barraAbajoDatos.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -137,7 +189,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBoxCaratula;
         private System.Windows.Forms.TrackBar trackBarPosicion;
         private System.Windows.Forms.Button buttonReproducirPausar;
         private System.Windows.Forms.Timer timerCancion;
@@ -145,5 +197,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label labelPosicion;
         private System.Windows.Forms.Label labelDuracion;
+        private System.Windows.Forms.StatusStrip barraAbajoDatos;
+        private System.Windows.Forms.ToolStripStatusLabel labelDatosCancion;
+        private System.Windows.Forms.TrackBar trackBarVolumen;
+        private System.Windows.Forms.Button button1;
     }
 }

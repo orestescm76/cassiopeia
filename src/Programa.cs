@@ -8,16 +8,15 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Data;
-/*VERSION 1.4.0.97 - FEATURE DISCO COMPACTO
-* anotaciones
-* guardado en JSON
-* cds
-* visualizado para CD
-* editado de CD
-* soporte para doble CD
-* atajos de teclado
-* retoques internos
-*/
+/* VERSION 1.5.0.20 CODENAME RAVEN
+ * Reproductor:
+ *  Reproduce en FLAC, MP3 y OGG
+ *  Soporta metadatos en FLAC y MP3
+ *  Soporta carátula MP3
+ *  Con tiempo actualizable, se puede saltar
+ * Spotify:
+ *  Ahora se puede vincular la app.
+ */
 namespace aplicacion_musica
 {
     static class Programa
@@ -192,7 +191,7 @@ namespace aplicacion_musica
                 Console.WriteLine("Consola habilitada, se mostrarán detalles sobre la ejecución en español.\nSi la cierra se cerrará la aplicación.");
             }
 
-
+            IntPtr puntero;
             Idioma = "es"; //provisional
 
             miColeccion = new Coleccion();

@@ -3,47 +3,53 @@ using System.IO;
 using CSCore;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
-using NVorbis.Ogg;
+using CSCore.Streams;
+using NVorbis;
+using JAudioTags;
+using SpotifyAPI.Web;
 
 namespace aplicacion_musica
 {
+    public enum FormatoSonido
+    {
+        MP3,
+        FLAC,
+        OGG
+    }
     class ReproductorNucleo
     {
-        private DirectSoundOut _salida;
+        private ISoundOut _salida;
+        private FormatoSonido FormatoSonido;
         private IWaveSource _sonido;
-        private MemoryStream BufferCancion;
-        private CSCore.Codecs.MP3.Mp3MediafoundationDecoder _decodificadorMP3;
         private CSCore.Tags.ID3.ID3v2QuickInfo tags;
-        private CSCore.Codecs.FLAC.FlacFile _ficheroFLAC;
-        private CSCore.Codecs.FLAC.FlacMetadata _metadatosFLAC;
-        bool isFLAC = false;
-        public void CargarCancion(string cual, MMDevice dispositivo)
+        private FLACFile _ficheroFLAC;
+        private SingleBlockNotificationStream notificationStream;
+        private SpotifyWebAPI _spotify;
+        bool Spotify = false;
+        long tamFich;
+        public void CargarCancion(string cual)
         {
-            if(cual.EndsWith(".ogg"))
+            switch (Path.GetExtension(cual))
             {
-                ContainerReader ogg = new ContainerReader(cual);
+                case ".mp3":
+                    CSCore.Tags.ID3.ID3v2 mp3tag = CSCore.Tags.ID3.ID3v2.FromFile(cual);
+                    tags = new CSCore.Tags.ID3.ID3v2QuickInfo(mp3tag);
+                    FormatoSonido = FormatoSonido.MP3;
+                    break;
+                case ".flac":
+                    _ficheroFLAC = new FLACFile(cual, true);
+                    FormatoSonido = FormatoSonido.FLAC;
+                    break;
+                default:
+                    break;
             }
-            else if(cual.EndsWith(".mp3"))
-            {
-                _decodificadorMP3 = new CSCore.Codecs.MP3.Mp3MediafoundationDecoder(cual);
-                _sonido = _decodificadorMP3.ToStereo();
-                CSCore.Tags.ID3.ID3v2 mp3tag = CSCore.Tags.ID3.ID3v2.FromFile(cual);
-                tags = new CSCore.Tags.ID3.ID3v2QuickInfo(mp3tag);
-                _salida = new DirectSoundOut();
-                _salida.Initialize(_sonido);
-            }
-            else if(cual.EndsWith(".flac"))
-            {
-                isFLAC = true;
-                _ficheroFLAC = new CSCore.Codecs.FLAC.FlacFile(cual);
-                _sonido = _ficheroFLAC.ToStereo();
-                _salida = new DirectSoundOut();
-                _salida.Initialize(_sonido);
-            }
-            else
-            {
-
-            }
+            _sonido = CSCore.Codecs.CodecFactory.Instance.GetCodec(cual).ToSampleSource().ToStereo().ToWaveSource(16);
+            notificationStream = new SingleBlockNotificationStream(_sonido.ToSampleSource());
+            _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
+            //_salida.Initialize(notificationStream.ToWaveSource(16));
+            FileInfo info = new FileInfo(cual);
+            tamFich = info.Length;
+            _salida.Initialize(_sonido);
         }
         public void Reproducir()
         {
@@ -54,6 +60,10 @@ namespace aplicacion_musica
         {
             if (_salida != null)
                 _salida.Pause();
+        }
+        public void Saltar(TimeSpan a)
+        {
+            _salida.WaveSource.SetPosition(a);
         }
         public TimeSpan Duracion()
         {
@@ -79,9 +89,54 @@ namespace aplicacion_musica
         public void Apagar() { Limpiar(); }
         public String CancionReproduciendose()
         {
-            return isFLAC ? "" : tags.LeadPerformers + " - " + tags.Title;
+            switch (FormatoSonido)
+            {
+                case FormatoSonido.MP3:
+                    return tags.LeadPerformers + " - " + tags.Title;
+                case FormatoSonido.FLAC:
+                    return _ficheroFLAC.ARTIST + " - " + _ficheroFLAC.TITLE;
+                case FormatoSonido.OGG:
+                    return null;
+                default:
+                    return null;
+            }
         }
-        public System.Drawing.Image GetCaratula() { return tags.Image == null ? null:tags.Image; }
+        public System.Drawing.Image GetCaratula()
+        {
+            switch (FormatoSonido)
+            {
+                case FormatoSonido.MP3:
+                    return tags.Image;
+                case FormatoSonido.FLAC:
+                    return null;
+                case FormatoSonido.OGG:
+                    return null;
+                default:
+                    return null;
+            }
+        }
+        public void ConfigurarOGG()
+        {
+            CSCore.Codecs.CodecFactory.Instance.Register("ogg-vorbis", new CSCore.Codecs.CodecFactoryEntry(s => new NVorbisSource(s).ToWaveSource(), ".ogg"));
+        }
+        public String GetDatos()
+        {
+            int kbps = (int)((tamFich / _sonido.GetLength().TotalSeconds) / 128);
+            return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + kbps + "kbps medio";
+        }
+        public void SetVolumen(float v)
+        {
+            _salida.Volume = v;
+        }
+        public async void TestSpotify()
+        {
+            SpotifyWebAPI api = new SpotifyWebAPI
+            {
+                AccessToken = "XXX",
+
+            };
+        }
+        
     }
     
 }

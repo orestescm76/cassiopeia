@@ -257,7 +257,7 @@
             // 
             this.testToolStripMenuItem1.CheckOnClick = true;
             this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
-            this.testToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.testToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
             this.testToolStripMenuItem1.Text = "testOscuro";
             this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
             // 
@@ -363,6 +363,8 @@
             // 
             // principal
             // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(759, 465);
             this.Controls.Add(this.barraAbajo);

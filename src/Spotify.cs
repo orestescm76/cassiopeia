@@ -6,38 +6,79 @@ using System.Net.Http;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Models;
+using SpotifyAPI.Web.Enums;
 
 namespace aplicacion_musica
 {
     class Spotify
     {
         public SpotifyWebAPI _spotify;
-        private CredentialsAuth _auth;
+        private ImplicitGrantAuth auth;
+        private CredentialsAuth authMetadatos;
         private readonly char[] CaracteresProhibidosWindows = { '\\', '/', '|', '?', '*', '"', ':', '>', '<' };
         private readonly String clavePublica = "f49317757dd64bb190576aec028f4efc";
         private readonly String clavePrivada = ClaveAPI.Spotify;
         public Spotify()
         {
-            _auth = new CredentialsAuth(clavePublica, clavePrivada);
             iniciar();
         }
         private async void iniciar()
         {
             try
             {
+                CredentialsAuth auth = new CredentialsAuth(clavePrivada, clavePrivada);
+                Token token = await auth.GetToken();
+                _spotify = new SpotifyWebAPI()
+                {
+                    TokenType = token.TokenType,
+                    AccessToken = token.AccessToken
+                };
+            }
+            catch (NullReferenceException)
+            {
+                Programa.HayInternet(false);
+                Console.WriteLine("No tienes internet");
+                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+            }
+            catch (HttpRequestException)
+            {
+                Programa.HayInternet(false);
+                Console.WriteLine("No tienes internet");
+                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+            }
+        }
+        private async void iniciarModoStream()
+        {
+            try
+            {
                 Console.WriteLine("Intentando conectar a Spotify asíncronamente");
                 Programa.HayInternet(false);
                 Stopwatch crono = Stopwatch.StartNew();
-                Token token = await _auth.GetToken();
-                _spotify = new SpotifyWebAPI()
+                auth = new ImplicitGrantAuth(
+                    clavePublica,
+                    "http://localhost:4002/",
+                    "http://localhost:4002/",
+                    Scope.UserReadPrivate | Scope.AppRemoteControl
+                    );
+                auth.AuthReceived += async  (sender, payload) =>
                 {
-                    AccessToken = token.AccessToken,
-                    TokenType = token.TokenType
+                    auth.Stop();
+                    _spotify = new SpotifyWebAPI()
+                    {
+                        TokenType = payload.TokenType,
+                        AccessToken = payload.AccessToken
+                    };
+                    if (_spotify.AccessToken == null)
+                        Programa.HayInternet(false);
+                    else
+                        Programa.HayInternet(true);
                 };
-                Programa.HayInternet(true);
+                auth.Start();
+                auth.OpenBrowser();
                 crono.Stop();
                 Console.WriteLine("Conectado sin errores en "+crono.ElapsedMilliseconds+"ms");
             }
+            
             catch (NullReferenceException)
             {
                 Programa.HayInternet(false);
