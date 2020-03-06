@@ -7,7 +7,7 @@ using System.Resources;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Data;
+using System.Configuration;
 /* VERSION 1.5.0.20 CODENAME RAVEN
  * Reproductor:
  *  Reproduce en FLAC, MP3 y OGG
@@ -36,6 +36,9 @@ namespace aplicacion_musica
         public static string Idioma;
         public static bool ModoOscuro = false;
         public static readonly string CodeName = "Raven";
+        private static ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
+
+        public static Configuration config;
         public static void HayInternet(bool i)
         {
             principal.HayInternet(i);
@@ -191,19 +194,19 @@ namespace aplicacion_musica
                 Console.WriteLine("Consola habilitada, se mostrarán detalles sobre la ejecución en español.\nSi la cierra se cerrará la aplicación.");
             }
 
-            IntPtr puntero;
-            Idioma = "es"; //provisional
-
+            Idioma = ConfigurationManager.AppSettings["Idioma"];
             miColeccion = new Coleccion();
-            if (File.Exists("idioma.cfg"))
-                Idioma = File.ReadAllLines("idioma.cfg")[0];
             textosLocal = new ResXResourceSet(@"./idiomas/"+"original."+Idioma+".resx");
+            configFileMap.ExeConfigFilename = Environment.CurrentDirectory + "/aplicacion-gestormusica.exe.config";
+            config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             principal = new principal();
-
-            _spotify = new Spotify();
+            if(config.AppSettings.Settings["VinculadoConSpotify"].Value == "false")
+                _spotify = new Spotify(false);
+            else
+                _spotify = new Spotify(true);
 
             for (int i = 0; i < idGeneros.Length; i++)
             {
@@ -234,10 +237,12 @@ namespace aplicacion_musica
             }
             else
             {
-                Console.WriteLine("discos.mdb no existe, se creará una base de datos vacía.");
+                Console.WriteLine("discos.json no existe, se creará una base de datos vacía.");
             }
             Application.Run(principal);
-            if(args.Contains("-consola"))
+            config.AppSettings.Settings["Idioma"].Value = Idioma;
+            config.Save();
+            if (args.Contains("-consola"))
             {
                 Console.WriteLine("Programa finalizado, presione una tecla para continuar...");
                 Console.ReadKey();

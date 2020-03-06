@@ -4,7 +4,7 @@ aplicacion-ipo.csproj.user
 .vs/
 .vs/aplicacion-ipo/v16/*.suo
 bin/
-obj/*
+obj/
 packages/
 packages.config
 Resources/
@@ -21,6 +21,6 @@ aplicacion-ipo.sln
 ClaveAPI.cs
 MigrationBackup/
 SpotifyAPI.Web.dll
-appmu.csproj
-appmu.sln
 idiomas/original.resx
+packages.config
+ban/

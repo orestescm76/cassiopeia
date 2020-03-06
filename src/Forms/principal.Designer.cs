@@ -65,6 +65,7 @@
             this.clickDerechoMenuContexto = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.crearCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vincularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -82,7 +83,7 @@
             this.testToolStripMenuItem});
             this.barraPrincipal.Location = new System.Drawing.Point(0, 0);
             this.barraPrincipal.Name = "barraPrincipal";
-            this.barraPrincipal.Size = new System.Drawing.Size(759, 24);
+            this.barraPrincipal.Size = new System.Drawing.Size(838, 24);
             this.barraPrincipal.TabIndex = 0;
             this.barraPrincipal.Text = "menuStrip2";
             // 
@@ -94,6 +95,7 @@
             this.abrirToolStripMenuItem,
             this.cargarDiscosLegacyToolStripMenuItem,
             this.buscarEnSpotifyToolStripMenuItem,
+            this.vincularToolStripMenuItem,
             this.guardarcomo,
             this.salirToolStripMenuItem});
             this.archivoMenuItem1.Name = "archivoMenuItem1";
@@ -284,7 +286,7 @@
             this.vistaAlbumes.Location = new System.Drawing.Point(0, 27);
             this.vistaAlbumes.Name = "vistaAlbumes";
             this.vistaAlbumes.ShowGroups = false;
-            this.vistaAlbumes.Size = new System.Drawing.Size(759, 414);
+            this.vistaAlbumes.Size = new System.Drawing.Size(838, 502);
             this.vistaAlbumes.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.vistaAlbumes.TabIndex = 1;
             this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
@@ -326,9 +328,9 @@
             // 
             this.barraAbajo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.duracionSeleccionada});
-            this.barraAbajo.Location = new System.Drawing.Point(0, 443);
+            this.barraAbajo.Location = new System.Drawing.Point(0, 532);
             this.barraAbajo.Name = "barraAbajo";
-            this.barraAbajo.Size = new System.Drawing.Size(759, 22);
+            this.barraAbajo.Size = new System.Drawing.Size(838, 22);
             this.barraAbajo.TabIndex = 4;
             this.barraAbajo.Text = "statusStrip1";
             // 
@@ -361,12 +363,19 @@
             this.copiarToolStripMenuItem.Text = "copiar";
             this.copiarToolStripMenuItem.Click += new System.EventHandler(this.copiarToolStripMenuItem_Click);
             // 
+            // vincularToolStripMenuItem
+            // 
+            this.vincularToolStripMenuItem.Name = "vincularToolStripMenuItem";
+            this.vincularToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.vincularToolStripMenuItem.Text = "vincular";
+            this.vincularToolStripMenuItem.Click += new System.EventHandler(this.vincularToolStripMenuItem_Click);
+            // 
             // principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(759, 465);
+            this.ClientSize = new System.Drawing.Size(838, 554);
             this.Controls.Add(this.barraAbajo);
             this.Controls.Add(this.vistaAlbumes);
             this.Controls.Add(this.barraPrincipal);
@@ -424,5 +433,6 @@
         private System.Windows.Forms.ToolStripMenuItem cargarDiscosLegacyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CargarCDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem vincularToolStripMenuItem;
     }
 }

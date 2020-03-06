@@ -18,12 +18,24 @@ namespace aplicacion_musica
         private readonly char[] CaracteresProhibidosWindows = { '\\', '/', '|', '?', '*', '"', ':', '>', '<' };
         private readonly String clavePublica = "f49317757dd64bb190576aec028f4efc";
         private readonly String clavePrivada = ClaveAPI.Spotify;
-        public Spotify()
+        public bool cuentaLista = false;
+        public bool cuentaVinculada = false;
+        public Spotify(bool v)
         {
-            iniciar();
+            if(v == false)
+                iniciar();
+            else
+                iniciarModoStream();
+        }
+        public void SpotifyVinculado()
+        {
+            iniciarModoStream();
         }
         private async void iniciar()
         {
+            Console.WriteLine("Intentando conectar a Spotify asíncronamente");
+            Stopwatch crono = Stopwatch.StartNew();
+            Programa.HayInternet(false);
             try
             {
                 CredentialsAuth auth = new CredentialsAuth(clavePrivada, clavePrivada);
@@ -33,6 +45,7 @@ namespace aplicacion_musica
                     TokenType = token.TokenType,
                     AccessToken = token.AccessToken
                 };
+                Programa.HayInternet(true);
             }
             catch (NullReferenceException)
             {
@@ -46,21 +59,23 @@ namespace aplicacion_musica
                 Console.WriteLine("No tienes internet");
                 System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
             }
+            crono.Stop();
+            Console.WriteLine("Conectado sin errores en " + crono.ElapsedMilliseconds + "ms");
         }
         private async void iniciarModoStream()
         {
-            try
+            //try
             {
-                Console.WriteLine("Intentando conectar a Spotify asíncronamente");
+                Console.WriteLine("Intentando conectar cuenta de Spotify");
                 Programa.HayInternet(false);
                 Stopwatch crono = Stopwatch.StartNew();
                 auth = new ImplicitGrantAuth(
                     clavePublica,
                     "http://localhost:4002/",
                     "http://localhost:4002/",
-                    Scope.UserReadPrivate | Scope.AppRemoteControl
+                    Scope.UserReadEmail | Scope.UserReadPrivate | Scope.Streaming | Scope.UserReadPlaybackState
                     );
-                auth.AuthReceived += async  (sender, payload) =>
+                auth.AuthReceived += async (sender, payload) =>
                 {
                     auth.Stop();
                     _spotify = new SpotifyWebAPI()
@@ -68,29 +83,27 @@ namespace aplicacion_musica
                         TokenType = payload.TokenType,
                         AccessToken = payload.AccessToken
                     };
-                    if (_spotify.AccessToken == null)
-                        Programa.HayInternet(false);
-                    else
-                        Programa.HayInternet(true);
+                    crono.Stop();
+                    cuentaLista = true;
+                    cuentaVinculada = true;
+                    Programa.config.AppSettings.Settings["VinculadoConSpotify"].Value = "true";
+                    Console.WriteLine("Conectado sin errores en " + crono.ElapsedMilliseconds + "ms");
                 };
                 auth.Start();
                 auth.OpenBrowser();
-                crono.Stop();
-                Console.WriteLine("Conectado sin errores en "+crono.ElapsedMilliseconds+"ms");
             }
-            
-            catch (NullReferenceException)
-            {
-                Programa.HayInternet(false);
-                Console.WriteLine("No tienes internet");
-                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
-            }
-            catch (HttpRequestException)
-            {
-                Programa.HayInternet(false);
-                Console.WriteLine("No tienes internet");
-                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
-            }
+            //catch (NullReferenceException)
+            //{
+            //    Programa.HayInternet(false);
+            //    Console.WriteLine("No tienes internet");
+            //    System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+            //}
+            //catch (HttpRequestException)
+            //{
+            //    Programa.HayInternet(false);
+            //    Console.WriteLine("No tienes internet");
+            //    System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+            //}
 
         }
 
@@ -98,7 +111,7 @@ namespace aplicacion_musica
         {
             Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a)");
             Stopwatch crono = Stopwatch.StartNew();
-            List<SimpleAlbum> item = _spotify.SearchItems(a, SpotifyAPI.Web.Enums.SearchType.Album).Albums.Items;
+            List<SimpleAlbum> item = _spotify.SearchItems(a, SearchType.Album).Albums.Items;
 
             resultadoSpotify res = new resultadoSpotify(ref item);
             crono.Stop();
@@ -200,6 +213,10 @@ namespace aplicacion_musica
             }
             a.canciones = canciones;
             Programa.miColeccion.agregarAlbum(ref a);
+        }
+        public void Reiniciar()
+        {
+            authMetadatos = null;
         }
     }
 }

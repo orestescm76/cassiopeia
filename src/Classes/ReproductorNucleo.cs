@@ -24,9 +24,8 @@ namespace aplicacion_musica
         private CSCore.Tags.ID3.ID3v2QuickInfo tags;
         private FLACFile _ficheroFLAC;
         private SingleBlockNotificationStream notificationStream;
-        private SpotifyWebAPI _spotify;
-        bool Spotify = false;
         long tamFich;
+
         public void CargarCancion(string cual)
         {
             switch (Path.GetExtension(cual))
@@ -127,16 +126,6 @@ namespace aplicacion_musica
         public void SetVolumen(float v)
         {
             _salida.Volume = v;
-        }
-        public async void TestSpotify()
-        {
-            SpotifyWebAPI api = new SpotifyWebAPI
-            {
-                AccessToken = "XXX",
-
-            };
-        }
-        
+        }        
     }
-    
 }

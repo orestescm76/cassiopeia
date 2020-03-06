@@ -3,6 +3,9 @@ using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using CSCore.CoreAudioAPI;
 using System.Drawing;
+using SpotifyAPI.Web;
+using SpotifyAPI.Web.Models;
+using System.IO;
 
 namespace aplicacion_musica
 {
@@ -24,7 +27,9 @@ namespace aplicacion_musica
         ToolTip VolumenSeleccionado;
         TimeSpan dur;
         TimeSpan pos;
-        Image Caratula;
+        bool Spotify;
+        SpotifyWebAPI _spotify;
+        //todo: crear una tarea que cada 1s me cambie la cancion, todo
         public Reproductor()
         {
             InitializeComponent();
@@ -33,6 +38,35 @@ namespace aplicacion_musica
             estadoReproductor = EstadoReproductor.Detenido;
             DuracionSeleccionada = new ToolTip();
             VolumenSeleccionado = new ToolTip();
+            if (Programa._spotify.cuentaVinculada)
+            {
+                Spotify = true;
+                _spotify = Programa._spotify._spotify;
+                PlaybackContext PC = _spotify.GetPlayback("ES");
+                Text = PC.Item.Artists[0].Name + " - " + PC.Item.Name;
+                DescargarPortada(PC.Item.Album);
+                pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+            }
+
+        }
+        private void DescargarPortada(SimpleAlbum album)
+        {
+            using (System.Net.WebClient cliente = new System.Net.WebClient())
+            {
+                try
+                {
+                    System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
+                    if(File.Exists("./covers/np.jpg") && pictureBoxCaratula.Image != null)
+                        pictureBoxCaratula.Image.Dispose();
+                    cliente.DownloadFile(new Uri(album.Images[1].Url), Environment.CurrentDirectory + "/covers/np.jpg");
+                }
+                catch (System.Net.WebException)
+                {
+                    Console.WriteLine("Excepción capturada System.Net.WebException");
+                    MessageBox.Show("");
+                }
+
+            }
         }
         public Reproductor(Cancion c)
         {
@@ -102,6 +136,7 @@ namespace aplicacion_musica
         private void Reproductor_FormClosing(object sender, FormClosingEventArgs e)
         {
             nucleo.Apagar();
+            pictureBoxCaratula.Image.Dispose();
             Dispose();
         }
 
@@ -141,17 +176,26 @@ namespace aplicacion_musica
             switch (estadoReproductor)
             {
                 case EstadoReproductor.Reproduciendo:
-                    nucleo.Pausar();
                     estadoReproductor = EstadoReproductor.Pausado;
                     buttonReproducirPausar.Text = "▶";
+                    if (!Spotify)
+                        nucleo.Pausar();
+                    else
+                        _spotify.PausePlayback();
                     break;
                 case EstadoReproductor.Pausado:
-                    nucleo.Reproducir();
+                    if (!Spotify)
+                        nucleo.Reproducir();
+                    else
+                        _spotify.ResumePlayback("", "", null, "");
                     estadoReproductor = EstadoReproductor.Reproduciendo;
                     buttonReproducirPausar.Text = "❚❚";
                     break;
                 case EstadoReproductor.Detenido:
-                    nucleo.Reproducir();
+                    if(!Spotify)
+                        nucleo.Reproducir();
+                    else
+                        _spotify.ResumePlayback("", "", null, "");
                     estadoReproductor = EstadoReproductor.Reproduciendo;
                     buttonReproducirPausar.Text = "❚❚";
                     break;

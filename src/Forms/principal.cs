@@ -70,6 +70,7 @@ namespace aplicacion_musica
             vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.OwnerDraw = true;
             crono.Stop();
+
             Console.WriteLine("Formulario principal creado y cargado en "+crono.ElapsedMilliseconds+"ms");
         }
         public void Refrescar() { cargarVista(); }
@@ -145,6 +146,7 @@ namespace aplicacion_musica
             copiarToolStripMenuItem.Text = Programa.textosLocal.GetString("copiar");
             opcionesToolStripMenuItem.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + Programa.Idioma + ".png");
             digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
+            vincularToolStripMenuItem.Text = Programa.textosLocal.GetString("vincular");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -247,7 +249,7 @@ namespace aplicacion_musica
 
                 crono.Stop();
                 Console.WriteLine(nameof(guardarDiscos) + "- Guardado en " + crono.ElapsedMilliseconds + " ms");
-                FileInfo fich = new FileInfo(nombre);
+                FileInfo fich = new FileInfo("./"+nombre);
                 Console.WriteLine("Tamaño: "+ fich.Length + " bytes");
             }
         }
@@ -735,6 +737,20 @@ namespace aplicacion_musica
                 Programa.cargarCDS(fichero);
             }
             cargarVista();
+        }
+
+        private void vincularToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult eleccion = MessageBox.Show(Programa.textosLocal.GetString("avisoSpotify"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if(eleccion == DialogResult.Yes)
+            {
+                Programa._spotify.Reiniciar();
+                Programa._spotify.SpotifyVinculado();
+            }
+            while (!Programa._spotify.cuentaLista)
+                System.Threading.Thread.Sleep(100);
+            if (Programa._spotify._spotify.GetPrivateProfile().Product != "premium")
+                MessageBox.Show("no tienes premium");
         }
     }
 }

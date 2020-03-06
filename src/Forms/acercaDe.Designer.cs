@@ -49,7 +49,7 @@
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Image = global::aplicacion_musica.Properties.Resources.banner;
+            this.pictureBox1.Image = global::aplicacion_gestormusica.Properties.Resources.banner;
             this.pictureBox1.InitialImage = null;
             this.pictureBox1.Location = new System.Drawing.Point(0, -2);
             this.pictureBox1.Name = "pictureBox1";

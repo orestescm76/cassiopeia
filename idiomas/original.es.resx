@@ -154,6 +154,9 @@
   <data name="artista" xml:space="preserve">
     <value>Artista</value>
   </data>
+  <data name="avisoSpotify" xml:space="preserve">
+    <value>Se va a vincular esta aplicación con tu cuenta de Spotify. Esto permitirá la reproducción de canciones desde Spotify en esta aplicación. Si deseas retirar el acceso tienes que ir a tu perfil en la web de Spotify. ¿Desea continuar?</value>
+  </data>
   <data name="ayudaAñadir" xml:space="preserve">
     <value>Selecciona el álbum que quieres agregar y pulsa en "Añadir"</value>
   </data>
@@ -451,6 +454,9 @@
   </data>
   <data name="VGPlus" xml:space="preserve">
     <value>Excelente (VG+)</value>
+  </data>
+  <data name="vincular" xml:space="preserve">
+    <value>Vincular con Spotify</value>
   </data>
   <data name="visualizando" xml:space="preserve">
     <value>Visualizando</value>
