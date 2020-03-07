@@ -41,6 +41,8 @@
             this.labelDatosCancion = new System.Windows.Forms.ToolStripStatusLabel();
             this.trackBarVolumen = new System.Windows.Forms.TrackBar();
             this.button1 = new System.Windows.Forms.Button();
+            this.timerSpotify = new System.Windows.Forms.Timer(this.components);
+            this.labelVolumen = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
@@ -66,7 +68,7 @@
             this.trackBarPosicion.TabIndex = 1;
             this.trackBarPosicion.TickFrequency = 0;
             this.trackBarPosicion.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.trackBarPosicion.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            this.trackBarPosicion.Scroll += new System.EventHandler(this.trackBarPosicion_Scroll);
             this.trackBarPosicion.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseDown);
             this.trackBarPosicion.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseUp);
             // 
@@ -145,6 +147,7 @@
             this.trackBarVolumen.TabIndex = 7;
             this.trackBarVolumen.TickFrequency = 10;
             this.trackBarVolumen.Scroll += new System.EventHandler(this.trackBarVolumen_Scroll);
+            this.trackBarVolumen.ValueChanged += new System.EventHandler(this.trackBarVolumen_ValueChanged);
             this.trackBarVolumen.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarVolumen_MouseDown);
             this.trackBarVolumen.MouseHover += new System.EventHandler(this.trackBarVolumen_MouseHover);
             // 
@@ -158,11 +161,26 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // timerSpotify
+            // 
+            this.timerSpotify.Interval = 50;
+            this.timerSpotify.Tick += new System.EventHandler(this.timerSpotify_Tick);
+            // 
+            // labelVolumen
+            // 
+            this.labelVolumen.AutoSize = true;
+            this.labelVolumen.Location = new System.Drawing.Point(265, 432);
+            this.labelVolumen.Name = "labelVolumen";
+            this.labelVolumen.Size = new System.Drawing.Size(35, 13);
+            this.labelVolumen.TabIndex = 9;
+            this.labelVolumen.Text = "label1";
+            // 
             // Reproductor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(300, 475);
+            this.Controls.Add(this.labelVolumen);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.trackBarVolumen);
             this.Controls.Add(this.barraAbajoDatos);
@@ -201,5 +219,7 @@
         private System.Windows.Forms.ToolStripStatusLabel labelDatosCancion;
         private System.Windows.Forms.TrackBar trackBarVolumen;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer timerSpotify;
+        private System.Windows.Forms.Label labelVolumen;
     }
 }

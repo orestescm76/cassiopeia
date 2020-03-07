@@ -62,12 +62,12 @@ namespace aplicacion_musica
             crono.Stop();
             Console.WriteLine("Conectado sin errores en " + crono.ElapsedMilliseconds + "ms");
         }
-        private async void iniciarModoStream()
+        private void iniciarModoStream()
         {
             //try
             {
                 Console.WriteLine("Intentando conectar cuenta de Spotify");
-                Programa.HayInternet(false);
+                Programa.HayInternet(true);
                 Stopwatch crono = Stopwatch.StartNew();
                 auth = new ImplicitGrantAuth(
                     clavePublica,
@@ -75,7 +75,7 @@ namespace aplicacion_musica
                     "http://localhost:4002/",
                     Scope.UserReadEmail | Scope.UserReadPrivate | Scope.Streaming | Scope.UserReadPlaybackState
                     );
-                auth.AuthReceived += async (sender, payload) =>
+                auth.AuthReceived += (sender, payload) =>
                 {
                     auth.Stop();
                     _spotify = new SpotifyWebAPI()
@@ -104,7 +104,6 @@ namespace aplicacion_musica
             //    Console.WriteLine("No tienes internet");
             //    System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
             //}
-
         }
 
         public void buscarAlbum(string a)

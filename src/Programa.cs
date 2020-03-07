@@ -207,7 +207,6 @@ namespace aplicacion_musica
                 _spotify = new Spotify(false);
             else
                 _spotify = new Spotify(true);
-
             for (int i = 0; i < idGeneros.Length; i++)
             {
                 if (idGeneros[i] == "")
