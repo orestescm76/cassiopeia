@@ -21,11 +21,6 @@ namespace aplicacion_musica
             Partes.Add(p);
             duracion += p.duracion;
         }
-        /// <summary>
-        /// devuelve el número romano del 1 al 99
-        /// </summary>
-        /// <param name="_x">numero árabe a convertir</param>
-        /// <returns></returns>
         public String GetNumeroRomano(int _x)
         {
             String num = "";

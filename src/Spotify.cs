@@ -13,13 +13,14 @@ namespace aplicacion_musica
     class Spotify
     {
         public SpotifyWebAPI _spotify;
-        private ImplicitGrantAuth auth;
+        private AuthorizationCodeAuth auth;
         private CredentialsAuth authMetadatos;
         private readonly char[] CaracteresProhibidosWindows = { '\\', '/', '|', '?', '*', '"', ':', '>', '<' };
         private readonly String clavePublica = "f49317757dd64bb190576aec028f4efc";
         private readonly String clavePrivada = ClaveAPI.Spotify;
         public bool cuentaLista = false;
         public bool cuentaVinculada = false;
+        Token tokenActual;
         public Spotify(bool v)
         {
             if(v == false)
@@ -27,9 +28,13 @@ namespace aplicacion_musica
             else
                 iniciarModoStream();
         }
-        public void SpotifyVinculado()
+        public async void SpotifyVinculado()
         {
             iniciarModoStream();
+        }
+        public bool TokenExpirado()
+        {
+            return tokenActual.IsExpired();
         }
         private async void iniciar()
         {
@@ -62,26 +67,29 @@ namespace aplicacion_musica
             crono.Stop();
             Console.WriteLine("Conectado sin errores en " + crono.ElapsedMilliseconds + "ms");
         }
-        private void iniciarModoStream()
+        private async void iniciarModoStream()
         {
             //try
             {
                 Console.WriteLine("Intentando conectar cuenta de Spotify");
                 Programa.HayInternet(true);
                 Stopwatch crono = Stopwatch.StartNew();
-                auth = new ImplicitGrantAuth(
+                auth = new AuthorizationCodeAuth(
                     clavePublica,
+                    clavePrivada,
                     "http://localhost:4002/",
                     "http://localhost:4002/",
                     Scope.UserReadEmail | Scope.UserReadPrivate | Scope.Streaming | Scope.UserReadPlaybackState
                     );
-                auth.AuthReceived += (sender, payload) =>
+                auth.AuthReceived += async (sender, payload) =>
                 {
                     auth.Stop();
+                    Token token = await auth.ExchangeCode(payload.Code);
+                    tokenActual = token;
                     _spotify = new SpotifyWebAPI()
                     {
-                        TokenType = payload.TokenType,
-                        AccessToken = payload.AccessToken
+                        TokenType = token.TokenType,
+                        AccessToken = token.AccessToken
                     };
                     crono.Stop();
                     cuentaLista = true;
@@ -105,7 +113,12 @@ namespace aplicacion_musica
             //    System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
             //}
         }
-
+        public async void RefrescarToken()
+        {
+            Token newToken = await auth.RefreshToken(tokenActual.RefreshToken);
+            _spotify.AccessToken = newToken.AccessToken;
+            _spotify.TokenType = newToken.TokenType;
+        }
         public void buscarAlbum(string a)
         {
             Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a)");
@@ -118,6 +131,15 @@ namespace aplicacion_musica
             res.ShowDialog();
             if (res.DialogResult == System.Windows.Forms.DialogResult.Cancel)
                 return;
+        }
+        public SimpleAlbum DevolverAlbum(string a)
+        {
+            Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a)");
+            Stopwatch crono = Stopwatch.StartNew();
+            SimpleAlbum album = _spotify.SearchItems(a, SearchType.Album).Albums.Items[0];
+            crono.Stop();
+            Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a) ha terminado en " + crono.ElapsedMilliseconds + "ms");
+            return album;
         }
         public FullTrack cancion(string song)
         {

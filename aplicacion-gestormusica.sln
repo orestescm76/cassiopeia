@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aplicacion-gestormusica", "aplicacion-gestormusica\aplicacion-gestormusica.csproj", "{6DC180E8-73C6-4977-A287-357065475B3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aplicacion-gestormusica", "aplicacion-gestormusica.csproj", "{6DC180E8-73C6-4977-A287-357065475B3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {052C2837-FBD8-4988-BE90-881005303B79}
+		SolutionGuid = {D81D9C6C-58DD-40F1-8753-7C3573F43ECF}
 	EndGlobalSection
 EndGlobal

@@ -37,6 +37,7 @@ namespace aplicacion_musica
         public static bool ModoOscuro = false;
         public static readonly string CodeName = "Raven";
         private static ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
+        public static Reproductor Reproductor;
 
         public static Configuration config;
         public static void HayInternet(bool i)
@@ -207,6 +208,7 @@ namespace aplicacion_musica
                 _spotify = new Spotify(false);
             else
                 _spotify = new Spotify(true);
+
             for (int i = 0; i < idGeneros.Length; i++)
             {
                 if (idGeneros[i] == "")
@@ -238,6 +240,7 @@ namespace aplicacion_musica
             {
                 Console.WriteLine("discos.json no existe, se creará una base de datos vacía.");
             }
+            Reproductor = new Reproductor();
             Application.Run(principal);
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();

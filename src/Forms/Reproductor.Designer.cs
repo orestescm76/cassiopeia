@@ -43,6 +43,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.timerSpotify = new System.Windows.Forms.Timer(this.components);
             this.labelVolumen = new System.Windows.Forms.Label();
+            this.labelPorcentaje = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
@@ -54,30 +55,31 @@
             this.pictureBoxCaratula.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxCaratula.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBoxCaratula.Name = "pictureBoxCaratula";
-            this.pictureBoxCaratula.Size = new System.Drawing.Size(300, 300);
+            this.pictureBoxCaratula.Size = new System.Drawing.Size(352, 352);
             this.pictureBoxCaratula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxCaratula.TabIndex = 0;
             this.pictureBoxCaratula.TabStop = false;
             // 
             // trackBarPosicion
             // 
-            this.trackBarPosicion.Location = new System.Drawing.Point(0, 303);
+            this.trackBarPosicion.Location = new System.Drawing.Point(0, 355);
             this.trackBarPosicion.Maximum = 500;
             this.trackBarPosicion.Name = "trackBarPosicion";
-            this.trackBarPosicion.Size = new System.Drawing.Size(300, 45);
+            this.trackBarPosicion.Size = new System.Drawing.Size(352, 45);
             this.trackBarPosicion.TabIndex = 1;
             this.trackBarPosicion.TickFrequency = 0;
             this.trackBarPosicion.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.trackBarPosicion.Scroll += new System.EventHandler(this.trackBarPosicion_Scroll);
+            this.trackBarPosicion.ValueChanged += new System.EventHandler(this.trackBarPosicion_ValueChanged);
             this.trackBarPosicion.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseDown);
             this.trackBarPosicion.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseUp);
             // 
             // buttonReproducirPausar
             // 
             this.buttonReproducirPausar.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.buttonReproducirPausar.Location = new System.Drawing.Point(116, 354);
+            this.buttonReproducirPausar.Location = new System.Drawing.Point(158, 406);
             this.buttonReproducirPausar.Name = "buttonReproducirPausar";
-            this.buttonReproducirPausar.Size = new System.Drawing.Size(50, 50);
+            this.buttonReproducirPausar.Size = new System.Drawing.Size(43, 42);
             this.buttonReproducirPausar.TabIndex = 2;
             this.buttonReproducirPausar.Text = "▶";
             this.buttonReproducirPausar.UseVisualStyleBackColor = true;
@@ -95,7 +97,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(5, 398);
+            this.button2.Location = new System.Drawing.Point(5, 457);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 3;
@@ -106,7 +108,7 @@
             // labelPosicion
             // 
             this.labelPosicion.AutoSize = true;
-            this.labelPosicion.Location = new System.Drawing.Point(2, 347);
+            this.labelPosicion.Location = new System.Drawing.Point(8, 403);
             this.labelPosicion.Name = "labelPosicion";
             this.labelPosicion.Size = new System.Drawing.Size(28, 13);
             this.labelPosicion.TabIndex = 4;
@@ -115,11 +117,11 @@
             // labelDuracion
             // 
             this.labelDuracion.AutoSize = true;
-            this.labelDuracion.Location = new System.Drawing.Point(267, 347);
+            this.labelDuracion.Location = new System.Drawing.Point(314, 403);
             this.labelDuracion.Name = "labelDuracion";
-            this.labelDuracion.Size = new System.Drawing.Size(10, 13);
+            this.labelDuracion.Size = new System.Drawing.Size(38, 13);
             this.labelDuracion.TabIndex = 5;
-            this.labelDuracion.Text = "-";
+            this.labelDuracion.Text = "XX:XX";
             this.labelDuracion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelDuracion.Click += new System.EventHandler(this.labelDuracion_Click);
             // 
@@ -127,9 +129,9 @@
             // 
             this.barraAbajoDatos.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labelDatosCancion});
-            this.barraAbajoDatos.Location = new System.Drawing.Point(0, 453);
+            this.barraAbajoDatos.Location = new System.Drawing.Point(0, 522);
             this.barraAbajoDatos.Name = "barraAbajoDatos";
-            this.barraAbajoDatos.Size = new System.Drawing.Size(300, 22);
+            this.barraAbajoDatos.Size = new System.Drawing.Size(352, 22);
             this.barraAbajoDatos.TabIndex = 6;
             this.barraAbajoDatos.Text = "statusStrip1";
             // 
@@ -140,7 +142,7 @@
             // 
             // trackBarVolumen
             // 
-            this.trackBarVolumen.Location = new System.Drawing.Point(184, 405);
+            this.trackBarVolumen.Location = new System.Drawing.Point(236, 464);
             this.trackBarVolumen.Maximum = 100;
             this.trackBarVolumen.Name = "trackBarVolumen";
             this.trackBarVolumen.Size = new System.Drawing.Size(116, 45);
@@ -153,7 +155,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(5, 427);
+            this.button1.Location = new System.Drawing.Point(5, 486);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 8;
@@ -169,17 +171,27 @@
             // labelVolumen
             // 
             this.labelVolumen.AutoSize = true;
-            this.labelVolumen.Location = new System.Drawing.Point(265, 432);
+            this.labelVolumen.Location = new System.Drawing.Point(319, 496);
             this.labelVolumen.Name = "labelVolumen";
-            this.labelVolumen.Size = new System.Drawing.Size(35, 13);
+            this.labelVolumen.Size = new System.Drawing.Size(33, 13);
             this.labelVolumen.TabIndex = 9;
-            this.labelVolumen.Text = "label1";
+            this.labelVolumen.Text = "100%";
+            // 
+            // labelPorcentaje
+            // 
+            this.labelPorcentaje.AutoSize = true;
+            this.labelPorcentaje.Location = new System.Drawing.Point(8, 426);
+            this.labelPorcentaje.Name = "labelPorcentaje";
+            this.labelPorcentaje.Size = new System.Drawing.Size(21, 13);
+            this.labelPorcentaje.TabIndex = 10;
+            this.labelPorcentaje.Text = "0%";
             // 
             // Reproductor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(300, 475);
+            this.ClientSize = new System.Drawing.Size(352, 544);
+            this.Controls.Add(this.labelPorcentaje);
             this.Controls.Add(this.labelVolumen);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.trackBarVolumen);
@@ -192,7 +204,7 @@
             this.Controls.Add(this.pictureBoxCaratula);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Reproductor";
-            this.Text = "Reproductor";
+            this.Text = "x";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reproductor_FormClosing);
             this.Load += new System.EventHandler(this.Reproductor_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).EndInit();
@@ -221,5 +233,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Timer timerSpotify;
         private System.Windows.Forms.Label labelVolumen;
+        private System.Windows.Forms.Label labelPorcentaje;
     }
 }

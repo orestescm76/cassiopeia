@@ -53,6 +53,8 @@ namespace aplicacion_musica
                 _spotify = Programa._spotify._spotify;
                 timerSpotify.Enabled = true;
             }
+            //button1.Hide();
+            //button2.Hide();
         }
 
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -80,6 +82,7 @@ namespace aplicacion_musica
                     trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                     DescargarPortada(PC.Item.Album);
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                    labelDatosCancion.Text = "BPM: " + _spotify.GetAudioFeatures(PC.Item.Id).Tempo + "bpm";
                 }
                 cancionReproduciendo = PC.Item;
                 Text = PC.Item.Artists[0].Name + " - " + cancionReproduciendo.Name;
@@ -93,8 +96,15 @@ namespace aplicacion_musica
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            PlaybackContext PC = _spotify.GetPlayback();
-            e.Result = PC;
+            if(!Programa._spotify.TokenExpirado())
+            {
+                PlaybackContext PC = _spotify.GetPlayback();
+                e.Result = PC;
+            }
+            else
+            {
+                Programa._spotify.RefrescarToken();
+            }
         }
 
         public Reproductor (bool S = false)
@@ -131,6 +141,8 @@ namespace aplicacion_musica
                 catch (System.Net.WebException)
                 {
                     Console.WriteLine("Excepción capturada System.Net.WebException");
+                    
+                    
                     MessageBox.Show("");
                 }
 
@@ -162,6 +174,16 @@ namespace aplicacion_musica
                         _devices.Add(item);
                     }
                 }
+            }
+            if (Programa._spotify.cuentaVinculada)
+            {
+                Spotify = true;
+                backgroundWorker = new BackgroundWorker();
+                backgroundWorker.DoWork += BackgroundWorker_DoWork;
+                backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+                cancionReproduciendo = new FullTrack();
+                _spotify = Programa._spotify._spotify;
+                timerSpotify.Enabled = true;
             }
         }
 
@@ -359,6 +381,11 @@ namespace aplicacion_musica
         private void trackBarVolumen_ValueChanged(object sender, EventArgs e)
         {
             labelVolumen.Text = trackBarVolumen.Value.ToString() + "%";
+        }
+
+        private void trackBarPosicion_ValueChanged(object sender, EventArgs e)
+        {
+            labelPorcentaje.Text = trackBarPosicion.Value * 100 / trackBarPosicion.Maximum + "%";
         }
     }
 }

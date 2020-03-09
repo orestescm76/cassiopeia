@@ -347,8 +347,7 @@ namespace aplicacion_musica
             }
             if(e.KeyCode == Keys.F11)
             {
-                Reproductor r = new Reproductor();
-                r.Show();
+                Programa.Reproductor.Show();
             }
         }
         private void borrarAlbumesSeleccionados(TipoVista tipoVista)
@@ -751,6 +750,14 @@ namespace aplicacion_musica
                 System.Threading.Thread.Sleep(100);
             if (Programa._spotify._spotify.GetPrivateProfile().Product != "premium")
                 MessageBox.Show("no tienes premium");
+        }
+
+        private void spotifyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SpotifyAPI.Web.Models.SimpleAlbum a = new SpotifyAPI.Web.Models.SimpleAlbum();
+            a = Programa._spotify.DevolverAlbum(vistaAlbumes.SelectedItems[0].SubItems[1].Text);
+            SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify._spotify.ResumePlayback(contextUri: "spotify:album:"+a.Id,offset:"", positionMs:0);
+            Console.WriteLine();
         }
     }
 }
