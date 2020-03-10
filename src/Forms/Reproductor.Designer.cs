@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
             this.trackBarPosicion = new System.Windows.Forms.TrackBar();
             this.buttonReproducirPausar = new System.Windows.Forms.Button();
             this.timerCancion = new System.Windows.Forms.Timer(this.components);
@@ -44,21 +43,15 @@
             this.timerSpotify = new System.Windows.Forms.Timer(this.components);
             this.labelVolumen = new System.Windows.Forms.Label();
             this.labelPorcentaje = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).BeginInit();
+            this.checkBoxAleatorio = new System.Windows.Forms.CheckBox();
+            this.buttonSaltarAdelante = new System.Windows.Forms.Button();
+            this.buttonSaltarAtras = new System.Windows.Forms.Button();
+            this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBoxCaratula
-            // 
-            this.pictureBoxCaratula.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxCaratula.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBoxCaratula.Name = "pictureBoxCaratula";
-            this.pictureBoxCaratula.Size = new System.Drawing.Size(352, 352);
-            this.pictureBoxCaratula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxCaratula.TabIndex = 0;
-            this.pictureBoxCaratula.TabStop = false;
             // 
             // trackBarPosicion
             // 
@@ -97,9 +90,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(5, 457);
+            this.button2.Location = new System.Drawing.Point(11, 503);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(88, 23);
             this.button2.TabIndex = 3;
             this.button2.Text = "abrir";
             this.button2.UseVisualStyleBackColor = true;
@@ -129,7 +122,7 @@
             // 
             this.barraAbajoDatos.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labelDatosCancion});
-            this.barraAbajoDatos.Location = new System.Drawing.Point(0, 522);
+            this.barraAbajoDatos.Location = new System.Drawing.Point(0, 558);
             this.barraAbajoDatos.Name = "barraAbajoDatos";
             this.barraAbajoDatos.Size = new System.Drawing.Size(352, 22);
             this.barraAbajoDatos.TabIndex = 6;
@@ -155,17 +148,17 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(5, 486);
+            this.button1.Location = new System.Drawing.Point(11, 532);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(88, 23);
             this.button1.TabIndex = 8;
-            this.button1.Text = "button1";
+            this.button1.Text = "cambiar a local";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // timerSpotify
             // 
-            this.timerSpotify.Interval = 50;
+            this.timerSpotify.Interval = 500;
             this.timerSpotify.Tick += new System.EventHandler(this.timerSpotify_Tick);
             // 
             // labelVolumen
@@ -186,11 +179,60 @@
             this.labelPorcentaje.TabIndex = 10;
             this.labelPorcentaje.Text = "0%";
             // 
+            // checkBoxAleatorio
+            // 
+            this.checkBoxAleatorio.AutoSize = true;
+            this.checkBoxAleatorio.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxAleatorio.Location = new System.Drawing.Point(11, 451);
+            this.checkBoxAleatorio.Name = "checkBoxAleatorio";
+            this.checkBoxAleatorio.Size = new System.Drawing.Size(57, 30);
+            this.checkBoxAleatorio.TabIndex = 11;
+            this.checkBoxAleatorio.Text = "🔀️";
+            this.checkBoxAleatorio.UseVisualStyleBackColor = true;
+            this.checkBoxAleatorio.CheckedChanged += new System.EventHandler(this.checkBoxAleatorio_CheckedChanged);
+            // 
+            // buttonSaltarAdelante
+            // 
+            this.buttonSaltarAdelante.Font = new System.Drawing.Font("Webdings", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.buttonSaltarAdelante.Location = new System.Drawing.Point(207, 406);
+            this.buttonSaltarAdelante.Name = "buttonSaltarAdelante";
+            this.buttonSaltarAdelante.Size = new System.Drawing.Size(43, 42);
+            this.buttonSaltarAdelante.TabIndex = 12;
+            this.buttonSaltarAdelante.Text = ":";
+            this.buttonSaltarAdelante.UseVisualStyleBackColor = true;
+            this.buttonSaltarAdelante.Click += new System.EventHandler(this.buttonSaltarAdelante_Click);
+            // 
+            // buttonSaltarAtras
+            // 
+            this.buttonSaltarAtras.Font = new System.Drawing.Font("Webdings", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.buttonSaltarAtras.Location = new System.Drawing.Point(109, 406);
+            this.buttonSaltarAtras.Name = "buttonSaltarAtras";
+            this.buttonSaltarAtras.Size = new System.Drawing.Size(43, 42);
+            this.buttonSaltarAtras.TabIndex = 13;
+            this.buttonSaltarAtras.Text = "9";
+            this.buttonSaltarAtras.UseVisualStyleBackColor = true;
+            this.buttonSaltarAtras.Click += new System.EventHandler(this.buttonSaltarAtras_Click);
+            // 
+            // pictureBoxCaratula
+            // 
+            this.pictureBoxCaratula.Image = global::aplicacion_gestormusica.Properties.Resources.albumdesconocido;
+            this.pictureBoxCaratula.InitialImage = global::aplicacion_gestormusica.Properties.Resources.albumdesconocido;
+            this.pictureBoxCaratula.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxCaratula.Margin = new System.Windows.Forms.Padding(0);
+            this.pictureBoxCaratula.Name = "pictureBoxCaratula";
+            this.pictureBoxCaratula.Size = new System.Drawing.Size(352, 352);
+            this.pictureBoxCaratula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxCaratula.TabIndex = 0;
+            this.pictureBoxCaratula.TabStop = false;
+            // 
             // Reproductor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(352, 544);
+            this.ClientSize = new System.Drawing.Size(352, 580);
+            this.Controls.Add(this.buttonSaltarAtras);
+            this.Controls.Add(this.buttonSaltarAdelante);
+            this.Controls.Add(this.checkBoxAleatorio);
             this.Controls.Add(this.labelPorcentaje);
             this.Controls.Add(this.labelVolumen);
             this.Controls.Add(this.button1);
@@ -207,11 +249,11 @@
             this.Text = "x";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reproductor_FormClosing);
             this.Load += new System.EventHandler(this.Reproductor_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).EndInit();
             this.barraAbajoDatos.ResumeLayout(false);
             this.barraAbajoDatos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -234,5 +276,8 @@
         private System.Windows.Forms.Timer timerSpotify;
         private System.Windows.Forms.Label labelVolumen;
         private System.Windows.Forms.Label labelPorcentaje;
+        private System.Windows.Forms.CheckBox checkBoxAleatorio;
+        private System.Windows.Forms.Button buttonSaltarAdelante;
+        private System.Windows.Forms.Button buttonSaltarAtras;
     }
 }

@@ -524,6 +524,7 @@
     <Content Include="packages\Unosquare.Swan.Lite.1.3.1\lib\netstandard1.3\Unosquare.Swan.Lite.xml" />
     <Content Include="packages\Unosquare.Swan.Lite.1.3.1\lib\netstandard2.0\Unosquare.Swan.Lite.dll" />
     <Content Include="packages\Unosquare.Swan.Lite.1.3.1\lib\netstandard2.0\Unosquare.Swan.Lite.xml" />
+    <None Include="Resources\albumdesconocido.png" />
     <Content Include="Resources\banner.png" />
     <Content Include="Resources\icono.ico" />
     <Content Include="Resources\spotifyico.ico" />

@@ -43,8 +43,8 @@ namespace aplicacion_musica
             Programa.HayInternet(false);
             try
             {
-                CredentialsAuth auth = new CredentialsAuth(clavePrivada, clavePrivada);
-                Token token = await auth.GetToken();
+                CredentialsAuth authMetadatos = new CredentialsAuth(clavePrivada, clavePrivada);
+                Token token = await authMetadatos.GetToken();
                 _spotify = new SpotifyWebAPI()
                 {
                     TokenType = token.TokenType,

@@ -88,17 +88,22 @@ namespace aplicacion_musica
         public void Apagar() { Limpiar(); }
         public String CancionReproduciendose()
         {
-            switch (FormatoSonido)
+            if (tags != null)
             {
-                case FormatoSonido.MP3:
-                    return tags.LeadPerformers + " - " + tags.Title;
-                case FormatoSonido.FLAC:
-                    return _ficheroFLAC.ARTIST + " - " + _ficheroFLAC.TITLE;
-                case FormatoSonido.OGG:
-                    return null;
-                default:
-                    return null;
+                switch (FormatoSonido)
+                {
+                    case FormatoSonido.MP3:
+                        return tags.LeadPerformers + " - " + tags.Title;
+                    case FormatoSonido.FLAC:
+                        return _ficheroFLAC.ARTIST + " - " + _ficheroFLAC.TITLE;
+                    case FormatoSonido.OGG:
+                        return null;
+                    default:
+                        return null;
+                }
             }
+            else return null;
+
         }
         public System.Drawing.Image GetCaratula()
         {
