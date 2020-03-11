@@ -15,9 +15,13 @@ namespace aplicacion_musica
     {
         private ListViewItemComparer lvwColumnSorter;
         private List<SimpleAlbum> listaBusqueda = new List<SimpleAlbum>();
-        public resultadoSpotify(ref List<SimpleAlbum> l)
+        bool EditarID = false;
+        Album AlbumAEditar;
+        public resultadoSpotify(ref List<SimpleAlbum> l, bool edit, Album album = null)
         {
             InitializeComponent();
+            EditarID = edit;
+            AlbumAEditar = album;
             Text = Programa.textosLocal.GetString("resultado_busqueda");
             labelAyuda.Text = Programa.textosLocal.GetString("ayudaAñadir");
             labelResultado.Text = Programa.textosLocal.GetString("seHanEncontrado") + l.Count + " " + Programa.textosLocal.GetString("resultados");
@@ -50,19 +54,28 @@ namespace aplicacion_musica
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Intentando añadir " + listViewResultadoBusqueda.SelectedItems.Count +
-                " albumes");
-            Stopwatch crono = Stopwatch.StartNew();
-            for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
+            if(!EditarID)
             {
-                int cual = listViewResultadoBusqueda.Items.IndexOf(listViewResultadoBusqueda.SelectedItems[i]);//la imagen tiene url
-                SimpleAlbum temp = listaBusqueda[cual];
-                Programa._spotify.procesarAlbum(temp);
+                Console.WriteLine("Intentando añadir " + listViewResultadoBusqueda.SelectedItems.Count +
+                    " albumes");
+                Stopwatch crono = Stopwatch.StartNew();
+                for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
+                {
+                    int cual = listViewResultadoBusqueda.Items.IndexOf(listViewResultadoBusqueda.SelectedItems[i]);//la imagen tiene url
+                    SimpleAlbum temp = listaBusqueda[cual];
+                    Programa._spotify.procesarAlbum(temp);
+                }
+                DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
+                crono.Stop();
+                Console.WriteLine("Agregdos " + listViewResultadoBusqueda.SelectedItems.Count + " albumes correctamente en " + crono.ElapsedMilliseconds + "ms");
+                Programa.refrescarVista();
             }
-            DialogResult = DialogResult.OK; //quiza molaria una pantallatita de carga
-            crono.Stop();
-            Console.WriteLine("Agregdos "+listViewResultadoBusqueda.SelectedItems.Count + " albumes correctamente en "+crono.ElapsedMilliseconds+"ms");
-            Programa.refrescarVista();
+            else
+            {
+                int IndexAlbum = listViewResultadoBusqueda.SelectedItems[0].Index;
+                SimpleAlbum temp = listaBusqueda[IndexAlbum];
+                AlbumAEditar.SetSpotifyID(temp.Id);
+            }
             Dispose();
         }
 

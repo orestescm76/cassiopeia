@@ -18,6 +18,7 @@ namespace aplicacion_musica
         private void buttonOk_Click(object sender, EventArgs e)
         {
             cd.Anotaciones = textBox1.Lines;
+            Log.Instance.ImprimirMensaje("Guardado " + cd.Anotaciones.Length + " bytes", TipoMensaje.Correcto);
             Dispose();
         }
     }

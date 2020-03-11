@@ -17,8 +17,6 @@ namespace aplicacion_musica
     {
         private readonly Stream _stream;
         private readonly VorbisReader _vorbisReader;
-
-        private readonly WaveFormat _waveFormat;
         private bool _disposed;
 
         public NVorbisSource(Stream stream)
@@ -29,7 +27,7 @@ namespace aplicacion_musica
                 throw new ArgumentException("Stream is not readable.", "stream");
             _stream = stream;
             _vorbisReader = new VorbisReader(stream, false);
-            _waveFormat = new WaveFormat(_vorbisReader.SampleRate, 32, _vorbisReader.Channels, AudioEncoding.IeeeFloat);
+            WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 32, _vorbisReader.Channels, AudioEncoding.IeeeFloat);
         }
 
         public bool CanSeek
@@ -37,15 +35,12 @@ namespace aplicacion_musica
             get { return _stream.CanSeek; }
         }
 
-        public WaveFormat WaveFormat
-        {
-            get { return _waveFormat; }
-        }
+        public WaveFormat WaveFormat { get; }
 
         //got fixed through workitem #17, thanks for reporting @rgodart.
         public long Length
         {
-            get { return CanSeek ? (long)(_vorbisReader.TotalTime.TotalSeconds * _waveFormat.SampleRate * _waveFormat.Channels) : 0; }
+            get { return CanSeek ? (long)(_vorbisReader.TotalTime.TotalSeconds * WaveFormat.SampleRate * WaveFormat.Channels) : 0; }
         }
 
         //got fixed through workitem #17, thanks for reporting @rgodart.

@@ -81,7 +81,7 @@ namespace aplicacion_musica
         }
         public static void cargarAlbumes(string fichero)
         {
-            Console.WriteLine(nameof(cargarAlbumes) + " - Cargando álbumes almacenados en " + fichero);
+            Log.Instance.ImprimirMensaje("Cargando álbumes almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumes(string)");
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamReader lector = new StreamReader(fichero))
             {
@@ -97,12 +97,12 @@ namespace aplicacion_musica
                 }
             }
             crono.Stop();
-            Console.WriteLine(nameof(cargarAlbumes) + " - Cargados " + miColeccion.albumes.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + " ms");
+            Log.Instance.ImprimirMensaje("Cargados " + miColeccion.albumes.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
             refrescarVista();
         }
         public static void cargarAlbumesLegacy(string fichero)
         {
-            Console.WriteLine(nameof(cargarAlbumes) + " - Cargando álbumes CSV almacenados en " + fichero);
+            Log.Instance.ImprimirMensaje("Cargando álbumes CSV almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumesLegacy(string)");
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamReader lector = new StreamReader(fichero))
             {
@@ -166,7 +166,7 @@ namespace aplicacion_musica
 
             }
             crono.Stop();
-            Console.WriteLine(nameof(cargarAlbumes) + " - Cargados " + miColeccion.albumes.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + " ms");
+            Log.Instance.ImprimirMensaje("Cargados " + miColeccion.albumes.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
             refrescarVista();
         }
         public static void cargarCDS(string fichero = "cd.json")
@@ -188,27 +188,39 @@ namespace aplicacion_musica
         [STAThread]
         static void Main(String[] args)
         {
+            Log Log = Log.Instance;
+
             if(args.Contains("-consola"))
             {
                 AllocConsole();
                 Console.Title = "Consola debug v" + version;
-                Console.WriteLine("Consola habilitada, se mostrarán detalles sobre la ejecución en español.\nSi la cierra se cerrará la aplicación.");
+                Console.WriteLine("Log creado " + DateTime.Now);
+                Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -consola", TipoMensaje.Info);
             }
-
             Idioma = ConfigurationManager.AppSettings["Idioma"];
             miColeccion = new Coleccion();
             textosLocal = new ResXResourceSet(@"./idiomas/"+"original."+Idioma+".resx");
-            configFileMap.ExeConfigFilename = Environment.CurrentDirectory + "/aplicacion-gestormusica.exe.config";
+            configFileMap.ExeConfigFilename = Environment.CurrentDirectory + "/aplicacion_musica.exe.config";
             config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Reproductor reproductor = Reproductor.Instancia;
             principal = new principal();
-            if(config.AppSettings.Settings["VinculadoConSpotify"].Value == "false")
-                _spotify = new Spotify(false);
-            else
-                _spotify = new Spotify(true);
+            if(!args.Contains("-noSpotify"))
+            {
+                if (config.AppSettings.Settings["VinculadoConSpotify"].Value == "false")
+                    _spotify = new Spotify(false);
+                else
+                    _spotify = new Spotify(true);
 
+            }
+            else
+            {
+                Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -noSpotify, no habrá integración con Spotify", TipoMensaje.Info);
+                _spotify = null;
+                principal.HayInternet(false);
+            }
             for (int i = 0; i < idGeneros.Length; i++)
             {
                 if (idGeneros[i] == "")
@@ -238,10 +250,11 @@ namespace aplicacion_musica
             }
             else
             {
-                Console.WriteLine("discos.json no existe, se creará una base de datos vacía.");
+                Log.ImprimirMensaje("discos.json no existe, se creará una base de datos vacía.", TipoMensaje.Advertencia);
             }
-            Reproductor = new Reproductor();
             Application.Run(principal);
+            reproductor.Apagar();
+            reproductor.Dispose();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();
             if (args.Contains("-consola"))

@@ -23,7 +23,7 @@ namespace aplicacion_musica
         Token tokenActual;
         public Spotify(bool v)
         {
-            if(v == false)
+            if(!v)
                 iniciar();
             else
                 iniciarModoStream();
@@ -38,40 +38,48 @@ namespace aplicacion_musica
         }
         private async void iniciar()
         {
-            Console.WriteLine("Intentando conectar a Spotify asíncronamente");
+            Log.Instance.ImprimirMensaje("Intentando con Spotify asíncronamente", TipoMensaje.Info, "Spotify.iniciar()");
             Stopwatch crono = Stopwatch.StartNew();
             Programa.HayInternet(false);
             try
             {
-                CredentialsAuth authMetadatos = new CredentialsAuth(clavePrivada, clavePrivada);
+                CredentialsAuth authMetadatos = new CredentialsAuth(clavePublica, clavePrivada);
                 Token token = await authMetadatos.GetToken();
                 _spotify = new SpotifyWebAPI()
                 {
                     TokenType = token.TokenType,
                     AccessToken = token.AccessToken
                 };
-                Programa.HayInternet(true);
+                crono.Stop();
+                if(_spotify.AccessToken != null)
+                {
+                    Programa.HayInternet(true);
+                    Log.Instance.ImprimirMensaje("Conectado sin errores", TipoMensaje.Correcto, crono);
+                }
+                else
+                {
+                    Programa.HayInternet(false);
+                    Log.Instance.ImprimirMensaje("Se ha conectado pero el token es nulo", TipoMensaje.Error, crono);
+                }
             }
             catch (NullReferenceException)
             {
                 Programa.HayInternet(false);
-                Console.WriteLine("No tienes internet");
+                Log.Instance.ImprimirMensaje("No se ha podido conectar con Spotify", TipoMensaje.Error);
                 System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
             }
             catch (HttpRequestException)
             {
                 Programa.HayInternet(false);
-                Console.WriteLine("No tienes internet");
+                Log.Instance.ImprimirMensaje("No se ha podido conectar con Spotify", TipoMensaje.Error);
                 System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
             }
-            crono.Stop();
-            Console.WriteLine("Conectado sin errores en " + crono.ElapsedMilliseconds + "ms");
         }
         private async void iniciarModoStream()
         {
             //try
             {
-                Console.WriteLine("Intentando conectar cuenta de Spotify");
+                Log.Instance.ImprimirMensaje("Intentando conectar cuenta de Spotify", TipoMensaje.Info, "Spotify.iniciarModoStream()");
                 Programa.HayInternet(true);
                 Stopwatch crono = Stopwatch.StartNew();
                 auth = new AuthorizationCodeAuth(
@@ -92,10 +100,21 @@ namespace aplicacion_musica
                         AccessToken = token.AccessToken
                     };
                     crono.Stop();
-                    cuentaLista = true;
-                    cuentaVinculada = true;
-                    Programa.config.AppSettings.Settings["VinculadoConSpotify"].Value = "true";
-                    Console.WriteLine("Conectado sin errores en " + crono.ElapsedMilliseconds + "ms");
+                    if(_spotify.AccessToken != null)
+                    {
+                        cuentaLista = true;
+                        cuentaVinculada = true;
+                        Programa.config.AppSettings.Settings["VinculadoConSpotify"].Value = "true";
+                        Log.Instance.ImprimirMensaje("Conectado sin errores", TipoMensaje.Correcto, crono);
+                    }
+                    else
+                    {
+                        cuentaLista = false;
+                        cuentaVinculada = false;
+                        Log.Instance.ImprimirMensaje("Se ha conectado pero el token es nulo", TipoMensaje.Error, crono);
+                        Programa.config.AppSettings.Settings["VinculadoConSpotify"].Value = "false";
+                    }
+
                 };
                 auth.Start();
                 auth.OpenBrowser();
@@ -121,29 +140,48 @@ namespace aplicacion_musica
         }
         public void buscarAlbum(string a)
         {
-            Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a)");
+            Log.Instance.ImprimirMensaje("Búsqueda en Spotify", TipoMensaje.Info, "Spotify.buscarAlbum(string)");
             Stopwatch crono = Stopwatch.StartNew();
-            List<SimpleAlbum> item = _spotify.SearchItems(a, SearchType.Album).Albums.Items;
+            try
+            {
+                List<SimpleAlbum> item = _spotify.SearchItems(a, SearchType.Album).Albums.Items;
 
-            resultadoSpotify res = new resultadoSpotify(ref item);
-            crono.Stop();
-            Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a) ha terminado en "+crono.ElapsedMilliseconds+"ms");
-            res.ShowDialog();
-            if (res.DialogResult == System.Windows.Forms.DialogResult.Cancel)
-                return;
+                resultadoSpotify res = new resultadoSpotify(ref item, false);
+                crono.Stop();
+                Log.Instance.ImprimirMensaje("Búsqueda en Spotify ha finalizado correctamente", TipoMensaje.Correcto, crono);
+                res.ShowDialog();
+                if (res.DialogResult == System.Windows.Forms.DialogResult.Cancel)
+                    return;
+            }
+            catch (NullReferenceException e)
+            {
+                Log.Instance.ImprimirMensaje("Error buscando álbumes", TipoMensaje.Error);
+                Log.Instance.ImprimirMensaje(e.InnerException.Message, TipoMensaje.Error);
+            }
+
         }
         public SimpleAlbum DevolverAlbum(string a)
         {
-            Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a)");
+            Log.Instance.ImprimirMensaje("Búsqueda en Spotify", TipoMensaje.Info, "Spotify.devolverAlbum(string)");
             Stopwatch crono = Stopwatch.StartNew();
-            SimpleAlbum album = _spotify.SearchItems(a, SearchType.Album).Albums.Items[0];
-            crono.Stop();
-            Console.WriteLine("Búsqueda en Spotify en Spotify::buscarAlbum(string a) ha terminado en " + crono.ElapsedMilliseconds + "ms");
-            return album;
+            try
+            {
+                SimpleAlbum album = _spotify.SearchItems(a, SearchType.Album).Albums.Items[0];
+                crono.Stop();
+                Log.Instance.ImprimirMensaje("Búsqueda en Spotify ha finalizado correctamente", TipoMensaje.Correcto, crono);
+
+                return album;
+            }
+            catch (NullReferenceException)
+            {
+                Log.Instance.ImprimirMensaje("Busqueda en Spotify no ha encontrado nada", TipoMensaje.Advertencia, crono);
+                return null;
+            }
+
         }
         public FullTrack cancion(string song)
         {
-            var item = _spotify.SearchItems(song, SpotifyAPI.Web.Enums.SearchType.Track, 5, 0, "ES");
+            var item = _spotify.SearchItems(song, SearchType.Track, 5, 0, "ES");
             FullTrack cancionQueBusco = item.Tracks.Items.First();
             return cancionQueBusco;
         }
@@ -188,7 +226,7 @@ namespace aplicacion_musica
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
-                if(canciones[i].duracion.Milliseconds >500)
+                if(canciones[i].duracion.Milliseconds > 500)
                     canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
                 else
                     canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
@@ -237,6 +275,7 @@ namespace aplicacion_musica
         }
         public void Reiniciar()
         {
+            Log.Instance.ImprimirMensaje("Reiniciando Spotify", TipoMensaje.Info);
             authMetadatos = null;
         }
     }

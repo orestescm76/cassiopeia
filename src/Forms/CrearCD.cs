@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Globalization;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace aplicacion_musica
 {
-    /// <summary>
-    /// Formulario responsable de la creacion del cd
-    /// </summary>
     public partial class CrearCD : Form
     {
         private Album album;

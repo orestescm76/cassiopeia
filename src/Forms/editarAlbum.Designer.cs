@@ -44,6 +44,10 @@
             this.comboBoxGeneros = new System.Windows.Forms.ComboBox();
             this.vistaCanciones = new System.Windows.Forms.ListView();
             this.buttonAñadirCancion = new System.Windows.Forms.Button();
+            this.labelURISpotify = new System.Windows.Forms.Label();
+            this.labelDirectorio = new System.Windows.Forms.Label();
+            this.buttonDirectorio = new System.Windows.Forms.Button();
+            this.labelDirectorioActual = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelArtista
@@ -100,7 +104,7 @@
             // 
             this.labelRuta.AutoSize = true;
             this.labelRuta.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRuta.Location = new System.Drawing.Point(14, 323);
+            this.labelRuta.Location = new System.Drawing.Point(14, 307);
             this.labelRuta.Name = "labelRuta";
             this.labelRuta.Size = new System.Drawing.Size(49, 15);
             this.labelRuta.TabIndex = 5;
@@ -109,7 +113,7 @@
             // botonOkDoomer
             // 
             this.botonOkDoomer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonOkDoomer.Location = new System.Drawing.Point(215, 485);
+            this.botonOkDoomer.Location = new System.Drawing.Point(217, 550);
             this.botonOkDoomer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonOkDoomer.Name = "botonOkDoomer";
             this.botonOkDoomer.Size = new System.Drawing.Size(109, 30);
@@ -121,7 +125,7 @@
             // botonCancelar
             // 
             this.botonCancelar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonCancelar.Location = new System.Drawing.Point(419, 485);
+            this.botonCancelar.Location = new System.Drawing.Point(421, 550);
             this.botonCancelar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonCancelar.Name = "botonCancelar";
             this.botonCancelar.Size = new System.Drawing.Size(111, 30);
@@ -183,7 +187,7 @@
             // 
             this.vistaCanciones.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vistaCanciones.HideSelection = false;
-            this.vistaCanciones.Location = new System.Drawing.Point(14, 357);
+            this.vistaCanciones.Location = new System.Drawing.Point(16, 422);
             this.vistaCanciones.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.vistaCanciones.Name = "vistaCanciones";
             this.vistaCanciones.Size = new System.Drawing.Size(514, 109);
@@ -194,7 +198,7 @@
             // 
             // buttonAñadirCancion
             // 
-            this.buttonAñadirCancion.Location = new System.Drawing.Point(14, 485);
+            this.buttonAñadirCancion.Location = new System.Drawing.Point(16, 550);
             this.buttonAñadirCancion.Name = "buttonAñadirCancion";
             this.buttonAñadirCancion.Size = new System.Drawing.Size(113, 31);
             this.buttonAñadirCancion.TabIndex = 10;
@@ -202,11 +206,55 @@
             this.buttonAñadirCancion.UseVisualStyleBackColor = true;
             this.buttonAñadirCancion.Click += new System.EventHandler(this.buttonAñadirCancion_Click);
             // 
+            // labelURISpotify
+            // 
+            this.labelURISpotify.AutoSize = true;
+            this.labelURISpotify.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelURISpotify.Location = new System.Drawing.Point(12, 335);
+            this.labelURISpotify.Name = "labelURISpotify";
+            this.labelURISpotify.Size = new System.Drawing.Size(63, 17);
+            this.labelURISpotify.TabIndex = 11;
+            this.labelURISpotify.Text = "uriSpotify";
+            // 
+            // labelDirectorio
+            // 
+            this.labelDirectorio.AutoSize = true;
+            this.labelDirectorio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDirectorio.Location = new System.Drawing.Point(12, 363);
+            this.labelDirectorio.Name = "labelDirectorio";
+            this.labelDirectorio.Size = new System.Drawing.Size(65, 17);
+            this.labelDirectorio.TabIndex = 12;
+            this.labelDirectorio.Text = "directorio";
+            // 
+            // buttonDirectorio
+            // 
+            this.buttonDirectorio.Location = new System.Drawing.Point(303, 356);
+            this.buttonDirectorio.Name = "buttonDirectorio";
+            this.buttonDirectorio.Size = new System.Drawing.Size(224, 30);
+            this.buttonDirectorio.TabIndex = 13;
+            this.buttonDirectorio.Text = "buscardirectorio";
+            this.buttonDirectorio.UseVisualStyleBackColor = true;
+            this.buttonDirectorio.Click += new System.EventHandler(this.buttonDirectorio_Click);
+            // 
+            // labelDirectorioActual
+            // 
+            this.labelDirectorioActual.AutoSize = true;
+            this.labelDirectorioActual.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDirectorioActual.Location = new System.Drawing.Point(14, 393);
+            this.labelDirectorioActual.Name = "labelDirectorioActual";
+            this.labelDirectorioActual.Size = new System.Drawing.Size(70, 15);
+            this.labelDirectorioActual.TabIndex = 14;
+            this.labelDirectorioActual.Text = "S:\\Música";
+            // 
             // editarAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(542, 528);
+            this.ClientSize = new System.Drawing.Size(542, 588);
+            this.Controls.Add(this.labelDirectorioActual);
+            this.Controls.Add(this.buttonDirectorio);
+            this.Controls.Add(this.labelDirectorio);
+            this.Controls.Add(this.labelURISpotify);
             this.Controls.Add(this.buttonAñadirCancion);
             this.Controls.Add(this.vistaCanciones);
             this.Controls.Add(this.comboBoxGeneros);
@@ -251,5 +299,9 @@
         private System.Windows.Forms.ComboBox comboBoxGeneros;
         private System.Windows.Forms.ListView vistaCanciones;
         private System.Windows.Forms.Button buttonAñadirCancion;
+        private System.Windows.Forms.Label labelURISpotify;
+        private System.Windows.Forms.Label labelDirectorio;
+        private System.Windows.Forms.Button buttonDirectorio;
+        private System.Windows.Forms.Label labelDirectorioActual;
     }
 }

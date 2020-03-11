@@ -21,7 +21,8 @@ namespace aplicacion_musica
                 Programa.textosLocal.GetString("titulo") + ": " + a.nombre + Environment.NewLine +
                 Programa.textosLocal.GetString("año") + ": " + a.year + Environment.NewLine +
                 Programa.textosLocal.GetString("duracion") + ": " + a.duracion.ToString() + Environment.NewLine +
-                Programa.textosLocal.GetString("genero") + ": " + a.genero.traducido + Environment.NewLine;
+                Programa.textosLocal.GetString("genero") + ": " + a.genero.traducido + Environment.NewLine +
+                "Localización: " + a.DirectorioSonido + Environment.NewLine;
             if (a.caratula != "")
             {
                 Image caratula = Image.FromFile(a.caratula);
@@ -80,7 +81,10 @@ namespace aplicacion_musica
             okDoomerButton.Text = Programa.textosLocal.GetString("hecho");
             editarButton.Text = Programa.textosLocal.GetString("editar");
             duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": 00:00:00";
-            buttonAnotaciones.Text = Programa.textosLocal.GetString("editar_anotaciones");
+            if (CDaVisualizar != null)
+                buttonAnotaciones.Text = Programa.textosLocal.GetString("editar_anotaciones");
+            else
+                buttonAnotaciones.Text = "Reproducir";
             setBonusToolStripMenuItem.Text = Programa.textosLocal.GetString("setBonus");
             setLargaToolStripMenuItem.Text = Programa.textosLocal.GetString("setLarga");
         }
@@ -192,7 +196,6 @@ namespace aplicacion_musica
                         Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
                         Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido;
                 vistaCanciones.Items.AddRange(items);
-                buttonAnotaciones.Hide();
             }
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
@@ -277,9 +280,20 @@ namespace aplicacion_musica
 
         private void buttonAnotaciones_Click(object sender, EventArgs e)
         {
-            Anotaciones anoForm = new Anotaciones(ref CDaVisualizar);
-            anoForm.ShowDialog();
-            
+            if(CDaVisualizar != null)
+            {
+                Anotaciones anoForm = new Anotaciones(ref CDaVisualizar);
+                anoForm.ShowDialog();
+            }
+            else
+            {
+                ListaReproduccion ls = new ListaReproduccion();
+                foreach (Cancion cancion in albumAVisualizar.canciones)
+                {
+                    ls.AgregarCancion(cancion);
+                }
+                Reproductor.Instancia.ReproducirLista(ls);
+            }
         }
 
         private void labelEstadoDisco_Click(object sender, EventArgs e)

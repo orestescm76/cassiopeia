@@ -47,6 +47,7 @@
             this.buttonSaltarAdelante = new System.Windows.Forms.Button();
             this.buttonSaltarAtras = new System.Windows.Forms.Button();
             this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
+            this.toolStripStatusLabelCorreoUsuario = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -121,7 +122,8 @@
             // barraAbajoDatos
             // 
             this.barraAbajoDatos.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.labelDatosCancion});
+            this.labelDatosCancion,
+            this.toolStripStatusLabelCorreoUsuario});
             this.barraAbajoDatos.Location = new System.Drawing.Point(0, 558);
             this.barraAbajoDatos.Name = "barraAbajoDatos";
             this.barraAbajoDatos.Size = new System.Drawing.Size(352, 22);
@@ -215,8 +217,8 @@
             // 
             // pictureBoxCaratula
             // 
-            this.pictureBoxCaratula.Image = global::aplicacion_gestormusica.Properties.Resources.albumdesconocido;
-            this.pictureBoxCaratula.InitialImage = global::aplicacion_gestormusica.Properties.Resources.albumdesconocido;
+            this.pictureBoxCaratula.Image = global::aplicacion_musica.Properties.Resources.albumdesconocido;
+            this.pictureBoxCaratula.InitialImage = global::aplicacion_musica.Properties.Resources.albumdesconocido;
             this.pictureBoxCaratula.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxCaratula.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBoxCaratula.Name = "pictureBoxCaratula";
@@ -224,6 +226,11 @@
             this.pictureBoxCaratula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxCaratula.TabIndex = 0;
             this.pictureBoxCaratula.TabStop = false;
+            // 
+            // toolStripStatusLabelCorreoUsuario
+            // 
+            this.toolStripStatusLabelCorreoUsuario.Name = "toolStripStatusLabelCorreoUsuario";
+            this.toolStripStatusLabelCorreoUsuario.Size = new System.Drawing.Size(0, 17);
             // 
             // Reproductor
             // 
@@ -279,5 +286,6 @@
         private System.Windows.Forms.CheckBox checkBoxAleatorio;
         private System.Windows.Forms.Button buttonSaltarAdelante;
         private System.Windows.Forms.Button buttonSaltarAtras;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCorreoUsuario;
     }
 }

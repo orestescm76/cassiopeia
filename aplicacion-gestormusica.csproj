@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6DC180E8-73C6-4977-A287-357065475B3D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>aplicacion_gestormusica</RootNamespace>
-    <AssemblyName>aplicacion-gestormusica</AssemblyName>
+    <RootNamespace>aplicacion_musica</RootNamespace>
+    <AssemblyName>aplicacion_musica</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -85,6 +85,7 @@
     <Compile Include="src\Classes\DiscoCompacto.cs" />
     <Compile Include="src\Classes\Genero.cs" />
     <Compile Include="src\Classes\ListaReproduccion.cs" />
+    <Compile Include="src\Classes\Log.cs" />
     <Compile Include="src\Classes\ReproductorNucleo.cs" />
     <Compile Include="src\Forms\acercaDe.cs">
       <SubType>Form</SubType>

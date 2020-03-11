@@ -61,7 +61,7 @@ namespace aplicacion_musica
         {
             try//si está vacío pues guarda vacío
             {
-                Console.WriteLine("Intentando guardar");
+                Log.Instance.ImprimirMensaje("Intentando guardar", TipoMensaje.Info);
                 albumAEditar.artista = textBoxArtista.Text;
                 albumAEditar.nombre = textBoxTitulo.Text;
                 albumAEditar.year = Convert.ToInt16(textBoxAño.Text);
@@ -70,6 +70,7 @@ namespace aplicacion_musica
                 albumAEditar.genero = g;
                 albumAEditar.caratula = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
+                albumAEditar.DirectorioSonido = labelDirectorioActual.Text;
                 foreach (Cancion c in albumAEditar.canciones)
                 {
                     if(!c.Bonus)
@@ -79,11 +80,13 @@ namespace aplicacion_musica
             }
             catch (NullReferenceException)
             {
+                Log.Instance.ImprimirMensaje("Algún campo está vacío", TipoMensaje.Advertencia);
                 MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
             }
 
             catch (FormatException)
             {
+                Log.Instance.ImprimirMensaje("Formato incorrecto, no se guardará nada.", TipoMensaje.Advertencia);
                 MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
                 //throw;
             }
@@ -91,7 +94,7 @@ namespace aplicacion_musica
             cargarVista();
             nuevo.Show();
             Close();
-            Console.WriteLine("Guardado sin problema");
+            Log.Instance.ImprimirMensaje("Guardado sin problema", TipoMensaje.Correcto);
         }
 
         private void botonCancelar_Click(object sender, EventArgs e)
@@ -115,17 +118,17 @@ namespace aplicacion_musica
 
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e) //editar cancion
         {
-            Console.WriteLine("Editando canción");
+            Log.Instance.ImprimirMensaje("Editando canción", TipoMensaje.Info);
             String text = vistaCanciones.SelectedItems[0].Text;
             Cancion cancionAEditar = albumAEditar.DevolverCancion(text);
             agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
-            Console.WriteLine("Guardado correctamente");
+            Log.Instance.ImprimirMensaje("Guardado correctamente", TipoMensaje.Correcto);
         }
 
         private void buttonAñadirCancion_Click(object sender, EventArgs e)
         {
-            agregarCancion AC = new agregarCancion(ref albumAEditar, 0);
+            agregarCancion AC = new agregarCancion(ref albumAEditar, -2);
             AC.ShowDialog();
             borrarVista();
             cargarVista();
@@ -154,6 +157,21 @@ namespace aplicacion_musica
                 {
                     vistaCanciones.Items.Remove(item);
                 }
+            }
+        }
+
+        private void buttonDirectorio_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dialogCarpetaAlbum = new FolderBrowserDialog();
+            dialogCarpetaAlbum.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+            DialogResult dr = dialogCarpetaAlbum.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                labelDirectorioActual.Text = dialogCarpetaAlbum.SelectedPath;
+            }
+            else
+            {
+                return;
             }
         }
     }

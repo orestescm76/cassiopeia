@@ -30,9 +30,11 @@ namespace aplicacion_musica
         public static string BusquedaSpotify;
         private ListViewItemComparer lvwColumnSorter;
         public TipoVista TipoVista;
+        Log Log;
         public principal()
         {
             Stopwatch crono = Stopwatch.StartNew();
+            Log = Log.Instance;
             InitializeComponent();
             BusquedaSpotify = "";
             borrando = false;
@@ -70,8 +72,7 @@ namespace aplicacion_musica
             vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.OwnerDraw = true;
             crono.Stop();
-
-            Console.WriteLine("Formulario principal creado y cargado en "+crono.ElapsedMilliseconds+"ms");
+            Log.ImprimirMensaje("Formulario principal creado", TipoMensaje.Correcto, crono);
         }
         public void Refrescar() { cargarVista(); }
         public void HayInternet(bool i)
@@ -80,7 +81,7 @@ namespace aplicacion_musica
         }
         private void cargarVista()
         {
-            Console.WriteLine(nameof(cargarVista) + " - Cargando vista " + TipoVista);
+            Log.Instance.ImprimirMensaje("Cargando vista" + TipoVista, TipoMensaje.Info, "cargarVista()");
             vistaAlbumes.Items.Clear();
             Stopwatch crono = Stopwatch.StartNew();
             switch (TipoVista)
@@ -115,8 +116,7 @@ namespace aplicacion_musica
             }
 
             crono.Stop();
-            Console.WriteLine(nameof(cargarVista) + "- Cargado en "+crono.ElapsedMilliseconds + " ms");
-           
+            Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
         private void ponerTextos()
         {
@@ -150,7 +150,7 @@ namespace aplicacion_musica
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
-            Console.WriteLine("Ordenando columnas");
+            Log.ImprimirMensaje("Ordenando columnas", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
             if(e.Column == lvwColumnSorter.ColumnaAOrdenar) // Determine if clicked column is already the column that is being sorted.
             {
@@ -171,8 +171,6 @@ namespace aplicacion_musica
                 lvwColumnSorter.Orden = SortOrder.Descending;
             }
             vistaAlbumes.Sort();
-            crono.Stop();
-            Console.WriteLine("Ordenado en " + crono.ElapsedMilliseconds + "ms");
             List<Album> nuevaLista = new List<Album>();
             string[] s = null;
             switch (TipoVista)
@@ -197,10 +195,13 @@ namespace aplicacion_musica
             Programa.miColeccion.cambiarLista(ref nuevaLista);
             vistaAlbumes.Refresh();
             crono.Stop();
+            Log.ImprimirMensaje("Ordenado", TipoMensaje.Correcto, crono);
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+            Reproductor.Instancia.Dispose();
+            Reproductor.Instancia.Apagar();
         }
         private void SubIdioma_Click(object sender, EventArgs e)
         {
@@ -225,8 +226,8 @@ namespace aplicacion_musica
         {
             using (StreamWriter salida = new StreamWriter(nombre, false, System.Text.Encoding.UTF8))
             {
-                Console.WriteLine(nameof(guardarDiscos) + " - Guardando la base de datos...");
-                Console.WriteLine("Nombre del fichero: "+nombre);
+                Log.ImprimirMensaje(nameof(guardarDiscos) + " - Guardando la base de datos...", TipoMensaje.Info);
+                Log.ImprimirMensaje("Nombre del fichero: "+nombre, TipoMensaje.Info);
                 Stopwatch crono = Stopwatch.StartNew();
                 switch (tipoGuardado)
                 {
@@ -248,9 +249,9 @@ namespace aplicacion_musica
                 }
 
                 crono.Stop();
-                Console.WriteLine(nameof(guardarDiscos) + "- Guardado en " + crono.ElapsedMilliseconds + " ms");
+                Log.ImprimirMensaje(nameof(guardarDiscos) + "- Guardado", TipoMensaje.Correcto, crono);
                 FileInfo fich = new FileInfo("./"+nombre);
-                Console.WriteLine("Tamaño: "+ fich.Length + " bytes");
+                Log.ImprimirMensaje("Tamaño: "+ fich.Length + " bytes", TipoMensaje.Info);
             }
         }
         private void salidaAplicacion(object sender, EventArgs e)
@@ -265,7 +266,7 @@ namespace aplicacion_musica
 
         private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("Iniciada busqueda del álbum linealmente...");
+            Log.ImprimirMensaje("Iniciada busqueda del álbum linealmente...", TipoMensaje.Info);
             Stopwatch cronoTotal = Stopwatch.StartNew();
             switch(TipoVista)
             {
@@ -276,12 +277,12 @@ namespace aplicacion_musica
                         string s = item.SubItems[0].Text + '_' + item.SubItems[1].Text;
                         Album a = Programa.miColeccion.devolverAlbum(s);
                         crono.Stop();
-                        Console.WriteLine("Finalizado en " + crono.ElapsedTicks / 10 + " μs");
+                        Log.ImprimirMensajeTiempoCorto("Finalizado", TipoMensaje.Correcto, crono);
                         crono.Reset(); crono.Start();
                         visualizarAlbum vistazo = new visualizarAlbum(ref a);
                         vistazo.Show();
                         crono.Stop();
-                        Console.WriteLine("Formulario creado y mostrado en " + crono.ElapsedMilliseconds + "ms");
+                        Log.ImprimirMensaje("Formulario creado y mostrado", TipoMensaje.Correcto, crono);
                     }
 
                     break;
@@ -293,18 +294,18 @@ namespace aplicacion_musica
                         DiscoCompacto cd;
                         Programa.miColeccion.devolverAlbum(b, out cd);
                         crono.Stop();
-                        Console.WriteLine("Finalizado en " + crono.ElapsedTicks / 10 + " μs");
+                        Log.ImprimirMensajeTiempoCorto("Finalizado", TipoMensaje.Correcto, crono);
                         crono.Reset(); crono.Start();
                         visualizarAlbum visCD = new visualizarAlbum(ref cd);
                         visCD.Show();
                         crono.Stop();
-                        Console.WriteLine("Formulario creado y mostrado en " + crono.ElapsedMilliseconds + "ms");
+                        Log.ImprimirMensaje("Formulario creado y mostrado", TipoMensaje.Correcto, crono);
                     }
 
                     break;
             }
             cronoTotal.Stop();
-            Console.WriteLine("Operación realizada en "+cronoTotal.ElapsedMilliseconds+"ms");
+            Log.ImprimirMensaje("Operación realizada",TipoMensaje.Correcto, cronoTotal);
             //MessageBox.Show(vistaAlbumes.SelectedItems[0].SubItems[1].Text,"",MessageBoxButtons.OK);
         }
 
@@ -347,7 +348,7 @@ namespace aplicacion_musica
             }
             if(e.KeyCode == Keys.F11)
             {
-                Programa.Reproductor.Show();
+                Reproductor.Instancia.Show();
             }
         }
         private void borrarAlbumesSeleccionados(TipoVista tipoVista)
@@ -470,12 +471,12 @@ namespace aplicacion_musica
 
         private void generarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Generando álbum");
+            Log.ImprimirMensaje("Generando álbum al azar", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
             if(vistaAlbumes.Items.Count == 0)
             {
                 crono.Stop();
-                Console.WriteLine("Cancelado por no haber álbumes");
+                Log.ImprimirMensaje("Cancelado por no haber álbumes", TipoMensaje.Advertencia);
                 MessageBox.Show(Programa.textosLocal.GetString("error_noAlbumes"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -500,7 +501,7 @@ namespace aplicacion_musica
                     break;
             }
             crono.Stop();
-            Console.WriteLine("Generado en "+crono.ElapsedMilliseconds+"ms");
+            Log.ImprimirMensaje("Generado", TipoMensaje.Correcto, crono);
         }
 
         private void buscarEnSpotifyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -681,7 +682,7 @@ namespace aplicacion_musica
             }
 
             Clipboard.SetText(i);
-            Console.WriteLine("Copiado " + i + " al portapapeles");
+            Log.ImprimirMensaje("Copiado " + i + " al portapapeles", TipoMensaje.Info);
         }
 
         private void cdToolStripMenuItem_Click(object sender, EventArgs e)
@@ -701,7 +702,7 @@ namespace aplicacion_musica
 
         private void cargarDiscosLegacyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Abriendo desde fichero");
+            Log.ImprimirMensaje("Abriendo desde fichero", TipoMensaje.Info);
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
             openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .mdb (*.mdb)|*.mdb";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -714,7 +715,7 @@ namespace aplicacion_musica
 
         private void digitalToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Abriendo desde fichero");
+            Log.ImprimirMensaje("Abriendo desde fichero", TipoMensaje.Info);
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
             openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .json (*.json)|*.json";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -722,12 +723,11 @@ namespace aplicacion_musica
                 string fichero = openFileDialog1.FileName;
                 Programa.cargarAlbumes(fichero);
             }
-            cargarVista();
         }
 
         private void CargarCDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Abriendo desde fichero");
+            Log.ImprimirMensaje("Abriendo desde fichero", TipoMensaje.Info);
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
             openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .json (*.json)|*.json";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -746,18 +746,30 @@ namespace aplicacion_musica
                 Programa._spotify.Reiniciar();
                 Programa._spotify.SpotifyVinculado();
             }
-            while (!Programa._spotify.cuentaLista)
+            while (!Programa._spotify.cuentaLista) //deadlock, sincrono
                 System.Threading.Thread.Sleep(100);
             if (Programa._spotify._spotify.GetPrivateProfile().Product != "premium")
+            {
                 MessageBox.Show("no tienes premium");
+                Log.ImprimirMensaje("El usuario no tiene premium, no podrá usar spotify desde el Gestor", TipoMensaje.Advertencia);
+            }
         }
-
         private void spotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SpotifyAPI.Web.Models.SimpleAlbum a = new SpotifyAPI.Web.Models.SimpleAlbum();
-            a = Programa._spotify.DevolverAlbum(vistaAlbumes.SelectedItems[0].SubItems[1].Text);
-            SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify._spotify.ResumePlayback(contextUri: "spotify:album:"+a.Id,offset:"", positionMs:0);
-            Console.WriteLine();
+            SpotifyAPI.Web.Models.SimpleAlbum a = Programa._spotify.DevolverAlbum(vistaAlbumes.SelectedItems[0].SubItems[1].Text);
+            if (a == null)
+            {
+                Log.ImprimirMensaje("", TipoMensaje.Error);
+            }
+            else
+            {
+                SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify._spotify.ResumePlayback(contextUri: "spotify:album:" + a.Id, offset: "", positionMs: 0);
+                if (err != null && err.Error != null)
+                {
+                    Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");
+                }
+            }
+
         }
     }
 }

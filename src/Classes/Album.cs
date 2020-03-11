@@ -15,6 +15,8 @@ namespace aplicacion_musica
         public List<Cancion> canciones { get; set; }
         public String caratula { get; set; }
         public Genero genero { get; set; }
+        public String IdSpotify { get; private set; }
+        public String DirectorioSonido { get; set; }
         public Album() { }
         public Album(Genero g, string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
@@ -148,6 +150,10 @@ namespace aplicacion_musica
             {
                 cancion.SetAlbum(this);
             }
+        }
+        public void SetSpotifyID(string id)
+        {
+            IdSpotify = id;
         }
     }
 }

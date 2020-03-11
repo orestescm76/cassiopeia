@@ -16,7 +16,10 @@ namespace aplicacion_musica
         Pausado,
         Detenido
     }
-
+    /*
+     * τοδο:
+     * consola y visualizacion UI.
+     */
     public partial class Reproductor : Form
     {
         private readonly ReproductorNucleo nucleo = new ReproductorNucleo();
@@ -32,10 +35,18 @@ namespace aplicacion_musica
         SpotifyWebAPI _spotify;
         FullTrack cancionReproduciendo;
         private BackgroundWorker backgroundWorker;
+        public ListaReproduccion ListaReproduccion { get; set; }
+        private uint ListaReproduccionPuntero;
         bool SpotifyListo = false;
         bool Aleatorio = false;
+        bool EsPremium;
+        DirectoryInfo directorioCanciones;
+        private Log Log = Log.Instance;
+        private static Reproductor ins = new Reproductor();
+        private float Volumen;
         //crear una tarea que cada 500ms me cambie la cancion
-        public Reproductor()
+        public static Reproductor Instancia { get { return ins; } }
+        private Reproductor()
         {
             InitializeComponent();
             nucleo.ConfigurarOGG();
@@ -43,10 +54,56 @@ namespace aplicacion_musica
             estadoReproductor = EstadoReproductor.Detenido;
             DuracionSeleccionada = new ToolTip();
             VolumenSeleccionado = new ToolTip();
+            Volumen = 1.0f;
+            trackBarVolumen.Value = 100;
             //button1.Hide();
             //button2.Hide();
         }
-
+        public void ReproducirLista(ListaReproduccion lr)
+        {
+            ListaReproduccion = lr;
+            ListaReproduccionPuntero = 0;
+            Cancion c = lr.GetCancion(ListaReproduccionPuntero);
+            ReproducirCancion(c);
+        }
+        private void ReproducirCancion(Cancion c)
+        {
+            estadoReproductor = EstadoReproductor.Detenido;
+            directorioCanciones = new DirectoryInfo(c.album.DirectorioSonido);
+            string s = "";
+            var fichs = directorioCanciones.GetFiles();
+            foreach (FileInfo file in directorioCanciones.GetFiles())
+            {
+                if (file.FullName.Contains(c.titulo) && FicheroLeible(file.FullName))
+                {
+                    s = file.FullName;
+                    break;
+                }
+            }
+            nucleo.Apagar();
+            buttonReproducirPausar.Text = "▶";
+            nucleo.CargarCancion(s);
+            trackBarPosicion.Maximum = (int)nucleo.Duracion().TotalSeconds;
+            timerCancion.Enabled = true;
+            labelDuracion.Text = (int)nucleo.Duracion().TotalMinutes + ":" + nucleo.Duracion().Seconds;
+            Text = nucleo.CancionReproduciendose();
+            labelDatosCancion.Text = nucleo.GetDatos();
+            dur = nucleo.Duracion();
+            nucleo.Reproducir();
+            estadoReproductor = EstadoReproductor.Reproduciendo;
+            if (c.album.caratula != null)
+                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.caratula);
+        }
+        private bool FicheroLeible(string s)
+        {
+            if (Path.GetExtension(s) == ".mp3")
+                return true;
+            else if (Path.GetExtension(s) == ".ogg")
+                return true;
+            else if (Path.GetExtension(s) == ".flac")
+                return true;
+            else return false;
+        }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             PlaybackContext PC = (PlaybackContext)e.Result;
@@ -100,7 +157,7 @@ namespace aplicacion_musica
                 Programa._spotify.RefrescarToken();
             }
         }
-
+        /*
         public Reproductor (bool S = false)
         {
             //SIN SPOTIFY
@@ -115,12 +172,16 @@ namespace aplicacion_musica
                 Spotify = true;
                 _spotify = Programa._spotify._spotify;
                 PlaybackContext PC = _spotify.GetPlayback("ES");
+                if (_spotify.GetPrivateProfile().Product != "premium")
+                    EsPremium = false;
+                else
+                    EsPremium = true;
                 SetInfoSpotify(PC);
 
                 DescargarPortada(PC.Item.Album);
                 pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
             }
-        }
+        }*/
         private void DescargarPortada(SimpleAlbum album)
         {
             using (System.Net.WebClient cliente = new System.Net.WebClient())
@@ -142,15 +203,7 @@ namespace aplicacion_musica
 
             }
         }
-        public Reproductor(Cancion c)
-        {
-            
-        }
-        public void test()
-        {
-            //nucleo.CargarCancion("S:/Música/doctor.mp3", _devices[0]);
-            //trackBarPosicion.Maximum = (int)nucleo.Duracion().TotalSeconds; 
-        }
+
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             DuracionSeleccionada.SetToolTip(trackBarPosicion, new TimeSpan(0, 0, trackBarPosicion.Value).ToString());
@@ -169,7 +222,7 @@ namespace aplicacion_musica
                     }
                 }
             }
-            if (Programa._spotify.cuentaVinculada)
+            if (Programa._spotify != null && Programa._spotify.cuentaVinculada)
             {
                 Spotify = true;
                 backgroundWorker = new BackgroundWorker();
@@ -179,6 +232,7 @@ namespace aplicacion_musica
                 _spotify = Programa._spotify._spotify;
                 SpotifyListo = true;
                 timerSpotify.Enabled = true;
+                toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + _spotify.GetPrivateProfile().DisplayName;
             }
         }
 
@@ -217,17 +271,28 @@ namespace aplicacion_musica
             if (pos == dur)
             {
                 estadoReproductor = EstadoReproductor.Detenido;
+                if(ListaReproduccion != null)
+                {
+                    ListaReproduccionPuntero++;
+                    ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                }
             }
         }
 
         private void Reproductor_FormClosing(object sender, FormClosingEventArgs e)
         {
+            /*
             nucleo.Apagar();
             if(pictureBoxCaratula.Image != null)
                 pictureBoxCaratula.Image.Dispose();
-            Dispose();
+            Dispose();*/
+            Hide();
+            e.Cancel = true;
         }
-
+        public void Apagar()
+        {
+            nucleo.Apagar();
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             string fich = null;
@@ -255,7 +320,7 @@ namespace aplicacion_musica
                 catch (Exception)
                 {
 
-                    pictureBoxCaratula.Image = aplicacion_gestormusica.Properties.Resources.albumdesconocido;
+                    pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
                 }
             }
         }
@@ -334,21 +399,16 @@ namespace aplicacion_musica
         }
         private void trackBarVolumen_Scroll(object sender, EventArgs e)
         {
-            float vol = trackBarVolumen.Value;
+            Volumen = (float)trackBarVolumen.Value / 100;
             if (!Spotify)
-                nucleo.SetVolumen(vol / 100);
+                nucleo.SetVolumen(Volumen);
             else
                 _spotify.SetVolume(trackBarVolumen.Value);
         }
 
         private void trackBarVolumen_MouseDown(object sender, MouseEventArgs e)
         {
-            VolumenSeleccionado.SetToolTip(trackBarVolumen, trackBarVolumen.Value + "%");
-            float vol = trackBarVolumen.Value;
-            if (!Spotify)
-                nucleo.SetVolumen(vol / 100);
-            else
-                _spotify.SetVolume(trackBarVolumen.Value);
+            Volumen = (float)trackBarVolumen.Value / 100;
         }
 
         private void trackBarVolumen_MouseHover(object sender, EventArgs e)
@@ -362,7 +422,7 @@ namespace aplicacion_musica
             Spotify = false;
             timerSpotify.Enabled = false;
             timerCancion.Enabled = false;
-            pictureBoxCaratula.Image = aplicacion_gestormusica.Properties.Resources.albumdesconocido;
+            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
             dur = new TimeSpan(0);
             pos = new TimeSpan(0);
             _spotify = null;
@@ -385,11 +445,10 @@ namespace aplicacion_musica
                 backgroundWorker.RunWorkerAsync();
         }
 
-
-
         private void trackBarVolumen_ValueChanged(object sender, EventArgs e)
         {
             labelVolumen.Text = trackBarVolumen.Value.ToString() + "%";
+            
         }
 
         private void trackBarPosicion_ValueChanged(object sender, EventArgs e)
@@ -407,12 +466,28 @@ namespace aplicacion_musica
         {
             if (SpotifyListo && Spotify)
                 _spotify.SkipPlaybackToNext();
+            else
+            {
+                if (ListaReproduccion != null)
+                {
+                    ListaReproduccionPuntero++;
+                    ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                }
+            }
         }
 
         private void buttonSaltarAtras_Click(object sender, EventArgs e)
         {
             if (SpotifyListo && Spotify)
                 _spotify.SkipPlaybackToPrevious();
+            else
+            {
+                if (ListaReproduccion != null)
+                {
+                    ListaReproduccionPuntero--;
+                    ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                }
+            }
         }
     }
 }

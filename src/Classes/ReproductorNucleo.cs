@@ -39,6 +39,9 @@ namespace aplicacion_musica
                     _ficheroFLAC = new FLACFile(cual, true);
                     FormatoSonido = FormatoSonido.FLAC;
                     break;
+                case ".ogg":
+                    FormatoSonido = FormatoSonido.OGG;
+                    break;
                 default:
                     break;
             }
@@ -97,6 +100,7 @@ namespace aplicacion_musica
                     case FormatoSonido.FLAC:
                         return _ficheroFLAC.ARTIST + " - " + _ficheroFLAC.TITLE;
                     case FormatoSonido.OGG:
+                        
                         return null;
                     default:
                         return null;

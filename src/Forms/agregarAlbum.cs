@@ -14,8 +14,8 @@ namespace aplicacion_musica
             InitializeComponent();
             ponerTextos();
             crono.Stop();
-            Console.WriteLine("Formulario creado en "+crono.ElapsedMilliseconds+"ms");
-            Console.WriteLine("Creando álbum");
+            Log.Instance.ImprimirMensaje("Formulario creado", TipoMensaje.Info, crono);
+            Log.Instance.ImprimirMensaje("Creando álbum", TipoMensaje.Info);
         }
         private void ponerTextos()
         {
@@ -34,11 +34,10 @@ namespace aplicacion_musica
             }
             Array.Sort(generosTraducidos);
             comboBox1.Items.AddRange(generosTraducidos);
-            
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Abriendo imagen");
+            Log.Instance.ImprimirMensaje("Buscando carátula", TipoMensaje.Info);
             OpenFileDialog abrirImagen = new OpenFileDialog();
             abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
@@ -48,12 +47,13 @@ namespace aplicacion_musica
                 caratula = fichero;
                 ruta.Text = fichero;
             }
-            Console.WriteLine("Imagen "+ruta + " cargada");
+            Log.Instance.ImprimirMensaje("Imagen " + ruta + " cargada", TipoMensaje.Correcto);
         }
 
         private void add_Click(object sender, EventArgs e)
         {
             string titulo, artista;
+            bool cancelado = false;
             short year, nC;
             try
             {
@@ -78,24 +78,29 @@ namespace aplicacion_musica
                     cancelar = agregarCancion.ShowDialog();
                     if (cancelar == DialogResult.Cancel)
                     {
-                        Console.WriteLine("Cancelado el proceso de añadir álbum");
+                        Log.Instance.ImprimirMensaje("Cancelado el proceso de añadir álbum", TipoMensaje.Advertencia);
                         Programa.miColeccion.quitarAlbum(ref a);
                         Close();
+                        cancelado = true;
                         break;
                     }
                     else if (cancelar == DialogResult.None)
                         continue;
                 }
+                if(!cancelado)
+                    Log.Instance.ImprimirMensaje(artista + " - " + titulo + " agregado correctamente", TipoMensaje.Correcto);
                 Programa.refrescarVista();
                 Close();
             }
-            catch (NullReferenceException)
+            catch (NullReferenceException ex)
             {
+                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
                 MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
             }
 
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
                 MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
                 //throw;
             }
