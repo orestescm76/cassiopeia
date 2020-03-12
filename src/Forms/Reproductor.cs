@@ -18,7 +18,7 @@ namespace aplicacion_musica
     }
     /*
      * τοδο:
-     * consola y visualizacion UI.
+     * consola y visualizacion UI. <
      */
     public partial class Reproductor : Form
     {
@@ -44,6 +44,7 @@ namespace aplicacion_musica
         private Log Log = Log.Instance;
         private static Reproductor ins = new Reproductor();
         private float Volumen;
+        private ListaReproduccionUI lrui;
         //crear una tarea que cada 500ms me cambie la cancion
         public static Reproductor Instancia { get { return ins; } }
         private Reproductor()
@@ -64,6 +65,7 @@ namespace aplicacion_musica
             ListaReproduccion = lr;
             ListaReproduccionPuntero = 0;
             Cancion c = lr.GetCancion(ListaReproduccionPuntero);
+            lrui = new ListaReproduccionUI(lr);
             ReproducirCancion(c);
         }
         private void ReproducirCancion(Cancion c)
@@ -81,15 +83,16 @@ namespace aplicacion_musica
                 }
             }
             nucleo.Apagar();
-            buttonReproducirPausar.Text = "▶";
             nucleo.CargarCancion(s);
+            nucleo.SetVolumen(Volumen);
+            nucleo.Reproducir();
             trackBarPosicion.Maximum = (int)nucleo.Duracion().TotalSeconds;
             timerCancion.Enabled = true;
             labelDuracion.Text = (int)nucleo.Duracion().TotalMinutes + ":" + nucleo.Duracion().Seconds;
             Text = nucleo.CancionReproduciendose();
             labelDatosCancion.Text = nucleo.GetDatos();
             dur = nucleo.Duracion();
-            nucleo.Reproducir();
+            buttonReproducirPausar.Text = "❚❚";
             estadoReproductor = EstadoReproductor.Reproduciendo;
             if (c.album.caratula != null)
                 pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.caratula);
@@ -281,11 +284,6 @@ namespace aplicacion_musica
 
         private void Reproductor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            /*
-            nucleo.Apagar();
-            if(pictureBoxCaratula.Image != null)
-                pictureBoxCaratula.Image.Dispose();
-            Dispose();*/
             Hide();
             e.Cancel = true;
         }
@@ -460,6 +458,18 @@ namespace aplicacion_musica
         {
             if(SpotifyListo && Spotify)
                 _spotify.SetShuffle(checkBoxAleatorio.Checked);
+            else
+            {
+                try
+                {
+                    ListaReproduccion.Mezclar();
+                    lrui.Refrescar();
+                }
+                catch (NullReferenceException)
+                {
+                    Log.ImprimirMensaje("No hay lista de reproducción", TipoMensaje.Advertencia);
+                }
+            }
         }
 
         private void buttonSaltarAdelante_Click(object sender, EventArgs e)
@@ -468,9 +478,10 @@ namespace aplicacion_musica
                 _spotify.SkipPlaybackToNext();
             else
             {
-                if (ListaReproduccion != null)
+                if (ListaReproduccion != null && !ListaReproduccion.Final(ListaReproduccionPuntero))
                 {
                     ListaReproduccionPuntero++;
+                    lrui.SetActivo((int)ListaReproduccionPuntero);
                     ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
                 }
             }
@@ -482,12 +493,19 @@ namespace aplicacion_musica
                 _spotify.SkipPlaybackToPrevious();
             else
             {
-                if (ListaReproduccion != null)
+                if (ListaReproduccion != null && !ListaReproduccion.Inicio(ListaReproduccionPuntero))
                 {
                     ListaReproduccionPuntero--;
+                    lrui.SetActivo((int)ListaReproduccionPuntero);
                     ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
                 }
             }
+        }
+
+        private void Reproductor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.F9)
+                lrui.Show();
         }
     }
 }

@@ -47,7 +47,7 @@ namespace aplicacion_musica
             }
             _sonido = CSCore.Codecs.CodecFactory.Instance.GetCodec(cual).ToSampleSource().ToStereo().ToWaveSource(16);
             notificationStream = new SingleBlockNotificationStream(_sonido.ToSampleSource());
-            _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
+            _salida = new WasapiOut(false, AudioClientShareMode.Shared, 50);
             //_salida.Initialize(notificationStream.ToWaveSource(16));
             FileInfo info = new FileInfo(cual);
             tamFich = info.Length;

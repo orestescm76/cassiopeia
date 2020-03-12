@@ -38,6 +38,7 @@
             this.labelDuracion = new System.Windows.Forms.Label();
             this.barraAbajoDatos = new System.Windows.Forms.StatusStrip();
             this.labelDatosCancion = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelCorreoUsuario = new System.Windows.Forms.ToolStripStatusLabel();
             this.trackBarVolumen = new System.Windows.Forms.TrackBar();
             this.button1 = new System.Windows.Forms.Button();
             this.timerSpotify = new System.Windows.Forms.Timer(this.components);
@@ -47,7 +48,7 @@
             this.buttonSaltarAdelante = new System.Windows.Forms.Button();
             this.buttonSaltarAtras = new System.Windows.Forms.Button();
             this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
-            this.toolStripStatusLabelCorreoUsuario = new System.Windows.Forms.ToolStripStatusLabel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -135,6 +136,11 @@
             this.labelDatosCancion.Name = "labelDatosCancion";
             this.labelDatosCancion.Size = new System.Drawing.Size(0, 17);
             // 
+            // toolStripStatusLabelCorreoUsuario
+            // 
+            this.toolStripStatusLabelCorreoUsuario.Name = "toolStripStatusLabelCorreoUsuario";
+            this.toolStripStatusLabelCorreoUsuario.Size = new System.Drawing.Size(0, 17);
+            // 
             // trackBarVolumen
             // 
             this.trackBarVolumen.Location = new System.Drawing.Point(236, 464);
@@ -185,7 +191,7 @@
             // 
             this.checkBoxAleatorio.AutoSize = true;
             this.checkBoxAleatorio.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxAleatorio.Location = new System.Drawing.Point(11, 451);
+            this.checkBoxAleatorio.Location = new System.Drawing.Point(11, 442);
             this.checkBoxAleatorio.Name = "checkBoxAleatorio";
             this.checkBoxAleatorio.Size = new System.Drawing.Size(57, 30);
             this.checkBoxAleatorio.TabIndex = 11;
@@ -227,16 +233,23 @@
             this.pictureBoxCaratula.TabIndex = 0;
             this.pictureBoxCaratula.TabStop = false;
             // 
-            // toolStripStatusLabelCorreoUsuario
+            // checkBox1
             // 
-            this.toolStripStatusLabelCorreoUsuario.Name = "toolStripStatusLabelCorreoUsuario";
-            this.toolStripStatusLabelCorreoUsuario.Size = new System.Drawing.Size(0, 17);
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Segoe UI Emoji", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(11, 467);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(57, 30);
+            this.checkBox1.TabIndex = 14;
+            this.checkBox1.Text = "🔀️";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // Reproductor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(352, 580);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.buttonSaltarAtras);
             this.Controls.Add(this.buttonSaltarAdelante);
             this.Controls.Add(this.checkBoxAleatorio);
@@ -252,10 +265,12 @@
             this.Controls.Add(this.trackBarPosicion);
             this.Controls.Add(this.pictureBoxCaratula);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.Name = "Reproductor";
             this.Text = "x";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reproductor_FormClosing);
             this.Load += new System.EventHandler(this.Reproductor_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Reproductor_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).EndInit();
             this.barraAbajoDatos.ResumeLayout(false);
             this.barraAbajoDatos.PerformLayout();
@@ -287,5 +302,6 @@
         private System.Windows.Forms.Button buttonSaltarAdelante;
         private System.Windows.Forms.Button buttonSaltarAtras;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCorreoUsuario;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
