@@ -84,7 +84,6 @@
             // timerCancion
             // 
             this.timerCancion.Enabled = true;
-            this.timerCancion.Interval = 50;
             this.timerCancion.Tick += new System.EventHandler(this.timerCancion_Tick);
             // 
             // openFileDialog1
@@ -238,7 +237,7 @@
             // 
             // timerMetadatos
             // 
-            this.timerMetadatos.Interval = 500;
+            this.timerMetadatos.Interval = 750;
             this.timerMetadatos.Tick += new System.EventHandler(this.timerMetadatos_Tick);
             // 
             // Reproductor

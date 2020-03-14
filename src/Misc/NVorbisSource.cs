@@ -28,8 +28,8 @@ namespace aplicacion_musica
             if (!stream.CanRead)
                 throw new ArgumentException("Stream is not readable.", "stream");
             _stream = stream;
-            _vorbisReader = new VorbisReader(stream, true);
-            WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 16, _vorbisReader.Channels, AudioEncoding.Vorbis2);
+            _vorbisReader = new VorbisReader(stream, false);
+            WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 16, _vorbisReader.Channels, AudioEncoding.Vorbis1);
             posAnt = TimeSpan.Zero;
             //_vorbisReader.DecodedPosition = 5;
         }
@@ -38,13 +38,16 @@ namespace aplicacion_musica
         {
             get { return _stream.CanSeek; }
         }
-
+        public TimeSpan Duracion { get { return _vorbisReader.TotalTime; } }
         public WaveFormat WaveFormat { get; }
 
         //got fixed through workitem #17, thanks for reporting @rgodart.
         public long Length
         {
-            get { return CanSeek ? (long)(_vorbisReader.TotalTime.TotalSeconds * WaveFormat.SampleRate * WaveFormat.Channels) : 0; }
+            get 
+            { 
+                return CanSeek ? (long)(_vorbisReader.TotalTime.TotalSeconds * WaveFormat.SampleRate * WaveFormat.Channels) : 0; 
+            }
         }
         public int Bitrate
         {
@@ -80,8 +83,8 @@ namespace aplicacion_musica
                 catch (Exception)
                 {
 
-                    Log.Instance.ImprimirMensaje("Error intentando cambiar el puntero de la canción, poniendo 0...", TipoMensaje.Error);
-                    _vorbisReader.DecodedTime = TimeSpan.Zero;
+                    Log.Instance.ImprimirMensaje("Error intentando cambiar el puntero de la canción, poniendo uno de reserva...", TipoMensaje.Error);
+                    _vorbisReader.DecodedTime = posAnt;
                 }
             }
         }
@@ -96,7 +99,10 @@ namespace aplicacion_musica
         public void Dispose()
         {
             if (!_disposed)
+            {
                 _vorbisReader.Dispose();
+                _stream.Close();
+            }
             else
                 throw new ObjectDisposedException("NVorbisSource");
             _disposed = true;

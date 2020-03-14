@@ -122,6 +122,7 @@ namespace aplicacion_musica
         {
             nucleo.SetVolumen(Volumen);
             dur = nucleo.Duracion();
+            pos = TimeSpan.Zero;
             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
             timerCancion.Enabled = true;
             labelDuracion.Text = (int)dur.TotalMinutes + ":" + dur.Seconds;
@@ -341,6 +342,8 @@ namespace aplicacion_musica
         }
         public void Apagar()
         {
+            timerCancion.Enabled = false;
+            timerMetadatos.Enabled = false;
             nucleo.Apagar();
         }
         private void button2_Click(object sender, EventArgs e)
@@ -350,21 +353,24 @@ namespace aplicacion_musica
             DialogResult r = openFileDialog1.ShowDialog();
             if (r != DialogResult.Cancel)
             {
+                nucleo.Apagar();
+                estadoReproductor = EstadoReproductor.Detenido;
                 fich = openFileDialog1.FileName;
                 this.fich = fich;
-                nucleo.Apagar();
                 try
                 {
                     nucleo.CargarCancion(fich);
+                    FicheroLeible(fich);
                     nucleo.Reproducir();
+                    PrepararReproductor();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
+                    Log.ImprimirMensaje("Error intentando cargar la canción", TipoMensaje.Error);
+                    Log.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                    nucleo.Apagar();
                     return;
                 }
-                FicheroLeible(fich);
-                PrepararReproductor();
                 try
                 {
                     System.Drawing.Image caratula = nucleo.GetCaratula();
@@ -448,9 +454,9 @@ namespace aplicacion_musica
 
             if (!Spotify)
             {
-                nucleo.Saltar(new TimeSpan(0, 0, trackBarPosicion.Value));
                 timerCancion.Enabled = true;
                 timerMetadatos.Enabled = true;
+                nucleo.Saltar(new TimeSpan(0, 0, trackBarPosicion.Value));
             }
             else
             {

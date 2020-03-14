@@ -65,8 +65,9 @@ namespace aplicacion_musica
                     FileInfo info = new FileInfo(cual);
                     tamFich = info.Length;
                 }
-                _salida = new WasapiOut(false, AudioClientShareMode.Shared, 50);
+                _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
                 _salida.Initialize(_sonido);
+                Log.Instance.ImprimirMensaje("Cargado correctamente" + cual, TipoMensaje.Correcto);
             }
             catch (Exception)
             {
@@ -91,7 +92,10 @@ namespace aplicacion_musica
         }
         public TimeSpan Duracion()
         {
-            return _sonido.GetLength();
+            if (FormatoSonido != FormatoSonido.OGG)
+                return _sonido.GetLength();
+            else
+                return NVorbis.Duracion;
         }
         public TimeSpan Posicion()
         {
@@ -106,9 +110,13 @@ namespace aplicacion_musica
             }
             if (_sonido != null)
             {
-                _sonido.Position = 1;
                 _sonido.Dispose();
                 _sonido = null;
+            }
+            if(_vorbisReader != null)
+            {
+                _vorbisReader.Dispose();
+                _vorbisReader = null;
             }
         }
         public void Apagar() { Limpiar(); }
@@ -131,12 +139,12 @@ namespace aplicacion_musica
                     }
                     catch (NullReferenceException)
                     {
+                        Log.Instance.ImprimirMensaje("No hay metadatos", TipoMensaje.Advertencia);
                         return null;
                     }
                 default:
                     return null;
             }
-            return null;
         }
         public System.Drawing.Image GetCaratula()
         {
