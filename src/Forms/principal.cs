@@ -226,19 +226,21 @@ namespace aplicacion_musica
         {
             using (StreamWriter salida = new StreamWriter(nombre, false, System.Text.Encoding.UTF8))
             {
-                Log.ImprimirMensaje(nameof(guardarDiscos) + " - Guardando la base de datos...", TipoMensaje.Info);
-                Log.ImprimirMensaje("Nombre del fichero: "+nombre, TipoMensaje.Info);
+
                 Stopwatch crono = Stopwatch.StartNew();
                 switch (tipoGuardado)
                 {
                     case TipoGuardado.Digital:
+                        Log.ImprimirMensaje(nameof(guardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.albumes.Count + " discos)", TipoMensaje.Info);
+                        Log.ImprimirMensaje("Nombre del fichero: " + nombre, TipoMensaje.Info);
                         foreach (Album a in Programa.miColeccion.albumes)
                         {
                             salida.WriteLine(JsonConvert.SerializeObject(a));
                         }
                         break;
                     case TipoGuardado.CD:
-                        
+                        Log.ImprimirMensaje(nameof(guardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.cds.Count + " discos)", TipoMensaje.Info);
+                        Log.ImprimirMensaje("Nombre del fichero: " + nombre, TipoMensaje.Info);
                         foreach (DiscoCompacto compacto in Programa.miColeccion.cds)
                         {
                             salida.WriteLine(JsonConvert.SerializeObject(compacto));
@@ -262,6 +264,8 @@ namespace aplicacion_musica
             {
                 salida.Write(Programa.Idioma);
             }
+            Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
+            Reproductor.Instancia.Apagar();
         }
 
         private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -741,18 +745,19 @@ namespace aplicacion_musica
         private void vincularToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult eleccion = MessageBox.Show(Programa.textosLocal.GetString("avisoSpotify"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            if(eleccion == DialogResult.Yes)
+            if (eleccion == DialogResult.Yes)
             {
                 Programa._spotify.Reiniciar();
                 Programa._spotify.SpotifyVinculado();
+                while (!Programa._spotify.cuentaLista) //deadlock, sincrono
+                    System.Threading.Thread.Sleep(100);
+                if (Programa._spotify._spotify.GetPrivateProfile().Product != "premium")
+                {
+                    MessageBox.Show("no tienes premium");
+                    Log.ImprimirMensaje("El usuario no tiene premium, no podrá usar spotify desde el Gestor", TipoMensaje.Advertencia);
+                }
             }
-            while (!Programa._spotify.cuentaLista) //deadlock, sincrono
-                System.Threading.Thread.Sleep(100);
-            if (Programa._spotify._spotify.GetPrivateProfile().Product != "premium")
-            {
-                MessageBox.Show("no tienes premium");
-                Log.ImprimirMensaje("El usuario no tiene premium, no podrá usar spotify desde el Gestor", TipoMensaje.Advertencia);
-            }
+            else return;
         }
         private void spotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {

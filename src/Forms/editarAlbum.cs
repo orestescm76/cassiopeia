@@ -33,6 +33,7 @@ namespace aplicacion_musica
             botonCancelar.Text = Programa.textosLocal.GetString("cancelar");
             botonCaratula.Text = Programa.textosLocal.GetString("buscar");
             buttonAñadirCancion.Text = Programa.textosLocal.GetString("añadir_cancion");
+            labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
                 generosTraducidos[i] = Programa.generos[i].traducido;
@@ -168,10 +169,6 @@ namespace aplicacion_musica
             if (dr == DialogResult.OK)
             {
                 labelDirectorioActual.Text = dialogCarpetaAlbum.SelectedPath;
-            }
-            else
-            {
-                return;
             }
         }
     }

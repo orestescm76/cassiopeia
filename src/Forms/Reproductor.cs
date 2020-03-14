@@ -41,16 +41,17 @@ namespace aplicacion_musica
         bool Aleatorio = false;
         bool EsPremium;
         DirectoryInfo directorioCanciones;
+        PrivateProfile user;
         private Log Log = Log.Instance;
         private static Reproductor ins = new Reproductor();
         private float Volumen;
         private ListaReproduccionUI lrui;
+        private bool esOGG = false;
         //crear una tarea que cada 500ms me cambie la cancion
         public static Reproductor Instancia { get { return ins; } }
         private Reproductor()
         {
             InitializeComponent();
-            nucleo.ConfigurarOGG();
             timerCancion.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
             DuracionSeleccionada = new ToolTip();
@@ -70,41 +71,85 @@ namespace aplicacion_musica
         }
         private void ReproducirCancion(Cancion c)
         {
+            timerCancion.Enabled = false;
+            timerMetadatos.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
             directorioCanciones = new DirectoryInfo(c.album.DirectorioSonido);
             string s = "";
-            var fichs = directorioCanciones.GetFiles();
+            try
+            {
+                var fichs = directorioCanciones.GetFiles();
+            }
+            catch (Exception)
+            {
+                Log.ImprimirMensaje("No se encuentra el directorio", TipoMensaje.Error);
+                return;
+            }
+            string titulo = c.titulo.ToLower();
             foreach (FileInfo file in directorioCanciones.GetFiles())
             {
-                if (file.FullName.Contains(c.titulo) && FicheroLeible(file.FullName))
+                if (file.FullName.ToLower().Contains(c.titulo.ToLower()) && FicheroLeible(file.FullName))
                 {
                     s = file.FullName;
                     break;
                 }
             }
             nucleo.Apagar();
-            nucleo.CargarCancion(s);
-            nucleo.SetVolumen(Volumen);
-            nucleo.Reproducir();
-            trackBarPosicion.Maximum = (int)nucleo.Duracion().TotalSeconds;
+            try
+            {
+                nucleo.CargarCancion(s);
+                nucleo.Reproducir();
+            }
+            catch (Exception)
+            {
+
+                return;
+            }
+            PrepararReproductor();
+            if (c.album.caratula != null)
+            {
+                if(c.album.caratula!="")
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.caratula);
+                else
+                {
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.DirectorioSonido + "\\folder.jpg");
+                }
+            }
             timerCancion.Enabled = true;
-            labelDuracion.Text = (int)nucleo.Duracion().TotalMinutes + ":" + nucleo.Duracion().Seconds;
+            timerMetadatos.Enabled = true;
+        }
+        private void PrepararReproductor()
+        {
+            nucleo.SetVolumen(Volumen);
+            dur = nucleo.Duracion();
+            trackBarPosicion.Maximum = (int)dur.TotalSeconds;
+            timerCancion.Enabled = true;
+            labelDuracion.Text = (int)dur.TotalMinutes + ":" + dur.Seconds;
             Text = nucleo.CancionReproduciendose();
             labelDatosCancion.Text = nucleo.GetDatos();
-            dur = nucleo.Duracion();
-            buttonReproducirPausar.Text = "❚❚";
             estadoReproductor = EstadoReproductor.Reproduciendo;
-            if (c.album.caratula != null)
-                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.caratula);
+            buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
         }
         private bool FicheroLeible(string s)
         {
             if (Path.GetExtension(s) == ".mp3")
+            {
+                esOGG = false;
+                timerMetadatos.Enabled = false;
                 return true;
+            }
             else if (Path.GetExtension(s) == ".ogg")
+            {
+                esOGG = true;
+                timerMetadatos.Enabled = true;
                 return true;
+            }
             else if (Path.GetExtension(s) == ".flac")
+            {
+                esOGG = false;
+                timerMetadatos.Enabled = false;
                 return true;
+            }
             else return false;
         }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -198,9 +243,7 @@ namespace aplicacion_musica
                 }
                 catch (System.Net.WebException)
                 {
-                    Console.WriteLine("Excepción capturada System.Net.WebException");
-                    
-                    
+                    Log.ImprimirMensaje("Error descargando la imagen", TipoMensaje.Advertencia);   
                     MessageBox.Show("");
                 }
 
@@ -228,17 +271,23 @@ namespace aplicacion_musica
             if (Programa._spotify != null && Programa._spotify.cuentaVinculada)
             {
                 Spotify = true;
+
                 backgroundWorker = new BackgroundWorker();
                 backgroundWorker.DoWork += BackgroundWorker_DoWork;
                 backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
                 cancionReproduciendo = new FullTrack();
                 _spotify = Programa._spotify._spotify;
+                user = _spotify.GetPrivateProfile();
+                Log.ImprimirMensaje("Iniciando el Reproductor en modo Spotify, con cuenta " + user.Email, TipoMensaje.Info);
                 SpotifyListo = true;
                 timerSpotify.Enabled = true;
-                toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + _spotify.GetPrivateProfile().DisplayName;
+                toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + user.DisplayName;
+            }
+            else
+            {
+                Log.ImprimirMensaje("Iniciando el Reproductor en modo local",TipoMensaje.Info);
             }
         }
-
         private void timerCancion_Tick(object sender, EventArgs e)
         {
             if (estadoReproductor == EstadoReproductor.Detenido)
@@ -277,7 +326,10 @@ namespace aplicacion_musica
                 if(ListaReproduccion != null)
                 {
                     ListaReproduccionPuntero++;
-                    ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                    if (!ListaReproduccion.Final(ListaReproduccionPuntero))
+                        ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                    else
+                        nucleo.Detener();
                 }
             }
         }
@@ -299,25 +351,40 @@ namespace aplicacion_musica
             if (r != DialogResult.Cancel)
             {
                 fich = openFileDialog1.FileName;
-                nucleo.Apagar();
-                estadoReproductor = EstadoReproductor.Detenido;
-                buttonReproducirPausar.Text = "▶";
                 this.fich = fich;
-                nucleo.CargarCancion(fich);
-                trackBarPosicion.Maximum = (int)nucleo.Duracion().TotalSeconds;
-                timerCancion.Enabled = true;
-                labelDuracion.Text = (int)nucleo.Duracion().TotalMinutes + ":" + nucleo.Duracion().Seconds;
-                Text = nucleo.CancionReproduciendose();
-                labelDatosCancion.Text = nucleo.GetDatos();
-                trackBarVolumen.Value = 100;
-                dur = nucleo.Duracion();
+                nucleo.Apagar();
                 try
                 {
-                    pictureBoxCaratula.Image = nucleo.GetCaratula();
+                    nucleo.CargarCancion(fich);
+                    nucleo.Reproducir();
                 }
                 catch (Exception)
                 {
 
+                    return;
+                }
+                FicheroLeible(fich);
+                PrepararReproductor();
+                try
+                {
+                    System.Drawing.Image caratula = nucleo.GetCaratula();
+                    if(caratula != null) 
+                        pictureBoxCaratula.Image = nucleo.GetCaratula();
+                    else
+                    {
+                        FileInfo fi = new FileInfo(openFileDialog1.FileName);
+                        DirectoryInfo info = new DirectoryInfo(fi.DirectoryName);
+                        foreach (FileInfo item in info.GetFiles())
+                        {
+                            if (item.Name == "cover.jpg" || item.Name == "folder.jpg")
+                                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(item.FullName);
+                        }
+                    }
+
+                }
+                catch (NullReferenceException)
+                {
+                    Log.ImprimirMensaje("No hay carátula, usando por defecto", TipoMensaje.Advertencia);
                     pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
                 }
             }
@@ -372,6 +439,7 @@ namespace aplicacion_musica
         {
             timerCancion.Enabled = false;
             timerSpotify.Enabled = false;
+            timerMetadatos.Enabled = false;
             trackBarPosicion.Value = (int)((e.X * dur.TotalSeconds) / Size.Width);
         }
 
@@ -382,6 +450,7 @@ namespace aplicacion_musica
             {
                 nucleo.Saltar(new TimeSpan(0, 0, trackBarPosicion.Value));
                 timerCancion.Enabled = true;
+                timerMetadatos.Enabled = true;
             }
             else
             {
@@ -392,6 +461,7 @@ namespace aplicacion_musica
         private void trackBarPosicion_Scroll(object sender, EventArgs e)
         {
             timerCancion.Enabled = false;
+            timerMetadatos.Enabled = false;
             pos = new TimeSpan(0, 0, trackBarPosicion.Value);
             timerCancion_Tick(null, null);
         }
@@ -462,7 +532,7 @@ namespace aplicacion_musica
             {
                 try
                 {
-                    ListaReproduccion.Mezclar();
+                    ListaReproduccion.Mezclar();//cambiar func
                     lrui.Refrescar();
                 }
                 catch (NullReferenceException)
@@ -478,11 +548,29 @@ namespace aplicacion_musica
                 _spotify.SkipPlaybackToNext();
             else
             {
-                if (ListaReproduccion != null && !ListaReproduccion.Final(ListaReproduccionPuntero))
+                if (ListaReproduccion != null)
                 {
-                    ListaReproduccionPuntero++;
-                    lrui.SetActivo((int)ListaReproduccionPuntero);
-                    ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                    if (ListaReproduccion.Final(ListaReproduccionPuntero))
+                    {
+                        nucleo.Detener();
+                        buttonReproducirPausar.Text = GetTextoReproductor(EstadoReproductor.Detenido);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            ListaReproduccionPuntero++;
+                            lrui.SetActivo((int)ListaReproduccionPuntero);
+                            ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                        }
+                        catch (Exception)
+                        {
+
+                            return;
+                        }
+
+                    }
+
                 }
             }
         }
@@ -506,6 +594,23 @@ namespace aplicacion_musica
         {
             if (e.KeyData == Keys.F9)
                 lrui.Show();
+        }
+        private String GetTextoReproductor(EstadoReproductor er)
+        {
+            switch (er)
+            {
+                case EstadoReproductor.Reproduciendo:
+                    return "❚❚";
+                case EstadoReproductor.Pausado:
+                case EstadoReproductor.Detenido:
+                    return "▶";
+            }
+            return "";
+        }
+
+        private void timerMetadatos_Tick(object sender, EventArgs e)
+        {
+            labelDatosCancion.Text = nucleo.GetDatos();
         }
     }
 }

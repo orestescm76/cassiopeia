@@ -253,7 +253,6 @@ namespace aplicacion_musica
                 Log.ImprimirMensaje("discos.json no existe, se creará una base de datos vacía.", TipoMensaje.Advertencia);
             }
             Application.Run(principal);
-            reproductor.Apagar();
             reproductor.Dispose();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();

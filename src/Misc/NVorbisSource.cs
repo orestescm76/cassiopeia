@@ -18,6 +18,8 @@ namespace aplicacion_musica
         private readonly Stream _stream;
         private readonly VorbisReader _vorbisReader;
         private bool _disposed;
+        private TimeSpan posAnt;
+        private int BitRate;
 
         public NVorbisSource(Stream stream)
         {
@@ -26,8 +28,10 @@ namespace aplicacion_musica
             if (!stream.CanRead)
                 throw new ArgumentException("Stream is not readable.", "stream");
             _stream = stream;
-            _vorbisReader = new VorbisReader(stream, false);
-            WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 32, _vorbisReader.Channels, AudioEncoding.IeeeFloat);
+            _vorbisReader = new VorbisReader(stream, true);
+            WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 16, _vorbisReader.Channels, AudioEncoding.Vorbis2);
+            posAnt = TimeSpan.Zero;
+            //_vorbisReader.DecodedPosition = 5;
         }
 
         public bool CanSeek
@@ -42,13 +46,24 @@ namespace aplicacion_musica
         {
             get { return CanSeek ? (long)(_vorbisReader.TotalTime.TotalSeconds * WaveFormat.SampleRate * WaveFormat.Channels) : 0; }
         }
-
+        public int Bitrate
+        {
+            get
+            {
+                return BitRate;
+            }
+        }
         //got fixed through workitem #17, thanks for reporting @rgodart.
         public long Position
         {
             get
             {
-                return CanSeek ? (long)(_vorbisReader.DecodedTime.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels) : 0;
+                long pos = (long)(_vorbisReader.DecodedTime.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels);
+                if (pos < 0)
+                {
+                    return (long)(posAnt.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels);
+                }
+                return CanSeek ? pos : 0;
             }
             set
             {
@@ -57,12 +72,24 @@ namespace aplicacion_musica
                 if (value < 0 || value > Length)
                     throw new ArgumentOutOfRangeException("value");
 
-                _vorbisReader.DecodedTime = TimeSpan.FromSeconds((double)value / _vorbisReader.SampleRate / _vorbisReader.Channels);
+                try
+                {
+                    _vorbisReader.DecodedTime = TimeSpan.FromSeconds((double)value / _vorbisReader.SampleRate / _vorbisReader.Channels);
+
+                }
+                catch (Exception)
+                {
+
+                    Log.Instance.ImprimirMensaje("Error intentando cambiar el puntero de la canción, poniendo 0...", TipoMensaje.Error);
+                    _vorbisReader.DecodedTime = TimeSpan.Zero;
+                }
             }
         }
 
         public int Read(float[] buffer, int offset, int count)
         {
+            posAnt = _vorbisReader.DecodedTime;
+            BitRate = _vorbisReader.Stats[0].InstantBitRate;
             return _vorbisReader.ReadSamples(buffer, offset, count);
         }
 
@@ -73,6 +100,28 @@ namespace aplicacion_musica
             else
                 throw new ObjectDisposedException("NVorbisSource");
             _disposed = true;
+        }
+        public string GetTitulo()
+        {
+            foreach (String meta in _vorbisReader.Comments)
+            {
+                if(meta.Contains("TITLE=")|| meta.Contains("TITLE=".ToLower()))
+                {
+                    return meta.Replace("TITLE=", "");
+                }
+            }
+            return null;
+        }
+        public string GetArtista()
+        {
+            foreach (String meta in _vorbisReader.Comments)
+            {
+                if (meta.Contains("ARTIST=")|| meta.Contains("ARTIST=".ToLower()))
+                {
+                    return meta.Replace("ARTIST=", "");
+                }
+            }
+            return null;
         }
     }
 }

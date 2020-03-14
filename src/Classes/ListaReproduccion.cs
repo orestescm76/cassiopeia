@@ -23,7 +23,7 @@ namespace aplicacion_musica
         }
         public bool Final(uint i)
         {
-            if (Canciones.Count == --i)
+            if (Canciones.Count == i-1)
                 return true;
             else return false;
         }

@@ -103,6 +103,7 @@
             this.infoAlbum.Text = "Artista: test\r\nTitulo: test\r\nAño: 2020\r\nDuración: 01:02:03 (00:04:05)\r\nGénero: Re" +
     "lleno\r\nFormato: Jewel Case\r\nAño publicación: 2020\r\nPaís: Unión Europea\r\nEstado e" +
     "xterior: M (Nuevo)\r\n";
+            this.infoAlbum.Click += new System.EventHandler(this.infoAlbum_Click);
             // 
             // okDoomerButton
             // 
@@ -191,14 +192,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(833, 464);
+            this.Controls.Add(this.vistaCaratula);
             this.Controls.Add(this.labelEstadoDisco);
             this.Controls.Add(this.buttonAnotaciones);
             this.Controls.Add(this.barraAbajo);
             this.Controls.Add(this.editarButton);
             this.Controls.Add(this.okDoomerButton);
-            this.Controls.Add(this.infoAlbum);
             this.Controls.Add(this.vistaCanciones);
-            this.Controls.Add(this.vistaCaratula);
+            this.Controls.Add(this.infoAlbum);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;

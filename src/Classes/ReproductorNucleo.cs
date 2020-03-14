@@ -21,11 +21,14 @@ namespace aplicacion_musica
         private ISoundOut _salida;
         private FormatoSonido FormatoSonido;
         private IWaveSource _sonido;
+        private VorbisReader _vorbisReader;
         private CSCore.Tags.ID3.ID3v2QuickInfo tags;
         private FLACFile _ficheroFLAC;
         private SingleBlockNotificationStream notificationStream;
+        private NVorbisSource NVorbis;
+        private String artista;
+        private String titulo;
         long tamFich;
-
         public void CargarCancion(string cual)
         {
             switch (Path.GetExtension(cual))
@@ -45,13 +48,32 @@ namespace aplicacion_musica
                 default:
                     break;
             }
-            _sonido = CSCore.Codecs.CodecFactory.Instance.GetCodec(cual).ToSampleSource().ToStereo().ToWaveSource(16);
-            notificationStream = new SingleBlockNotificationStream(_sonido.ToSampleSource());
-            _salida = new WasapiOut(false, AudioClientShareMode.Shared, 50);
-            //_salida.Initialize(notificationStream.ToWaveSource(16));
-            FileInfo info = new FileInfo(cual);
-            tamFich = info.Length;
-            _salida.Initialize(_sonido);
+            try
+            {
+                Log.Instance.ImprimirMensaje("Intentando cargar " + cual, TipoMensaje.Info);
+                if (Path.GetExtension(cual) == ".ogg")
+                {
+                    FileStream stream = new FileStream(cual, FileMode.Open);
+                    NVorbis = new NVorbisSource(stream);
+                    _sonido = NVorbis.ToWaveSource(16);
+                }
+                else
+                {
+                    _sonido = CSCore.Codecs.CodecFactory.Instance.GetCodec(cual).ToSampleSource().ToStereo().ToWaveSource(16);
+                    notificationStream = new SingleBlockNotificationStream(_sonido.ToSampleSource());
+                    //_salida.Initialize(notificationStream.ToWaveSource(16));
+                    FileInfo info = new FileInfo(cual);
+                    tamFich = info.Length;
+                }
+                _salida = new WasapiOut(false, AudioClientShareMode.Shared, 50);
+                _salida.Initialize(_sonido);
+            }
+            catch (Exception)
+            {
+                Log.Instance.ImprimirMensaje("No se encuentra el fichero", TipoMensaje.Advertencia);
+                throw;
+            }
+
         }
         public void Reproducir()
         {
@@ -77,13 +99,14 @@ namespace aplicacion_musica
         }
         private void Limpiar()
         {
-            if(_salida != null)
+            if (_salida != null)
             {
                 _salida.Dispose();
                 _salida = null;
             }
-            if(_sonido != null)
+            if (_sonido != null)
             {
+                _sonido.Position = 1;
                 _sonido.Dispose();
                 _sonido = null;
             }
@@ -91,23 +114,29 @@ namespace aplicacion_musica
         public void Apagar() { Limpiar(); }
         public String CancionReproduciendose()
         {
-            if (tags != null)
+            switch (FormatoSonido)
             {
-                switch (FormatoSonido)
-                {
-                    case FormatoSonido.MP3:
+                case FormatoSonido.MP3:
+                    if (tags != null)
                         return tags.LeadPerformers + " - " + tags.Title;
-                    case FormatoSonido.FLAC:
-                        return _ficheroFLAC.ARTIST + " - " + _ficheroFLAC.TITLE;
-                    case FormatoSonido.OGG:
-                        
+                    else return null;
+                case FormatoSonido.FLAC:
+                    return _ficheroFLAC.ARTIST + " - " + _ficheroFLAC.TITLE;
+                case FormatoSonido.OGG:
+                    try
+                    {
+                        artista = NVorbis.GetArtista();
+                        titulo = NVorbis.GetTitulo();
+                        return artista + " - " + titulo;
+                    }
+                    catch (NullReferenceException)
+                    {
                         return null;
-                    default:
-                        return null;
-                }
+                    }
+                default:
+                    return null;
             }
-            else return null;
-
+            return null;
         }
         public System.Drawing.Image GetCaratula()
         {
@@ -129,12 +158,23 @@ namespace aplicacion_musica
         }
         public String GetDatos()
         {
-            int kbps = (int)((tamFich / _sonido.GetLength().TotalSeconds) / 128);
-            return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + kbps + "kbps medio";
+            if(FormatoSonido != FormatoSonido.OGG)
+            {
+                int kbps = (int)((tamFich / _sonido.GetLength().TotalSeconds) / 128);
+                return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + kbps + "kbps medio";
+            }
+            else
+                return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + NVorbis.Bitrate/1024 + "kbps";
+
         }
         public void SetVolumen(float v)
         {
             _salida.Volume = v;
-        }        
+        }
+        public void Detener() //detiene una canción
+        {
+            _salida.Pause();
+            _sonido.SetPosition(TimeSpan.Zero);
+        }
     }
 }

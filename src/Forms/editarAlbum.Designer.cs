@@ -242,9 +242,8 @@
             this.labelDirectorioActual.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDirectorioActual.Location = new System.Drawing.Point(14, 393);
             this.labelDirectorioActual.Name = "labelDirectorioActual";
-            this.labelDirectorioActual.Size = new System.Drawing.Size(70, 15);
+            this.labelDirectorioActual.Size = new System.Drawing.Size(0, 15);
             this.labelDirectorioActual.TabIndex = 14;
-            this.labelDirectorioActual.Text = "S:\\Música";
             // 
             // editarAlbum
             // 

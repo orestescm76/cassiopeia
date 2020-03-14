@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
 
 namespace aplicacion_musica
 {
@@ -23,11 +24,19 @@ namespace aplicacion_musica
                 Programa.textosLocal.GetString("duracion") + ": " + a.duracion.ToString() + Environment.NewLine +
                 Programa.textosLocal.GetString("genero") + ": " + a.genero.traducido + Environment.NewLine +
                 "Localización: " + a.DirectorioSonido + Environment.NewLine;
-            if (a.caratula != "")
+            try
             {
-                Image caratula = Image.FromFile(a.caratula);
-                vistaCaratula.Image = caratula;
-                vistaCaratula.SizeMode = PictureBoxSizeMode.StretchImage;
+                if (a.caratula != "")
+                {
+                    Image caratula = Image.FromFile(a.caratula);
+                    vistaCaratula.Image = caratula;
+                    vistaCaratula.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Log.Instance.ImprimirMensaje("No se encuentra la carátula", TipoMensaje.Advertencia);
+                vistaCaratula.Image = Properties.Resources.albumdesconocido;
             }
             lvwColumnSorter = new ListViewItemComparer();
             vistaCanciones.ListViewItemSorter = lvwColumnSorter;
@@ -348,6 +357,19 @@ namespace aplicacion_musica
             if (e.Button == MouseButtons.Right)
             {
                 clickDerechoConfig.Show(vistaCanciones, e.Location);
+            }
+        }
+
+        private void infoAlbum_Click(object sender, EventArgs e)
+        {
+            if(albumAVisualizar != null)
+            {
+                Process explorador = new Process();
+                explorador.StartInfo.UseShellExecute = true;
+                explorador.StartInfo.FileName = "explorer.exe";
+                explorador.StartInfo.Arguments = albumAVisualizar.DirectorioSonido;
+                explorador.Start();
+                Log.Instance.ImprimirMensaje("Abierto explorer con PID: " + explorador.Id, TipoMensaje.Info);
             }
         }
     }

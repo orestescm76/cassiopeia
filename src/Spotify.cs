@@ -187,13 +187,13 @@ namespace aplicacion_musica
         }
         public void insertarAlbumFromURI(string uri)
         {
-            Console.WriteLine("Insertando álbum con URI "+uri);
+            Log.Instance.ImprimirMensaje("Insertando álbum con URI "+uri, TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
             FullAlbum sa = _spotify.GetAlbum(uri);
 
             procesarAlbum(sa);
             crono.Stop();
-            Console.WriteLine("Añadido en "+crono.ElapsedMilliseconds+"ms");
+            Log.Instance.ImprimirMensaje("Añadido",TipoMensaje.Correcto, crono);
             Programa.refrescarVista();
         }
         public void procesarAlbum(SimpleAlbum album)
