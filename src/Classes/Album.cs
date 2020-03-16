@@ -155,5 +155,9 @@ namespace aplicacion_musica
         {
             IdSpotify = id;
         }
+        public String GetTerminoBusqueda()
+        {
+            return artista + " " + nombre;
+        }
     }
 }

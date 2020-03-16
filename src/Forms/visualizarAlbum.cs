@@ -46,6 +46,10 @@ namespace aplicacion_musica
             barraAbajo.Font = new Font("Segoe UI", 10);
             Controls.Add(barraAbajo);
             labelEstadoDisco.Hide();
+            if(albumAVisualizar != null && (albumAVisualizar.DirectorioSonido == "" || albumAVisualizar.DirectorioSonido == null))
+            {
+                buttonAnotaciones.Enabled = false;
+            }
             ponerTextos();
             cargarVista();
         }

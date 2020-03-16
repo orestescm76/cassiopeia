@@ -467,4 +467,7 @@
   <data name="cambiarLocal" xml:space="preserve">
     <value>Cambiar a local</value>
   </data>
+  <data name="noPremium" xml:space="preserve">
+    <value>Esta cuenta de Spotify no es Premium, no podrás controlar Spotify desde el Gestor.</value>
+  </data>
 </root>

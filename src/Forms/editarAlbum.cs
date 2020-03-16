@@ -16,6 +16,8 @@ namespace aplicacion_musica
             textBoxAño.Text = albumAEditar.year.ToString();
             textBoxTitulo.Text = albumAEditar.nombre;
             labelRuta.Text = albumAEditar.caratula;
+            labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
+            textBoxURISpotify.Text = albumAEditar.IdSpotify;
             vistaCanciones.View = View.List;
             ponerTextos();
             cargarVista();
@@ -33,6 +35,7 @@ namespace aplicacion_musica
             botonCancelar.Text = Programa.textosLocal.GetString("cancelar");
             botonCaratula.Text = Programa.textosLocal.GetString("buscar");
             buttonAñadirCancion.Text = Programa.textosLocal.GetString("añadir_cancion");
+            labelURISpotify.Text = "Spotify URI";
             labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
@@ -72,6 +75,11 @@ namespace aplicacion_musica
                 albumAEditar.caratula = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
                 albumAEditar.DirectorioSonido = labelDirectorioActual.Text;
+                string[] uriSpotify = textBoxURISpotify.Text.Split(':');
+                if(uriSpotify.Length == 3)
+                    albumAEditar.SetSpotifyID(uriSpotify[2]);
+                else
+                    albumAEditar.SetSpotifyID(textBoxURISpotify.Text);
                 foreach (Cancion c in albumAEditar.canciones)
                 {
                     if(!c.Bonus)
@@ -90,6 +98,11 @@ namespace aplicacion_musica
                 Log.Instance.ImprimirMensaje("Formato incorrecto, no se guardará nada.", TipoMensaje.Advertencia);
                 MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
                 //throw;
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Log.Instance.ImprimirMensaje("Formato incorrecto, no se guardará nada.", TipoMensaje.Advertencia);
+                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
             cargarVista();

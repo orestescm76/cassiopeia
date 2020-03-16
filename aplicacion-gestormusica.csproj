@@ -538,6 +538,8 @@
     <None Include="Resources\albumdesconocido.png" />
     <Content Include="Resources\banner.png" />
     <Content Include="Resources\icono.ico" />
+    <None Include="Resources\iconoReproductor.png" />
+    <None Include="Resources\iconoReproductor.ico" />
     <Content Include="Resources\spotifyico.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

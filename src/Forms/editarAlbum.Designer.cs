@@ -48,13 +48,14 @@
             this.labelDirectorio = new System.Windows.Forms.Label();
             this.buttonDirectorio = new System.Windows.Forms.Button();
             this.labelDirectorioActual = new System.Windows.Forms.Label();
+            this.textBoxURISpotify = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // labelArtista
             // 
             this.labelArtista.AutoSize = true;
             this.labelArtista.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelArtista.Location = new System.Drawing.Point(14, 35);
+            this.labelArtista.Location = new System.Drawing.Point(14, 22);
             this.labelArtista.Name = "labelArtista";
             this.labelArtista.Size = new System.Drawing.Size(43, 17);
             this.labelArtista.TabIndex = 0;
@@ -64,7 +65,7 @@
             // 
             this.labelTitulo.AutoSize = true;
             this.labelTitulo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitulo.Location = new System.Drawing.Point(14, 101);
+            this.labelTitulo.Location = new System.Drawing.Point(14, 74);
             this.labelTitulo.Name = "labelTitulo";
             this.labelTitulo.Size = new System.Drawing.Size(43, 17);
             this.labelTitulo.TabIndex = 1;
@@ -74,7 +75,7 @@
             // 
             this.labelAño.AutoSize = true;
             this.labelAño.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAño.Location = new System.Drawing.Point(14, 163);
+            this.labelAño.Location = new System.Drawing.Point(14, 130);
             this.labelAño.Name = "labelAño";
             this.labelAño.Size = new System.Drawing.Size(43, 17);
             this.labelAño.TabIndex = 2;
@@ -84,7 +85,7 @@
             // 
             this.labelGeneros.AutoSize = true;
             this.labelGeneros.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGeneros.Location = new System.Drawing.Point(14, 224);
+            this.labelGeneros.Location = new System.Drawing.Point(14, 174);
             this.labelGeneros.Name = "labelGeneros";
             this.labelGeneros.Size = new System.Drawing.Size(43, 17);
             this.labelGeneros.TabIndex = 3;
@@ -94,7 +95,7 @@
             // 
             this.labelCaratula.AutoSize = true;
             this.labelCaratula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCaratula.Location = new System.Drawing.Point(14, 277);
+            this.labelCaratula.Location = new System.Drawing.Point(12, 232);
             this.labelCaratula.Name = "labelCaratula";
             this.labelCaratula.Size = new System.Drawing.Size(43, 17);
             this.labelCaratula.TabIndex = 4;
@@ -104,7 +105,7 @@
             // 
             this.labelRuta.AutoSize = true;
             this.labelRuta.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRuta.Location = new System.Drawing.Point(14, 307);
+            this.labelRuta.Location = new System.Drawing.Point(12, 274);
             this.labelRuta.Name = "labelRuta";
             this.labelRuta.Size = new System.Drawing.Size(49, 15);
             this.labelRuta.TabIndex = 5;
@@ -137,7 +138,7 @@
             // botonCaratula
             // 
             this.botonCaratula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonCaratula.Location = new System.Drawing.Point(303, 271);
+            this.botonCaratula.Location = new System.Drawing.Point(302, 225);
             this.botonCaratula.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonCaratula.Name = "botonCaratula";
             this.botonCaratula.Size = new System.Drawing.Size(225, 30);
@@ -149,7 +150,7 @@
             // textBoxArtista
             // 
             this.textBoxArtista.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxArtista.Location = new System.Drawing.Point(303, 31);
+            this.textBoxArtista.Location = new System.Drawing.Point(303, 19);
             this.textBoxArtista.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxArtista.Name = "textBoxArtista";
             this.textBoxArtista.Size = new System.Drawing.Size(224, 25);
@@ -158,7 +159,7 @@
             // textBoxTitulo
             // 
             this.textBoxTitulo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxTitulo.Location = new System.Drawing.Point(303, 97);
+            this.textBoxTitulo.Location = new System.Drawing.Point(303, 71);
             this.textBoxTitulo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxTitulo.Name = "textBoxTitulo";
             this.textBoxTitulo.Size = new System.Drawing.Size(224, 25);
@@ -167,7 +168,7 @@
             // textBoxAño
             // 
             this.textBoxAño.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxAño.Location = new System.Drawing.Point(303, 160);
+            this.textBoxAño.Location = new System.Drawing.Point(303, 122);
             this.textBoxAño.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxAño.Name = "textBoxAño";
             this.textBoxAño.Size = new System.Drawing.Size(224, 25);
@@ -177,7 +178,7 @@
             // 
             this.comboBoxGeneros.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxGeneros.FormattingEnabled = true;
-            this.comboBoxGeneros.Location = new System.Drawing.Point(303, 220);
+            this.comboBoxGeneros.Location = new System.Drawing.Point(303, 174);
             this.comboBoxGeneros.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.comboBoxGeneros.Name = "comboBoxGeneros";
             this.comboBoxGeneros.Size = new System.Drawing.Size(224, 25);
@@ -210,7 +211,7 @@
             // 
             this.labelURISpotify.AutoSize = true;
             this.labelURISpotify.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelURISpotify.Location = new System.Drawing.Point(12, 335);
+            this.labelURISpotify.Location = new System.Drawing.Point(12, 309);
             this.labelURISpotify.Name = "labelURISpotify";
             this.labelURISpotify.Size = new System.Drawing.Size(63, 17);
             this.labelURISpotify.TabIndex = 11;
@@ -220,7 +221,7 @@
             // 
             this.labelDirectorio.AutoSize = true;
             this.labelDirectorio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDirectorio.Location = new System.Drawing.Point(12, 363);
+            this.labelDirectorio.Location = new System.Drawing.Point(14, 358);
             this.labelDirectorio.Name = "labelDirectorio";
             this.labelDirectorio.Size = new System.Drawing.Size(65, 17);
             this.labelDirectorio.TabIndex = 12;
@@ -228,7 +229,7 @@
             // 
             // buttonDirectorio
             // 
-            this.buttonDirectorio.Location = new System.Drawing.Point(303, 356);
+            this.buttonDirectorio.Location = new System.Drawing.Point(302, 351);
             this.buttonDirectorio.Name = "buttonDirectorio";
             this.buttonDirectorio.Size = new System.Drawing.Size(224, 30);
             this.buttonDirectorio.TabIndex = 13;
@@ -240,16 +241,26 @@
             // 
             this.labelDirectorioActual.AutoSize = true;
             this.labelDirectorioActual.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDirectorioActual.Location = new System.Drawing.Point(14, 393);
+            this.labelDirectorioActual.Location = new System.Drawing.Point(14, 394);
             this.labelDirectorioActual.Name = "labelDirectorioActual";
             this.labelDirectorioActual.Size = new System.Drawing.Size(0, 15);
             this.labelDirectorioActual.TabIndex = 14;
+            // 
+            // textBoxURISpotify
+            // 
+            this.textBoxURISpotify.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxURISpotify.Location = new System.Drawing.Point(302, 301);
+            this.textBoxURISpotify.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBoxURISpotify.Name = "textBoxURISpotify";
+            this.textBoxURISpotify.Size = new System.Drawing.Size(224, 25);
+            this.textBoxURISpotify.TabIndex = 15;
             // 
             // editarAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(542, 588);
+            this.Controls.Add(this.textBoxURISpotify);
             this.Controls.Add(this.labelDirectorioActual);
             this.Controls.Add(this.buttonDirectorio);
             this.Controls.Add(this.labelDirectorio);
@@ -302,5 +313,6 @@
         private System.Windows.Forms.Label labelDirectorio;
         private System.Windows.Forms.Button buttonDirectorio;
         private System.Windows.Forms.Label labelDirectorioActual;
+        private System.Windows.Forms.TextBox textBoxURISpotify;
     }
 }

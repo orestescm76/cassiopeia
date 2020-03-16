@@ -56,6 +56,10 @@ namespace aplicacion_musica
             }
             return null;
         }
+        public Album devolverAlbum(int i)
+        {
+            return albumes[i];
+        }
         public void devolverAlbum(string s, out DiscoCompacto cd)
         {
             cd = null;

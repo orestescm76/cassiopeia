@@ -172,7 +172,7 @@ namespace aplicacion_musica
 
                 return album;
             }
-            catch (NullReferenceException)
+            catch (ArgumentOutOfRangeException)
             {
                 Log.Instance.ImprimirMensaje("Busqueda en Spotify no ha encontrado nada", TipoMensaje.Advertencia, crono);
                 return null;

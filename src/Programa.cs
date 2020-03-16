@@ -38,7 +38,7 @@ namespace aplicacion_musica
         public static readonly string CodeName = "Raven";
         private static ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
         public static Reproductor Reproductor;
-
+        public static bool SpotifyActivado = true;
         public static Configuration config;
         public static void HayInternet(bool i)
         {
@@ -209,6 +209,7 @@ namespace aplicacion_musica
             principal = new principal();
             if(!args.Contains("-noSpotify"))
             {
+                SpotifyActivado = true;
                 if (config.AppSettings.Settings["VinculadoConSpotify"].Value == "false")
                     _spotify = new Spotify(false);
                 else
@@ -217,6 +218,7 @@ namespace aplicacion_musica
             }
             else
             {
+                SpotifyActivado = false;
                 Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -noSpotify, no habrá integración con Spotify", TipoMensaje.Info);
                 _spotify = null;
                 principal.HayInternet(false);
@@ -253,7 +255,7 @@ namespace aplicacion_musica
                 Log.ImprimirMensaje("discos.json no existe, se creará una base de datos vacía.", TipoMensaje.Advertencia);
             }
             Application.Run(principal);
-            reproductor.Dispose();
+
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();
             if (args.Contains("-consola"))

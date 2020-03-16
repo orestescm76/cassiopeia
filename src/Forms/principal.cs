@@ -21,9 +21,6 @@ namespace aplicacion_musica
     {
         Digital, CD, Vinilo
     }
-    /// <summary>
-    /// Formulario principal de la aplicación
-    /// </summary>
     public partial class principal : Form
     {
         private bool borrando;
@@ -79,6 +76,7 @@ namespace aplicacion_musica
         {
             buscarEnSpotifyToolStripMenuItem.Enabled = i;
             vincularToolStripMenuItem.Enabled = i;
+            spotifyToolStripMenuItem.Enabled = i;
         }
         private void cargarVista()
         {
@@ -200,9 +198,10 @@ namespace aplicacion_musica
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
             Reproductor.Instancia.Dispose();
             Reproductor.Instancia.Apagar();
+            Application.Exit();
+
         }
         private void SubIdioma_Click(object sender, EventArgs e)
         {
@@ -547,11 +546,6 @@ namespace aplicacion_musica
             Programa.miColeccion.BorrarTodo();
         }
 
-        private void toolStripTextBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void vistaAlbumes_MouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Right)
@@ -755,22 +749,44 @@ namespace aplicacion_musica
                     System.Threading.Thread.Sleep(100);
                 if (Programa._spotify._spotify.GetPrivateProfile().Product != "premium")
                 {
-                    MessageBox.Show("no tienes premium");
+                    Programa.textosLocal.GetString("noPremium");
                     Log.ImprimirMensaje("El usuario no tiene premium, no podrá usar spotify desde el Gestor", TipoMensaje.Advertencia);
+                    spotifyToolStripMenuItem.Enabled = false;
                 }
             }
             else return;
         }
         private void spotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SpotifyAPI.Web.Models.SimpleAlbum a = Programa._spotify.DevolverAlbum(vistaAlbumes.SelectedItems[0].SubItems[1].Text);
-            if (a == null)
+            Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works!
+            Log.ImprimirMensaje(a.ToString(), TipoMensaje.Info);
+            if(a.IdSpotify == null)
             {
-                Log.ImprimirMensaje("", TipoMensaje.Error);
+                try
+                {
+                    SpotifyAPI.Web.Models.SimpleAlbum album = Programa._spotify.DevolverAlbum(a.GetTerminoBusqueda());
+                    if (a == null)
+                    {
+                        Log.ImprimirMensaje("Album fue nulo", TipoMensaje.Error);
+                    }
+                    else
+                    {
+                        SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify._spotify.ResumePlayback(contextUri: "spotify:album:" + album.Id, offset: "", positionMs: 0);
+                        if (err != null && err.Error != null)
+                        {
+                            Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");
+                        }
+                    }
+                }
+                catch (NullReferenceException)
+                {
+                    Log.ImprimirMensaje("No se ha encontrado el álbum", TipoMensaje.Advertencia);
+                }
+
             }
             else
             {
-                SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify._spotify.ResumePlayback(contextUri: "spotify:album:" + a.Id, offset: "", positionMs: 0);
+                SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify._spotify.ResumePlayback(contextUri: "spotify:album:" + a.IdSpotify, offset: "", positionMs: 0);
                 if (err != null && err.Error != null)
                 {
                     Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");

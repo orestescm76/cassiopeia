@@ -45,7 +45,6 @@ namespace aplicacion_musica
         private static Reproductor ins = new Reproductor();
         private float Volumen;
         private ListaReproduccionUI lrui;
-        private bool esOGG = false;
         private ToolTip duracionView;
         //crear una tarea que cada 500ms me cambie la cancion
         public static Reproductor Instancia { get { return ins; } }
@@ -60,6 +59,9 @@ namespace aplicacion_musica
             trackBarVolumen.Value = 100;
             duracionView = new ToolTip();
             buttonAgregar.Hide();
+            if (!Programa.SpotifyActivado)
+                buttonSpotify.Enabled = false;
+            Icon = Properties.Resources.iconoReproductor;
             //button1.Hide();
             //button2.Hide();
         }
@@ -236,19 +238,19 @@ namespace aplicacion_musica
         }
         private void PrepararSpotify()
         {
-                Spotify = true;
-                backgroundWorker = new BackgroundWorker();
-                backgroundWorker.DoWork += BackgroundWorker_DoWork;
-                backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
-                backgroundWorker.WorkerSupportsCancellation = true;
-                cancionReproduciendo = new FullTrack();
-                _spotify = Programa._spotify._spotify;
-                user = _spotify.GetPrivateProfile();
-                EsPremium = (user.Product == "premium") ? true : false;
-                Log.ImprimirMensaje("Iniciando el Reproductor en modo Spotify, con cuenta " + user.Email, TipoMensaje.Info);
-                SpotifyListo = true;
-                timerSpotify.Enabled = true;
-                toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + user.DisplayName;
+            Spotify = true;
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+            backgroundWorker.WorkerSupportsCancellation = true;
+            cancionReproduciendo = new FullTrack();
+            _spotify = Programa._spotify._spotify;
+            user = _spotify.GetPrivateProfile();
+            EsPremium = (user.Product == "premium") ? true : false;
+            Log.ImprimirMensaje("Iniciando el Reproductor en modo Spotify, con cuenta " + user.Email, TipoMensaje.Info);
+            SpotifyListo = true;
+            timerSpotify.Enabled = true;
+            toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + user.DisplayName;
         }
 
         private void Reproductor_Load(object sender, EventArgs e)
@@ -436,11 +438,13 @@ namespace aplicacion_musica
                 timerMetadatos.Enabled = true;
                 nucleo.Saltar(new TimeSpan(0, 0, trackBarPosicion.Value));
             }
-            else
+            else if (Spotify && EsPremium)
             {
                 _spotify.SeekPlayback(trackBarPosicion.Value * 1000);
                 timerSpotify.Enabled = true;
             }
+            else
+                timerSpotify.Enabled = true;
         }
         private void trackBarPosicion_Scroll(object sender, EventArgs e)
         {
@@ -456,7 +460,7 @@ namespace aplicacion_musica
             Volumen = (float)trackBarVolumen.Value / 100;
             if (!Spotify)
                 nucleo.SetVolumen(Volumen);
-            else
+            else if (EsPremium && Spotify)
                 _spotify.SetVolume(trackBarVolumen.Value);
         }
 
@@ -488,7 +492,7 @@ namespace aplicacion_musica
 
         private void checkBoxAleatorio_CheckedChanged(object sender, EventArgs e)
         {
-            if(SpotifyListo && Spotify)
+            if(EsPremium && Spotify)
                 _spotify.SetShuffle(checkBoxAleatorio.Checked);
             else
             {
@@ -506,7 +510,7 @@ namespace aplicacion_musica
 
         private void buttonSaltarAdelante_Click(object sender, EventArgs e)
         {
-            if (SpotifyListo && Spotify)
+            if (EsPremium && Spotify)
                 _spotify.SkipPlaybackToNext();
             else
             {
@@ -539,7 +543,7 @@ namespace aplicacion_musica
 
         private void buttonSaltarAtras_Click(object sender, EventArgs e)
         {
-            if (Spotify)
+            if (Spotify && EsPremium)
                 _spotify.SkipPlaybackToPrevious();
             else
             {
@@ -554,7 +558,7 @@ namespace aplicacion_musica
 
         private void Reproductor_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.F9 && !Spotify)
+            if (e.KeyData == Keys.F9 && !Spotify && lrui != null)
                 lrui.Show();
             if (e.Control && e.KeyData == Keys.Right)
                 buttonSaltarAdelante_Click(null, null);
@@ -601,30 +605,50 @@ namespace aplicacion_musica
             Text = "";
             toolStripStatusLabelCorreoUsuario.Text = "";
             labelDatosCancion.Text = "";
+            Icon = Properties.Resources.iconoReproductor;
+
             buttonAgregar.Hide();
         }
         private void ActivarSpotify()
         {
-            if(!SpotifyListo)
-            {
-                PrepararSpotify();
-            }
             try
             {
-                pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                nucleo.Apagar();
             }
-            catch (Exception)
+            catch (NullReferenceException)
             {
-                Log.ImprimirMensaje("No hay fichero de np.jpg", TipoMensaje.Advertencia);
+                
             }
-            buttonAgregar.Show();
-            timerSpotify.Enabled = true;
-            buttonSpotify.Text = Programa.textosLocal.GetString("cambiarLocal");
-            button2.Enabled = false;
-            Spotify = true;
-            toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + user.DisplayName;
-        }
+            if (Programa.SpotifyActivado)
+            {
+                if (!SpotifyListo)
+                {
+                    PrepararSpotify();
+                }
+                try
+                {
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                }
+                catch (Exception)
+                {
+                    Log.ImprimirMensaje("No hay fichero de np.jpg", TipoMensaje.Advertencia);
+                }
+                buttonAgregar.Show();
+                Icon = Properties.Resources.spotifyico;
+                timerSpotify.Enabled = true;
+                buttonSpotify.Text = Programa.textosLocal.GetString("cambiarLocal");
+                button2.Enabled = false;
+                Spotify = true;
+                toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + user.DisplayName;
+                if (!EsPremium)
+                {
+                    toolStripStatusLabelCorreoUsuario.Text += " - NO PREMIUM";
+                }
+            }
+            else
+                return;
 
+        }
         private void buttonSpotify_Click(object sender, EventArgs e)
         {
             if (Spotify)
