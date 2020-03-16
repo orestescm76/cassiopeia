@@ -459,4 +459,13 @@
   <data name="visualizando" xml:space="preserve">
     <value>Viewing</value>
   </data>
+  <data name="cambiarSpotify" xml:space="preserve">
+    <value>Change to Spotify</value>
+  </data>
+  <data name="cambiarLocal" xml:space="preserve">
+    <value>Change to local files</value>
+  </data>
+  <data name="vincular" xml:space="preserve">
+    <value>Link to your Spotify Account</value>
+  </data>
 </root>

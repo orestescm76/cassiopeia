@@ -461,4 +461,10 @@
   <data name="visualizando" xml:space="preserve">
     <value>Visualizando</value>
   </data>
+  <data name="cambiarSpotify" xml:space="preserve">
+    <value>Cambiar a Spotify</value>
+  </data>
+  <data name="cambiarLocal" xml:space="preserve">
+    <value>Cambiar a local</value>
+  </data>
 </root>

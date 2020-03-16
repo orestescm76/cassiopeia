@@ -40,7 +40,7 @@
             this.labelDatosCancion = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelCorreoUsuario = new System.Windows.Forms.ToolStripStatusLabel();
             this.trackBarVolumen = new System.Windows.Forms.TrackBar();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonSpotify = new System.Windows.Forms.Button();
             this.timerSpotify = new System.Windows.Forms.Timer(this.components);
             this.labelVolumen = new System.Windows.Forms.Label();
             this.labelPorcentaje = new System.Windows.Forms.Label();
@@ -49,6 +49,7 @@
             this.buttonSaltarAtras = new System.Windows.Forms.Button();
             this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
             this.timerMetadatos = new System.Windows.Forms.Timer(this.components);
+            this.buttonAgregar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -94,7 +95,7 @@
             // 
             this.button2.Location = new System.Drawing.Point(0, 515);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(88, 23);
+            this.button2.Size = new System.Drawing.Size(102, 23);
             this.button2.TabIndex = 3;
             this.button2.Text = "abrir";
             this.button2.UseVisualStyleBackColor = true;
@@ -156,19 +157,20 @@
             this.trackBarVolumen.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarVolumen_MouseDown);
             this.trackBarVolumen.MouseHover += new System.EventHandler(this.trackBarVolumen_MouseHover);
             // 
-            // button1
+            // buttonSpotify
             // 
-            this.button1.Location = new System.Drawing.Point(0, 544);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(88, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "cambiar a local";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonSpotify.Location = new System.Drawing.Point(0, 544);
+            this.buttonSpotify.Name = "buttonSpotify";
+            this.buttonSpotify.Size = new System.Drawing.Size(102, 23);
+            this.buttonSpotify.TabIndex = 8;
+            this.buttonSpotify.TabStop = false;
+            this.buttonSpotify.Text = "cambiar a Spotify";
+            this.buttonSpotify.UseVisualStyleBackColor = true;
+            this.buttonSpotify.Click += new System.EventHandler(this.buttonSpotify_Click);
             // 
             // timerSpotify
             // 
-            this.timerSpotify.Interval = 500;
+            this.timerSpotify.Interval = 300;
             this.timerSpotify.Tick += new System.EventHandler(this.timerSpotify_Tick);
             // 
             // labelVolumen
@@ -240,17 +242,29 @@
             this.timerMetadatos.Interval = 750;
             this.timerMetadatos.Tick += new System.EventHandler(this.timerMetadatos_Tick);
             // 
+            // buttonAgregar
+            // 
+            this.buttonAgregar.Location = new System.Drawing.Point(108, 544);
+            this.buttonAgregar.Name = "buttonAgregar";
+            this.buttonAgregar.Size = new System.Drawing.Size(115, 23);
+            this.buttonAgregar.TabIndex = 14;
+            this.buttonAgregar.TabStop = false;
+            this.buttonAgregar.Text = "Agregar a la BBDD";
+            this.buttonAgregar.UseVisualStyleBackColor = true;
+            this.buttonAgregar.Click += new System.EventHandler(this.buttonAgregar_Click);
+            // 
             // Reproductor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(365, 592);
+            this.Controls.Add(this.buttonAgregar);
             this.Controls.Add(this.buttonSaltarAtras);
             this.Controls.Add(this.buttonSaltarAdelante);
             this.Controls.Add(this.checkBoxAleatorio);
             this.Controls.Add(this.labelPorcentaje);
             this.Controls.Add(this.labelVolumen);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonSpotify);
             this.Controls.Add(this.trackBarVolumen);
             this.Controls.Add(this.barraAbajoDatos);
             this.Controls.Add(this.labelDuracion);
@@ -289,7 +303,7 @@
         private System.Windows.Forms.StatusStrip barraAbajoDatos;
         private System.Windows.Forms.ToolStripStatusLabel labelDatosCancion;
         private System.Windows.Forms.TrackBar trackBarVolumen;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonSpotify;
         private System.Windows.Forms.Timer timerSpotify;
         private System.Windows.Forms.Label labelVolumen;
         private System.Windows.Forms.Label labelPorcentaje;
@@ -298,5 +312,6 @@
         private System.Windows.Forms.Button buttonSaltarAtras;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCorreoUsuario;
         private System.Windows.Forms.Timer timerMetadatos;
+        private System.Windows.Forms.Button buttonAgregar;
     }
 }

@@ -78,6 +78,7 @@ namespace aplicacion_musica
         public void HayInternet(bool i)
         {
             buscarEnSpotifyToolStripMenuItem.Enabled = i;
+            vincularToolStripMenuItem.Enabled = i;
         }
         private void cargarVista()
         {
@@ -224,7 +225,8 @@ namespace aplicacion_musica
         }
         private void guardarDiscos(string nombre, TipoGuardado tipoGuardado)
         {
-            using (StreamWriter salida = new StreamWriter(nombre, false, System.Text.Encoding.UTF8))
+            FileInfo fich = new FileInfo(nombre);
+            using (StreamWriter salida = fich.CreateText())
             {
 
                 Stopwatch crono = Stopwatch.StartNew();
@@ -252,8 +254,8 @@ namespace aplicacion_musica
 
                 crono.Stop();
                 Log.ImprimirMensaje(nameof(guardarDiscos) + "- Guardado", TipoMensaje.Correcto, crono);
-                FileInfo fich = new FileInfo("./"+nombre);
-                Log.ImprimirMensaje("Tamaño: "+ fich.Length + " bytes", TipoMensaje.Info);
+                fich.Refresh();
+                Log.ImprimirMensaje("Tamaño: " + fich.Length + " bytes", TipoMensaje.Info);
             }
         }
         private void salidaAplicacion(object sender, EventArgs e)
