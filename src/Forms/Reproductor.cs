@@ -62,8 +62,6 @@ namespace aplicacion_musica
             if (!Programa.SpotifyActivado)
                 buttonSpotify.Enabled = false;
             Icon = Properties.Resources.iconoReproductor;
-            //button1.Hide();
-            //button2.Hide();
         }
         public void ReproducirLista(ListaReproduccion lr)
         {
@@ -144,19 +142,16 @@ namespace aplicacion_musica
         {
             if (Path.GetExtension(s) == ".mp3")
             {
-                esOGG = false;
                 timerMetadatos.Enabled = false;
                 return true;
             }
             else if (Path.GetExtension(s) == ".ogg")
             {
-                esOGG = true;
                 timerMetadatos.Enabled = true;
                 return true;
             }
             else if (Path.GetExtension(s) == ".flac")
             {
-                esOGG = false;
                 timerMetadatos.Enabled = false;
                 return true;
             }
@@ -209,7 +204,11 @@ namespace aplicacion_musica
             }
             else
             {
-                Programa._spotify.RefrescarToken();
+                Log.ImprimirMensaje("Token caducado!", TipoMensaje.Advertencia);
+                while(Programa._spotify.TokenExpirado())
+                {
+                    System.Threading.Thread.Sleep(500);
+                }
             }
         }
         private void DescargarPortada(SimpleAlbum album)
@@ -225,10 +224,9 @@ namespace aplicacion_musica
                 }
                 catch (System.Net.WebException)
                 {
-                    Log.ImprimirMensaje("Error descargando la imagen", TipoMensaje.Advertencia);   
-                    MessageBox.Show("");
+                    Log.ImprimirMensaje("Error descargando la imagen", TipoMensaje.Advertencia);
+                    File.Delete("./covers/np.jpg");
                 }
-
             }
         }
 
@@ -274,7 +272,7 @@ namespace aplicacion_musica
                 trackBarPosicion.Enabled = false;
             else
                 trackBarPosicion.Enabled = true;
-            if (!Spotify && timerCancion.Enabled)
+            if (!Spotify && timerCancion.Enabled && nucleo.ComprobarSonido())
                 pos = nucleo.Posicion();
             if (pos.Seconds < 10)
                 labelPosicion.Text = (int)pos.TotalMinutes + ":0" + (int)pos.Seconds;
@@ -316,8 +314,19 @@ namespace aplicacion_musica
 
         private void Reproductor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Hide();
-            e.Cancel = true;
+            if (!Programa.ModoReproductor)
+            {
+                Hide();
+                e.Cancel = true;
+            }
+            else
+            {
+                if (nucleo != null)
+                    nucleo.Apagar();
+                Dispose();
+                Application.Exit();
+            }
+
         }
         public void Apagar()
         {
@@ -332,6 +341,7 @@ namespace aplicacion_musica
             DialogResult r = openFileDialog1.ShowDialog();
             if (r != DialogResult.Cancel)
             {
+                timerCancion.Enabled = false;
                 nucleo.Apagar();
                 estadoReproductor = EstadoReproductor.Detenido;
                 fich = openFileDialog1.FileName;
@@ -383,7 +393,15 @@ namespace aplicacion_musica
                     if (!Spotify)
                         nucleo.Pausar();
                     else if (Spotify && EsPremium)
-                        _spotify.PausePlayback();
+                    {
+                        ErrorResponse err = _spotify.PausePlayback();
+                        if (err.Error != null && err.Error.Message != null)
+                        {
+                            Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error);
+                            MessageBox.Show(err.Error.Message);
+                        }
+                        break;
+                    }
                     estadoReproductor = EstadoReproductor.Pausado;
                     buttonReproducirPausar.Text = "▶";
                     break;
@@ -394,8 +412,11 @@ namespace aplicacion_musica
                     else if (Spotify && EsPremium)
                     {
                         ErrorResponse err = _spotify.ResumePlayback("", "", null, "", 0);
-                        if(err.Error != null)
-                            Console.WriteLine(err.Error.Message);
+                        if(err.Error != null && err.Error.Message != null)
+                        {
+                            Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error);
+                            MessageBox.Show(err.Error.Message);
+                        }
                         break;
                     }
                     estadoReproductor = EstadoReproductor.Reproduciendo;
@@ -405,7 +426,15 @@ namespace aplicacion_musica
                     if(!Spotify)
                         nucleo.Reproducir();
                     else if (Spotify && EsPremium)
-                        _spotify.ResumePlayback("", "", null, 0);
+                    {
+                        ErrorResponse err = _spotify.ResumePlayback("", "", null, "", 0);
+                        if (err.Error != null && err.Error.Message != null)
+                        {
+                            Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error);
+                            MessageBox.Show(err.Error.Message);
+                        }
+                        break;
+                    }
                     estadoReproductor = EstadoReproductor.Reproduciendo;
                     buttonReproducirPausar.Text = "❚❚";
                     break;
@@ -606,7 +635,6 @@ namespace aplicacion_musica
             toolStripStatusLabelCorreoUsuario.Text = "";
             labelDatosCancion.Text = "";
             Icon = Properties.Resources.iconoReproductor;
-
             buttonAgregar.Hide();
         }
         private void ActivarSpotify()

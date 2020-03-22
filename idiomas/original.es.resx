@@ -470,4 +470,7 @@
   <data name="noPremium" xml:space="preserve">
     <value>Esta cuenta de Spotify no es Premium, no podrás controlar Spotify desde el Gestor.</value>
   </data>
+  <data name="reproducirSpotify" xml:space="preserve">
+    <value>Reproducir en Spotify</value>
+  </data>
 </root>

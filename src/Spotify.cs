@@ -7,6 +7,7 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Models;
 using SpotifyAPI.Web.Enums;
+using System.Threading;
 
 namespace aplicacion_musica
 {
@@ -20,6 +21,7 @@ namespace aplicacion_musica
         private readonly String clavePrivada = ClaveAPI.Spotify;
         public bool cuentaLista = false;
         public bool cuentaVinculada = false;
+        private string CodigoRefresco;
         Token tokenActual;
         public Spotify(bool v)
         {
@@ -75,7 +77,7 @@ namespace aplicacion_musica
                 System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
             }
         }
-        private async void iniciarModoStream()
+        private void iniciarModoStream()
         {
             //try
             {
@@ -89,10 +91,10 @@ namespace aplicacion_musica
                     "http://localhost:4002/",
                     Scope.UserReadEmail | Scope.UserReadPrivate | Scope.Streaming | Scope.UserReadPlaybackState
                     );
-                auth.AuthReceived += async (sender, payload) =>
+                auth.AuthReceived += (sender, payload) =>
                 {
                     auth.Stop();
-                    Token token = await auth.ExchangeCode(payload.Code);
+                    Token token = auth.ExchangeCode(payload.Code).Result;
                     tokenActual = token;
                     _spotify = new SpotifyWebAPI()
                     {
@@ -114,7 +116,9 @@ namespace aplicacion_musica
                         Log.Instance.ImprimirMensaje("Se ha conectado pero el token es nulo", TipoMensaje.Error, crono);
                         Programa.config.AppSettings.Settings["VinculadoConSpotify"].Value = "false";
                     }
-
+                    CodigoRefresco = token.RefreshToken;
+                    Programa.tareaRefrescoToken = new Thread(Programa.Refresco);
+                    Programa.tareaRefrescoToken.Start();
                 };
                 auth.Start();
                 auth.OpenBrowser();
@@ -132,11 +136,14 @@ namespace aplicacion_musica
             //    System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
             //}
         }
-        public async void RefrescarToken()
+        public void RefrescarToken()
         {
-            Token newToken = await auth.RefreshToken(tokenActual.RefreshToken);
+            Log.Instance.ImprimirMensaje("Refrescando Token...",TipoMensaje.Info);
+            Token newToken = auth.RefreshToken(CodigoRefresco).Result;
             _spotify.AccessToken = newToken.AccessToken;
             _spotify.TokenType = newToken.TokenType;
+            tokenActual = newToken;
+            Log.Instance.ImprimirMensaje("Token refrescado!", TipoMensaje.Correcto);
         }
         public void buscarAlbum(string a)
         {

@@ -78,7 +78,7 @@ namespace aplicacion_musica
         }
         private string getID()
         {
-            return artista + nombre + year + genero.traducido;
+            return artista + nombre;
         }
         public bool sonIguales(Album otro)
         {

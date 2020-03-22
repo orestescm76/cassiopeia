@@ -58,10 +58,10 @@
             // 
             // trackBarPosicion
             // 
-            this.trackBarPosicion.Location = new System.Drawing.Point(0, 368);
+            this.trackBarPosicion.Location = new System.Drawing.Point(-8, 368);
             this.trackBarPosicion.Maximum = 500;
             this.trackBarPosicion.Name = "trackBarPosicion";
-            this.trackBarPosicion.Size = new System.Drawing.Size(365, 45);
+            this.trackBarPosicion.Size = new System.Drawing.Size(384, 45);
             this.trackBarPosicion.TabIndex = 1;
             this.trackBarPosicion.TabStop = false;
             this.trackBarPosicion.TickFrequency = 0;

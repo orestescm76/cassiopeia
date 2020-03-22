@@ -146,6 +146,7 @@ namespace aplicacion_musica
             opcionesToolStripMenuItem.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + Programa.Idioma + ".png");
             digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
             vincularToolStripMenuItem.Text = Programa.textosLocal.GetString("vincular");
+            spotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -279,8 +280,7 @@ namespace aplicacion_musica
                     foreach (ListViewItem item in vistaAlbumes.SelectedItems)
                     {
                         Stopwatch crono = Stopwatch.StartNew();
-                        string s = item.SubItems[0].Text + '_' + item.SubItems[1].Text;
-                        Album a = Programa.miColeccion.devolverAlbum(s);
+                        Album a = Programa.miColeccion.devolverAlbum(item.Index);
                         crono.Stop();
                         Log.ImprimirMensajeTiempoCorto("Finalizado", TipoMensaje.Correcto, crono);
                         crono.Reset(); crono.Start();
@@ -289,7 +289,6 @@ namespace aplicacion_musica
                         crono.Stop();
                         Log.ImprimirMensaje("Formulario creado y mostrado", TipoMensaje.Correcto, crono);
                     }
-
                     break;
                 case TipoVista.CD:
                     foreach (ListViewItem cdViewItem in vistaAlbumes.SelectedItems)
@@ -306,12 +305,10 @@ namespace aplicacion_musica
                         crono.Stop();
                         Log.ImprimirMensaje("Formulario creado y mostrado", TipoMensaje.Correcto, crono);
                     }
-
                     break;
             }
             cronoTotal.Stop();
             Log.ImprimirMensaje("Operación realizada",TipoMensaje.Correcto, cronoTotal);
-            //MessageBox.Show(vistaAlbumes.SelectedItems[0].SubItems[1].Text,"",MessageBoxButtons.OK);
         }
 
         private void vistaAlbumes_KeyDown(object sender, KeyEventArgs e)
@@ -758,7 +755,7 @@ namespace aplicacion_musica
         }
         private void spotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works!
+            Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works! no es O(1)
             Log.ImprimirMensaje(a.ToString(), TipoMensaje.Info);
             if(a.IdSpotify == null)
             {
@@ -775,6 +772,7 @@ namespace aplicacion_musica
                         if (err != null && err.Error != null)
                         {
                             Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");
+                            MessageBox.Show(err.Error.Message);
                         }
                     }
                 }
@@ -790,6 +788,7 @@ namespace aplicacion_musica
                 if (err != null && err.Error != null)
                 {
                     Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");
+                    MessageBox.Show(err.Error.Message);
                 }
             }
 

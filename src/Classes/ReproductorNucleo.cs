@@ -66,6 +66,7 @@ namespace aplicacion_musica
                     tamFich = info.Length;
                 }
                 _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
+                _sonido.Position = 0;
                 _salida.Initialize(_sonido);
                 Log.Instance.ImprimirMensaje("Cargado correctamente" + cual, TipoMensaje.Correcto);
             }
@@ -113,11 +114,12 @@ namespace aplicacion_musica
                 _sonido.Dispose();
                 _sonido = null;
             }
-            if(_vorbisReader != null)
-            {
-                _vorbisReader.Dispose();
-                _vorbisReader = null;
-            }
+        }
+        public bool ComprobarSonido()
+        {
+            if (_sonido == null)
+                return false;
+            else return true;
         }
         public void Apagar() { Limpiar(); }
         public String CancionReproduciendose()

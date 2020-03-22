@@ -8,15 +8,16 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
-/* VERSION 1.5.0.20 CODENAME RAVEN
- * Reproductor:
- *  Reproduce en FLAC, MP3 y OGG
- *  Soporta metadatos en FLAC y MP3
- *  Soporta carátula MP3
- *  Con tiempo actualizable, se puede saltar
- * Spotify:
- *  Ahora se puede vincular la app.
- */
+using System.Threading;
+/* VERSION 1.5.0.62 CODENAME RAVEN
+* Reproductor:
+*  Reproduce en FLAC, MP3 y OGG
+*  Soporta metadatos en FLAC y MP3
+*  Soporta carátula MP3
+*  Con tiempo actualizable, se puede saltar
+* Spotify:
+*  Ahora se puede vincular la app.
+*/
 namespace aplicacion_musica
 {
     static class Programa
@@ -37,9 +38,21 @@ namespace aplicacion_musica
         public static bool ModoOscuro = false;
         public static readonly string CodeName = "Raven";
         private static ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
-        public static Reproductor Reproductor;
         public static bool SpotifyActivado = true;
         public static Configuration config;
+        public static bool ModoReproductor = false;
+        public static Thread tareaRefrescoToken;
+        public static void Refresco()
+        {
+            while(true)
+            {
+                if (_spotify.TokenExpirado())
+                {
+                    _spotify.RefrescarToken();
+                }
+                Thread.Sleep(TimeSpan.FromSeconds(15));
+            }
+        }
         public static void HayInternet(bool i)
         {
             principal.HayInternet(i);
@@ -205,7 +218,6 @@ namespace aplicacion_musica
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Reproductor reproductor = Reproductor.Instancia;
             principal = new principal();
             if(!args.Contains("-noSpotify"))
             {
@@ -223,6 +235,7 @@ namespace aplicacion_musica
                 _spotify = null;
                 principal.HayInternet(false);
             }
+            Reproductor reproductor = Reproductor.Instancia;
             for (int i = 0; i < idGeneros.Length; i++)
             {
                 if (idGeneros[i] == "")
@@ -254,8 +267,16 @@ namespace aplicacion_musica
             {
                 Log.ImprimirMensaje("discos.json no existe, se creará una base de datos vacía.", TipoMensaje.Advertencia);
             }
-            Application.Run(principal);
+            if (!args.Contains("-reproductor"))
+                Application.Run(principal);
+            else
+            {
+                ModoReproductor = true;
+                Application.Run(Reproductor.Instancia);
+                //Reproductor.Instancia.Show();
+            }
 
+            tareaRefrescoToken.Abort();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();
             if (args.Contains("-consola"))
