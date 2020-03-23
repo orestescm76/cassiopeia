@@ -11,6 +11,8 @@ namespace aplicacion_musica
         [JsonConverter(typeof(TiempoConverter))]
         public TimeSpan duracion { get; set; }
         public bool Bonus { get; set; }
+        [JsonIgnore]
+        public String PATH { get; set; }
         public Cancion()
         {
 
@@ -41,6 +43,10 @@ namespace aplicacion_musica
             album = a;
             Bonus = b;
         }
+        public override string ToString()
+        {
+            return album.artista + " - " + titulo + "("+album.nombre+")";
+        }
         public String[] ToStringArray()
         {
             String[] datos = { titulo, duracion.ToString() };
@@ -57,6 +63,11 @@ namespace aplicacion_musica
         public void SetAlbum(Album a)
         {
             album = a;
+        }
+        //Tame Impala;The Less I Know The Better;Currents
+        public String GuardarPATH()
+        {
+            return album.artista+";"+titulo+";"+album.nombre + Environment.NewLine+PATH + Environment.NewLine;
         }
     }
 }

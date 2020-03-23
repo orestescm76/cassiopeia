@@ -1,11 +1,8 @@
 ﻿using CSCore;
 using NVorbis;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 /*
  * This is the sample from the repository cscore made by filoe
  * For more details: https://github.com/filoe/cscore

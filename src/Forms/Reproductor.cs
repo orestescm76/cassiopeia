@@ -22,6 +22,7 @@ namespace aplicacion_musica
      */
     public partial class Reproductor : Form
     {
+        public ListaReproduccion ListaReproduccion { get; set; }
         private readonly ReproductorNucleo nucleo = new ReproductorNucleo();
         private readonly ObservableCollection<MMDevice> _devices = new ObservableCollection<MMDevice>();
         private string fich;
@@ -35,8 +36,7 @@ namespace aplicacion_musica
         SpotifyWebAPI _spotify;
         FullTrack cancionReproduciendo;
         private BackgroundWorker backgroundWorker;
-        public ListaReproduccion ListaReproduccion { get; set; }
-        private uint ListaReproduccionPuntero;
+        private int ListaReproduccionPuntero;
         bool SpotifyListo = false;
         bool EsPremium = false;
         DirectoryInfo directorioCanciones;
@@ -46,6 +46,7 @@ namespace aplicacion_musica
         private float Volumen;
         private ListaReproduccionUI lrui;
         private ToolTip duracionView;
+        private string CancionLocalReproduciendo = "";
         //crear una tarea que cada 500ms me cambie la cancion
         public static Reproductor Instancia { get { return ins; } }
         private Reproductor()
@@ -67,7 +68,7 @@ namespace aplicacion_musica
         {
             ListaReproduccion = lr;
             ListaReproduccionPuntero = 0;
-            Cancion c = lr.GetCancion(ListaReproduccionPuntero);
+            Cancion c = lr[ListaReproduccionPuntero];
             lrui = new ListaReproduccionUI(lr);
             ReproducirCancion(c);
         }
@@ -75,7 +76,6 @@ namespace aplicacion_musica
         {
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
         }
-
         private void ReproducirCancion(Cancion c)
         {
             timerCancion.Enabled = false;
@@ -92,15 +92,34 @@ namespace aplicacion_musica
                 Log.ImprimirMensaje("No se encuentra el directorio", TipoMensaje.Error);
                 return;
             }
-            string titulo = c.titulo.ToLower();
-            foreach (FileInfo file in directorioCanciones.GetFiles())
+            if (string.IsNullOrEmpty(c.PATH))
             {
-                if (file.FullName.ToLower().Contains(c.titulo.ToLower()) && FicheroLeible(file.FullName))
+                foreach (FileInfo file in directorioCanciones.GetFiles())
                 {
-                    s = file.FullName;
-                    break;
+                    if (file.FullName == CancionLocalReproduciendo)
+                        continue;
+                    LectorMetadatos LM = new LectorMetadatos(file.FullName);
+                    if (c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.artista.ToLower() == LM.Artista.ToLower())
+                    {
+                        s = file.FullName;
+                        c.PATH = file.FullName;
+                        break;
+                    }
+                    else
+                    {
+                        if (file.FullName.ToLower().Contains(c.titulo.ToLower()))
+                        {
+                            s = file.FullName;
+                            c.PATH = file.FullName;
+                            Text = c.ToString();
+                        }
+                    }
                 }
             }
+            else
+                s = c.PATH;
+            
+            CancionLocalReproduciendo = s;
             nucleo.Apagar();
             try
             {
@@ -109,7 +128,7 @@ namespace aplicacion_musica
             }
             catch (Exception)
             {
-
+                MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
                 return;
             }
             PrepararReproductor();

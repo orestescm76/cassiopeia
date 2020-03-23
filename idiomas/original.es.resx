@@ -473,4 +473,10 @@
   <data name="reproducirSpotify" xml:space="preserve">
     <value>Reproducir en Spotify</value>
   </data>
+  <data name="errorBorrado" xml:space="preserve">
+    <value>Este álbum tiene una referencia a un disco físico, no puedes borrarlo.</value>
+  </data>
+  <data name="errorReproduccion" xml:space="preserve">
+    <value>No se puede reproducir el fichero porque está siendo utilizado por otro proceso</value>
+  </data>
 </root>

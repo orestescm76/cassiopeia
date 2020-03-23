@@ -170,7 +170,7 @@
             // 
             // timerSpotify
             // 
-            this.timerSpotify.Interval = 300;
+            this.timerSpotify.Interval = 250;
             this.timerSpotify.Tick += new System.EventHandler(this.timerSpotify_Tick);
             // 
             // labelVolumen

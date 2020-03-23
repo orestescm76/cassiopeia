@@ -104,6 +104,7 @@ namespace aplicacion_musica
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            album.ProtegerBorrado();
             EstadoMedio exterior = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), comboBoxEstadoExterior.SelectedIndex.ToString());
             EstadoMedio medio = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), comboBoxEstadoMedio.SelectedIndex.ToString());
             FormatoCD formato = (FormatoCD)Enum.Parse(typeof(FormatoCD), comboBoxFormatoCD.SelectedIndex.ToString());
@@ -135,7 +136,16 @@ namespace aplicacion_musica
             }
             else
             {
-                DiscoCompacto cd = new DiscoCompacto(s, album.numCanciones, medio, exterior, formato, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
+                DiscoCompacto cd = null;
+                try
+                {
+                     cd = new DiscoCompacto(s, album.numCanciones, medio, exterior, formato, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
+
+                }
+                catch (Exception)
+                {
+                     cd = new DiscoCompacto(s, album.numCanciones, medio, exterior, formato, 0, textBoxPais.Text);
+                }
                 Programa.miColeccion.AgregarCD(ref cd);
                 visualizarAlbum v = new visualizarAlbum(ref cd);
                 v.Show();

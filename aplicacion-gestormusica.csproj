@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icono.ico</ApplicationIcon>
@@ -85,6 +87,7 @@
     <Compile Include="src\Classes\Disco.cs" />
     <Compile Include="src\Classes\DiscoCompacto.cs" />
     <Compile Include="src\Classes\Genero.cs" />
+    <Compile Include="src\Classes\LectorMetadatos.cs" />
     <Compile Include="src\Classes\ListaReproduccion.cs" />
     <Compile Include="src\Classes\Log.cs" />
     <Compile Include="src\Classes\ReproductorNucleo.cs" />
@@ -160,9 +163,7 @@
     <Compile Include="src\Forms\visualizarAlbum.Designer.cs">
       <DependentUpon>visualizarAlbum.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Misc\BloqueFLAC.cs" />
     <Compile Include="src\Misc\ClaveAPI.cs" />
-    <Compile Include="src\Misc\FicheroFLAC.cs" />
     <Compile Include="src\Misc\ListViewItemComparer.cs" />
     <Compile Include="src\Misc\NVorbisSource.cs" />
     <Compile Include="src\Misc\Settings.cs" />

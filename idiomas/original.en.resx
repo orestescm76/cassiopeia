@@ -468,4 +468,7 @@
   <data name="vincular" xml:space="preserve">
     <value>Link to your Spotify Account</value>
   </data>
+  <data name="errorBorrado" xml:space="preserve">
+    <value>This album has a reference to a physical record, you cannot delete it.</value>
+  </data>
 </root>

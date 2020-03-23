@@ -40,6 +40,7 @@ namespace aplicacion_musica
                     break;
                 case ".flac":
                     _ficheroFLAC = new FLACFile(cual, true);
+                    CSCore.Codecs.FLAC.FlacFile ff = new CSCore.Codecs.FLAC.FlacFile(cual);
                     FormatoSonido = FormatoSonido.FLAC;
                     break;
                 case ".ogg":
@@ -69,6 +70,11 @@ namespace aplicacion_musica
                 _sonido.Position = 0;
                 _salida.Initialize(_sonido);
                 Log.Instance.ImprimirMensaje("Cargado correctamente" + cual, TipoMensaje.Correcto);
+            }
+            catch (IOException)
+            {
+                Log.Instance.ImprimirMensaje("No se puede reproducir el fichero porque está siendo utilizado por otro proceso", TipoMensaje.Error);
+                throw;
             }
             catch (Exception)
             {
@@ -161,10 +167,6 @@ namespace aplicacion_musica
                 default:
                     return null;
             }
-        }
-        public void ConfigurarOGG()
-        {
-            CSCore.Codecs.CodecFactory.Instance.Register("ogg-vorbis", new CSCore.Codecs.CodecFactoryEntry(s => new NVorbisSource(s).ToWaveSource(), ".ogg"));
         }
         public String GetDatos()
         {

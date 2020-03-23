@@ -16,19 +16,25 @@ namespace aplicacion_musica
             cds = new List<DiscoCompacto>();
         }
         public void agregarAlbum(ref Album a) { albumes.Add(a); }
-        public void quitarAlbum(ref Album a) { albumes.Remove(a); }
+        public void quitarAlbum(ref Album a) 
+        {
+            if (a.PuedeBorrarse)
+                albumes.Remove(a);
+            else
+                throw new InvalidOperationException();
+        }
         /// <summary>
         /// busca álbumes con un título en concreto
         /// </summary>
         /// <param name="titulo">título del álbum a buscar</param>
         /// <returns>un array con los álbumes encontrados</returns>
-        public Album[] buscarAlbum(string titulo)
+        public List<Album> buscarAlbum(string titulo)
         {
-            Album[] encontrados = new Album[0];
+            List<Album> encontrados = new List<Album>();
             foreach(Album a in albumes)
             {
                 if (a.nombre == titulo)
-                    encontrados[encontrados.Length] = a;
+                    encontrados.Add(a);
             }
             return encontrados;
         }

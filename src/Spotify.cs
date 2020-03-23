@@ -79,7 +79,7 @@ namespace aplicacion_musica
         }
         private void iniciarModoStream()
         {
-            //try
+            try
             {
                 Log.Instance.ImprimirMensaje("Intentando conectar cuenta de Spotify", TipoMensaje.Info, "Spotify.iniciarModoStream()");
                 Programa.HayInternet(true);
@@ -123,18 +123,18 @@ namespace aplicacion_musica
                 auth.Start();
                 auth.OpenBrowser();
             }
-            //catch (NullReferenceException)
-            //{
-            //    Programa.HayInternet(false);
-            //    Console.WriteLine("No tienes internet");
-            //    System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
-            //}
-            //catch (HttpRequestException)
-            //{
-            //    Programa.HayInternet(false);
-            //    Console.WriteLine("No tienes internet");
-            //    System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
-            //}
+            catch (NullReferenceException)
+            {
+                Programa.HayInternet(false);
+                Console.WriteLine("Algo fue mal");
+                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+            }
+            catch (HttpRequestException)
+            {
+                Programa.HayInternet(false);
+                Console.WriteLine("No tienes internet");
+                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+            }
         }
         public void RefrescarToken()
         {

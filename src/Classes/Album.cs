@@ -17,6 +17,8 @@ namespace aplicacion_musica
         public Genero genero { get; set; }
         public String IdSpotify { get; private set; }
         public String DirectorioSonido { get; set; }
+        [JsonIgnore]
+        public bool PuedeBorrarse { get; private set; }
         public Album() { }
         public Album(Genero g, string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
@@ -28,6 +30,7 @@ namespace aplicacion_musica
             canciones = new List<Cancion>(nc);
             caratula = c;
             genero = g;
+            PuedeBorrarse = false;
         }
         public Album(string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
@@ -38,6 +41,7 @@ namespace aplicacion_musica
             numCanciones = nc;
             caratula = c;
             genero = new Genero("");
+            PuedeBorrarse = false;
         }
         public Album(Album a)
         {
@@ -48,6 +52,7 @@ namespace aplicacion_musica
             numCanciones = a.numCanciones;
             canciones = a.canciones;
             caratula = a.caratula;
+            PuedeBorrarse = false;
         }
         public void agregarCancion(Cancion c)
         {
@@ -158,6 +163,14 @@ namespace aplicacion_musica
         public String GetTerminoBusqueda()
         {
             return artista + " " + nombre;
+        }
+        public void ProtegerBorrado()
+        {
+            PuedeBorrarse = false;
+        }
+        public void LevantarBorrado()
+        {
+            PuedeBorrarse = true;
         }
     }
 }

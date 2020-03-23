@@ -17,17 +17,17 @@ namespace aplicacion_musica
         {
             Canciones.Add(c);
         }
-        public Cancion GetCancion(uint cual) //¡sobre 0!
+        public Cancion GetCancion(int cual) //¡sobre 0!
         {
             return Canciones[(int)cual];
         }
-        public bool Final(uint i)
+        public bool Final(int i)
         {
             if (Canciones.Count == i-1)
                 return true;
             else return false;
         }
-        public bool Inicio(uint i)
+        public bool Inicio(int i)
         {
             if (i == 0)
                 return true;
@@ -50,5 +50,13 @@ namespace aplicacion_musica
         {
             Shuffle(Canciones);
         }
+
+        public Cancion this[int key]
+        {
+            get => Canciones[key];
+            set => Canciones[key] = value;
+        }
+
+
     }
 }

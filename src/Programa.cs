@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.5.0.62 CODENAME RAVEN
+/* VERSION 1.5.0.63 CODENAME RAVEN
 * Reproductor:
 *  Reproduce en FLAC, MP3 y OGG
 *  Soporta metadatos en FLAC y MP3
@@ -107,6 +107,7 @@ namespace aplicacion_musica
                     a.genero = generos[findGenero(a.genero.Id)];
                     a.ConfigurarCanciones();
                     miColeccion.agregarAlbum(ref a);
+                    a.LevantarBorrado();
                 }
             }
             crono.Stop();
@@ -175,8 +176,8 @@ namespace aplicacion_musica
                     }
                     if (exito)
                         miColeccion.agregarAlbum(ref a);
+                    a.LevantarBorrado();
                 }
-
             }
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargados " + miColeccion.albumes.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
@@ -195,8 +196,47 @@ namespace aplicacion_musica
                     DiscoCompacto cd = JsonConvert.DeserializeObject<DiscoCompacto>(linea);
                     cd.InstallAlbum();
                     miColeccion.AgregarCD(ref cd);
+                    cd.Album.ProtegerBorrado();
                 }
             }
+        }
+        private static void CargarPATHS()
+        {
+            using(StreamReader entrada = new FileInfo("paths.txt").OpenText())
+            {
+                string linea = null;
+                while(!entrada.EndOfStream)
+                {
+                    linea = entrada.ReadLine();
+                    string[] datos = linea.Split(';');
+                    Album a = miColeccion.buscarAlbum(datos[2])[0];
+                    Cancion c = a.canciones[a.buscarCancion(datos[1])];
+                    linea = entrada.ReadLine();
+                    c.PATH = linea;
+                }
+            }
+        }
+        private static void GuardarPATHS()
+        {
+            Log.Instance.ImprimirMensaje("Guardando PATHS", TipoMensaje.Info);
+            Stopwatch crono = Stopwatch.StartNew();
+            using(StreamWriter salida = new FileInfo("paths.txt").CreateText())
+            {
+                foreach (Album album in miColeccion.albumes)
+                {
+                    if (string.IsNullOrEmpty(album.DirectorioSonido))
+                        continue;
+                    foreach (Cancion cancion in album.canciones)
+                    {
+                        if (!string.IsNullOrEmpty(cancion.PATH))
+                        {
+                            salida.Write(cancion.GuardarPATH());
+                        }
+                    }
+                }
+            }
+            crono.Stop();
+            Log.Instance.ImprimirMensaje("Guardados los PATHS", TipoMensaje.Correcto, crono);
         }
         [STAThread]
         static void Main(String[] args)
@@ -236,6 +276,8 @@ namespace aplicacion_musica
                 principal.HayInternet(false);
             }
             Reproductor reproductor = Reproductor.Instancia;
+
+            Log.ImprimirMensaje("Configurando géneros",TipoMensaje.Info);
             for (int i = 0; i < idGeneros.Length; i++)
             {
                 if (idGeneros[i] == "")
@@ -253,9 +295,7 @@ namespace aplicacion_musica
             {
                 if (args.Length != 0 && args.Contains("-pregunta"))//cambiar parametro para cargar otro fichero
                 {
-                    ////DialogResult resultado = MessageBox.Show(Programa.textosLocal[16], "", MessageBoxButtons.YesNo);
-                    //if (resultado == DialogResult.Yes)
-                    //    Programa.miColeccion.cargarAlbumes("discos.mdb");
+
                 }
                 else
                 {
@@ -267,6 +307,8 @@ namespace aplicacion_musica
             {
                 Log.ImprimirMensaje("discos.json no existe, se creará una base de datos vacía.", TipoMensaje.Advertencia);
             }
+            if (File.Exists("paths.txt"))
+                CargarPATHS();
             if (!args.Contains("-reproductor"))
                 Application.Run(principal);
             else
@@ -275,8 +317,9 @@ namespace aplicacion_musica
                 Application.Run(Reproductor.Instancia);
                 //Reproductor.Instancia.Show();
             }
-
-            tareaRefrescoToken.Abort();
+            if(_spotify != null)
+                tareaRefrescoToken.Abort();
+            GuardarPATHS();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();
             if (args.Contains("-consola"))
@@ -285,5 +328,6 @@ namespace aplicacion_musica
                 Console.ReadKey();
             }
         }
+
     }
 }

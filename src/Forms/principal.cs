@@ -206,7 +206,9 @@ namespace aplicacion_musica
         }
         private void SubIdioma_Click(object sender, EventArgs e)
         {
+
             var menu = sender as ToolStripMenuItem;
+            Log.ImprimirMensaje("Cambiando idioma al" + menu.Text, TipoMensaje.Info);
             string idiomaNuevo = "";
             for (int i = 0; i < opcionesToolStripMenuItem.DropDownItems.Count; i++)
             {
@@ -364,24 +366,26 @@ namespace aplicacion_musica
             {
                 case TipoVista.Digital:
                     Console.WriteLine("Borrando " + vistaAlbumes.SelectedItems.Count + " álbumes");
-                    string[] s = new string[Programa.miColeccion.albumes.Count];
-
- 
                     for (int i = 0; i < cuantos; i++)
                     {
-                        s[i] = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "_" + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
-                        //s[i] = vistaAlbumes.SelectedItems[i].SubItems[0].Text + ',' + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
                         itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
-                        //vistaAlbumes.Items.Remove(vistaAlbumes.Items[vistaAlbumes.SelectedIndices[i]]);
                     }
                     for (int i = 0; i < vistaAlbumes.SelectedIndices.Count; i++)
                     {
-                        Album a = Programa.miColeccion.devolverAlbum(s[i]);
-                        Programa.miColeccion.quitarAlbum(ref a);
-                    }
-                    for (int i = 0; i < cuantos; i++)
-                    {
-                        vistaAlbumes.Items.Remove(itemsABorrar[i]);
+                        try
+                        {
+                            Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[i]);
+                            Programa.miColeccion.quitarAlbum(ref a);
+                            for (int j = 0; j < cuantos; j++)
+                            {
+                                vistaAlbumes.Items.Remove(itemsABorrar[j]);
+                            }
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            MessageBox.Show(Programa.textosLocal.GetString("errorBorrado"));
+                            continue;
+                        }
                     }
                     break;
                 case TipoVista.CD:
@@ -393,9 +397,14 @@ namespace aplicacion_musica
                     for (int i = 0; i < cuantos; i++)
                     {
                         DiscoCompacto cdaborrar = Programa.miColeccion.getCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
-
+                        DiscoCompacto cdd = cdaborrar;
                         Programa.miColeccion.BorrarCD(ref cdaborrar);
-
+                        cdd.Album.LevantarBorrado();
+                        foreach (DiscoCompacto cd in Programa.miColeccion.cds)
+                        {
+                            if (cd.Album == cdd.Album)
+                                cd.Album.ProtegerBorrado();
+                        }
                     }
                     for (int i = 0; i < cuantos; i++)
                     {
