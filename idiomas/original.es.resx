@@ -479,4 +479,10 @@
   <data name="errorReproduccion" xml:space="preserve">
     <value>No se puede reproducir el fichero porque está siendo utilizado por otro proceso</value>
   </data>
+  <data name="reproducir" xml:space="preserve">
+    <value>Reproducir</value>
+  </data>
+  <data name="cerrarModoStream" xml:space="preserve">
+    <value>Doble click aquí para cerrar</value>
+  </data>
 </root>

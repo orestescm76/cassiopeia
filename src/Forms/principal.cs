@@ -199,8 +199,6 @@ namespace aplicacion_musica
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Reproductor.Instancia.Dispose();
-            Reproductor.Instancia.Apagar();
             Application.Exit();
 
         }
@@ -265,11 +263,7 @@ namespace aplicacion_musica
             guardarDiscos("discos.json", TipoGuardado.Digital);
             guardarDiscos("cd.json", TipoGuardado.CD);
             using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
-            {
                 salida.Write(Programa.Idioma);
-            }
-            Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
-            Reproductor.Instancia.Apagar();
         }
 
         private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -768,32 +762,24 @@ namespace aplicacion_musica
             Log.ImprimirMensaje(a.ToString(), TipoMensaje.Info);
             if(a.IdSpotify == null)
             {
-                try
+                SpotifyAPI.Web.Models.SimpleAlbum album = Programa._spotify.DevolverAlbum(a.GetTerminoBusqueda());
+                if (a == null || album == null)
                 {
-                    SpotifyAPI.Web.Models.SimpleAlbum album = Programa._spotify.DevolverAlbum(a.GetTerminoBusqueda());
-                    if (a == null)
+                    Log.ImprimirMensaje("Album fue nulo", TipoMensaje.Error);
+                }
+                else
+                {
+                    SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify.ReproducirAlbum(album.Id);
+                    if (err != null && err.Error != null)
                     {
-                        Log.ImprimirMensaje("Album fue nulo", TipoMensaje.Error);
-                    }
-                    else
-                    {
-                        SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify._spotify.ResumePlayback(contextUri: "spotify:album:" + album.Id, offset: "", positionMs: 0);
-                        if (err != null && err.Error != null)
-                        {
-                            Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");
-                            MessageBox.Show(err.Error.Message);
-                        }
+                        Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");
+                        MessageBox.Show(err.Error.Message);
                     }
                 }
-                catch (NullReferenceException)
-                {
-                    Log.ImprimirMensaje("No se ha encontrado el álbum", TipoMensaje.Advertencia);
-                }
-
             }
             else
             {
-                SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify._spotify.ResumePlayback(contextUri: "spotify:album:" + a.IdSpotify, offset: "", positionMs: 0);
+                SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify.ReproducirAlbum(a.IdSpotify);
                 if (err != null && err.Error != null)
                 {
                     Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");

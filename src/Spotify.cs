@@ -30,7 +30,7 @@ namespace aplicacion_musica
             else
                 iniciarModoStream();
         }
-        public async void SpotifyVinculado()
+        public void SpotifyVinculado()
         {
             iniciarModoStream();
         }
@@ -119,6 +119,8 @@ namespace aplicacion_musica
                     CodigoRefresco = token.RefreshToken;
                     Programa.tareaRefrescoToken = new Thread(Programa.Refresco);
                     Programa.tareaRefrescoToken.Start();
+
+
                 };
                 auth.Start();
                 auth.OpenBrowser();
@@ -303,6 +305,28 @@ namespace aplicacion_musica
         {
             Log.Instance.ImprimirMensaje("Reiniciando Spotify", TipoMensaje.Info);
             authMetadatos = null;
+        }
+        public ErrorResponse ReproducirAlbum(string uri)
+        {
+            return _spotify.ResumePlayback(contextUri: "spotify:album:" + uri, offset: "", positionMs: 0);
+        }
+        public ErrorResponse ReproducirCancion(string uri, int cual)
+        {
+            FullAlbum album = _spotify.GetAlbum(uri);
+            string uricancion = "";
+            if (cual != 0)
+            {
+                for (int i = 0; i <= cual; i++)
+                    uricancion = album.Tracks.Items[i].Id;
+            }
+            else
+                uricancion = album.Tracks.Items.First().Id;
+;            string temp = uricancion;
+            uricancion = "";
+            uricancion += "spotify:track:" + temp;
+            List<string> uris = new List<string>();
+            uris.Add(uricancion);
+            return _spotify.ResumePlayback(uris: uris, offset: "", positionMs: 0);
         }
     }
 }

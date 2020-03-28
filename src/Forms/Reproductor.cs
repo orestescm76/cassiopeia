@@ -7,6 +7,7 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 using System.IO;
 using System.ComponentModel;
+using System.Threading;
 
 namespace aplicacion_musica
 {
@@ -46,7 +47,10 @@ namespace aplicacion_musica
         private float Volumen;
         private ListaReproduccionUI lrui;
         private ToolTip duracionView;
-        private string CancionLocalReproduciendo = "";
+        private bool GuardarHistorial;
+        private FileInfo Historial;
+        private uint NumCancion;
+        Cancion CancionLocalReproduciendo = null;
         //crear una tarea que cada 500ms me cambie la cancion
         public static Reproductor Instancia { get { return ins; } }
         private Reproductor()
@@ -63,6 +67,23 @@ namespace aplicacion_musica
             if (!Programa.SpotifyActivado)
                 buttonSpotify.Enabled = false;
             Icon = Properties.Resources.iconoReproductor;
+            GuardarHistorial = false;
+            if(GuardarHistorial)
+            {
+                DateTime now = DateTime.Now;
+                Historial = new FileInfo("Log Musical " + now.Day + "-"+ now.Month + "-"+ now.Year+"-"+ now.Hour + "."+ now.Minute + ".txt");
+                NumCancion = 1;
+            }
+            PonerTextos();
+            if(Programa.ModoStream)
+            {
+                notifyIcon1.Visible = true;
+                while(!Programa._spotify.cuentaLista)
+                {
+                    Thread.Sleep(100);
+                }
+                ActivarSpotify();
+            }
         }
         public void ReproducirLista(ListaReproduccion lr)
         {
@@ -75,11 +96,13 @@ namespace aplicacion_musica
         private void PonerTextos()
         {
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
+            notifyIcon1.Text = Programa.textosLocal.GetString("cerrarModoStream");
         }
-        private void ReproducirCancion(Cancion c)
+        public void ReproducirCancion(Cancion c)
         {
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
+            CancionLocalReproduciendo = c;
             estadoReproductor = EstadoReproductor.Detenido;
             directorioCanciones = new DirectoryInfo(c.album.DirectorioSonido);
             string s = "";
@@ -96,10 +119,10 @@ namespace aplicacion_musica
             {
                 foreach (FileInfo file in directorioCanciones.GetFiles())
                 {
-                    if (file.FullName == CancionLocalReproduciendo)
+                    if (file.FullName == CancionLocalReproduciendo.PATH)
                         continue;
                     LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                    if (c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.artista.ToLower() == LM.Artista.ToLower())
+                    if (LM.Evaluable() && c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.artista.ToLower() == LM.Artista.ToLower())
                     {
                         s = file.FullName;
                         c.PATH = file.FullName;
@@ -112,24 +135,28 @@ namespace aplicacion_musica
                             s = file.FullName;
                             c.PATH = file.FullName;
                             Text = c.ToString();
+                            break;
                         }
                     }
                 }
             }
             else
                 s = c.PATH;
-            
-            CancionLocalReproduciendo = s;
             nucleo.Apagar();
             try
             {
-                nucleo.CargarCancion(s);
+                nucleo.CargarCancion(CancionLocalReproduciendo.PATH);
                 nucleo.Reproducir();
             }
             catch (Exception)
             {
                 MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
                 return;
+            }
+            using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
+            {
+                escritor.WriteLine(NumCancion + " - " + c.album.artista + " - " + c.titulo);
+                NumCancion++;
             }
             PrepararReproductor();
             if (c.album.caratula != null)
@@ -186,9 +213,32 @@ namespace aplicacion_musica
                 pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
                 if (PC.Item.Id != cancionReproduciendo.Id || pictureBoxCaratula.Image == null)
                 {
-                    trackBarPosicion.Maximum = (int)dur.TotalSeconds;
-                    DescargarPortada(PC.Item.Album);
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                    //using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
+                    //{
+                    //    escritor.WriteLine(NumCancion + " - " + PC.Item.Artists[0].Name + " - " + PC.Item.Name);
+                    //    NumCancion++;
+                    //}
+                    if(!string.IsNullOrEmpty(PC.Item.Id))
+                    {
+                        trackBarPosicion.Maximum = (int)dur.TotalSeconds;
+                        try
+                        {
+                            DescargarPortada(PC.Item.Album);
+                            pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                        }
+                        catch (Exception)
+                        {
+                            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+                        }
+
+                    }
+                    else
+                    {
+                        Log.ImprimirMensaje("Se ha detectado una canción local.", TipoMensaje.Info);
+                        trackBarPosicion.Maximum = (int)dur.TotalSeconds;
+                        pictureBoxCaratula.Image.Dispose();
+                        pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+                    }
                 }
                 if (PC.IsPlaying)
                 {
@@ -202,7 +252,14 @@ namespace aplicacion_musica
                     buttonReproducirPausar.Text = "▶";
                     timerCancion.Enabled = false;
                 }
+                using(StreamWriter salida = new StreamWriter("np.txt"))
+                {
+                    TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
 
+                    salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
+                    salida.Write(np.ToString(@"mm\:ss") + " / ");
+                    salida.Write(dur.ToString(@"mm\:ss"));
+                }
                 if (PC.ShuffleState)
                     checkBoxAleatorio.Checked = true;
                 else
@@ -210,7 +267,10 @@ namespace aplicacion_musica
                 cancionReproduciendo = PC.Item;
                 Text = PC.Item.Artists[0].Name + " - " + cancionReproduciendo.Name;
                 trackBarVolumen.Value = PC.Device.VolumePercent;
-
+                if (string.IsNullOrEmpty(PC.Item.Id))
+                    buttonAgregar.Enabled = false;
+                else
+                    buttonAgregar.Enabled = true;
             }
         }
 
@@ -245,6 +305,10 @@ namespace aplicacion_musica
                 {
                     Log.ImprimirMensaje("Error descargando la imagen", TipoMensaje.Advertencia);
                     File.Delete("./covers/np.jpg");
+                }
+                catch(IOException)
+                {
+                    Log.ImprimirMensaje("Error descargando la imagen, no es posible reemplazar el fichero...", TipoMensaje.Error);
                 }
             }
         }
@@ -292,7 +356,18 @@ namespace aplicacion_musica
             else
                 trackBarPosicion.Enabled = true;
             if (!Spotify && timerCancion.Enabled && nucleo.ComprobarSonido())
+            {
                 pos = nucleo.Posicion();
+                using (StreamWriter salida = new StreamWriter("np.txt"))
+                {
+                    if (CancionLocalReproduciendo == null)
+                        salida.WriteLine(Text);
+                    else
+                        salida.WriteLine(CancionLocalReproduciendo.ToString());
+                    salida.WriteLine(pos.ToString(@"mm\:ss"));
+                }
+            }
+
             if (pos.Seconds < 10)
                 labelPosicion.Text = (int)pos.TotalMinutes + ":0" + (int)pos.Seconds;
             else
@@ -333,7 +408,7 @@ namespace aplicacion_musica
 
         private void Reproductor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!Programa.ModoReproductor)
+            if (!Programa.ModoReproductor || !Programa.ModoStream)
             {
                 Hide();
                 e.Cancel = true;
@@ -349,6 +424,10 @@ namespace aplicacion_musica
         }
         public void Apagar()
         {
+            if(backgroundWorker != null)
+                backgroundWorker.CancelAsync();
+            if(pictureBoxCaratula.Image != null)
+                pictureBoxCaratula.Image.Dispose();
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
             nucleo.Apagar();
@@ -656,21 +735,23 @@ namespace aplicacion_musica
             Icon = Properties.Resources.iconoReproductor;
             buttonAgregar.Hide();
         }
-        private void ActivarSpotify()
+        public void ActivarSpotify()
         {
             try
             {
+                timerMetadatos.Enabled = false;
+                timerCancion.Enabled = false;
                 nucleo.Apagar();
             }
-            catch (NullReferenceException)
+            catch (Exception)
             {
-                
             }
             if (Programa.SpotifyActivado)
             {
-                if (!SpotifyListo)
+                if (!SpotifyListo || Programa.ModoStream)
                 {
                     PrepararSpotify();
+
                 }
                 try
                 {
@@ -707,6 +788,11 @@ namespace aplicacion_musica
         private void buttonAgregar_Click(object sender, EventArgs e)
         {
             Programa._spotify.insertarAlbumFromURI(cancionReproduciendo.Album.Id);
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

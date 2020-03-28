@@ -9,13 +9,14 @@ namespace aplicacion_musica
         public String nombre { get; set; }
         public String artista { get; set; }
         public short year { get; set; }
+        [JsonIgnore]
         public short numCanciones { get; set; }
         [JsonIgnore]
         public TimeSpan duracion { get; set; }
         public List<Cancion> canciones { get; set; }
         public String caratula { get; set; }
         public Genero genero { get; set; }
-        public String IdSpotify { get; private set; }
+        public String IdSpotify { get; set; }
         public String DirectorioSonido { get; set; }
         [JsonIgnore]
         public bool PuedeBorrarse { get; private set; }

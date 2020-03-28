@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Reproductor));
             this.trackBarPosicion = new System.Windows.Forms.TrackBar();
             this.buttonReproducirPausar = new System.Windows.Forms.Button();
             this.timerCancion = new System.Windows.Forms.Timer(this.components);
@@ -50,6 +51,7 @@
             this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
             this.timerMetadatos = new System.Windows.Forms.Timer(this.components);
             this.buttonAgregar = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -253,6 +255,13 @@
             this.buttonAgregar.UseVisualStyleBackColor = true;
             this.buttonAgregar.Click += new System.EventHandler(this.buttonAgregar_Click);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
             // Reproductor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -313,5 +322,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCorreoUsuario;
         private System.Windows.Forms.Timer timerMetadatos;
         private System.Windows.Forms.Button buttonAgregar;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }

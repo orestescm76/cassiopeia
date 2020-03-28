@@ -100,9 +100,15 @@ namespace aplicacion_musica
                 buttonAnotaciones.Text = "Reproducir";
             setBonusToolStripMenuItem.Text = Programa.textosLocal.GetString("setBonus");
             setLargaToolStripMenuItem.Text = Programa.textosLocal.GetString("setLarga");
+            reproducirToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducir");
+            reproducirspotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
         }
         private void cargarVista()
         {
+            if (string.IsNullOrEmpty(albumAVisualizar.IdSpotify) || !Programa._spotify.cuentaLista)
+                reproducirspotifyToolStripMenuItem.Enabled = false;
+            if (string.IsNullOrEmpty(albumAVisualizar.DirectorioSonido))
+                reproducirToolStripMenuItem.Enabled = false;
             ListViewItem[] items = new ListViewItem[albumAVisualizar.canciones.Count];
             int i = 0, j = 0, d = 0;
             TimeSpan durBonus = new TimeSpan();
@@ -375,6 +381,22 @@ namespace aplicacion_musica
                 explorador.Start();
                 Log.Instance.ImprimirMensaje("Abierto explorer con PID: " + explorador.Id, TipoMensaje.Info);
             }
+        }
+
+        private void reproducirspotifyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(!string.IsNullOrEmpty(albumAVisualizar.IdSpotify))
+            {
+                SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify.ReproducirCancion(albumAVisualizar.IdSpotify, vistaCanciones.SelectedItems[0].Index);
+                if (err.Error != null && err.Error.Message != null)
+                    MessageBox.Show(err.Error.Message);
+            }
+                
+        }
+        private void reproducirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Cancion cancionAReproducir = albumAVisualizar.getCancion(vistaCanciones.SelectedItems[0].Index);
+            Reproductor.Instancia.ReproducirCancion(cancionAReproducir);
         }
     }
 }

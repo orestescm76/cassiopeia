@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.5.0.63 CODENAME RAVEN
+/* VERSION 1.5.0.65 CODENAME RAVEN
 * Reproductor:
 *  Reproduce en FLAC, MP3 y OGG
 *  Soporta metadatos en FLAC y MP3
@@ -17,6 +17,9 @@ using System.Threading;
 *  Con tiempo actualizable, se puede saltar
 * Spotify:
 *  Ahora se puede vincular la app.
+*  
+*  Gestor:
+*  Reproducir una cancion en local o Spotify desde la visualización
 */
 namespace aplicacion_musica
 {
@@ -42,6 +45,7 @@ namespace aplicacion_musica
         public static Configuration config;
         public static bool ModoReproductor = false;
         public static Thread tareaRefrescoToken;
+        public static bool ModoStream = false;
         public static void Refresco()
         {
             while(true)
@@ -105,6 +109,7 @@ namespace aplicacion_musica
                     Album a = JsonConvert.DeserializeObject<Album>(LineaJson);
                     a.RefrescarDuracion();
                     a.genero = generos[findGenero(a.genero.Id)];
+                    a.numCanciones = (short)a.canciones.Count;
                     a.ConfigurarCanciones();
                     miColeccion.agregarAlbum(ref a);
                     a.LevantarBorrado();
@@ -242,7 +247,6 @@ namespace aplicacion_musica
         static void Main(String[] args)
         {
             Log Log = Log.Instance;
-
             if(args.Contains("-consola"))
             {
                 AllocConsole();
@@ -275,6 +279,8 @@ namespace aplicacion_musica
                 _spotify = null;
                 principal.HayInternet(false);
             }
+            if (args.Contains("-modoStream"))
+                ModoStream = true;
             Reproductor reproductor = Reproductor.Instancia;
 
             Log.ImprimirMensaje("Configurando géneros",TipoMensaje.Info);
@@ -309,7 +315,11 @@ namespace aplicacion_musica
             }
             if (File.Exists("paths.txt"))
                 CargarPATHS();
-            if (!args.Contains("-reproductor"))
+            if(ModoStream)
+            {
+                Application.Run();
+            }
+            else if (!args.Contains("-reproductor"))
                 Application.Run(principal);
             else
             {
@@ -322,6 +332,11 @@ namespace aplicacion_musica
             GuardarPATHS();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();
+            Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
+            Reproductor.Instancia.Apagar();
+            Reproductor.Instancia.Dispose();
+            if (File.Exists("./covers/np.jpg"))
+                File.Delete("./covers/np.jpg");
             if (args.Contains("-consola"))
             {
                 Console.WriteLine("Programa finalizado, presione una tecla para continuar...");

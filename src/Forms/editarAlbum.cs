@@ -77,9 +77,9 @@ namespace aplicacion_musica
                 albumAEditar.DirectorioSonido = labelDirectorioActual.Text;
                 string[] uriSpotify = textBoxURISpotify.Text.Split(':');
                 if(uriSpotify.Length == 3)
-                    albumAEditar.SetSpotifyID(uriSpotify[2]);
+                    albumAEditar.IdSpotify = (uriSpotify[2]);
                 else
-                    albumAEditar.SetSpotifyID(textBoxURISpotify.Text);
+                    albumAEditar.IdSpotify = (textBoxURISpotify.Text);
                 foreach (Cancion c in albumAEditar.canciones)
                 {
                     if(!c.Bonus)
