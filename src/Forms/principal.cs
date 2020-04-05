@@ -225,38 +225,13 @@ namespace aplicacion_musica
         }
         private void guardarDiscos(string nombre, TipoGuardado tipoGuardado)
         {
-            FileInfo fich = new FileInfo(nombre);
-            using (StreamWriter salida = fich.CreateText())
+            if (tipoGuardado == TipoGuardado.Digital)
             {
-
-                Stopwatch crono = Stopwatch.StartNew();
-                switch (tipoGuardado)
-                {
-                    case TipoGuardado.Digital:
-                        Log.ImprimirMensaje(nameof(guardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.albumes.Count + " discos)", TipoMensaje.Info);
-                        Log.ImprimirMensaje("Nombre del fichero: " + nombre, TipoMensaje.Info);
-                        foreach (Album a in Programa.miColeccion.albumes)
-                        {
-                            salida.WriteLine(JsonConvert.SerializeObject(a));
-                        }
-                        break;
-                    case TipoGuardado.CD:
-                        Log.ImprimirMensaje(nameof(guardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.cds.Count + " discos)", TipoMensaje.Info);
-                        Log.ImprimirMensaje("Nombre del fichero: " + nombre, TipoMensaje.Info);
-                        foreach (DiscoCompacto compacto in Programa.miColeccion.cds)
-                        {
-                            salida.WriteLine(JsonConvert.SerializeObject(compacto));
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
-                crono.Stop();
-                Log.ImprimirMensaje(nameof(guardarDiscos) + "- Guardado", TipoMensaje.Correcto, crono);
-                fich.Refresh();
-                Log.ImprimirMensaje("Tamaño: " + fich.Length + " bytes", TipoMensaje.Info);
+                nombre = nombre.Replace(".json", ".csv");
+                Programa.GuardarDiscos(nombre, TipoGuardado.Digital);
             }
+            else
+                Programa.GuardarDiscos(nombre, tipoGuardado, true);
         }
         private void salidaAplicacion(object sender, EventArgs e)
         {
@@ -704,11 +679,11 @@ namespace aplicacion_musica
         {
             Log.ImprimirMensaje("Abriendo desde fichero", TipoMensaje.Info);
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
-            openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .mdb (*.mdb)|*.mdb";
+            openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .mdb (*.mdb)|*.mdb | "+Programa.textosLocal.GetString("archivo")+" .csv|*.csv";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
-                Programa.cargarAlbumesLegacy(fichero);
+                Programa.cargarAlbumesCSV(fichero);
             }
             cargarVista();
         }
@@ -787,6 +762,12 @@ namespace aplicacion_musica
                 }
             }
 
+        }
+
+        private void guardarCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Programa.GuardarDiscos("discosCSV.csv", TipoGuardado.Digital);
+            MessageBox.Show("Done!");
         }
     }
 }

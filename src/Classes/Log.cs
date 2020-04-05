@@ -55,7 +55,7 @@ namespace aplicacion_musica
             switch (tm)
             {
                 case TipoMensaje.Info:
-                    Console.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " +crono.ElapsedTicks/10000 + "ms");
+                    Console.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
                     Fichero.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
                     break;
                 case TipoMensaje.Correcto:

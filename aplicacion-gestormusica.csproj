@@ -163,6 +163,7 @@
     <Compile Include="src\Forms\visualizarAlbum.Designer.cs">
       <DependentUpon>visualizarAlbum.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Misc\CancionConverter.cs" />
     <Compile Include="src\Misc\ClaveAPI.cs" />
     <Compile Include="src\Misc\ListViewItemComparer.cs" />
     <Compile Include="src\Misc\NVorbisSource.cs" />

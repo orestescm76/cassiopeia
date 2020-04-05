@@ -105,7 +105,7 @@ namespace aplicacion_musica
         }
         private void cargarVista()
         {
-            if (string.IsNullOrEmpty(albumAVisualizar.IdSpotify) || !Programa._spotify.cuentaLista)
+            if (string.IsNullOrEmpty(albumAVisualizar.IdSpotify) || (Programa._spotify == null || Programa._spotify.cuentaLista))
                 reproducirspotifyToolStripMenuItem.Enabled = false;
             if (string.IsNullOrEmpty(albumAVisualizar.DirectorioSonido))
                 reproducirToolStripMenuItem.Enabled = false;
@@ -245,7 +245,6 @@ namespace aplicacion_musica
         {
             Dispose();
         }
-
         private void editarButton_Click(object sender, EventArgs e)
         {
             if(CDaVisualizar is null)

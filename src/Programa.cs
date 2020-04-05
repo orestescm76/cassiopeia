@@ -119,7 +119,7 @@ namespace aplicacion_musica
             Log.Instance.ImprimirMensaje("Cargados " + miColeccion.albumes.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
             refrescarVista();
         }
-        public static void cargarAlbumesLegacy(string fichero)
+        public static void cargarAlbumesCSV(string fichero)
         {
             Log.Instance.ImprimirMensaje("Cargando álbumes CSV almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumesLegacy(string)");
             Stopwatch crono = Stopwatch.StartNew();
@@ -135,14 +135,16 @@ namespace aplicacion_musica
                     short nC = Convert.ToInt16(datos[3]);
                     int gen = Programa.findGenero(datos[4]);
                     Genero g = Programa.generos[gen];
-                    if (datos[5] == null) datos[5] = "";
+                    if (string.IsNullOrEmpty(datos[5])) datos[5] = string.Empty;
                     Album a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
+                    if (!string.IsNullOrEmpty(datos[6]))
+                        a.SetSpotifyID(datos[6]);
                     bool exito = false;
                     for (int i = 0; i < nC; i++)
                     {
                         exito = false;
                         linea = lector.ReadLine();
-                        if (linea == null || linea == "")
+                        if (string.IsNullOrEmpty(linea))
                         {
                             /*System.Windows.Forms.MessageBox.Show("mensajeError"+Environment.NewLine
                                 + a.nombre + " - " + a.nombre + Environment.NewLine
@@ -153,9 +155,9 @@ namespace aplicacion_musica
                         {
                             exito = true;
                             string[] datosCancion = linea.Split(';');
-                            if (datosCancion.Length == 3)
+                            if (datosCancion.Length == 2)
                             {
-                                Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])), ref a);
+                                Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
                                 a.agregarCancion(c, i);
                             }
                             else
@@ -166,7 +168,7 @@ namespace aplicacion_musica
                                 {
                                     linea = lector.ReadLine();
                                     datosCancion = linea.Split(';');
-                                    Cancion c = new Cancion(datosCancion[0], new TimeSpan(0, Convert.ToInt32(datosCancion[1]), Convert.ToInt32(datosCancion[2])), ref a);
+                                    Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
                                     cl.addParte(ref c);
                                 }
                                 a.agregarCancion(cl, i);
@@ -207,6 +209,7 @@ namespace aplicacion_musica
         }
         private static void CargarPATHS()
         {
+            Log.Instance.ImprimirMensaje("Cargando PATHS", TipoMensaje.Info);
             using(StreamReader entrada = new FileInfo("paths.txt").OpenText())
             {
                 string linea = null;
@@ -242,6 +245,84 @@ namespace aplicacion_musica
             }
             crono.Stop();
             Log.Instance.ImprimirMensaje("Guardados los PATHS", TipoMensaje.Correcto, crono);
+        }
+        public static void GuardarDiscos(string path, TipoGuardado tipoGuardado, bool json = false)
+        {
+            Stopwatch crono = Stopwatch.StartNew();
+            FileInfo fich = new FileInfo(path);
+            if (json)
+            {
+                using (StreamWriter salida = fich.CreateText())
+                {
+                    switch (tipoGuardado)
+                    {
+                        case TipoGuardado.Digital:
+                            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.albumes.Count + " discos)", TipoMensaje.Info);
+                            Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
+                            foreach (Album a in Programa.miColeccion.albumes)
+                            {
+                                JsonSerializer s = new JsonSerializer();
+                                s.TypeNameHandling = TypeNameHandling.All;
+                                salida.WriteLine(JsonConvert.SerializeObject(a));
+                            }
+                            break;
+                        case TipoGuardado.CD:
+                            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.cds.Count + " cds)", TipoMensaje.Info);
+                            Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
+                            foreach (DiscoCompacto compacto in Programa.miColeccion.cds)
+                            {
+                                salida.WriteLine(JsonConvert.SerializeObject(compacto));
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    fich.Refresh();
+                }
+                Log.Instance.ImprimirMensaje("Tamaño: " + fich.Length + " bytes", TipoMensaje.Info);
+            }
+            else
+            {
+                using (StreamWriter salida = fich.CreateText())
+                {
+                    switch (tipoGuardado)
+                    {
+                        case TipoGuardado.Digital:
+                            foreach (Album a in miColeccion.albumes)
+                            {
+                                if (!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
+                                {
+                                    salida.WriteLine(a.nombre + ";" + a.artista + ";" + a.year + ";" + a.numCanciones + ";" + a.genero.Id + ";" + a.caratula + ";"+a.IdSpotify);
+                                    for (int i = 0; i < a.numCanciones; i++)
+                                    {
+                                        if (a.canciones[i] is CancionLarga cl)
+                                        {
+                                            salida.WriteLine(cl.titulo + ";" + cl.Partes.Count + ";P");//no tiene duracion y son 2 datos a guardar mas flag
+                                            foreach (Cancion parte in cl.Partes)
+                                            {
+                                                salida.WriteLine(parte.titulo + ";" + parte.duracion.TotalSeconds);
+                                            }
+
+                                        }
+                                        else
+                                            salida.WriteLine(a.canciones[i].titulo + ";" + a.canciones[i].duracion.TotalSeconds);
+                                    }
+                                }
+                                salida.WriteLine();
+                            }
+                            break;
+                        case TipoGuardado.CD:
+                            break;
+                        case TipoGuardado.Vinilo:
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            }
+            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + "- Guardado", TipoMensaje.Correcto, crono);
+            crono.Stop();
         }
         [STAThread]
         static void Main(String[] args)

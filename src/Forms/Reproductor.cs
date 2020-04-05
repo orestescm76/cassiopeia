@@ -8,6 +8,7 @@ using SpotifyAPI.Web.Models;
 using System.IO;
 using System.ComponentModel;
 using System.Threading;
+using System.Diagnostics;
 
 namespace aplicacion_musica
 {
@@ -51,6 +52,8 @@ namespace aplicacion_musica
         private FileInfo Historial;
         private uint NumCancion;
         Cancion CancionLocalReproduciendo = null;
+        private bool foobar2000 = true;
+        Process foobar2kInstance = null;
         //crear una tarea que cada 500ms me cambie la cancion
         public static Reproductor Instancia { get { return ins; } }
         private Reproductor()
@@ -75,15 +78,16 @@ namespace aplicacion_musica
                 NumCancion = 1;
             }
             PonerTextos();
-            if(Programa.ModoStream)
+            if (Programa.ModoStream)
             {
                 notifyIcon1.Visible = true;
-                while(!Programa._spotify.cuentaLista)
+                while (!Programa._spotify.cuentaLista)
                 {
                     Thread.Sleep(100);
                 }
                 ActivarSpotify();
             }
+            else notifyIcon1.Visible = false;
         }
         public void ReproducirLista(ListaReproduccion lr)
         {
@@ -286,7 +290,7 @@ namespace aplicacion_musica
                 Log.ImprimirMensaje("Token caducado!", TipoMensaje.Advertencia);
                 while(Programa._spotify.TokenExpirado())
                 {
-                    System.Threading.Thread.Sleep(500);
+                    Thread.Sleep(100);
                 }
             }
         }
@@ -347,7 +351,18 @@ namespace aplicacion_musica
                 }
             }
             Log.ImprimirMensaje("Iniciando el Reproductor en modo local",TipoMensaje.Info);
+            try
+            {
+                foobar2kInstance = Process.GetProcessesByName("foobar2000")[0];
+                Log.ImprimirMensaje("Se ha encontrado foobar2000", TipoMensaje.Correcto);
+            }
+            catch (IndexOutOfRangeException)
+            {
 
+                Log.ImprimirMensaje("No se ha encontrado foobar2000", TipoMensaje.Info);
+                foobar2kInstance = null;
+                checkBox1.Enabled = false;
+            }
         }
         private void timerCancion_Tick(object sender, EventArgs e)
         {
@@ -364,14 +379,11 @@ namespace aplicacion_musica
                         salida.WriteLine(Text);
                     else
                         salida.WriteLine(CancionLocalReproduciendo.ToString());
-                    salida.WriteLine(pos.ToString(@"mm\:ss"));
+                    salida.Write(pos.ToString(@"mm\:ss") + " / ");
+                    salida.Write(dur.ToString(@"mm\:ss"));
                 }
             }
-
-            if (pos.Seconds < 10)
-                labelPosicion.Text = (int)pos.TotalMinutes + ":0" + (int)pos.Seconds;
-            else
-                labelPosicion.Text = (int)pos.TotalMinutes + ":" + (int)pos.Seconds;
+            labelPosicion.Text = pos.ToString(@"mm\:ss");
             if (pos > dur)
                 dur = pos;
             if(TiempoRestante)
@@ -385,13 +397,14 @@ namespace aplicacion_musica
             }
             else
             {
-                if (dur.Seconds < 10)
-                    labelDuracion.Text = (int)dur.TotalMinutes + ":0" + (int)dur.Seconds;
-                else
-                    labelDuracion.Text = (int)dur.TotalMinutes + ":" + (int)dur.Seconds;
+                labelDuracion.Text = dur.ToString(@"mm\:ss");
             }
-            double val = pos.TotalMilliseconds / dur.TotalMilliseconds * trackBarPosicion.Maximum;
-            trackBarPosicion.Value = (int)val;
+            if(nucleo.ComprobarSonido())
+            {
+                double val = pos.TotalMilliseconds / dur.TotalMilliseconds * trackBarPosicion.Maximum;
+                trackBarPosicion.Value = (int)val;
+            }
+
             if (pos == dur)
             {
                 estadoReproductor = EstadoReproductor.Detenido;
@@ -793,6 +806,33 @@ namespace aplicacion_musica
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox1.Checked)
+            {
+                nucleo.Apagar();
+                timerCancion.Enabled = false;
+                timerFoobar.Enabled = true;
+                foobar2000 = true;
+                buttonReproducirPausar.Enabled = false;
+            }
+            else
+            {
+                timerFoobar.Enabled = false;
+                foobar2000 = false;
+                buttonReproducirPausar.Enabled = true;
+            }
+        }
+
+        private void timerFoobar_Tick(object sender, EventArgs e)
+        {
+            foobar2kInstance = Process.GetProcessById(foobar2kInstance.Id);
+            using (StreamWriter salida  = new StreamWriter("np.txt", false))
+            {
+                salida.WriteLine(foobar2kInstance.MainWindowTitle);
+            }
         }
     }
 }

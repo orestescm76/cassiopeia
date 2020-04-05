@@ -52,6 +52,8 @@
             this.timerMetadatos = new System.Windows.Forms.Timer(this.components);
             this.buttonAgregar = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.timerFoobar = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -262,11 +264,30 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox1.Location = new System.Drawing.Point(278, 484);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(75, 25);
+            this.checkBox1.TabIndex = 15;
+            this.checkBox1.Text = "foobar";
+            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // timerFoobar
+            // 
+            this.timerFoobar.Interval = 2000;
+            this.timerFoobar.Tick += new System.EventHandler(this.timerFoobar_Tick);
+            // 
             // Reproductor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(365, 592);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.buttonAgregar);
             this.Controls.Add(this.buttonSaltarAtras);
             this.Controls.Add(this.buttonSaltarAdelante);
@@ -323,5 +344,7 @@
         private System.Windows.Forms.Timer timerMetadatos;
         private System.Windows.Forms.Button buttonAgregar;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Timer timerFoobar;
     }
 }

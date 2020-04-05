@@ -68,6 +68,7 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.process1 = new System.Diagnostics.Process();
+            this.guardarCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -99,6 +100,7 @@
             this.buscarEnSpotifyToolStripMenuItem,
             this.vincularToolStripMenuItem,
             this.guardarcomo,
+            this.guardarCSVToolStripMenuItem,
             this.salirToolStripMenuItem});
             this.archivoMenuItem1.Name = "archivoMenuItem1";
             this.archivoMenuItem1.Size = new System.Drawing.Size(64, 20);
@@ -390,6 +392,13 @@
             this.process1.StartInfo.UserName = "";
             this.process1.SynchronizingObject = this;
             // 
+            // guardarCSVToolStripMenuItem
+            // 
+            this.guardarCSVToolStripMenuItem.Name = "guardarCSVToolStripMenuItem";
+            this.guardarCSVToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.guardarCSVToolStripMenuItem.Text = "guardarCSV";
+            this.guardarCSVToolStripMenuItem.Click += new System.EventHandler(this.guardarCSVToolStripMenuItem_Click);
+            // 
             // principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -456,5 +465,6 @@
         private System.Windows.Forms.ToolStripMenuItem vincularToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem spotifyToolStripMenuItem;
         private System.Diagnostics.Process process1;
+        private System.Windows.Forms.ToolStripMenuItem guardarCSVToolStripMenuItem;
     }
 }
