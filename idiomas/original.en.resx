@@ -471,4 +471,28 @@
   <data name="errorBorrado" xml:space="preserve">
     <value>This album has a reference to a physical record, you cannot delete it.</value>
   </data>
+  <data name="cerrarModoStream" xml:space="preserve">
+    <value>Double click here to close the app</value>
+  </data>
+  <data name="noPremium" xml:space="preserve">
+    <value>This Spotify account is not Premium, you will not be able to use Spotify from the Music Manager.</value>
+  </data>
+  <data name="reproducirSpotify" xml:space="preserve">
+    <value>Play in Spotify</value>
+  </data>
+  <data name="errorReproduccion" xml:space="preserve">
+    <value>The music file can't be played. Something happened.</value>
+  </data>
+  <data name="buscarDirectorio" xml:space="preserve">
+    <value>Search folder</value>
+  </data>
+  <data name="directorio" xml:space="preserve">
+    <value>Folder where the songs are stored</value>
+  </data>
+  <data name="uriSpotify" xml:space="preserve">
+    <value>Spotify URI</value>
+  </data>
+  <data name="reproducir" xml:space="preserve">
+    <value>Play</value>
+  </data>
 </root>

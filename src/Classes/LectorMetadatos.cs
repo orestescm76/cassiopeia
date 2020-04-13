@@ -58,8 +58,7 @@ namespace aplicacion_musica
         }
         public bool Evaluable()
         {
-            return ((Artista != null) && (Titulo == null)) ? true : false;
-
+            return ((Artista != null) && (Titulo != null)) ? true : false;
         }
     }
 }

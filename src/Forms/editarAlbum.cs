@@ -31,11 +31,13 @@ namespace aplicacion_musica
             labelAño.Text = Programa.textosLocal.GetString("año");
             labelGeneros.Text = Programa.textosLocal.GetString("genero");
             labelCaratula.Text = Programa.textosLocal.GetString("caratula");
+            labelDirectorio.Text = Programa.textosLocal.GetString("directorio");
+            labelURISpotify.Text = Programa.textosLocal.GetString("uriSpotify");
             botonOkDoomer.Text = Programa.textosLocal.GetString("hecho");
             botonCancelar.Text = Programa.textosLocal.GetString("cancelar");
             botonCaratula.Text = Programa.textosLocal.GetString("buscar");
             buttonAñadirCancion.Text = Programa.textosLocal.GetString("añadir_cancion");
-            labelURISpotify.Text = "Spotify URI";
+            buttonDirectorio.Text = Programa.textosLocal.GetString("buscarDirectorio");
             labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {

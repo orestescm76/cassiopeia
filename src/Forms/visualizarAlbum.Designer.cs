@@ -64,6 +64,7 @@
             // 
             // vistaCanciones
             // 
+            this.vistaCanciones.AllowDrop = true;
             this.vistaCanciones.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.num,
             this.titulo,
@@ -77,6 +78,7 @@
             this.vistaCanciones.TabIndex = 1;
             this.vistaCanciones.UseCompatibleStateImageBehavior = false;
             this.vistaCanciones.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ordenarColumnas);
+            this.vistaCanciones.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.vistaCanciones_ItemDrag);
             this.vistaCanciones.SelectedIndexChanged += new System.EventHandler(this.vistaCanciones_SelectedIndexChanged_1);
             this.vistaCanciones.MouseClick += new System.Windows.Forms.MouseEventHandler(this.vistaCanciones_MouseClick);
             this.vistaCanciones.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaCanciones_MouseDoubleClick);
@@ -175,7 +177,7 @@
             this.reproducirspotifyToolStripMenuItem,
             this.reproducirToolStripMenuItem});
             this.clickDerechoConfig.Name = "clickDerechoConfig";
-            this.clickDerechoConfig.Size = new System.Drawing.Size(181, 114);
+            this.clickDerechoConfig.Size = new System.Drawing.Size(171, 92);
             // 
             // setBonusToolStripMenuItem
             // 
@@ -194,14 +196,14 @@
             // reproducirspotifyToolStripMenuItem
             // 
             this.reproducirspotifyToolStripMenuItem.Name = "reproducirspotifyToolStripMenuItem";
-            this.reproducirspotifyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reproducirspotifyToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.reproducirspotifyToolStripMenuItem.Text = "reproducir_spotify";
             this.reproducirspotifyToolStripMenuItem.Click += new System.EventHandler(this.reproducirspotifyToolStripMenuItem_Click);
             // 
             // reproducirToolStripMenuItem
             // 
             this.reproducirToolStripMenuItem.Name = "reproducirToolStripMenuItem";
-            this.reproducirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reproducirToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.reproducirToolStripMenuItem.Text = "reproducir";
             this.reproducirToolStripMenuItem.Click += new System.EventHandler(this.reproducirToolStripMenuItem_Click);
             // 

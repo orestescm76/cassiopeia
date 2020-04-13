@@ -9,17 +9,22 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.5.0.65 CODENAME RAVEN
+/* VERSION 1.5.0.70 CODENAME RAVEN
 * Reproductor:
 *  Reproduce en FLAC, MP3 y OGG
-*  Soporta metadatos en FLAC y MP3
+*  Soporta metadatos.
 *  Soporta carátula MP3
 *  Con tiempo actualizable, se puede saltar
+*  Bitrate variable en OGG
 * Spotify:
 *  Ahora se puede vincular la app.
 *  
 *  Gestor:
 *  Reproducir una cancion en local o Spotify desde la visualización
+*  Guardado en CSV, menos espacio.
+*  Drag & drop del visualizar álbum al reproductor
+*  Nuevos idiomas, pero estarán vacios :-)
+*  Arreglos con el ModoStream
 */
 namespace aplicacion_musica
 {
@@ -139,6 +144,8 @@ namespace aplicacion_musica
                     Album a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
                     if (!string.IsNullOrEmpty(datos[6]))
                         a.SetSpotifyID(datos[6]);
+                    if (!string.IsNullOrEmpty(datos[7]))
+                        a.DirectorioSonido = datos[7];
                     bool exito = false;
                     for (int i = 0; i < nC; i++)
                     {
@@ -292,7 +299,7 @@ namespace aplicacion_musica
                             {
                                 if (!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
                                 {
-                                    salida.WriteLine(a.nombre + ";" + a.artista + ";" + a.year + ";" + a.numCanciones + ";" + a.genero.Id + ";" + a.caratula + ";"+a.IdSpotify);
+                                    salida.WriteLine(a.nombre + ";" + a.artista + ";" + a.year + ";" + a.numCanciones + ";" + a.genero.Id + ";" + a.caratula + ";"+a.IdSpotify + ";"+a.DirectorioSonido);
                                     for (int i = 0; i < a.numCanciones; i++)
                                     {
                                         if (a.canciones[i] is CancionLarga cl)
@@ -363,39 +370,46 @@ namespace aplicacion_musica
             if (args.Contains("-modoStream"))
                 ModoStream = true;
             Reproductor reproductor = Reproductor.Instancia;
-
-            Log.ImprimirMensaje("Configurando géneros",TipoMensaje.Info);
-            for (int i = 0; i < idGeneros.Length; i++)
+            if(!ModoStream)
             {
-                if (idGeneros[i] == "")
+                Log.ImprimirMensaje("Configurando géneros", TipoMensaje.Info);
+                for (int i = 0; i < idGeneros.Length; i++)
                 {
-                    generos[i] = new Genero(idGeneros[i]);
-                    generos[i].setTraduccion("-");
+                    if (idGeneros[i] == "")
+                    {
+                        generos[i] = new Genero(idGeneros[i]);
+                        generos[i].setTraduccion("-");
+                    }
+                    else
+                    {
+                        generos[i] = new Genero(idGeneros[i]);
+                        generos[i].setTraduccion(textosLocal.GetString("genero_" + generos[i].Id));
+                    }
                 }
-                else
-                {
-                    generos[i] = new Genero(idGeneros[i]);
-                    generos[i].setTraduccion(textosLocal.GetString("genero_" + generos[i].Id));
-                }
-            }
-            if (File.Exists("discos.json"))
-            {
-                if (args.Length != 0 && args.Contains("-pregunta"))//cambiar parametro para cargar otro fichero
-                {
-
-                }
-                else
-                {
+                if (args.Contains("-json"))
                     cargarAlbumes("discos.json");
-                    cargarCDS();
+                else
+                {
+                    if (File.Exists("discos.csv"))
+                    {
+                        if (args.Length != 0 && args.Contains("-pregunta"))//cambiar parametro para cargar otro fichero
+                        {
+
+                        }
+                        else
+                        {
+                            cargarAlbumesCSV("discos.csv");
+                            cargarCDS();
+                        }
+                    }
+                    else
+                    {
+                        Log.ImprimirMensaje("discos.csv no existe, se creará una base de datos vacía.", TipoMensaje.Advertencia);
+                    }
                 }
+                if (File.Exists("paths.txt"))
+                    CargarPATHS();
             }
-            else
-            {
-                Log.ImprimirMensaje("discos.json no existe, se creará una base de datos vacía.", TipoMensaje.Advertencia);
-            }
-            if (File.Exists("paths.txt"))
-                CargarPATHS();
             if(ModoStream)
             {
                 Application.Run();

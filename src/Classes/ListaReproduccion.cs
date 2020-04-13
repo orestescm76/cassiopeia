@@ -19,7 +19,7 @@ namespace aplicacion_musica
         }
         public Cancion GetCancion(int cual) //¡sobre 0!
         {
-            return Canciones[(int)cual];
+            return Canciones[cual];
         }
         public bool Final(int i)
         {

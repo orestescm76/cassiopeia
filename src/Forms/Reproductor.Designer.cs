@@ -54,6 +54,7 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.timerFoobar = new System.Windows.Forms.Timer(this.components);
+            this.buttonTwit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -282,11 +283,24 @@
             this.timerFoobar.Interval = 2000;
             this.timerFoobar.Tick += new System.EventHandler(this.timerFoobar_Tick);
             // 
+            // buttonTwit
+            // 
+            this.buttonTwit.AllowDrop = true;
+            this.buttonTwit.Location = new System.Drawing.Point(108, 515);
+            this.buttonTwit.Name = "buttonTwit";
+            this.buttonTwit.Size = new System.Drawing.Size(115, 23);
+            this.buttonTwit.TabIndex = 16;
+            this.buttonTwit.Text = "twittear";
+            this.buttonTwit.UseVisualStyleBackColor = true;
+            this.buttonTwit.Click += new System.EventHandler(this.buttonTwit_Click);
+            // 
             // Reproductor
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(365, 592);
+            this.Controls.Add(this.buttonTwit);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.buttonAgregar);
             this.Controls.Add(this.buttonSaltarAtras);
@@ -309,6 +323,8 @@
             this.Text = "x";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reproductor_FormClosing);
             this.Load += new System.EventHandler(this.Reproductor_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Reproductor_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Reproductor_DragEnter);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Reproductor_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).EndInit();
             this.barraAbajoDatos.ResumeLayout(false);
@@ -346,5 +362,6 @@
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Timer timerFoobar;
+        private System.Windows.Forms.Button buttonTwit;
     }
 }

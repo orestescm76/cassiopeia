@@ -9,6 +9,7 @@ using System.IO;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
+using System.Linq;
 
 namespace aplicacion_musica
 {
@@ -54,6 +55,7 @@ namespace aplicacion_musica
         Cancion CancionLocalReproduciendo = null;
         private bool foobar2000 = true;
         Process foobar2kInstance = null;
+        string SpotifyID = null;
         //crear una tarea que cada 500ms me cambie la cancion
         public static Reproductor Instancia { get { return ins; } }
         private Reproductor()
@@ -102,33 +104,18 @@ namespace aplicacion_musica
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
             notifyIcon1.Text = Programa.textosLocal.GetString("cerrarModoStream");
         }
-        public void ReproducirCancion(Cancion c)
+        public void SetPATH(Cancion c)
         {
-            timerCancion.Enabled = false;
-            timerMetadatos.Enabled = false;
-            CancionLocalReproduciendo = c;
-            estadoReproductor = EstadoReproductor.Detenido;
             directorioCanciones = new DirectoryInfo(c.album.DirectorioSonido);
-            string s = "";
-            try
+            foreach (FileInfo file in directorioCanciones.GetFiles())
             {
-                var fichs = directorioCanciones.GetFiles();
-            }
-            catch (Exception)
-            {
-                Log.ImprimirMensaje("No se encuentra el directorio", TipoMensaje.Error);
-                return;
-            }
-            if (string.IsNullOrEmpty(c.PATH))
-            {
-                foreach (FileInfo file in directorioCanciones.GetFiles())
+                if (CancionLocalReproduciendo == null || file.FullName == CancionLocalReproduciendo.PATH)
+                    continue;
+                try
                 {
-                    if (file.FullName == CancionLocalReproduciendo.PATH)
-                        continue;
                     LectorMetadatos LM = new LectorMetadatos(file.FullName);
                     if (LM.Evaluable() && c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.artista.ToLower() == LM.Artista.ToLower())
                     {
-                        s = file.FullName;
                         c.PATH = file.FullName;
                         break;
                     }
@@ -136,13 +123,41 @@ namespace aplicacion_musica
                     {
                         if (file.FullName.ToLower().Contains(c.titulo.ToLower()))
                         {
-                            s = file.FullName;
                             c.PATH = file.FullName;
                             Text = c.ToString();
                             break;
                         }
                     }
                 }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+            }
+        }
+        public void ReproducirCancion(Cancion c)
+        {
+            timerCancion.Enabled = false;
+            timerMetadatos.Enabled = false;
+
+            estadoReproductor = EstadoReproductor.Detenido;
+            string s = "";
+            try
+            {
+                SetPATH(c);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Log.ImprimirMensaje("No se encuentra el directorio", TipoMensaje.Error);
+                return;
+            }
+            CancionLocalReproduciendo = c;
+            if (string.IsNullOrEmpty(c.PATH))
+            {   
+                MessageBox.Show(c.titulo + " " +c.album.nombre + Environment.NewLine + "ERROR_CANCION");
+                return;
             }
             else
                 s = c.PATH;
@@ -157,10 +172,13 @@ namespace aplicacion_musica
                 MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
                 return;
             }
-            using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
+            if(GuardarHistorial)
             {
-                escritor.WriteLine(NumCancion + " - " + c.album.artista + " - " + c.titulo);
-                NumCancion++;
+                using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
+                {
+                    escritor.WriteLine(NumCancion + " - " + c.album.artista + " - " + c.titulo);
+                    NumCancion++;
+                }
             }
             PrepararReproductor();
             if (c.album.caratula != null)
@@ -213,68 +231,72 @@ namespace aplicacion_musica
             if(PC != null && PC.Item != null)
             {
                 dur = new TimeSpan(0, 0, 0, 0, PC.Item.DurationMs);
-
                 pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
-                if (PC.Item.Id != cancionReproduciendo.Id || pictureBoxCaratula.Image == null)
+                SpotifyID = PC.Item.Id;
+                if(!Programa.ModoStream)
                 {
-                    //using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
-                    //{
-                    //    escritor.WriteLine(NumCancion + " - " + PC.Item.Artists[0].Name + " - " + PC.Item.Name);
-                    //    NumCancion++;
-                    //}
-                    if(!string.IsNullOrEmpty(PC.Item.Id))
+                    trackBarPosicion.Value = (int)pos.TotalSeconds;
+                    if (PC.Item.Id != cancionReproduciendo.Id || pictureBoxCaratula.Image == null)
                     {
-                        trackBarPosicion.Maximum = (int)dur.TotalSeconds;
-                        try
+                        //using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
+                        //{
+                        //    escritor.WriteLine(NumCancion + " - " + PC.Item.Artists[0].Name + " - " + PC.Item.Name);
+                        //    NumCancion++;
+                        //}
+                        if (!string.IsNullOrEmpty(PC.Item.Id))
                         {
-                            DescargarPortada(PC.Item.Album);
-                            pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                            trackBarPosicion.Maximum = (int)dur.TotalSeconds;
+                            try
+                            {
+                                DescargarPortada(PC.Item.Album);
+                                pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                            }
+                            catch (Exception)
+                            {
+                                pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+                            }
+
                         }
-                        catch (Exception)
+                        else
                         {
+                            Log.ImprimirMensaje("Se ha detectado una canción local.", TipoMensaje.Info);
+                            trackBarPosicion.Maximum = (int)dur.TotalSeconds;
+                            pictureBoxCaratula.Image.Dispose();
                             pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
                         }
-
+                    }
+                    if (PC.IsPlaying)
+                    {
+                        estadoReproductor = EstadoReproductor.Reproduciendo;
+                        buttonReproducirPausar.Text = "❚❚";
+                        timerCancion.Enabled = true;
                     }
                     else
                     {
-                        Log.ImprimirMensaje("Se ha detectado una canción local.", TipoMensaje.Info);
-                        trackBarPosicion.Maximum = (int)dur.TotalSeconds;
-                        pictureBoxCaratula.Image.Dispose();
-                        pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+                        estadoReproductor = EstadoReproductor.Pausado;
+                        buttonReproducirPausar.Text = "▶";
+                        timerCancion.Enabled = false;
                     }
-                }
-                if (PC.IsPlaying)
-                {
-                    estadoReproductor = EstadoReproductor.Reproduciendo;
-                    buttonReproducirPausar.Text = "❚❚";
-                    timerCancion.Enabled = true;
-                }
-                else
-                {
-                    estadoReproductor = EstadoReproductor.Pausado;
-                    buttonReproducirPausar.Text = "▶";
-                    timerCancion.Enabled = false;
+                    if (PC.ShuffleState)
+                        checkBoxAleatorio.Checked = true;
+                    else
+                        checkBoxAleatorio.Checked = false;
+                    cancionReproduciendo = PC.Item;
+                    Text = PC.Item.Artists[0].Name + " - " + cancionReproduciendo.Name;
+                    trackBarVolumen.Value = PC.Device.VolumePercent;
+                    if (string.IsNullOrEmpty(PC.Item.Id))
+                        buttonAgregar.Enabled = false;
+                    else
+                        buttonAgregar.Enabled = true;
                 }
                 using(StreamWriter salida = new StreamWriter("np.txt"))
                 {
                     TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
-
                     salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
                     salida.Write(np.ToString(@"mm\:ss") + " / ");
                     salida.Write(dur.ToString(@"mm\:ss"));
                 }
-                if (PC.ShuffleState)
-                    checkBoxAleatorio.Checked = true;
-                else
-                    checkBoxAleatorio.Checked = false;
-                cancionReproduciendo = PC.Item;
-                Text = PC.Item.Artists[0].Name + " - " + cancionReproduciendo.Name;
-                trackBarVolumen.Value = PC.Device.VolumePercent;
-                if (string.IsNullOrEmpty(PC.Item.Id))
-                    buttonAgregar.Enabled = false;
-                else
-                    buttonAgregar.Enabled = true;
+
             }
         }
 
@@ -663,13 +685,13 @@ namespace aplicacion_musica
                     }
                     else
                     {
-                        try
+                        //try
                         {
                             ListaReproduccionPuntero++;
                             lrui.SetActivo((int)ListaReproduccionPuntero);
                             ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
                         }
-                        catch (Exception)
+                        //catch (Exception)
                         {
 
                             return;
@@ -833,6 +855,32 @@ namespace aplicacion_musica
             {
                 salida.WriteLine(foobar2kInstance.MainWindowTitle);
             }
+        }
+
+        private void buttonTwit_Click(object sender, EventArgs e)
+        {
+            string test;
+            string link = "https://twitter.com/intent/tweet?text=";
+            if (Spotify)
+                test = "Vaya%20temazo:%20https://open.spotify.com/track/" + cancionReproduciendo.Id + "%0aTwitteado%20desde%20Gestor%20de%20música%20" + Programa.version + "%20" + Programa.CodeName;
+            else
+                test = "Estoy%20escuchando%20" + CancionLocalReproduciendo.titulo + "%20de%20" + CancionLocalReproduciendo.album.artista + "%20con%20el%20Gestor%20de%20música%20" + Programa.version + "%20" + Programa.CodeName;
+            link += test;
+            Process.Start(link);
+        }
+        private void Reproductor_DragDrop(object sender, DragEventArgs e)
+        {
+            Cancion c = null;
+            if((c = (Cancion)e.Data.GetData(typeof(Cancion))) != null)
+            {
+                if (!string.IsNullOrEmpty(c.PATH))
+                    ReproducirCancion(c);
+            }
+        }
+
+        private void Reproductor_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
         }
     }
 }

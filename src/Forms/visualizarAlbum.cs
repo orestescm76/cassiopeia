@@ -397,5 +397,11 @@ namespace aplicacion_musica
             Cancion cancionAReproducir = albumAVisualizar.getCancion(vistaCanciones.SelectedItems[0].Index);
             Reproductor.Instancia.ReproducirCancion(cancionAReproducir);
         }
+
+        private void vistaCanciones_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            Cancion cancion = albumAVisualizar.getCancion(vistaCanciones.SelectedItems[0].Index);
+            vistaCanciones.DoDragDrop(cancion, DragDropEffects.Copy);
+        }
     }
 }

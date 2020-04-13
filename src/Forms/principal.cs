@@ -199,8 +199,8 @@ namespace aplicacion_musica
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            salidaAplicacion(null, null);
             Application.Exit();
-
         }
         private void SubIdioma_Click(object sender, EventArgs e)
         {
@@ -226,16 +226,13 @@ namespace aplicacion_musica
         private void guardarDiscos(string nombre, TipoGuardado tipoGuardado)
         {
             if (tipoGuardado == TipoGuardado.Digital)
-            {
-                nombre = nombre.Replace(".json", ".csv");
                 Programa.GuardarDiscos(nombre, TipoGuardado.Digital);
-            }
             else
                 Programa.GuardarDiscos(nombre, tipoGuardado, true);
         }
         private void salidaAplicacion(object sender, EventArgs e)
         {
-            guardarDiscos("discos.json", TipoGuardado.Digital);
+            guardarDiscos("discos.csv", TipoGuardado.Digital);
             guardarDiscos("cd.json", TipoGuardado.CD);
             using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
                 salida.Write(Programa.Idioma);

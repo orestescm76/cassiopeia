@@ -451,4 +451,7 @@
   <data name="visualizando" xml:space="preserve">
     <value>Visualitzant</value>
   </data>
+  <data name="buscarDirectorio" xml:space="preserve">
+    <value>Cerca carpeta</value>
+  </data>
 </root>

@@ -485,4 +485,13 @@
   <data name="cerrarModoStream" xml:space="preserve">
     <value>Doble click aquí para cerrar</value>
   </data>
+  <data name="buscarDirectorio" xml:space="preserve">
+    <value>Buscar directorio</value>
+  </data>
+  <data name="directorio" xml:space="preserve">
+    <value>Directorio donde se alojan las canciones</value>
+  </data>
+  <data name="uriSpotify" xml:space="preserve">
+    <value>URI de Spotify</value>
+  </data>
 </root>
