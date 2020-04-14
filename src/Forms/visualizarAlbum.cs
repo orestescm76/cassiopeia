@@ -50,6 +50,8 @@ namespace aplicacion_musica
             {
                 buttonAnotaciones.Enabled = false;
             }
+            if (string.IsNullOrEmpty(albumAVisualizar.DirectorioSonido))
+                buttonPATH.Enabled = false;
             ponerTextos();
             cargarVista();
         }
@@ -57,6 +59,7 @@ namespace aplicacion_musica
         {
             InitializeComponent();
             CDaVisualizar = cd;
+            buttonPATH.Hide();
             albumAVisualizar = cd.Album;
             numDisco = 1;
             infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + cd.Album.artista + Environment.NewLine +
@@ -102,10 +105,11 @@ namespace aplicacion_musica
             setLargaToolStripMenuItem.Text = Programa.textosLocal.GetString("setLarga");
             reproducirToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducir");
             reproducirspotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
+            buttonPATH.Text = Programa.textosLocal.GetString("calcularPATHS");
         }
         private void cargarVista()
         {
-            if (string.IsNullOrEmpty(albumAVisualizar.IdSpotify) || (Programa._spotify == null || Programa._spotify.cuentaLista))
+            if (string.IsNullOrEmpty(albumAVisualizar.IdSpotify) || (Programa._spotify == null || !Programa._spotify.cuentaLista))
                 reproducirspotifyToolStripMenuItem.Enabled = false;
             if (string.IsNullOrEmpty(albumAVisualizar.DirectorioSonido))
                 reproducirToolStripMenuItem.Enabled = false;
@@ -402,6 +406,42 @@ namespace aplicacion_musica
         {
             Cancion cancion = albumAVisualizar.getCancion(vistaCanciones.SelectedItems[0].Index);
             vistaCanciones.DoDragDrop(cancion, DragDropEffects.Copy);
+        }
+
+        private void buttonPATH_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo directorioCanciones = new DirectoryInfo(albumAVisualizar.DirectorioSonido);
+            foreach (FileInfo file in directorioCanciones.GetFiles())
+            {
+                string extension = Path.GetExtension(file.FullName);
+                if (extension != ".ogg" && extension != ".mp3" && extension != ".flac")
+                    continue;
+                foreach (Cancion c in albumAVisualizar.canciones)
+                {
+                    try
+                    {
+                        LectorMetadatos LM = new LectorMetadatos(file.FullName);
+                        if (LM.Evaluable() && c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.artista.ToLower() == LM.Artista.ToLower())
+                        {
+                            c.PATH = file.FullName;
+                            break;
+                        }
+                        else
+                        {
+                            if (file.FullName.ToLower().Contains(c.titulo.ToLower()))
+                            {
+                                c.PATH = file.FullName;
+                                break;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+            }
+            Programa.GuardarPATHS();
         }
     }
 }

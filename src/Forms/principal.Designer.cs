@@ -41,6 +41,7 @@
             this.buscarEnSpotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vincularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.guardarcomo = new System.Windows.Forms.ToolStripMenuItem();
+            this.guardarCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.adminMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.generarAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,7 +69,6 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.process1 = new System.Diagnostics.Process();
-            this.guardarCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -175,6 +175,14 @@
             this.guardarcomo.Size = new System.Drawing.Size(289, 22);
             this.guardarcomo.Text = "guardarComoToolStripMenuItem";
             this.guardarcomo.Click += new System.EventHandler(this.guardarcomo_Click);
+            // 
+            // guardarCSVToolStripMenuItem
+            // 
+            this.guardarCSVToolStripMenuItem.Name = "guardarCSVToolStripMenuItem";
+            this.guardarCSVToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.guardarCSVToolStripMenuItem.Text = "guardarCSV";
+            this.guardarCSVToolStripMenuItem.Visible = false;
+            this.guardarCSVToolStripMenuItem.Click += new System.EventHandler(this.guardarCSVToolStripMenuItem_Click);
             // 
             // salirToolStripMenuItem
             // 
@@ -391,13 +399,6 @@
             this.process1.StartInfo.StandardOutputEncoding = null;
             this.process1.StartInfo.UserName = "";
             this.process1.SynchronizingObject = this;
-            // 
-            // guardarCSVToolStripMenuItem
-            // 
-            this.guardarCSVToolStripMenuItem.Name = "guardarCSVToolStripMenuItem";
-            this.guardarCSVToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
-            this.guardarCSVToolStripMenuItem.Text = "guardarCSV";
-            this.guardarCSVToolStripMenuItem.Click += new System.EventHandler(this.guardarCSVToolStripMenuItem_Click);
             // 
             // principal
             // 

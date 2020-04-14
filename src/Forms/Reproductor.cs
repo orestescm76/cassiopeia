@@ -768,6 +768,7 @@ namespace aplicacion_musica
             toolStripStatusLabelCorreoUsuario.Text = "";
             labelDatosCancion.Text = "";
             Icon = Properties.Resources.iconoReproductor;
+            checkBox1.Visible = true;
             buttonAgregar.Hide();
         }
         public void ActivarSpotify()
@@ -776,6 +777,7 @@ namespace aplicacion_musica
             {
                 timerMetadatos.Enabled = false;
                 timerCancion.Enabled = false;
+                checkBox1.Visible = false;
                 nucleo.Apagar();
             }
             catch (Exception)
@@ -881,6 +883,14 @@ namespace aplicacion_musica
         private void Reproductor_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ListaReproduccion lr = new ListaReproduccion("");
+            ListaReproduccion = lr;
+            lrui = new ListaReproduccionUI(ListaReproduccion);
+            ListaReproduccionPuntero = 0;
         }
     }
 }

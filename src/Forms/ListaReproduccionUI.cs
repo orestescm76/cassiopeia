@@ -42,5 +42,20 @@ namespace aplicacion_musica
         {
 
         }
+
+        private void ListaReproduccionUI_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void ListaReproduccionUI_DragDrop(object sender, DragEventArgs e)
+        {
+            Cancion c = null;
+            if((c = (Cancion)e.Data.GetData(typeof(Cancion))) != null)
+            {
+                listaReproduccion.AgregarCancion(c);
+                Refrescar();
+            }
+        }
     }
 }

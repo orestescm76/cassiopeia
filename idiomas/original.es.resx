@@ -494,4 +494,7 @@
   <data name="uriSpotify" xml:space="preserve">
     <value>URI de Spotify</value>
   </data>
+  <data name="calcularPATHS" xml:space="preserve">
+    <value>Buscar canciones</value>
+  </data>
 </root>

@@ -73,12 +73,15 @@
             // 
             // ListaReproduccionUI
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(340, 450);
             this.Controls.Add(this.dataGridViewCanciones);
             this.Name = "ListaReproduccionUI";
             this.Text = "ListaReproduccionUI";
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ListaReproduccionUI_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.ListaReproduccionUI_DragEnter);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCanciones)).EndInit();
             this.ResumeLayout(false);
 

@@ -47,6 +47,7 @@
             this.setLargaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirspotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonPATH = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoConfig.SuspendLayout();
@@ -207,11 +208,22 @@
             this.reproducirToolStripMenuItem.Text = "reproducir";
             this.reproducirToolStripMenuItem.Click += new System.EventHandler(this.reproducirToolStripMenuItem_Click);
             // 
+            // buttonPATH
+            // 
+            this.buttonPATH.Location = new System.Drawing.Point(135, 403);
+            this.buttonPATH.Name = "buttonPATH";
+            this.buttonPATH.Size = new System.Drawing.Size(117, 31);
+            this.buttonPATH.TabIndex = 7;
+            this.buttonPATH.Text = "calcularPATHS";
+            this.buttonPATH.UseVisualStyleBackColor = true;
+            this.buttonPATH.Click += new System.EventHandler(this.buttonPATH_Click);
+            // 
             // visualizarAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(833, 464);
+            this.Controls.Add(this.buttonPATH);
             this.Controls.Add(this.vistaCaratula);
             this.Controls.Add(this.labelEstadoDisco);
             this.Controls.Add(this.buttonAnotaciones);
@@ -255,5 +267,6 @@
         private System.Windows.Forms.ToolStripMenuItem setLargaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproducirspotifyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproducirToolStripMenuItem;
+        private System.Windows.Forms.Button buttonPATH;
     }
 }

@@ -495,4 +495,7 @@
   <data name="reproducir" xml:space="preserve">
     <value>Play</value>
   </data>
+  <data name="calcularPATHS" xml:space="preserve">
+    <value>Search songs</value>
+  </data>
 </root>

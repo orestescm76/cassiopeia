@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.5.0.70 CODENAME RAVEN
+/* VERSION 1.5.0.70 RC1 CODENAME RAVEN
 * Reproductor:
 *  Reproduce en FLAC, MP3 y OGG
 *  Soporta metadatos.
@@ -25,6 +25,9 @@ using System.Threading;
 *  Drag & drop del visualizar álbum al reproductor
 *  Nuevos idiomas, pero estarán vacios :-)
 *  Arreglos con el ModoStream
+*  Drag and Drop en el reproductor
+*  Calcular los paths desde la visualización del álbum
+*  Drag and drop en la lista de reproducción
 */
 namespace aplicacion_musica
 {
@@ -231,7 +234,7 @@ namespace aplicacion_musica
                 }
             }
         }
-        private static void GuardarPATHS()
+        public static void GuardarPATHS()
         {
             Log.Instance.ImprimirMensaje("Guardando PATHS", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();

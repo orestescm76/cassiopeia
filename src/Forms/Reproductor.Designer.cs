@@ -55,6 +55,7 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.timerFoobar = new System.Windows.Forms.Timer(this.components);
             this.buttonTwit = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -294,12 +295,24 @@
             this.buttonTwit.UseVisualStyleBackColor = true;
             this.buttonTwit.Click += new System.EventHandler(this.buttonTwit_Click);
             // 
+            // button1
+            // 
+            this.button1.AllowDrop = true;
+            this.button1.Location = new System.Drawing.Point(108, 486);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(115, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "crear LR";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Reproductor
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(365, 592);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonTwit);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.buttonAgregar);
@@ -363,5 +376,6 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Timer timerFoobar;
         private System.Windows.Forms.Button buttonTwit;
+        private System.Windows.Forms.Button button1;
     }
 }
