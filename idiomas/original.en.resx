@@ -498,4 +498,16 @@
   <data name="calcularPATHS" xml:space="preserve">
     <value>Search songs</value>
   </data>
+  <data name="twittearCancion" xml:space="preserve">
+    <value>Twit</value>
+  </data>
+  <data name="agregarBD" xml:space="preserve">
+    <value>Add to database</value>
+  </data>
+  <data name="crearLR" xml:space="preserve">
+    <value>Create new playlist</value>
+  </data>
+  <data name="conectadoComo" xml:space="preserve">
+    <value>Connected as</value>
+  </data>
 </root>

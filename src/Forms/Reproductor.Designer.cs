@@ -52,10 +52,10 @@
             this.timerMetadatos = new System.Windows.Forms.Timer(this.components);
             this.buttonAgregar = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBoxFoobar = new System.Windows.Forms.CheckBox();
             this.timerFoobar = new System.Windows.Forms.Timer(this.components);
             this.buttonTwit = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttoncrearLR = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -105,14 +105,16 @@
             this.button2.TabIndex = 3;
             this.button2.Text = "abrir";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // labelPosicion
             // 
             this.labelPosicion.AutoSize = true;
-            this.labelPosicion.Location = new System.Drawing.Point(8, 426);
+            this.labelPosicion.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPosicion.Location = new System.Drawing.Point(8, 422);
             this.labelPosicion.Name = "labelPosicion";
-            this.labelPosicion.Size = new System.Drawing.Size(28, 13);
+            this.labelPosicion.Size = new System.Drawing.Size(32, 17);
             this.labelPosicion.TabIndex = 4;
             this.labelPosicion.Text = "0:00";
             this.labelPosicion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -120,9 +122,10 @@
             // labelDuracion
             // 
             this.labelDuracion.AutoSize = true;
-            this.labelDuracion.Location = new System.Drawing.Point(315, 426);
+            this.labelDuracion.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDuracion.Location = new System.Drawing.Point(310, 422);
             this.labelDuracion.Name = "labelDuracion";
-            this.labelDuracion.Size = new System.Drawing.Size(38, 13);
+            this.labelDuracion.Size = new System.Drawing.Size(43, 17);
             this.labelDuracion.TabIndex = 5;
             this.labelDuracion.Text = "XX:XX";
             this.labelDuracion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -266,18 +269,19 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
-            // checkBox1
+            // checkBoxFoobar
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(278, 484);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(75, 25);
-            this.checkBox1.TabIndex = 15;
-            this.checkBox1.Text = "foobar";
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBoxFoobar.AutoSize = true;
+            this.checkBoxFoobar.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxFoobar.Location = new System.Drawing.Point(278, 484);
+            this.checkBoxFoobar.Name = "checkBoxFoobar";
+            this.checkBoxFoobar.Size = new System.Drawing.Size(75, 25);
+            this.checkBoxFoobar.TabIndex = 15;
+            this.checkBoxFoobar.Text = "foobar";
+            this.checkBoxFoobar.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.checkBoxFoobar.UseVisualStyleBackColor = true;
+            this.checkBoxFoobar.Visible = false;
+            this.checkBoxFoobar.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // timerFoobar
             // 
@@ -295,16 +299,16 @@
             this.buttonTwit.UseVisualStyleBackColor = true;
             this.buttonTwit.Click += new System.EventHandler(this.buttonTwit_Click);
             // 
-            // button1
+            // buttoncrearLR
             // 
-            this.button1.AllowDrop = true;
-            this.button1.Location = new System.Drawing.Point(108, 486);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(115, 23);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "crear LR";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttoncrearLR.AllowDrop = true;
+            this.buttoncrearLR.Location = new System.Drawing.Point(0, 515);
+            this.buttoncrearLR.Name = "buttoncrearLR";
+            this.buttoncrearLR.Size = new System.Drawing.Size(102, 23);
+            this.buttoncrearLR.TabIndex = 17;
+            this.buttoncrearLR.Text = "crear LR";
+            this.buttoncrearLR.UseVisualStyleBackColor = true;
+            this.buttoncrearLR.Click += new System.EventHandler(this.button1_Click);
             // 
             // Reproductor
             // 
@@ -312,9 +316,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(365, 592);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttoncrearLR);
             this.Controls.Add(this.buttonTwit);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkBoxFoobar);
             this.Controls.Add(this.buttonAgregar);
             this.Controls.Add(this.buttonSaltarAtras);
             this.Controls.Add(this.buttonSaltarAdelante);
@@ -373,9 +377,9 @@
         private System.Windows.Forms.Timer timerMetadatos;
         private System.Windows.Forms.Button buttonAgregar;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBoxFoobar;
         private System.Windows.Forms.Timer timerFoobar;
         private System.Windows.Forms.Button buttonTwit;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttoncrearLR;
     }
 }

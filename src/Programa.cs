@@ -9,13 +9,14 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.5.0.70 RC1 CODENAME RAVEN
+/* VERSION 1.5.0.72 RC2 CODENAME RAVEN
 * Reproductor:
 *  Reproduce en FLAC, MP3 y OGG
 *  Soporta metadatos.
 *  Soporta carátula MP3
 *  Con tiempo actualizable, se puede saltar
 *  Bitrate variable en OGG
+*  Sincronizado entre Spotify y el Reproductor
 * Spotify:
 *  Ahora se puede vincular la app.
 *  
@@ -430,9 +431,7 @@ namespace aplicacion_musica
             GuardarPATHS();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();
-            Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
-            Reproductor.Instancia.Apagar();
-            Reproductor.Instancia.Dispose();
+
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");
             if (args.Contains("-consola"))

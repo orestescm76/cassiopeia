@@ -99,10 +99,17 @@ namespace aplicacion_musica
             lrui = new ListaReproduccionUI(lr);
             ReproducirCancion(c);
         }
+        public void RefrescarTextos()
+        {
+            PonerTextos();
+        }
         private void PonerTextos()
         {
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
             notifyIcon1.Text = Programa.textosLocal.GetString("cerrarModoStream");
+            buttoncrearLR.Text = Programa.textosLocal.GetString("crearLR");
+            buttonAgregar.Text = Programa.textosLocal.GetString("agregarBD");
+            buttonTwit.Text = Programa.textosLocal.GetString("twittearCancion");
         }
         public void SetPATH(Cancion c)
         {
@@ -131,7 +138,6 @@ namespace aplicacion_musica
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
 
@@ -383,7 +389,7 @@ namespace aplicacion_musica
 
                 Log.ImprimirMensaje("No se ha encontrado foobar2000", TipoMensaje.Info);
                 foobar2kInstance = null;
-                checkBox1.Enabled = false;
+                checkBoxFoobar.Enabled = false;
             }
         }
         private void timerCancion_Tick(object sender, EventArgs e)
@@ -620,7 +626,7 @@ namespace aplicacion_musica
         private void trackBarVolumen_Scroll(object sender, EventArgs e)
         {
             Volumen = (float)trackBarVolumen.Value / 100;
-            if (!Spotify)
+            if (!Spotify && (nucleo.ComprobarSonido()))
                 nucleo.SetVolumen(Volumen);
             else if (EsPremium && Spotify)
                 _spotify.SetVolume(trackBarVolumen.Value);
@@ -768,7 +774,7 @@ namespace aplicacion_musica
             toolStripStatusLabelCorreoUsuario.Text = "";
             labelDatosCancion.Text = "";
             Icon = Properties.Resources.iconoReproductor;
-            checkBox1.Visible = true;
+            checkBoxFoobar.Visible = true;
             buttonAgregar.Hide();
         }
         public void ActivarSpotify()
@@ -777,7 +783,7 @@ namespace aplicacion_musica
             {
                 timerMetadatos.Enabled = false;
                 timerCancion.Enabled = false;
-                checkBox1.Visible = false;
+                checkBoxFoobar.Visible = false;
                 nucleo.Apagar();
             }
             catch (Exception)
@@ -788,7 +794,6 @@ namespace aplicacion_musica
                 if (!SpotifyListo || Programa.ModoStream)
                 {
                     PrepararSpotify();
-
                 }
                 try
                 {
@@ -804,7 +809,7 @@ namespace aplicacion_musica
                 buttonSpotify.Text = Programa.textosLocal.GetString("cambiarLocal");
                 button2.Enabled = false;
                 Spotify = true;
-                toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + user.DisplayName;
+                toolStripStatusLabelCorreoUsuario.Text = Programa.textosLocal.GetString("conectadoComo")+ " " + user.DisplayName;
                 if (!EsPremium)
                 {
                     toolStripStatusLabelCorreoUsuario.Text += " - NO PREMIUM";
@@ -834,7 +839,7 @@ namespace aplicacion_musica
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBox1.Checked)
+            if(checkBoxFoobar.Checked)
             {
                 nucleo.Apagar();
                 timerCancion.Enabled = false;

@@ -123,4 +123,7 @@
   <data name="genero_chiptune" xml:space="preserve">
     <value>Τσιπτούν</value>
   </data>
+  <data name="twittearCancion" xml:space="preserve">
+    <value>Tweet</value>
+  </data>
 </root>

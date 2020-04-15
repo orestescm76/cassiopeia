@@ -497,4 +497,16 @@
   <data name="calcularPATHS" xml:space="preserve">
     <value>Buscar canciones</value>
   </data>
+  <data name="twittearCancion" xml:space="preserve">
+    <value>Twittear</value>
+  </data>
+  <data name="agregarBD" xml:space="preserve">
+    <value>Agregar a la BBDD</value>
+  </data>
+  <data name="crearLR" xml:space="preserve">
+    <value>Crear lista de reproducción</value>
+  </data>
+  <data name="conectadoComo" xml:space="preserve">
+    <value>Conectado como</value>
+  </data>
 </root>

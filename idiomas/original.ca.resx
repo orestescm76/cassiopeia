@@ -454,4 +454,10 @@
   <data name="buscarDirectorio" xml:space="preserve">
     <value>Cerca carpeta</value>
   </data>
+  <data name="twittearCancion" xml:space="preserve">
+    <value>Tuita</value>
+  </data>
+  <data name="agregarBD" xml:space="preserve">
+    <value>Afegir a la BBDD</value>
+  </data>
 </root>

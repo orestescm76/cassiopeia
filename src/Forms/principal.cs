@@ -69,6 +69,8 @@ namespace aplicacion_musica
             vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.OwnerDraw = true;
             crono.Stop();
+            if (Programa.SpotifyActivado)
+                vincularToolStripMenuItem.Visible = false;
             Log.ImprimirMensaje("Formulario principal creado", TipoMensaje.Correcto, crono);
         }
         public void Refrescar() { cargarVista(); }
@@ -216,6 +218,7 @@ namespace aplicacion_musica
             }
             Programa.cambiarIdioma(idiomaNuevo);
             ponerTextos();
+            Reproductor.Instancia.RefrescarTextos();
         }
         private void agregarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -236,6 +239,9 @@ namespace aplicacion_musica
             guardarDiscos("cd.json", TipoGuardado.CD);
             using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
                 salida.Write(Programa.Idioma);
+            Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
+            Reproductor.Instancia.Apagar();
+            Reproductor.Instancia.Dispose();
         }
 
         private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)

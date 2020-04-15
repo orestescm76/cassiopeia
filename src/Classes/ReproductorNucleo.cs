@@ -123,7 +123,7 @@ namespace aplicacion_musica
         }
         public bool ComprobarSonido()
         {
-            if (_sonido == null)
+            if (_sonido == null || _salida == null)
                 return false;
             else return true;
         }

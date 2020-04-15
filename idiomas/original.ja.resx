@@ -120,4 +120,7 @@
   <data name="salir" xml:space="preserve">
     <value>出口</value>
   </data>
+  <data name="twittearCancion" xml:space="preserve">
+    <value>ツイートする</value>
+  </data>
 </root>
