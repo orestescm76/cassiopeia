@@ -154,10 +154,10 @@
             // 
             // trackBarVolumen
             // 
-            this.trackBarVolumen.Location = new System.Drawing.Point(229, 522);
+            this.trackBarVolumen.Location = new System.Drawing.Point(222, 493);
             this.trackBarVolumen.Maximum = 100;
             this.trackBarVolumen.Name = "trackBarVolumen";
-            this.trackBarVolumen.Size = new System.Drawing.Size(136, 45);
+            this.trackBarVolumen.Size = new System.Drawing.Size(143, 45);
             this.trackBarVolumen.TabIndex = 7;
             this.trackBarVolumen.TabStop = false;
             this.trackBarVolumen.TickFrequency = 10;
@@ -185,7 +185,7 @@
             // labelVolumen
             // 
             this.labelVolumen.AutoSize = true;
-            this.labelVolumen.Location = new System.Drawing.Point(332, 554);
+            this.labelVolumen.Location = new System.Drawing.Point(332, 525);
             this.labelVolumen.Name = "labelVolumen";
             this.labelVolumen.Size = new System.Drawing.Size(33, 13);
             this.labelVolumen.TabIndex = 9;
@@ -273,7 +273,7 @@
             // 
             this.checkBoxFoobar.AutoSize = true;
             this.checkBoxFoobar.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxFoobar.Location = new System.Drawing.Point(278, 484);
+            this.checkBoxFoobar.Location = new System.Drawing.Point(290, 462);
             this.checkBoxFoobar.Name = "checkBoxFoobar";
             this.checkBoxFoobar.Size = new System.Drawing.Size(75, 25);
             this.checkBoxFoobar.TabIndex = 15;
@@ -291,9 +291,9 @@
             // buttonTwit
             // 
             this.buttonTwit.AllowDrop = true;
-            this.buttonTwit.Location = new System.Drawing.Point(108, 515);
+            this.buttonTwit.Location = new System.Drawing.Point(0, 515);
             this.buttonTwit.Name = "buttonTwit";
-            this.buttonTwit.Size = new System.Drawing.Size(115, 23);
+            this.buttonTwit.Size = new System.Drawing.Size(102, 23);
             this.buttonTwit.TabIndex = 16;
             this.buttonTwit.Text = "twittear";
             this.buttonTwit.UseVisualStyleBackColor = true;
@@ -302,9 +302,9 @@
             // buttoncrearLR
             // 
             this.buttoncrearLR.AllowDrop = true;
-            this.buttoncrearLR.Location = new System.Drawing.Point(0, 515);
+            this.buttoncrearLR.Location = new System.Drawing.Point(229, 544);
             this.buttoncrearLR.Name = "buttoncrearLR";
-            this.buttoncrearLR.Size = new System.Drawing.Size(102, 23);
+            this.buttoncrearLR.Size = new System.Drawing.Size(129, 23);
             this.buttoncrearLR.TabIndex = 17;
             this.buttoncrearLR.Text = "crear LR";
             this.buttoncrearLR.UseVisualStyleBackColor = true;

@@ -90,6 +90,7 @@ namespace aplicacion_musica
                 ActivarSpotify();
             }
             else notifyIcon1.Visible = false;
+            buttonTwit.Enabled = false;
         }
         public void ReproducirLista(ListaReproduccion lr)
         {
@@ -105,6 +106,7 @@ namespace aplicacion_musica
         }
         private void PonerTextos()
         {
+            Text = Programa.textosLocal.GetString("reproductor");
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
             notifyIcon1.Text = Programa.textosLocal.GetString("cerrarModoStream");
             buttoncrearLR.Text = Programa.textosLocal.GetString("crearLR");
@@ -198,6 +200,7 @@ namespace aplicacion_musica
             }
             timerCancion.Enabled = true;
             timerMetadatos.Enabled = true;
+            buttonTwit.Enabled = true;
         }
         private void PrepararReproductor()
         {
@@ -416,12 +419,14 @@ namespace aplicacion_musica
                 dur = pos;
             if(TiempoRestante)
             {
-                int secsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) % 60);
-                int minsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) / 60);
-                if(secsRestantes < 10)
-                    labelDuracion.Text = "-" + minsRestantes + ":0" + secsRestantes; 
-                else
-                    labelDuracion.Text = "-" + minsRestantes + ":" + secsRestantes; 
+                TimeSpan tRes = dur - pos;
+                labelDuracion.Text = "-" + tRes.ToString(@"mm\:ss");
+                //int secsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) % 60);
+                //int minsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) / 60);
+                //if(secsRestantes < 10)
+                //    labelDuracion.Text = "-" + minsRestantes + ":0" + secsRestantes; 
+                //else
+                //    labelDuracion.Text = "-" + minsRestantes + ":" + secsRestantes; 
             }
             else
             {
@@ -756,6 +761,7 @@ namespace aplicacion_musica
         private void ApagarSpotify()
         {
             backgroundWorker.CancelAsync();
+            buttoncrearLR.Show();
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
             timerSpotify.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
@@ -814,6 +820,8 @@ namespace aplicacion_musica
                 {
                     toolStripStatusLabelCorreoUsuario.Text += " - NO PREMIUM";
                 }
+                buttonTwit.Enabled = true;
+                buttoncrearLR.Hide();
             }
             else
                 return;
@@ -869,9 +877,24 @@ namespace aplicacion_musica
             string test;
             string link = "https://twitter.com/intent/tweet?text=";
             if (Spotify)
-                test = "Vaya%20temazo:%20https://open.spotify.com/track/" + cancionReproduciendo.Id + "%0aTwitteado%20desde%20Gestor%20de%20música%20" + Programa.version + "%20" + Programa.CodeName;
+            {
+                if (!string.IsNullOrEmpty(cancionReproduciendo.Id))
+                    test = Programa.textosLocal.GetString("compartirTwitter1").Replace(" ", "%20") + "%20https://open.spotify.com/track/" + cancionReproduciendo.Id + "%0a" +
+                        Programa.textosLocal.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Programa.version + "%20" + Programa.CodeName;
+                else
+                    test = Programa.textosLocal.GetString("compartirTwitter1").Replace(" ", "%20") + "%20" +
+                        cancionReproduciendo.Name + "%20" +
+                        cancionReproduciendo.Artists[0].Name + "%20"+ "%0a" +
+                        Programa.textosLocal.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Programa.version + "%20" + Programa.CodeName;
+            }
             else
-                test = "Estoy%20escuchando%20" + CancionLocalReproduciendo.titulo + "%20de%20" + CancionLocalReproduciendo.album.artista + "%20con%20el%20Gestor%20de%20música%20" + Programa.version + "%20" + Programa.CodeName;
+                test = Programa.textosLocal.GetString("compartirLocal1").Replace(" ", "%20") + "%20" + 
+                    CancionLocalReproduciendo.titulo + "%20" + 
+                    Programa.textosLocal.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
+                    CancionLocalReproduciendo.album.artista + "%20" +
+                    Programa.textosLocal.GetString("compartirLocal3").Replace(" ", "%20") + "%20" + 
+                    Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + 
+                    Programa.version + "%20" + Programa.CodeName;
             link += test;
             Process.Start(link);
         }

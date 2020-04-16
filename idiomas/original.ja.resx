@@ -123,4 +123,7 @@
   <data name="twittearCancion" xml:space="preserve">
     <value>ツイートする</value>
   </data>
+  <data name="min:sec" xml:space="preserve">
+    <value>分:秒</value>
+  </data>
 </root>

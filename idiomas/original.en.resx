@@ -510,4 +510,22 @@
   <data name="conectadoComo" xml:space="preserve">
     <value>Connected as</value>
   </data>
+  <data name="compartirTwitter1" xml:space="preserve">
+    <value>What a good song:</value>
+  </data>
+  <data name="compartirTwitter2" xml:space="preserve">
+    <value>Twitted from</value>
+  </data>
+  <data name="compartirLocal1" xml:space="preserve">
+    <value>I'm listening to</value>
+  </data>
+  <data name="compartirLocal2" xml:space="preserve">
+    <value>from</value>
+  </data>
+  <data name="compartirLocal3" xml:space="preserve">
+    <value>with the</value>
+  </data>
+  <data name="reproductor" xml:space="preserve">
+    <value>Player</value>
+  </data>
 </root>
