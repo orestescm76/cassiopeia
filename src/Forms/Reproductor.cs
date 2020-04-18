@@ -89,8 +89,14 @@ namespace aplicacion_musica
                 }
                 ActivarSpotify();
             }
+            if (!Programa.SpotifyActivado)
+                buttonSpotify.Enabled = false;
             else notifyIcon1.Visible = false;
             buttonTwit.Enabled = false;
+        }
+        public void SpotifyEncendido()
+        {
+            buttonSpotify.Enabled = true;
         }
         public void ReproducirLista(ListaReproduccion lr)
         {

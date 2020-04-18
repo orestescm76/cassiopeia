@@ -731,6 +731,7 @@ namespace aplicacion_musica
                     Log.ImprimirMensaje("El usuario no tiene premium, no podrá usar spotify desde el Gestor", TipoMensaje.Advertencia);
                     spotifyToolStripMenuItem.Enabled = false;
                 }
+                Reproductor.Instancia.SpotifyEncendido();
             }
             else return;
         }

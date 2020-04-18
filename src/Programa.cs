@@ -354,14 +354,18 @@ namespace aplicacion_musica
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            SpotifyActivado = false;
             principal = new principal();
             if(!args.Contains("-noSpotify"))
             {
-                SpotifyActivado = true;
                 if (config.AppSettings.Settings["VinculadoConSpotify"].Value == "false")
                     _spotify = new Spotify(false);
                 else
+                {
                     _spotify = new Spotify(true);
+                    SpotifyActivado = true;
+                }
+
 
             }
             else
@@ -426,7 +430,7 @@ namespace aplicacion_musica
                 Application.Run(Reproductor.Instancia);
                 //Reproductor.Instancia.Show();
             }
-            if(_spotify != null)
+            if(_spotify != null && tareaRefrescoToken != null)
                 tareaRefrescoToken.Abort();
             GuardarPATHS();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
