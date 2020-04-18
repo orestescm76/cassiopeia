@@ -80,6 +80,10 @@ namespace aplicacion_musica
             vincularToolStripMenuItem.Enabled = i;
             spotifyToolStripMenuItem.Enabled = i;
         }
+        public void DesactivarVinculacion()
+        {
+            vincularToolStripMenuItem.Visible = false;
+        }
         private void cargarVista()
         {
             Log.Instance.ImprimirMensaje("Cargando vista" + TipoVista, TipoMensaje.Info, "cargarVista()");
@@ -149,6 +153,7 @@ namespace aplicacion_musica
             digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
             vincularToolStripMenuItem.Text = Programa.textosLocal.GetString("vincular");
             spotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
+            reproductorToolStripMenuItem.Text = Programa.textosLocal.GetString("reproductor");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -730,6 +735,7 @@ namespace aplicacion_musica
                     Programa.textosLocal.GetString("noPremium");
                     Log.ImprimirMensaje("El usuario no tiene premium, no podrá usar spotify desde el Gestor", TipoMensaje.Advertencia);
                     spotifyToolStripMenuItem.Enabled = false;
+                    vincularToolStripMenuItem.Enabled = false;
                 }
                 Reproductor.Instancia.SpotifyEncendido();
             }
@@ -739,7 +745,7 @@ namespace aplicacion_musica
         {
             Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works! no es O(1)
             Log.ImprimirMensaje(a.ToString(), TipoMensaje.Info);
-            if(a.IdSpotify == null)
+            if(string.IsNullOrEmpty(a.IdSpotify))
             {
                 SpotifyAPI.Web.Models.SimpleAlbum album = Programa._spotify.DevolverAlbum(a.GetTerminoBusqueda());
                 if (a == null || album == null)
@@ -754,6 +760,8 @@ namespace aplicacion_musica
                         Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");
                         MessageBox.Show(err.Error.Message);
                     }
+                    else
+                        Log.ImprimirMensaje("Reproducción correcta", TipoMensaje.Correcto);
                 }
             }
             else
@@ -764,14 +772,20 @@ namespace aplicacion_musica
                     Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error, "spotifyToolStripMenuItem_Click()");
                     MessageBox.Show(err.Error.Message);
                 }
+                else
+                    Log.ImprimirMensaje("Reproducción correcta", TipoMensaje.Correcto);
             }
-
         }
 
         private void guardarCSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Programa.GuardarDiscos("discosCSV.csv", TipoGuardado.Digital);
             MessageBox.Show("Done!");
+        }
+
+        private void reproductorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Reproductor.Instancia.Show();
         }
     }
 }

@@ -135,7 +135,7 @@
   <data name="agradecimiento2" xml:space="preserve">
     <value> * @esgmonologos in Twitter for the icon</value>
   </data>
-  <data name="agradecimiento3" xml:space="preserve">
+  <data name="agradecimiento4" xml:space="preserve">
     <value> * Everyone who helped me test this thing</value>
   </data>
   <data name="agradecimientosA" xml:space="preserve">
@@ -527,5 +527,11 @@
   </data>
   <data name="reproductor" xml:space="preserve">
     <value>Player</value>
+  </data>
+  <data name="avisoSpotify" xml:space="preserve">
+    <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. Do you wish to continue?</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * The programmers of NVorbis, CSCore y JAudio</value>
   </data>
 </root>

@@ -23,13 +23,15 @@ namespace aplicacion_musica
         }
         public bool Final(int i)
         {
-            if (Canciones.Count == i-1)
+            if (Canciones.Count == (i-1))
                 return true;
             else return false;
         }
         public bool Inicio(int i)
         {
             if (i == 0)
+                return true;
+            else if (i == -1)
                 return true;
             else return false;
         }

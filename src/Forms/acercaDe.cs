@@ -14,12 +14,13 @@ namespace aplicacion_musica
         private void PonerTextos()
         {
             labelAcercaDe.Text = "";
-            string acercadeTexto = Programa.version + " Codename " + Programa.CodeName;
+            string acercadeTexto = Programa.version;
             acercadeTexto += Environment.NewLine;
             acercadeTexto += Programa.textosLocal.GetString("desarrolladoPor") + " Orestes Colomina Monsalve" + Environment.NewLine +
                 Programa.textosLocal.GetString("contacto") + Environment.NewLine + Environment.NewLine + Programa.textosLocal.GetString("agradecimientosA") + Environment.NewLine +
                 Programa.textosLocal.GetString("agradecimiento1") + Environment.NewLine + "https://github.com/JohnnyCrazy/SpotifyAPI-NET" + Environment.NewLine +
-                Programa.textosLocal.GetString("agradecimiento3") + Environment.NewLine;
+                Programa.textosLocal.GetString("agradecimiento3") + Environment.NewLine +
+                Programa.textosLocal.GetString("agradecimiento4") + Environment.NewLine;
             switch (Programa.Idioma)
             {
                 case "ca":

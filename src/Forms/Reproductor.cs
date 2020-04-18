@@ -45,7 +45,6 @@ namespace aplicacion_musica
         DirectoryInfo directorioCanciones;
         PrivateProfile user;
         private Log Log = Log.Instance;
-        private static Reproductor ins = new Reproductor();
         private float Volumen;
         private ListaReproduccionUI lrui;
         private ToolTip duracionView;
@@ -57,8 +56,8 @@ namespace aplicacion_musica
         Process foobar2kInstance = null;
         string SpotifyID = null;
         //crear una tarea que cada 500ms me cambie la cancion
-        public static Reproductor Instancia { get { return ins; } }
-        private Reproductor()
+        public static Reproductor Instancia { get; set; }
+        public Reproductor()
         {
             InitializeComponent();
             timerCancion.Enabled = false;
@@ -79,7 +78,6 @@ namespace aplicacion_musica
                 Historial = new FileInfo("Log Musical " + now.Day + "-"+ now.Month + "-"+ now.Year+"-"+ now.Hour + "."+ now.Minute + ".txt");
                 NumCancion = 1;
             }
-            PonerTextos();
             if (Programa.ModoStream)
             {
                 notifyIcon1.Visible = true;
@@ -89,8 +87,7 @@ namespace aplicacion_musica
                 }
                 ActivarSpotify();
             }
-            if (!Programa.SpotifyActivado)
-                buttonSpotify.Enabled = false;
+
             else notifyIcon1.Visible = false;
             buttonTwit.Enabled = false;
         }
@@ -702,13 +699,13 @@ namespace aplicacion_musica
                     }
                     else
                     {
-                        //try
+                        try
                         {
                             ListaReproduccionPuntero++;
                             lrui.SetActivo((int)ListaReproduccionPuntero);
                             ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
                         }
-                        //catch (Exception)
+                        catch (Exception)
                         {
 
                             return;
@@ -924,7 +921,7 @@ namespace aplicacion_musica
             ListaReproduccion lr = new ListaReproduccion("");
             ListaReproduccion = lr;
             lrui = new ListaReproduccionUI(ListaReproduccion);
-            ListaReproduccionPuntero = 0;
+            ListaReproduccionPuntero = -1;
         }
     }
 }

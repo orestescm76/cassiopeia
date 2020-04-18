@@ -135,7 +135,7 @@
   <data name="agradecimiento2" xml:space="preserve">
     <value> * @esgmonologos en Twitter por el icono</value>
   </data>
-  <data name="agradecimiento3" xml:space="preserve">
+  <data name="agradecimiento4" xml:space="preserve">
     <value> * Todos los que me han ayudado a cazar errores
 </value>
   </data>
@@ -526,5 +526,8 @@
   </data>
   <data name="reproductor" xml:space="preserve">
     <value>Reproductor</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * Los creadores de NVorbis, CSCore y JAudio</value>
   </data>
 </root>

@@ -299,6 +299,7 @@ namespace aplicacion_musica
                 a.duracion += canciones[i].duracion;
             }
             a.canciones = canciones;
+            a.LevantarBorrado();
             Programa.miColeccion.agregarAlbum(ref a);
         }
         public void Reiniciar()

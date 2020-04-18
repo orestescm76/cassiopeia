@@ -338,6 +338,10 @@ namespace aplicacion_musica
         [STAThread]
         static void Main(String[] args)
         {
+            //prepara la aplicación para que ejecute formularios y demás.
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             Log Log = Log.Instance;
             if(args.Contains("-consola"))
             {
@@ -346,14 +350,13 @@ namespace aplicacion_musica
                 Console.WriteLine("Log creado " + DateTime.Now);
                 Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -consola", TipoMensaje.Info);
             }
-            Idioma = ConfigurationManager.AppSettings["Idioma"];
             miColeccion = new Coleccion();
-            textosLocal = new ResXResourceSet(@"./idiomas/"+"original."+Idioma+".resx");
             configFileMap.ExeConfigFilename = Environment.CurrentDirectory + "/aplicacion_musica.exe.config";
             config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
-            //prepara la aplicación para que ejecute formularios y demás.
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            Idioma = ConfigurationManager.AppSettings["Idioma"];
+            textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Idioma + ".resx");
+            Reproductor.Instancia = new Reproductor();
+            Reproductor.Instancia.RefrescarTextos();
             SpotifyActivado = false;
             principal = new principal();
             if(!args.Contains("-noSpotify"))
@@ -364,9 +367,8 @@ namespace aplicacion_musica
                 {
                     _spotify = new Spotify(true);
                     SpotifyActivado = true;
+                    principal.DesactivarVinculacion();
                 }
-
-
             }
             else
             {
