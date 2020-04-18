@@ -71,6 +71,7 @@ namespace aplicacion_musica
             crono.Stop();
             if (Programa.SpotifyActivado)
                 vincularToolStripMenuItem.Visible = false;
+            cargarDiscosLegacyToolStripMenuItem.Visible = false;
             Log.ImprimirMensaje("Formulario principal creado", TipoMensaje.Correcto, crono);
         }
         public void Refrescar() { cargarVista(); }
@@ -449,7 +450,7 @@ namespace aplicacion_musica
         private void guardarcomo_Click(object sender, EventArgs e)
         {
             SaveFileDialog guardarComo = new SaveFileDialog();
-            guardarComo.Filter = Programa.textosLocal.GetString("archivo") + ".json(*.json)|*.json";
+            guardarComo.Filter = Programa.textosLocal.GetString("archivo") + ".csv(*.csv)|*.csv";
             guardarComo.InitialDirectory = Environment.CurrentDirectory;
             if(guardarComo.ShowDialog()==DialogResult.OK)
             {
@@ -700,11 +701,11 @@ namespace aplicacion_musica
         {
             Log.ImprimirMensaje("Abriendo desde fichero", TipoMensaje.Info);
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
-            openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .json (*.json)|*.json";
+            openFileDialog1.Filter = Programa.textosLocal.GetString("archivo") + " .csv (*.csv)|*.csv";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
-                Programa.cargarAlbumes(fichero);
+                Programa.cargarAlbumesCSV(fichero);
             }
         }
 
