@@ -166,9 +166,10 @@ namespace aplicacion_musica
                         {
                             exito = true;
                             string[] datosCancion = linea.Split(';');
-                            if (datosCancion.Length == 2)
+                            if (datosCancion.Length == 3)
                             {
-                                Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
+                                byte bonus = Convert.ToByte(datosCancion[2]);
+                                Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a, Convert.ToBoolean(bonus));
                                 a.agregarCancion(c, i);
                             }
                             else
@@ -315,8 +316,8 @@ namespace aplicacion_musica
                                             }
 
                                         }
-                                        else
-                                            salida.WriteLine(a.canciones[i].titulo + ";" + a.canciones[i].duracion.TotalSeconds);
+                                        else //titulo;400;0
+                                            salida.WriteLine(a.canciones[i].titulo + ";" + a.canciones[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.canciones[i].Bonus));
                                     }
                                 }
                                 salida.WriteLine();

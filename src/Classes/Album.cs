@@ -65,7 +65,8 @@ namespace aplicacion_musica
         public void agregarCancion(Cancion c, int cual)
         {
             canciones.Insert(cual, c);
-            duracion += c.duracion;
+            if (!c.Bonus)
+                duracion += c.duracion;
             numCanciones = (short)canciones.Count;
         }
         public String[] ToStringArray()
