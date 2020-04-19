@@ -341,7 +341,8 @@ namespace aplicacion_musica
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            Idioma = ConfigurationManager.AppSettings["Idioma"];
+            textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Idioma + ".resx");
             Log Log = Log.Instance;
             if(args.Contains("-consola"))
             {
@@ -353,10 +354,7 @@ namespace aplicacion_musica
             miColeccion = new Coleccion();
             configFileMap.ExeConfigFilename = Environment.CurrentDirectory + "/aplicacion_musica.exe.config";
             config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
-            Idioma = ConfigurationManager.AppSettings["Idioma"];
-            textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Idioma + ".resx");
-            Reproductor.Instancia = new Reproductor();
-            Reproductor.Instancia.RefrescarTextos();
+
             SpotifyActivado = false;
             principal = new principal();
             if(!args.Contains("-noSpotify"))
@@ -377,6 +375,7 @@ namespace aplicacion_musica
                 _spotify = null;
                 principal.HayInternet(false);
             }
+
             if (args.Contains("-modoStream"))
                 ModoStream = true;
             Reproductor reproductor = Reproductor.Instancia;
@@ -420,7 +419,10 @@ namespace aplicacion_musica
                 if (File.Exists("paths.txt"))
                     CargarPATHS();
             }
-            if(ModoStream)
+
+            Reproductor.Instancia = new Reproductor();
+            Reproductor.Instancia.RefrescarTextos();
+            if (ModoStream)
             {
                 Application.Run();
             }
