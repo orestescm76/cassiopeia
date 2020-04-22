@@ -242,7 +242,9 @@ namespace aplicacion_musica
             PlaybackContext PC = (PlaybackContext)e.Result;
             if(PC != null && PC.Item != null)
             {
+
                 dur = new TimeSpan(0, 0, 0, 0, PC.Item.DurationMs);
+                trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                 pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
                 SpotifyID = PC.Item.Id;
                 if(!Programa.ModoStream)
@@ -257,7 +259,6 @@ namespace aplicacion_musica
                         //}
                         if (!string.IsNullOrEmpty(PC.Item.Id))
                         {
-                            trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                             try
                             {
                                 DescargarPortada(PC.Item.Album);

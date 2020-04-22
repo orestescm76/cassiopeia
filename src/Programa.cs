@@ -309,7 +309,7 @@ namespace aplicacion_musica
                                     {
                                         if (a.canciones[i] is CancionLarga cl)
                                         {
-                                            salida.WriteLine(cl.titulo + ";" + cl.Partes.Count + ";P");//no tiene duracion y son 2 datos a guardar mas flag
+                                            salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar mas flag
                                             foreach (Cancion parte in cl.Partes)
                                             {
                                                 salida.WriteLine(parte.titulo + ";" + parte.duracion.TotalSeconds);
