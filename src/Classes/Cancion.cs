@@ -49,7 +49,7 @@ namespace aplicacion_musica
         }
         public String[] ToStringArray()
         {
-            String[] datos = { titulo, duracion.ToString() };
+            String[] datos = {titulo, duracion.ToString() };
             return datos;
         }
         public int GetMilisegundos()

@@ -533,7 +533,13 @@
   <data name="fusionarCancionPartes" xml:space="preserve">
     <value>Fusionar en canción con partes</value>
   </data>
-  <data name="defusionarCancionLarga" xml:space="preserve">
+  <data name="defusionarCancionPartes" xml:space="preserve">
     <value>Deshacer canción con partes</value>
+  </data>
+  <data name="error_defusion" xml:space="preserve">
+    <value>No puedes defusionar una canción normal.</value>
+  </data>
+  <data name="error_fusionsingular" xml:space="preserve">
+    <value>No puedes formar una canción con partes con una canción</value>
   </data>
 </root>

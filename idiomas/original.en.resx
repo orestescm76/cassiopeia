@@ -537,7 +537,13 @@
   <data name="fusionarCancionPartes" xml:space="preserve">
     <value>Combine into one unique song</value>
   </data>
-  <data name="defusionarCancionLarga" xml:space="preserve">
+  <data name="defusionarCancionPartes" xml:space="preserve">
     <value>Separate parts into songs</value>
+  </data>
+  <data name="error_defusion" xml:space="preserve">
+    <value>You just can't undo a normal song.</value>
+  </data>
+  <data name="error_fusionsingular" xml:space="preserve">
+    <value>You just can't make a one-part song.</value>
   </data>
 </root>

@@ -47,9 +47,9 @@
             this.setLargaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirspotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonPATH = new System.Windows.Forms.Button();
             this.fusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.defusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonPATH = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoConfig.SuspendLayout();
@@ -213,16 +213,6 @@
             this.reproducirToolStripMenuItem.Text = "reproducir";
             this.reproducirToolStripMenuItem.Click += new System.EventHandler(this.reproducirToolStripMenuItem_Click);
             // 
-            // buttonPATH
-            // 
-            this.buttonPATH.Location = new System.Drawing.Point(135, 403);
-            this.buttonPATH.Name = "buttonPATH";
-            this.buttonPATH.Size = new System.Drawing.Size(117, 31);
-            this.buttonPATH.TabIndex = 7;
-            this.buttonPATH.Text = "calcularPATHS";
-            this.buttonPATH.UseVisualStyleBackColor = true;
-            this.buttonPATH.Click += new System.EventHandler(this.buttonPATH_Click);
-            // 
             // fusionarToolStripMenuItem
             // 
             this.fusionarToolStripMenuItem.Name = "fusionarToolStripMenuItem";
@@ -235,6 +225,17 @@
             this.defusionarToolStripMenuItem.Name = "defusionarToolStripMenuItem";
             this.defusionarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.defusionarToolStripMenuItem.Text = "defusionar";
+            this.defusionarToolStripMenuItem.Click += new System.EventHandler(this.defusionarToolStripMenuItem_Click);
+            // 
+            // buttonPATH
+            // 
+            this.buttonPATH.Location = new System.Drawing.Point(135, 403);
+            this.buttonPATH.Name = "buttonPATH";
+            this.buttonPATH.Size = new System.Drawing.Size(117, 31);
+            this.buttonPATH.TabIndex = 7;
+            this.buttonPATH.Text = "calcularPATHS";
+            this.buttonPATH.UseVisualStyleBackColor = true;
+            this.buttonPATH.Click += new System.EventHandler(this.buttonPATH_Click);
             // 
             // visualizarAlbum
             // 

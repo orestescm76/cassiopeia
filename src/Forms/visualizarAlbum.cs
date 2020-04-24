@@ -113,9 +113,12 @@ namespace aplicacion_musica
         private void refrescarVista()
         {
             vistaCanciones.Items.Clear();
+            int i = 0;
             foreach (Cancion c in albumAVisualizar.canciones)
             {
-                String[] datos = c.ToStringArray();
+                String[] datos = new string[3];
+                datos[0] = (i + 1).ToString();
+                c.ToStringArray().CopyTo(datos, 1);
                 ListViewItem item = new ListViewItem(datos);
 
                 if (c is CancionLarga)
@@ -127,6 +130,7 @@ namespace aplicacion_musica
                     item.BackColor = Color.SkyBlue;
                 }
                 vistaCanciones.Items.Add(item);
+                i++;
             }
 
         }
@@ -469,8 +473,12 @@ namespace aplicacion_musica
 
         private void clickDerechoConfig_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            defusionarToolStripMenuItem.Visible = true;
+            fusionarToolStripMenuItem.Visible = true;
             int i = vistaCanciones.SelectedItems[0].Index;
             Cancion seleccion = albumAVisualizar.getCancion(i);
+            if (vistaCanciones.SelectedItems.Count > 1)
+                defusionarToolStripMenuItem.Visible = false;
             if (!(seleccion is CancionLarga))
                 defusionarToolStripMenuItem.Visible = false;
             else
@@ -479,6 +487,11 @@ namespace aplicacion_musica
 
         private void fusionarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (vistaCanciones.SelectedItems.Count == 1)
+            {
+                MessageBox.Show(Programa.textosLocal.GetString("error_fusionsingular"));
+                return;
+            }
             int num = vistaCanciones.SelectedItems[0].Index;
             List<Cancion> cancionesABorrar = new List<Cancion>();
             CancionLarga cl = new CancionLarga();
@@ -494,13 +507,26 @@ namespace aplicacion_musica
             albumAVisualizar.agregarCancion(cl, num); //should work...
             foreach (Cancion c in cancionesABorrar)
                 albumAVisualizar.QuitarCancion(c);
-            //foreach (ListViewItem cancionItem in vistaCanciones.SelectedItems) //quito las canciones despues porque si no problema
-            //{
-            //    int i = cancionItem.Index;
-            //    Cancion c = albumAVisualizar.getCancion(i);
-            //    albumAVisualizar.QuitarCancion(c);
-            //}
-            cargarVista();
+            refrescarVista();
+        }
+
+        private void defusionarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListViewItem item = vistaCanciones.SelectedItems[0];
+            int num = item.Index;
+            if (!(albumAVisualizar.canciones[num] is CancionLarga))
+            {
+                MessageBox.Show(Programa.textosLocal.GetString("error_defusion"));
+                return;
+            }
+            CancionLarga cl = (CancionLarga)albumAVisualizar.getCancion(num);
+            foreach (Cancion parte in cl.Partes)
+            {
+                albumAVisualizar.agregarCancion(parte, num);
+                num++;
+            }
+            albumAVisualizar.QuitarCancion(cl);
+            refrescarVista();
         }
     }
 }

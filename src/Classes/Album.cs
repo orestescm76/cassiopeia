@@ -122,7 +122,11 @@ namespace aplicacion_musica
                     duracion += canciones[i].duracion;
             }
         }
-        public Cancion getCancion(int n) { return canciones[n]; }
+        public Cancion getCancion(int n) 
+        { 
+            return canciones[n]; 
+        }
+
         public Cancion getCancion(String b)
         {
             for (int i = 0; i < canciones.Count; i++)
@@ -178,6 +182,7 @@ namespace aplicacion_musica
         {
             canciones.Remove(c);
             numCanciones--;
+            duracion -= c.duracion;
         }
     }
 }

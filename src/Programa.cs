@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.5.0.78 RC2 CODENAME RAVEN
+/* VERSION 1.5.1.80 RC2 CODENAME RAVEN
 * Reproductor:
 *  Reproduce en FLAC, MP3 y OGG
 *  Soporta metadatos.
@@ -29,6 +29,7 @@ using System.Threading;
 *  Drag and Drop en el reproductor
 *  Calcular los paths desde la visualización del álbum
 *  Drag and drop en la lista de reproducción
+*  Fusionado de canciones en una con partes
 */
 namespace aplicacion_musica
 {
