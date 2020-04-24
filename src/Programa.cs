@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.5.0.73 RC2 CODENAME RAVEN
+/* VERSION 1.5.0.78 RC2 CODENAME RAVEN
 * Reproductor:
 *  Reproduce en FLAC, MP3 y OGG
 *  Soporta metadatos.
@@ -66,6 +66,7 @@ namespace aplicacion_musica
                 Thread.Sleep(TimeSpan.FromSeconds(15));
             }
         }
+        //método mierdoso por temas de privado público
         public static void HayInternet(bool i)
         {
             principal.HayInternet(i);
@@ -75,6 +76,7 @@ namespace aplicacion_musica
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + idioma + ".resx");
             Idioma = idioma;
             refrescarGeneros();
+            refrescarVista();
         }
         public static void refrescarVista()
         {
@@ -132,6 +134,7 @@ namespace aplicacion_musica
         {
             Log.Instance.ImprimirMensaje("Cargando álbumes CSV almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumesLegacy(string)");
             Stopwatch crono = Stopwatch.StartNew();
+            //cargando CSV a lo bestia
             using (StreamReader lector = new StreamReader(fichero))
             {
                 string linea;
@@ -309,7 +312,7 @@ namespace aplicacion_musica
                                     {
                                         if (a.canciones[i] is CancionLarga cl)
                                         {
-                                            salida.WriteLine(cl.titulo + ";" + cl.Partes.Count + ";P");//no tiene duracion y son 2 datos a guardar mas flag
+                                            salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar
                                             foreach (Cancion parte in cl.Partes)
                                             {
                                                 salida.WriteLine(parte.titulo + ";" + parte.duracion.TotalSeconds);
@@ -417,14 +420,14 @@ namespace aplicacion_musica
                 if (File.Exists("paths.txt"))
                     CargarPATHS();
             }
-
+            //creo el Reproductor
             Reproductor.Instancia = new Reproductor();
             Reproductor.Instancia.RefrescarTextos();
-            if (ModoStream)
+            if (ModoStream) //enchufa la app sin nada, solo el spotify y el texto
             {
                 Application.Run();
             }
-            else if (!args.Contains("-reproductor"))
+            else if (!args.Contains("-reproductor")) //tirale con el principal
                 Application.Run(principal);
             else
             {
