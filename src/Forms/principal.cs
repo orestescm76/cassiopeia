@@ -241,8 +241,12 @@ namespace aplicacion_musica
         }
         private void salidaAplicacion(object sender, EventArgs e)
         {
-            guardarDiscos("discos.csv", TipoGuardado.Digital);
-            guardarDiscos("cd.json", TipoGuardado.CD);
+            Log.ImprimirMensaje("Saliendo...", TipoMensaje.Info);
+            if(!Programa.ModoStream)
+            {
+                guardarDiscos("discos.csv", TipoGuardado.Digital);
+                guardarDiscos("cd.json", TipoGuardado.CD);
+            }
             using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
                 salida.Write(Programa.Idioma);
             Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
@@ -738,7 +742,9 @@ namespace aplicacion_musica
                     spotifyToolStripMenuItem.Enabled = false;
                     vincularToolStripMenuItem.Enabled = false;
                 }
+                Programa.SpotifyActivado = true; //hemos activado spotify
                 Reproductor.Instancia.SpotifyEncendido();
+                DesactivarVinculacion(); //porque está vinculado...
             }
             else return;
         }

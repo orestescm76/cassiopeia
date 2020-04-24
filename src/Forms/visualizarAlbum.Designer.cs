@@ -48,6 +48,8 @@
             this.reproducirspotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonPATH = new System.Windows.Forms.Button();
+            this.fusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoConfig.SuspendLayout();
@@ -176,35 +178,38 @@
             this.setBonusToolStripMenuItem,
             this.setLargaToolStripMenuItem,
             this.reproducirspotifyToolStripMenuItem,
-            this.reproducirToolStripMenuItem});
+            this.reproducirToolStripMenuItem,
+            this.fusionarToolStripMenuItem,
+            this.defusionarToolStripMenuItem});
             this.clickDerechoConfig.Name = "clickDerechoConfig";
-            this.clickDerechoConfig.Size = new System.Drawing.Size(171, 92);
+            this.clickDerechoConfig.Size = new System.Drawing.Size(181, 158);
+            this.clickDerechoConfig.Opening += new System.ComponentModel.CancelEventHandler(this.clickDerechoConfig_Opening);
             // 
             // setBonusToolStripMenuItem
             // 
             this.setBonusToolStripMenuItem.Name = "setBonusToolStripMenuItem";
-            this.setBonusToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.setBonusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setBonusToolStripMenuItem.Text = "setBonus";
             this.setBonusToolStripMenuItem.Click += new System.EventHandler(this.setBonusToolStripMenuItem_Click);
             // 
             // setLargaToolStripMenuItem
             // 
             this.setLargaToolStripMenuItem.Name = "setLargaToolStripMenuItem";
-            this.setLargaToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.setLargaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setLargaToolStripMenuItem.Text = "setPartes";
             this.setLargaToolStripMenuItem.Visible = false;
             // 
             // reproducirspotifyToolStripMenuItem
             // 
             this.reproducirspotifyToolStripMenuItem.Name = "reproducirspotifyToolStripMenuItem";
-            this.reproducirspotifyToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.reproducirspotifyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reproducirspotifyToolStripMenuItem.Text = "reproducir_spotify";
             this.reproducirspotifyToolStripMenuItem.Click += new System.EventHandler(this.reproducirspotifyToolStripMenuItem_Click);
             // 
             // reproducirToolStripMenuItem
             // 
             this.reproducirToolStripMenuItem.Name = "reproducirToolStripMenuItem";
-            this.reproducirToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.reproducirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reproducirToolStripMenuItem.Text = "reproducir";
             this.reproducirToolStripMenuItem.Click += new System.EventHandler(this.reproducirToolStripMenuItem_Click);
             // 
@@ -217,6 +222,19 @@
             this.buttonPATH.Text = "calcularPATHS";
             this.buttonPATH.UseVisualStyleBackColor = true;
             this.buttonPATH.Click += new System.EventHandler(this.buttonPATH_Click);
+            // 
+            // fusionarToolStripMenuItem
+            // 
+            this.fusionarToolStripMenuItem.Name = "fusionarToolStripMenuItem";
+            this.fusionarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fusionarToolStripMenuItem.Text = "fusionar";
+            this.fusionarToolStripMenuItem.Click += new System.EventHandler(this.fusionarToolStripMenuItem_Click);
+            // 
+            // defusionarToolStripMenuItem
+            // 
+            this.defusionarToolStripMenuItem.Name = "defusionarToolStripMenuItem";
+            this.defusionarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.defusionarToolStripMenuItem.Text = "defusionar";
             // 
             // visualizarAlbum
             // 
@@ -268,5 +286,7 @@
         private System.Windows.Forms.ToolStripMenuItem reproducirspotifyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproducirToolStripMenuItem;
         private System.Windows.Forms.Button buttonPATH;
+        private System.Windows.Forms.ToolStripMenuItem fusionarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem defusionarToolStripMenuItem;
     }
 }

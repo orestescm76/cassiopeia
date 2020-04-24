@@ -60,6 +60,7 @@ namespace aplicacion_musica
         public Reproductor()
         {
             InitializeComponent();
+            Log.Instance.ImprimirMensaje("Iniciando reproductor", TipoMensaje.Info);
             timerCancion.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
             DuracionSeleccionada = new ToolTip();
@@ -72,15 +73,15 @@ namespace aplicacion_musica
                 buttonSpotify.Enabled = false;
             Icon = Properties.Resources.iconoReproductor;
             GuardarHistorial = false;
-            if(GuardarHistorial)
+            if(GuardarHistorial) //sin uso
             {
                 DateTime now = DateTime.Now;
                 Historial = new FileInfo("Log Musical " + now.Day + "-"+ now.Month + "-"+ now.Year+"-"+ now.Hour + "."+ now.Minute + ".txt");
                 NumCancion = 1;
             }
-            if (Programa.ModoStream)
+            if (Programa.ModoStream) //inicia el programa con solo la imperesión
             {
-                notifyIcon1.Visible = true;
+                iconoCerrar.Visible = true;
                 while (!Programa._spotify.cuentaLista)
                 {
                     Thread.Sleep(100);
@@ -88,7 +89,7 @@ namespace aplicacion_musica
                 ActivarSpotify();
             }
 
-            else notifyIcon1.Visible = false;
+            else iconoCerrar.Visible = false;
             buttonTwit.Enabled = false;
         }
         public void SpotifyEncendido()
@@ -111,12 +112,12 @@ namespace aplicacion_musica
         {
             Text = Programa.textosLocal.GetString("reproductor");
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
-            notifyIcon1.Text = Programa.textosLocal.GetString("cerrarModoStream");
+            iconoCerrar.Text = Programa.textosLocal.GetString("cerrarModoStream");
             buttoncrearLR.Text = Programa.textosLocal.GetString("crearLR");
             buttonAgregar.Text = Programa.textosLocal.GetString("agregarBD");
             buttonTwit.Text = Programa.textosLocal.GetString("twittearCancion");
         }
-        public void SetPATH(Cancion c)
+        public void SetPATH(Cancion c) //probablemente deprecated pero configura los paths
         {
             directorioCanciones = new DirectoryInfo(c.album.DirectorioSonido);
             foreach (FileInfo file in directorioCanciones.GetFiles())
@@ -148,7 +149,7 @@ namespace aplicacion_musica
 
             }
         }
-        public void ReproducirCancion(Cancion c)
+        public void ReproducirCancion(Cancion c) //reproduce una cancion por path o por sus metadatos
         {
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
@@ -239,10 +240,12 @@ namespace aplicacion_musica
         }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            PlaybackContext PC = (PlaybackContext)e.Result;
-            if(PC != null && PC.Item != null)
+            PlaybackContext PC = (PlaybackContext)e.Result; //datos de spotify
+            if(PC != null && PC.Item != null) //si son válidos
             {
+
                 dur = new TimeSpan(0, 0, 0, 0, PC.Item.DurationMs);
+                trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                 pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
                 SpotifyID = PC.Item.Id;
                 if(!Programa.ModoStream)
@@ -257,7 +260,6 @@ namespace aplicacion_musica
                         //}
                         if (!string.IsNullOrEmpty(PC.Item.Id))
                         {
-                            trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                             try
                             {
                                 DescargarPortada(PC.Item.Album);
@@ -301,7 +303,7 @@ namespace aplicacion_musica
                     else
                         buttonAgregar.Enabled = true;
                 }
-                using(StreamWriter salida = new StreamWriter("np.txt"))
+                using(StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
                 {
                     TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
                     salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
@@ -312,7 +314,7 @@ namespace aplicacion_musica
             }
         }
 
-        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e) //tarea asíncrona que comprueba si el token ha caducado y espera a la tarea que lo refresque
         {
             if(!Programa._spotify.TokenExpirado())
             {
@@ -424,12 +426,6 @@ namespace aplicacion_musica
             {
                 TimeSpan tRes = dur - pos;
                 labelDuracion.Text = "-" + tRes.ToString(@"mm\:ss");
-                //int secsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) % 60);
-                //int minsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) / 60);
-                //if(secsRestantes < 10)
-                //    labelDuracion.Text = "-" + minsRestantes + ":0" + secsRestantes; 
-                //else
-                //    labelDuracion.Text = "-" + minsRestantes + ":" + secsRestantes; 
             }
             else
             {
@@ -843,7 +839,7 @@ namespace aplicacion_musica
             Programa._spotify.insertarAlbumFromURI(cancionReproduciendo.Album.Id);
         }
 
-        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void iconoCerrar_doubleClick(object sender, MouseEventArgs e)
         {
             Application.Exit();
         }

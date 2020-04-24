@@ -174,5 +174,10 @@ namespace aplicacion_musica
         {
             PuedeBorrarse = true;
         }
+        public void QuitarCancion(Cancion c)
+        {
+            canciones.Remove(c);
+            numCanciones--;
+        }
     }
 }

@@ -50,7 +50,7 @@ namespace aplicacion_musica
         public static bool ModoOscuro = false;
         public static readonly string CodeName = "Raven";
         private static ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
-        public static bool SpotifyActivado = true;
+        public static bool SpotifyActivado = false;
         public static Configuration config;
         public static bool ModoReproductor = false;
         public static Thread tareaRefrescoToken;
@@ -378,7 +378,11 @@ namespace aplicacion_musica
             }
 
             if (args.Contains("-modoStream"))
+            {
                 ModoStream = true;
+                Log.ImprimirMensaje("Iniciando modo Stream", TipoMensaje.Info);
+            }
+
             Reproductor reproductor = Reproductor.Instancia;
             if(!ModoStream)
             {
@@ -402,15 +406,8 @@ namespace aplicacion_musica
                 {
                     if (File.Exists("discos.csv"))
                     {
-                        if (args.Length != 0 && args.Contains("-pregunta"))//cambiar parametro para cargar otro fichero
-                        {
-
-                        }
-                        else
-                        {
-                            cargarAlbumesCSV("discos.csv");
-                            cargarCDS();
-                        }
+                        cargarAlbumesCSV("discos.csv");
+                        cargarCDS();
                     }
                     else
                     {
@@ -437,7 +434,8 @@ namespace aplicacion_musica
             }
             if(_spotify != null && tareaRefrescoToken != null)
                 tareaRefrescoToken.Abort();
-            GuardarPATHS();
+            if(!ModoStream)
+                GuardarPATHS();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();
 

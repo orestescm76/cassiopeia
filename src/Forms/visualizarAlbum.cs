@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Collections.Generic;
 
 namespace aplicacion_musica
 {
@@ -106,6 +107,28 @@ namespace aplicacion_musica
             reproducirToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducir");
             reproducirspotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
             buttonPATH.Text = Programa.textosLocal.GetString("calcularPATHS");
+            fusionarToolStripMenuItem.Text = Programa.textosLocal.GetString("fusionarCancionPartes");
+            defusionarToolStripMenuItem.Text = Programa.textosLocal.GetString("defusionarCancionPartes");
+        }
+        private void refrescarVista()
+        {
+            vistaCanciones.Items.Clear();
+            foreach (Cancion c in albumAVisualizar.canciones)
+            {
+                String[] datos = c.ToStringArray();
+                ListViewItem item = new ListViewItem(datos);
+
+                if (c is CancionLarga)
+                {
+                    item.BackColor = Color.LightSalmon;
+                }
+                if (c.Bonus)
+                {
+                    item.BackColor = Color.SkyBlue;
+                }
+                vistaCanciones.Items.Add(item);
+            }
+
         }
         private void cargarVista()
         {
@@ -442,6 +465,42 @@ namespace aplicacion_musica
                 }
             }
             Programa.GuardarPATHS();
+        }
+
+        private void clickDerechoConfig_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            int i = vistaCanciones.SelectedItems[0].Index;
+            Cancion seleccion = albumAVisualizar.getCancion(i);
+            if (!(seleccion is CancionLarga))
+                defusionarToolStripMenuItem.Visible = false;
+            else
+                fusionarToolStripMenuItem.Visible = false;
+        }
+
+        private void fusionarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int num = vistaCanciones.SelectedItems[0].Index;
+            List<Cancion> cancionesABorrar = new List<Cancion>();
+            CancionLarga cl = new CancionLarga();
+            cl.SetAlbum(albumAVisualizar);
+            cl.titulo = albumAVisualizar.getCancion(num).titulo;
+            foreach (ListViewItem cancionItem in vistaCanciones.SelectedItems)
+            {
+                int i = cancionItem.Index;
+                Cancion c = albumAVisualizar.getCancion(i);
+                cl.addParte(ref c);
+                cancionesABorrar.Add(c);
+            }
+            albumAVisualizar.agregarCancion(cl, num); //should work...
+            foreach (Cancion c in cancionesABorrar)
+                albumAVisualizar.QuitarCancion(c);
+            //foreach (ListViewItem cancionItem in vistaCanciones.SelectedItems) //quito las canciones despues porque si no problema
+            //{
+            //    int i = cancionItem.Index;
+            //    Cancion c = albumAVisualizar.getCancion(i);
+            //    albumAVisualizar.QuitarCancion(c);
+            //}
+            cargarVista();
         }
     }
 }
