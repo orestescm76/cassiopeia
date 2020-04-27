@@ -9,7 +9,8 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.5.1.80 RC2 CODENAME RAVEN
+using System.Collections.Generic;
+/* VERSION 1.5.2.82 RC2 CODENAME RAVEN
 * Reproductor:
 *  Reproduce en FLAC, MP3 y OGG
 *  Soporta metadatos.
@@ -233,10 +234,24 @@ namespace aplicacion_musica
                 {
                     linea = entrada.ReadLine();
                     string[] datos = linea.Split(';');
-                    Album a = miColeccion.buscarAlbum(datos[2])[0];
-                    Cancion c = a.canciones[a.buscarCancion(datos[1])];
-                    linea = entrada.ReadLine();
-                    c.PATH = linea;
+                    List<Album> listaAlbumes = miColeccion.buscarAlbum(datos[2]);
+                    if (listaAlbumes.Count != 0)
+                    {
+                        foreach (Album album in listaAlbumes)
+                        {
+                            if(album.artista == datos[0] && album.nombre == datos[2])
+                            {
+                                Cancion c = album.canciones[album.buscarCancion(datos[1])];
+                                linea = entrada.ReadLine();
+                                c.PATH = linea;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        linea = entrada.ReadLine();
+                        continue;
+                    }
                 }
             }
         }
@@ -264,6 +279,7 @@ namespace aplicacion_musica
         }
         public static void GuardarDiscos(string path, TipoGuardado tipoGuardado, bool json = false)
         {
+
             Stopwatch crono = Stopwatch.StartNew();
             FileInfo fich = new FileInfo(path);
             if (json)
@@ -293,9 +309,8 @@ namespace aplicacion_musica
                         default:
                             break;
                     }
-                    fich.Refresh();
+
                 }
-                Log.Instance.ImprimirMensaje("Tamaño: " + fich.Length + " bytes", TipoMensaje.Info);
             }
             else
             {
@@ -304,6 +319,8 @@ namespace aplicacion_musica
                     switch (tipoGuardado)
                     {
                         case TipoGuardado.Digital:
+                            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.albumes.Count + " discos)", TipoMensaje.Info);
+                            Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
                             foreach (Album a in miColeccion.albumes)
                             {
                                 if (!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
@@ -337,8 +354,10 @@ namespace aplicacion_musica
 
                 }
             }
-            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + "- Guardado", TipoMensaje.Correcto, crono);
             crono.Stop();
+            fich.Refresh();
+            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + "- Guardado", TipoMensaje.Correcto, crono);
+            Log.Instance.ImprimirMensaje("Tamaño: " + fich.Length + " bytes", TipoMensaje.Info);
         }
         [STAThread]
         static void Main(String[] args)
@@ -444,7 +463,16 @@ namespace aplicacion_musica
             config.Save();
 
             if (File.Exists("./covers/np.jpg"))
-                File.Delete("./covers/np.jpg");
+            {
+                try
+                {
+                    File.Delete("./covers/np.jpg");
+                }
+                catch (IOException)
+                {
+                    Log.ImprimirMensaje("No se ha podido eliminar el fichero np.jpg.", TipoMensaje.Advertencia);
+                }
+            }
             if (args.Contains("-consola"))
             {
                 Console.WriteLine("Programa finalizado, presione una tecla para continuar...");

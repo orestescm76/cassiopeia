@@ -159,7 +159,16 @@ namespace aplicacion_musica
             switch (FormatoSonido)
             {
                 case FormatoSonido.MP3:
-                    return tags.Image;
+                    try
+                    {
+                        return tags.Image;
+                    }
+                    catch (ArgumentException)
+                    {
+
+                        return null;
+                    }
+
                 case FormatoSonido.FLAC:
                     return null;
                 case FormatoSonido.OGG:

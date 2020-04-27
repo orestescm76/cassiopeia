@@ -18,7 +18,7 @@ namespace aplicacion_musica
             CronometroTotal = Stopwatch.StartNew();
             Fichero = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false);
             Fichero.AutoFlush = true;
-
+            Fichero.WriteLine("Gestor de música " + Programa.version);
             Fichero.WriteLine("Log creado el " + DateTime.Now);
         }
         public static Log Instance {get {return instance;} }

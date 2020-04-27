@@ -206,6 +206,52 @@ namespace aplicacion_musica
             timerMetadatos.Enabled = true;
             buttonTwit.Enabled = true;
         }
+        private void ReproducirCancion(string path)
+        {
+            timerCancion.Enabled = false;
+            timerMetadatos.Enabled = false;
+
+            estadoReproductor = EstadoReproductor.Detenido;
+            nucleo.Apagar();
+            try
+            {
+                nucleo.CargarCancion(path);
+                nucleo.Reproducir();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
+                return;
+            }
+            PrepararReproductor();
+            try
+            {
+                System.Drawing.Image caratula = nucleo.GetCaratula();
+                if (caratula != null)
+                    pictureBoxCaratula.Image = caratula;
+                else
+                {
+                    FileInfo fi = new FileInfo(openFileDialog1.FileName);
+                    DirectoryInfo info = new DirectoryInfo(fi.DirectoryName);
+                    foreach (FileInfo item in info.GetFiles())
+                    {
+                        if (item.Name == "cover.jpg" || item.Name == "folder.jpg")
+                            pictureBoxCaratula.Image = System.Drawing.Image.FromFile(item.FullName);
+                        else
+                            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+                    }
+                }
+            }
+            catch (NullReferenceException)
+            {
+                Log.ImprimirMensaje("No hay carátula, usando por defecto", TipoMensaje.Advertencia);
+                pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+            }
+
+            timerCancion.Enabled = true;
+            timerMetadatos.Enabled = true;
+            buttonTwit.Enabled = true;
+        }
         private void PrepararReproductor()
         {
             nucleo.SetVolumen(Volumen);
@@ -477,54 +523,14 @@ namespace aplicacion_musica
             timerMetadatos.Enabled = false;
             nucleo.Apagar();
         }
-        private void button2_Click(object sender, EventArgs e)
+        private void AbrirFichero(object sender, EventArgs e)
         {
             string fich = null;
             openFileDialog1.Filter = "*.mp3, *.flac, *.ogg|*.mp3;*.flac;*.ogg";
             DialogResult r = openFileDialog1.ShowDialog();
             if (r != DialogResult.Cancel)
             {
-                timerCancion.Enabled = false;
-                nucleo.Apagar();
-                estadoReproductor = EstadoReproductor.Detenido;
-                fich = openFileDialog1.FileName;
-                this.fich = fich;
-                try
-                {
-                    nucleo.CargarCancion(fich);
-                    FicheroLeible(fich);
-                    nucleo.Reproducir();
-                    PrepararReproductor();
-                }
-                catch (Exception ex)
-                {
-                    Log.ImprimirMensaje("Error intentando cargar la canción", TipoMensaje.Error);
-                    Log.ImprimirMensaje(ex.Message, TipoMensaje.Error);
-                    nucleo.Apagar();
-                    return;
-                }
-                try
-                {
-                    System.Drawing.Image caratula = nucleo.GetCaratula();
-                    if(caratula != null) 
-                        pictureBoxCaratula.Image = nucleo.GetCaratula();
-                    else
-                    {
-                        FileInfo fi = new FileInfo(openFileDialog1.FileName);
-                        DirectoryInfo info = new DirectoryInfo(fi.DirectoryName);
-                        foreach (FileInfo item in info.GetFiles())
-                        {
-                            if (item.Name == "cover.jpg" || item.Name == "folder.jpg")
-                                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(item.FullName);
-                        }
-                    }
-
-                }
-                catch (NullReferenceException)
-                {
-                    Log.ImprimirMensaje("No hay carátula, usando por defecto", TipoMensaje.Advertencia);
-                    pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
-                }
+                ReproducirCancion(openFileDialog1.FileName);
             }
         }
 
@@ -738,6 +744,8 @@ namespace aplicacion_musica
                 buttonSaltarAtras_Click(null, null);
             if (e.KeyData == Keys.Space)
                 buttonReproducirPausar_Click(null, null);
+            if (e.Control && e.KeyCode == Keys.O)
+                AbrirFichero(null, null);
 
         }
         private String GetTextoReproductor(EstadoReproductor er)
@@ -760,6 +768,7 @@ namespace aplicacion_musica
         private void ApagarSpotify()
         {
             backgroundWorker.CancelAsync();
+            _spotify.PausePlayback();
             buttoncrearLR.Show();
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
             timerSpotify.Enabled = false;
@@ -775,7 +784,7 @@ namespace aplicacion_musica
             labelDuracion.Text = "-";
             labelPosicion.Text = "0:00";
             Volumen = 1.0f;
-            Text = "";
+            Text = Programa.textosLocal.GetString("reproductor");
             toolStripStatusLabelCorreoUsuario.Text = "";
             labelDatosCancion.Text = "";
             Icon = Properties.Resources.iconoReproductor;
@@ -789,6 +798,7 @@ namespace aplicacion_musica
                 timerMetadatos.Enabled = false;
                 timerCancion.Enabled = false;
                 checkBoxFoobar.Visible = false;
+                labelDatosCancion.Text = "";
                 nucleo.Apagar();
             }
             catch (Exception)
@@ -900,10 +910,21 @@ namespace aplicacion_musica
         private void Reproductor_DragDrop(object sender, DragEventArgs e)
         {
             Cancion c = null;
+            FileInfo f = null;
             if((c = (Cancion)e.Data.GetData(typeof(Cancion))) != null)
             {
                 if (!string.IsNullOrEmpty(c.PATH))
                     ReproducirCancion(c);
+            }
+            else if(e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.All;
+                String[] ficheros = (String[])e.Data.GetData(DataFormats.FileDrop, false);
+                foreach (string fich in ficheros)
+                {
+                    if (FicheroLeible(fich))
+                        ReproducirCancion(fich);
+                }
             }
         }
 

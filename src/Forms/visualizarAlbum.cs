@@ -451,6 +451,8 @@ namespace aplicacion_musica
                         if (LM.Evaluable() && c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.artista.ToLower() == LM.Artista.ToLower())
                         {
                             c.PATH = file.FullName;
+                            Log.Instance.ImprimirMensaje("PATH establecido correctamente", TipoMensaje.Correcto);
+                            Log.Instance.ImprimirMensaje(c + " " + file.FullName,TipoMensaje.Correcto);
                             break;
                         }
                         else
@@ -458,6 +460,8 @@ namespace aplicacion_musica
                             if (file.FullName.ToLower().Contains(c.titulo.ToLower()))
                             {
                                 c.PATH = file.FullName;
+                                Log.Instance.ImprimirMensaje("PATH establecido correctamente", TipoMensaje.Correcto);
+                                Log.Instance.ImprimirMensaje(c + " " + file.FullName, TipoMensaje.Correcto);
                                 break;
                             }
                         }

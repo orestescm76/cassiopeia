@@ -110,6 +110,7 @@ namespace aplicacion_musica
             cargarVista();
             nuevo.Show();
             Close();
+            Programa.refrescarVista();
             Log.Instance.ImprimirMensaje("Guardado sin problema", TipoMensaje.Correcto);
         }
 

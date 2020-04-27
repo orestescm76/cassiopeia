@@ -45,7 +45,7 @@ namespace aplicacion_musica
         }
         public override string ToString()
         {
-            return album.artista + " - " + titulo + "("+album.nombre+")";
+            return album.artista + " - " + titulo + " ("+album.nombre+")";
         }
         public String[] ToStringArray()
         {

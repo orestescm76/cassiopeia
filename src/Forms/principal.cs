@@ -207,7 +207,6 @@ namespace aplicacion_musica
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            salidaAplicacion(null, null);
             Application.Exit();
         }
         private void SubIdioma_Click(object sender, EventArgs e)
@@ -252,6 +251,7 @@ namespace aplicacion_musica
             Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
             Reproductor.Instancia.Apagar();
             Reproductor.Instancia.Dispose();
+            return;
         }
 
         private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
