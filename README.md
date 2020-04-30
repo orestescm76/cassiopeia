@@ -15,6 +15,12 @@ It has a music player built in, can play in FLAC, OGG and MP3. It can also sync 
 * Playing your saved albums in Spotify or in the music player.
 * Manage CDs, with Goldmine standard for the degradation of the media. Similar to Discogs.
 
+### Launch options
+* -reproductor -> Launches the program with only the music player
+* -modoStream -> Launches the program in a background mode, only writes the playing song in Spotify in a file called "np.txt". Used for OBS and streamers.
+* -consola -> Launches a console with the program.
+* -noSpotify -> Disables everything related to Spotify.
+
 #### This software has many libraries:
 * https://github.com/JohnnyCrazy/SpotifyAPI-NET
 * https://github.com/filoe/cscore
