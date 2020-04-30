@@ -546,4 +546,7 @@
   <data name="error_fusionsingular" xml:space="preserve">
     <value>You just can't make a one-part song.</value>
   </data>
+  <data name="error_cancion" xml:space="preserve">
+    <value>I cannot find the music file for this song.</value>
+  </data>
 </root>

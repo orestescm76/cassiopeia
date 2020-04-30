@@ -542,4 +542,7 @@
   <data name="error_fusionsingular" xml:space="preserve">
     <value>No puedes formar una canción con partes con una canción</value>
   </data>
+  <data name="error_cancion" xml:space="preserve">
+    <value>No se encuentra el fichero para esta canción</value>
+  </data>
 </root>

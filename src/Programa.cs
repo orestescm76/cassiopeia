@@ -162,9 +162,6 @@ namespace aplicacion_musica
                         linea = lector.ReadLine();
                         if (string.IsNullOrEmpty(linea))
                         {
-                            /*System.Windows.Forms.MessageBox.Show("mensajeError"+Environment.NewLine
-                                + a.nombre + " - " + a.nombre + Environment.NewLine
-                                + "saltarAlSiguiente", "error", System.Windows.Forms.MessageBoxButtons.OK);*/
                             break; //no sigue cargando el álbum
                         }
                         else

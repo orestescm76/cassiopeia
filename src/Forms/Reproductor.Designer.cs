@@ -193,9 +193,10 @@
             // labelPorcentaje
             // 
             this.labelPorcentaje.AutoSize = true;
+            this.labelPorcentaje.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelPorcentaje.Location = new System.Drawing.Point(8, 454);
             this.labelPorcentaje.Name = "labelPorcentaje";
-            this.labelPorcentaje.Size = new System.Drawing.Size(21, 13);
+            this.labelPorcentaje.Size = new System.Drawing.Size(26, 17);
             this.labelPorcentaje.TabIndex = 10;
             this.labelPorcentaje.Text = "0%";
             // 
@@ -272,11 +273,11 @@
             // 
             this.checkBoxFoobar.AutoSize = true;
             this.checkBoxFoobar.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxFoobar.Location = new System.Drawing.Point(290, 462);
+            this.checkBoxFoobar.Location = new System.Drawing.Point(254, 462);
             this.checkBoxFoobar.Name = "checkBoxFoobar";
-            this.checkBoxFoobar.Size = new System.Drawing.Size(75, 25);
+            this.checkBoxFoobar.Size = new System.Drawing.Size(111, 25);
             this.checkBoxFoobar.TabIndex = 15;
-            this.checkBoxFoobar.Text = "foobar";
+            this.checkBoxFoobar.Text = "foobar2000";
             this.checkBoxFoobar.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.checkBoxFoobar.UseVisualStyleBackColor = true;
             this.checkBoxFoobar.Visible = false;

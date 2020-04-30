@@ -417,11 +417,21 @@ namespace aplicacion_musica
         {
             if(!string.IsNullOrEmpty(albumAVisualizar.IdSpotify))
             {
-                SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify.ReproducirCancion(albumAVisualizar.IdSpotify, vistaCanciones.SelectedItems[0].Index);
-                if (err.Error != null && err.Error.Message != null)
-                    MessageBox.Show(err.Error.Message);
+                Cancion seleccion = albumAVisualizar.getCancion(vistaCanciones.SelectedItems[0].Index);
+                if (!(seleccion is CancionLarga))
+                {
+                    SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify.ReproducirCancion(albumAVisualizar.IdSpotify, vistaCanciones.SelectedItems[0].Index);
+                    if (err.Error != null && err.Error.Message != null)
+                        MessageBox.Show(err.Error.Message);
+                }
+                else
+                {
+                    CancionLarga cl = (CancionLarga)seleccion;
+                    SpotifyAPI.Web.Models.ErrorResponse err = Programa._spotify.ReproducirCancion(albumAVisualizar.IdSpotify, cl);
+                    if (err.Error != null && err.Error.Message != null)
+                        MessageBox.Show(err.Error.Message);
+                }
             }
-                
         }
         private void reproducirToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -437,6 +447,7 @@ namespace aplicacion_musica
 
         private void buttonPATH_Click(object sender, EventArgs e)
         {
+            Log.Instance.ImprimirMensaje("Intentando buscar PATHS...", TipoMensaje.Info);
             DirectoryInfo directorioCanciones = new DirectoryInfo(albumAVisualizar.DirectorioSonido);
             foreach (FileInfo file in directorioCanciones.GetFiles())
             {
@@ -468,9 +479,14 @@ namespace aplicacion_musica
                     }
                     catch (Exception)
                     {
-                        throw;
+                        Log.Instance.ImprimirMensaje("Ha habido un error al poner los PATHS...", TipoMensaje.Error);
                     }
                 }
+            }
+            foreach (Cancion cancion in albumAVisualizar.canciones)
+            {
+                if (string.IsNullOrEmpty(cancion.PATH))
+                    Log.Instance.ImprimirMensaje("No se ha encontrado el fichero para " + cancion.titulo, TipoMensaje.Advertencia);
             }
             Programa.GuardarPATHS();
         }

@@ -28,7 +28,6 @@ namespace aplicacion_musica
         public ListaReproduccion ListaReproduccion { get; set; }
         private readonly ReproductorNucleo nucleo = new ReproductorNucleo();
         private readonly ObservableCollection<MMDevice> _devices = new ObservableCollection<MMDevice>();
-        private string fich;
         public EstadoReproductor estadoReproductor;
         private bool TiempoRestante = false;
         ToolTip DuracionSeleccionada;
@@ -60,6 +59,7 @@ namespace aplicacion_musica
         public Reproductor()
         {
             InitializeComponent();
+            checkBoxFoobar.Visible = false;
             Log.Instance.ImprimirMensaje("Iniciando reproductor", TipoMensaje.Info);
             timerCancion.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
@@ -153,9 +153,7 @@ namespace aplicacion_musica
         {
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
-
             estadoReproductor = EstadoReproductor.Detenido;
-            string s = "";
             try
             {
                 SetPATH(c);
@@ -168,11 +166,11 @@ namespace aplicacion_musica
             CancionLocalReproduciendo = c;
             if (string.IsNullOrEmpty(c.PATH))
             {   
-                MessageBox.Show(c.titulo + " " +c.album.nombre + Environment.NewLine + "ERROR_CANCION");
+                MessageBox.Show(c.titulo + " " +c.album.nombre + Environment.NewLine + Programa.textosLocal.GetString("error_cancion"));
+                Log.ImprimirMensaje("No se encuentra la canción", TipoMensaje.Error);
                 return;
             }
             else
-                s = c.PATH;
             nucleo.Apagar();
             try
             {
@@ -182,6 +180,7 @@ namespace aplicacion_musica
             catch (Exception)
             {
                 MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
+                Log.ImprimirMensaje("Error en la reproducción", TipoMensaje.Error);
                 return;
             }
             if(GuardarHistorial)
@@ -221,8 +220,10 @@ namespace aplicacion_musica
             catch (Exception)
             {
                 MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
+                Log.ImprimirMensaje("Error en la reproducción", TipoMensaje.Error);
                 return;
             }
+            Log.ImprimirMensaje("Reproduciendo " + path, TipoMensaje.Correcto);
             PrepararReproductor();
             try
             {
@@ -265,36 +266,32 @@ namespace aplicacion_musica
             estadoReproductor = EstadoReproductor.Reproduciendo;
             buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
         }
-        private bool FicheroLeible(string s)
+        private bool FicheroLeible(string ss)
         {
-            if (Path.GetExtension(s) == ".mp3")
+            timerMetadatos.Enabled = false;
+            switch (Path.GetExtension(ss))
             {
-                timerMetadatos.Enabled = false;
-                return true;
+                case ".ogg":
+                    timerMetadatos.Enabled = true;
+                    return true;
+                case string s when (s == ".mp3" || s == ".flac"): //ahora una linea, gracias jose...?
+                    return true;
+                default:
+                    return false;
             }
-            else if (Path.GetExtension(s) == ".ogg")
-            {
-                timerMetadatos.Enabled = true;
-                return true;
-            }
-            else if (Path.GetExtension(s) == ".flac")
-            {
-                timerMetadatos.Enabled = false;
-                return true;
-            }
-            else return false;
         }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             PlaybackContext PC = (PlaybackContext)e.Result; //datos de spotify
-            if(PC != null && PC.Item != null) //si son válidos
+            if (PC != null && PC.Item != null) //si son válidos
             {
-
+                buttonTwit.Enabled = true;
+                buttonAgregar.Enabled = true;
                 dur = new TimeSpan(0, 0, 0, 0, PC.Item.DurationMs);
                 trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                 pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
                 SpotifyID = PC.Item.Id;
-                if(!Programa.ModoStream)
+                if (!Programa.ModoStream)
                 {
                     trackBarPosicion.Value = (int)pos.TotalSeconds;
                     if (PC.Item.Id != cancionReproduciendo.Id || pictureBoxCaratula.Image == null)
@@ -349,15 +346,21 @@ namespace aplicacion_musica
                     else
                         buttonAgregar.Enabled = true;
                 }
-                using(StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
+                using (StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
                 {
                     TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
                     salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
-                    salida.Write(np.ToString(@"mm\:ss") + " / ");
-                    salida.Write(dur.ToString(@"mm\:ss"));
+                    salida.Write((int)np.TotalMinutes + ":" + np.ToString(@"ss") + " / ");
+                    salida.Write((int)dur.TotalMinutes + ":" + dur.ToString(@"ss"));
                 }
 
             }
+            else
+            {
+                buttonTwit.Enabled = false;
+                buttonAgregar.Enabled = false;
+            }
+
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e) //tarea asíncrona que comprueba si el token ha caducado y espera a la tarea que lo refresque
@@ -461,21 +464,21 @@ namespace aplicacion_musica
                         salida.WriteLine(Text);
                     else
                         salida.WriteLine(CancionLocalReproduciendo.ToString());
-                    salida.Write(pos.ToString(@"mm\:ss") + " / ");
-                    salida.Write(dur.ToString(@"mm\:ss"));
+                    salida.Write((int)pos.TotalMinutes + ":" + pos.ToString(@"ss") + " / ");
+                    salida.Write((int)dur.TotalMinutes + ":" + dur.ToString(@"ss"));
                 }
             }
-            labelPosicion.Text = pos.ToString(@"mm\:ss");
+            labelPosicion.Text = (int)pos.TotalMinutes + ":" + pos.ToString(@"ss");
             if (pos > dur)
                 dur = pos;
             if(TiempoRestante)
             {
                 TimeSpan tRes = dur - pos;
-                labelDuracion.Text = "-" + tRes.ToString(@"mm\:ss");
+                labelDuracion.Text = "-" + (int)tRes.TotalMinutes + ":" + tRes.ToString(@"ss");
             }
             else
             {
-                labelDuracion.Text = dur.ToString(@"mm\:ss");
+                labelDuracion.Text = (int)dur.TotalMinutes + ":" + dur.ToString(@"ss");
             }
             if(nucleo.ComprobarSonido())
             {
@@ -499,19 +502,18 @@ namespace aplicacion_musica
 
         private void Reproductor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!Programa.ModoReproductor || !Programa.ModoStream)
-            {
-                Hide();
-                e.Cancel = true;
-            }
-            else
+            if (Programa.ModoReproductor || Programa.ModoStream)
             {
                 if (nucleo != null)
                     nucleo.Apagar();
                 Dispose();
                 Application.Exit();
             }
-
+            else
+            {
+                Hide();
+                e.Cancel = true;
+            }
         }
         public void Apagar()
         {
@@ -525,7 +527,6 @@ namespace aplicacion_musica
         }
         private void AbrirFichero(object sender, EventArgs e)
         {
-            string fich = null;
             openFileDialog1.Filter = "*.mp3, *.flac, *.ogg|*.mp3;*.flac;*.ogg";
             DialogResult r = openFileDialog1.ShowDialog();
             if (r != DialogResult.Cancel)
@@ -636,12 +637,16 @@ namespace aplicacion_musica
         private void trackBarVolumen_Scroll(object sender, EventArgs e)
         {
             Volumen = (float)trackBarVolumen.Value / 100;
+            SetVolumen(Volumen);
+        }
+        private void SetVolumen(float vol)
+        {
+            int volSpot = (int)(vol * 100);
             if (!Spotify && (nucleo.ComprobarSonido()))
                 nucleo.SetVolumen(Volumen);
             else if (EsPremium && Spotify)
-                _spotify.SetVolume(trackBarVolumen.Value);
+                _spotify.SetVolume(volSpot);
         }
-
         private void trackBarVolumen_MouseDown(object sender, MouseEventArgs e)
         {
             Volumen = (float)trackBarVolumen.Value / 100;
@@ -738,14 +743,40 @@ namespace aplicacion_musica
         {
             if (e.KeyData == Keys.F9 && !Spotify && lrui != null)
                 lrui.Show();
-            if (e.Control && e.KeyData == Keys.Right)
+            if (e.Control && e.KeyCode == Keys.Right)
                 buttonSaltarAdelante_Click(null, null);
-            if (e.Control && e.KeyData == Keys.Left)
+            if (e.Control && e.KeyCode == Keys.Left)
                 buttonSaltarAtras_Click(null, null);
             if (e.KeyData == Keys.Space)
                 buttonReproducirPausar_Click(null, null);
             if (e.Control && e.KeyCode == Keys.O)
                 AbrirFichero(null, null);
+            if ((e.Control && e.KeyCode == Keys.Down) || e.KeyCode == Keys.Subtract)
+            {
+
+                Volumen -= 0.05f;
+                if(Volumen < 0.001f)
+                {
+                    Volumen = 0;
+                    trackBarVolumen.Value = 0;
+                }
+                else
+                    trackBarVolumen.Value = trackBarVolumen.Value - 5;
+                SetVolumen(Volumen);
+            }
+            if ((e.Control && e.KeyCode == Keys.Up) || e.KeyCode == Keys.Add)
+            {
+
+                Volumen += 0.05f;
+                if (Volumen > 1.001f)
+                {
+                    Volumen = 1;
+                    trackBarVolumen.Value = 100;
+                }
+                else
+                    trackBarVolumen.Value = trackBarVolumen.Value + 5;
+                SetVolumen(Volumen);
+            }
 
         }
         private String GetTextoReproductor(EstadoReproductor er)
@@ -799,6 +830,9 @@ namespace aplicacion_musica
                 timerCancion.Enabled = false;
                 checkBoxFoobar.Visible = false;
                 labelDatosCancion.Text = "";
+                buttonTwit.Enabled = false;
+                labelPosicion.Text = "0:00";
+                labelDuracion.Text = "XX:XX";
                 nucleo.Apagar();
             }
             catch (Exception)
@@ -896,7 +930,7 @@ namespace aplicacion_musica
                         cancionReproduciendo.Artists[0].Name + "%20"+ "%0a" +
                         Programa.textosLocal.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Programa.version + "%20" + Programa.CodeName;
             }
-            else
+            else if(CancionLocalReproduciendo != null)
                 test = Programa.textosLocal.GetString("compartirLocal1").Replace(" ", "%20") + "%20" + 
                     CancionLocalReproduciendo.titulo + "%20" + 
                     Programa.textosLocal.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
@@ -904,6 +938,15 @@ namespace aplicacion_musica
                     Programa.textosLocal.GetString("compartirLocal3").Replace(" ", "%20") + "%20" + 
                     Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + 
                     Programa.version + "%20" + Programa.CodeName;
+            else
+            {
+                string cancionReproduciendo = nucleo.CancionReproduciendose();
+                test = Programa.textosLocal.GetString("compartirLocal1").Replace(" ", "%20") + "%20" +
+                    cancionReproduciendo + "%20" +
+                    Programa.textosLocal.GetString("compartirLocal3").Replace(" ", "%20") + "%20" +
+                    Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
+                    Programa.version + "%20" + Programa.CodeName;
+            }
             link += test;
             Process.Start(link);
         }
@@ -923,7 +966,11 @@ namespace aplicacion_musica
                 foreach (string fich in ficheros)
                 {
                     if (FicheroLeible(fich))
+                    {
+                        Log.ImprimirMensaje("Detectado drag & drop.", TipoMensaje.Info);
                         ReproducirCancion(fich);
+                    }
+
                 }
             }
         }

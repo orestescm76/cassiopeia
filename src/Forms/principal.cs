@@ -158,7 +158,6 @@ namespace aplicacion_musica
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
-            Log.ImprimirMensaje("Ordenando columnas", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
             if(e.Column == lvwColumnSorter.ColumnaAOrdenar) // Determine if clicked column is already the column that is being sorted.
             {
@@ -203,7 +202,6 @@ namespace aplicacion_musica
             Programa.miColeccion.cambiarLista(ref nuevaLista);
             vistaAlbumes.Refresh();
             crono.Stop();
-            Log.ImprimirMensaje("Ordenado", TipoMensaje.Correcto, crono);
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {

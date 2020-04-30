@@ -31,7 +31,7 @@ namespace aplicacion_musica
             canciones = new List<Cancion>(nc);
             caratula = c;
             genero = g;
-            PuedeBorrarse = false;
+            PuedeBorrarse = true;
         }
         public Album(string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
@@ -42,7 +42,7 @@ namespace aplicacion_musica
             numCanciones = nc;
             caratula = c;
             genero = new Genero("");
-            PuedeBorrarse = false;
+            PuedeBorrarse = true;
         }
         public Album(Album a)
         {
@@ -53,7 +53,7 @@ namespace aplicacion_musica
             numCanciones = a.numCanciones;
             canciones = a.canciones;
             caratula = a.caratula;
-            PuedeBorrarse = false;
+            PuedeBorrarse = true;
         }
         public void agregarCancion(Cancion c)
         {

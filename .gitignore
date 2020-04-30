@@ -1,6 +1,6 @@
 #ignorar las carpetas
-aplicacion-ipo.csproj
-aplicacion-ipo.csproj.user
+aplicacion-gestormusica.csproj
+aplicacion-gestormusica.csproj.user
 .vs/
 .vs/aplicacion-ipo/v16/*.suo
 bin/
@@ -14,7 +14,6 @@ guardado.mdb
 ./app.config
 *.suo
 aplicacion-ipo.sln
-app.config
 packages/
 packages.config
 aplicacion-ipo.sln
@@ -24,3 +23,6 @@ SpotifyAPI.Web.dll
 idiomas/original.resx
 packages.config
 ban/
+aplicacion-gestormusica.sln
+app.config
+icono.ico

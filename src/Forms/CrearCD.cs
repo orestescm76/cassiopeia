@@ -65,11 +65,11 @@ namespace aplicacion_musica
                 textBoxAño.Hide();
                 numericUpDownNumCanciones.Maximum = album.numCanciones - cdd.Discos[0].NumCanciones;
                 numericUpDownNumCanciones.Value = numericUpDownNumCanciones.Maximum;
-                Console.WriteLine("Creando otro CD con un máximo de "+numericUpDownNumCanciones.Maximum);
+                Log.Instance.ImprimirMensaje("Creando otro CD con un máximo de "+numericUpDownNumCanciones.Maximum, TipoMensaje.Info);
             }
             else if(edit)
             {
-                Console.WriteLine("Editando CD");
+                Log.Instance.ImprimirMensaje("Editando CD", TipoMensaje.Info);
                 this.edit = true;
                 comboBoxFormatoCD.SelectedItem = cdd.FormatoCD;
                 comboBoxEstadoMedio.SelectedItem = cdd.Discos[n-1].EstadoDisco;
@@ -151,7 +151,6 @@ namespace aplicacion_musica
                 v.Show();
             }
             Dispose();
-            Console.WriteLine("Cerrando formulario CD");
         }
     }
 }
