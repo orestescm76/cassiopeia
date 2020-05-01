@@ -46,8 +46,17 @@ namespace aplicacion_musica
                 Programa.idiomas[i] = id;
                 ToolStripItem subIdioma = new ToolStripMenuItem(nombreIdioma.NativeName);
                 subIdioma.Click += new EventHandler(SubIdioma_Click);
-                opcionesToolStripMenuItem.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + nombreIdioma.Name + ".png");
-                subIdioma.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + nombreIdioma.Name + ".png");
+                try
+                {
+                    opcionesToolStripMenuItem.Image = Image.FromFile("./iconosBanderas/" + nombreIdioma.Name + ".png");
+                    subIdioma.Image = Image.FromFile("./iconosBanderas/" + nombreIdioma.Name + ".png");
+                }
+                catch (Exception e)
+                {
+                    Log.ImprimirMensaje("No se encuentra la imagen para una bandera. " + e.Message, TipoMensaje.Error);
+                    opcionesToolStripMenuItem.Image = null;
+                }
+
                 opcionesToolStripMenuItem.DropDownItems.Add(subIdioma);
                 i++;
             }
@@ -89,6 +98,7 @@ namespace aplicacion_musica
         {
             Log.Instance.ImprimirMensaje("Cargando vista" + TipoVista, TipoMensaje.Info, "cargarVista()");
             vistaAlbumes.Items.Clear();
+            vistaAlbumes.Sorting = SortOrder.None;
             Stopwatch crono = Stopwatch.StartNew();
             switch (TipoVista)
             {
@@ -98,10 +108,12 @@ namespace aplicacion_musica
                     foreach (Album a in Programa.miColeccion.albumes)
                     {
                         String[] datos = a.ToStringArray();
-                        items[i] = new ListViewItem(datos);
-                        i++;
+                        vistaAlbumes.Items.Add(new ListViewItem(datos));
+                        //items[i] = new ListViewItem(datos);
+                        //i++;
+                        
                     }
-                    vistaAlbumes.Items.AddRange(items);
+                    //vistaAlbumes.Items.AddRange(items);
                     break;
                 case TipoVista.CD:
                     ListViewItem[] cds = new ListViewItem[Programa.miColeccion.cds.Count];
@@ -120,8 +132,8 @@ namespace aplicacion_musica
                 default:
                     break;
             }
-
             crono.Stop();
+            //vistaAlbumes.Sorting = SortOrder.Ascending;
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
         private void ponerTextos()
@@ -200,6 +212,7 @@ namespace aplicacion_musica
                 nuevaLista.Add(a);
             }
             Programa.miColeccion.cambiarLista(ref nuevaLista);
+            vistaAlbumes.Sorting = SortOrder.None;
             vistaAlbumes.Refresh();
             crono.Stop();
         }
@@ -262,7 +275,8 @@ namespace aplicacion_musica
                     foreach (ListViewItem item in vistaAlbumes.SelectedItems)
                     {
                         Stopwatch crono = Stopwatch.StartNew();
-                        Album a = Programa.miColeccion.devolverAlbum(item.Index);
+                        string q = item.SubItems[0].Text + "_" + item.SubItems[1].Text;
+                        Album a = Programa.miColeccion.devolverAlbum(q);
                         crono.Stop();
                         Log.ImprimirMensajeTiempoCorto("Finalizado", TipoMensaje.Correcto, crono);
                         crono.Reset(); crono.Start();

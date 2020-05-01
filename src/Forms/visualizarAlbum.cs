@@ -53,6 +53,8 @@ namespace aplicacion_musica
             }
             if (string.IsNullOrEmpty(albumAVisualizar.DirectorioSonido))
                 buttonPATH.Enabled = false;
+            if(!Programa.SpotifyActivado)
+                reproducirspotifyToolStripMenuItem.Enabled = false;
             ponerTextos();
             cargarVista();
         }

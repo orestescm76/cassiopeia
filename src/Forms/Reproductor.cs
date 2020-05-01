@@ -512,7 +512,6 @@ namespace aplicacion_musica
             else
             {
                 Hide();
-                e.Cancel = true;
             }
         }
         public void Apagar()

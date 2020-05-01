@@ -51,10 +51,10 @@
             this.seleccionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.borrarseleccionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reproductorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.reproductorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.vistaAlbumes = new System.Windows.Forms.ListView();
             this.artista = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -260,6 +260,13 @@
             this.opcionesToolStripMenuItem.Size = new System.Drawing.Size(110, 20);
             this.opcionesToolStripMenuItem.Text = "opcionesIdioma2";
             // 
+            // reproductorToolStripMenuItem
+            // 
+            this.reproductorToolStripMenuItem.Name = "reproductorToolStripMenuItem";
+            this.reproductorToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
+            this.reproductorToolStripMenuItem.Text = "Reproductor";
+            this.reproductorToolStripMenuItem.Click += new System.EventHandler(this.reproductorToolStripMenuItem_Click);
+            // 
             // acercaDeToolStripMenuItem
             // 
             this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
@@ -283,13 +290,6 @@
             this.testToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
             this.testToolStripMenuItem1.Text = "testOscuro";
             this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
-            // 
-            // reproductorToolStripMenuItem
-            // 
-            this.reproductorToolStripMenuItem.Name = "reproductorToolStripMenuItem";
-            this.reproductorToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
-            this.reproductorToolStripMenuItem.Text = "Reproductor";
-            this.reproductorToolStripMenuItem.Click += new System.EventHandler(this.reproductorToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 
@@ -315,7 +315,6 @@
             this.vistaAlbumes.Name = "vistaAlbumes";
             this.vistaAlbumes.ShowGroups = false;
             this.vistaAlbumes.Size = new System.Drawing.Size(838, 502);
-            this.vistaAlbumes.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.vistaAlbumes.TabIndex = 1;
             this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
             this.vistaAlbumes.View = System.Windows.Forms.View.Details;
