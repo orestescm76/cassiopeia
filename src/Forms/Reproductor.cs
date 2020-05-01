@@ -499,7 +499,13 @@ namespace aplicacion_musica
                 }
             }
         }
-
+        public void Cerrar()
+        {
+            Apagar();
+            if (nucleo != null)
+                nucleo.Apagar();
+            Dispose();
+        }
         private void Reproductor_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Programa.ModoReproductor || Programa.ModoStream)
@@ -511,6 +517,7 @@ namespace aplicacion_musica
             }
             else
             {
+                e.Cancel = true;
                 Hide();
             }
         }

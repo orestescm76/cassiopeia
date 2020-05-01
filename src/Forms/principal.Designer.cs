@@ -69,7 +69,6 @@
             this.crearCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.process1 = new System.Diagnostics.Process();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -398,16 +397,6 @@
             this.spotifyToolStripMenuItem.Text = "Spotify";
             this.spotifyToolStripMenuItem.Click += new System.EventHandler(this.spotifyToolStripMenuItem_Click);
             // 
-            // process1
-            // 
-            this.process1.StartInfo.Domain = "";
-            this.process1.StartInfo.LoadUserProfile = false;
-            this.process1.StartInfo.Password = null;
-            this.process1.StartInfo.StandardErrorEncoding = null;
-            this.process1.StartInfo.StandardOutputEncoding = null;
-            this.process1.StartInfo.UserName = "";
-            this.process1.SynchronizingObject = this;
-            // 
             // principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -473,7 +462,6 @@
         private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem vincularToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem spotifyToolStripMenuItem;
-        private System.Diagnostics.Process process1;
         private System.Windows.Forms.ToolStripMenuItem guardarCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproductorToolStripMenuItem;
     }

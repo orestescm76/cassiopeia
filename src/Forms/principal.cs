@@ -64,9 +64,6 @@ namespace aplicacion_musica
             lvwColumnSorter = new ListViewItemComparer();
             vistaAlbumes.ListViewItemSorter = lvwColumnSorter;
             vistaAlbumes.MultiSelect = true;
-
-            Application.ApplicationExit += new EventHandler(salidaAplicacion);
-
             vistaAlbumes.View = View.Details;
             ponerTextos();
             vistaAlbumes.FullRowSelect = true;
@@ -218,7 +215,8 @@ namespace aplicacion_musica
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Close();
+            Salida();
         }
         private void SubIdioma_Click(object sender, EventArgs e)
         {
@@ -249,22 +247,6 @@ namespace aplicacion_musica
             else
                 Programa.GuardarDiscos(nombre, tipoGuardado, true);
         }
-        private void salidaAplicacion(object sender, EventArgs e)
-        {
-            Log.ImprimirMensaje("Saliendo...", TipoMensaje.Info);
-            if(!Programa.ModoStream)
-            {
-                guardarDiscos("discos.csv", TipoGuardado.Digital);
-                guardarDiscos("cd.json", TipoGuardado.CD);
-            }
-            using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
-                salida.Write(Programa.Idioma);
-            Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
-            Reproductor.Instancia.Apagar();
-            Reproductor.Instancia.Dispose();
-            return;
-        }
-
         private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             Log.ImprimirMensaje("Iniciada busqueda del álbum linealmente...", TipoMensaje.Info);
@@ -805,6 +787,20 @@ namespace aplicacion_musica
         private void reproductorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Reproductor.Instancia.Show();
+        }
+        private void Salida()
+        {
+            Log.ImprimirMensaje("Saliendo...", TipoMensaje.Info);
+            if (!Programa.ModoStream)
+            {
+                guardarDiscos("discos.csv", TipoGuardado.Digital);
+                guardarDiscos("cd.json", TipoGuardado.CD);
+            }
+            using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
+                salida.Write(Programa.Idioma);
+            Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
+            Reproductor.Instancia.Cerrar();
+            Application.Exit();
         }
     }
 }
