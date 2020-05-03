@@ -34,7 +34,7 @@ namespace aplicacion_musica
         ToolTip VolumenSeleccionado;
         TimeSpan dur;
         TimeSpan pos;
-        bool Spotify;
+        bool Spotify = false;
         SpotifyWebAPI _spotify;
         FullTrack cancionReproduciendo;
         private BackgroundWorker backgroundWorker;
@@ -617,19 +617,18 @@ namespace aplicacion_musica
         private void trackBarPosicion_MouseUp(object sender, MouseEventArgs e)
         {
 
-            if (!Spotify)
+            if (!Spotify && nucleo.ComprobarSonido())
             {
                 timerCancion.Enabled = true;
                 timerMetadatos.Enabled = true;
                 nucleo.Saltar(new TimeSpan(0, 0, trackBarPosicion.Value));
             }
-            else if (Spotify && EsPremium)
+            else if (Spotify)
             {
-                _spotify.SeekPlayback(trackBarPosicion.Value * 1000);
+                if(EsPremium)
+                    _spotify.SeekPlayback(trackBarPosicion.Value * 1000);
                 timerSpotify.Enabled = true;
             }
-            else
-                timerSpotify.Enabled = true;
         }
         private void trackBarPosicion_Scroll(object sender, EventArgs e)
         {

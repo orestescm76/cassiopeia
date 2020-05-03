@@ -341,31 +341,33 @@ namespace aplicacion_musica
             switch (tipoVista)
             {
                 case TipoVista.Digital:
-                    Console.WriteLine("Borrando " + vistaAlbumes.SelectedItems.Count + " álbumes");
+                    Log.ImprimirMensaje("Borrando " + cuantos + " álbumes", TipoMensaje.Info);
                     for (int i = 0; i < cuantos; i++)
                     {
                         itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
                     }
-                    for (int i = 0; i < vistaAlbumes.SelectedIndices.Count; i++)
+                    for (int i = 0; i < cuantos; i++)
                     {
                         try
                         {
-                            Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[i]);
+                            string q = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "_" + vistaAlbumes.SelectedItems[i].SubItems[1].Text; //artista_titulo
+                            Album a = Programa.miColeccion.devolverAlbum(q);
                             Programa.miColeccion.quitarAlbum(ref a);
-                            for (int j = 0; j < cuantos; j++)
-                            {
-                                vistaAlbumes.Items.Remove(itemsABorrar[j]);
-                            }
                         }
                         catch (InvalidOperationException)
                         {
+                            Log.ImprimirMensaje("Hubo un error borrando.", TipoMensaje.Error, "principal.borrarAlbumesSeleccionados(TipoVista)");
                             MessageBox.Show(Programa.textosLocal.GetString("errorBorrado"));
                             continue;
                         }
                     }
+                    for (int j = 0; j < cuantos; j++)
+                    {
+                        vistaAlbumes.Items.Remove(itemsABorrar[j]);
+                    }
                     break;
                 case TipoVista.CD:
-                    Console.WriteLine("Borrando " + vistaAlbumes.SelectedItems.Count + " CD");
+                    Log.ImprimirMensaje("Borrando " + vistaAlbumes.SelectedItems.Count + " CD", TipoMensaje.Info);
                     for (int i = 0; i < cuantos; i++)
                     {
                         itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
@@ -396,7 +398,7 @@ namespace aplicacion_musica
             duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": 00:00:00";
             vistaAlbumes.Refresh();
             crono.Stop();
-            Console.WriteLine("Borrado completado en "+crono.ElapsedMilliseconds+"ms");
+            Log.ImprimirMensaje("Borrado completado en "+crono.ElapsedMilliseconds+"ms", TipoMensaje.Correcto);
         }
         private void vistaAlbumes_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
         {

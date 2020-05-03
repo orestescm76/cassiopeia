@@ -108,10 +108,9 @@ namespace aplicacion_musica
                 MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
-            cargarVista();
             nuevo.Show();
-            Close();
             Programa.refrescarVista();
+            Close();
             Log.Instance.ImprimirMensaje("Guardado sin problema", TipoMensaje.Correcto);
         }
 
