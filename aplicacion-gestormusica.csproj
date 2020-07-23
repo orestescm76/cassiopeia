@@ -100,6 +100,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\CD\CDDrive.cs" />
+    <Compile Include="src\CD\CDWave.cs" />
+    <Compile Include="src\CD\DriveLock.cs" />
+    <Compile Include="src\CD\PistaCD.cs" />
     <Compile Include="src\Classes\Album.cs" />
     <Compile Include="src\Classes\AlbumFisico.cs" />
     <Compile Include="src\Classes\Cancion.cs" />
@@ -190,6 +194,7 @@
     <Compile Include="src\Misc\NVorbisSource.cs" />
     <Compile Include="src\Misc\Settings.cs" />
     <Compile Include="src\Misc\TiempoConverter.cs" />
+    <Compile Include="src\Misc\WinAPI.cs" />
     <Compile Include="src\Programa.cs" />
     <Compile Include="src\Spotify.cs" />
     <EmbeddedResource Include="idiomas\original.ca.resx">

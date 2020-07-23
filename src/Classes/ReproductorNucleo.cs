@@ -14,14 +14,14 @@ namespace aplicacion_musica
     {
         MP3,
         FLAC,
-        OGG
+        OGG,
+        WAV
     }
     class ReproductorNucleo
     {
         private ISoundOut _salida;
         private FormatoSonido FormatoSonido;
         private IWaveSource _sonido;
-        private VorbisReader _vorbisReader;
         private CSCore.Tags.ID3.ID3v2QuickInfo tags;
         private FLACFile _ficheroFLAC;
         private SingleBlockNotificationStream notificationStream;
