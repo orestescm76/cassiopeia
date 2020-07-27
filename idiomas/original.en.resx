@@ -534,4 +534,11 @@
   <data name="agradecimiento3" xml:space="preserve">
     <value> * The programmers of NVorbis, CSCore y JAudio</value>
   </data>
+  <data name="abrirCD" xml:space="preserve">
+    <value>Open audio CD...</value>
+  </data>
+  <data name="errorCD" xml:space="preserve">
+    <value>The disc cannot be read. The device is not ready...</value>
+    <comment>No se puede leer el CD. El dispositivo no está preparado...</comment>
+  </data>
 </root>

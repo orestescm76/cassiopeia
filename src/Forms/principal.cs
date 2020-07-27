@@ -126,7 +126,7 @@ namespace aplicacion_musica
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal.GetString("titulo_ventana_principal");// + " " + Programa.version;
+            Text = Programa.textosLocal.GetString("titulo_ventana_principal") + " " + Programa.version + " Codename " + Programa.CodeName;
             archivoMenuItem1.Text = Programa.textosLocal.GetString("archivo");
             opcionesToolStripMenuItem.Text = Programa.textosLocal.GetString("cambiar_idioma");
             agregarAlbumToolStripMenuItem.Text = Programa.textosLocal.GetString("agregar_album");
@@ -155,6 +155,7 @@ namespace aplicacion_musica
             vincularToolStripMenuItem.Text = Programa.textosLocal.GetString("vincular");
             spotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
             reproductorToolStripMenuItem.Text = Programa.textosLocal.GetString("reproductor");
+            abrirCDMenuItem.Text = Programa.textosLocal.GetString("abrirCD");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -786,6 +787,12 @@ namespace aplicacion_musica
 
         private void reproductorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Reproductor.Instancia.Show();
+        }
+
+        private void abrirCDMenuItem_Click(object sender, EventArgs e)
+        {
+            Reproductor.Instancia.ReproducirCD();
             Reproductor.Instancia.Show();
         }
     }

@@ -7,6 +7,9 @@ using CSCore.Streams;
 using NVorbis;
 using JAudioTags;
 using SpotifyAPI.Web;
+using aplicacion_musica.CD;
+using System.Runtime.Remoting.Channels;
+using System.Windows.Forms;
 
 namespace aplicacion_musica
 {
@@ -15,12 +18,12 @@ namespace aplicacion_musica
         MP3,
         FLAC,
         OGG,
-        WAV
+        CDA
     }
     class ReproductorNucleo
     {
         private ISoundOut _salida;
-        private FormatoSonido FormatoSonido;
+        public FormatoSonido FormatoSonido { get; private set; }
         private IWaveSource _sonido;
         private CSCore.Tags.ID3.ID3v2QuickInfo tags;
         private FLACFile _ficheroFLAC;
@@ -28,6 +31,8 @@ namespace aplicacion_musica
         private NVorbisSource NVorbis;
         private String artista;
         private String titulo;
+        private CDDrive Disquetera;
+        public PistaCD[] PistasCD { private set; get; }
         long tamFich;
         public void CargarCancion(string cual)
         {
@@ -101,12 +106,17 @@ namespace aplicacion_musica
         {
             if (FormatoSonido != FormatoSonido.OGG)
                 return _sonido.GetLength();
+            else if (FormatoSonido == FormatoSonido.CDA)
+                return SectoresATimeSpan(_sonido.Length);
             else
                 return NVorbis.Duracion;
         }
         public TimeSpan Posicion()
         {
-            return _sonido.GetPosition();
+            if (FormatoSonido != FormatoSonido.CDA)
+                return _sonido.GetPosition();
+            else
+                return SectoresATimeSpan(_sonido.Position);
         }
         private void Limpiar()
         {
@@ -170,13 +180,13 @@ namespace aplicacion_musica
         }
         public String GetDatos()
         {
-            if(FormatoSonido != FormatoSonido.OGG)
+            if (FormatoSonido != FormatoSonido.OGG)
             {
                 int kbps = (int)((tamFich / _sonido.GetLength().TotalSeconds) / 128);
                 return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + kbps + "kbps medio";
             }
             else
-                return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + NVorbis.Bitrate/1024 + "kbps";
+                return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + NVorbis.Bitrate / 1024 + "kbps";
 
         }
         public void SetVolumen(float v)
@@ -187,6 +197,97 @@ namespace aplicacion_musica
         {
             _salida.Pause();
             _sonido.SetPosition(TimeSpan.Zero);
+        }
+        public TimeSpan SectoresATimeSpan(long sec)
+        {
+            TimeSpan dur;
+            double secs = sec / 75.0;
+            dur = TimeSpan.FromSeconds(secs);
+            return dur;
+        }
+        public long TimeSpanASectores(TimeSpan dur)
+        {
+            return (long)Math.Floor(dur.TotalSeconds * 75);
+        }
+        //Lee un cd de audio segun los ficheros CDA que genera Windows
+        public PistaCD[] LeerCD()
+        {
+            Log.Instance.ImprimirMensaje("Leyendo CD", TipoMensaje.Info);
+            DirectoryInfo DiscoD = null;
+            FileInfo[] Ficheros = null;
+            try
+            {
+                DiscoD = new DirectoryInfo("D:\\");
+                Ficheros = DiscoD.GetFiles();
+            }
+            catch (IOException)
+            {
+                Log.Instance.ImprimirMensaje("No se puede leer el CD. El dispositivo no está preparado...", TipoMensaje.Error);
+                MessageBox.Show(Programa.textosLocal.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            PistaCD[] Pistas = new PistaCD[Ficheros.Length];
+            //Lectura .CDA
+            string ID = "";
+            for (int i = 0; i < Ficheros.Length; i++)
+            {
+                using (BinaryReader br = new BinaryReader(new FileStream(Ficheros[i].FullName, FileMode.Open, FileAccess.Read)))
+                {
+                    br.ReadBytes(24);
+                    byte[] idR = br.ReadBytes(4);
+                    byte[] id = new byte[4];
+                    int c = 0;
+                    for (int j = 3; j >= 0; j--)
+                    {
+                        id[c] = idR[j];
+                        c++;
+                    }
+                    ID = BitConverter.ToString(id);
+                    ID = ID.Replace("-", "");
+                    uint sectorInicial = br.ReadUInt32();
+                    uint duracionSectores = br.ReadUInt32();
+                    Pistas[i] = new PistaCD(sectorInicial, sectorInicial + duracionSectores, ID);
+                }
+            }
+            return Pistas;
+        }
+        public void ReproducirCD()
+        {
+            //PistaCD[] PistasCD = new PistaCD[Ficheros.Length];
+            //Console.WriteLine("Hay {0} pistas", PistasCD.Length);
+            //TimeSpan durTotal = TimeSpan.Zero;
+            //foreach (PistaCD pistaa in PistasCD)
+            //{
+            //    Console.WriteLine("#" + pistaa.NumCancion + ". Duración: " + pistaa.Duracion);
+            //    durTotal += pistaa.Duracion;
+            //}
+            //Console.WriteLine("Escribe el número");
+            //int pista = Convert.ToInt32(Console.ReadLine());
+            Disquetera = CDDrive.Open('D');
+            if (Disquetera == null)
+            {
+                Log.Instance.ImprimirMensaje("No se puede leer el CD. El dispositivo no está preparado...", TipoMensaje.Error);
+                Console.ReadLine();
+            }
+            FormatoSonido = FormatoSonido.CDA;
+            PistaCD[] Pistas = LeerCD();
+            PistasCD = Pistas;
+            _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
+            _sonido = Disquetera.ReadTrack(Pistas[0]);
+            _salida.Initialize(_sonido);
+            _salida.Play();
+            Log.Instance.ImprimirMensaje("Se ha cargado correctamente el CD", TipoMensaje.Correcto);
+        }
+        public void SaltarCancionCD(int cual) //sobre 0
+        {
+            _salida.Stop();
+            _sonido = Disquetera.ReadTrack(PistasCD[cual]);
+            _salida.Initialize(_sonido);
+            _salida.Play();
+        }
+        public void SaltarCD(int sector)
+        {
+            _sonido.Position = sector;
         }
     }
 }

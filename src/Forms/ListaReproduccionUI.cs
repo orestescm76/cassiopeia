@@ -12,35 +12,39 @@ namespace aplicacion_musica
 {
     public partial class ListaReproduccionUI : Form
     {
+        private string Playing = "▶";
         private ListaReproduccion listaReproduccion;
+        private int Puntero;
         public ListaReproduccionUI(ListaReproduccion lr)
         {
             InitializeComponent();
             listaReproduccion = lr;
             CargarVista();
+            listViewCanciones.Size = Size;
+            Puntero = 0;
+            SetActivo(Puntero);
         }
         private void CargarVista()
         {
             for (int i = 0; i < listaReproduccion.Canciones.Count; i++)
             {
                 string[] data = new string[3];
-                data[0] = (i + 1).ToString();
+                data[0] = "";
                 listaReproduccion.Canciones[i].ToStringArray().CopyTo(data, 1);
-                dataGridViewCanciones.Rows.Add(data);
+                ListViewItem item = new ListViewItem(data);
+                listViewCanciones.Items.Add(item);
             }
         }
         public void Refrescar()
         {
-            dataGridViewCanciones.Rows.Clear();
+            listViewCanciones.Clear();
             CargarVista();
         }
         public void SetActivo(int punt)
         {
-            dataGridViewCanciones.CurrentCell = dataGridViewCanciones.Rows[punt].Cells[0];
-        }
-        private void dataGridViewCanciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            listViewCanciones.Items[Puntero].SubItems[0].Text = "";
+            listViewCanciones.Items[punt].SubItems[0].Text = Playing;
+            Puntero = punt;
         }
 
         private void ListaReproduccionUI_DragEnter(object sender, DragEventArgs e)
@@ -56,6 +60,17 @@ namespace aplicacion_musica
                 listaReproduccion.AgregarCancion(c);
                 Refrescar();
             }
+        }
+
+        private void listViewCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Reproductor.Instancia.ReproducirCancion(listViewCanciones.SelectedItems[0].Index);
+        }
+
+        private void ListaReproduccionUI_SizeChanged(object sender, EventArgs e)
+        {
+            listViewCanciones.Size = Size;
+
         }
     }
 }

@@ -10,6 +10,8 @@ using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
 using System.Linq;
+using System.Collections.Generic;
+using aplicacion_musica.CD;
 
 namespace aplicacion_musica
 {
@@ -55,6 +57,7 @@ namespace aplicacion_musica
         private bool foobar2000 = true;
         Process foobar2kInstance = null;
         string SpotifyID = null;
+        bool ModoCD = false;
         //crear una tarea que cada 500ms me cambie la cancion
         public static Reproductor Instancia { get; set; }
         public Reproductor()
@@ -90,6 +93,25 @@ namespace aplicacion_musica
 
             else notifyIcon1.Visible = false;
             buttonTwit.Enabled = false;
+        }
+        public void ReproducirCD()
+        {
+            //reproduce un cd
+            nucleo.ReproducirCD();
+            if (nucleo.PistasCD == null)
+                return;
+            ModoCD = true;
+            PrepararReproductor();
+            Text = "CD - Pista 1";
+            ListaReproduccion lr = new ListaReproduccion("CD-A");
+            for (int i = 0; i < nucleo.PistasCD.Length; i++)
+            {
+                Cancion c = new Cancion("Pista " + (i + 1), (int)nucleo.PistasCD[i].Duracion.TotalMilliseconds, false);
+                lr.AgregarCancion(c);
+            }
+            ListaReproduccion = lr;
+            ListaReproduccionPuntero = 0;
+            lrui = new ListaReproduccionUI(lr);
         }
         public void SpotifyEncendido()
         {
@@ -205,16 +227,38 @@ namespace aplicacion_musica
             timerMetadatos.Enabled = true;
             buttonTwit.Enabled = true;
         }
+        public void ReproducirCancion(int Pista)
+        {
+            timerCancion.Enabled = false;
+            timerMetadatos.Enabled = false;
+
+            estadoReproductor = EstadoReproductor.Detenido;
+            nucleo.SaltarCancionCD(Pista);
+            ListaReproduccionPuntero = Pista;
+            lrui.SetActivo(ListaReproduccionPuntero);
+            PrepararReproductor();
+            timerCancion.Enabled = true;
+            timerMetadatos.Enabled = false;
+            buttonTwit.Enabled = false;
+        }
         private void PrepararReproductor()
         {
             nucleo.SetVolumen(Volumen);
             dur = nucleo.Duracion();
             pos = TimeSpan.Zero;
+            if (!ModoCD)
+            {
+                Text = nucleo.CancionReproduciendose();
+                labelDatosCancion.Text = nucleo.GetDatos();
+            }
+            else
+            {
+                dur = nucleo.PistasCD[ListaReproduccionPuntero].Duracion;
+                Text = "CD - Pista " + (ListaReproduccionPuntero + 1);
+            }
             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
             timerCancion.Enabled = true;
             labelDuracion.Text = (int)dur.TotalMinutes + ":" + dur.Seconds;
-            Text = nucleo.CancionReproduciendose();
-            labelDatosCancion.Text = nucleo.GetDatos();
             estadoReproductor = EstadoReproductor.Reproduciendo;
             buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
         }
@@ -613,7 +657,10 @@ namespace aplicacion_musica
             {
                 timerCancion.Enabled = true;
                 timerMetadatos.Enabled = true;
-                nucleo.Saltar(new TimeSpan(0, 0, trackBarPosicion.Value));
+                if (!ModoCD)
+                    nucleo.Saltar(TimeSpan.FromSeconds(trackBarPosicion.Value));
+                else
+                    nucleo.SaltarCD((int)nucleo.TimeSpanASectores(TimeSpan.FromSeconds(trackBarPosicion.Value)));
             }
             else if (Spotify && EsPremium)
             {
@@ -703,8 +750,11 @@ namespace aplicacion_musica
                         try
                         {
                             ListaReproduccionPuntero++;
-                            lrui.SetActivo((int)ListaReproduccionPuntero);
-                            ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                            lrui.SetActivo(ListaReproduccionPuntero);
+                            if (!ModoCD)
+                                ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                            else
+                                ReproducirCancion(ListaReproduccionPuntero);
                         }
                         catch (Exception)
                         {
@@ -727,8 +777,11 @@ namespace aplicacion_musica
                 if (ListaReproduccion != null && !ListaReproduccion.Inicio(ListaReproduccionPuntero))
                 {
                     ListaReproduccionPuntero--;
-                    lrui.SetActivo((int)ListaReproduccionPuntero);
-                    ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                    lrui.SetActivo(ListaReproduccionPuntero);
+                    if (!ModoCD)
+                        ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                    else
+                        ReproducirCancion(ListaReproduccionPuntero);
                 }
             }
         }
@@ -908,7 +961,11 @@ namespace aplicacion_musica
             if((c = (Cancion)e.Data.GetData(typeof(Cancion))) != null)
             {
                 if (!string.IsNullOrEmpty(c.PATH))
+                {
+                    ModoCD = false;
                     ReproducirCancion(c);
+                }
+
             }
         }
 

@@ -6,8 +6,9 @@ namespace aplicacion_musica.CD
     {
         private readonly uint sectorInicio;
         private readonly uint sectorFinal;
-        public TimeSpan Duracion { get; private set; }
-        public PistaCD(uint startSector, uint endSector)
+        public string ID { get;  }
+        public TimeSpan Duracion { get; }
+        public PistaCD(uint startSector, uint endSector, string ID)
         {
             this.sectorInicio = startSector;
             this.sectorFinal = endSector;

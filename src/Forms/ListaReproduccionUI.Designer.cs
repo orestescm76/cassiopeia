@@ -28,48 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridViewCanciones = new System.Windows.Forms.DataGridView();
-            this.indexColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.nameColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.durationColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCanciones)).BeginInit();
+            this.listViewCanciones = new System.Windows.Forms.ListView();
+            this.columnPlaying = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnDuration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
-            // dataGridViewCanciones
+            // listViewCanciones
             // 
-            this.dataGridViewCanciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCanciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.indexColumn,
-            this.nameColumn,
-            this.durationColumn});
-            this.dataGridViewCanciones.Location = new System.Drawing.Point(0, 2);
-            this.dataGridViewCanciones.Name = "dataGridViewCanciones";
-            this.dataGridViewCanciones.Size = new System.Drawing.Size(340, 450);
-            this.dataGridViewCanciones.TabIndex = 0;
-            this.dataGridViewCanciones.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCanciones_CellContentClick);
+            this.listViewCanciones.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewCanciones.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnPlaying,
+            this.columnName,
+            this.columnDuration});
+            this.listViewCanciones.FullRowSelect = true;
+            this.listViewCanciones.HideSelection = false;
+            this.listViewCanciones.Location = new System.Drawing.Point(0, 0);
+            this.listViewCanciones.Name = "listViewCanciones";
+            this.listViewCanciones.Size = new System.Drawing.Size(252, 254);
+            this.listViewCanciones.TabIndex = 0;
+            this.listViewCanciones.UseCompatibleStateImageBehavior = false;
+            this.listViewCanciones.View = System.Windows.Forms.View.Details;
+            this.listViewCanciones.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listViewCanciones_MouseDoubleClick);
             // 
-            // indexColumn
+            // columnPlaying
             // 
-            this.indexColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.indexColumn.Frozen = true;
-            this.indexColumn.HeaderText = "#";
-            this.indexColumn.Name = "indexColumn";
-            this.indexColumn.ReadOnly = true;
-            this.indexColumn.Width = 21;
+            this.columnPlaying.Text = "Playing";
+            this.columnPlaying.Width = 82;
             // 
-            // nameColumn
+            // columnName
             // 
-            this.nameColumn.HeaderText = "name";
-            this.nameColumn.Name = "nameColumn";
-            this.nameColumn.ReadOnly = true;
-            this.nameColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.nameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.columnName.Text = "Titulo";
+            this.columnName.Width = 82;
             // 
-            // durationColumn
+            // columnDuration
             // 
-            this.durationColumn.HeaderText = "duracion";
-            this.durationColumn.Name = "durationColumn";
-            this.durationColumn.ReadOnly = true;
+            this.columnDuration.Text = "Duracion";
+            this.columnDuration.Width = 84;
             // 
             // ListaReproduccionUI
             // 
@@ -77,21 +74,21 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(340, 450);
-            this.Controls.Add(this.dataGridViewCanciones);
+            this.Controls.Add(this.listViewCanciones);
             this.Name = "ListaReproduccionUI";
             this.Text = "ListaReproduccionUI";
+            this.SizeChanged += new System.EventHandler(this.ListaReproduccionUI_SizeChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ListaReproduccionUI_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.ListaReproduccionUI_DragEnter);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCanciones)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridViewCanciones;
-        private System.Windows.Forms.DataGridViewButtonColumn indexColumn;
-        private System.Windows.Forms.DataGridViewButtonColumn nameColumn;
-        private System.Windows.Forms.DataGridViewButtonColumn durationColumn;
+        private System.Windows.Forms.ListView listViewCanciones;
+        private System.Windows.Forms.ColumnHeader columnPlaying;
+        private System.Windows.Forms.ColumnHeader columnName;
+        private System.Windows.Forms.ColumnHeader columnDuration;
     }
 }

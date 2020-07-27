@@ -58,7 +58,5 @@ namespace aplicacion_musica
             get => Canciones[key];
             set => Canciones[key] = value;
         }
-
-
     }
 }

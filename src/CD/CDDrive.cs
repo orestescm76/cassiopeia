@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 
 namespace aplicacion_musica.CD
 {
-    public sealed class CDDriveCSCore : IDisposable
+    public sealed class CDDrive : IDisposable
     {
         private readonly SafeFileHandle safeHandle;
-        private CDDriveCSCore(SafeFileHandle sf)
+        private CDDrive(SafeFileHandle sf)
         {
             safeHandle = sf;
         }
@@ -22,7 +22,7 @@ namespace aplicacion_musica.CD
             if (safeHandle != null)
                 safeHandle.Dispose();
         }
-        public static CDDriveCSCore Open(char letra)
+        public static CDDrive Open(char letra)
         {
             string ruta = @"\\.\" + letra + ":";
             var handle = WinAPI.CreateFile(ruta,
@@ -37,7 +37,7 @@ namespace aplicacion_musica.CD
                 Console.WriteLine("No se puede abrir el CD");
                 return null;
             }
-            return new CDDriveCSCore(handle);
+            return new CDDrive(handle);
         }
         public PistaCD[] LeerPistas()
         {
@@ -63,7 +63,7 @@ namespace aplicacion_musica.CD
                 {
                     tracks[i] = new PistaCD(
                         this.AddressToSector(toc.TrackData[i].Address),
-                        this.AddressToSector(toc.TrackData[i + 1].Address));
+                        this.AddressToSector(toc.TrackData[i + 1].Address), "");
                 }
 
                 return tracks;
@@ -76,7 +76,7 @@ namespace aplicacion_musica.CD
 
         public IWaveSource ReadTrack(PistaCD track)
         {
-            return new CdWaveProviderCSCore(this.safeHandle, track.StartSector, track.EndSector);
+            return new CdWaveProvider(this.safeHandle, track.StartSector, track.EndSector);
         }
     }
 }

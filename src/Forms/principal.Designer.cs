@@ -51,10 +51,10 @@
             this.seleccionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.borrarseleccionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.opcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reproductorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.reproductorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.vistaAlbumes = new System.Windows.Forms.ListView();
             this.artista = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -70,6 +70,11 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.process1 = new System.Diagnostics.Process();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.abrirCDMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -96,13 +101,18 @@
             // 
             this.archivoMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuevoToolStripMenuItem,
+            this.toolStripSeparator1,
             this.agregarAlbumToolStripMenuItem,
             this.abrirToolStripMenuItem,
+            this.abrirCDMenuItem,
             this.cargarDiscosLegacyToolStripMenuItem,
+            this.toolStripSeparator2,
             this.buscarEnSpotifyToolStripMenuItem,
             this.vincularToolStripMenuItem,
+            this.toolStripSeparator3,
             this.guardarcomo,
             this.guardarCSVToolStripMenuItem,
+            this.toolStripSeparator4,
             this.salirToolStripMenuItem});
             this.archivoMenuItem1.Name = "archivoMenuItem1";
             this.archivoMenuItem1.Size = new System.Drawing.Size(64, 20);
@@ -137,7 +147,7 @@
             // CargarCDToolStripMenuItem
             // 
             this.CargarCDToolStripMenuItem.Name = "CargarCDToolStripMenuItem";
-            this.CargarCDToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.CargarCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.CargarCDToolStripMenuItem.Text = "CD";
             this.CargarCDToolStripMenuItem.Click += new System.EventHandler(this.CargarCDToolStripMenuItem_Click);
             // 
@@ -145,7 +155,7 @@
             // 
             this.digitalToolStripMenuItem1.Name = "digitalToolStripMenuItem1";
             this.digitalToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.digitalToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.digitalToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.digitalToolStripMenuItem1.Text = "Digital";
             this.digitalToolStripMenuItem1.Click += new System.EventHandler(this.digitalToolStripMenuItem1_Click);
             // 
@@ -260,6 +270,13 @@
             this.opcionesToolStripMenuItem.Size = new System.Drawing.Size(110, 20);
             this.opcionesToolStripMenuItem.Text = "opcionesIdioma2";
             // 
+            // reproductorToolStripMenuItem
+            // 
+            this.reproductorToolStripMenuItem.Name = "reproductorToolStripMenuItem";
+            this.reproductorToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
+            this.reproductorToolStripMenuItem.Text = "Reproductor";
+            this.reproductorToolStripMenuItem.Click += new System.EventHandler(this.reproductorToolStripMenuItem_Click);
+            // 
             // acercaDeToolStripMenuItem
             // 
             this.acercaDeToolStripMenuItem.Name = "acercaDeToolStripMenuItem";
@@ -283,13 +300,6 @@
             this.testToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
             this.testToolStripMenuItem1.Text = "testOscuro";
             this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
-            // 
-            // reproductorToolStripMenuItem
-            // 
-            this.reproductorToolStripMenuItem.Name = "reproductorToolStripMenuItem";
-            this.reproductorToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
-            this.reproductorToolStripMenuItem.Text = "Reproductor";
-            this.reproductorToolStripMenuItem.Click += new System.EventHandler(this.reproductorToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 
@@ -409,6 +419,33 @@
             this.process1.StartInfo.UserName = "";
             this.process1.SynchronizingObject = this;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(286, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(286, 6);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(286, 6);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(286, 6);
+            // 
+            // abrirCDMenuItem
+            // 
+            this.abrirCDMenuItem.Name = "abrirCDMenuItem";
+            this.abrirCDMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.abrirCDMenuItem.Text = "abrirCD";
+            this.abrirCDMenuItem.Click += new System.EventHandler(this.abrirCDMenuItem_Click);
+            // 
             // principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -477,5 +514,10 @@
         private System.Diagnostics.Process process1;
         private System.Windows.Forms.ToolStripMenuItem guardarCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproductorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem abrirCDMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }

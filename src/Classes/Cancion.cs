@@ -45,11 +45,14 @@ namespace aplicacion_musica
         }
         public override string ToString()
         {
-            return album.artista + " - " + titulo + "("+album.nombre+")";
+            if (album != null)
+                return album.artista + " - " + titulo + "(" + album.nombre + ")";
+            else
+                return titulo;
         }
         public String[] ToStringArray()
         {
-            String[] datos = { titulo, duracion.ToString() };
+            String[] datos = { titulo, duracion.ToString(@"mm\:ss") };
             return datos;
         }
         public int GetMilisegundos()

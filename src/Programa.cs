@@ -48,7 +48,7 @@ namespace aplicacion_musica
         private static principal principal;
         public static string Idioma;
         public static bool ModoOscuro = false;
-        public static readonly string CodeName = "Raven";
+        public static readonly string CodeName = "Cockroach";
         private static ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
         public static bool SpotifyActivado = true;
         public static Configuration config;

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace aplicacion_musica.CD
 {
-    internal class CdWaveProviderCSCore : IWaveSource
+    internal class CdWaveProvider : IWaveSource
     {
         private const int SectorsToRead = 32;
         private const int SectorSize = 2048;
@@ -22,7 +22,7 @@ namespace aplicacion_musica.CD
         private readonly byte[] currentBlock = new byte[SectorsToRead * SectorAudioSize];
         private int currentBlockLength;
         private int currentBlockIndex;
-        public CdWaveProviderCSCore(SafeFileHandle handle, uint startSector, uint endSector)
+        public CdWaveProvider(SafeFileHandle handle, uint startSector, uint endSector)
         {
             this.handle = handle;
             this.currentSector = startSector;
