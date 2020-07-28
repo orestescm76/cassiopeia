@@ -23,6 +23,7 @@ namespace aplicacion_musica
             listViewCanciones.Size = Size;
             Puntero = 0;
             SetActivo(Puntero);
+            Text = lr.Nombre;
         }
         private void CargarVista()
         {

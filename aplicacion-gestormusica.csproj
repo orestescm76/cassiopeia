@@ -116,6 +116,12 @@
     <Compile Include="src\Classes\ListaReproduccion.cs" />
     <Compile Include="src\Classes\Log.cs" />
     <Compile Include="src\Classes\ReproductorNucleo.cs" />
+    <Compile Include="src\Forms\AbrirDisco.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Forms\AbrirDisco.Designer.cs">
+      <DependentUpon>AbrirDisco.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Forms\acercaDe.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -223,6 +229,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="src\Forms\AbrirDisco.resx">
+      <DependentUpon>AbrirDisco.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\acercaDe.resx">
       <DependentUpon>acercaDe.cs</DependentUpon>
     </EmbeddedResource>

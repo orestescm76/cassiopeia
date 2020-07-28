@@ -94,10 +94,10 @@ namespace aplicacion_musica
             else notifyIcon1.Visible = false;
             buttonTwit.Enabled = false;
         }
-        public void ReproducirCD()
+        public void ReproducirCD(char disp)
         {
             //reproduce un cd
-            nucleo.ReproducirCD();
+            nucleo.ReproducirCD(disp);
             if (nucleo.PistasCD == null)
                 return;
             ModoCD = true;
@@ -249,18 +249,21 @@ namespace aplicacion_musica
             if (!ModoCD)
             {
                 Text = nucleo.CancionReproduciendose();
-                labelDatosCancion.Text = nucleo.GetDatos();
+                buttoncrearLR.Show();
             }
             else
             {
                 dur = nucleo.PistasCD[ListaReproduccionPuntero].Duracion;
                 Text = "CD - Pista " + (ListaReproduccionPuntero + 1);
+                buttoncrearLR.Hide();
             }
+            labelDatosCancion.Text = nucleo.GetDatos();
             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
             timerCancion.Enabled = true;
             labelDuracion.Text = (int)dur.TotalMinutes + ":" + dur.Seconds;
             estadoReproductor = EstadoReproductor.Reproduciendo;
             buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
+            buttonTwit.Enabled = true;
         }
         private bool FicheroLeible(string s)
         {
@@ -492,8 +495,15 @@ namespace aplicacion_musica
                 if(ListaReproduccion != null)
                 {
                     ListaReproduccionPuntero++;
+                    lrui.SetActivo(ListaReproduccionPuntero);
                     if (!ListaReproduccion.Final(ListaReproduccionPuntero))
-                        ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                    {
+                        if (!ModoCD)
+                            ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
+                        else
+                            ReproducirCancion(ListaReproduccionPuntero);
+                    }
+                        
                     else
                         nucleo.Detener();
                 }
@@ -944,13 +954,16 @@ namespace aplicacion_musica
                         cancionReproduciendo.Artists[0].Name + "%20"+ "%0a" +
                         Programa.textosLocal.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Programa.version + "%20" + Programa.CodeName;
             }
-            else
+            else if(!ModoCD)
                 test = Programa.textosLocal.GetString("compartirLocal1").Replace(" ", "%20") + "%20" + 
                     CancionLocalReproduciendo.titulo + "%20" + 
                     Programa.textosLocal.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
                     CancionLocalReproduciendo.album.artista + "%20" +
                     Programa.textosLocal.GetString("compartirLocal3").Replace(" ", "%20") + "%20" + 
                     Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + 
+                    Programa.version + "%20" + Programa.CodeName;
+            else
+                test = "Escuchando un CD con " + Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
                     Programa.version + "%20" + Programa.CodeName;
             link += test;
             Process.Start(link);
@@ -974,7 +987,7 @@ namespace aplicacion_musica
             e.Effect = DragDropEffects.Copy;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonLR_Click(object sender, EventArgs e)
         {
             ListaReproduccion lr = new ListaReproduccion("");
             ListaReproduccion = lr;

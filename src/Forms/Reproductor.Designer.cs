@@ -308,7 +308,7 @@
             this.buttoncrearLR.TabIndex = 17;
             this.buttoncrearLR.Text = "crear LR";
             this.buttoncrearLR.UseVisualStyleBackColor = true;
-            this.buttoncrearLR.Click += new System.EventHandler(this.button1_Click);
+            this.buttoncrearLR.Click += new System.EventHandler(this.buttonLR_Click);
             // 
             // Reproductor
             // 

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
+using aplicacion_musica.src.Forms;
 
 namespace aplicacion_musica
 {
@@ -792,8 +793,8 @@ namespace aplicacion_musica
 
         private void abrirCDMenuItem_Click(object sender, EventArgs e)
         {
-            Reproductor.Instancia.ReproducirCD();
-            Reproductor.Instancia.Show();
+            AbrirDisco AD = new AbrirDisco();
+            AD.ShowDialog();
         }
     }
 }
