@@ -9,26 +9,13 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.5.0.78 RC2 CODENAME RAVEN
+/* VERSION 1.6.0.xx CODENAME COCKROACH
 * Reproductor:
-*  Reproduce en FLAC, MP3 y OGG
-*  Soporta metadatos.
-*  Soporta carátula MP3
-*  Con tiempo actualizable, se puede saltar
-*  Bitrate variable en OGG
-*  Sincronizado entre Spotify y el Reproductor
-* Spotify:
-*  Ahora se puede vincular la app.
-*  
-*  Gestor:
-*  Reproducir una cancion en local o Spotify desde la visualización
-*  Guardado en CSV, menos espacio.
-*  Drag & drop del visualizar álbum al reproductor
-*  Nuevos idiomas, pero estarán vacios :-)
-*  Arreglos con el ModoStream
-*  Drag and Drop en el reproductor
-*  Calcular los paths desde la visualización del álbum
-*  Drag and drop en la lista de reproducción
+*  Soporte CD Audio
+*  Rework del sistema de playlists
+* Gestor:
+*  Ahora se puede redimensonar la ventana principal
+*  Nuevo botón, abrir una disquetera para reproducir un CD
 */
 namespace aplicacion_musica
 {
@@ -382,7 +369,6 @@ namespace aplicacion_musica
 
             if (args.Contains("-modoStream"))
                 ModoStream = true;
-            Reproductor reproductor = Reproductor.Instancia;
             if(!ModoStream)
             {
                 Log.ImprimirMensaje("Configurando géneros", TipoMensaje.Info);
@@ -451,6 +437,7 @@ namespace aplicacion_musica
                 Console.WriteLine("Programa finalizado, presione una tecla para continuar...");
                 Console.ReadKey();
             }
+            Log.Instance.CerrarLog();
         }
 
     }

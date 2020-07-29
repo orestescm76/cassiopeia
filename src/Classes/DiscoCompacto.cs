@@ -3,9 +3,6 @@ using Newtonsoft.Json;
 
 namespace aplicacion_musica
 {
-    /// <summary>
-    /// Especifica el tipo de CD
-    /// </summary>
     public enum FormatoCD
     {
         Jewel, Digipack, MiniLP, NoStorage
@@ -20,14 +17,6 @@ namespace aplicacion_musica
         {
 
         }
-        /// <summary>
-        /// Crea sólo un CD a partir de un álbum de menos de 80 minutos, con todos los datos básicos
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="nc"></param>
-        /// <param name="e"></param>
-        /// <param name="ee"></param>
-        /// <param name="f"></param>
         public DiscoCompacto(string s, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f) : base(s, ee)
         {
             FormatoCD = f;
@@ -37,15 +26,6 @@ namespace aplicacion_musica
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
-        /// <summary>
-        /// Crea un CD con varios CD
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="nc">número de canciones del primer CD</param>
-        /// <param name="e">Estado del primer CD</param>
-        /// <param name="ee">Estado del exterior</param>
-        /// <param name="f">Formato del CD</param>
-        /// <param name="nCD">número de CD</param>
         public DiscoCompacto(string s, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, int nCD) : base(s, ee)
         {
             FormatoCD = f;
@@ -55,13 +35,6 @@ namespace aplicacion_musica
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
-        /// <summary>
-        /// Crea un CD con varios CD sin discos predefinidos
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="ee"></param>
-        /// <param name="f"></param>
-        /// <param name="nCD"></param>
         public DiscoCompacto(string s, EstadoMedio ee, FormatoCD f, int nCD) : base(s, ee)
         {
             FormatoCD = f;
@@ -70,11 +43,6 @@ namespace aplicacion_musica
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
-        /// <summary>
-        /// Crea un CD vacío con varios discos vacíos
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="nCD"></param>
         public DiscoCompacto(string s, int nCD) : base(s)
         {
             Discos = new Disco[nCD];

@@ -88,7 +88,7 @@ namespace aplicacion_musica
         }
         private void cargarVista()
         {
-            Log.Instance.ImprimirMensaje("Cargando vista" + TipoVista, TipoMensaje.Info, "cargarVista()");
+            Log.Instance.ImprimirMensaje("Cargando vista" + TipoVista, TipoMensaje.Info);
             vistaAlbumes.Items.Clear();
             Stopwatch crono = Stopwatch.StartNew();
             switch (TipoVista)
@@ -214,7 +214,6 @@ namespace aplicacion_musica
         }
         private void SubIdioma_Click(object sender, EventArgs e)
         {
-
             var menu = sender as ToolStripMenuItem;
             Log.ImprimirMensaje("Cambiando idioma al" + menu.Text, TipoMensaje.Info);
             string idiomaNuevo = "";
@@ -299,15 +298,13 @@ namespace aplicacion_musica
             if(vistaAlbumes.SelectedItems.Count == 1 && (e.KeyCode == Keys.C && e.Control))
             {
                 //arista - titulo. (año) (hh:mm:ss)
-                Console.WriteLine("Se presionó Ctrl + C");
                 string i = vistaAlbumes.SelectedItems[0].SubItems[0].Text + " - " + vistaAlbumes.SelectedItems[0].SubItems[1].Text + ". ("
                     + vistaAlbumes.SelectedItems[0].SubItems[2].Text + ") (" + vistaAlbumes.SelectedItems[0].SubItems[3].Text + ") (" + vistaAlbumes.SelectedItems[0].SubItems[4].Text + ")";
                 Clipboard.SetText(i);
-                Console.WriteLine("Copiado " + i + " al portapapeles");
+                Log.Instance.ImprimirMensaje("Copiado " + i + " al portapapeles", TipoMensaje.Info);
             }
             if (e.Control && e.KeyCode == Keys.A)
             {
-                Console.WriteLine("Se presionó Ctrl + A");
                 foreach (ListViewItem item in vistaAlbumes.Items)
                 {
                     item.Selected = true;
@@ -315,12 +312,10 @@ namespace aplicacion_musica
             }
             if(e.KeyCode == Keys.F5)
             {
-                Console.WriteLine("Se presionó F5");
                 cargarVista();
             }
             if (e.KeyCode == Keys.Escape)
             {
-                Console.WriteLine("Se presionó Esc");
                 foreach (ListViewItem item in vistaAlbumes.Items)
                 {
                     item.Selected = false;
@@ -553,7 +548,6 @@ namespace aplicacion_musica
             }
             else
             {
-
                 short numDiscos = (short)Math.Ceiling((a.duracion.TotalMinutes / 80));
                 CrearCD fCD = new CrearCD(ref a, numDiscos);
                 fCD.ShowDialog();
@@ -735,8 +729,8 @@ namespace aplicacion_musica
                     System.Threading.Thread.Sleep(100);
                 if (Programa._spotify._spotify.GetPrivateProfile().Product != "premium")
                 {
-                    Programa.textosLocal.GetString("noPremium");
                     Log.ImprimirMensaje("El usuario no tiene premium, no podrá usar spotify desde el Gestor", TipoMensaje.Advertencia);
+                    MessageBox.Show(Programa.textosLocal.GetString("noPremium"));
                     spotifyToolStripMenuItem.Enabled = false;
                     vincularToolStripMenuItem.Enabled = false;
                 }

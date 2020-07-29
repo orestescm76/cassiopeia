@@ -10,11 +10,8 @@ namespace aplicacion_musica
         private String[] generosTraducidos = new string[Programa.generos.Length-1];
         public agregarAlbum()
         {
-            Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             ponerTextos();
-            crono.Stop();
-            Log.Instance.ImprimirMensaje("Formulario creado", TipoMensaje.Info, crono);
             Log.Instance.ImprimirMensaje("Creando álbum", TipoMensaje.Info);
         }
         private void ponerTextos()

@@ -14,6 +14,7 @@ namespace aplicacion_musica.src.Forms
 
         private void AbrirDisco_Load(object sender, EventArgs e)
         {
+            Log.Instance.ImprimirMensaje("Detectando disqueteras", TipoMensaje.Info);
             DriveInfo[] Discos = DriveInfo.GetDrives();
             foreach (var d in Discos)
             {
@@ -24,10 +25,13 @@ namespace aplicacion_musica.src.Forms
             }
             if (listViewDiscos.Items.Count == 0)
             {
+                Log.Instance.ImprimirMensaje("No hay disqueteras", TipoMensaje.Advertencia);
                 MessageBox.Show("No tienes disqueteras");
                 Close();
                 Dispose();
             }
+            else
+                Log.Instance.ImprimirMensaje("Se han detectado " + listViewDiscos.Items.Count + " disqueteras", TipoMensaje.Correcto);
 
         }
 

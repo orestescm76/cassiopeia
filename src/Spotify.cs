@@ -188,12 +188,6 @@ namespace aplicacion_musica
             }
 
         }
-        public FullTrack cancion(string song)
-        {
-            var item = _spotify.SearchItems(song, SearchType.Track, 5, 0, "ES");
-            FullTrack cancionQueBusco = item.Tracks.Items.First();
-            return cancionQueBusco;
-        }
         public void insertarAlbumFromURI(string uri)
         {
             Log.Instance.ImprimirMensaje("Insertando álbum con URI "+uri, TipoMensaje.Info);

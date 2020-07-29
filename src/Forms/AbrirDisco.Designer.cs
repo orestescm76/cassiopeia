@@ -37,6 +37,7 @@
             // 
             this.listViewDiscos.HideSelection = false;
             this.listViewDiscos.Location = new System.Drawing.Point(12, 29);
+            this.listViewDiscos.MultiSelect = false;
             this.listViewDiscos.Name = "listViewDiscos";
             this.listViewDiscos.Size = new System.Drawing.Size(364, 162);
             this.listViewDiscos.TabIndex = 0;

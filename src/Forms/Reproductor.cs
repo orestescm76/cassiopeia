@@ -267,22 +267,21 @@ namespace aplicacion_musica
         }
         private bool FicheroLeible(string s)
         {
-            if (Path.GetExtension(s) == ".mp3")
+            string Ext = Path.GetExtension(s);
+            switch (Ext)
             {
-                timerMetadatos.Enabled = false;
-                return true;
+                case ".mp3":
+                    timerMetadatos.Enabled = false;
+                    return true;
+                case ".ogg":
+                    timerMetadatos.Enabled = true;
+                    return true;
+                case ".flac":
+                    timerMetadatos.Enabled = false;
+                    return true;
+                default:
+                    return false;
             }
-            else if (Path.GetExtension(s) == ".ogg")
-            {
-                timerMetadatos.Enabled = true;
-                return true;
-            }
-            else if (Path.GetExtension(s) == ".flac")
-            {
-                timerMetadatos.Enabled = false;
-                return true;
-            }
-            else return false;
         }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -405,6 +404,7 @@ namespace aplicacion_musica
         }
         private void PrepararSpotify()
         {
+            Log.ImprimirMensaje("Iniciando el Reproductor en modo Spotify, con cuenta " + user.Email, TipoMensaje.Info);
             Spotify = true;
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
@@ -414,7 +414,6 @@ namespace aplicacion_musica
             _spotify = Programa._spotify._spotify;
             user = _spotify.GetPrivateProfile();
             EsPremium = (user.Product == "premium") ? true : false;
-            Log.ImprimirMensaje("Iniciando el Reproductor en modo Spotify, con cuenta " + user.Email, TipoMensaje.Info);
             SpotifyListo = true;
             timerSpotify.Enabled = true;
             toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + user.DisplayName;
@@ -808,7 +807,7 @@ namespace aplicacion_musica
                 buttonReproducirPausar_Click(null, null);
 
         }
-        private String GetTextoReproductor(EstadoReproductor er)
+        private string GetTextoReproductor(EstadoReproductor er)
         {
             switch (er)
             {
@@ -827,6 +826,7 @@ namespace aplicacion_musica
         }
         private void ApagarSpotify()
         {
+            Log.Instance.ImprimirMensaje("Apagando Spotify", TipoMensaje.Info);
             backgroundWorker.CancelAsync();
             buttoncrearLR.Show();
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
@@ -852,6 +852,7 @@ namespace aplicacion_musica
         }
         public void ActivarSpotify()
         {
+            Log.Instance.ImprimirMensaje("Activando Spotify", TipoMensaje.Info);
             try
             {
                 timerMetadatos.Enabled = false;
@@ -970,6 +971,7 @@ namespace aplicacion_musica
         }
         private void Reproductor_DragDrop(object sender, DragEventArgs e)
         {
+            Log.ImprimirMensaje("Detectado Drag & Drop", TipoMensaje.Info);
             Cancion c = null;
             if((c = (Cancion)e.Data.GetData(typeof(Cancion))) != null)
             {
@@ -980,6 +982,8 @@ namespace aplicacion_musica
                 }
 
             }
+            else
+                Log.ImprimirMensaje("No se ha podido determinar la canción", TipoMensaje.Advertencia);
         }
 
         private void Reproductor_DragEnter(object sender, DragEventArgs e)
