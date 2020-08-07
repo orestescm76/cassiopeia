@@ -73,5 +73,11 @@ namespace aplicacion_musica
             listViewCanciones.Size = Size;
 
         }
+
+        private void ListaReproduccionUI_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            e.Cancel = true;
+        }
     }
 }

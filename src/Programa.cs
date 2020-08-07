@@ -16,6 +16,8 @@ using System.Threading;
 * Gestor:
 *  Ahora se puede redimensonar la ventana principal
 *  Nuevo botón, abrir una disquetera para reproducir un CD
+* Misc:
+*  Argumentos de lanzamiento en inglés
 */
 namespace aplicacion_musica
 {
@@ -335,7 +337,7 @@ namespace aplicacion_musica
             Idioma = ConfigurationManager.AppSettings["Idioma"];
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Idioma + ".resx");
             Log Log = Log.Instance;
-            if(args.Contains("-consola"))
+            if(args.Contains("-consola") || args.Contains("-console"))
             {
                 AllocConsole();
                 Console.Title = "Consola debug v" + version;
@@ -367,7 +369,7 @@ namespace aplicacion_musica
                 principal.HayInternet(false);
             }
 
-            if (args.Contains("-modoStream"))
+            if (args.Contains("-modoStream") || args.Contains("-streamMode"))
                 ModoStream = true;
             if(!ModoStream)
             {
@@ -416,7 +418,7 @@ namespace aplicacion_musica
             {
                 Application.Run();
             }
-            else if (!args.Contains("-reproductor")) //tirale con el principal
+            else if (!args.Contains("-reproductor") || args.Contains("-player")) //tirale con el principal
                 Application.Run(principal);
             else
             {
@@ -432,7 +434,7 @@ namespace aplicacion_musica
 
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");
-            if (args.Contains("-consola"))
+            if (args.Contains("-consola") || args.Contains("-console"))
             {
                 Console.WriteLine("Programa finalizado, presione una tecla para continuar...");
                 Console.ReadKey();

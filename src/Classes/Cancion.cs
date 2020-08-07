@@ -13,6 +13,7 @@ namespace aplicacion_musica
         public bool Bonus { get; set; }
         [JsonIgnore]
         public String PATH { get; set; }
+        public string[] Lyrics { get; set; }
         public Cancion()
         {
 

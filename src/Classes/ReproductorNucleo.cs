@@ -215,14 +215,14 @@ namespace aplicacion_musica
             return (long)Math.Floor(dur.TotalSeconds * 75);
         }
         //Lee un cd de audio segun los ficheros CDA que genera Windows
-        public PistaCD[] LeerCD()
+        public PistaCD[] LeerCD(char Disco)
         {
             Log.Instance.ImprimirMensaje("Leyendo CD", TipoMensaje.Info);
             DirectoryInfo DiscoD = null;
             FileInfo[] Ficheros = null;
             try
             {
-                DiscoD = new DirectoryInfo("D:\\");
+                DiscoD = new DirectoryInfo(Disco + ":\\");
                 Ficheros = DiscoD.GetFiles();
             }
             catch (IOException)
@@ -265,7 +265,7 @@ namespace aplicacion_musica
                 throw new IOException();
             }
             FormatoSonido = FormatoSonido.CDA;
-            PistaCD[] Pistas = LeerCD();
+            PistaCD[] Pistas = LeerCD(disp);
             if (Pistas == null)
                 return;
             PistasCD = Pistas;

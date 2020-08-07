@@ -73,10 +73,12 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(340, 450);
             this.Controls.Add(this.listViewCanciones);
             this.Name = "ListaReproduccionUI";
             this.Text = "ListaReproduccionUI";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ListaReproduccionUI_FormClosing);
             this.SizeChanged += new System.EventHandler(this.ListaReproduccionUI_SizeChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ListaReproduccionUI_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.ListaReproduccionUI_DragEnter);
