@@ -75,6 +75,7 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.process1 = new System.Diagnostics.Process();
+            this.tipografiaLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -234,7 +235,8 @@
             // adminMenu
             // 
             this.adminMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generarAlbumToolStripMenuItem});
+            this.generarAlbumToolStripMenuItem,
+            this.tipografiaLyricsToolStripMenuItem});
             this.adminMenu.Name = "adminMenu";
             this.adminMenu.Size = new System.Drawing.Size(79, 20);
             this.adminMenu.Text = "administrar";
@@ -242,7 +244,7 @@
             // generarAlbumToolStripMenuItem
             // 
             this.generarAlbumToolStripMenuItem.Name = "generarAlbumToolStripMenuItem";
-            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.generarAlbumToolStripMenuItem.Text = "generarAlbum";
             this.generarAlbumToolStripMenuItem.Click += new System.EventHandler(this.generarAlbumToolStripMenuItem_Click);
             // 
@@ -262,7 +264,7 @@
             this.digitalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.digitalToolStripMenuItem.Name = "digitalToolStripMenuItem";
             this.digitalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.digitalToolStripMenuItem.Text = "digital";
             this.digitalToolStripMenuItem.Click += new System.EventHandler(this.digitalToolStripMenuItem_Click);
             // 
@@ -271,7 +273,7 @@
             this.cdToolStripMenuItem.CheckOnClick = true;
             this.cdToolStripMenuItem.Name = "cdToolStripMenuItem";
             this.cdToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.cdToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.cdToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cdToolStripMenuItem.Text = "CD";
             this.cdToolStripMenuItem.Click += new System.EventHandler(this.cdToolStripMenuItem_Click);
             // 
@@ -324,7 +326,7 @@
             // 
             this.testToolStripMenuItem1.CheckOnClick = true;
             this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
-            this.testToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
+            this.testToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.testToolStripMenuItem1.Text = "testOscuro";
             this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
             // 
@@ -449,6 +451,13 @@
             this.process1.StartInfo.UserName = "";
             this.process1.SynchronizingObject = this;
             // 
+            // tipografiaLyricsToolStripMenuItem
+            // 
+            this.tipografiaLyricsToolStripMenuItem.Name = "tipografiaLyricsToolStripMenuItem";
+            this.tipografiaLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tipografiaLyricsToolStripMenuItem.Text = "tipografiaLyrics";
+            this.tipografiaLyricsToolStripMenuItem.Click += new System.EventHandler(this.tipografiaLyricsToolStripMenuItem_Click);
+            // 
             // principal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -522,5 +531,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem tipografiaLyricsToolStripMenuItem;
     }
 }

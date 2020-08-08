@@ -33,7 +33,7 @@ namespace aplicacion_musica
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-        public static readonly string version = ver.ToString();
+        public static readonly string version = ver.ToString()+ " ";
         public static string[] idiomas;
         public static Spotify _spotify;
         private static principal principal;
@@ -46,6 +46,7 @@ namespace aplicacion_musica
         public static bool ModoReproductor = false;
         public static Thread tareaRefrescoToken;
         public static bool ModoStream = false;
+        public static string TipografiaLyrics;
         public static void Refresco()
         {
             while(true)
@@ -385,6 +386,7 @@ namespace aplicacion_musica
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Idioma = ConfigurationManager.AppSettings["Idioma"];
+            TipografiaLyrics = ConfigurationManager.AppSettings["TipografiaLyrics"];
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Idioma + ".resx");
             Log Log = Log.Instance;
             if(args.Contains("-consola") || args.Contains("-console"))
@@ -483,6 +485,7 @@ namespace aplicacion_musica
             GuardarPATHS();
             GuardarLyrics();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
+            config.AppSettings.Settings["TipografiaLyrics"].Value = TipografiaLyrics;
             config.Save();
 
             if (File.Exists("./covers/np.jpg"))

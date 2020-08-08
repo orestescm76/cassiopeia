@@ -14,9 +14,12 @@ namespace aplicacion_musica.src.Forms
     {
         private Cancion cancion;
         private ToolTip ConsejoDeshacer;
+        private Font Tipografia;
         public VisorLyrics(Cancion c)
         {
             InitializeComponent();
+            Tipografia = new Font(Programa.TipografiaLyrics, 9);
+            textBoxLyrics.Font = Tipografia;
             cancion = c;
             if (c.Lyrics == null)
                 c.Lyrics = new string[0];
@@ -32,6 +35,7 @@ namespace aplicacion_musica.src.Forms
             }
             buttonBack.Enabled = !(cancion.Num == 1);
             buttonNext.Enabled = (cancion.Num != cancion.album.canciones.Count);
+            textBoxLyrics.MouseWheel += new MouseEventHandler(textBoxLyrics_MouseWheel);
         }
         private void CambiarCancion(Cancion c)
         {
@@ -73,12 +77,12 @@ namespace aplicacion_musica.src.Forms
             if(!textBoxLyrics.ReadOnly)
             {
                 textBoxLyrics.ReadOnly = true;
-                //boton.texto = editar
+                buttonEditar.Text = Programa.textosLocal.GetString("editar");
             }
             else
             {
                 textBoxLyrics.ReadOnly = false;
-                //boton.texto = OK
+                buttonEditar.Text = Programa.textosLocal.GetString("aceptar");
 
             }
         }
@@ -109,6 +113,18 @@ namespace aplicacion_musica.src.Forms
         {
             Guardar();
             CambiarCancion(cancion.album.getCancion(cancion.Num-2));
+        }
+        private void textBoxLyrics_MouseWheel(object sender, MouseEventArgs e)
+        {
+            Font tipografiaNew = Tipografia;
+            if(Control.ModifierKeys == Keys.Control)
+            {
+                if (e.Delta > 0)
+                    tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size + 2);
+                else
+                    tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size - 2);
+            }
+            textBoxLyrics.Font = Tipografia = tipografiaNew;
         }
     }
 }

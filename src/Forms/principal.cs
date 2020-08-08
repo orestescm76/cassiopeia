@@ -790,5 +790,15 @@ namespace aplicacion_musica
             AbrirDisco AD = new AbrirDisco();
             AD.ShowDialog();
         }
+
+        private void tipografiaLyricsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FontDialog fontDialog = new FontDialog();
+            Font fuente = null;
+            fontDialog.Font = new Font(Programa.TipografiaLyrics, 10);
+            fontDialog.ShowDialog();
+            fuente = fontDialog.Font;
+            Programa.TipografiaLyrics = fuente.FontFamily.Name;
+        }
     }
 }

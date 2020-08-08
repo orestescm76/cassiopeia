@@ -126,4 +126,7 @@
   <data name="min:sec" xml:space="preserve">
     <value>分:秒</value>
   </data>
+  <data name="titulo_ventana_principal" xml:space="preserve">
+    <value>ヘストール・デ・ムシカ</value>
+  </data>
 </root>

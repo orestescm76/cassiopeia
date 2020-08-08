@@ -536,6 +536,9 @@
   <data name="errorCD" xml:space="preserve">
     <value>No se puede leer el CD. El dispositivo no está preparado...</value>
   </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
   <data name="anterior" xml:space="preserve">
     <value>Anterior</value>
   </data>
