@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using aplicacion_musica.src.Forms;
 
 namespace aplicacion_musica
 {
@@ -442,6 +443,13 @@ namespace aplicacion_musica
                 }
             }
             Programa.GuardarPATHS();
+        }
+
+        private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Cancion cancion = albumAVisualizar.getCancion(vistaCanciones.SelectedItems[0].Index);
+            VisorLyrics VL = new VisorLyrics(cancion);
+            VL.Show();
         }
     }
 }

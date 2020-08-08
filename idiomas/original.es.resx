@@ -536,4 +536,22 @@
   <data name="errorCD" xml:space="preserve">
     <value>No se puede leer el CD. El dispositivo no está preparado...</value>
   </data>
+  <data name="anterior" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="cerrar" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="consejoDeshacer" xml:space="preserve">
+    <value>Restaura la letra que había antes de modificarla.</value>
+  </data>
+  <data name="deshacer" xml:space="preserve">
+    <value>Deshacer</value>
+  </data>
+  <data name="limpiar" xml:space="preserve">
+    <value>Limpiar</value>
+  </data>
+  <data name="siguiente" xml:space="preserve">
+    <value>Siguiente</value>
+  </data>
 </root>

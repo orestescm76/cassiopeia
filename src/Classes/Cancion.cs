@@ -14,9 +14,16 @@ namespace aplicacion_musica
         [JsonIgnore]
         public String PATH { get; set; }
         public string[] Lyrics { get; set; }
+        public int Num
+        {
+            get
+            {
+                return album.canciones.IndexOf(this)+1;
+            }
+        }
+
         public Cancion()
         {
-
         }
         public Cancion(String titulo, int ms, bool Bonus)
         {
@@ -47,7 +54,7 @@ namespace aplicacion_musica
         public override string ToString()
         {
             if (album != null)
-                return album.artista + " - " + titulo + "(" + album.nombre + ")";
+                return album.artista + " - " + titulo + " (" + album.nombre + ")";
             else
                 return titulo;
         }

@@ -9,13 +9,15 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
-/* VERSION 1.6.0.xx CODENAME COCKROACH
+using System.Collections.Generic;
+/* VERSION 1.6.xx CODENAME COCKROACH
 * Reproductor:
 *  Soporte CD Audio
 *  Rework del sistema de playlists
 * Gestor:
 *  Ahora se puede redimensonar la ventana principal
 *  Nuevo botón, abrir una disquetera para reproducir un CD
+*  Visor de lyrics
 * Misc:
 *  Argumentos de lanzamiento en inglés
 */
@@ -328,6 +330,54 @@ namespace aplicacion_musica
             Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + "- Guardado", TipoMensaje.Correcto, crono);
             crono.Stop();
         }
+        private static void CargarLyrics()
+        {
+            Log.Instance.ImprimirMensaje("Cargando lyrics", TipoMensaje.Info);
+            using (StreamReader entrada = new FileInfo("lyrics.txt").OpenText())
+            {
+                string linea = null;
+                while (!entrada.EndOfStream)
+                {
+                    linea = entrada.ReadLine();
+                    string[] datos = linea.Split(';');
+                    Album a = miColeccion.buscarAlbum(datos[2])[0];
+                    Cancion c = a.canciones[a.buscarCancion(datos[1])];
+                    List<string> lyrics = new List<string>();
+                    do
+                    {
+                        linea = entrada.ReadLine();
+                        lyrics.Add(linea);
+                    } while (linea != "---");
+                    lyrics.Remove("---");
+                    c.Lyrics = lyrics.ToArray();
+                }
+            }
+        }
+        private static void GuardarLyrics()
+        {
+            Log.Instance.ImprimirMensaje("Guardando lyrics", TipoMensaje.Info);
+            Stopwatch crono = Stopwatch.StartNew();
+            using (StreamWriter salida = new FileInfo("lyrics.txt").CreateText())
+            {
+                foreach (Album album in miColeccion.albumes)
+                {
+                    foreach (Cancion cancion in album.canciones)
+                    {
+                        if (cancion.Lyrics != null && cancion.Lyrics.Length != 0)
+                        {
+                            salida.WriteLine(album.artista + ";" + cancion.titulo + ";" + album.nombre);
+                            foreach (string line in cancion.Lyrics)
+                            {
+                                salida.WriteLine(line);
+                            }
+                            salida.WriteLine("---");
+                        }
+                    }
+                }
+            }
+            crono.Stop();
+            Log.Instance.ImprimirMensaje("Guardados los PATHS", TipoMensaje.Correcto, crono);
+        }
         [STAThread]
         static void Main(String[] args)
         {
@@ -410,6 +460,8 @@ namespace aplicacion_musica
                 }
                 if (File.Exists("paths.txt"))
                     CargarPATHS();
+                if (File.Exists("lyrics.txt"))
+                    CargarLyrics();
             }
             //creo el Reproductor
             Reproductor.Instancia = new Reproductor();
@@ -429,6 +481,7 @@ namespace aplicacion_musica
             if(_spotify != null && tareaRefrescoToken != null)
                 tareaRefrescoToken.Abort();
             GuardarPATHS();
+            GuardarLyrics();
             config.AppSettings.Settings["Idioma"].Value = Idioma;
             config.Save();
 
