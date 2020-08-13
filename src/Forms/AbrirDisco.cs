@@ -11,9 +11,15 @@ namespace aplicacion_musica.src.Forms
         {
             InitializeComponent();
         }
-
+        private void PonerTextos()
+        {
+            Text = Programa.textosLocal.GetString("abrirCD");
+            buttonPlay.Text = Programa.textosLocal.GetString("reproducir");
+            buttonRip.Text = "Rip";
+        }
         private void AbrirDisco_Load(object sender, EventArgs e)
         {
+            PonerTextos();
             Log.Instance.ImprimirMensaje("Detectando disqueteras", TipoMensaje.Info);
             DriveInfo[] Discos = DriveInfo.GetDrives();
             foreach (var d in Discos)

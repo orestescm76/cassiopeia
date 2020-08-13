@@ -531,7 +531,7 @@
     <value> * Los creadores de NVorbis, CSCore y JAudio</value>
   </data>
   <data name="abrirCD" xml:space="preserve">
-    <value>Abrir CD de audio...</value>
+    <value>Abrir CD de audio</value>
   </data>
   <data name="errorCD" xml:space="preserve">
     <value>No se puede leer el CD. El dispositivo no está preparado...</value>
@@ -556,5 +556,11 @@
   </data>
   <data name="siguiente" xml:space="preserve">
     <value>Siguiente</value>
+  </data>
+  <data name="tipografíaLyrics" xml:space="preserve">
+    <value>Cambiar la fuente del visor de letras</value>
+  </data>
+  <data name="verLyrics" xml:space="preserve">
+    <value>Ver la letra</value>
   </data>
 </root>

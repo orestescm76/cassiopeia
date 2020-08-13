@@ -18,7 +18,8 @@ namespace aplicacion_musica.src.Forms
         public VisorLyrics(Cancion c)
         {
             InitializeComponent();
-            Tipografia = new Font(Programa.TipografiaLyrics, 9);
+            Icon = Properties.Resources.letras;
+            Tipografia = new Font(Config.TipografiaLyrics, 9);
             textBoxLyrics.Font = Tipografia;
             cancion = c;
             if (c.Lyrics == null)
@@ -122,7 +123,11 @@ namespace aplicacion_musica.src.Forms
                 if (e.Delta > 0)
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size + 2);
                 else
+                {
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size - 2);
+                    if (tipografiaNew.Size <= 2)
+                        tipografiaNew = Tipografia; //no se cambia
+                }
             }
             textBoxLyrics.Font = Tipografia = tipografiaNew;
         }

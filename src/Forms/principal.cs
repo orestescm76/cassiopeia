@@ -80,11 +80,14 @@ namespace aplicacion_musica
         {
             buscarEnSpotifyToolStripMenuItem.Enabled = i;
             vincularToolStripMenuItem.Enabled = i;
-            spotifyToolStripMenuItem.Enabled = i;
         }
         public void DesactivarVinculacion()
         {
             vincularToolStripMenuItem.Visible = false;
+        }
+        public void ActivarReproduccionSpotify()
+        {
+            spotifyToolStripMenuItem.Enabled = true;
         }
         private void cargarVista()
         {
@@ -151,12 +154,14 @@ namespace aplicacion_musica
             verToolStripMenuItem.Text = Programa.textosLocal.GetString("ver");
             digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
             copiarToolStripMenuItem.Text = Programa.textosLocal.GetString("copiar");
-            opcionesToolStripMenuItem.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + Programa.Idioma + ".png");
+            opcionesToolStripMenuItem.Image = Image.FromFile("./iconosBanderas/" + Config.Idioma + ".png");
             digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
             vincularToolStripMenuItem.Text = Programa.textosLocal.GetString("vincular");
             spotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
             reproductorToolStripMenuItem.Text = Programa.textosLocal.GetString("reproductor");
-            abrirCDMenuItem.Text = Programa.textosLocal.GetString("abrirCD");
+            abrirCDMenuItem.Text = Programa.textosLocal.GetString("abrirCD") + "...";
+            verLyricsToolStripMenuItem.Text = Programa.textosLocal.GetString("verLyrics");
+            tipografiaLyricsToolStripMenuItem.Text = Programa.textosLocal.GetString("tipografíaLyrics");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -245,7 +250,7 @@ namespace aplicacion_musica
             guardarDiscos("discos.csv", TipoGuardado.Digital);
             guardarDiscos("cd.json", TipoGuardado.CD);
             using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
-                salida.Write(Programa.Idioma);
+                salida.Write(Config.Idioma);
             Log.ImprimirMensaje("Apagando reproductor", TipoMensaje.Info);
             Reproductor.Instancia.Apagar();
             Reproductor.Instancia.Dispose();
@@ -795,10 +800,18 @@ namespace aplicacion_musica
         {
             FontDialog fontDialog = new FontDialog();
             Font fuente = null;
-            fontDialog.Font = new Font(Programa.TipografiaLyrics, 10);
+            fontDialog.Font = new Font(Config.TipografiaLyrics, 10);
             fontDialog.ShowDialog();
             fuente = fontDialog.Font;
-            Programa.TipografiaLyrics = fuente.FontFamily.Name;
+            Config.TipografiaLyrics = fuente.FontFamily.Name;
+        }
+
+        private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]);
+            Cancion cancion = a.getCancion(0);
+            VisorLyrics VL = new VisorLyrics(cancion);
+            VL.Show();
         }
     }
 }

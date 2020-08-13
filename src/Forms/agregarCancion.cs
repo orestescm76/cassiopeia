@@ -47,8 +47,17 @@ namespace aplicacion_musica
             cancion = c;
             editar = true;
             cancionlarga = null;
+            if(c is CancionLarga)
+            {
+                minTextBox.Enabled = false;
+                secsTextBox.Enabled = false;
+                checkBoxBonus.Enabled = false;
+            }
             tituloTextBox.Text = c.titulo;
-            minTextBox.Text = c.duracion.Minutes.ToString();
+            if (c.duracion.TotalMinutes >= 60)
+                minTextBox.Text = ((int)c.duracion.TotalMinutes).ToString();
+            else
+                minTextBox.Text = c.duracion.Minutes.ToString();
             secsTextBox.Text = c.duracion.Seconds.ToString();
             esLarga.Hide();
             labelNumPartes.Hide();
@@ -131,7 +140,6 @@ namespace aplicacion_musica
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
             try
             {
                 if(!larga && cancionlarga == null) //caso normal
@@ -201,7 +209,6 @@ namespace aplicacion_musica
             catch (FormatException ex)
             {
                 Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
-
                 MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
                 //throw;
             }

@@ -15,7 +15,6 @@ namespace aplicacion_musica
     {
         public SpotifyWebAPI _spotify;
         private AuthorizationCodeAuth auth;
-        private CredentialsAuth authMetadatos;
         private readonly char[] CaracteresProhibidosWindows = { '\\', '/', '|', '?', '*', '"', ':', '>', '<' };
         private readonly String clavePublica = "f49317757dd64bb190576aec028f4efc";
         private readonly String clavePrivada = ClaveAPI.Spotify;
@@ -40,7 +39,7 @@ namespace aplicacion_musica
         }
         private async void iniciar()
         {
-            Log.Instance.ImprimirMensaje("Intentando con Spotify asíncronamente", TipoMensaje.Info, "Spotify.iniciar()");
+            Log.Instance.ImprimirMensaje("Intentando conectar con Spotify asíncronamente", TipoMensaje.Info, "Spotify.iniciar()");
             Stopwatch crono = Stopwatch.StartNew();
             Programa.HayInternet(false);
             try
@@ -106,7 +105,8 @@ namespace aplicacion_musica
                     {
                         cuentaLista = true;
                         cuentaVinculada = true;
-                        Programa.config.AppSettings.Settings["VinculadoConSpotify"].Value = "true";
+                        Config.VinculadoConSpotify = true;
+                        Programa.ActivarReproduccionSpotify();
                         Log.Instance.ImprimirMensaje("Conectado sin errores como " + _spotify.GetPrivateProfile().DisplayName, TipoMensaje.Correcto, crono);
                     }
                     else
@@ -114,7 +114,7 @@ namespace aplicacion_musica
                         cuentaLista = false;
                         cuentaVinculada = false;
                         Log.Instance.ImprimirMensaje("Se ha conectado pero el token es nulo", TipoMensaje.Error, crono);
-                        Programa.config.AppSettings.Settings["VinculadoConSpotify"].Value = "false";
+                        Config.VinculadoConSpotify = false;
                     }
                     CodigoRefresco = token.RefreshToken;
                     Programa.tareaRefrescoToken = new Thread(Programa.Refresco);
@@ -299,7 +299,6 @@ namespace aplicacion_musica
         public void Reiniciar()
         {
             Log.Instance.ImprimirMensaje("Reiniciando Spotify", TipoMensaje.Info);
-            authMetadatos = null;
         }
         public ErrorResponse ReproducirAlbum(string uri)
         {

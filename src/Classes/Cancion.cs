@@ -60,7 +60,11 @@ namespace aplicacion_musica
         }
         public String[] ToStringArray()
         {
-            String[] datos = { titulo, duracion.ToString(@"mm\:ss") };
+            String[] datos;
+            if (duracion.TotalMinutes>=60)
+                datos = new string[] { titulo, duracion.ToString(@"h\:mm\:ss") };
+            else
+                datos = new string[] { titulo, duracion.ToString(@"mm\:ss") };
             return datos;
         }
         public int GetMilisegundos()

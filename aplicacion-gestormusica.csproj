@@ -14,6 +14,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,8 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationVersion>1.6.29.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -116,6 +116,7 @@
     <Compile Include="src\Classes\ListaReproduccion.cs" />
     <Compile Include="src\Classes\Log.cs" />
     <Compile Include="src\Classes\ReproductorNucleo.cs" />
+    <Compile Include="src\Config.cs" />
     <Compile Include="src\Forms\AbrirDisco.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +152,12 @@
     </Compile>
     <Compile Include="src\Forms\busquedaSpotify.Designer.cs">
       <DependentUpon>busquedaSpotify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Forms\ConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Forms\ConfigForm.Designer.cs">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Forms\CrearCD.cs">
       <SubType>Form</SubType>
@@ -252,6 +259,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\busquedaSpotify.resx">
       <DependentUpon>busquedaSpotify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Forms\ConfigForm.resx">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\CrearCD.resx">
       <DependentUpon>CrearCD.cs</DependentUpon>
@@ -591,8 +601,8 @@
     <None Include="Resources\albumdesconocido.png" />
     <Content Include="Resources\banner.png" />
     <Content Include="Resources\icono.ico" />
-    <None Include="Resources\iconoReproductor.png" />
     <None Include="Resources\iconoReproductor.ico" />
+    <None Include="Resources\letras.ico" />
     <Content Include="Resources\spotifyico.ico" />
   </ItemGroup>
   <ItemGroup>

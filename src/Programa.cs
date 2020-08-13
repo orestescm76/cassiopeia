@@ -37,16 +37,12 @@ namespace aplicacion_musica
         public static string[] idiomas;
         public static Spotify _spotify;
         private static principal principal;
-        public static string Idioma;
         public static bool ModoOscuro = false;
         public static readonly string CodeName = "Cockroach";
-        private static ExeConfigurationFileMap configFileMap = new ExeConfigurationFileMap();
         public static bool SpotifyActivado = true;
-        public static Configuration config;
         public static bool ModoReproductor = false;
         public static Thread tareaRefrescoToken;
         public static bool ModoStream = false;
-        public static string TipografiaLyrics;
         public static void Refresco()
         {
             while(true)
@@ -66,9 +62,13 @@ namespace aplicacion_musica
         public static void cambiarIdioma(String idioma)
         {
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + idioma + ".resx");
-            Idioma = idioma;
+            Config.Idioma = idioma;
             refrescarGeneros();
             refrescarVista();
+        }
+        public static void ActivarReproduccionSpotify()
+        {
+            principal.ActivarReproduccionSpotify();
         }
         public static void refrescarVista()
         {
@@ -385,9 +385,8 @@ namespace aplicacion_musica
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Idioma = ConfigurationManager.AppSettings["Idioma"];
-            TipografiaLyrics = ConfigurationManager.AppSettings["TipografiaLyrics"];
-            textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Idioma + ".resx");
+            Config.CargarConfiguracion();
+            textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Config.Idioma + ".resx");
             Log Log = Log.Instance;
             if(args.Contains("-consola") || args.Contains("-console"))
             {
@@ -397,14 +396,11 @@ namespace aplicacion_musica
                 Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -consola", TipoMensaje.Info);
             }
             miColeccion = new Coleccion();
-            configFileMap.ExeConfigFilename = Environment.CurrentDirectory + "/aplicacion_musica.exe.config";
-            config = ConfigurationManager.OpenMappedExeConfiguration(configFileMap, ConfigurationUserLevel.None);
-
             SpotifyActivado = false;
             principal = new principal();
             if(!args.Contains("-noSpotify"))
             {
-                if (config.AppSettings.Settings["VinculadoConSpotify"].Value == "false")
+                if (!Config.VinculadoConSpotify)
                     _spotify = new Spotify(false);
                 else
                 {
@@ -484,9 +480,7 @@ namespace aplicacion_musica
                 tareaRefrescoToken.Abort();
             GuardarPATHS();
             GuardarLyrics();
-            config.AppSettings.Settings["Idioma"].Value = Idioma;
-            config.AppSettings.Settings["TipografiaLyrics"].Value = TipografiaLyrics;
-            config.Save();
+            Config.GuardarConfiguracion();
 
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");

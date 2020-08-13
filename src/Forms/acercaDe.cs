@@ -21,7 +21,7 @@ namespace aplicacion_musica
                 Programa.textosLocal.GetString("agradecimiento1") + Environment.NewLine + "https://github.com/JohnnyCrazy/SpotifyAPI-NET" + Environment.NewLine +
                 Programa.textosLocal.GetString("agradecimiento3") + Environment.NewLine +
                 Programa.textosLocal.GetString("agradecimiento4") + Environment.NewLine;
-            switch (Programa.Idioma)
+            switch (Config.Idioma)
             {
                 case "ca":
                     acercadeTexto += Programa.textosLocal.GetString("agradecimientoTraduccion");

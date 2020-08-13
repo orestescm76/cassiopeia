@@ -23,11 +23,6 @@ namespace aplicacion_musica
             else
                 throw new InvalidOperationException();
         }
-        /// <summary>
-        /// busca álbumes con un título en concreto
-        /// </summary>
-        /// <param name="titulo">título del álbum a buscar</param>
-        /// <returns>un array con los álbumes encontrados</returns>
         public List<Album> buscarAlbum(string titulo)
         {
             List<Album> encontrados = new List<Album>();
@@ -47,11 +42,6 @@ namespace aplicacion_musica
             }
             return false;
         }
-        /// <summary>
-        /// busca un álbum con formato artista_titulo
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns>el álbum encontrado</returns>
         public Album devolverAlbum(string s)
         {
             String[] busqueda = s.Split('_');
@@ -76,17 +66,10 @@ namespace aplicacion_musica
                     cd = cdd;
             }
         }
-        /// <summary>
-        /// cambia la lista
-        /// </summary>
-        /// <param name="n">la nueva lista de discos</param>
         public void cambiarLista(ref List<Album> n)
         {
             albumes = n;
         }
-        /// <summary>
-        /// limpia los discos
-        /// </summary>
         public void BorrarTodo()
         {
             albumes.Clear();
@@ -96,11 +79,6 @@ namespace aplicacion_musica
         {
             cds.Add(cd);
         }
-        /// <summary>
-        /// devuelve un cd por id, tal vez habria que cambiar la EEDD
-        /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
         public DiscoCompacto getCDById(string i)
         {
             DiscoCompacto busqueda = null;
@@ -111,10 +89,6 @@ namespace aplicacion_musica
             }
             return busqueda;
         }
-        /// <summary>
-        /// borra un cd con la id especificada
-        /// </summary>
-        /// <param name="id"></param>
         public void BorrarCD(String id)
         {
             foreach (DiscoCompacto item in cds)

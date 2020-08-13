@@ -11,10 +11,6 @@ namespace aplicacion_musica
         private short NDisco;
         private short NC;
         private bool edit = false;
-        /// <summary>
-        /// Constructor para crear un sólo CD, para álbumes con menos de 80 minutos de duración
-        /// </summary>
-        /// <param name="a"></param>
         public CrearCD(ref Album a)
         {
             InitializeComponent();
@@ -26,11 +22,6 @@ namespace aplicacion_musica
             NC = a.numCanciones;
             PonerTextos();
         }
-        /// <summary>
-        /// Constructor para crear el primer cd de varios.
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="nd">número de discos</param>
         public CrearCD(ref Album a, short nd)
         {
             InitializeComponent();
@@ -40,12 +31,6 @@ namespace aplicacion_musica
             numDiscos = nd;
             PonerTextos();
         }
-        /// <summary>
-        /// Constructor para crear un segundo, tercer CD
-        /// </summary>
-        /// <param name="cdd">CD original</param>
-        /// <param name="n">número del disco, en el caso de editar es disco 1, 2...</param>
-        /// <param name="edit">configura el formulario para la edición</param>
         public CrearCD(ref DiscoCompacto cdd, short n, bool edit = false)
         {
             InitializeComponent();
