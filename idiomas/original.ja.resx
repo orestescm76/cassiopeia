@@ -129,4 +129,7 @@
   <data name="titulo_ventana_principal" xml:space="preserve">
     <value>ヘストール・デ・ムシカ</value>
   </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>ああ</value>
+  </data>
 </root>

@@ -47,8 +47,8 @@
             this.setLargaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirspotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonPATH = new System.Windows.Forms.Button();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonPATH = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoConfig.SuspendLayout();
@@ -153,7 +153,7 @@
             // 
             this.buttonAnotaciones.Location = new System.Drawing.Point(12, 403);
             this.buttonAnotaciones.Name = "buttonAnotaciones";
-            this.buttonAnotaciones.Size = new System.Drawing.Size(117, 31);
+            this.buttonAnotaciones.Size = new System.Drawing.Size(129, 31);
             this.buttonAnotaciones.TabIndex = 5;
             this.buttonAnotaciones.Text = "button1";
             this.buttonAnotaciones.UseVisualStyleBackColor = true;
@@ -180,52 +180,52 @@
             this.reproducirToolStripMenuItem,
             this.verLyricsToolStripMenuItem});
             this.clickDerechoConfig.Name = "clickDerechoConfig";
-            this.clickDerechoConfig.Size = new System.Drawing.Size(181, 136);
+            this.clickDerechoConfig.Size = new System.Drawing.Size(171, 114);
             // 
             // setBonusToolStripMenuItem
             // 
             this.setBonusToolStripMenuItem.Name = "setBonusToolStripMenuItem";
-            this.setBonusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setBonusToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.setBonusToolStripMenuItem.Text = "setBonus";
             this.setBonusToolStripMenuItem.Click += new System.EventHandler(this.setBonusToolStripMenuItem_Click);
             // 
             // setLargaToolStripMenuItem
             // 
             this.setLargaToolStripMenuItem.Name = "setLargaToolStripMenuItem";
-            this.setLargaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.setLargaToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.setLargaToolStripMenuItem.Text = "setPartes";
             this.setLargaToolStripMenuItem.Visible = false;
             // 
             // reproducirspotifyToolStripMenuItem
             // 
             this.reproducirspotifyToolStripMenuItem.Name = "reproducirspotifyToolStripMenuItem";
-            this.reproducirspotifyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reproducirspotifyToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.reproducirspotifyToolStripMenuItem.Text = "reproducir_spotify";
             this.reproducirspotifyToolStripMenuItem.Click += new System.EventHandler(this.reproducirspotifyToolStripMenuItem_Click);
             // 
             // reproducirToolStripMenuItem
             // 
             this.reproducirToolStripMenuItem.Name = "reproducirToolStripMenuItem";
-            this.reproducirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reproducirToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.reproducirToolStripMenuItem.Text = "reproducir";
             this.reproducirToolStripMenuItem.Click += new System.EventHandler(this.reproducirToolStripMenuItem_Click);
-            // 
-            // buttonPATH
-            // 
-            this.buttonPATH.Location = new System.Drawing.Point(135, 403);
-            this.buttonPATH.Name = "buttonPATH";
-            this.buttonPATH.Size = new System.Drawing.Size(117, 31);
-            this.buttonPATH.TabIndex = 7;
-            this.buttonPATH.Text = "calcularPATHS";
-            this.buttonPATH.UseVisualStyleBackColor = true;
-            this.buttonPATH.Click += new System.EventHandler(this.buttonPATH_Click);
             // 
             // verLyricsToolStripMenuItem
             // 
             this.verLyricsToolStripMenuItem.Name = "verLyricsToolStripMenuItem";
-            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
+            // 
+            // buttonPATH
+            // 
+            this.buttonPATH.Location = new System.Drawing.Point(147, 403);
+            this.buttonPATH.Name = "buttonPATH";
+            this.buttonPATH.Size = new System.Drawing.Size(131, 31);
+            this.buttonPATH.TabIndex = 7;
+            this.buttonPATH.Text = "calcularPATHS";
+            this.buttonPATH.UseVisualStyleBackColor = true;
+            this.buttonPATH.Click += new System.EventHandler(this.buttonPATH_Click);
             // 
             // visualizarAlbum
             // 

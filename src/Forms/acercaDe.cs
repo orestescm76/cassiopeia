@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace aplicacion_musica
@@ -25,6 +26,12 @@ namespace aplicacion_musica
             {
                 case "ca":
                     acercadeTexto += Programa.textosLocal.GetString("agradecimientoTraduccion");
+                    break;
+                case "el":
+                    labelAcercaDe.Location = new Point(2, 186);
+                    Font but = labelAcercaDe.Font;
+                    Font neo = new Font(but.FontFamily, 10);
+                    labelAcercaDe.Font = neo;
                     break;
                 default:
                     break;

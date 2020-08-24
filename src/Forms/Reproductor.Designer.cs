@@ -34,7 +34,7 @@
             this.buttonReproducirPausar = new System.Windows.Forms.Button();
             this.timerCancion = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonAbrir = new System.Windows.Forms.Button();
             this.labelPosicion = new System.Windows.Forms.Label();
             this.labelDuracion = new System.Windows.Forms.Label();
             this.barraAbajoDatos = new System.Windows.Forms.StatusStrip();
@@ -97,16 +97,16 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button2
+            // buttonAbrir
             // 
-            this.button2.Location = new System.Drawing.Point(0, 515);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(102, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "abrir";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonAbrir.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAbrir.Location = new System.Drawing.Point(0, 498);
+            this.buttonAbrir.Name = "buttonAbrir";
+            this.buttonAbrir.Size = new System.Drawing.Size(102, 23);
+            this.buttonAbrir.TabIndex = 3;
+            this.buttonAbrir.Text = "abrir_cancion";
+            this.buttonAbrir.UseVisualStyleBackColor = true;
+            this.buttonAbrir.Click += new System.EventHandler(this.buttonAbrir_Click);
             // 
             // labelPosicion
             // 
@@ -136,7 +136,7 @@
             this.barraAbajoDatos.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labelDatosCancion,
             this.toolStripStatusLabelCorreoUsuario});
-            this.barraAbajoDatos.Location = new System.Drawing.Point(0, 570);
+            this.barraAbajoDatos.Location = new System.Drawing.Point(0, 593);
             this.barraAbajoDatos.Name = "barraAbajoDatos";
             this.barraAbajoDatos.Size = new System.Drawing.Size(365, 22);
             this.barraAbajoDatos.TabIndex = 6;
@@ -168,9 +168,9 @@
             // 
             // buttonSpotify
             // 
-            this.buttonSpotify.Location = new System.Drawing.Point(0, 544);
+            this.buttonSpotify.Location = new System.Drawing.Point(0, 556);
             this.buttonSpotify.Name = "buttonSpotify";
-            this.buttonSpotify.Size = new System.Drawing.Size(102, 23);
+            this.buttonSpotify.Size = new System.Drawing.Size(102, 34);
             this.buttonSpotify.TabIndex = 8;
             this.buttonSpotify.TabStop = false;
             this.buttonSpotify.Text = "cambiar a Spotify";
@@ -204,7 +204,7 @@
             // 
             this.checkBoxAleatorio.AutoSize = true;
             this.checkBoxAleatorio.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxAleatorio.Location = new System.Drawing.Point(11, 484);
+            this.checkBoxAleatorio.Location = new System.Drawing.Point(11, 470);
             this.checkBoxAleatorio.Name = "checkBoxAleatorio";
             this.checkBoxAleatorio.Size = new System.Drawing.Size(51, 25);
             this.checkBoxAleatorio.TabIndex = 11;
@@ -253,9 +253,9 @@
             // 
             // buttonAgregar
             // 
-            this.buttonAgregar.Location = new System.Drawing.Point(108, 544);
+            this.buttonAgregar.Location = new System.Drawing.Point(108, 556);
             this.buttonAgregar.Name = "buttonAgregar";
-            this.buttonAgregar.Size = new System.Drawing.Size(115, 23);
+            this.buttonAgregar.Size = new System.Drawing.Size(115, 34);
             this.buttonAgregar.TabIndex = 14;
             this.buttonAgregar.TabStop = false;
             this.buttonAgregar.Text = "Agregar a la BBDD";
@@ -291,7 +291,7 @@
             // buttonTwit
             // 
             this.buttonTwit.AllowDrop = true;
-            this.buttonTwit.Location = new System.Drawing.Point(0, 515);
+            this.buttonTwit.Location = new System.Drawing.Point(0, 527);
             this.buttonTwit.Name = "buttonTwit";
             this.buttonTwit.Size = new System.Drawing.Size(102, 23);
             this.buttonTwit.TabIndex = 16;
@@ -302,9 +302,9 @@
             // buttoncrearLR
             // 
             this.buttoncrearLR.AllowDrop = true;
-            this.buttoncrearLR.Location = new System.Drawing.Point(229, 544);
+            this.buttoncrearLR.Location = new System.Drawing.Point(229, 556);
             this.buttoncrearLR.Name = "buttoncrearLR";
-            this.buttoncrearLR.Size = new System.Drawing.Size(129, 23);
+            this.buttoncrearLR.Size = new System.Drawing.Size(129, 34);
             this.buttoncrearLR.TabIndex = 17;
             this.buttoncrearLR.Text = "crear LR";
             this.buttoncrearLR.UseVisualStyleBackColor = true;
@@ -315,7 +315,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(365, 592);
+            this.ClientSize = new System.Drawing.Size(365, 615);
             this.Controls.Add(this.buttoncrearLR);
             this.Controls.Add(this.buttonTwit);
             this.Controls.Add(this.checkBoxFoobar);
@@ -330,7 +330,7 @@
             this.Controls.Add(this.barraAbajoDatos);
             this.Controls.Add(this.labelDuracion);
             this.Controls.Add(this.labelPosicion);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.buttonAbrir);
             this.Controls.Add(this.buttonReproducirPausar);
             this.Controls.Add(this.trackBarPosicion);
             this.Controls.Add(this.pictureBoxCaratula);
@@ -360,7 +360,7 @@
         private System.Windows.Forms.Button buttonReproducirPausar;
         private System.Windows.Forms.Timer timerCancion;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonAbrir;
         private System.Windows.Forms.Label labelPosicion;
         private System.Windows.Forms.Label labelDuracion;
         private System.Windows.Forms.StatusStrip barraAbajoDatos;

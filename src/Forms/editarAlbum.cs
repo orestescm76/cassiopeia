@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace aplicacion_musica
@@ -52,6 +53,12 @@ namespace aplicacion_musica
                     index = i;
             }
             comboBoxGeneros.SelectedIndex = index;
+            if(Config.Idioma == "el")
+            {
+                Font but = buttonAñadirCancion.Font;
+                Font neo = new Font(but.FontFamily, 7);
+                buttonAñadirCancion.Font = neo;
+            }
         }
         private void cargarVista()
         {

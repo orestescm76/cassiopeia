@@ -161,7 +161,7 @@
     <value>Selecciona el álbum que quieres agregar y pulsa en "Añadir"</value>
   </data>
   <data name="ayuda_larga" xml:space="preserve">
-    <value>Configura el formulario para crear una cancion con varias partes.</value>
+    <value>Configura el formulario para crear una canción con varias partes.</value>
   </data>
   <data name="añadir" xml:space="preserve">
     <value>Añadir</value>
@@ -316,9 +316,6 @@
   <data name="genero_heavymetal" xml:space="preserve">
     <value>Heavy Metal</value>
   </data>
-  <data name="genero_house" xml:space="preserve">
-    <value>House</value>
-  </data>
   <data name="genero_indierock" xml:space="preserve">
     <value>Rock indie</value>
   </data>
@@ -383,7 +380,7 @@
     <value>Introduce el título de la canción</value>
   </data>
   <data name="introduce_uri" xml:space="preserve">
-    <value>O introduce la URI</value>
+    <value>O introduce la URI de Spotify</value>
   </data>
   <data name="Jewel" xml:space="preserve">
     <value>Carcasa clásica de plástico</value>
@@ -562,5 +559,11 @@
   </data>
   <data name="verLyrics" xml:space="preserve">
     <value>Ver la letra</value>
+  </data>
+  <data name="localizacion" xml:space="preserve">
+    <value>Localización</value>
+  </data>
+  <data name="abrir_cancion" xml:space="preserve">
+    <value>Abrir canción</value>
   </data>
 </root>

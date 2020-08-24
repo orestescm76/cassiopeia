@@ -24,7 +24,7 @@ namespace aplicacion_musica
                 Programa.textosLocal.GetString("año") + ": " + a.year + Environment.NewLine +
                 Programa.textosLocal.GetString("duracion") + ": " + a.duracion.ToString() + Environment.NewLine +
                 Programa.textosLocal.GetString("genero") + ": " + a.genero.traducido + Environment.NewLine +
-                "Localización: " + a.DirectorioSonido + Environment.NewLine;
+                Programa.textosLocal.GetString("localizacion") + ": " + a.DirectorioSonido + Environment.NewLine;
             try
             {
                 if (a.caratula != "")
@@ -101,16 +101,23 @@ namespace aplicacion_musica
             if (CDaVisualizar != null)
                 buttonAnotaciones.Text = Programa.textosLocal.GetString("editar_anotaciones");
             else
-                buttonAnotaciones.Text = "Reproducir";
+                buttonAnotaciones.Text = Programa.textosLocal.GetString("reproducir");
             setBonusToolStripMenuItem.Text = Programa.textosLocal.GetString("setBonus");
             setLargaToolStripMenuItem.Text = Programa.textosLocal.GetString("setLarga");
             reproducirToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducir");
             reproducirspotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
             buttonPATH.Text = Programa.textosLocal.GetString("calcularPATHS");
+            if(Config.Idioma == "el")
+            {
+                Font but = buttonPATH.Font;
+                Font neo = new Font(but.FontFamily, 7);
+                buttonPATH.Font = neo;
+            }
+            verLyricsToolStripMenuItem.Text = Programa.textosLocal.GetString("verLyrics");
         }
         private void cargarVista()
         {
-            if (string.IsNullOrEmpty(albumAVisualizar.IdSpotify) || (Programa._spotify == null || !Programa._spotify.cuentaLista))
+            if (string.IsNullOrEmpty(albumAVisualizar.IdSpotify) || Programa._spotify == null || !Programa._spotify.cuentaLista)
                 reproducirspotifyToolStripMenuItem.Enabled = false;
             if (string.IsNullOrEmpty(albumAVisualizar.DirectorioSonido))
                 reproducirToolStripMenuItem.Enabled = false;

@@ -315,9 +315,6 @@
   <data name="genero_heavymetal" xml:space="preserve">
     <value>Heavy Metal</value>
   </data>
-  <data name="genero_house" xml:space="preserve">
-    <value>House</value>
-  </data>
   <data name="genero_indierock" xml:space="preserve">
     <value>Rock indie</value>
   </data>
@@ -468,5 +465,23 @@
   </data>
   <data name="agradecimiento3" xml:space="preserve">
     <value> * Els creadors de NVorbis, CSCore y JAudio</value>
+  </data>
+  <data name="siguiente" xml:space="preserve">
+    <value>Següent</value>
+  </data>
+  <data name="compartirLocal3" xml:space="preserve">
+    <value>amb el</value>
+  </data>
+  <data name="compartirLocal2" xml:space="preserve">
+    <value>de</value>
+  </data>
+  <data name="uriSpotify" xml:space="preserve">
+    <value>URI de Spotify</value>
+  </data>
+  <data name="calcularPATHS" xml:space="preserve">
+    <value>Cerca cançons</value>
+  </data>
+  <data name="abrir_cancion" xml:space="preserve">
+    <value>Obrir cançó</value>
   </data>
 </root>

@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Configuration;
 using System.Threading;
 using System.Collections.Generic;
+using System.IO.Ports;
 /* VERSION 1.6.xx CODENAME COCKROACH
 * Reproductor:
 *  Soporte CD Audio
@@ -29,7 +30,7 @@ namespace aplicacion_musica
         static extern bool AllocConsole();
         public static ResXResourceSet textosLocal;
         public static String[] idGeneros = {"clasica", "hardrock", "rockprog", "progmetal", "rockpsicodelico", "heavymetal", "blackmetal", "electronica", "postrock", "indierock",
-            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "house", "jazz fusion", ""}; //lista hardcoded que tendrá su respectiva traducción en las últimas líneas del fichero !!
+            "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "jazz fusion", ""};
         public static Coleccion miColeccion;
         public static Genero[] generos = new Genero[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
@@ -334,6 +335,7 @@ namespace aplicacion_musica
         private static void CargarLyrics()
         {
             Log.Instance.ImprimirMensaje("Cargando lyrics", TipoMensaje.Info);
+            Stopwatch crono = Stopwatch.StartNew();
             using (StreamReader entrada = new FileInfo("lyrics.txt").OpenText())
             {
                 string linea = null;
@@ -353,6 +355,8 @@ namespace aplicacion_musica
                     c.Lyrics = lyrics.ToArray();
                 }
             }
+            crono.Stop();
+            Log.Instance.ImprimirMensaje("Lyrics cargadas", TipoMensaje.Correcto, crono);
         }
         private static void GuardarLyrics()
         {

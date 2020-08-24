@@ -9,9 +9,6 @@ using System.IO;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
-using System.Linq;
-using System.Collections.Generic;
-using aplicacion_musica.CD;
 
 namespace aplicacion_musica
 {
@@ -155,7 +152,7 @@ namespace aplicacion_musica
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
             pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
-            button2.Enabled = true;
+            buttonAbrir.Enabled = true;
             trackBarPosicion.Value = 0;
             dur = new TimeSpan(0);
             pos = new TimeSpan(0);
@@ -200,7 +197,7 @@ namespace aplicacion_musica
                 Icon = Properties.Resources.spotifyico;
                 timerSpotify.Enabled = true;
                 buttonSpotify.Text = Programa.textosLocal.GetString("cambiarLocal");
-                button2.Enabled = false;
+                buttonAbrir.Enabled = false;
                 Spotify = true;
                 toolStripStatusLabelCorreoUsuario.Text = Programa.textosLocal.GetString("conectadoComo") + " " + user.DisplayName;
                 if (!EsPremium)
@@ -269,6 +266,7 @@ namespace aplicacion_musica
             buttoncrearLR.Text = Programa.textosLocal.GetString("crearLR");
             buttonAgregar.Text = Programa.textosLocal.GetString("agregarBD");
             buttonTwit.Text = Programa.textosLocal.GetString("twittearCancion");
+            buttonAbrir.Text = Programa.textosLocal.GetString("abrir_cancion");
         }
         public void SetPATH(Cancion c) //probablemente deprecated pero configura los paths
         {
@@ -620,7 +618,7 @@ namespace aplicacion_musica
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonAbrir_Click(object sender, EventArgs e)
         {
             string fich = null;
             openFileDialog1.Filter = "*.mp3, *.flac, *.ogg|*.mp3;*.flac;*.ogg";
@@ -634,10 +632,12 @@ namespace aplicacion_musica
                 this.fich = fich;
                 try
                 {
-                    nucleo.CargarCancion(fich);
-                    FicheroLeible(fich);
-                    nucleo.Reproducir();
-                    PrepararReproductor();
+                    if (FicheroLeible(fich))
+                    {
+                        nucleo.CargarCancion(fich);
+                        PrepararReproductor();
+                        nucleo.Reproducir();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -657,7 +657,7 @@ namespace aplicacion_musica
                         DirectoryInfo info = new DirectoryInfo(fi.DirectoryName);
                         foreach (FileInfo item in info.GetFiles())
                         {
-                            if (item.Name == "cover.jpg" || item.Name == "folder.jpg")
+                            if (item.Name.ToLower() == "cover.jpg" || item.Name.ToLower() == "folder.jpg")
                                 pictureBoxCaratula.Image = System.Drawing.Image.FromFile(item.FullName);
                         }
                     }
@@ -1001,5 +1001,6 @@ namespace aplicacion_musica
             lrui = new ListaReproduccionUI(ListaReproduccion);
             ListaReproduccionPuntero = -1;
         }
+
     }
 }

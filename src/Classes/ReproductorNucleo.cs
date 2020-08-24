@@ -182,10 +182,10 @@ namespace aplicacion_musica
         {
             switch (FormatoSonido)
             {
+                case FormatoSonido.OGG:
+                    return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + NVorbis.Bitrate / 1024 + "kbps";
                 case FormatoSonido.MP3:
                 case FormatoSonido.FLAC:
-                    return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + NVorbis.Bitrate / 1024 + "kbps";
-                case FormatoSonido.OGG:
                     int kbps = (int)((tamFich / _sonido.GetLength().TotalSeconds) / 128);
                     return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + kbps + "kbps medio";
                 case FormatoSonido.CDA:

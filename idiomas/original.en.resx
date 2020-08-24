@@ -264,10 +264,10 @@
     <value>Does it have various parts?</value>
   </data>
   <data name="estado_exterior" xml:space="preserve">
-    <value>Sleeve status</value>
+    <value>Sleeve state</value>
   </data>
   <data name="estado_medio" xml:space="preserve">
-    <value>Record status</value>
+    <value>Record state</value>
   </data>
   <data name="F" xml:space="preserve">
     <value>Fair (F)</value>
@@ -316,9 +316,6 @@
   </data>
   <data name="genero_heavymetal" xml:space="preserve">
     <value>Heavy Metal</value>
-  </data>
-  <data name="genero_house" xml:space="preserve">
-    <value>House</value>
   </data>
   <data name="genero_indierock" xml:space="preserve">
     <value>Indie Rock</value>
@@ -384,7 +381,7 @@
     <value>Enter song title</value>
   </data>
   <data name="introduce_uri" xml:space="preserve">
-    <value>Or enter URI</value>
+    <value>Or enter Spotify URI</value>
   </data>
   <data name="Jewel" xml:space="preserve">
     <value>Jewel Case</value>
@@ -540,5 +537,38 @@
   <data name="errorCD" xml:space="preserve">
     <value>The disc cannot be read. The device is not ready...</value>
     <comment>No se puede leer el CD. El dispositivo no está preparado...</comment>
+  </data>
+  <data name="limpiar" xml:space="preserve">
+    <value>Clean</value>
+  </data>
+  <data name="localizacion" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="siguiente" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="tipografíaLyrics" xml:space="preserve">
+    <value>Change font of the Lyric Viewer</value>
+  </data>
+  <data name="verLyrics" xml:space="preserve">
+    <value>View lyrics</value>
+  </data>
+  <data name="deshacer" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="consejoDeshacer" xml:space="preserve">
+    <value>Restore the lyrics like before.</value>
+  </data>
+  <data name="cerrar" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="anterior" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="abrir_cancion" xml:space="preserve">
+    <value>Open song</value>
   </data>
 </root>
