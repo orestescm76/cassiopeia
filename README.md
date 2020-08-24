@@ -31,8 +31,13 @@ It has a music player built in, can play in FLAC, OGG and MP3. It can also sync 
 * https://github.com/filoe/cscore/blob/master/license.md
 * https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md
 
+### Currently working on:
+* CD playback
+* Lyrics Viewer
+* Playlist system reworked, UI from scratch
+* Greek translation
+
 ### Stuff to do:
 * Improvements in the UI
 * Support for vinyl records
-* English launch parameter names
 * Any good suggestion I may recieve
