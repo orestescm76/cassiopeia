@@ -195,6 +195,12 @@
     <Compile Include="src\Forms\resultadoSpotify.Designer.cs">
       <DependentUpon>resultadoSpotify.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Forms\VisorLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Forms\VisorLog.Designer.cs">
+      <DependentUpon>VisorLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Forms\VisorLyrics.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -280,6 +286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\resultadoSpotify.resx">
       <DependentUpon>resultadoSpotify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Forms\VisorLog.resx">
+      <DependentUpon>VisorLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\VisorLyrics.resx">
       <DependentUpon>VisorLyrics.cs</DependentUpon>

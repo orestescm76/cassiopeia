@@ -540,4 +540,7 @@
   <data name="estado_exterior" xml:space="preserve">
     <value>Κατάσταση εξώφυλλου</value>
   </data>
+  <data name="verLog" xml:space="preserve">
+    <value>Προβολή καταγραφής</value>
+  </data>
 </root>

@@ -606,7 +606,10 @@ namespace aplicacion_musica
             if (!Programa.ModoReproductor || !Programa.ModoStream)
             {
                 Hide();
-                e.Cancel = true;
+                if (e.CloseReason != CloseReason.ApplicationExitCall)
+                    e.Cancel = true;
+                else
+                    e.Cancel = false;
             }
             else
             {

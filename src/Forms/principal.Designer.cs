@@ -77,6 +77,7 @@
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.process1 = new System.Diagnostics.Process();
+            this.verLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -237,7 +238,8 @@
             // 
             this.adminMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generarAlbumToolStripMenuItem,
-            this.tipografiaLyricsToolStripMenuItem});
+            this.tipografiaLyricsToolStripMenuItem,
+            this.verLogToolStripMenuItem});
             this.adminMenu.Name = "adminMenu";
             this.adminMenu.Size = new System.Drawing.Size(79, 20);
             this.adminMenu.Text = "administrar";
@@ -245,14 +247,14 @@
             // generarAlbumToolStripMenuItem
             // 
             this.generarAlbumToolStripMenuItem.Name = "generarAlbumToolStripMenuItem";
-            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.generarAlbumToolStripMenuItem.Text = "generarAlbum";
             this.generarAlbumToolStripMenuItem.Click += new System.EventHandler(this.generarAlbumToolStripMenuItem_Click);
             // 
             // tipografiaLyricsToolStripMenuItem
             // 
             this.tipografiaLyricsToolStripMenuItem.Name = "tipografiaLyricsToolStripMenuItem";
-            this.tipografiaLyricsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.tipografiaLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tipografiaLyricsToolStripMenuItem.Text = "tipografiaLyrics";
             this.tipografiaLyricsToolStripMenuItem.Click += new System.EventHandler(this.tipografiaLyricsToolStripMenuItem_Click);
             // 
@@ -468,6 +470,13 @@
             this.process1.StartInfo.UserName = "";
             this.process1.SynchronizingObject = this;
             // 
+            // verLogToolStripMenuItem
+            // 
+            this.verLogToolStripMenuItem.Name = "verLogToolStripMenuItem";
+            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.verLogToolStripMenuItem.Text = "verLog";
+            this.verLogToolStripMenuItem.Click += new System.EventHandler(this.verLogToolStripMenuItem_Click);
+            // 
             // principal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -543,5 +552,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem tipografiaLyricsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem verLyricsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem verLogToolStripMenuItem;
     }
 }

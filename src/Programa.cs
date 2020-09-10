@@ -381,7 +381,9 @@ namespace aplicacion_musica
                 }
             }
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Guardados los PATHS", TipoMensaje.Correcto, crono);
+            Log.Instance.ImprimirMensaje("Guardados las letras", TipoMensaje.Correcto, crono);
+            FileInfo lyrics = new FileInfo("lyrics.txt");
+            Log.Instance.ImprimirMensaje("Tamaño del fichero: " + lyrics.Length/1024 + " kb", TipoMensaje.Info);
         }
         [STAThread]
         static void Main(String[] args)

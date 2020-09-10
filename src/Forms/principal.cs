@@ -162,6 +162,7 @@ namespace aplicacion_musica
             abrirCDMenuItem.Text = Programa.textosLocal.GetString("abrirCD") + "...";
             verLyricsToolStripMenuItem.Text = Programa.textosLocal.GetString("verLyrics");
             tipografiaLyricsToolStripMenuItem.Text = Programa.textosLocal.GetString("tipografíaLyrics");
+            verLogToolStripMenuItem.Text = Programa.textosLocal.GetString("verLog");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -214,7 +215,6 @@ namespace aplicacion_musica
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            salidaAplicacion(null, null);
             Application.Exit();
         }
         private void SubIdioma_Click(object sender, EventArgs e)
@@ -812,6 +812,11 @@ namespace aplicacion_musica
             Cancion cancion = a.getCancion(0);
             VisorLyrics VL = new VisorLyrics(cancion);
             VL.Show();
+        }
+
+        private void verLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Log.MostrarLog();
         }
     }
 }

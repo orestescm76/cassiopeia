@@ -484,4 +484,7 @@
   <data name="abrir_cancion" xml:space="preserve">
     <value>Obrir cançó</value>
   </data>
+  <data name="verLog" xml:space="preserve">
+    <value>Veure log</value>
+  </data>
 </root>
