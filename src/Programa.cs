@@ -19,6 +19,7 @@ using System.IO.Ports;
 *  Ahora se puede redimensonar la ventana principal
 *  Nuevo botón, abrir una disquetera para reproducir un CD
 *  Visor de lyrics
+*  Visor de log
 * Misc:
 *  Argumentos de lanzamiento en inglés
 */
@@ -313,7 +314,7 @@ namespace aplicacion_musica
 
                                         }
                                         else //titulo;400;0
-                                            salida.WriteLine(a.canciones[i].titulo + ";" + a.canciones[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.canciones[i].Bonus));
+                                            salida.WriteLine(a.canciones[i].titulo + ";" + (int)a.canciones[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.canciones[i].Bonus));
                                     }
                                 }
                                 salida.WriteLine();
@@ -394,6 +395,8 @@ namespace aplicacion_musica
             Config.CargarConfiguracion();
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Config.Idioma + ".resx");
             Log Log = Log.Instance;
+            if (string.IsNullOrEmpty(Config.UltimoDirectorioAbierto))
+                Config.UltimoDirectorioAbierto = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
             if(args.Contains("-consola") || args.Contains("-console"))
             {
                 AllocConsole();

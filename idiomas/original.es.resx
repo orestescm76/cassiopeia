@@ -143,7 +143,7 @@
     <value>Agradecimientos a:</value>
   </data>
   <data name="agregar_album" xml:space="preserve">
-    <value>Agregar álbum</value>
+    <value>Nuevo álbum</value>
   </data>
   <data name="albumes" xml:space="preserve">
     <value>Álbumes</value>
@@ -568,5 +568,8 @@
   </data>
   <data name="verLog" xml:space="preserve">
     <value>Ver log</value>
+  </data>
+  <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
+    <value>Nuevo álbum desde un directorio</value>
   </data>
 </root>

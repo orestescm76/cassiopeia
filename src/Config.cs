@@ -15,10 +15,12 @@ namespace aplicacion_musica
         public static string Idioma;
         public static string TipografiaLyrics;
         public static bool VinculadoConSpotify;
+        public static string UltimoDirectorioAbierto;
         public static void CargarConfiguracion()
         {
             ConfigFileMap.ExeConfigFilename = Environment.CurrentDirectory + "/aplicacion_musica.exe.config";
             Configuration = ConfigurationManager.OpenMappedExeConfiguration(ConfigFileMap, ConfigurationUserLevel.None);
+            UltimoDirectorioAbierto = ConfigurationManager.AppSettings["UltimoDirectorioAbierto"];
             Idioma = ConfigurationManager.AppSettings["Idioma"];
             VinculadoConSpotify = Convert.ToBoolean(Configuration.AppSettings.Settings["VinculadoConSpotify"].Value);
             TipografiaLyrics = ConfigurationManager.AppSettings["TipografiaLyrics"];
@@ -27,6 +29,7 @@ namespace aplicacion_musica
         {
             Configuration.AppSettings.Settings["Idioma"].Value = Idioma;
             Configuration.AppSettings.Settings["TipografiaLyrics"].Value = TipografiaLyrics;
+            Configuration.AppSettings.Settings["UltimoDirectorioAbierto"].Value = UltimoDirectorioAbierto;
             Configuration.Save();
         }
     }

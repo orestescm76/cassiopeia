@@ -4,11 +4,8 @@ using CSCore;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 using CSCore.Streams;
-using NVorbis;
 using JAudioTags;
-using SpotifyAPI.Web;
 using aplicacion_musica.CD;
-using System.Runtime.Remoting.Channels;
 using System.Windows.Forms;
 
 namespace aplicacion_musica
@@ -71,6 +68,7 @@ namespace aplicacion_musica
                     FileInfo info = new FileInfo(cual);
                     tamFich = info.Length;
                 }
+                
                 _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
                 _sonido.Position = 0;
                 _salida.Initialize(_sonido);

@@ -27,7 +27,7 @@ namespace aplicacion_musica
                 Programa.textosLocal.GetString("localizacion") + ": " + a.DirectorioSonido + Environment.NewLine;
             try
             {
-                if (a.caratula != "")
+                if (!string.IsNullOrEmpty(a.caratula))
                 {
                     Image caratula = Image.FromFile(a.caratula);
                     vistaCaratula.Image = caratula;
@@ -457,6 +457,20 @@ namespace aplicacion_musica
             Cancion cancion = albumAVisualizar.getCancion(vistaCanciones.SelectedItems[0].Index);
             VisorLyrics VL = new VisorLyrics(cancion);
             VL.Show();
+        }
+
+        private void vistaCaratula_MouseClick(object sender, MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                clickDerechoAlbum.Show(vistaCaratula, e.Location);
+            }
+        }
+
+        private void copiar_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetImage(vistaCaratula.Image);
+            Log.Instance.ImprimirMensaje("Enviada imagen al portapapeles", TipoMensaje.Correcto);
         }
     }
 }

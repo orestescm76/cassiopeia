@@ -49,9 +49,12 @@
             this.reproducirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonPATH = new System.Windows.Forms.Button();
+            this.clickDerechoAlbum = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copiar = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoConfig.SuspendLayout();
+            this.clickDerechoAlbum.SuspendLayout();
             this.SuspendLayout();
             // 
             // vistaCaratula
@@ -63,6 +66,7 @@
             this.vistaCaratula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.vistaCaratula.TabIndex = 0;
             this.vistaCaratula.TabStop = false;
+            this.vistaCaratula.MouseClick += new System.Windows.Forms.MouseEventHandler(this.vistaCaratula_MouseClick);
             // 
             // vistaCanciones
             // 
@@ -227,6 +231,20 @@
             this.buttonPATH.UseVisualStyleBackColor = true;
             this.buttonPATH.Click += new System.EventHandler(this.buttonPATH_Click);
             // 
+            // clickDerechoAlbum
+            // 
+            this.clickDerechoAlbum.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copiar});
+            this.clickDerechoAlbum.Name = "clickDerechoAlbum";
+            this.clickDerechoAlbum.Size = new System.Drawing.Size(181, 48);
+            // 
+            // copiar
+            // 
+            this.copiar.Name = "copiar";
+            this.copiar.Size = new System.Drawing.Size(180, 22);
+            this.copiar.Text = "copiarImagenStrip";
+            this.copiar.Click += new System.EventHandler(this.copiar_Click);
+            // 
             // visualizarAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -252,6 +270,7 @@
             this.barraAbajo.ResumeLayout(false);
             this.barraAbajo.PerformLayout();
             this.clickDerechoConfig.ResumeLayout(false);
+            this.clickDerechoAlbum.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,5 +297,7 @@
         private System.Windows.Forms.ToolStripMenuItem reproducirToolStripMenuItem;
         private System.Windows.Forms.Button buttonPATH;
         private System.Windows.Forms.ToolStripMenuItem verLyricsToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip clickDerechoAlbum;
+        private System.Windows.Forms.ToolStripMenuItem copiar;
     }
 }

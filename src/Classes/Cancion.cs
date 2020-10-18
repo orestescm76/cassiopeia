@@ -20,6 +20,10 @@ namespace aplicacion_musica
             {
                 return album.canciones.IndexOf(this)+1;
             }
+            set
+            {
+
+            }
         }
 
         public Cancion()

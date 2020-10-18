@@ -142,7 +142,7 @@
     <value>Thanks to:</value>
   </data>
   <data name="agregar_album" xml:space="preserve">
-    <value>Add album</value>
+    <value>New album</value>
   </data>
   <data name="albumes" xml:space="preserve">
     <value>Albums</value>
@@ -557,7 +557,7 @@
     <value>Undo</value>
   </data>
   <data name="consejoDeshacer" xml:space="preserve">
-    <value>Restore the lyrics like before.</value>
+    <value>Restore the lyrics as it was before editing.</value>
   </data>
   <data name="cerrar" xml:space="preserve">
     <value>Close</value>
@@ -573,5 +573,8 @@
   </data>
   <data name="verLog" xml:space="preserve">
     <value>View log</value>
+  </data>
+  <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
+    <value>New album from folder</value>
   </data>
 </root>

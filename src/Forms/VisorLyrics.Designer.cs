@@ -35,8 +35,8 @@
             this.buttonCerrar = new System.Windows.Forms.Button();
             this.buttonDeshacer = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonNext = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
+            this.buttonNext = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,6 +81,7 @@
             // buttonBuscar
             // 
             this.buttonBuscar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonBuscar.Enabled = false;
             this.buttonBuscar.Location = new System.Drawing.Point(346, 3);
             this.buttonBuscar.Name = "buttonBuscar";
             this.buttonBuscar.Size = new System.Drawing.Size(75, 34);
@@ -124,16 +125,6 @@
             this.panel1.Size = new System.Drawing.Size(424, 89);
             this.panel1.TabIndex = 6;
             // 
-            // buttonNext
-            // 
-            this.buttonNext.Location = new System.Drawing.Point(265, 3);
-            this.buttonNext.Name = "buttonNext";
-            this.buttonNext.Size = new System.Drawing.Size(75, 34);
-            this.buttonNext.TabIndex = 6;
-            this.buttonNext.Text = "button1";
-            this.buttonNext.UseVisualStyleBackColor = true;
-            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
-            // 
             // buttonBack
             // 
             this.buttonBack.Location = new System.Drawing.Point(84, 3);
@@ -143,6 +134,16 @@
             this.buttonBack.Text = "button2";
             this.buttonBack.UseVisualStyleBackColor = true;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
+            // 
+            // buttonNext
+            // 
+            this.buttonNext.Location = new System.Drawing.Point(265, 3);
+            this.buttonNext.Name = "buttonNext";
+            this.buttonNext.Size = new System.Drawing.Size(75, 34);
+            this.buttonNext.TabIndex = 6;
+            this.buttonNext.Text = "button1";
+            this.buttonNext.UseVisualStyleBackColor = true;
+            this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
             // 
             // VisorLyrics
             // 

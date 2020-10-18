@@ -25,7 +25,7 @@ namespace aplicacion_musica.src.Forms
             if (c.Lyrics == null)
                 c.Lyrics = new string[0];
             textBoxLyrics.Lines = cancion.Lyrics;
-            Text = c.ToString();
+            Text = c.ToString() + " (" + Tipografia.Size + ")";
             ConsejoDeshacer = new ToolTip();
             PonerTextos();
             textBoxLyrics.DeselectAll();
@@ -130,6 +130,7 @@ namespace aplicacion_musica.src.Forms
                 }
             }
             textBoxLyrics.Font = Tipografia = tipografiaNew;
+            Text = cancion.ToString() + " (" + Tipografia.Size + ")";
         }
     }
 }

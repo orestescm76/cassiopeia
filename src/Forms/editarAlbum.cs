@@ -117,6 +117,7 @@ namespace aplicacion_musica
             cargarVista();
             nuevo.Show();
             Close();
+            Programa.refrescarVista();
             Log.Instance.ImprimirMensaje("Guardado sin problema", TipoMensaje.Correcto);
         }
 
@@ -131,7 +132,7 @@ namespace aplicacion_musica
         {
             OpenFileDialog abrirImagen = new OpenFileDialog();
             abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
-            abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            abrirImagen.InitialDirectory = albumAEditar.DirectorioSonido ?? Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
                 string fichero = abrirImagen.FileName;
@@ -186,11 +187,11 @@ namespace aplicacion_musica
         private void buttonDirectorio_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialogCarpetaAlbum = new FolderBrowserDialog();
-            dialogCarpetaAlbum.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+            dialogCarpetaAlbum.SelectedPath = Config.UltimoDirectorioAbierto;
             DialogResult dr = dialogCarpetaAlbum.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                labelDirectorioActual.Text = dialogCarpetaAlbum.SelectedPath;
+                labelDirectorioActual.Text = Config.UltimoDirectorioAbierto = dialogCarpetaAlbum.SelectedPath;
             }
         }
     }

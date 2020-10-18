@@ -9,6 +9,7 @@ using System.IO;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
+using aplicacion_musica.Properties;
 
 namespace aplicacion_musica
 {
@@ -55,7 +56,6 @@ namespace aplicacion_musica
         Process foobar2kInstance = null;
         string SpotifyID = null;
         bool ModoCD = false;
-        //crear una tarea que cada 500ms me cambie la cancion
         public static Reproductor Instancia { get; set; }
         public Reproductor()
         {
@@ -304,18 +304,19 @@ namespace aplicacion_musica
         {
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
-
             estadoReproductor = EstadoReproductor.Detenido;
             string s = "";
             try
             {
-                SetPATH(c);
+                if(c.album != null)
+                    SetPATH(c);
             }
             catch (DirectoryNotFoundException)
             {
                 Log.ImprimirMensaje("No se encuentra el directorio", TipoMensaje.Error);
                 return;
             }
+
             CancionLocalReproduciendo = c;
             if (string.IsNullOrEmpty(c.PATH))
             {   
@@ -344,7 +345,7 @@ namespace aplicacion_musica
                 }
             }
             PrepararReproductor();
-            if (c.album.caratula != null)
+            if (c.album != null && c.album.caratula != null )
             {
                 if(c.album.caratula!="")
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.caratula);
@@ -394,6 +395,15 @@ namespace aplicacion_musica
             estadoReproductor = EstadoReproductor.Reproduciendo;
             buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
             buttonTwit.Enabled = true;
+            try
+            {
+                DirectoryInfo folder = new DirectoryInfo(CancionLocalReproduciendo.PATH);
+                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(folder.Parent.FullName+ "/folder.jpg");
+            }
+            catch(FileNotFoundException)
+            {
+                pictureBoxCaratula.Image = Resources.albumdesconocido;
+            }
         }
         private bool FicheroLeible(string s)
         {
@@ -979,6 +989,7 @@ namespace aplicacion_musica
         {
             Log.ImprimirMensaje("Detectado Drag & Drop", TipoMensaje.Info);
             Cancion c = null;
+            String[] canciones = null;
             if((c = (Cancion)e.Data.GetData(typeof(Cancion))) != null)
             {
                 if (!string.IsNullOrEmpty(c.PATH))
@@ -986,7 +997,17 @@ namespace aplicacion_musica
                     ModoCD = false;
                     ReproducirCancion(c);
                 }
-
+            }
+            else if((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null)
+            {
+                ListaReproduccion lrDragDrop = new ListaReproduccion("Selección");
+                foreach (string cancion in canciones)
+                {
+                    Cancion clr = new Cancion();
+                    clr.PATH = cancion;
+                    lrDragDrop.AgregarCancion(clr);
+                }
+                ReproducirLista(lrDragDrop);
             }
             else
                 Log.ImprimirMensaje("No se ha podido determinar la canción", TipoMensaje.Advertencia);
@@ -1004,6 +1025,12 @@ namespace aplicacion_musica
             lrui = new ListaReproduccionUI(ListaReproduccion);
             ListaReproduccionPuntero = -1;
         }
-
+        public TimeSpan getDuracionFromFile(string path)
+        {
+            nucleo.CargarCancion(path);
+            TimeSpan dur = nucleo.Duracion();
+            nucleo.Apagar();
+            return dur;
+        }
     }
 }

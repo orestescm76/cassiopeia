@@ -818,5 +818,43 @@ namespace aplicacion_musica
         {
             Log.MostrarLog();
         }
+
+        private void nuevoAlbumDesdeCarpetaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Album a = new Album();
+            FolderBrowserDialog browserDialog = new FolderBrowserDialog();
+            browserDialog.SelectedPath = Config.UltimoDirectorioAbierto;
+            DialogResult result = browserDialog.ShowDialog();
+            if(result != DialogResult.Cancel)
+            {
+                DirectoryInfo carpeta = new DirectoryInfo(browserDialog.SelectedPath);
+                Config.UltimoDirectorioAbierto = carpeta.FullName;
+                foreach (var cancion in carpeta.GetFiles())
+                {
+                    switch (Path.GetExtension(cancion.FullName))
+                    {
+                        case ".mp3":
+                        case ".flac":
+                        case ".ogg":
+                            LectorMetadatos LM = new LectorMetadatos(cancion.FullName);
+                            a.nombre = LM.Album;
+                            a.artista = LM.Artista;
+                            Cancion c = new Cancion(LM.Titulo, (int)Reproductor.Instancia.getDuracionFromFile(cancion.FullName).TotalMilliseconds, false);
+                            c.PATH = cancion.FullName;
+                            c.Num = LM.Pista;
+                            c.SetAlbum(a);
+                            a.agregarCancion(c);
+                            break;
+                        case ".jpg":
+                            if (cancion.Name == "folder.jpg" || cancion.Name == "cover.jpg")
+                                a.caratula = cancion.FullName;
+                            break;
+                    }
+                }
+                a.DirectorioSonido = carpeta.FullName;
+                Programa.miColeccion.agregarAlbum(ref a);
+                Refrescar();
+            }
+        }
     }
 }

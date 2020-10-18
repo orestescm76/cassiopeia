@@ -108,9 +108,13 @@ namespace aplicacion_musica
         {
             foreach (String meta in _vorbisReader.Comments)
             {
-                if(meta.Contains("TITLE=")|| meta.Contains("TITLE=".ToLower()))
+                if(meta.Contains("TITLE="))
                 {
                     return meta.Replace("TITLE=", "");
+                }
+                else if(meta.Contains("title="))
+                {
+                    return meta.Replace("title=", "");
                 }
             }
             return null;
@@ -119,10 +123,12 @@ namespace aplicacion_musica
         {
             foreach (String meta in _vorbisReader.Comments)
             {
-                if (meta.Contains("ARTIST=")|| meta.Contains("ARTIST=".ToLower()))
+                if (meta.Contains("ARTIST="))
                 {
                     return meta.Replace("ARTIST=", "");
                 }
+                else if(meta.Contains("artist="))
+                    return meta.Replace("artist=", "");
             }
             return null;
         }

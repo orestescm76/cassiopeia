@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace aplicacion_musica
@@ -20,7 +21,11 @@ namespace aplicacion_musica
         public String DirectorioSonido { get; set; }
         [JsonIgnore]
         public bool PuedeBorrarse { get; private set; }
-        public Album() { }
+        public Album() 
+        {
+            canciones = new List<Cancion>();
+            genero = Programa.generos.Last();
+        }
         public Album(Genero g, string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
             duracion = new TimeSpan();
