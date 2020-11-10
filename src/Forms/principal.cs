@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Newtonsoft.Json;
 using aplicacion_musica.src.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace aplicacion_musica
 {
@@ -822,13 +823,17 @@ namespace aplicacion_musica
         private void nuevoAlbumDesdeCarpetaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Album a = new Album();
-            FolderBrowserDialog browserDialog = new FolderBrowserDialog();
-            browserDialog.SelectedPath = Config.UltimoDirectorioAbierto;
-            DialogResult result = browserDialog.ShowDialog();
-            if(result != DialogResult.Cancel)
+            CommonOpenFileDialog browserDialog = new CommonOpenFileDialog();
+            browserDialog.InitialDirectory = Config.UltimoDirectorioAbierto;
+            browserDialog.IsFolderPicker = true; //Selección de carpeta.
+            //FolderBrowserDialog browserDialog = new FolderBrowserDialog();
+            CommonFileDialogResult result = browserDialog.ShowDialog();
+            if(result != CommonFileDialogResult.Cancel)
             {
-                DirectoryInfo carpeta = new DirectoryInfo(browserDialog.SelectedPath);
+                DirectoryInfo carpeta = new DirectoryInfo(browserDialog.FileName);
                 Config.UltimoDirectorioAbierto = carpeta.FullName;
+                BarraCarga bC = new BarraCarga(carpeta.GetFiles().Length);
+                bC.Show();
                 foreach (var cancion in carpeta.GetFiles())
                 {
                     switch (Path.GetExtension(cancion.FullName))
@@ -839,6 +844,13 @@ namespace aplicacion_musica
                             LectorMetadatos LM = new LectorMetadatos(cancion.FullName);
                             a.nombre = LM.Album;
                             a.artista = LM.Artista;
+                            a.year = (short)LM.Año;
+                            if(LM.Cover != null)
+                            {
+                                Image cover = LM.Cover;
+                                cover.Save(carpeta.FullName + "\\cover.jpg");
+                                a.caratula = carpeta.FullName + "\\cover.jpg";
+                            }
                             Cancion c = new Cancion(LM.Titulo, (int)Reproductor.Instancia.getDuracionFromFile(cancion.FullName).TotalMilliseconds, false);
                             c.PATH = cancion.FullName;
                             c.Num = LM.Pista;
@@ -850,8 +862,10 @@ namespace aplicacion_musica
                                 a.caratula = cancion.FullName;
                             break;
                     }
+                    bC.Progreso();
                 }
                 a.DirectorioSonido = carpeta.FullName;
+                bC.Close();
                 Programa.miColeccion.agregarAlbum(ref a);
                 Refrescar();
             }

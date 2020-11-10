@@ -184,40 +184,41 @@
             this.reproducirToolStripMenuItem,
             this.verLyricsToolStripMenuItem});
             this.clickDerechoConfig.Name = "clickDerechoConfig";
-            this.clickDerechoConfig.Size = new System.Drawing.Size(171, 114);
+            this.clickDerechoConfig.Size = new System.Drawing.Size(181, 136);
+            this.clickDerechoConfig.Opening += new System.ComponentModel.CancelEventHandler(this.clickDerechoConfig_Opening);
             // 
             // setBonusToolStripMenuItem
             // 
             this.setBonusToolStripMenuItem.Name = "setBonusToolStripMenuItem";
-            this.setBonusToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.setBonusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setBonusToolStripMenuItem.Text = "setBonus";
             this.setBonusToolStripMenuItem.Click += new System.EventHandler(this.setBonusToolStripMenuItem_Click);
             // 
             // setLargaToolStripMenuItem
             // 
             this.setLargaToolStripMenuItem.Name = "setLargaToolStripMenuItem";
-            this.setLargaToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.setLargaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setLargaToolStripMenuItem.Text = "setPartes";
             this.setLargaToolStripMenuItem.Visible = false;
             // 
             // reproducirspotifyToolStripMenuItem
             // 
             this.reproducirspotifyToolStripMenuItem.Name = "reproducirspotifyToolStripMenuItem";
-            this.reproducirspotifyToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.reproducirspotifyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reproducirspotifyToolStripMenuItem.Text = "reproducir_spotify";
             this.reproducirspotifyToolStripMenuItem.Click += new System.EventHandler(this.reproducirspotifyToolStripMenuItem_Click);
             // 
             // reproducirToolStripMenuItem
             // 
             this.reproducirToolStripMenuItem.Name = "reproducirToolStripMenuItem";
-            this.reproducirToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.reproducirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.reproducirToolStripMenuItem.Text = "reproducir";
             this.reproducirToolStripMenuItem.Click += new System.EventHandler(this.reproducirToolStripMenuItem_Click);
             // 
             // verLyricsToolStripMenuItem
             // 
             this.verLyricsToolStripMenuItem.Name = "verLyricsToolStripMenuItem";
-            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
             // 
@@ -236,12 +237,12 @@
             this.clickDerechoAlbum.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copiar});
             this.clickDerechoAlbum.Name = "clickDerechoAlbum";
-            this.clickDerechoAlbum.Size = new System.Drawing.Size(181, 48);
+            this.clickDerechoAlbum.Size = new System.Drawing.Size(172, 26);
             // 
             // copiar
             // 
             this.copiar.Name = "copiar";
-            this.copiar.Size = new System.Drawing.Size(180, 22);
+            this.copiar.Size = new System.Drawing.Size(171, 22);
             this.copiar.Text = "copiarImagenStrip";
             this.copiar.Click += new System.EventHandler(this.copiar_Click);
             // 

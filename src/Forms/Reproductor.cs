@@ -345,15 +345,24 @@ namespace aplicacion_musica
                 }
             }
             PrepararReproductor();
+            LectorMetadatos LM = new LectorMetadatos(c.PATH);
             if (c.album != null && c.album.caratula != null )
             {
-                if(c.album.caratula!="")
+                if (c.album.caratula != "")
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.caratula);
                 else
                 {
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.DirectorioSonido + "\\folder.jpg");
                 }
             }
+            else
+            {
+                if(LM.Cover != null)
+                    pictureBoxCaratula.Image = LM.Cover;
+            }
+
+
+
             timerCancion.Enabled = true;
             timerMetadatos.Enabled = true;
             buttonTwit.Enabled = true;

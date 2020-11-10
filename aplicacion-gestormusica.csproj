@@ -71,6 +71,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\JAudioTags.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>.\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>.\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -146,6 +152,12 @@
     </Compile>
     <Compile Include="src\Forms\Anotaciones.Designer.cs">
       <DependentUpon>Anotaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Forms\BarraCarga.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Forms\BarraCarga.Designer.cs">
+      <DependentUpon>BarraCarga.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Forms\busquedaSpotify.cs">
       <SubType>Form</SubType>
@@ -262,6 +274,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\Anotaciones.resx">
       <DependentUpon>Anotaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Forms\BarraCarga.resx">
+      <DependentUpon>BarraCarga.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\busquedaSpotify.resx">
       <DependentUpon>busquedaSpotify.cs</DependentUpon>

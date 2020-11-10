@@ -25,3 +25,5 @@ idiomas/original.resx
 packages.config
 ban/
 /changelog 1.6.txt
+/Microsoft.WindowsAPICodePack.Shell.dll
+/Microsoft.WindowsAPICodePack.dll
