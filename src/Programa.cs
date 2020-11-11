@@ -137,20 +137,43 @@ namespace aplicacion_musica
             Log.Instance.ImprimirMensaje("Cargando álbumes CSV almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumesLegacy(string)");
             Stopwatch crono = Stopwatch.StartNew();
             //cargando CSV a lo bestia
+            int lineaC = 1;
             using (StreamReader lector = new StreamReader(fichero))
             {
                 string linea;
                 while (!lector.EndOfStream)
                 {
                     linea = lector.ReadLine();
-                    while (linea == "") linea = lector.ReadLine();
+                    while (linea == "")
+                    {
+                        linea = lector.ReadLine();
+                        lineaC++;
+                    }
+
                     if (linea == null) continue; //si no hay nada tu sigue, que hemos llegado al final del fichero, después del nulo porque siempre al terminar un disco pongo línea nueva.
                     string[] datos = linea.Split(';');
-                    short nC = Convert.ToInt16(datos[3]);
-                    int gen = Programa.findGenero(datos[4]);
+                    if (datos.Length != 8)
+                    {
+                        Log.Instance.ImprimirMensaje("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, TipoMensaje.Error);
+                        MessageBox.Show("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Environment.Exit(-1);
+                    }
+                    short nC = 0;
+                    int gen = findGenero(datos[4]);
                     Genero g = Programa.generos[gen];
                     if (string.IsNullOrEmpty(datos[5])) datos[5] = string.Empty;
-                    Album a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
+                    Album a = null;
+                    try
+                    {
+                        nC = Convert.ToInt16(datos[3]);
+                        a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
+                    }
+                    catch (FormatException e)
+                    {
+                        Log.Instance.ImprimirMensaje("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, TipoMensaje.Error);
+                        MessageBox.Show("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Environment.Exit(-1);
+                    }
                     if (!string.IsNullOrEmpty(datos[6]))
                         a.SetSpotifyID(datos[6]);
                     if (!string.IsNullOrEmpty(datos[7]))
@@ -160,44 +183,58 @@ namespace aplicacion_musica
                     {
                         exito = false;
                         linea = lector.ReadLine();
+                        lineaC++;
                         if (string.IsNullOrEmpty(linea))
                         {
+                            /*System.Windows.Forms.MessageBox.Show("mensajeError"+Environment.NewLine
+                                + a.nombre + " - " + a.nombre + Environment.NewLine
+                                + "saltarAlSiguiente", "error", System.Windows.Forms.MessageBoxButtons.OK);*/
                             break; //no sigue cargando el álbum
                         }
                         else
                         {
-                            exito = true;
-                            string[] datosCancion = linea.Split(';');
-                            if (datosCancion.Length == 3)
+                            try
                             {
-                                byte bonus = Convert.ToByte(datosCancion[2]);
-                                Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a, Convert.ToBoolean(bonus));
-                                a.agregarCancion(c, i);
-                            }
-                            else
-                            {
-                                CancionLarga cl = new CancionLarga(datosCancion[0], ref a);
-                                int np = Convert.ToInt32(datosCancion[1]);
-                                for (int j = 0; j < np; j++)
+                                exito = true;
+                                string[] datosCancion = linea.Split(';');
+                                if (datosCancion.Length == 3)
                                 {
-                                    linea = lector.ReadLine();
-                                    datosCancion = linea.Split(';');
-                                    Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
-                                    cl.addParte(ref c);
+                                    byte bonus = Convert.ToByte(datosCancion[2]);
+                                    Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a, Convert.ToBoolean(bonus));
+                                    a.agregarCancion(c, i);
                                 }
-                                a.agregarCancion(cl, i);
+                                else
+                                {
+                                    CancionLarga cl = new CancionLarga(datosCancion[0], ref a);
+                                    int np = Convert.ToInt32(datosCancion[1]);
+                                    for (int j = 0; j < np; j++)
+                                    {
+                                        linea = lector.ReadLine();
+                                        lineaC++;
+                                        datosCancion = linea.Split(';');
+                                        Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
+                                        cl.addParte(ref c);
+                                    }
+                                    a.agregarCancion(cl, i);
+                                }
                             }
-
+                            catch (FormatException e)
+                            {
+                                Log.Instance.ImprimirMensaje("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, TipoMensaje.Error);
+                                MessageBox.Show("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                Environment.Exit(-1);
+                            }
                         }
                     }
                     if (miColeccion.estaEnColeccion(a))
                     {
                         exito = false; //pues ya está repetido.
-                        Debug.WriteLine("Repetido");
+                        Log.Instance.ImprimirMensaje("Álbum repetido -> " + a.artista + " - " + a.nombre, TipoMensaje.Advertencia);
                     }
                     if (exito)
                         miColeccion.agregarAlbum(ref a);
                     a.LevantarBorrado();
+                    lineaC++;
                 }
             }
             crono.Stop();

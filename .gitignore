@@ -26,3 +26,6 @@ ban/
 aplicacion-gestormusica.sln
 app.config
 icono.ico
+/Microsoft.WindowsAPICodePack.Shell.dll
+/Microsoft.WindowsAPICodePack.dll
+/changelog 1.6.txt
