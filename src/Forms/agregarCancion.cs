@@ -59,6 +59,11 @@ namespace aplicacion_musica
             else
                 minTextBox.Text = c.duracion.Minutes.ToString();
             secsTextBox.Text = c.duracion.Seconds.ToString();
+            if (c is CancionLarga)
+            {
+                minTextBox.Enabled = false;
+                secsTextBox.Enabled = false;
+            }
             esLarga.Hide();
             labelNumPartes.Hide();
             textBoxNumPartes.Hide();

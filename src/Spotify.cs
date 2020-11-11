@@ -304,7 +304,7 @@ namespace aplicacion_musica
         {
             return _spotify.ResumePlayback(contextUri: "spotify:album:" + uri, offset: "", positionMs: 0);
         }
-        public ErrorResponse ReproducirCancion(string uri, int cual)
+        public ErrorResponse ReproducirCancion(string uri, int cual) //reproduce una cancion de un album
         {
             FullAlbum album = _spotify.GetAlbum(uri);
             string uricancion = "";
@@ -320,6 +320,26 @@ namespace aplicacion_musica
             uricancion += "spotify:track:" + temp;
             List<string> uris = new List<string>();
             uris.Add(uricancion);
+            return _spotify.ResumePlayback(uris: uris, offset: "", positionMs: 0);
+        }
+        public string DevolverCancionDelAlbum(string uri, string cancion)
+        {
+            FullAlbum album = _spotify.GetAlbum(uri);
+            foreach (SimpleTrack track in album.Tracks.Items)
+            {
+                if (track.Name == cancion)
+                    return track.Id;
+            }
+            return string.Empty;
+        }
+        public ErrorResponse ReproducirCancion(string uri, CancionLarga cl)
+        {
+            FullAlbum album = _spotify.GetAlbum(uri);
+            List<string> uris = new List<string>();
+            foreach(Cancion parte in cl.Partes)
+            {
+                uris.Add("spotify:track:"+DevolverCancionDelAlbum(uri, parte.titulo));
+            }
             return _spotify.ResumePlayback(uris: uris, offset: "", positionMs: 0);
         }
     }

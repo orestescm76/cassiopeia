@@ -62,6 +62,7 @@ namespace aplicacion_musica
         }
         private void cargarVista()
         {
+            vistaCanciones.Items.Clear();
             ListViewItem[] items = new ListViewItem[albumAEditar.numCanciones];
             for (int i = 0; i < items.Length; i++)
             {
@@ -114,8 +115,8 @@ namespace aplicacion_musica
                 MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
-            cargarVista();
             nuevo.Show();
+            Programa.refrescarVista();
             Close();
             Programa.refrescarVista();
             Log.Instance.ImprimirMensaje("Guardado sin problema", TipoMensaje.Correcto);
@@ -147,6 +148,7 @@ namespace aplicacion_musica
             Cancion cancionAEditar = albumAEditar.DevolverCancion(text);
             agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
+            cargarVista();
             Log.Instance.ImprimirMensaje("Guardado correctamente", TipoMensaje.Correcto);
         }
 
