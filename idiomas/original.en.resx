@@ -577,10 +577,4 @@
   <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
     <value>New album from folder</value>
   </data>
-  <data name="pathsCorrectos" xml:space="preserve">
-    <value>PATHS have loaded correctly.</value>
-  </data>
-  <data name="pathsError" xml:space="preserve">
-    <value>Not all PATHS could be loaded. Check the log for more details.</value>
-  </data>
 </root>

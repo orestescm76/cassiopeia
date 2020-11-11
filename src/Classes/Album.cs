@@ -25,7 +25,6 @@ namespace aplicacion_musica
         {
             canciones = new List<Cancion>();
             genero = Programa.generos.Last();
-            PuedeBorrarse = true;
         }
         public Album(Genero g, string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
@@ -37,7 +36,7 @@ namespace aplicacion_musica
             canciones = new List<Cancion>(nc);
             caratula = c;
             genero = g;
-            PuedeBorrarse = true;
+            PuedeBorrarse = false;
         }
         public Album(string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
@@ -48,7 +47,7 @@ namespace aplicacion_musica
             numCanciones = nc;
             caratula = c;
             genero = new Genero("");
-            PuedeBorrarse = true;
+            PuedeBorrarse = false;
         }
         public Album(Album a)
         {
@@ -59,7 +58,7 @@ namespace aplicacion_musica
             numCanciones = a.numCanciones;
             canciones = a.canciones;
             caratula = a.caratula;
-            PuedeBorrarse = true;
+            PuedeBorrarse = false;
         }
         public void agregarCancion(Cancion c)
         {

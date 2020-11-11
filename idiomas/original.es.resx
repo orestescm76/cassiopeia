@@ -572,10 +572,4 @@
   <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
     <value>Nuevo álbum desde un directorio</value>
   </data>
-  <data name="pathsCorrectos" xml:space="preserve">
-    <value>Los PATHS se han cargado correctamente.</value>
-  </data>
-  <data name="pathsError" xml:space="preserve">
-    <value>No se han podido cargar todos los PATHS. Consulte el log para más detalles.</value>
-  </data>
 </root>

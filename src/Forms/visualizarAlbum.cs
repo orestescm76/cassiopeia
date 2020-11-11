@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using aplicacion_musica.src.Forms;
-using System.Reflection.Emit;
 
 namespace aplicacion_musica
 {
@@ -419,8 +418,6 @@ namespace aplicacion_musica
 
         private void buttonPATH_Click(object sender, EventArgs e)
         {
-            Log.Instance.ImprimirMensaje("Buscando canciones para " + albumAVisualizar.ToString(), TipoMensaje.Info);
-            bool correcto = true;
             DirectoryInfo directorioCanciones = new DirectoryInfo(albumAVisualizar.DirectorioSonido);
             foreach (FileInfo file in directorioCanciones.GetFiles())
             {
@@ -432,18 +429,9 @@ namespace aplicacion_musica
                     try
                     {
                         LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                        bool test = string.Equals(c.titulo, LM.Titulo);
-
-                        if (LM.Evaluable() && (c.titulo.ToLower() == LM.Titulo.ToLower()) && (c.album.artista.ToLower() == LM.Artista.ToLower()))
+                        if (LM.Evaluable() && c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.artista.ToLower() == LM.Artista.ToLower())
                         {
                             c.PATH = file.FullName;
-                            Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
-                            break;
-                        }
-                        else if(LM.Evaluable() && string.Equals(c.titulo, LM.Titulo) && string.Equals(LM.Artista, c.album.artista))
-                        {
-                            c.PATH = file.FullName;
-                            Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
                             break;
                         }
                         else
@@ -451,27 +439,16 @@ namespace aplicacion_musica
                             if (file.FullName.ToLower().Contains(c.titulo.ToLower()))
                             {
                                 c.PATH = file.FullName;
-                                Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
                                 break;
                             }
                         }
                     }
                     catch (Exception)
                     {
-                        Log.Instance.ImprimirMensaje("No se ha podido cargar la canción para " + c.ToString(), TipoMensaje.Error);
-                        correcto = false;
-                    }
-                    if (c.PATH == null) //No se ha encontrado
-                    {
-                        correcto = false;
-                        Log.Instance.ImprimirMensaje("No se ha encontrado el fichero para " + c.ToString(), TipoMensaje.Error);
+                        throw;
                     }
                 }
             }
-            if (correcto)
-                MessageBox.Show(Programa.textosLocal.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show(Programa.textosLocal.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             Programa.GuardarPATHS();
         }
 
@@ -494,15 +471,6 @@ namespace aplicacion_musica
         {
             Clipboard.SetImage(vistaCaratula.Image);
             Log.Instance.ImprimirMensaje("Enviada imagen al portapapeles", TipoMensaje.Correcto);
-        }
-
-        private void clickDerechoConfig_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Cancion cancion = albumAVisualizar.getCancion(vistaCanciones.SelectedItems[0].Index);
-            if (cancion.PATH == null)
-                reproducirToolStripMenuItem.Enabled = false;
-            else
-                reproducirToolStripMenuItem.Enabled = true;
         }
     }
 }

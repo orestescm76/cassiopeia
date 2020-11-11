@@ -5,8 +5,6 @@ using CSCore.Tags.ID3;
 using NVorbis;
 using JAudioTags;
 using System.Runtime.Serialization.Formatters;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 
 namespace aplicacion_musica
 {
@@ -20,7 +18,6 @@ namespace aplicacion_musica
         public int Pista { get; private set; }
         public string Album { get; private set; }
         public int Año { get; private set; }
-        public Image Cover { get; set; }
         public LectorMetadatos(string s)
         {
             switch (Path.GetExtension(s))
@@ -32,16 +29,10 @@ namespace aplicacion_musica
                         Artista = "S/N";
                     else
                         Artista = _mp3iD3.Artist;
-                    if (_mp3iD3.LeadPerformers != "")
-                        Artista = _mp3iD3.LeadPerformers;
                     Titulo = _mp3iD3.Title;
                     Album = _mp3iD3.Album;
                     Pista = _mp3iD3.TrackNumber ?? 0;
                     Año = _mp3iD3.Year ?? 0;
-                    if (_mp3iD3.Image != null)
-                        Cover = _mp3iD3.Image;
-                    else
-                        Cover = null;
                     break;
                 case ".flac":
                     _FLACfile = new FLACFile(s, true);
