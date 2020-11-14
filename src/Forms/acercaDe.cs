@@ -6,6 +6,7 @@ namespace aplicacion_musica
 {
     public partial class acercaDe : Form
     {
+        private bool bannerAntiguo = false;
         public acercaDe()
         {
             InitializeComponent();
@@ -37,6 +38,30 @@ namespace aplicacion_musica
                     break;
             }
             labelAcercaDe.Text = acercadeTexto;
+        }
+        private void cambiarBanner()
+        {
+            if (!bannerAntiguo)
+                pictureBoxBanner.Image = Properties.Resources.banner;
+            else
+                pictureBoxBanner.Image = Properties.Resources.banner1_5;
+        }
+        private void acercaDe_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Control & e.Alt) && e.KeyData == Keys.F9)
+            {
+                bannerAntiguo = !bannerAntiguo;
+                cambiarBanner();
+            }
+        }
+
+        private void acercaDe_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if ((e.Control & e.Alt) && e.KeyCode == Keys.F9)
+            {
+                bannerAntiguo = !bannerAntiguo;
+                cambiarBanner();
+            }
         }
     }
 }
