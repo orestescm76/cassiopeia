@@ -18,6 +18,7 @@ namespace aplicacion_musica
         public int Pista { get; private set; }
         public string Album { get; private set; }
         public int Año { get; private set; }
+        public Image Cover { get; set; }
         public LectorMetadatos(string s)
         {
             switch (Path.GetExtension(s))
@@ -29,10 +30,16 @@ namespace aplicacion_musica
                         Artista = "S/N";
                     else
                         Artista = _mp3iD3.Artist;
+                    if (_mp3iD3.LeadPerformers != "")
+                        Artista = _mp3iD3.LeadPerformers;
                     Titulo = _mp3iD3.Title;
                     Album = _mp3iD3.Album;
                     Pista = _mp3iD3.TrackNumber ?? 0;
                     Año = _mp3iD3.Year ?? 0;
+                    if (_mp3iD3.Image != null)
+                        Cover = _mp3iD3.Image;
+                    else
+                        Cover = null;
                     break;
                 case ".flac":
                     _FLACfile = new FLACFile(s, true);
@@ -44,25 +51,9 @@ namespace aplicacion_musica
                     break;
                 case ".ogg":
                     _vorbisReader = new VorbisReader(s);
-                    foreach (String meta in _vorbisReader.Comments)
-                    {
-                        if (meta.Contains("TITLE="))
-                            Titulo = meta.Replace("TITLE=", "");
-                        else if (meta.Contains("TITLE=".ToLower()))
-                            Titulo = meta.Replace("title=", "");
-                        else if (meta.Contains("ARTIST="))
-                            Artista = meta.Replace("ARTIST=", "");
-                        else if (meta.Contains("ARTIST=".ToLower()))
-                            Artista = meta.Replace("artist=", "");
-                        else if (meta.Contains("TRACKNUMBER="))
-                            Pista = Convert.ToInt32(meta.Replace("TRACKNUMBER=", ""));
-                        else if (meta.Contains("tracknumber="))
-                            Pista = Convert.ToInt32(meta.Replace("tracknumber=", ""));
-                        else if(meta.Contains("ALBUM="))
-                            Album = meta.Replace("ALBUM=", "");
-                        else if (meta.Contains("album="))
-                            Album = meta.Replace("album=", "");
-                    }
+                    Artista = _vorbisReader.Tags.Artist;
+                    Titulo = _vorbisReader.Tags.Title;
+                    Album = _vorbisReader.Tags.Album;
                     Año = 0;
                     Cerrar();
                     break;

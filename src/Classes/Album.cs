@@ -21,7 +21,7 @@ namespace aplicacion_musica
         public String DirectorioSonido { get; set; }
         [JsonIgnore]
         public bool PuedeBorrarse { get; private set; }
-        public Album() 
+        public Album()
         {
             canciones = new List<Cancion>();
             genero = Programa.generos.Last();
@@ -36,7 +36,7 @@ namespace aplicacion_musica
             canciones = new List<Cancion>(nc);
             caratula = c;
             genero = g;
-            PuedeBorrarse = false;
+            PuedeBorrarse = true;
         }
         public Album(string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
@@ -47,7 +47,7 @@ namespace aplicacion_musica
             numCanciones = nc;
             caratula = c;
             genero = new Genero("");
-            PuedeBorrarse = false;
+            PuedeBorrarse = true;
         }
         public Album(Album a)
         {
@@ -58,7 +58,7 @@ namespace aplicacion_musica
             numCanciones = a.numCanciones;
             canciones = a.canciones;
             caratula = a.caratula;
-            PuedeBorrarse = false;
+            PuedeBorrarse = true;
         }
         public void agregarCancion(Cancion c)
         {
@@ -115,7 +115,7 @@ namespace aplicacion_musica
                 i++;
                 c = canciones[i];
             }
- 
+
             return c;
         }
         public void RefrescarDuracion()
@@ -127,9 +127,9 @@ namespace aplicacion_musica
                     duracion += canciones[i].duracion;
             }
         }
-        public Cancion getCancion(int n) 
-        { 
-            return canciones[n]; 
+        public Cancion getCancion(int n)
+        {
+            return canciones[n];
         }
 
         public Cancion getCancion(String b)
@@ -153,7 +153,7 @@ namespace aplicacion_musica
             canciones.RemoveAt(cual);
             numCanciones--;
         }
-        public void BorrarCancion(Cancion cancion) 
+        public void BorrarCancion(Cancion cancion)
         {
             if (!cancion.Bonus)
                 duracion -= cancion.duracion;

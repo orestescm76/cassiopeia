@@ -22,6 +22,7 @@ namespace aplicacion_musica
             Fichero.AutoFlush = true;
             VisorLog = new VisorLog();
             Fichero.WriteLine("Gestor de música " + Programa.version);
+            Fichero.WriteLine("Versión de NET: " + Environment.Version);
             Fichero.WriteLine("Log creado el " + DateTime.Now);
         }
         public static Log Instance {get {return instance;} }
