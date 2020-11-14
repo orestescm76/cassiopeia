@@ -5,6 +5,7 @@ using CSCore.Tags.ID3;
 using NVorbis;
 using JAudioTags;
 using System.Runtime.Serialization.Formatters;
+using System.Drawing;
 
 namespace aplicacion_musica
 {

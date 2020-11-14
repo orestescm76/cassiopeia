@@ -58,7 +58,7 @@ namespace aplicacion_musica
         {
             get
             {
-                long pos = (long)(_vorbisReader.DecodedTime.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels);
+                long pos = (long)(_vorbisReader.TimePosition.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels);
                 if (pos < 0)
                 {
                     return (long)(posAnt.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels);
@@ -74,22 +74,22 @@ namespace aplicacion_musica
 
                 try
                 {
-                    _vorbisReader.DecodedTime = TimeSpan.FromSeconds((double)value / _vorbisReader.SampleRate / _vorbisReader.Channels);
+                    _vorbisReader.TimePosition = TimeSpan.FromSeconds((double)value / _vorbisReader.SampleRate / _vorbisReader.Channels);
 
                 }
                 catch (Exception)
                 {
 
                     Log.Instance.ImprimirMensaje("Error intentando cambiar el puntero de la canción, poniendo uno de reserva...", TipoMensaje.Error);
-                    _vorbisReader.DecodedTime = posAnt;
+                    _vorbisReader.TimePosition = posAnt;
                 }
             }
         }
 
         public int Read(float[] buffer, int offset, int count)
         {
-            posAnt = _vorbisReader.DecodedTime;
-            BitRate = _vorbisReader.Stats[0].InstantBitRate;
+            posAnt = _vorbisReader.TimePosition;
+            BitRate = _vorbisReader.Streams[0].Stats.InstantBitRate;
             return _vorbisReader.ReadSamples(buffer, offset, count);
         }
 
@@ -106,31 +106,11 @@ namespace aplicacion_musica
         }
         public string GetTitulo()
         {
-            foreach (String meta in _vorbisReader.Comments)
-            {
-                if(meta.Contains("TITLE="))
-                {
-                    return meta.Replace("TITLE=", "");
-                }
-                else if(meta.Contains("title="))
-                {
-                    return meta.Replace("title=", "");
-                }
-            }
-            return null;
+            return _vorbisReader.Tags.Title;
         }
         public string GetArtista()
         {
-            foreach (String meta in _vorbisReader.Comments)
-            {
-                if (meta.Contains("ARTIST="))
-                {
-                    return meta.Replace("ARTIST=", "");
-                }
-                else if(meta.Contains("artist="))
-                    return meta.Replace("artist=", "");
-            }
-            return null;
+            return _vorbisReader.Tags.Artist;
         }
     }
 }

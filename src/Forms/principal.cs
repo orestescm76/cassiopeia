@@ -47,8 +47,22 @@ namespace aplicacion_musica
                 Programa.idiomas[i] = id;
                 ToolStripItem subIdioma = new ToolStripMenuItem(nombreIdioma.NativeName);
                 subIdioma.Click += new EventHandler(SubIdioma_Click);
-                opcionesToolStripMenuItem.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + nombreIdioma.Name + ".png");
-                subIdioma.Image = System.Drawing.Image.FromFile("./iconosBanderas/" + nombreIdioma.Name + ".png");
+                switch (nombreIdioma.Name)
+                {
+                    case "es":
+                        opcionesToolStripMenuItem.Image = Properties.Resources.es;
+                        break;
+                    case "ca":
+                        opcionesToolStripMenuItem.Image = Properties.Resources.ca;
+                        break;
+                    case "en":
+                        opcionesToolStripMenuItem.Image = Properties.Resources.en;
+                        break;
+                    case "el":
+                        opcionesToolStripMenuItem.Image = Properties.Resources.el;
+                        break;
+                }
+                subIdioma.Image = opcionesToolStripMenuItem.Image;
                 opcionesToolStripMenuItem.DropDownItems.Add(subIdioma);
                 i++;
             }
@@ -154,7 +168,7 @@ namespace aplicacion_musica
             verToolStripMenuItem.Text = Programa.textosLocal.GetString("ver");
             digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
             copiarToolStripMenuItem.Text = Programa.textosLocal.GetString("copiar");
-            opcionesToolStripMenuItem.Image = Image.FromFile("./iconosBanderas/" + Config.Idioma + ".png");
+            opcionesToolStripMenuItem.Image = Config.GetIconoBandera();
             digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
             vincularToolStripMenuItem.Text = Programa.textosLocal.GetString("vincular");
             spotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
