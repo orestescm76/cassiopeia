@@ -155,7 +155,7 @@
     <value>Artista</value>
   </data>
   <data name="avisoSpotify" xml:space="preserve">
-    <value>Se va a vincular esta aplicación con tu cuenta de Spotify. Esto permitirá la reproducción de canciones desde Spotify en esta aplicación. Si deseas retirar el acceso tienes que ir a tu perfil en la web de Spotify. ¿Desea continuar?</value>
+    <value>Se va a vincular esta aplicación con tu cuenta de Spotify. Esto permitirá la reproducción de canciones desde Spotify en esta aplicación. Si deseas retirar el acceso tienes que ir a tu perfil en la web de Spotify. El programa contará 30 segundos para realizar la vinculación antes de cancelarse. ¿Desea continuar?</value>
   </data>
   <data name="ayudaAñadir" xml:space="preserve">
     <value>Selecciona el álbum que quieres agregar y pulsa en "Añadir"</value>
@@ -571,5 +571,8 @@
   </data>
   <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
     <value>Nuevo álbum desde un directorio</value>
+  </data>
+  <data name="errorVinculacion" xml:space="preserve">
+    <value>Se ha cancelado la vinculación por tiempo de espera</value>
   </data>
 </root>

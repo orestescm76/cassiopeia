@@ -119,8 +119,6 @@ namespace aplicacion_musica
                     CodigoRefresco = token.RefreshToken;
                     Programa.tareaRefrescoToken = new Thread(Programa.Refresco);
                     Programa.tareaRefrescoToken.Start();
-
-
                 };
                 auth.Start();
                 auth.OpenBrowser();

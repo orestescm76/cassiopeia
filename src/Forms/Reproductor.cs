@@ -60,6 +60,7 @@ namespace aplicacion_musica
         public Reproductor()
         {
             InitializeComponent();
+            controlBotones(false);
             timerCancion.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
             DuracionSeleccionada = new ToolTip();
@@ -94,6 +95,7 @@ namespace aplicacion_musica
         public void ReproducirCD(char disp)
         {
             //reproduce un cd
+            controlBotones(true);
             nucleo.ReproducirCD(disp);
             if (nucleo.PistasCD == null)
                 return;
@@ -164,6 +166,8 @@ namespace aplicacion_musica
             labelDatosCancion.Text = "";
             Icon = Properties.Resources.iconoReproductor;
             checkBoxFoobar.Visible = true;
+            controlBotones(false);
+            buttonDetener.Enabled = true;
             buttonAgregar.Hide();
         }
         public void ActivarSpotify()
@@ -175,9 +179,13 @@ namespace aplicacion_musica
                 timerCancion.Enabled = false;
                 checkBoxFoobar.Visible = false;
                 nucleo.Apagar();
+                controlBotones(false);
+                buttonDetener.Enabled = false;
             }
             catch (Exception)
             {
+                controlBotones(true);
+                buttonDetener.Enabled = true;
             }
             if (Programa._spotify.cuentaVinculada)
             {
@@ -302,6 +310,7 @@ namespace aplicacion_musica
         }
         public void ReproducirCancion(Cancion c) //reproduce una cancion por path o por sus metadatos
         {
+            controlBotones(true);
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
@@ -401,15 +410,7 @@ namespace aplicacion_musica
             estadoReproductor = EstadoReproductor.Reproduciendo;
             buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
             buttonTwit.Enabled = true;
-            try
-            {
-                DirectoryInfo folder = new DirectoryInfo(CancionLocalReproduciendo.PATH);
-                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(folder.Parent.FullName+ "/folder.jpg");
-            }
-            catch(FileNotFoundException)
-            {
-                pictureBoxCaratula.Image = Resources.albumdesconocido;
-            }
+            
         }
         private bool FicheroLeible(string s)
         {
@@ -655,6 +656,7 @@ namespace aplicacion_musica
                     {
                         nucleo.CargarCancion(fich);
                         PrepararReproductor();
+                        controlBotones(true);
                         nucleo.Reproducir();
                     }
                 }
@@ -1037,6 +1039,22 @@ namespace aplicacion_musica
             TimeSpan dur = nucleo.Duracion();
             nucleo.Apagar();
             return dur;
+        }
+        //Controla los botones de reproducir, pausar... etc
+        private void controlBotones(bool encendido)
+        {
+            buttonReproducirPausar.Enabled = encendido;
+            buttonSaltarAdelante.Enabled = encendido;
+            buttonSaltarAtras.Enabled = encendido;
+        }
+
+        private void buttonDetener_Click(object sender, EventArgs e)
+        {
+            nucleo.Apagar();
+            timerCancion.Enabled = false;
+            timerMetadatos.Enabled = false;
+            controlBotones(false);
+            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
         }
     }
 }

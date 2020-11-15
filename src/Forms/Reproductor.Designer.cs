@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Reproductor));
             this.trackBarPosicion = new System.Windows.Forms.TrackBar();
             this.buttonReproducirPausar = new System.Windows.Forms.Button();
             this.timerCancion = new System.Windows.Forms.Timer(this.components);
@@ -56,6 +55,7 @@
             this.timerFoobar = new System.Windows.Forms.Timer(this.components);
             this.buttonTwit = new System.Windows.Forms.Button();
             this.buttoncrearLR = new System.Windows.Forms.Button();
+            this.buttonDetener = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -264,7 +264,6 @@
             // 
             // notifyIcon1
             // 
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
@@ -310,12 +309,24 @@
             this.buttoncrearLR.UseVisualStyleBackColor = true;
             this.buttoncrearLR.Click += new System.EventHandler(this.buttonLR_Click);
             // 
+            // buttonDetener
+            // 
+            this.buttonDetener.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.buttonDetener.Location = new System.Drawing.Point(157, 456);
+            this.buttonDetener.Name = "buttonDetener";
+            this.buttonDetener.Size = new System.Drawing.Size(43, 42);
+            this.buttonDetener.TabIndex = 18;
+            this.buttonDetener.Text = "■ ";
+            this.buttonDetener.UseVisualStyleBackColor = true;
+            this.buttonDetener.Click += new System.EventHandler(this.buttonDetener_Click);
+            // 
             // Reproductor
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(365, 615);
+            this.Controls.Add(this.buttonDetener);
             this.Controls.Add(this.buttoncrearLR);
             this.Controls.Add(this.buttonTwit);
             this.Controls.Add(this.checkBoxFoobar);
@@ -381,5 +392,6 @@
         private System.Windows.Forms.Timer timerFoobar;
         private System.Windows.Forms.Button buttonTwit;
         private System.Windows.Forms.Button buttoncrearLR;
+        private System.Windows.Forms.Button buttonDetener;
     }
 }

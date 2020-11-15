@@ -177,6 +177,7 @@ namespace aplicacion_musica
             verLyricsToolStripMenuItem.Text = Programa.textosLocal.GetString("verLyrics");
             tipografiaLyricsToolStripMenuItem.Text = Programa.textosLocal.GetString("tipografíaLyrics");
             verLogToolStripMenuItem.Text = Programa.textosLocal.GetString("verLog");
+            nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = Programa.textosLocal.GetString("nuevoAlbumDesdeCarpeta");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -739,13 +740,28 @@ namespace aplicacion_musica
 
         private void vincularToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bool cancelado = false;
             DialogResult eleccion = MessageBox.Show(Programa.textosLocal.GetString("avisoSpotify"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (eleccion == DialogResult.Yes)
             {
+                Stopwatch espera = Stopwatch.StartNew();
                 Programa._spotify.Reiniciar();
                 Programa._spotify.SpotifyVinculado();
-                while (!Programa._spotify.cuentaLista) //deadlock, sincrono
-                    System.Threading.Thread.Sleep(100);
+                while (!Programa._spotify.cuentaLista)
+                {
+                    //deadlock, sincrono
+                    if(espera.Elapsed.TotalSeconds >= 30)
+                    {
+                        cancelado = true;
+                        break;
+                    }
+                }
+                if(cancelado)
+                {
+                    Log.ImprimirMensaje("Se ha cancelado la vinculación por tiempo de espera.", TipoMensaje.Advertencia);
+                    MessageBox.Show(Programa.textosLocal.GetString("errorVinculacion"));
+                    return;
+                }
                 if (Programa._spotify._spotify.GetPrivateProfile().Product != "premium")
                 {
                     Log.ImprimirMensaje("El usuario no tiene premium, no podrá usar spotify desde el Gestor", TipoMensaje.Advertencia);

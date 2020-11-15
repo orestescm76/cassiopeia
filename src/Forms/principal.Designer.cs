@@ -35,6 +35,7 @@
             this.nuevoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.agregarAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.nuevoAlbumDesdeCarpetaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CargarCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.digitalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +79,6 @@
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.process1 = new System.Diagnostics.Process();
-            this.nuevoAlbumDesdeCarpetaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -144,6 +144,13 @@
             this.agregarAlbumToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
             this.agregarAlbumToolStripMenuItem.Text = "agregarAlbum3";
             this.agregarAlbumToolStripMenuItem.Click += new System.EventHandler(this.agregarAlbumToolStripMenuItem_Click);
+            // 
+            // nuevoAlbumDesdeCarpetaToolStripMenuItem
+            // 
+            this.nuevoAlbumDesdeCarpetaToolStripMenuItem.Name = "nuevoAlbumDesdeCarpetaToolStripMenuItem";
+            this.nuevoAlbumDesdeCarpetaToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
+            this.nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = "nuevoAlbumDesdeCarpeta";
+            this.nuevoAlbumDesdeCarpetaToolStripMenuItem.Click += new System.EventHandler(this.nuevoAlbumDesdeCarpetaToolStripMenuItem_Click);
             // 
             // abrirToolStripMenuItem
             // 
@@ -249,21 +256,21 @@
             // generarAlbumToolStripMenuItem
             // 
             this.generarAlbumToolStripMenuItem.Name = "generarAlbumToolStripMenuItem";
-            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.generarAlbumToolStripMenuItem.Text = "generarAlbum";
             this.generarAlbumToolStripMenuItem.Click += new System.EventHandler(this.generarAlbumToolStripMenuItem_Click);
             // 
             // tipografiaLyricsToolStripMenuItem
             // 
             this.tipografiaLyricsToolStripMenuItem.Name = "tipografiaLyricsToolStripMenuItem";
-            this.tipografiaLyricsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.tipografiaLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.tipografiaLyricsToolStripMenuItem.Text = "tipografiaLyrics";
             this.tipografiaLyricsToolStripMenuItem.Click += new System.EventHandler(this.tipografiaLyricsToolStripMenuItem_Click);
             // 
             // verLogToolStripMenuItem
             // 
             this.verLogToolStripMenuItem.Name = "verLogToolStripMenuItem";
-            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.verLogToolStripMenuItem.Text = "verLog";
             this.verLogToolStripMenuItem.Click += new System.EventHandler(this.verLogToolStripMenuItem_Click);
             // 
@@ -356,6 +363,9 @@
             // vistaAlbumes
             // 
             this.vistaAlbumes.AllowColumnReorder = true;
+            this.vistaAlbumes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.vistaAlbumes.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.vistaAlbumes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.vistaAlbumes.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -366,16 +376,16 @@
             this.genero,
             this.columnID});
             this.vistaAlbumes.Cursor = System.Windows.Forms.Cursors.Default;
-            this.vistaAlbumes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vistaAlbumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vistaAlbumes.ForeColor = System.Drawing.SystemColors.WindowText;
             this.vistaAlbumes.FullRowSelect = true;
             this.vistaAlbumes.HideSelection = false;
             this.vistaAlbumes.Location = new System.Drawing.Point(0, 24);
-            this.vistaAlbumes.MinimumSize = new System.Drawing.Size(842, 534);
+            this.vistaAlbumes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 12);
+            this.vistaAlbumes.MinimumSize = new System.Drawing.Size(842, 512);
             this.vistaAlbumes.Name = "vistaAlbumes";
             this.vistaAlbumes.ShowGroups = false;
-            this.vistaAlbumes.Size = new System.Drawing.Size(842, 534);
+            this.vistaAlbumes.Size = new System.Drawing.Size(842, 512);
             this.vistaAlbumes.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.vistaAlbumes.TabIndex = 1;
             this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
@@ -478,13 +488,6 @@
             this.process1.StartInfo.StandardOutputEncoding = null;
             this.process1.StartInfo.UserName = "";
             this.process1.SynchronizingObject = this;
-            // 
-            // nuevoAlbumDesdeCarpetaToolStripMenuItem
-            // 
-            this.nuevoAlbumDesdeCarpetaToolStripMenuItem.Name = "nuevoAlbumDesdeCarpetaToolStripMenuItem";
-            this.nuevoAlbumDesdeCarpetaToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
-            this.nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = "nuevoAlbumDesdeCarpeta";
-            this.nuevoAlbumDesdeCarpetaToolStripMenuItem.Click += new System.EventHandler(this.nuevoAlbumDesdeCarpetaToolStripMenuItem_Click);
             // 
             // principal
             // 

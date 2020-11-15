@@ -526,7 +526,7 @@
     <value>Player</value>
   </data>
   <data name="avisoSpotify" xml:space="preserve">
-    <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. Do you wish to continue?</value>
+    <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. The program will time 30 seconds before cancelling the vinculation. Do you wish to continue?</value>
   </data>
   <data name="agradecimiento3" xml:space="preserve">
     <value> * The programmers of NVorbis, CSCore y JAudio</value>
@@ -576,5 +576,8 @@
   </data>
   <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
     <value>New album from folder</value>
+  </data>
+  <data name="errorVinculacion" xml:space="preserve">
+    <value>Vinculation has been canelled because it has exceeded the wait time.</value>
   </data>
 </root>
