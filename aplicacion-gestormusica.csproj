@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>aplicacion_musica</RootNamespace>
     <AssemblyName>aplicacion_musica</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -29,6 +29,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -85,8 +86,20 @@
       <HintPath>packages\SpotifyAPI.Web.Auth.5.0.0\lib\netstandard2.0\SpotifyAPI.Web.Auth.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.7.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -255,11 +268,6 @@
       <DependentUpon>visualizarAlbum.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="packages\CSCore.1.2.1.2\.signature.p7s" />
-    <None Include="packages\CSCore.1.2.1.2\CSCore.1.2.1.2.nupkg" />
-    <None Include="packages\CSCore.Ffmpeg.1.2.0-beta1\.signature.p7s" />
-    <None Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\CSCore.Ffmpeg.targets" />
-    <None Include="packages\CSCore.Ffmpeg.1.2.0-beta1\CSCore.Ffmpeg.1.2.0-beta1.nupkg" />
     <None Include="packages\EmbedIO.2.9.2\.signature.p7s" />
     <None Include="packages\EmbedIO.2.9.2\EmbedIO.2.9.2.nupkg" />
     <None Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\.signature.p7s" />
@@ -368,77 +376,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icono.ico" />
-    <Content Include="packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll" />
-    <Content Include="packages\CSCore.1.2.1.2\lib\net35-client\CSCore.XML" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\bin\windows\x64\avcodec-57.dll" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\bin\windows\x64\avformat-57.dll" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\bin\windows\x64\avutil-55.dll" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\bin\windows\x64\swresample-2.dll" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\bin\windows\x86\avcodec-57.dll" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\bin\windows\x86\avformat-57.dll" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\bin\windows\x86\avutil-55.dll" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\bin\windows\x86\swresample-2.dll" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\bzip2.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\fontconfig.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\freetype.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\frei0r.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\gme.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\gnutls.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\lame.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libass.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libbluray.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libbs2b.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libcaca.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libgsm.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libiconv.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libilbc.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libmfx.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libmodplug.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libtheora.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libvorbis.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libvpx.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\libwebp.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\opencore-amr.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\openjpeg.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\opus.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\rtmpdump.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\schroedinger.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\snappy.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\soxr.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\speex.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\twolame.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\vid.stab.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\vo-amrwbenc.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\wavpack.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\x264.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\x265.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\xavs.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\xvid.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\xz.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\zimg.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\licenses\zlib.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\build\FFmpeg\src\sources.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\content\CSCore.Ffmpeg ReadMe.txt" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\lib\net35\CSCore.Ffmpeg.dll" />
-    <Content Include="packages\CSCore.Ffmpeg.1.2.0-beta1\lib\net35\CSCore.Ffmpeg.XML" />
     <Content Include="packages\EmbedIO.2.9.2\lib\netstandard2.0\Unosquare.Labs.EmbedIO.dll" />
     <Content Include="packages\EmbedIO.2.9.2\lib\netstandard2.0\Unosquare.Labs.EmbedIO.xml" />
     <Content Include="packages\JAudioTags.dll" />
     <Content Include="packages\JAudioTags.pdb" />
     <Content Include="packages\JAudioTags.XML" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.xml" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.dll" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.xml" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.xml" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\LICENSE.TXT" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\ref\net461\Microsoft.Bcl.AsyncInterfaces.dll" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\ref\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.dll" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\ref\netstandard2.1\Microsoft.Bcl.AsyncInterfaces.dll" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\THIRD-PARTY-NOTICES.TXT" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\useSharedDesignerContext.txt" />
-    <Content Include="packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\version.txt" />
     <Content Include="packages\Newtonsoft.Json.12.0.3\lib\net20\Newtonsoft.Json.dll" />
     <Content Include="packages\Newtonsoft.Json.12.0.3\lib\net20\Newtonsoft.Json.xml" />
     <Content Include="packages\Newtonsoft.Json.12.0.3\lib\net35\Newtonsoft.Json.dll" />
@@ -524,26 +466,6 @@
     <Content Include="packages\System.Runtime.CompilerServices.Unsafe.4.7.0\THIRD-PARTY-NOTICES.TXT" />
     <Content Include="packages\System.Runtime.CompilerServices.Unsafe.4.7.0\useSharedDesignerContext.txt" />
     <Content Include="packages\System.Runtime.CompilerServices.Unsafe.4.7.0\version.txt" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\lib\netstandard1.0\System.Text.Encodings.Web.dll" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\lib\netstandard1.0\System.Text.Encodings.Web.xml" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\lib\netstandard2.0\System.Text.Encodings.Web.dll" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\lib\netstandard2.0\System.Text.Encodings.Web.xml" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\lib\netstandard2.1\System.Text.Encodings.Web.dll" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\lib\netstandard2.1\System.Text.Encodings.Web.xml" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\LICENSE.TXT" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\THIRD-PARTY-NOTICES.TXT" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\useSharedDesignerContext.txt" />
-    <Content Include="packages\System.Text.Encodings.Web.4.7.0\version.txt" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard1.0\System.Threading.Tasks.Extensions.dll" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard1.0\System.Threading.Tasks.Extensions.xml" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.xml" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.xml" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\LICENSE.TXT" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\THIRD-PARTY-NOTICES.TXT" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\useSharedDesignerContext.txt" />
-    <Content Include="packages\System.Threading.Tasks.Extensions.4.5.2\version.txt" />
     <Content Include="packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll" />
     <Content Include="packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.xml" />
     <Content Include="packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll" />
