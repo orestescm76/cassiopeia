@@ -580,4 +580,10 @@
   <data name="errorVinculacion" xml:space="preserve">
     <value>Vinculation has been canelled because it has exceeded the wait time.</value>
   </data>
+  <data name="actualizacion1" xml:space="preserve">
+    <value>A new version of Music Manager is avaliable.</value>
+  </data>
+  <data name="actualizacion2" xml:space="preserve">
+    <value>Click on "Yes" to download it.</value>
+  </data>
 </root>

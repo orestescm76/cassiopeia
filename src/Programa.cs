@@ -438,6 +438,30 @@ namespace aplicacion_musica
             FileInfo lyrics = new FileInfo("lyrics.txt");
             Log.Instance.ImprimirMensaje("Tamaño del fichero: " + lyrics.Length/1024 + " kb", TipoMensaje.Info);
         }
+        static bool HayActualizacions(out string verNueva)
+        {
+            HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/aplicacion-gestormusica/releases");
+            string contenido = string.Empty;
+            GithubRequest.Accept = "text/html,application/vnd.github.v3+json";
+            GithubRequest.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0"; //Si no lo pongo, 403.
+            List<string> Json = new List<string>();
+            using (HttpWebResponse respuesta = (HttpWebResponse)GithubRequest.GetResponse())
+            using (Stream flujo = respuesta.GetResponseStream())
+            using (StreamReader lector = new StreamReader(flujo))
+            {
+                //File.WriteAllText("github.json", lector.ReadToEnd());
+                while (!lector.EndOfStream)
+                    contenido += lector.ReadLine();
+            }
+            //contenido = File.ReadAllText("github.json");
+            int indexVersion = contenido.IndexOf("tag_name");
+            verNueva = contenido.Substring(indexVersion, 40);
+            verNueva = verNueva.Split('v')[1].Split('\"')[0];
+            if (verNueva != version)
+                return true;
+            else
+                return false;
+        }
         [STAThread]
         static void Main(String[] args)
         {
@@ -447,9 +471,14 @@ namespace aplicacion_musica
             Config.CargarConfiguracion();
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Config.Idioma + ".resx");
             Log Log = Log.Instance;
-            if (string.IsNullOrEmpty(Config.UltimoDirectorioAbierto))
-                Config.UltimoDirectorioAbierto = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-            if(args.Contains("-consola") || args.Contains("-console"))
+            string versionNueva;
+            if(HayActualizacions(out versionNueva))
+            {
+                DialogResult act = MessageBox.Show(textosLocal.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + textosLocal.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
+                if(act == DialogResult.Yes)
+                    Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
+            }
+            if(args.Contains("-consola"))
             {
                 AllocConsole();
                 Console.Title = "Consola debug v" + version;

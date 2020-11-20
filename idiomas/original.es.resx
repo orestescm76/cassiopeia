@@ -575,4 +575,10 @@
   <data name="errorVinculacion" xml:space="preserve">
     <value>Se ha cancelado la vinculación por tiempo de espera</value>
   </data>
+  <data name="actualizacion1" xml:space="preserve">
+    <value>Está disponible una nueva versión del Gestor de Música.</value>
+  </data>
+  <data name="actualizacion2" xml:space="preserve">
+    <value>Haz click en "Sí" para descargarla.</value>
+  </data>
 </root>
