@@ -543,4 +543,13 @@
   <data name="verLog" xml:space="preserve">
     <value>Προβολή καταγραφής</value>
   </data>
+  <data name="configuracion" xml:space="preserve">
+    <value>Ρυθμίσεις</value>
+  </data>
+  <data name="idioma" xml:space="preserve">
+    <value>Γλώσσα</value>
+  </data>
+  <data name="aplicar" xml:space="preserve">
+    <value>Εφαρμογή</value>
+  </data>
 </root>

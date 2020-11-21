@@ -58,7 +58,6 @@
             this.cdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seleccionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.borrarseleccionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.opcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproductorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,6 +78,7 @@
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.process1 = new System.Diagnostics.Process();
+            this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -91,7 +91,6 @@
             this.adminMenu,
             this.verToolStripMenuItem,
             this.seleccionToolStripMenuItem,
-            this.opcionesToolStripMenuItem,
             this.reproductorToolStripMenuItem,
             this.acercaDeToolStripMenuItem,
             this.testToolStripMenuItem});
@@ -248,7 +247,8 @@
             this.adminMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generarAlbumToolStripMenuItem,
             this.tipografiaLyricsToolStripMenuItem,
-            this.verLogToolStripMenuItem});
+            this.verLogToolStripMenuItem,
+            this.configToolStripMenuItem});
             this.adminMenu.Name = "adminMenu";
             this.adminMenu.Size = new System.Drawing.Size(79, 20);
             this.adminMenu.Text = "administrar";
@@ -318,12 +318,6 @@
             this.borrarseleccionToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.borrarseleccionToolStripMenuItem.Text = "borrar_seleccion";
             this.borrarseleccionToolStripMenuItem.Click += new System.EventHandler(this.borrarseleccionToolStripMenuItem_Click);
-            // 
-            // opcionesToolStripMenuItem
-            // 
-            this.opcionesToolStripMenuItem.Name = "opcionesToolStripMenuItem";
-            this.opcionesToolStripMenuItem.Size = new System.Drawing.Size(110, 20);
-            this.opcionesToolStripMenuItem.Text = "opcionesIdioma2";
             // 
             // reproductorToolStripMenuItem
             // 
@@ -489,6 +483,13 @@
             this.process1.StartInfo.UserName = "";
             this.process1.SynchronizingObject = this;
             // 
+            // configToolStripMenuItem
+            // 
+            this.configToolStripMenuItem.Name = "configToolStripMenuItem";
+            this.configToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.configToolStripMenuItem.Text = "config";
+            this.configToolStripMenuItem.Click += new System.EventHandler(this.configToolStripMenuItem_Click);
+            // 
             // principal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -521,7 +522,6 @@
         private System.Windows.Forms.ToolStripMenuItem archivoMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem agregarAlbumToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem opcionesToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem abrirToolStripMenuItem;
         private System.Windows.Forms.ListView vistaAlbumes;
@@ -566,5 +566,6 @@
         private System.Windows.Forms.ToolStripMenuItem verLyricsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem verLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nuevoAlbumDesdeCarpetaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configToolStripMenuItem;
     }
 }

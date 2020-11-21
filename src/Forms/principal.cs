@@ -36,36 +36,6 @@ namespace aplicacion_musica
             InitializeComponent();
             BusquedaSpotify = "";
             borrando = false;
-            DirectoryInfo cod = new DirectoryInfo("./idiomas");
-            Programa.idiomas = new String[cod.GetFiles().Length];
-            int i = 0;
-            foreach(var idioma in cod.GetFiles())
-            {
-                string id = idioma.Name.Replace(".resx", "");
-                id = id.Replace("original.", "");
-                CultureInfo nombreIdioma = new CultureInfo(id);
-                Programa.idiomas[i] = id;
-                ToolStripItem subIdioma = new ToolStripMenuItem(nombreIdioma.NativeName);
-                subIdioma.Click += new EventHandler(SubIdioma_Click);
-                switch (nombreIdioma.Name)
-                {
-                    case "es":
-                        opcionesToolStripMenuItem.Image = Properties.Resources.es;
-                        break;
-                    case "ca":
-                        opcionesToolStripMenuItem.Image = Properties.Resources.ca;
-                        break;
-                    case "en":
-                        opcionesToolStripMenuItem.Image = Properties.Resources.en;
-                        break;
-                    case "el":
-                        opcionesToolStripMenuItem.Image = Properties.Resources.el;
-                        break;
-                }
-                subIdioma.Image = opcionesToolStripMenuItem.Image;
-                opcionesToolStripMenuItem.DropDownItems.Add(subIdioma);
-                i++;
-            }
 
             lvwColumnSorter = new ListViewItemComparer();
             vistaAlbumes.ListViewItemSorter = lvwColumnSorter;
@@ -89,7 +59,7 @@ namespace aplicacion_musica
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
             Log.ImprimirMensaje("Formulario principal creado", TipoMensaje.Correcto, crono);
         }
-        public void Refrescar() { cargarVista(); }
+        public void Refrescar() { ponerTextos(); cargarVista(); }
         public void HayInternet(bool i)
         {
             buscarEnSpotifyToolStripMenuItem.Enabled = i;
@@ -146,7 +116,6 @@ namespace aplicacion_musica
         {
             Text = Programa.textosLocal.GetString("titulo_ventana_principal") + " " + Programa.version + " Codename " + Programa.CodeName;
             archivoMenuItem1.Text = Programa.textosLocal.GetString("archivo");
-            opcionesToolStripMenuItem.Text = Programa.textosLocal.GetString("cambiar_idioma");
             agregarAlbumToolStripMenuItem.Text = Programa.textosLocal.GetString("agregar_album");
             abrirToolStripMenuItem.Text = Programa.textosLocal.GetString("abrir_registros");
             salirToolStripMenuItem.Text = Programa.textosLocal.GetString("salir");
@@ -168,7 +137,6 @@ namespace aplicacion_musica
             verToolStripMenuItem.Text = Programa.textosLocal.GetString("ver");
             digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
             copiarToolStripMenuItem.Text = Programa.textosLocal.GetString("copiar");
-            opcionesToolStripMenuItem.Image = Config.GetIconoBandera();
             digitalToolStripMenuItem.Text = Programa.textosLocal.GetString("digital");
             vincularToolStripMenuItem.Text = Programa.textosLocal.GetString("vincular");
             spotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
@@ -178,6 +146,7 @@ namespace aplicacion_musica
             tipografiaLyricsToolStripMenuItem.Text = Programa.textosLocal.GetString("tipografíaLyrics");
             verLogToolStripMenuItem.Text = Programa.textosLocal.GetString("verLog");
             nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = Programa.textosLocal.GetString("nuevoAlbumDesdeCarpeta");
+            configToolStripMenuItem.Text = Programa.textosLocal.GetString("configuracion");
         }
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -231,21 +200,6 @@ namespace aplicacion_musica
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-        private void SubIdioma_Click(object sender, EventArgs e)
-        {
-            var menu = sender as ToolStripMenuItem;
-            Log.ImprimirMensaje("Cambiando idioma al" + menu.Text, TipoMensaje.Info);
-            string idiomaNuevo = "";
-            for (int i = 0; i < opcionesToolStripMenuItem.DropDownItems.Count; i++)
-            {
-                CultureInfo c = new CultureInfo(Programa.idiomas[i]);
-                if (menu.Text == c.NativeName)
-                    idiomaNuevo = Programa.idiomas[i];
-            }
-            Programa.cambiarIdioma(idiomaNuevo);
-            ponerTextos();
-            Reproductor.Instancia.RefrescarTextos();
         }
         private void agregarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -902,6 +856,12 @@ namespace aplicacion_musica
                 Programa.miColeccion.agregarAlbum(ref a);
                 Refrescar();
             }
+        }
+
+        private void configToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConfigForm configForm = new ConfigForm();
+            configForm.ShowDialog();
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Threading;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Net;
 /* VERSION 1.6.xx CODENAME COCKROACH
 * Reproductor:
 *  Soporte CD Audio
@@ -45,6 +46,7 @@ namespace aplicacion_musica
         public static bool ModoReproductor = false;
         public static Thread tareaRefrescoToken;
         public static bool ModoStream = false;
+        public static int NumIdiomas = 0;
         public static void Refresco()
         {
             while(true)
@@ -63,10 +65,12 @@ namespace aplicacion_musica
         }
         public static void cambiarIdioma(String idioma)
         {
+            Log.Instance.ImprimirMensaje("Cambiando idioma al " + idioma, TipoMensaje.Info);
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + idioma + ".resx");
             Config.Idioma = idioma;
             refrescarGeneros();
             refrescarVista();
+            Reproductor.Instancia.RefrescarTextos();
         }
         public static void ActivarReproduccionSpotify()
         {
@@ -443,17 +447,24 @@ namespace aplicacion_musica
             HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/aplicacion-gestormusica/releases");
             string contenido = string.Empty;
             GithubRequest.Accept = "text/html,application/vnd.github.v3+json";
-            GithubRequest.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0"; //Si no lo pongo, 403.
-            List<string> Json = new List<string>();
-            using (HttpWebResponse respuesta = (HttpWebResponse)GithubRequest.GetResponse())
-            using (Stream flujo = respuesta.GetResponseStream())
-            using (StreamReader lector = new StreamReader(flujo))
+            GithubRequest.UserAgent = ".NET Framework Test Agent"; //Si no lo pongo, 403.
+            try
             {
-                //File.WriteAllText("github.json", lector.ReadToEnd());
-                while (!lector.EndOfStream)
-                    contenido += lector.ReadLine();
+                using (HttpWebResponse respuesta = (HttpWebResponse)GithubRequest.GetResponse())
+                using (Stream flujo = respuesta.GetResponseStream())
+                using (StreamReader lector = new StreamReader(flujo))
+                {
+                    while (!lector.EndOfStream)
+                        contenido += lector.ReadLine();
+                }
             }
-            //contenido = File.ReadAllText("github.json");
+            catch (WebException e)
+            {
+                Log.Instance.ImprimirMensaje("Hubo un problema intentando localizar la nueva versión...", TipoMensaje.Error);
+                Log.Instance.ImprimirMensaje("Respuesta del servidor: " + e.Response, TipoMensaje.Info);
+                verNueva = string.Empty;
+                return false;
+            }
             int indexVersion = contenido.IndexOf("tag_name");
             verNueva = contenido.Substring(indexVersion, 40);
             verNueva = verNueva.Split('v')[1].Split('\"')[0];
@@ -470,15 +481,29 @@ namespace aplicacion_musica
             Application.SetCompatibleTextRenderingDefault(false);
             Config.CargarConfiguracion();
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Config.Idioma + ".resx");
-            Log Log = Log.Instance;
-            string versionNueva;
-            if(HayActualizacions(out versionNueva))
+            //Cargar idiomas...
+            DirectoryInfo cod = new DirectoryInfo("./idiomas");
+            Programa.idiomas = new String[cod.GetFiles().Length];
+            int j = 0;
+            foreach (var idioma in cod.GetFiles())
             {
-                DialogResult act = MessageBox.Show(textosLocal.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + textosLocal.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
-                if(act == DialogResult.Yes)
-                    Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
+                Programa.NumIdiomas++;
+                string id = idioma.Name.Replace(".resx", "");
+                id = id.Replace("original.", "");
+                Programa.idiomas[j] = id;
+                j++;
             }
-            if(args.Contains("-consola"))
+
+            Log Log = Log.Instance;
+            //string versionNueva;
+            //if (HayActualizacions(out versionNueva))
+            //{
+            //    Log.ImprimirMensaje("Está disponible la actualización " + versionNueva, TipoMensaje.Info);
+            //    DialogResult act = MessageBox.Show(textosLocal.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + textosLocal.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
+            //    if (act == DialogResult.Yes)
+            //        Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
+            //}
+            if (args.Contains("-consola"))
             {
                 AllocConsole();
                 Console.Title = "Consola debug v" + version;

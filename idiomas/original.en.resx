@@ -586,4 +586,16 @@
   <data name="actualizacion2" xml:space="preserve">
     <value>Click on "Yes" to download it.</value>
   </data>
+  <data name="configuracion" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="idioma" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="seleccione_opcion" xml:space="preserve">
+    <value>Select an option to continue...</value>
+  </data>
+  <data name="aplicar" xml:space="preserve">
+    <value>Apply</value>
+  </data>
 </root>

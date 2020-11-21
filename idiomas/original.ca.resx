@@ -487,4 +487,22 @@
   <data name="verLog" xml:space="preserve">
     <value>Veure log</value>
   </data>
+  <data name="idioma" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="aplicar" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="anterior" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="cerrar" xml:space="preserve">
+    <value>Tancar</value>
+  </data>
+  <data name="configuracion" xml:space="preserve">
+    <value>Configuració</value>
+  </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>Acceptar</value>
+  </data>
 </root>
