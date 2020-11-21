@@ -400,16 +400,26 @@ namespace aplicacion_musica
             HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/aplicacion-gestormusica/releases");
             string contenido = string.Empty;
             GithubRequest.Accept = "text/html,application/vnd.github.v3+json";
-            GithubRequest.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0"; //Si no lo pongo, 403.
+            GithubRequest.UserAgent = ".NET Framework Test Client"; //Si no lo pongo, 403.
             List<string> Json = new List<string>();
-            using (HttpWebResponse respuesta = (HttpWebResponse)GithubRequest.GetResponse())
-            using (Stream flujo = respuesta.GetResponseStream())
-            using (StreamReader lector = new StreamReader(flujo))
+            try
             {
-                //File.WriteAllText("github.json", lector.ReadToEnd());
-                while (!lector.EndOfStream)
-                    contenido += lector.ReadLine();
+                using (HttpWebResponse respuesta = (HttpWebResponse)GithubRequest.GetResponse())
+                using (Stream flujo = respuesta.GetResponseStream())
+                using (StreamReader lector = new StreamReader(flujo))
+                {
+                    //File.WriteAllText("github.json", lector.ReadToEnd());
+                    while (!lector.EndOfStream)
+                        contenido += lector.ReadLine();
+                }
             }
+            catch (WebException)
+            {
+                Log.Instance.ImprimirMensaje("Hubo un problema intentando localizar la nueva versión...", TipoMensaje.Error);
+                verNueva = string.Empty;
+                return false;
+            }
+
             //contenido = File.ReadAllText("github.json");
             int indexVersion = contenido.IndexOf("tag_name");
             verNueva = contenido.Substring(indexVersion, 40);
@@ -431,6 +441,7 @@ namespace aplicacion_musica
             string versionNueva;
             if(HayActualizacions(out versionNueva))
             {
+                Log.ImprimirMensaje("Está disponible la actualización " + versionNueva, TipoMensaje.Info);
                 DialogResult act = MessageBox.Show(textosLocal.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + textosLocal.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
                 if(act == DialogResult.Yes)
                     Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
