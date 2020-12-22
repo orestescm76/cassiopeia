@@ -44,13 +44,14 @@
             this.labelEstadoDisco = new System.Windows.Forms.Label();
             this.clickDerechoConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setBonusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.setLargaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirspotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonPATH = new System.Windows.Forms.Button();
             this.clickDerechoAlbum = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copiar = new System.Windows.Forms.ToolStripMenuItem();
+            this.fusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoConfig.SuspendLayout();
@@ -179,12 +180,13 @@
             // 
             this.clickDerechoConfig.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.setBonusToolStripMenuItem,
-            this.setLargaToolStripMenuItem,
             this.reproducirspotifyToolStripMenuItem,
             this.reproducirToolStripMenuItem,
-            this.verLyricsToolStripMenuItem});
+            this.verLyricsToolStripMenuItem,
+            this.fusionarToolStripMenuItem,
+            this.defusionarToolStripMenuItem});
             this.clickDerechoConfig.Name = "clickDerechoConfig";
-            this.clickDerechoConfig.Size = new System.Drawing.Size(181, 136);
+            this.clickDerechoConfig.Size = new System.Drawing.Size(181, 158);
             this.clickDerechoConfig.Opening += new System.ComponentModel.CancelEventHandler(this.clickDerechoConfig_Opening);
             // 
             // setBonusToolStripMenuItem
@@ -193,13 +195,6 @@
             this.setBonusToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.setBonusToolStripMenuItem.Text = "setBonus";
             this.setBonusToolStripMenuItem.Click += new System.EventHandler(this.setBonusToolStripMenuItem_Click);
-            // 
-            // setLargaToolStripMenuItem
-            // 
-            this.setLargaToolStripMenuItem.Name = "setLargaToolStripMenuItem";
-            this.setLargaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.setLargaToolStripMenuItem.Text = "setPartes";
-            this.setLargaToolStripMenuItem.Visible = false;
             // 
             // reproducirspotifyToolStripMenuItem
             // 
@@ -245,6 +240,20 @@
             this.copiar.Size = new System.Drawing.Size(171, 22);
             this.copiar.Text = "copiarImagenStrip";
             this.copiar.Click += new System.EventHandler(this.copiar_Click);
+            // 
+            // fusionarToolStripMenuItem
+            // 
+            this.fusionarToolStripMenuItem.Name = "fusionarToolStripMenuItem";
+            this.fusionarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fusionarToolStripMenuItem.Text = "fusionar";
+            this.fusionarToolStripMenuItem.Click += new System.EventHandler(this.fusionarToolStripMenuItem_Click);
+            // 
+            // defusionarToolStripMenuItem
+            // 
+            this.defusionarToolStripMenuItem.Name = "defusionarToolStripMenuItem";
+            this.defusionarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.defusionarToolStripMenuItem.Text = "defusionar";
+            this.defusionarToolStripMenuItem.Click += new System.EventHandler(this.defusionarToolStripMenuItem_Click);
             // 
             // visualizarAlbum
             // 
@@ -293,12 +302,13 @@
         private System.Windows.Forms.Label labelEstadoDisco;
         private System.Windows.Forms.ContextMenuStrip clickDerechoConfig;
         private System.Windows.Forms.ToolStripMenuItem setBonusToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setLargaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproducirspotifyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproducirToolStripMenuItem;
         private System.Windows.Forms.Button buttonPATH;
         private System.Windows.Forms.ToolStripMenuItem verLyricsToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip clickDerechoAlbum;
         private System.Windows.Forms.ToolStripMenuItem copiar;
+        private System.Windows.Forms.ToolStripMenuItem fusionarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem defusionarToolStripMenuItem;
     }
 }

@@ -13,8 +13,7 @@ namespace aplicacion_musica.src.Forms
 {
     public partial class ConfigForm : Form
     {
-        RadioButton[] radioButtonsIdiomas = new RadioButton[Programa.NumIdiomas];
-        PictureBox[] pictureBoxesIdiomas = new PictureBox[Programa.NumIdiomas];
+
         public ConfigForm()
         {
             InitializeComponent();
@@ -25,7 +24,6 @@ namespace aplicacion_musica.src.Forms
             label1.Show();
             
             PonerTextos();
-            //290-label1.size.x/2
             label1.Location = new Point(290 - (label1.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
         }
         private void PonerTextos()
@@ -40,6 +38,8 @@ namespace aplicacion_musica.src.Forms
         }
         private void CargarIdiomas()
         {
+            RadioButton[] radioButtonsIdiomas = new RadioButton[Programa.NumIdiomas];
+            PictureBox[] pictureBoxesIdiomas = new PictureBox[Programa.NumIdiomas];
             groupBoxRaiz.Text = Programa.textosLocal.GetString("cambiar_idioma");
             int y = 44;
             for (int i = 0; i < Programa.NumIdiomas; i++)
@@ -119,11 +119,7 @@ namespace aplicacion_musica.src.Forms
         }
         private void Aplicar()
         {
-            for (int i = 0; i < Programa.idiomas.Length; i++)
-            {
-                if (radioButtonsIdiomas[i].Checked)
-                    Programa.cambiarIdioma(Programa.idiomas[i]);
-            }
+            
             PonerTextos();
         }
         private void buttonAplicar_Click(object sender, EventArgs e)

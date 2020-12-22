@@ -431,7 +431,7 @@
     <value>Selección</value>
   </data>
   <data name="setBonus" xml:space="preserve">
-    <value>Configurar como canción bonus</value>
+    <value>Configurar como canción bonus y viceversa.</value>
   </data>
   <data name="setLarga" xml:space="preserve">
     <value>Fusionar como canción por partes</value>
@@ -592,5 +592,17 @@
   </data>
   <data name="aplicar" xml:space="preserve">
     <value>Aplicar</value>
+  </data>
+  <data name="fusionarCancionPartes" xml:space="preserve">
+    <value>Fusionar en canción con partes</value>
+  </data>
+  <data name="error_fusionsingular" xml:space="preserve">
+    <value>No puedes formar una canción con partes con una canción</value>
+  </data>
+  <data name="error_defusion" xml:space="preserve">
+    <value>No puedes defusionar una canción normal.</value>
+  </data>
+  <data name="defusionarCancionPartes" xml:space="preserve">
+    <value>Deshacer canción con partes</value>
   </data>
 </root>

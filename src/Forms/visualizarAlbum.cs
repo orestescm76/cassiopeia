@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using aplicacion_musica.src.Forms;
+using System.Collections.Generic;
 
 namespace aplicacion_musica
 {
@@ -103,7 +104,6 @@ namespace aplicacion_musica
             else
                 buttonAnotaciones.Text = Programa.textosLocal.GetString("reproducir");
             setBonusToolStripMenuItem.Text = Programa.textosLocal.GetString("setBonus");
-            setLargaToolStripMenuItem.Text = Programa.textosLocal.GetString("setLarga");
             reproducirToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducir");
             reproducirspotifyToolStripMenuItem.Text = Programa.textosLocal.GetString("reproducirSpotify");
             buttonPATH.Text = Programa.textosLocal.GetString("calcularPATHS");
@@ -114,6 +114,33 @@ namespace aplicacion_musica
                 buttonPATH.Font = neo;
             }
             verLyricsToolStripMenuItem.Text = Programa.textosLocal.GetString("verLyrics");
+            fusionarToolStripMenuItem.Text = Programa.textosLocal.GetString("fusionarCancionPartes");
+            defusionarToolStripMenuItem.Text = Programa.textosLocal.GetString("defusionarCancionPartes");
+        }
+        private void refrescarVista()
+        {
+            ponerTextos();
+            vistaCanciones.Items.Clear();
+            int i = 0;
+            foreach (Cancion c in albumAVisualizar.canciones)
+            {
+                String[] datos = new string[3];
+                datos[0] = (i + 1).ToString();
+                c.ToStringArray().CopyTo(datos, 1);
+                ListViewItem item = new ListViewItem(datos);
+
+                if (c is CancionLarga)
+                {
+                    item.BackColor = Color.LightSalmon;
+                }
+                if (c.Bonus)
+                {
+                    item.BackColor = Color.SkyBlue;
+                }
+                vistaCanciones.Items.Add(item);
+                i++;
+            }
+
         }
         private void cargarVista()
         {
@@ -364,13 +391,18 @@ namespace aplicacion_musica
             foreach (ListViewItem item in vistaCanciones.SelectedItems)
             {
                 Cancion c = albumAVisualizar.canciones[Convert.ToInt32(item.SubItems[0].Text)-1];
-                albumAVisualizar.duracion -= c.duracion;
-                c.Bonus = true;
+                if(c.Bonus)
+                {
+                    c.Bonus = false;
+                    albumAVisualizar.duracion += c.duracion;
+                }
+                else
+                {
+                    c.Bonus = true;
+                    albumAVisualizar.duracion -= c.duracion;
+                }
             }
-            visualizarAlbum vNew = new visualizarAlbum(ref albumAVisualizar);
-            Dispose();
-            Close();
-            vNew.Show();
+            refrescarVista();
         }
 
         private void vistaCanciones_MouseClick(object sender, MouseEventArgs e)
@@ -499,11 +531,59 @@ namespace aplicacion_musica
         }
         private void clickDerechoConfig_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Cancion cancion = albumAVisualizar.getCancion(vistaCanciones.SelectedItems[0].Index);
-            if (cancion.PATH == null)
-                reproducirToolStripMenuItem.Enabled = false;
+            defusionarToolStripMenuItem.Visible = true;
+            fusionarToolStripMenuItem.Visible = true;
+            int i = vistaCanciones.SelectedItems[0].Index;
+            Cancion seleccion = albumAVisualizar.getCancion(i);
+            if (vistaCanciones.SelectedItems.Count > 1)
+                defusionarToolStripMenuItem.Visible = false;
+            if (!(seleccion is CancionLarga))
+                defusionarToolStripMenuItem.Visible = false;
             else
-                reproducirToolStripMenuItem.Enabled = true;
+                fusionarToolStripMenuItem.Visible = false;
+        }
+        private void fusionarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (vistaCanciones.SelectedItems.Count == 1)
+            {
+                MessageBox.Show(Programa.textosLocal.GetString("error_fusionsingular"));
+                return;
+            }
+            int num = vistaCanciones.SelectedItems[0].Index;
+            List<Cancion> cancionesABorrar = new List<Cancion>();
+            CancionLarga cl = new CancionLarga();
+            cl.SetAlbum(albumAVisualizar);
+            cl.titulo = albumAVisualizar.getCancion(num).titulo;
+            foreach (ListViewItem cancionItem in vistaCanciones.SelectedItems)
+            {
+                int i = cancionItem.Index;
+                Cancion c = albumAVisualizar.getCancion(i);
+                cl.addParte(ref c);
+                cancionesABorrar.Add(c);
+            }
+            albumAVisualizar.agregarCancion(cl, num); //should work...
+            foreach (Cancion c in cancionesABorrar)
+                albumAVisualizar.QuitarCancion(c);
+            refrescarVista();
+        }
+
+        private void defusionarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListViewItem item = vistaCanciones.SelectedItems[0];
+            int num = item.Index;
+            if (!(albumAVisualizar.canciones[num] is CancionLarga))
+            {
+                MessageBox.Show(Programa.textosLocal.GetString("error_defusion"));
+                return;
+            }
+            CancionLarga cl = (CancionLarga)albumAVisualizar.getCancion(num);
+            foreach (Cancion parte in cl.Partes)
+            {
+                albumAVisualizar.agregarCancion(parte, num);
+                num++;
+            }
+            albumAVisualizar.QuitarCancion(cl);
+            refrescarVista();
         }
     }
 }
