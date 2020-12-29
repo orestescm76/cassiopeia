@@ -623,8 +623,8 @@ namespace aplicacion_musica
             switch (TipoVista)
             {
                 case TipoVista.Digital:
-                    i = vistaAlbumes.SelectedItems[0].SubItems[0].Text + " - " + vistaAlbumes.SelectedItems[0].SubItems[1].Text + ". ("
-                        + vistaAlbumes.SelectedItems[0].SubItems[2].Text + ") (" + vistaAlbumes.SelectedItems[0].SubItems[3].Text + ") (" + vistaAlbumes.SelectedItems[0].SubItems[4].Text + ")";
+                    Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]);
+                    i = a.GetPortapapeles();
                     break;
                 case TipoVista.CD:
 

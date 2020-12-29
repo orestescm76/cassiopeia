@@ -191,13 +191,20 @@ namespace aplicacion_musica
         }
         public string GetPortapapeles()
         {
-            return Config.Portapapeles.
-                Replace("%artist%", artista).
-                Replace("%title%", nombre).
-                Replace("%year%", year.ToString()).
-                Replace("%genre%", genero.traducido).
-                Replace("%length%", duracion.ToString()).
-                Replace("%length_seconds%", ((int)duracion.TotalSeconds).ToString());
+            string val = Config.Portapapeles.Replace("%artist%", artista); //Es seguro.
+            try
+            {
+                val = val.Replace("%title%", nombre);
+                val = val.Replace("%year%", year.ToString());
+                val = val.Replace("%genre%", genero.traducido);
+                val = val.Replace("%length%", duracion.ToString());
+                val = val.Replace("%length_seconds%", ((int)duracion.TotalSeconds).ToString());
+                return val;
+            }
+            catch (NullReferenceException)
+            {
+                return val;
+            }
         }
     }
 }
