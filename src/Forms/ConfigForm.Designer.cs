@@ -54,7 +54,6 @@
             treeNode2});
             this.treeViewConfiguracion.Size = new System.Drawing.Size(246, 549);
             this.treeViewConfiguracion.TabIndex = 0;
-            this.treeViewConfiguracion.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewConfiguracion_AfterSelect);
             this.treeViewConfiguracion.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewConfiguracion_NodeMouseClick);
             // 
             // buttonAplicar

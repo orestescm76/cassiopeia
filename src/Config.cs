@@ -42,6 +42,7 @@ namespace aplicacion_musica
             guardador.AddResource("TipografiaLyrics", TipografiaLyrics);
             guardador.AddResource("VinculadoConSpotify", VinculadoConSpotify.ToString());
             guardador.AddResource("UltimoDirectorioAbierto", UltimoDirectorioAbierto);
+            guardador.AddResource("Portapapeles", Portapapeles);
             guardador.Close();
         }
         public static Image GetIconoBandera()

@@ -43,7 +43,7 @@ namespace aplicacion_musica.src.Forms
             buttonAplicar.Text = Programa.textosLocal.GetString("aplicar");
             buttonOK.Text = Programa.textosLocal.GetString("aceptar");
             buttonCancelar.Text = Programa.textosLocal.GetString("cancelar");
-            CargarPagina();
+            treeViewConfiguracion.Nodes[1].Text = Programa.textosLocal.GetString("cambiar_portapapeles");
         }
         private void CargarIdiomas()
         {
@@ -143,21 +143,12 @@ namespace aplicacion_musica.src.Forms
         {
             label1.Show();
         }
-        private void CargarPagina()
+        private void CargarPagina(string tag)
         {
             label1.Hide();
             groupBoxRaiz.Controls.Clear();
-            string seleccion = string.Empty;
-            try
-            {
-                seleccion = treeViewConfiguracion.SelectedNode.Tag.ToString();
-            }
-            catch (NullReferenceException)
-            {
-                System.Diagnostics.Debug.WriteLine("fuck off");
-            }
 
-            switch (seleccion)
+            switch (tag)
             {
                 case "idioma":
                     CargarIdiomas();
@@ -170,7 +161,6 @@ namespace aplicacion_musica.src.Forms
                     label1.Show();
                     break;
             }
-
         }
         private void groupBoxIdioma_Enter(object sender, EventArgs e)
         {
@@ -179,7 +169,7 @@ namespace aplicacion_musica.src.Forms
 
         private void treeViewConfiguracion_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            CargarPagina();
+            CargarPagina(e.Node.Tag.ToString());
         }
         private void Aplicar(ConfigActiva config)
         {
@@ -210,11 +200,6 @@ namespace aplicacion_musica.src.Forms
         {
             Aplicar(config);
             Close();
-        }
-
-        private void treeViewConfiguracion_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-
         }
     }
 }

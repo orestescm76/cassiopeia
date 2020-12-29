@@ -39,7 +39,7 @@ namespace aplicacion_musica
         public static readonly string version = ver.ToString()+ " ";
         public static string[] idiomas;
         public static Spotify _spotify;
-        private static principal principal;
+        private static principal principal = null;
         public static bool ModoOscuro = false;
         public static readonly string CodeName = "Cockroach";
         public static bool SpotifyActivado = true;
@@ -478,7 +478,7 @@ namespace aplicacion_musica
         {
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            //Application.SetCompatibleTextRenderingDefault(false);
             Config.CargarConfiguracion();
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Config.Idioma + ".resx");
             //Cargar idiomas...
