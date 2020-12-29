@@ -45,10 +45,10 @@
             // 
             // buscarButton
             // 
-            this.buscarButton.Location = new System.Drawing.Point(140, 125);
+            this.buscarButton.Location = new System.Drawing.Point(146, 125);
             this.buscarButton.Name = "buscarButton";
             this.buscarButton.Size = new System.Drawing.Size(75, 23);
-            this.buscarButton.TabIndex = 1;
+            this.buscarButton.TabIndex = 0;
             this.buscarButton.Text = "Buscar";
             this.buscarButton.UseVisualStyleBackColor = true;
             this.buscarButton.Click += new System.EventHandler(this.button1_Click);

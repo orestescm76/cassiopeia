@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("idioma");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("idioma");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("portapapeles");
             this.treeViewConfiguracion = new System.Windows.Forms.TreeView();
             this.buttonAplicar = new System.Windows.Forms.Button();
             this.buttonCancelar = new System.Windows.Forms.Button();
@@ -42,13 +43,18 @@
             // 
             this.treeViewConfiguracion.Location = new System.Drawing.Point(12, 12);
             this.treeViewConfiguracion.Name = "treeViewConfiguracion";
-            treeNode5.Name = "idioma";
-            treeNode5.Tag = "idioma";
-            treeNode5.Text = "idioma";
+            treeNode1.Name = "idioma";
+            treeNode1.Tag = "idioma";
+            treeNode1.Text = "idioma";
+            treeNode2.Name = "portapapeles";
+            treeNode2.Tag = "portapapeles";
+            treeNode2.Text = "portapapeles";
             this.treeViewConfiguracion.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5});
+            treeNode1,
+            treeNode2});
             this.treeViewConfiguracion.Size = new System.Drawing.Size(246, 549);
             this.treeViewConfiguracion.TabIndex = 0;
+            this.treeViewConfiguracion.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewConfiguracion_AfterSelect);
             this.treeViewConfiguracion.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewConfiguracion_NodeMouseClick);
             // 
             // buttonAplicar

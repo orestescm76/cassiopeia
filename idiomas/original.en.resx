@@ -601,4 +601,13 @@
   <data name="fusionarCancionPartes" xml:space="preserve">
     <value>Merge as a multipart song</value>
   </data>
+  <data name="copiarImagen" xml:space="preserve">
+    <value>Copy album cover to clipboard</value>
+  </data>
+  <data name="cambiar_portapapeles" xml:space="preserve">
+    <value>Clipboard config</value>
+  </data>
+  <data name="portapapeles_vistaprevia" xml:space="preserve">
+    <value>Preview</value>
+  </data>
 </root>

@@ -75,10 +75,6 @@ namespace aplicacion_musica
         {
             return Convert.ToInt32(duracion.TotalMilliseconds);
         }
-        public int GetBonus()
-        {
-            return Bonus ? 1 : 0;
-        }
         public void SetAlbum(Album a)
         {
             album = a;

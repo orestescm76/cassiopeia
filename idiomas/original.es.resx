@@ -605,4 +605,13 @@
   <data name="defusionarCancionPartes" xml:space="preserve">
     <value>Deshacer canción con partes</value>
   </data>
+  <data name="copiarImagen" xml:space="preserve">
+    <value>Copiar carátula al portapapeles</value>
+  </data>
+  <data name="cambiar_portapapeles" xml:space="preserve">
+    <value>Configurar el portapapeles</value>
+  </data>
+  <data name="portapapeles_vistaprevia" xml:space="preserve">
+    <value>Vista previa</value>
+  </data>
 </root>

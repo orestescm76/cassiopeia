@@ -12,6 +12,7 @@ namespace aplicacion_musica
         public static string TipografiaLyrics;
         public static bool VinculadoConSpotify;
         public static string UltimoDirectorioAbierto;
+        public static string Portapapeles; //String que almacena cómo se guarda un álbum al portapapeles.
         private static ResXResourceSet cargador;
         private static ResXResourceWriter guardador;
         public static void CargarConfiguracion()
@@ -23,6 +24,7 @@ namespace aplicacion_musica
                 TipografiaLyrics = cargador.GetString("TipografiaLyrics");
                 UltimoDirectorioAbierto = cargador.GetString("UltimoDirectorioAbierto");
                 VinculadoConSpotify = Convert.ToBoolean(cargador.GetString("VinculadoConSpotify"));
+                Portapapeles = cargador.GetString("Portapapeles");
             }
             else
             {
@@ -30,6 +32,7 @@ namespace aplicacion_musica
                 TipografiaLyrics = Properties.Resources.TipografiaLyrics;
                 VinculadoConSpotify = Convert.ToBoolean(Properties.Resources.VinculadoConSpotify);
                 UltimoDirectorioAbierto = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+                Portapapeles = "%artist% - %title% (%year%)";
             }
             guardador = new ResXResourceWriter("config.cfg");
         }

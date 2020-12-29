@@ -11,9 +11,18 @@ using System.Windows.Forms;
 
 namespace aplicacion_musica.src.Forms
 {
+    enum ConfigActiva
+    {
+        Idioma,
+        Portapapeles
+    }
     public partial class ConfigForm : Form
     {
-
+        RadioButton[] radioButtonsIdiomas;
+        TextBox portapapelesConfig;
+        Label vistaPreviaPortapapeles;
+        Album test = new Album("Sabbath Bloddy Sabbath", "Black Sabbath", 1973, 0);
+        ConfigActiva config;
         public ConfigForm()
         {
             InitializeComponent();
@@ -38,7 +47,8 @@ namespace aplicacion_musica.src.Forms
         }
         private void CargarIdiomas()
         {
-            RadioButton[] radioButtonsIdiomas = new RadioButton[Programa.NumIdiomas];
+            config = ConfigActiva.Idioma;
+            radioButtonsIdiomas = new RadioButton[Programa.NumIdiomas];
             PictureBox[] pictureBoxesIdiomas = new PictureBox[Programa.NumIdiomas];
             groupBoxRaiz.Text = Programa.textosLocal.GetString("cambiar_idioma");
             int y = 44;
@@ -78,6 +88,57 @@ namespace aplicacion_musica.src.Forms
                 pictureBoxesIdiomas[i].Show();
             }
         }
+        private void CargarPortapapeles()
+        {
+            config = ConfigActiva.Portapapeles;
+            vistaPreviaPortapapeles = new Label();
+            groupBoxRaiz.Text = Programa.textosLocal.GetString("cambiar_portapapeles");
+            portapapelesConfig = new TextBox();
+            portapapelesConfig.TextChanged += PortapapelesConfig_TextChanged;
+            portapapelesConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
+            Size size = portapapelesConfig.Size; size.Width = 500; portapapelesConfig.Size = size;
+            portapapelesConfig.Font = new Font("Segoe UI", 9);
+            portapapelesConfig.Text = Config.Portapapeles;
+            vistaPreviaPortapapeles.Location = new Point(portapapelesConfig.Location.X, portapapelesConfig.Location.Y + 30);
+            vistaPreviaPortapapeles.AutoSize = true;
+            vistaPreviaPortapapeles.Font = portapapelesConfig.Font;
+            string val = Config.Portapapeles.Replace("%artist%", test.artista); //Es seguro.
+            try
+            {
+                val = val.Replace("%artist%", test.artista);
+                val = val.Replace("%title%", test.nombre);
+                val = val.Replace("%year%", test.year.ToString());
+                val = val.Replace("%genre%", test.genero.traducido);
+                val = val.Replace("%length%", test.duracion.ToString());
+                val = val.Replace("%length_seconds%", ((int)test.duracion.TotalSeconds).ToString());
+                vistaPreviaPortapapeles.Text = val;
+            }
+            catch (NullReferenceException)
+            {
+                vistaPreviaPortapapeles.Text = val;
+            }
+            groupBoxRaiz.Controls.Add(portapapelesConfig);
+            groupBoxRaiz.Controls.Add(vistaPreviaPortapapeles);
+        }
+
+        private void PortapapelesConfig_TextChanged(object sender, EventArgs e)
+        {
+            string val = portapapelesConfig.Text.Replace("%artist%", test.artista); //Es seguro.
+            try
+            {
+                val = val.Replace("%artist%", test.artista);
+                val = val.Replace("%title%", test.nombre);
+                val = val.Replace("%year%", test.year.ToString());
+                val = val.Replace("%genre%", test.genero.traducido);
+                val = val.Replace("%length%", test.duracion.ToString());
+                val = val.Replace("%length_seconds%", ((int)test.duracion.TotalSeconds).ToString());
+                vistaPreviaPortapapeles.Text = val;
+            }
+            catch (NullReferenceException)
+            {
+                vistaPreviaPortapapeles.Text = val;
+            }
+        }
         private void Limpiar()
         {
             label1.Show();
@@ -101,6 +162,9 @@ namespace aplicacion_musica.src.Forms
                 case "idioma":
                     CargarIdiomas();
                     break;
+                case "portapapeles":
+                    CargarPortapapeles();
+                    break;
                 default:
                     groupBoxRaiz.Controls.Add(label1);
                     label1.Show();
@@ -117,20 +181,40 @@ namespace aplicacion_musica.src.Forms
         {
             CargarPagina();
         }
-        private void Aplicar()
+        private void Aplicar(ConfigActiva config)
         {
-            
-            PonerTextos();
+            switch (config)
+            {
+                case ConfigActiva.Idioma:
+                    for (int i = 0; i < radioButtonsIdiomas.Length; i++)
+                    {
+                        if (radioButtonsIdiomas[i].Checked)
+                            Programa.cambiarIdioma(Programa.idiomas[i]);
+                    }
+                    PonerTextos();
+                    break;
+                case ConfigActiva.Portapapeles:
+                    Config.Portapapeles = portapapelesConfig.Text;
+                    break;
+                default:
+                    break;
+            }
+
         }
         private void buttonAplicar_Click(object sender, EventArgs e)
         {
-            Aplicar();
+            Aplicar(config);
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            Aplicar();
+            Aplicar(config);
             Close();
+        }
+
+        private void treeViewConfiguracion_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
         }
     }
 }

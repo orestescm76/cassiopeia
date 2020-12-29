@@ -189,5 +189,15 @@ namespace aplicacion_musica
             numCanciones--;
             duracion -= c.duracion;
         }
+        public string GetPortapapeles()
+        {
+            return Config.Portapapeles.
+                Replace("%artist%", artista).
+                Replace("%title%", nombre).
+                Replace("%year%", year.ToString()).
+                Replace("%genre%", genero.traducido).
+                Replace("%length%", duracion.ToString()).
+                Replace("%length_seconds%", ((int)duracion.TotalSeconds).ToString());
+        }
     }
 }
