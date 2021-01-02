@@ -471,6 +471,7 @@ namespace aplicacion_musica
                 busquedaSpotify b = new busquedaSpotify();
                 if(b.ShowDialog() == DialogResult.No)
                     Programa._spotify.buscarAlbum(BusquedaSpotify);
+                b.Dispose();
             }
             catch (NullReferenceException)
             {

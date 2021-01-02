@@ -7,10 +7,8 @@ using System.Resources;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Configuration;
 using System.Threading;
 using System.Collections.Generic;
-using System.IO.Ports;
 using System.Net;
 /* VERSION 1.6.xx CODENAME COCKROACH
 * Reproductor:

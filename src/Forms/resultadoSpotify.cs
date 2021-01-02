@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SpotifyAPI.Web.Models;
@@ -57,22 +52,21 @@ namespace aplicacion_musica
             if(!EditarID)
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir " + listViewResultadoBusqueda.SelectedItems.Count +
-                    " albumes", TipoMensaje.Info);
+                    " álbumes", TipoMensaje.Info);
                 Stopwatch crono = Stopwatch.StartNew();
                 for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
                 {
-                    int cual = listViewResultadoBusqueda.Items.IndexOf(listViewResultadoBusqueda.SelectedItems[i]);//la imagen tiene url
-                    SimpleAlbum temp = listaBusqueda[cual];
-                    Programa._spotify.procesarAlbum(temp);
+                    int cual = Convert.ToInt32(listViewResultadoBusqueda.SelectedItems[i].SubItems[0].Text);//la imagen tiene url
+                    Programa._spotify.procesarAlbum(listaBusqueda[cual - 1]);
                 }
                 DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
                 crono.Stop();
-                Console.WriteLine("Agregdos " + listViewResultadoBusqueda.SelectedItems.Count + " albumes correctamente en " + crono.ElapsedMilliseconds + "ms");
+                Console.WriteLine("Agregdos " + listViewResultadoBusqueda.SelectedItems.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + "ms");
                 Programa.refrescarVista();
             }
             else
             {
-                int IndexAlbum = listViewResultadoBusqueda.SelectedItems[0].Index;
+                int IndexAlbum = Convert.ToInt32(listViewResultadoBusqueda.SelectedItems[0].SubItems[0].Text);
                 SimpleAlbum temp = listaBusqueda[IndexAlbum];
                 AlbumAEditar.SetSpotifyID(temp.Id);
             }

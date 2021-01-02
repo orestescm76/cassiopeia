@@ -29,19 +29,19 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(busquedaSpotify));
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxBusqueda = new System.Windows.Forms.TextBox();
             this.buscarButton = new System.Windows.Forms.Button();
             this.labelBusqueda = new System.Windows.Forms.Label();
             this.textBoxURISpotify = new System.Windows.Forms.TextBox();
             this.labelAlternativa = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBox1
+            // textBoxBusqueda
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 39);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(330, 20);
-            this.textBox1.TabIndex = 0;
+            this.textBoxBusqueda.Location = new System.Drawing.Point(12, 39);
+            this.textBoxBusqueda.Name = "textBoxBusqueda";
+            this.textBoxBusqueda.Size = new System.Drawing.Size(330, 20);
+            this.textBoxBusqueda.TabIndex = 0;
             // 
             // buscarButton
             // 
@@ -72,7 +72,7 @@
             // labelAlternativa
             // 
             this.labelAlternativa.AutoSize = true;
-            this.labelAlternativa.Location = new System.Drawing.Point(13, 83);
+            this.labelAlternativa.Location = new System.Drawing.Point(12, 73);
             this.labelAlternativa.Name = "labelAlternativa";
             this.labelAlternativa.Size = new System.Drawing.Size(60, 13);
             this.labelAlternativa.TabIndex = 4;
@@ -87,7 +87,7 @@
             this.Controls.Add(this.textBoxURISpotify);
             this.Controls.Add(this.labelBusqueda);
             this.Controls.Add(this.buscarButton);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxBusqueda);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "busquedaSpotify";
@@ -99,7 +99,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxBusqueda;
         private System.Windows.Forms.Button buscarButton;
         private System.Windows.Forms.Label labelBusqueda;
         private System.Windows.Forms.TextBox textBoxURISpotify;
