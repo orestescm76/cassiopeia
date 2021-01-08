@@ -493,14 +493,14 @@ namespace aplicacion_musica
             }
 
             Log Log = Log.Instance;
-            //string versionNueva;
-            //if (HayActualizacions(out versionNueva))
-            //{
-            //    Log.ImprimirMensaje("Está disponible la actualización " + versionNueva, TipoMensaje.Info);
-            //    DialogResult act = MessageBox.Show(textosLocal.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + textosLocal.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
-            //    if (act == DialogResult.Yes)
-            //        Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
-            //}
+            string versionNueva;
+            if (HayActualizacions(out versionNueva))
+            {
+                Log.ImprimirMensaje("Está disponible la actualización " + versionNueva, TipoMensaje.Info);
+                DialogResult act = MessageBox.Show(textosLocal.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + textosLocal.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
+                if (act == DialogResult.Yes)
+                    Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
+            }
             if (args.Contains("-consola"))
             {
                 AllocConsole();

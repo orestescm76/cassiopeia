@@ -842,6 +842,7 @@ namespace aplicacion_musica
                             Cancion c = new Cancion(LM.Titulo, (int)Reproductor.Instancia.getDuracionFromFile(cancion.FullName).TotalMilliseconds, false);
                             c.PATH = cancion.FullName;
                             c.Num = LM.Pista;
+                            a.year = (short)LM.Año;
                             c.SetAlbum(a);
                             a.agregarCancion(c);
                             break;

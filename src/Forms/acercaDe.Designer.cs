@@ -38,7 +38,7 @@
             // 
             this.labelAcercaDe.AutoSize = true;
             this.labelAcercaDe.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAcercaDe.Location = new System.Drawing.Point(45, 185);
+            this.labelAcercaDe.Location = new System.Drawing.Point(0, 166);
             this.labelAcercaDe.Name = "labelAcercaDe";
             this.labelAcercaDe.Size = new System.Drawing.Size(393, 189);
             this.labelAcercaDe.TabIndex = 0;
@@ -66,8 +66,10 @@
             this.Controls.Add(this.pictureBoxBanner);
             this.Controls.Add(this.labelAcercaDe);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "acercaDe";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "acercaDe";

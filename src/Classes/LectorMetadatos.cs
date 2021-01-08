@@ -48,24 +48,35 @@ namespace aplicacion_musica
                     Titulo = _FLACfile.TITLE;
                     Album = _FLACfile.ALBUM;
                     Pista = Convert.ToInt32(_FLACfile.TRACKNUMBER);
-                    Año = 0;
+                    try
+                    {
+                        Año = Convert.ToInt32(_FLACfile.DATE);
+                    }
+                    catch (FormatException)
+                    {
+                        Log.Instance.ImprimirMensaje("No se ha podido extraer la fecha del FLAC", TipoMensaje.Advertencia);
+                        Año = 0;
+                    }
                     break;
                 case ".ogg":
                     _vorbisReader = new VorbisReader(s);
                     Artista = _vorbisReader.Tags.Artist;
                     Titulo = _vorbisReader.Tags.Title;
                     Album = _vorbisReader.Tags.Album;
-                    Año = 0;
-                    Cerrar();
+                    try
+                    {
+                        Año = Convert.ToInt32(_vorbisReader.Tags.Dates[0]);
+                    }
+                    catch (FormatException)
+                    {
+                        Log.Instance.ImprimirMensaje("No se ha podido extraer la fecha del OGG", TipoMensaje.Advertencia);
+                        Año = 0;
+                    }
+                    _vorbisReader.Dispose();
                     break;
                 default:
                     break;
             }
-        }
-        private void Cerrar()
-        {
-            if (_vorbisReader != null)
-                _vorbisReader.Dispose();
         }
         public bool Evaluable()
         {

@@ -314,6 +314,18 @@ namespace aplicacion_musica
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
+            if(c.album == null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
+            {
+                DirectoryInfo dir = new DirectoryInfo(c.PATH);
+                dir = dir.Parent;
+                if(File.Exists(dir.FullName + "\\folder.jpg"))
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\folder.jpg");
+                else if(File.Exists(dir.FullName + "\\cover.jpg"))
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.jpg");
+                else if (File.Exists(dir.FullName + "\\cover.png"))
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.png");
+
+            }
             string s = "";
             try
             {
@@ -361,7 +373,12 @@ namespace aplicacion_musica
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.caratula);
                 else
                 {
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.DirectorioSonido + "\\folder.jpg");
+                    if(File.Exists(c.album.DirectorioSonido + "\\cover.jpg"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.DirectorioSonido + "\\cover.jpg");
+                    else if (File.Exists(c.album.DirectorioSonido + "\\cover.png"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.DirectorioSonido + "\\cover.png");
+                    else if (File.Exists(c.album.DirectorioSonido + "\\folder.jpg"))
+                            pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.DirectorioSonido + "\\folder.jpg");
                 }
             }
             else
@@ -580,12 +597,6 @@ namespace aplicacion_musica
             {
                 TimeSpan tRes = dur - pos;
                 labelDuracion.Text = "-" + tRes.ToString(@"mm\:ss");
-                //int secsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) % 60);
-                //int minsRestantes = (int)((dur.TotalSeconds - pos.TotalSeconds) / 60);
-                //if(secsRestantes < 10)
-                //    labelDuracion.Text = "-" + minsRestantes + ":0" + secsRestantes; 
-                //else
-                //    labelDuracion.Text = "-" + minsRestantes + ":" + secsRestantes; 
             }
             else
             {
@@ -1054,7 +1065,11 @@ namespace aplicacion_musica
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
             controlBotones(false);
-            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+            pictureBoxCaratula.Image = Resources.albumdesconocido;
+            labelDuracion.Text = "XX:XX";
+            labelPosicion.Text = "0:00";
+            labelPorcentaje.Text = "0%";
+            Text = "";
         }
     }
 }

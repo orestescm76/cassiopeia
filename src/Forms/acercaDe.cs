@@ -23,6 +23,7 @@ namespace aplicacion_musica
                 Programa.textosLocal.GetString("agradecimiento1") + Environment.NewLine + "https://github.com/JohnnyCrazy/SpotifyAPI-NET" + Environment.NewLine +
                 Programa.textosLocal.GetString("agradecimiento3") + Environment.NewLine +
                 Programa.textosLocal.GetString("agradecimiento4") + Environment.NewLine;
+
             switch (Config.Idioma)
             {
                 case "ca":
@@ -38,6 +39,8 @@ namespace aplicacion_musica
                     break;
             }
             labelAcercaDe.Text = acercadeTexto;
+            int posX = Width - labelAcercaDe.Size.Width;
+            labelAcercaDe.Location = new Point(posX / 2, pictureBoxBanner.Size.Height + 1);
         }
         private void cambiarBanner()
         {

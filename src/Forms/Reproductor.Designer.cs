@@ -79,7 +79,7 @@
             // 
             // buttonReproducirPausar
             // 
-            this.buttonReproducirPausar.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.buttonReproducirPausar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonReproducirPausar.Location = new System.Drawing.Point(157, 408);
             this.buttonReproducirPausar.Name = "buttonReproducirPausar";
             this.buttonReproducirPausar.Size = new System.Drawing.Size(43, 42);
