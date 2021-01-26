@@ -1,0 +1,2821 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JAudioTags</name>
+    </assembly>
+    <members>
+        <member name="T:JAudioTags.AudioFileTypes">
+            <summary>
+            Used to indicate what kind of file we are working with?
+            (mu3 not currently implemented.)
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFileTypes.flac">
+            <summary>
+            File is a 'FLAC' audio file.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFileTypes.mp3">
+            <summary>
+            File is an 'MP3' audio file.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFileTypes.m3u">
+            <summary>
+            File is a 'M3U' playlist file
+            </summary>
+        </member>
+        <member name="T:JAudioTags.AudioFile">
+            <summary>
+            Parent class for audio files of all supported kinds: Flac; MP3.
+            Attemps to capture all common elements.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFile._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.AudioPath">
+            <summary>
+            The path to the audio file
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFile.ReadOnly">
+            <summary>
+            If true the file can be read but cannot be 
+            saved.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFile.OriginalTotalFileLength">
+            <summary>
+            How long was the file before we made changes?
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFile.StartOfMusic">
+            <summary>
+            Where, within the file does the music start?
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.NumberOfMusicBytes">
+            <summary>
+            How long is the music section of the file?
+            (This should not change as tags are edited.)
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.HasEmbeddedGraphic">
+            <summary>
+            Is there an embedded image?
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFile.MustRewriteWholeFile">
+            <summary>
+            Do we need to rewrite the entire file?
+            (Or can we get away with just overwriting the bits that 
+            have changed?)
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFile.IsCaseSensitive">
+            <summary>
+            Is tag name matching case sensitive?
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFile.PrimaryTagList">
+            <summary>
+            Holds the main list of tags.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.AudioFile.SecondaryTagList">
+            <summary>
+            Mp3 files can have two sets of tags: V2.x and V1.
+            This holds the deprecated v1 tags.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.AudioFile.Save(System.Boolean)">
+            <summary>
+            Called to commit in-memory tag changes to file.
+            </summary>
+            <param name="MakeBackup">Should we make a backup?</param>
+        </member>
+        <member name="M:JAudioTags.AudioFile.FileWalk(System.String,System.Func{System.String,JAudioTags.LazySW,System.Int32},System.Collections.Generic.List{System.String},System.String,System.String)">
+            <summary>
+            Walks a tree and visits every FILE.  Logs results and errors 
+            to file.
+            </summary>
+            <param name="Root">Root of the tree to be traversed</param>
+            <param name="ProcessFile">A method to process each file
+            in turn.</param>
+            <param name="FileExtensions">A list of file extensions to
+            match: "mp3" and "flac"</param>
+            <param name="LogPath">Path to results log file</param>
+            <param name="ErrorLogPath">Path to error log file</param>
+        </member>
+        <member name="M:JAudioTags.AudioFile.FileWalk(System.String,System.Func{System.String,JAudioTags.LazySW,System.Int32},System.Collections.Generic.List{System.String})">
+            <summary>
+            Walks a tree and visits every FILE.  DOES NOT log results and 
+            errors to file.
+            </summary>
+            <param name="Root">Root of the tree to be traversed</param>
+            <param name="ProcessFile">A method to process each file 
+            in turn.</param>
+            <param name="FileExtensions">A list of file extensions to
+            match: "mp3" and "flac"</param>
+        </member>
+        <member name="M:JAudioTags.AudioFile.DirWalk(System.String,System.Func{System.String,System.Collections.Generic.List{System.String},JAudioTags.LazySW,System.Int32},System.Collections.Generic.List{System.String},System.String,System.String)">
+            <summary>
+            Walks a tree and vists every DIRECTORY.  Logs results and errors to file.
+            </summary>
+            <param name="Root">Root of the tree to be traversed.</param>
+            <param name="ProcessDirectory">A method to process each directory in 
+            turn.</param>
+            <param name="FileExtensions">A list of file extensions to 
+            match: "mp3" and "flac"</param>
+            <param name="ResultsPath">Path to results log file</param>
+            <param name="ErrorLogPath">Path to error log file</param>
+        </member>
+        <member name="M:JAudioTags.AudioFile.DebugPrint(System.Boolean,System.Boolean)">
+            <summary>
+            Display debugging information on console.
+            </summary>
+            <param name="IncludeDetail">Should we display internal 
+            details?</param>
+            <param name="IncludeTags">Should we also display tags?</param>
+        </member>
+        <member name="M:JAudioTags.AudioFile.RewriteWholeFile(System.String)">
+            <summary>
+            Rewrites the whole of the file.
+            </summary>
+            <param name="TempPath">Path to hold temporary file</param>
+        </member>
+        <member name="M:JAudioTags.AudioFile.OverwriteWindow">
+            <summary>
+            Rewrites just the changed subset of the file.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.AudioFile.InMemoryUpdate">
+            <summary>
+            Reflects tag changes in in-memory data structures.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.AudioFile.SaveTestFile">
+            <summary>
+            Debugging method.
+            Generates a file with an unusual internal layout for test 
+            purposes.
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.ALBUM">
+            <summary>
+            Property wrapping the ALBUM tag
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.ALBUMARTIST">
+            <summary>
+            Property wrapping the ALBUMARTIST tag
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.ARTIST">
+            <summary>
+            Property wrapping the ARTIST tag
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.COMPOSER">
+            <summary>
+            Property wrapping the COMPOSER tag
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.DISCNUMBER">
+            <summary>
+            Property wrapping the DISCNUMBER tag
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.GENRE">
+            <summary>
+            Property wrapping the GENRE tag
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.TITLE">
+            <summary>
+            Property wrapping the TITLE tag
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.TRACKNUMBER">
+            <summary>
+            Property wrapping the TRACKNUMBER tag
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.DATE">
+            <summary>
+            Property wrapping the DATE tag
+            </summary>
+        </member>
+        <member name="P:JAudioTags.AudioFile.COMMENT">
+            <summary>
+            Property wrapping the COMMENT tag
+            </summary>
+        </member>
+        <member name="M:JAudioTags.AudioFile.ReturnTag(System.String)">
+            <summary>
+            If the current file is a FLAC file this searches the
+            tag list for the name as passed in and returns the 
+            corresponding value.
+            If the file is MP3 it maps the common tag name
+            (e.g. ARTIST) to the ID3 tag name (e.g. TPE1)
+            </summary>
+            <param name="Name">The name of the tag being queried</param>
+            <returns></returns>
+        </member>
+        <member name="M:JAudioTags.AudioFile.SetTag(System.String,System.String)">
+            <summary>
+            Removes all existing tags with name = Name
+            and adds a new tag with name = Name and value = Value.
+            If the file is a FLAC file name is unaltered.
+            If the file is an ID3 file it is replaced with the
+            IDE equivalent. (e.g. ALBUM is replaced with TALB)
+            </summary>
+            <param name="Name">The Tag Name</param>
+            <param name="Value">The value of the new tag</param>
+        </member>
+        <member name="P:JAudioTags.AudioFile.NumberOfTags">
+            <summary>
+            Returns the number of primary tags
+            </summary>
+        </member>
+        <member name="M:JAudioTags.AudioFile.GetEnumerator">
+            <summary>
+            Makes this class enumerable by publishing the 
+            enumerator of the Tag list member
+            </summary>
+            <returns>An enumerator</returns>
+        </member>
+        <member name="M:JAudioTags.AudioFile.GetBasicDetails(System.String,JAudioTags.LazySW)">
+            <summary>
+            Private method to be used by public Dump() method below.
+            Walks a tree and dumps core file attributes to a
+            tab separated file.
+            </summary>
+            <param name="FileName">The current file name</param>
+            <param name="SW">The 'lazy' StreamWriter to write to</param>
+            <returns>One for each file dumped.</returns>
+        </member>
+        <member name="M:JAudioTags.AudioFile.Dump(System.String,System.String,System.String)">
+            <summary>
+            Static method to walk a tree and dump basic attributes
+            of all FLAC and MP3 files to a file.
+            </summary>
+            <param name="Root">Roor of the tree</param>
+            <param name="Results">Path of log file</param>
+            <param name="Errors">Path of error file.</param>
+            <returns>The number of files dumped.</returns>
+        </member>
+        <member name="T:JAudioTags.ByteSource">
+            <summary>
+            Class: ByteSource
+            Wraps a BinaryReader so that it can get bytes from a file 
+            or from an in-memory byte array.
+            We may then access either using the same kind of object.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.ByteSource._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="F:JAudioTags.ByteSource.TheFile">
+            <summary>
+            Refers to the underlying stream
+            </summary>
+        </member>
+        <member name="F:JAudioTags.ByteSource.TheReader">
+            <summary>
+            The wrapped reader
+            </summary>
+        </member>
+        <member name="F:JAudioTags.ByteSource.IsFileBased">
+            <summary>
+            Is it built on a file or byte array? Used in disposing.
+            </summary>
+        </member>
+        <member name="P:JAudioTags.ByteSource.Length">
+            <summary>
+            Then total number of bytes in the file stream.
+            </summary>
+        </member>
+        <member name="P:JAudioTags.ByteSource.CurrentSeekPosition">
+            <summary>
+            Current seek position within stream
+            </summary>
+        </member>
+        <member name="P:JAudioTags.ByteSource.BytesRemaining">
+            <summary>
+            How many bytes remaining after the current seek position
+            </summary>
+        </member>
+        <member name="P:JAudioTags.ByteSource.EOF">
+            <summary>
+            Are we at the end of the file yet?
+            </summary>
+        </member>
+        <member name="M:JAudioTags.ByteSource.#ctor(System.String)">
+            <summary>
+            Constructor for file based source
+            </summary>
+            <param name="Path">Path to the file to be read</param>
+        </member>
+        <member name="M:JAudioTags.ByteSource.#ctor(System.Byte[])">
+            <summary>
+            Constructor for in-memory byte array based source
+            </summary>
+            <param name="TheBytes">A pre-populated array of bytes</param>
+        </member>
+        <member name="M:JAudioTags.ByteSource.MoveTo(System.Int64)">
+            <summary>
+            Advance seek position to NewSeekPosition in stream
+            </summary>
+            <param name="NewSeekPosition">Position in file</param>
+        </member>
+        <member name="M:JAudioTags.ByteSource.MoveTo(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            Nove the Seek point to a new position
+            </summary>
+            <param name="Offset">The new position (Relative to offset argument)</param>
+            <param name="Origin">Origin against which offset is used.</param>
+        </member>
+        <member name="M:JAudioTags.ByteSource.GetBytes(System.Int64,System.String)">
+            <summary>
+            Read and return bytes from the source
+            </summary>
+            <param name="HowMany">How many byte to return</param>
+            <param name="Message">Optional message to be passed to LongToInt()</param>
+            <returns>The Bytes returned</returns>
+        </member>
+        <member name="M:JAudioTags.ByteSource.GetBytes(System.Int64)">
+            <summary>
+            Read and return bytes from the source
+            </summary>
+            <param name="HowMany">How many byte to return</param>
+            <returns>The bytes requested</returns>
+        </member>
+        <member name="M:JAudioTags.ByteSource.PeekBytes(System.Int64)">
+            <summary>
+            Look ahead at the next bytes without moving the seek position.
+            </summary>
+            <param name="HowMany">How many bytes to look at</param>
+            <returns>The bytes 'peeked' at</returns>
+        </member>
+        <member name="M:JAudioTags.ByteSource.GetRestOfBytes">
+            <summary>
+            Return all bytes still unread
+            </summary>
+            <returns>All bytes still unread.</returns>
+        </member>
+        <member name="P:JAudioTags.ByteSource.IsDisposed">
+            <summary>
+            To implement iDisposable interface
+            Flag to indicate if already disposed
+            </summary>
+        </member>
+        <member name="M:JAudioTags.ByteSource.Dispose">
+            <summary>
+            To implement iDisposable interface
+            </summary>
+        </member>
+        <member name="M:JAudioTags.ByteSource.Dispose(System.Boolean)">
+            <summary>
+            To implement iDisposable interfac
+            </summary>
+            <param name="areDisposing">areDisposing</param>
+        </member>
+        <member name="M:JAudioTags.ByteSource.Finalize">
+            <summary>
+            To implement iDisposable interface
+            Filaniser
+            </summary>
+        </member>
+        <member name="T:JAudioTags.BadAudioFileException">
+            <summary>
+            An exception to flag internal errors in the audio file
+            </summary>
+        </member>
+        <member name="M:JAudioTags.BadAudioFileException.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:JAudioTags.BadAudioFileException.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:JAudioTags.BadAudioFileException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:JAudioTags.Helpers">
+            <summary>
+            A bunch of utility methods used elsewhere in the code.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.Helpers._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="M:JAudioTags.Helpers.PressAnyKeyToContinue">
+            <summary>
+            Displays "Press any key to continue..."
+            and waits for a key press
+            </summary>
+            <returns>The character pressed</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.ValueOfRightBits(System.Byte,System.Int32)">
+            <summary>
+            Returns the value represented by the rightmost 'n' bits
+            So ValueOfRightBits( 11110000, 5 ) would return 10000, or 16.
+            </summary>
+            <param name="Data">The byte conatining the bits</param>
+            <param name="NumberOfBits">How many bits to look at</param>
+            <returns>The value of the right most bits</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.ConvertFromBigEndian(System.Byte[])">
+            <summary>
+            Take an array of bytes representing an unsigned int with BigEndian encoding
+            and return the unisgned int.
+            </summary>
+            <param name="input">An array of bytes</param>
+            <returns>The bytes as a uint</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.IsBitSet(System.Byte,System.Int32)">
+            <summary>
+            Reports whether a bit is set in a byte
+            </summary>
+            <param name="TheByte">The byte</param>
+            <param name="Pos">The bit position</param>
+            <returns>Is the bit set?</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.UIntToThreeByteBigEndian(System.UInt32)">
+            <summary>
+            Takes a standard Windows little-endian 4-byte uint
+            and returns a 3-byte big-endian representation.
+            Used with FLAC metadata block header.
+            No error checking done to check it will fit.
+            </summary>
+            <param name="ui">The unsigned int to be converted</param>
+            <returns>Three bytes reprsenting the uInt in Big Endian</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.IntToFourByteBigEndian(System.Int32)">
+            <summary>
+            Takes a standard Windows little-endian 4-byte int
+            and returns a 4-byte big-endian representation.
+            </summary>
+            <param name="i">The int to be converted</param>
+            <returns>Four bytes reprsenting the int in Big Endian</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.LongToInt(System.Int64,System.String)">
+            <summary>
+            Tries to convert a long to an int.
+            Throws an exception if this is not possible
+            </summary>
+            <param name="x">The long to be converted</param>
+            <param name="Msg">Optional message to display</param>
+            <returns>The long converted to an int</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.SplitPath(System.String)">
+            <summary>
+            Splits a full file path into filename and folder.
+            </summary>
+            <param name="AudioPath"></param>
+            <returns>The full file path</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.BytesAreAll(System.Byte[],System.Byte)">
+            <summary>
+            Checks if all bytes in an array have the same specified value.
+            </summary>
+            <param name="TheBytes">The byte array to be searched</param>
+            <param name="TargetValue">The value they must all have</param>
+            <returns></returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.OverwriteASCIIStringIntoArray(System.Byte[],System.String,System.Int32,System.Int32)">
+            <summary>
+            Overwrites part of one byte array with bytes encoded from a string.
+            Uses ASCII encoding.
+            </summary>
+            <param name="Base">The array part of which will be overwritten.</param>
+            <param name="Overlay">A string that will be converted to ASCII bytes and 
+            then overwritten onto the base array.</param>
+            <param name="Position">Position within the array where overwriting will start.</param>
+            <param name="FieldLength">The maximum length of the field.  If overlay is longer
+            than this it is truncated.</param>
+        </member>
+        <member name="M:JAudioTags.Helpers.readString(System.String)">
+            <summary>
+            Display a prompt on the console then read and return a string.  
+            Ignore empty strings
+            </summary>
+            <param name="prompt">A text promt</param>
+            <returns>The string read.</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.readInt(System.String,System.Int32,System.Int32)">
+            <summary>
+            Read and return an int in a specified range
+            </summary>
+            <param name="prompt">A text promt</param>
+            <param name="low">Lowest acceptable return value</param>
+            <param name="high">Highest acceptable return value</param>
+            <returns>The integer read from the keyboard</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.Print(System.Byte[],System.Boolean)">
+            <summary>
+            Debugging method to print an array of bytes.
+            </summary>
+            <param name="TheBytes">The array of bytes to be printed</param>
+            <param name="Vertical">Vertical (true) or horizontal (false)</param>
+        </member>
+        <member name="M:JAudioTags.Helpers.JoinByteArrays(System.Collections.Generic.List{System.Byte[]})">
+            <summary>
+            Joins an arbitrary number of byte arrays.
+            </summary>
+            <param name="TheArrays">A List of byte arrays</param>
+            <returns>New array made from argument arrays</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.ViewTextFile(System.String)">
+            <summary>
+            Open NotePad++ and view a text file
+            </summary>
+            <param name="TextFilePath">The file to view</param>
+        </member>
+        <member name="M:JAudioTags.Helpers.JGetExtension(System.String)">
+            <summary>
+            Pass it a file path and it returns the extension
+            with the leading period removed and converted to upper case.
+            </summary>
+            <param name="FileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.MakeBackup(System.String,System.String)">
+            <summary>
+            Make a local backup copy of a file
+            </summary>
+            <param name="CurrentFile">The current full path and name of the file</param>
+            <param name="BackupFileExtension">The file extension to give the backup.</param>
+        </member>
+        <member name="M:JAudioTags.Helpers.RestoreFromBackup(System.String,System.String)">
+            <summary>
+            Restore a file from a local backup copy
+            </summary>
+            <param name="OriginalNameOfBackedUpFile">The name of the file that was backed up</param>
+            <param name="BackupFileExtension">The file extension used for the backup</param>
+        </member>
+        <member name="M:JAudioTags.Helpers.Equal(System.Byte[],System.String)">
+            <summary>
+            Compares a a byte array and a string
+            by converting the string into a byte array.
+            </summary>
+            <param name="A">The byte array</param>
+            <param name="S">The string</param>
+            <returns>True if they are equal</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.AbsolutePath(System.String,System.String,System.String@)">
+            <summary>
+            Pass it a relative path and the path to which that 
+            path is relative, it returns a corresponding absolute path.
+            </summary>
+            <param name="RelativePath">The relative path</param>
+            <param name="BasePath">The base path - the path where the relative
+            path starts from.</param>
+            <param name="AbsolutePath">An OUT Param.  The absolute path</param>
+            <returns>True if the two input paths are compatible so we can
+            calculate an absolute path.  False if they are not/</returns>
+        </member>
+        <member name="M:JAudioTags.Helpers.Split2(System.String,System.String,System.Boolean)">
+            <summary>
+            Splits a string into parts.
+            </summary>
+            <param name="Target">The string that gets split</param>
+            <param name="SplitChars">Characters used as split points</param>
+            <param name="Trim">If true, sub-strings are trimmed of leading and trailing spaces</param>
+            <returns>A lsit of substrings</returns>
+        </member>
+        <member name="T:JAudioTags.ExtensionMethods">
+            <summary>
+            An extension method to the in-built string class
+            to implement a ToUpper() method that does nothing
+            if CaseSensitive is true.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.ExtensionMethods.JToUpper(System.String)">
+            <summary>
+            Returns an upper case version of its argument
+            if the varibale AudioFile.IsCaseSensitive is true.
+            If not, the argument is returend unchanged.
+            </summary>
+            <param name="Input">The string to be changed to upper case</param>
+            <returns>The argument converted to upper case.</returns>
+        </member>
+        <member name="T:JAudioTags.LazySW">
+            <summary>
+            Implements a 'lazy' StreamWriter.  
+            It only creates a file when/if you ask 
+            it to actually write to the file.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.LazySW.LSW">
+            <summary>
+            A lazy object wrapping a StreamWriter
+            </summary>
+        </member>
+        <member name="F:JAudioTags.LazySW._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="M:JAudioTags.LazySW.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="Path"></param>
+        </member>
+        <member name="M:JAudioTags.LazySW.Dispose">
+            <summary>
+            To implement IDisposable
+            </summary>
+        </member>
+        <member name="M:JAudioTags.LazySW.Write(System.String)">
+            <summary>
+            Write a string
+            </summary>
+            <param name="S"></param>
+        </member>
+        <member name="M:JAudioTags.LazySW.WriteLine(System.String)">
+            <summary>
+            Write a string then move to a new line
+            </summary>
+            <param name="S"></param>
+        </member>
+        <member name="M:JAudioTags.LazySW.Write(System.Char)">
+            <summary>
+            Write a char
+            </summary>
+            <param name="C"></param>
+        </member>
+        <member name="M:JAudioTags.LazySW.Flush">
+            <summary>
+            Flush output to the stream
+            </summary>
+        </member>
+        <member name="M:JAudioTags.LazySW.Close">
+            <summary>
+            Close the stream
+            </summary>
+        </member>
+        <member name="T:JAudioTags.TagChecker">
+            <summary>
+            Implements a set of checks that are applied against a collection
+            of audio files.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.FilesProcessed">
+            <summary>
+            Counts the number of files examined.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.RegExFull">
+            <summary>
+            Regular expression to match a 'full' date : yyyy-mm-dd
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.RegExYear">
+            <summary>
+            Regular expression to match a year-only date : yyyy
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.GoodCharsList">
+            <summary>
+            Array containing all the characters that are acceptable
+            in a file name - for compatiblity with Windows and Unix.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.MandatoryTagsList">
+            <summary>
+            List of tags that must be present in ALL audio files.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.IgnoreList">
+            <summary>
+            Holds a list of file types that should be omitted
+            from checking - populated via constructor.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.InvariantTagsList">
+            <summary>
+            A list of tags that must be the same for all tracks in an album/folder.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.NumericTags">
+            <summary>
+            A list of tags that should be entirely numeric.
+            Will check that they are.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.TagList">
+            <summary>
+            Used to hold the mandatory tag information for all files in a directory.
+            The tags in each file are put into an array.
+            Each new array is added to this list.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.InvariantColumns">
+            <summary>
+            MandatoryTagsList lists all mandatory tags.  
+            InvariantTagsList lists tags that must be the same for all 
+            tracks in an album/folder.
+            This lists lists the positions of the latter within the former.
+            i.e. The numbers of the columns whose tag values must be invariant.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.NumericColumns">
+            <summary>
+            NumericTags holds the names of tag which should be numeric.
+            This is loaded with the corresponding column numbers.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.CheckTrackDigits">
+            <summary>
+            Should we check the number of digits in the track numbers
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagChecker.CheckInvariantGenres">
+            <summary>
+            Should we check that all files in a folder have the same genre?
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TagChecker.#ctor(System.Collections.Generic.List{System.String},System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="IList">Optional list of file types to be ignored</param>
+            <param name="CheckTrackDigits">Should we check how many digits in track numbers?</param>
+            <param name="CheckInvariantGenres">Should we check if all tracks in an album have the same genre?</param>
+            <param name="CheckInvariantDates">Should we check if all the tracks in an album have the same date</param>
+        </member>
+        <member name="M:JAudioTags.TagChecker.ProcessDirectory(System.String,System.Collections.Generic.List{System.String},JAudioTags.LazySW)">
+            <summary>
+            This is the key method of the class.
+            It is called for each directory in the tree being checked.
+            It does a few checks itself and calls other methods for other
+            checks.
+            </summary>
+            <param name="CurrentDir">The directory to be checked</param>
+            <param name="Exts">Not used in this application.  
+            (Reuired by DIrWalk method)</param>
+            <param name="ResultsFile">A 'lazy' stream writer to record
+            any tag errors found.</param>
+            <returns>1 - Because the DirWalk method requires 
+            a method that returns an int.</returns>
+        </member>
+        <member name="M:JAudioTags.TagChecker.AddToTagList(JAudioTags.AudioFile,JAudioTags.LazySW)">
+            <summary>
+            Reads the tags from an audio file and adds them to
+            the TagList list so that they can be checked later.
+            </summary>
+            <param name="AF">The AudioFile representation of the current file</param>
+            <param name="SW">A 'lazy' StreamWriter to record
+            any tagging problems found.</param>
+        </member>
+        <member name="M:JAudioTags.TagChecker.CheckDateAndGraphic(JAudioTags.AudioFile,System.String,JAudioTags.LazySW)">
+            <summary>
+            Checks the date format of the current music file.
+            </summary>
+            <param name="AF">The current audio file.</param>
+            <param name="Extension">The extenion of the current file name</param>
+            <param name="SW">'Lazy' StreamWriter to record errors.</param>
+        </member>
+        <member name="M:JAudioTags.TagChecker.VerifyTagsAreInvariant(System.String,JAudioTags.LazySW)">
+            <summary>
+            Checks that all tags that should not vary do not.
+            For example, all ALBUM tags should be the same for all
+            files in the same diretory.
+            </summary>
+            <param name="CurDir">The current directory</param>
+            <param name="SW">'Lazy' StreamWriter to record errors.</param>
+        </member>
+        <member name="M:JAudioTags.TagChecker.CheckTrackNumbers(System.String,JAudioTags.LazySW)">
+            <summary>
+            Checks track numbers in a folder:
+            - No duplicates.
+            - If > 9 tracks 2-digit numbers are used.
+            - If > 99 tracks 3-digit numbers are used.
+            </summary>
+            <param name="CurDir">The current directory</param>
+            <param name="SW">'Lazy' StreamWriter to record errors.</param>
+        </member>
+        <member name="M:JAudioTags.TagChecker.VerifyTagsAreNumeric(System.String,JAudioTags.LazySW)">
+            <summary>
+            Checks that tags that should be purely numeric
+            are purely numeric.
+            </summary>
+            <param name="CurDir">The current directory</param>
+            <param name="SW">StreamWriter for results</param>
+        </member>
+        <member name="M:JAudioTags.TagChecker.GetVal(JAudioTags.AudioFile,System.String)">
+            <summary>
+            Takes a tag name from the mandatory tags list
+            and retrieves the corresponding value from
+            within the audio file.
+            </summary>
+            <param name="AF">The Audiofile</param>
+            <param name="Tag">The name of the tag</param>
+            <returns></returns>
+        </member>
+        <member name="M:JAudioTags.TagChecker.CheckFiles(System.String,System.String,System.String)">
+            <summary>
+            This is the method called by client code to perform the checking.
+            Does a 'directory walk' and calls ProcessDirectory() against
+            each directory encountered.
+            </summary>
+            <param name="Root"></param>
+            <param name="ResultsFile"></param>
+            <param name="ErrorFile"></param>
+        </member>
+        <member name="T:JAudioTags.TagList">
+            <summary>
+            When an audio file is read from disc, a list of tags is created.
+            As we modify tags, it is this list that is changed.
+            this class implements a list of tags.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagList._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.TagList.AudioFileType">
+            <summary>
+            What kind of audio file are we working with?
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagList.TheList">
+            <summary>
+            The actual list of tags
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TagList.#ctor(JAudioTags.AudioFileTypes)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="AudioType">What kind of audio file will this 
+            be used with?</param>
+        </member>
+        <member name="M:JAudioTags.TagList.AddTag(System.String,System.String)">
+            <summary>
+            Builds a new tag and adds it to the tag list.
+            </summary>
+            <param name="Name">Name field of the new tag</param>
+            <param name="Value">Value field of the new tag</param>
+        </member>
+        <member name="M:JAudioTags.TagList.AddTag(JAudioTags.TagType)">
+            <summary>
+            Adds a tag to the tag list.
+            </summary>
+            <param name="NewTag">The tag to be added</param>
+        </member>
+        <member name="M:JAudioTags.TagList.CountTags">
+            <summary>
+            Returns how many tags currently in the list.
+            </summary>
+            <returns>How many tags</returns>
+        </member>
+        <member name="M:JAudioTags.TagList.CountTags(System.String)">
+            <summary>
+            Counts how many tags have the specified name.
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+            <returns>How many are found</returns>
+        </member>
+        <member name="M:JAudioTags.TagList.Exists(System.String)">
+            <summary>
+            Sees whether any tags with the given name exist.
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+            <returns>Whether or not any are found</returns>
+        </member>
+        <member name="M:JAudioTags.TagList.First(System.String)">
+            <summary>
+            Returns the value field of the first tag in the list 
+            having the name as specified.
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+            <returns>The value of the first matching tag</returns>
+        </member>
+        <member name="M:JAudioTags.TagList.RemoveAll(System.String)">
+            <summary>
+            Removes all tags from the list which have name equal
+            to the value specified.
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+        </member>
+        <member name="M:JAudioTags.TagList.RemoveFirst(System.String)">
+            <summary>
+            Removes the first tag from the list which has name
+            equal to the value specified.
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+        </member>
+        <member name="M:JAudioTags.TagList.RemoveExact(System.String,System.String)">
+            <summary>
+            Removes any tags with name and value matching those specified
+            </summary>
+            <param name="Name">Name to match</param>
+            <param name="Value">Value to match</param>
+        </member>
+        <member name="M:JAudioTags.TagList.ReplaceAll(System.String,System.String)">
+            <summary>
+            Remove all tags with the same name and adds a new tag
+            with the name and value supplied
+            </summary>
+            <param name="Name">Name to be removed then added</param>
+            <param name="Value">Value for the new tag to be added</param>
+        </member>
+        <member name="M:JAudioTags.TagList.ToString">
+            <summary>
+            Returns a class object as a string
+            </summary>
+            <returns>The string</returns>
+        </member>
+        <member name="M:JAudioTags.TagList.GetEnumerator">
+            <summary>
+            Makes this class enumerable by publishing the 
+            enumerator of the List member
+            </summary>
+            <returns>An enumerator</returns>
+        </member>
+        <member name="M:JAudioTags.TagList.AddFLACTestTags">
+            <summary>
+            A debugging method.
+            Adds some FLAC style tags to be used for testing.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TagList.AddV23TestTags">
+            <summary>
+            A debugging method.
+            Adds ID3 v2.3 style tags to used for testing.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TagList.ModifyList">
+            <summary>
+            A debugging method.  Lets you manipulate a list 'by hand'.
+            </summary>
+        </member>
+        <member name="T:JAudioTags.TagType">
+            <summary>
+            Class to hold a (Name, Value) tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagType._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.TagType.Name">
+            <summary>
+            The name of the tag - e.g. Artist
+            </summary>
+        </member>
+        <member name="P:JAudioTags.TagType.Value">
+            <summary>
+            The value of the tag - e.g. Pink Floyd
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagType.LongestTagName">
+            <summary>
+            Used to format ToString() output
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TagType.#ctor(System.String,System.String)">
+            <summary>
+            Constructor.
+            Takes two strings: Name and Value.
+            </summary>
+            <param name="name">String for tag 'name'</param>
+            <param name="value">String for tag 'value'</param>
+        </member>
+        <member name="M:JAudioTags.TagType.#ctor(JAudioTags.V23Frame)">
+            <summary>
+            Constructor
+            Makes a Tag from an V23 Frame
+            </summary>
+            <param name="TheFrame"></param>
+        </member>
+        <member name="M:JAudioTags.TagType.#ctor(System.Byte[])">
+            <summary>
+            Constructor
+            Pass it an array of bytes representing a FLAC/Ogg/Vorgis comment
+            and it extracts name and value to build a tag.
+            </summary>
+            <param name="TheBytes">Bytes representing the comment or frame</param>
+        </member>
+        <member name="M:JAudioTags.TagType.ToVorbisByteArray">
+            <summary>
+            Returns an array of bytes representing the fields of a tag
+            encoded as a FLAC/Ogg/Vorbis comment, suitable for inserting 
+            into a FLAC file.
+            </summary>
+            <returns>FLAC/Ogg/Vorbis comment byte array</returns>
+        </member>
+        <member name="M:JAudioTags.TagType.ToID3v23Frame(System.String,System.String)">
+            <summary>
+            Debugging method.
+            Allows us to hand-generate some ID3 v2.3 frames, in order to
+            then see whether we can re-read them.
+            </summary>
+            <param name="name">Name of the frame</param>
+            <param name="value">Value of the frame</param>
+            <returns>A new ID3v23Frame</returns>
+        </member>
+        <member name="M:JAudioTags.TagType.ToString">
+            <summary>
+            Override of ToString()
+            </summary>
+            <returns>A string represention of a tag</returns>
+        </member>
+        <member name="M:JAudioTags.TagType.WaterMark">
+            <summary>
+            Returns a Tag containing a flag to indicate that this 
+            library was used.
+            </summary>
+            <returns>A new tag</returns>
+        </member>
+        <member name="M:JAudioTags.TagType.FindEquals(System.Byte[])">
+            <summary>
+            Pass it a byte array and it returns the position of the 
+            first '=' (0x3d). Otherwise throws an exception.
+            Used with FLAC Vorbis tags.
+            </summary>
+            <param name="TheBytes">The byte array to be searched</param>
+            <returns>Position of the first '='</returns>
+        </member>
+        <member name="T:JAudioTags.Testing">
+            <summary>
+            A class to allow some rudimentary testing of the rest of the
+            code.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.Testing._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="F:JAudioTags.Testing.CurrentFilePath">
+            <summary>
+            Information about the current audio file
+            </summary>
+        </member>
+        <member name="F:JAudioTags.Testing.FLACTags">
+            <summary>
+            List of tags added during testing.
+            Used to avoid errors trying to delete tags
+            that have not been added.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.Testing.Payload">
+            <summary>
+            String used as value of tags added
+            </summary>
+        </member>
+        <member name="M:JAudioTags.Testing.Test(System.String,System.String,System.String)">
+            <summary>
+            This is the method we call from outside.
+            It performs a rudimentary test routine.
+            Point it at a test directory containing a bunch of flac and mp3 
+            files and it:
+             1.  Makes a backup of each file
+             2.  Makes some changes to the file
+             3.  Checks that all still seems OK with the file
+             4.  Restores the file from backup
+             
+            The method above (TestFiles()) controls what tests are done.
+            
+            This does not prove there are no bugs, it just increases confidence.
+            </summary>
+            <param name="RootPath">Path to the test directory</param>
+            <param name="ResultsPath">Path to a results file</param>
+            <param name="ErrorLogPath">Path to an error log file</param>
+        </member>
+        <member name="M:JAudioTags.Testing.TestFiles(System.String,JAudioTags.LazySW)">
+            <summary>
+            This is key method.  Modify it to change the tests performed.
+            </summary>
+            <param name="FileName">The path to the file to be tested</param>
+            <param name="SW">A lazy StreamWriter to log results</param>
+            <returns></returns>
+        </member>
+        <member name="M:JAudioTags.Testing.RemoveFirst(System.Boolean)">
+            <summary>
+            Choose a newly added tag type and remove the first
+            instance of that tag. 
+            </summary>
+            <param name="Save">Should we save the file to disc?</param>
+        </member>
+        <member name="M:JAudioTags.Testing.RemoveAll(System.Boolean)">
+            <summary>
+            Choose a newly added tag type and remove all
+            instances of that tag. 
+            </summary>
+            <param name="Save">Should we save the file to disc?</param>
+        </member>
+        <member name="M:JAudioTags.Testing.RemoveExact(System.Boolean)">
+            <summary>
+            Choose a newly added tag type and remove one
+            instance by specifying name and value.
+            </summary>
+            <param name="Save">Should we save the file to disc?</param>
+        </member>
+        <member name="M:JAudioTags.Testing.ReplaceAll(System.Boolean)">
+            <summary>
+            Choose a newly added tag type, remove all,
+            then add a new tag.
+            </summary>
+            <param name="Save"></param>
+        </member>
+        <member name="M:JAudioTags.Testing.RecordTagCount(System.String)">
+            <summary>
+            Writes Tag count info to the results log file.
+            </summary>
+            <param name="Message">Message to indicate where in change list we are.</param>
+        </member>
+        <member name="M:JAudioTags.Testing.CheckAndPrint">
+            <summary>
+            Checks that basic parameters are OK.
+            Throws an exception if not, which gets caught and recorded
+            in the errors log.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.Testing.RemoveAnyRemainingNewTags(System.Boolean)">
+            <summary>
+            Removes any tags added in testing that have not yet been removed.
+            </summary>
+            <param name="Save">Shoule we save the file to disc?</param>
+        </member>
+        <member name="M:JAudioTags.Testing.RemoveTag(JAudioTags.Testing.RemoveType,System.Boolean)">
+            <summary>
+            Removes one or more instances of a newly added tag.
+            </summary>
+            <param name="RType">Remove the first, all, or an exact match?</param>
+            <param name="Save">Should we save the file to disc?</param>
+        </member>
+        <member name="M:JAudioTags.Testing.AddTags(System.Int32,System.Boolean)">
+            <summary>
+            Adds one or more instances of a tag. 
+            </summary>
+            <param name="HowMany">How many instances to add.</param>
+            <param name="Save">Should we save the file to disc?</param>
+        </member>
+        <member name="M:JAudioTags.Testing.MakeNewFile">
+            <summary>
+            Make a new audiofile instance from the underlying disc file.
+            </summary>
+            <returns>The newly created file.</returns>
+        </member>
+        <member name="M:JAudioTags.Testing.FindUnusedTag">
+            <summary>
+            Selects a type of ID3 text tag that is not currently in use 
+            in the file.  We will add this.
+            </summary>
+            <returns>AN unused type.</returns>
+        </member>
+        <member name="M:JAudioTags.Testing.GenerateName">
+            <summary>
+            Generates a random 4 character string.
+            Used to make test name for FLAC Tags.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:JAudioTags.Testing.ChangeProperties">
+            <summary>
+            Change each of the ten 'standard' properties 
+            of an audio file.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.Testing.CheckProperties">
+            <summary>
+            Check the ten standard properties are as expected after 
+            they were changed.
+            </summary>
+            <returns>Are they OK?</returns>
+        </member>
+        <member name="T:JAudioTags.Testing.RemoveType">
+            <summary>
+            Used to select which of four kinds of tag remove will be performed.
+            </summary>
+        </member>
+        <member name="T:JAudioTags.FLACTag">
+            <summary>
+            A class to record what kind of FLAC tag was added 
+            and how many instances.
+            Added to list as file is modified.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.FLACTag.#ctor(System.String,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="n">Name of tag</param>
+            <param name="c">How many instances</param>
+        </member>
+        <member name="M:JAudioTags.FLACTag.ToString">
+            <summary>
+            Return as string
+            </summary>
+            <returns>Object as string</returns>
+        </member>
+        <member name="T:JAudioTags.MP3Tag">
+            <summary>
+            A class to record what kind of MP3 tag was added 
+            and how many instances.
+            Added to list as file is modified.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MP3Tag.#ctor(JAudioTags.V23TextTags,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="t">What type of tag was added</param>
+            <param name="c">How many instances were added</param>
+        </member>
+        <member name="M:JAudioTags.MP3Tag.ToString">
+            <summary>
+            Returns as string
+            </summary>
+            <returns>Object as string</returns>
+        </member>
+        <member name="T:JAudioTags.TreeWalker">
+            <summary>
+            Class for an object that recursively walks through a directory tree.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TreeWalker._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TreeWalker.ReturnValue">
+            <summary>
+            An integer that can be returned by the treewalker methods.
+            For example, can be used to count files in a directory
+            </summary>
+        </member>
+        <member name="P:JAudioTags.TreeWalker.IsDisposed">
+            <summary>
+            Flag to indicate if already disposed
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TreeWalker.StartPath">
+            <summary>
+            Entry point of recursive tree walk
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TreeWalker.ProcessFile">
+            <summary>
+            A method that will process an individual file, and,
+            optionally, log results to a file.
+            
+            string is the name of the file.
+            StreamWriter is used for results logging.
+            Returns an int.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TreeWalker.ProcessDirectory">
+            <summary>
+            A method that will process a directory and, optionally, write results 
+            to a log file.
+            
+            string is the path to the file.
+            List:string: is a list of extensions of files to be looked at in the directory
+            StreamWriter is used for results logging.
+            Returns an int.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TreeWalker.Extensions">
+            <summary>
+            The file extensions of the files to be processed.
+            Defaults to *
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TreeWalker.TheWriter">
+            <summary>
+            A StreamWriter to write the output of the process to a log file
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TreeWalker.ErrorLog">
+            <summary>
+            StreamWriter to log errors to.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TreeWalker.#ctor(System.String,System.Func{System.String,JAudioTags.LazySW,System.Int32},System.Collections.Generic.List{System.String},System.String,System.String)">
+            <summary>
+            Constructor for a walk visiting FILES
+              - Able to log results and errors
+              - Files amy be filtered by extension
+            
+            Any of the last three argumenst can be null:
+              - If FileExtensions is null, all files are matched.
+              - If either of the log paths are null the process
+              -    must not use them
+            </summary>
+            <param name="Root">The starting point for the recursive walk.</param>
+            <param name="ProcessFile">A method to process and log each file.</param>
+            <param name="FileExtensions">List of file extensions of files to be processed.</param>
+            <param name="ResultsPath">Path for file to receive results</param>
+            <param name="ErrorLogPath">Path to error log</param>
+        </member>
+        <member name="M:JAudioTags.TreeWalker.#ctor(System.String,System.Func{System.String,System.Collections.Generic.List{System.String},JAudioTags.LazySW,System.Int32},System.Collections.Generic.List{System.String},System.String,System.String)">
+            <summary>
+            Constructor for a walk visiting DIRECTORIES
+              - Able to log results and errors
+              - Able to filter by files in directories by extension
+            
+            Any of the last three argumenst can be null:
+              - If FileExtensions is null, all files are matched.
+              - If either of the log paths are null the process
+              -    must not use them
+            </summary>
+            <param name="Root">The starting point for the recursive walk.</param>
+            <param name="ProcessDirectory">A method to process and log each directory.</param>
+            <param name="FileExtensions">List of file extensions of files to be processed.</param>
+            <param name="ResultsPath">Path for file to hold output</param>
+            <param name="ErrorLogPath">Path to error log</param>
+        </member>
+        <member name="M:JAudioTags.TreeWalker.FileWalk">
+            <summary>
+            Call this to start the walk processing every matching file
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TreeWalker.FileSearch(System.String)">
+            <summary>
+            Private method called recursively to walk tree
+            </summary>
+            <param name="CurrentDirectory">The current directory</param>
+        </member>
+        <member name="M:JAudioTags.TreeWalker.DirWalk">
+            <summary>
+            Call this to start the walk looking at sub-directory
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TreeWalker.DirSearch(System.String)">
+            <summary>
+            Private method called recursively to walk tree.
+            </summary>
+            <param name="CurrentDirectory">The current directory</param>
+        </member>
+        <member name="M:JAudioTags.TreeWalker.Dispose">
+            <summary>
+            To implement iDisposable
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TreeWalker.Dispose(System.Boolean)">
+            <summary>
+            To implement iDisposable
+            </summary>
+            <param name="areDisposing"></param>
+        </member>
+        <member name="M:JAudioTags.TreeWalker.Finalize">
+            <summary>
+            To implement iDisposable.
+            </summary>
+        </member>
+        <member name="T:JAudioTags.MetadataBlockHeader">
+            <summary>
+            Class to represent the 4-byte header of a FLAC metadata block.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.MetadataBlockHeader._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlockHeader.TheBytes">
+            <summary>
+            Array to hold the 4-byte header
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MetadataBlockHeader.#ctor(System.Byte[])">
+            <summary>
+            Constructor
+            </summary>
+            <param name="theBytes">The four byte header as read from disc</param>
+        </member>
+        <member name="M:JAudioTags.MetadataBlockHeader.#ctor(JAudioTags.FlacMetadataBlockType,System.Boolean,System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="Type">What kind of block is this a header for?</param>
+            <param name="IsLast">Is it the last block?</param>
+            <param name="LengthOfData">How long is the associated data?</param>
+        </member>
+        <member name="P:JAudioTags.MetadataBlockHeader.BlockType">
+            <summary>
+            Property to return the type of block this is header for.
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlockHeader.DataLength">
+            <summary>
+            Property to return the length of the data in this block
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlockHeader.IsLast">
+            <summary>
+            Property to return whether or not this is the last block.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MetadataBlockHeader.ToString">
+            <summary>
+            Returns a string representaion of a clock header.
+            </summary>
+            <returns>The string represnetation</returns>
+        </member>
+        <member name="T:JAudioTags.BlockListType">
+            <summary>
+            Wraps a List of metadata blocks.
+            Provides additional methods to manipulate the list.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.BlockListType._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.BlockListType.BlockCounts">
+            <summary>
+            Structure to hold counts of block types
+            </summary>
+        </member>
+        <member name="P:JAudioTags.BlockListType.IndexOfCommentBlock">
+            <summary>
+            Where are the two key blocks at this time?
+            </summary>
+        </member>
+        <member name="M:JAudioTags.BlockListType.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:JAudioTags.BlockListType.WriteBlocksToFile(System.IO.BinaryWriter,System.Int32,System.Int32)">
+            <summary>
+            Write a selected number of blocks to file
+            </summary>
+            <param name="TheWriter">An opened BinaryWriter</param>
+            <param name="First">The index of the first block</param>
+            <param name="Last">The index of the last block</param>
+        </member>
+        <member name="M:JAudioTags.BlockListType.WriteAllBlocksToFile(System.IO.BinaryWriter,System.Boolean)">
+            <summary>
+            Write all blocks in the list to file
+            </summary>
+            <param name="TheWriter">An opened BinaryWriter</param>
+            <param name="ReOrderBlocks">Should we change the order of the blocks before writing?</param>
+        </member>
+        <member name="M:JAudioTags.BlockListType.OverwriteSubsetOfBlocksInFile(System.IO.BinaryWriter)">
+            <summary>
+            Puts comment first, followed by padding.
+            Then writes this subset of blocks to disc.
+            </summary>
+            <param name="TheWriter">An opened BinaryWriter</param>
+        </member>
+        <member name="M:JAudioTags.BlockListType.MoveCommentAndPaddingBlocks(System.Int32,System.Int32)">
+            <summary>
+            Moves the VORBIS_COMMENT block to the first position in the window
+            and the PADDING block into the second position.
+            </summary>
+            <param name="FirstBlockInWindow">The first position of the window</param>
+            <param name="LastBlockInWindow">The last position of the window</param>
+        </member>
+        <member name="M:JAudioTags.BlockListType.UpdateBlockCounts">
+            <summary>
+            Counts how many blocks of each type and set pointers. 
+            </summary>
+        </member>
+        <member name="M:JAudioTags.BlockListType.SwapBlocks(System.Int32,System.Int32)">
+            <summary>
+            Swaps blocks within the metadata block list.
+            </summary>
+            <param name="x">MetadataBlock to swap</param>
+            <param name="y">MetadataBlock to swap</param>
+        </member>
+        <member name="M:JAudioTags.BlockListType.AddBlock(JAudioTags.MetadataBlock)">
+            <summary>
+            Add a block to the list and update counts
+            </summary>
+            <param name="TheBlock">The block to be added</param>
+        </member>
+        <member name="M:JAudioTags.BlockListType.RemoveBlockAt(System.Int32)">
+            <summary>
+            Remove a block from the list at the specified position
+            and update the counts.
+            </summary>
+            <param name="n">The block position to delete.</param>
+        </member>
+        <member name="M:JAudioTags.BlockListType.ToString">
+            <summary>
+            Show the current block list as a string.
+            </summary>
+            <returns>String representation of the block list</returns>
+        </member>
+        <member name="T:JAudioTags.FLACFile">
+            <summary>
+            Class to represent a flac file
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FLACFile._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FLACFile.FileHeader">
+            <summary>
+            All FLAC files start with these 4 bytes
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FLACFile.TheBlocks">
+            <summary>
+            List of metadata blocks within the file.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FLACFile.vendor_length">
+            <summary>
+            These are parts of the comment block of any FLAC file.
+            Store them globally to facilitate the creation of a new comment block.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.FLACFile.#ctor(System.String,System.Boolean)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="FilePath">The path to the audio file.</param>
+            <param name="ReadOnly">Should the file be opened in ReadOnly mode?
+            In this mode all tag data is read but no additional data is read.
+            This means that the file cannot be be rewritten after tag changes.
+            It makes reading happen more quickly.</param>
+        </member>
+        <member name="M:JAudioTags.FLACFile.PopulateTagList">
+            <summary>
+            Parse the data block of the comment block and populate the list of tags
+            </summary>
+        </member>
+        <member name="M:JAudioTags.FLACFile.DebugPrint(System.Boolean,System.Boolean)">
+            <summary>
+            Display debugging information on console.
+            </summary>
+            <param name="IncludeDetail">Should we display internal details?</param>
+            <param name="IncludeTags">Should we also display tags?</param>
+        </member>
+        <member name="M:JAudioTags.FLACFile.BuildNewCommentBlock(System.Boolean)">
+            <summary>
+            Walks through the current tag list and uses this to make a new
+            Vorbis comment block.
+            </summary>
+            <param name="IsLast">Will the new block be last in list?</param>
+            <returns>A new COMMENT block</returns>
+        </member>
+        <member name="M:JAudioTags.FLACFile.BuildNewPaddingBlock(System.Boolean,System.Int32)">
+            <summary>
+            Build a new padding block.
+            (All the bytes in a padding block are zero)
+            </summary>
+            <param name="IsLast">Will this block be the last metadata block?</param>
+            <param name="DataSize">The size of the data (all null)</param>
+            <returns>The new block</returns>
+        </member>
+        <member name="M:JAudioTags.FLACFile.InMemoryUpdate">
+            <summary>
+            1. Uses the amended tag list to generate a comment block.
+            2. If there is no padding block, it adds one.
+            3. If there is an existing padding block, adjust its size to
+               reflect new tag size.
+            4. Sets global 'MustRewriteWholeFile' flag accordingly
+            </summary>
+        </member>
+        <member name="M:JAudioTags.FLACFile.RewriteWholeFile(System.String)">
+            <summary>
+            Called if necessary to rewrite the whole file.
+            i.e.  New metadata is too big to fit over top of old metadata.
+            </summary>
+            <param name="SavePath">Path and file name to which the file will be written.</param>
+        </member>
+        <member name="M:JAudioTags.FLACFile.OverwriteWindow">
+            <summary>
+            Called if we are able to overwrite just part of the metadata.
+            i.e.  Modified metadata will fit over old metadata.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.FLACFile.SaveTestFile">
+            <summary>
+            Used for testing purposes only.
+            Used to create Flac files with unusual internal layouts.
+            Offers user a chance to delete or add, or re-order metadata blocks.
+            Then writes to file without any further internal adjustemnts.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.FLACFile.GetDumpDetails(System.String,JAudioTags.LazySW)">
+            <summary>
+            This is an 'Func' that can be passed to
+            AudioFile.FileWalk() to dump file info about a set of flac files
+            </summary>
+            <param name="FilePath">The path to the mp3 files</param>
+            <param name="TheWriter">path for a log file</param>
+            <returns>Not used in this case - so 1 returned each time.</returns>
+        </member>
+        <member name="M:JAudioTags.FLACFile.AddTag(System.String,System.String)">
+            <summary>
+            Adds a new tag to the tag list
+            </summary>
+            <param name="Name">Name field of the new tag</param>
+            <param name="Value">Value field of the new tag</param>
+        </member>
+        <member name="M:JAudioTags.FLACFile.CountTags(System.String)">
+            <summary>
+            Counts how many tags have the specified name.
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+            <returns>How many are found</returns>
+        </member>
+        <member name="M:JAudioTags.FLACFile.Exists(System.String)">
+            <summary>
+            Sees whether any tags with the given name exist.
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+            <returns>WHether or not any are found</returns>
+        </member>
+        <member name="M:JAudioTags.FLACFile.First(System.String)">
+            <summary>
+            Returns the value field of the first tag in the list 
+            with the name as specified
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+            <returns>The value of the first matching tag</returns>
+        </member>
+        <member name="M:JAudioTags.FLACFile.RemoveAll(System.String)">
+            <summary>
+            Removes all tags from the list which have name equal
+            to the value specified.
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+        </member>
+        <member name="M:JAudioTags.FLACFile.RemoveFirst(System.String)">
+            <summary>
+            Removes the first tag from the list which has name
+            equal to the value specified.
+            </summary>
+            <param name="Name">The name to be searched for.</param>
+        </member>
+        <member name="M:JAudioTags.FLACFile.RemoveExact(System.String,System.String)">
+            <summary>
+            Removes any tags with name and value matching those specified
+            </summary>
+            <param name="Name">Name to match</param>
+            <param name="Value">Value to match</param>
+        </member>
+        <member name="M:JAudioTags.FLACFile.ReplaceAll(System.String,System.String)">
+            <summary>
+            Remove all tags with the same name and adds a new tag
+            with the name and value supplied
+            </summary>
+            <param name="Name">Name to be removed then added</param>
+            <param name="Value">Value for the new tag to be added</param>
+        </member>
+        <member name="P:JAudioTags.FLACFile.Version">
+            <summary>
+            Version property
+            </summary>
+        </member>
+        <member name="T:JAudioTags.MetadataBlock">
+            <summary>
+            Represents a FLAC metadata block
+            </summary>
+        </member>
+        <member name="F:JAudioTags.MetadataBlock._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlock.Header">
+            <summary>
+            A 4-byte header
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlock.DataBlock">
+            <summary>
+            The metadata itself.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MetadataBlock.#ctor(JAudioTags.MetadataBlockHeader,System.Byte[])">
+            <summary>
+            Constructor
+            </summary>
+            <param name="header">A pre-built header</param>
+            <param name="data">A pre-populated data block</param>
+        </member>
+        <member name="P:JAudioTags.MetadataBlock.BlockType">
+            <summary>
+            Property to return the block type
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlock.IsLast">
+            <summary>
+            Property to return whether the block is last
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlock.DataBlockLength">
+            <summary>
+            Property to return length of the data section of this block.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MetadataBlock.ToString">
+            <summary>
+            Overwrite to Tostring()
+            </summary>
+            <returns>Block details as a string</returns>
+        </member>
+        <member name="T:JAudioTags.MetadataBlockTypeCounter">
+            <summary>
+            Class to enable easy counting of how many of each block type 
+            are found in a flac file.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.MetadataBlockTypeCounter._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MetadataBlockTypeCounter.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlockTypeCounter.PaddingCount">
+            <summary>
+            Returns how many Padding blocks were counted
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlockTypeCounter.CommentCount">
+            <summary>
+            Returns how many comment blocks were found
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MetadataBlockTypeCounter.PictureCount">
+            <summary>
+            Returns how many picture blocks were found
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MetadataBlockTypeCounter.Reset">
+            <summary>
+            Resets all counts to zero
+            </summary>
+        </member>
+        <member name="T:JAudioTags.FlacMetadataBlockType">
+            <summary>
+            Enumerates the kind of metadata blocks that 
+            can be found inside a FLAC file.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FlacMetadataBlockType.STREAMINFO">
+            <summary>
+            A STREAMINFO metadata block
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FlacMetadataBlockType.PADDING">
+            <summary>
+            A PADDING metadata block
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FlacMetadataBlockType.APPLICATION">
+            <summary>
+            An APPLICATION metadata block
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FlacMetadataBlockType.SEEKTABLE">
+            <summary>
+            A SEEKTABLE metadata block
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FlacMetadataBlockType.VORBIS_COMMENT">
+            <summary>
+            A VORBIS_COMMENT metadata block
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FlacMetadataBlockType.CUESHEET">
+            <summary>
+            A CUESHEET metadata block
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FlacMetadataBlockType.PICTURE">
+            <summary>
+            A PICTURE metadata block
+            </summary>
+        </member>
+        <member name="F:JAudioTags.FlacMetadataBlockType.INVALID">
+            <summary>
+            An INAVLID metadata block
+            </summary>
+        </member>
+        <member name="T:JAudioTags.LineType">
+            <summary>
+            Enumeration of the types of line found in a M3U playlist file.
+            </summary>
+        </member>
+        <member name="T:JAudioTags.M3UFile">
+            <summary>
+            Class to represent and check an M3U playlist.
+            It checks that:
+             - URLs point to a site that can be contacted.
+             - Relative paths point to a file.
+             - Absolute paths point to a file.  (This is problematic
+               as if the Playlist file being checked resides on a 
+               different computer, the absolute path with not be
+               valid on the checking machine.  I have not attempted 
+               to resolve this problem.)
+             - In a extended file, the filename, track number and
+               track names are correct or blank.
+            It does not check:
+             - That the duration of the file is correct.
+               (I was unable to find a simple way to get the 
+                music duration of an audio file from a .Net
+                program.)
+            </summary>
+        </member>
+        <member name="F:JAudioTags.M3UFile._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="F:JAudioTags.M3UFile.AudioPath">
+            <summary>
+            The path to the playlist file
+            </summary>
+        </member>
+        <member name="F:JAudioTags.M3UFile.Lines">
+            <summary>
+            An array of strings to hold the lines of the M3U file.
+            (Lines holding relative paths are updated to hold the
+            corresponding absolute paths as part of the checking
+            process.)
+            </summary>
+        </member>
+        <member name="F:JAudioTags.M3UFile.SW">
+            <summary>
+            A LazySW to write the output of the checking.
+            i.e. Information about any error found.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.M3UFile.IsExtended">
+            <summary>
+            Is the current M3U and 'extended' M3U file?
+            i.e one with a #EXTM3U format indicator and 
+            #EXTINF marker lines.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.M3UFile.ValidExtensions">
+            <summary>
+            The rest of my code can only process FLAC or MP3 files.
+            This lists lets you specify what kind of audio file are
+            valid in a M3U playlist.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.M3UFile.#ctor(System.String,JAudioTags.LazySW)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="AudioPath">The path to the M3U file.</param>
+            <param name="ResultsFile">The LazySW that will 
+            record the output - i.e. errors in the file.</param>
+        </member>
+        <member name="M:JAudioTags.M3UFile.#ctor(System.String,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="AudioPath">The path to the M3U file.</param>
+            <param name="ResultsFile">The path to a file that will be used to 
+            record the output - i.e. any errors in the file.</param>
+        </member>
+        <member name="M:JAudioTags.M3UFile.Categorise(System.Int32)">
+            <summary>
+            Looks at line number 'i' in the string array then returns
+            what kind of line it is.
+            </summary>
+            <param name="i">The line number of the line in the array.</param>
+            <returns>What kind of file this is</returns>
+        </member>
+        <member name="M:JAudioTags.M3UFile.CheckFile">
+            <summary>
+            Check the file for errors
+            </summary>
+            <returns>True if no errors</returns>
+        </member>
+        <member name="M:JAudioTags.M3UFile.CheckSimpleFile">
+            <summary>
+            Checks a 'simple' m3U playlist for errors.
+            A simple file has only comments and paths.
+            </summary>
+            <returns>True if no errors found.</returns>
+        </member>
+        <member name="M:JAudioTags.M3UFile.CheckExtendedFile">
+            <summary>
+            Check an 'extended' M3U playlist file.
+            This should start with a #EXTM3U string
+            then have pairs of lines: #EXTINF followed
+            by a path.
+            </summary>
+            <returns>True if no errors.</returns>
+        </member>
+        <member name="M:JAudioTags.M3UFile.ProcessExtendedPair(System.Int32)">
+            <summary>
+            Check a pair of lines from an extended M3U file.
+            The firest should be a #EXTINF marker and the
+            second a path.
+            The Marker should contain information from the 
+            tags within the file or blank info instead.
+            This code DOES NOT verify the duration of the music.
+            </summary>
+            <param name="i">The line number of the first line
+            of the pair to be checked</param>
+            <returns>True if no errors found.</returns>
+        </member>
+        <member name="M:JAudioTags.M3UFile.CheckFormat(System.Int32)">
+            <summary>
+            Checks that a format line is OK.
+            In other words, that it is the first line in the file.
+            </summary>
+            <param name="i">The position of the line within the file.</param>
+            <returns>True if position is zero</returns>
+        </member>
+        <member name="M:JAudioTags.M3UFile.CheckURL(System.Int32)">
+            <summary>
+            Checks that a URL path is valid.
+            This is the only code that I do not really understand.
+            I cobbled it together from various sources on the Internet,
+            </summary>
+            <param name="i">The position of the lien in the file.</param>
+            <returns>True is URL is valid</returns>
+        </member>
+        <member name="M:JAudioTags.M3UFile.CheckAbsolutePath(System.Int32)">
+            <summary>
+            Checks that an absolute path is valid
+            </summary>
+            <param name="i">The position of the line within the file.</param>
+            <returns>True if path is valid</returns>
+        </member>
+        <member name="M:JAudioTags.M3UFile.CheckRelativePath(System.Int32)">
+            <summary>
+            Checks that a realtive path exists
+            </summary>
+            <param name="i">The position of the line within the file</param>
+            <returns>True if relative path is valid</returns>
+        </member>
+        <member name="T:JAudioTags.EncodingType">
+            <summary>
+            The different type of text encodings used with MP3/ID3 v 2.3 tags
+            </summary>
+        </member>
+        <member name="T:JAudioTags.BOM">
+            <summary>
+            Static class of static methods for working with the encodings
+            used in ID3 v2.3 tags
+            </summary>
+        </member>
+        <member name="F:JAudioTags.BOM._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="M:JAudioTags.BOM.DecodeWithFlag(System.Byte[])">
+            <summary>
+            Decodes a byte array into a string assuming the array
+            uses a flag byte and a Byte-Order-Mark
+            </summary>
+            <param name="TheBytes">The array of bytes representing the string</param>
+            <returns>The decoded string</returns>
+        </member>
+        <member name="M:JAudioTags.BOM.DecodeUTF16WithBOM(System.Byte[])">
+            <summary>
+            Decodes a byte array into a string assuming the array
+            has no flag byte but does have a pair of BOM bytes
+            </summary>
+            <param name="TheBytes">The array of bytes representing the string</param>
+            <returns>The decoded string</returns>
+        </member>
+        <member name="M:JAudioTags.BOM.EncodeWithFlagAndBOM(System.String,JAudioTags.EncodingType)">
+            <summary>
+            Encodes a string as an array of bytes using the encoding
+            type specified in the second argument.  Prepends a flag
+            byte and BOM bytes as appropriate.
+            </summary>
+            <param name="TheString">The string to be encoded</param>
+            <param name="Encoder">Which encoding to use</param>
+            <returns>The array of bytes</returns>
+        </member>
+        <member name="M:JAudioTags.BOM.EncodeNoFlagNoBOM(System.String,JAudioTags.EncodingType)">
+            <summary>
+            Encodes a string as an array of bytes using the encoding
+            type specified in the second argument.
+            </summary>
+            <param name="TheString">The string to be encoded</param>
+            <param name="Encoder">Which encoding to use</param>
+            <returns>The array of bytes</returns>
+        </member>
+        <member name="M:JAudioTags.BOM.EncodeNoFlagWithBOM(System.String,JAudioTags.EncodingType)">
+            <summary>
+            Enclodes a string using the encoding type specified.
+            Prepends BOM bytes if appropriate, but no flag byte.
+            </summary>
+            <param name="TheString"></param>
+            <param name="Encoder"></param>
+            <returns>The array of bytes</returns>
+        </member>
+        <member name="T:JAudioTags.CommTags">
+            <summary>
+            Class of static methods for processing ID3 v2.3 COMM tags.
+            Much of this involves locating nulls within byte arrays.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.CommTags._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="M:JAudioTags.CommTags.IndexOf(System.Byte[],System.Byte[])">
+            <summary>
+            Searches for a byte array inside another.
+            If found, it returns the starting position.
+            Otherwise it returns -1.
+            </summary>
+            <param name="TheArray">The array to be searched.</param>
+            <param name="Target">The array to be searched for</param>
+            <returns>The position if the embedded array</returns>
+        </member>
+        <member name="M:JAudioTags.CommTags.AfterTwoNulls(System.Byte[])">
+            <summary>
+            Searches the input array for two consecutive null bytes.
+            If found, returns all the bytes after the nulls.
+            If not, returns an empty byte array.
+            </summary>
+            <param name="Input">The source array</param>
+            <returns>The bytes after the nulls</returns>
+        </member>
+        <member name="T:JAudioTags.MP3File">
+            <summary>
+            Class to represent an MP3 file
+            </summary>
+        </member>
+        <member name="F:JAudioTags.MP3File._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="F:JAudioTags.MP3File.FileHeader">
+            <summary>
+            File header
+            </summary>
+        </member>
+        <member name="F:JAudioTags.MP3File.TagAsRead">
+            <summary>
+            Tag as read - a set of frames
+            </summary>
+        </member>
+        <member name="F:JAudioTags.MP3File.NewTag">
+            <summary>
+            Modified tag to be saved to disc
+            </summary>
+        </member>
+        <member name="F:JAudioTags.MP3File.StartOfTag">
+            <summary>
+            Position in file where tag starts.
+            (Depends on whether there is an extended header.)
+            </summary>
+        </member>
+        <member name="F:JAudioTags.MP3File.OriginalTagSizeIncludingPadding">
+            <summary>
+            Size of the tag as read - including any padding.
+            </summary>
+        </member>
+        <member name="P:JAudioTags.MP3File.HasV1Tags">
+            <summary>
+            Does this file have a ID3 v1 tag block on the end?
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MP3File.#ctor(System.String,System.Boolean)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="FilePath">The path to the mp3 file on disc.</param>
+            <param name="ReadOnly">Should the file be opened in ReadOnly mode?
+            In this mode all tag data is read but no additional data is read.
+            This means that the file cannot be be rewritten after tag changes.
+            It makes reading happen more quickly.</param>
+        </member>
+        <member name="M:JAudioTags.MP3File.GenerateTagsFromFrames">
+            <summary>
+            Iterate through the tag block reading each frame in turn.
+            Generate a new tag for each text frame.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MP3File.DebugPrint(System.Boolean,System.Boolean)">
+            <summary>
+            Display debugging information on console.
+            </summary>
+            <param name="IncludeDetail">Should we display internal details?</param>
+            <param name="IncludeTags">Should we also display tags?</param>
+        </member>
+        <member name="M:JAudioTags.MP3File.VerifyPadding(System.Int64,System.Int64)">
+            <summary>
+            A debugging method.
+            Used to verify that the padding area at the end of the tag
+            is indeed all nulls.
+            </summary>
+            <param name="start"></param>
+            <param name="stop"></param>
+            <returns>Is padding all null?</returns>
+        </member>
+        <member name="M:JAudioTags.MP3File.BuildNewTagBlock">
+            <summary>
+            Build a new tag block from the PrimaryTagList
+            and the pre-existing non-text frames.
+            </summary>
+            <returns>A new tag</returns>
+        </member>
+        <member name="M:JAudioTags.MP3File.InMemoryUpdate">
+            <summary>
+            Called once tags have been edited.
+            Decides what to write file - all or just a window?
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MP3File.RewriteWholeFile(System.String)">
+            <summary>
+            Rewrite the whole of the file.
+            </summary>
+            <param name="TempPath">Path to hold temporary file</param>
+        </member>
+        <member name="M:JAudioTags.MP3File.OverwriteWindow">
+            <summary>
+            Rewrite just the changed subset within the file.
+            Do not rewrite the whole file.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MP3File.AddTag(JAudioTags.V23TextTags,System.String)">
+            <summary>
+            Adds a new tag to the tag list
+            </summary>
+            <param name="Name">Name enumeration of the new tag</param>
+            <param name="Value">Value field of the new tag</param>
+        </member>
+        <member name="M:JAudioTags.MP3File.CountTags(JAudioTags.V23TextTags)">
+            <summary>
+            Counts how many tags have the specified name.
+            </summary>
+            <param name="Name">The name enumeration to be searched for.</param>
+            <returns>How many are found</returns>
+        </member>
+        <member name="M:JAudioTags.MP3File.Exists(JAudioTags.V23TextTags)">
+            <summary>
+            Sees whether any tags with the given name exist.
+            </summary>
+            <param name="Name">The name enumeration to be searched for.</param>
+            <returns>Whether or not any are found</returns>
+        </member>
+        <member name="M:JAudioTags.MP3File.First(JAudioTags.V23TextTags)">
+            <summary>
+            Returns the value field of the first tag in the list 
+            with the name as specified
+            </summary>
+            <param name="Name">The name enumeration to be searched for.</param>
+            <returns>The value of the first matching tag</returns>
+        </member>
+        <member name="M:JAudioTags.MP3File.RemoveAll(JAudioTags.V23TextTags)">
+            <summary>
+            Removes all tags from the list which have name equal
+            to the value specified.
+            </summary>
+            <param name="Name">The name enumeration to be searched for.</param>
+        </member>
+        <member name="M:JAudioTags.MP3File.RemoveFirst(JAudioTags.V23TextTags)">
+            <summary>
+            Removes the first tag from the list which has name
+            equal to the value specified.
+            </summary>
+            <param name="Name">The name enumeration to be searched for.</param>
+        </member>
+        <member name="M:JAudioTags.MP3File.RemoveExact(JAudioTags.V23TextTags,System.String)">
+            <summary>
+            Removes any tags with name and value matching those specified
+            </summary>
+            <param name="Name">Name enumeration to match</param>
+            <param name="Value">Value to match</param>
+        </member>
+        <member name="M:JAudioTags.MP3File.ReplaceAll(JAudioTags.V23TextTags,System.String)">
+            <summary>
+            Remove all tags with the same name and adds a new tag
+            with teh name and value supplied
+            </summary>
+            <param name="Name">Name enumeration to be removed then added</param>
+            <param name="Value">Value for the new tag to be added</param>
+        </member>
+        <member name="M:JAudioTags.MP3File.ToString">
+            <summary>
+            Returns a string representation of the file
+            by listing the tags.
+            </summary>
+            <returns>String representation of the tag</returns>
+        </member>
+        <member name="M:JAudioTags.MP3File.SaveTestFile">
+            <summary>
+            WARNING.  DOES NOT UPDATE IN-MEMORY DATA STRUCTURES.  
+            SO DO NOT RESAVE AFTER USING THIS METHOD.
+            Used for creating test files only.
+            Takes and in-memory file and rewrites it with, optionally:
+             - A (dummy) extended header.  (Containing nothing meaningful.)
+             - An unsynchronised tag block
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MP3File.BinaryFrameTypeRemoveAll(System.String)">
+            <summary>
+            USE WITH CAUTION.  
+            Removes a non-text frame from the frame list.
+            Use to delete unwanted PRIV or COMM tags
+            </summary>
+            <param name="TargetName">The name of the tag to remove</param>
+        </member>
+        <member name="P:JAudioTags.MP3File.Version">
+            <summary>
+            Version property
+            </summary>
+        </member>
+        <member name="T:JAudioTags.SyncSafe">
+            <summary>
+            Implements unsynchronization and deunsynchronization 
+            methods for use in ID3 tags.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.SyncSafe._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="M:JAudioTags.SyncSafe.Unsynchronize(System.Byte[])">
+            <summary>
+            Takes an array of bytes and 'unsynchronises' it.
+            Additional zero bytes are added whenever a run
+            of more than eleven consecutive 1s are read.
+            This prevents tag data incorrectly being interpreted 
+            as synchronisation bits indicating the start of the 
+            music data.
+            
+            USED TO MAKE A TEST FILE TO CHECK THAT
+            DEUNSYNCHRONISATION CODE WORKS.
+            
+            </summary>
+            <param name="OldTag">The original, unmodified tag data.</param>
+            <returns>The data with additional zero btes inserted
+            to break long strings of 1s.</returns>
+        </member>
+        <member name="M:JAudioTags.SyncSafe.DeUnscynchronize(System.Byte[])">
+            <summary>
+            Undoes the transformation implemented by the
+            UnSynchronize() method above.  Removes all the 
+            inserted zeros rendering the data parseable again.
+            </summary>
+            <param name="OldTag">The data with embedded Unsynchronization bytes.</param>
+            <returns>The data with unsynchronisation bits removed.</returns>
+        </member>
+        <member name="M:JAudioTags.SyncSafe.Generate(System.Int32)">
+            <summary>
+            Generates test arrays to debug Unsynchronize and
+            DeUnsynchronize.
+            Use for DEBUGGING ONLY.
+            </summary>
+            <param name="Size">How big should the test array be</param>
+            <returns>The test array</returns>
+        </member>
+        <member name="M:JAudioTags.SyncSafe.ToBigEndianSyncSafe(System.Int32)">
+            <summary>
+            Converts a normal 32-bit integer to a SyncSafe integer.
+            SyncSafe integers have the most significant bit of each
+            byte set to zero.  This leaves only 28 (4 x 7) bits
+            available to represent the numeric value.
+            This prevents integers in tags being misintereted as
+            synchronization bits indicating the start of the actual
+            music.
+            </summary>
+            <param name="i">The 'normal' integer</param>
+            <returns>The corresponding SyncSafe integer</returns>
+        </member>
+        <member name="M:JAudioTags.SyncSafe.FromSyncSafe(System.Byte[])">
+            <summary>
+            Converts a SyncSafe integer to a normal integer.
+            </summary>
+            <param name="TheBytes">The SyncSafe integer.</param>
+            <returns>The corresponding 'normal' integer.</returns>
+        </member>
+        <member name="T:JAudioTags.TagMappings">
+            <summary>
+            Implements a set of dictionaries mapping one set of tag
+            names to another.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.TagMappings._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TagMappings.#cctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:JAudioTags.TagMappings.Genre(System.Byte)">
+            <summary>
+            For use with V1 genres.
+            A static method to map a byte to its genre
+            </summary>
+            <param name="b">The byte genre code</param>
+            <returns>The genre string</returns>
+        </member>
+        <member name="T:JAudioTags.MappingExtensionMethods">
+            <summary>
+            Extension methods.  
+            Adds new methods to strings.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.MappingExtensionMethods.ToID3v23(System.String)">
+            <summary>
+            Maps the common name of a tag to its v2.3 name
+            </summary>
+            <param name="Input">The tag common name</param>
+            <returns>The tag common name</returns>
+        </member>
+        <member name="M:JAudioTags.MappingExtensionMethods.ToID3v24(System.String)">
+            <summary>
+            Maps the common name of a tag to its v2.4 name
+            </summary>
+            <param name="input">The tag common name</param>
+            <returns>The v2.4 tag code</returns>
+        </member>
+        <member name="M:JAudioTags.MappingExtensionMethods.FromID3v23(System.String)">
+            <summary>
+            Maps the string representation of a v2.3 tag code to its common name
+            </summary>
+            <param name="input">the v2.3 tag code</param>
+            <returns>The common name</returns>
+        </member>
+        <member name="M:JAudioTags.MappingExtensionMethods.FromID3v24(System.String)">
+            <summary>
+            Maps the string representation of a v2.4 tag code to its common name
+            </summary>
+            <param name="input">the v2.4 tag code</param>
+            <returns>The common name</returns>
+        </member>
+        <member name="M:JAudioTags.MappingExtensionMethods.ToV1GenreCode(System.String)">
+            <summary>
+            Maps a V1 genre name to its byte code.
+            </summary>
+            <param name="input">The v1 genre name string</param>
+            <returns>The corresponding byte code</returns>
+        </member>
+        <member name="T:JAudioTags.V23TextTags">
+            <summary>
+            Lists all of the ID3 v 2.3 text tags
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TALB">
+            <summary>
+            The ALBUM tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TSOA">
+            <summary>
+            The ALBUMSORT tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TPE2">
+            <summary>
+            the ALBUMARTIST tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TSO2">
+            <summary>
+            The ALBUMARTISTSORT tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TPE1">
+            <summary>
+            The ARTIST tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TSOP">
+            <summary>
+            The ARTISTSORT tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TBPM">
+            <summary>
+            The BPM (Beats per minute) tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TCMP">
+            <summary>
+            The COMPILATION tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TCOM">
+            <summary>
+            The COMPOSER Tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TSOC">
+            <summary>
+             The COMPOSERSORT Tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TPE3">
+            <summary>
+            The CONDUCTOR tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TIT1">
+            <summary>
+            The CONTENTGROUP tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TCOP">
+            <summary>
+            The COPYRIGHT tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TPOS">
+            <summary>
+            The DISCNUMBER tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TENC">
+            <summary>
+            The ENCODEDBY tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TSSE">
+            <summary>
+            The ENCODERSETTINGS tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TOWN">
+            <summary>
+            The FILEOWNER tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TFLT">
+            <summary>
+            The FILETYPE tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TCON">
+            <summary>
+            The GENRE tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TKEY">
+            <summary>
+            The INITIALKEY tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TSRC">
+            <summary>
+            The ISRC Tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TLAN">
+            <summary>
+            The LANGUAGE tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TLEN">
+            <summary>
+            The LENGTH tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TEXT">
+            <summary>
+            The LYRACIST tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TMED">
+            <summary>
+            The MEDIATYPE tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TPE4">
+            <summary>
+            The MIXARTIST tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TRSO">
+            <summary>
+             The NETRADIOOWNER tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TRSN">
+            <summary>
+            The NETRADIOSTATION tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TOAL">
+            <summary>
+            The ORIGALBUM tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TOPE">
+            <summary>
+            The ORIGARTIST tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TOFN">
+            <summary>
+            The ORIGFILENAME tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TOLY">
+            <summary>
+            The ORIGLYRACIST tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TCAT">
+            <summary>
+            The PODCASTCATEGORY tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TDES">
+            <summary>
+            The PODCASTDESC tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TGID">
+            <summary>
+            The PODCASTID tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TKWD">
+            <summary>
+            The PODCASTKEYWORDS tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TPUB">
+            <summary>
+            The PUBLISHER tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TDRL">
+            <summary>
+            The RELEASETIME tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TIT3">
+            <summary>
+            The SUBTITLE tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TIT2">
+            <summary>
+            The TITLE tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TSOT">
+            <summary>
+            The TITLE SORT tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TRCK">
+            <summary>
+            The TRACK tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TXXX">
+            <summary>
+            The OTHERFIELD tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TORY">
+            <summary>
+            The ORIGYEAR tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.TYER">
+            <summary>
+            The YEAR tag
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23TextTags.COMM">
+            <summary>
+            The COMMENT tag
+            </summary>
+        </member>
+        <member name="T:JAudioTags.V1Tags">
+            <summary>
+            Static class with just two static methods.
+            Used to work with MP3 ID3 v1 Tag block
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V1Tags._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="M:JAudioTags.V1Tags.ByteArrayToV1TagList(System.Byte[])">
+            <summary>
+            Feed it the 128-byte v1 tag block from the end of a MP3 file
+            and it returns a populated tag list.
+            </summary>
+            <param name="TheArray">A 128 byte array</param>
+            <returns>A new TagList containing the ID3 V1 tags</returns>
+        </member>
+        <member name="M:JAudioTags.V1Tags.V1TagListToByteArray(JAudioTags.TagList)">
+            <summary>
+            Pass it a tag list and it returns a 128 byte array containing those tags.
+            </summary>
+            <param name="TheList">A list of tags</param>
+            <returns>A 128-byte array</returns>
+        </member>
+        <member name="T:JAudioTags.V23FileHeader">
+            <summary>
+            Represents the header of an ID3 v 2.3 audio file
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23FileHeader._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23FileHeader.IsID3">
+            <summary>
+            Does this file start with the characters I D 3
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23FileHeader.VersionIs23">
+            <summary>
+            Does it state in this file that the ID3 version is 2.3?
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23FileHeader.UnsynchronisationUsed">
+            <summary>
+            Does this file use Unsynchronisation?
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23FileHeader.HasExtendedHeader">
+            <summary>
+            Does thsi file have an extended header
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23FileHeader.TagLength">
+            <summary>
+            How long does it say the tag is?
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23FileHeader.StartOfTag">
+            <summary>
+            At what position within the file does the tag start?
+            </summary>
+        </member>
+        <member name="M:JAudioTags.V23FileHeader.#ctor(JAudioTags.ByteSource)">
+            <summary>
+             Constructor
+            </summary>
+            <param name="TheReader">A ByteSource connected to the MP3 file on disc</param>
+        </member>
+        <member name="M:JAudioTags.V23FileHeader.ToBytes(System.Int32)">
+            <summary>
+            Return the header as a byte array
+            </summary>
+            <param name="TagSize">Hoe big is the current tag?</param>
+            <returns>A byte array</returns>
+        </member>
+        <member name="M:JAudioTags.V23FileHeader.ToString">
+            <summary>
+            Generates a string representation of the file header
+            </summary>
+            <returns>A string representation of the file header</returns>
+        </member>
+        <member name="T:JAudioTags.V23Frame">
+            <summary>
+            An ID3 v 2.3 file has a block of bytes called a 'Tag'.
+            This tag consists of a set of 'frames'.  Each frame holds
+            a piece of metadata, e.f Artist="Abba".
+            This class represents a frame.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23Frame._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23Frame.TheBytes">
+            <summary>
+            Just one 'real' property.
+            An array of bytes holding the data read from disc.
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23Frame.IsText">
+            <summary>
+            A calculated property tells whether this frame
+            is a type that can hold text.  Either its name
+            begins with a 'T' - i.e. it is a text frame,
+            or its name is COMM and the first data byte
+            is 0x01 - indicating a textual COMM frame.
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23Frame.Name">
+            <summary>
+            Calculated property to return the ID string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23Frame.Value">
+            <summary>
+            Calculated property to return the value string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23Frame.FrameSize">
+            <summary>
+            Property returns the total length of frame.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.V23Frame.#ctor(System.Byte[])">
+            <summary>
+            Constructor - to build a frame using bytes read from disc
+            </summary>
+            <param name="theBytes">The bytes from disc representing the frame</param>
+        </member>
+        <member name="M:JAudioTags.V23Frame.#ctor(JAudioTags.TagType)">
+            <summary>
+            Constructor - Generates a frame from a TagType
+            </summary>
+            <param name="TheTag">The tag used to make the frame</param>
+        </member>
+        <member name="M:JAudioTags.V23Frame.ToString">
+            <summary>
+            Overwrite of ToString()
+            </summary>
+            <returns>A string representation of a frame</returns>
+        </member>
+        <member name="T:JAudioTags.V23Tag">
+            <summary>
+            Represents an ID3 v2.3 Tag.
+            It is a list of Frames with a handful of methods added.
+            </summary>
+        </member>
+        <member name="F:JAudioTags.V23Tag._Version">
+            <summary>
+            Version string
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23Tag.HasEmbeddedGraphic">
+            <summary>
+            Is there an APIC frame in this tag?
+            </summary>
+        </member>
+        <member name="P:JAudioTags.V23Tag.SumOfFrameLengths">
+            <summary>
+            What is the total length of all the frames.
+            By subtracting this from the frame length
+            we calculate how much padding there is.
+            </summary>
+        </member>
+        <member name="M:JAudioTags.V23Tag.ToBytes">
+            <summary>
+            Returns the Tag as an array of bytes.
+            </summary>
+            <returns>An array of bytes representing the tag </returns>
+        </member>
+        <member name="M:JAudioTags.V23Tag.PopulateFrameList(JAudioTags.ByteSource,System.Boolean)">
+            <summary>
+            Read through the tag section of the file.  
+            Add each frame to the list.
+            </summary>
+            <param name="TheReader">A byte source attached to the file</param>
+            <param name="ReadOnly">Was the file opened in ReadOnly mode?</param>
+            <returns></returns>
+        </member>
+        <member name="M:JAudioTags.V23Tag.ToString(System.Int64)">
+            <summary>
+            Returns a string representation of the tag
+            </summary>
+            <param name="StartPosOfTag">The start position of the tag</param>
+            <returns>A string represnetation </returns>
+        </member>
+        <member name="M:JAudioTags.V23Tag.BinaryFrameTypeRemoveAll(System.String)">
+            <summary>
+            Removes a non-text frame from the frame list.
+            Use to delete unwanted PRIV or COMM tags
+            </summary>
+            <param name="TargetName">The name of the tag to remove</param>
+        </member>
+    </members>
+</doc>
