@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Reproductor));
             this.trackBarPosicion = new System.Windows.Forms.TrackBar();
             this.buttonReproducirPausar = new System.Windows.Forms.Button();
             this.timerCancion = new System.Windows.Forms.Timer(this.components);
@@ -56,6 +57,7 @@
             this.buttonTwit = new System.Windows.Forms.Button();
             this.buttoncrearLR = new System.Windows.Forms.Button();
             this.buttonDetener = new System.Windows.Forms.Button();
+            this.notifyIconReproduciendo = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -111,10 +113,10 @@
             // labelPosicion
             // 
             this.labelPosicion.AutoSize = true;
-            this.labelPosicion.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPosicion.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelPosicion.Location = new System.Drawing.Point(8, 422);
             this.labelPosicion.Name = "labelPosicion";
-            this.labelPosicion.Size = new System.Drawing.Size(32, 17);
+            this.labelPosicion.Size = new System.Drawing.Size(40, 18);
             this.labelPosicion.TabIndex = 4;
             this.labelPosicion.Text = "0:00";
             this.labelPosicion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -122,10 +124,10 @@
             // labelDuracion
             // 
             this.labelDuracion.AutoSize = true;
-            this.labelDuracion.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDuracion.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDuracion.Location = new System.Drawing.Point(310, 422);
             this.labelDuracion.Name = "labelDuracion";
-            this.labelDuracion.Size = new System.Drawing.Size(43, 17);
+            this.labelDuracion.Size = new System.Drawing.Size(48, 18);
             this.labelDuracion.TabIndex = 5;
             this.labelDuracion.Text = "XX:XX";
             this.labelDuracion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -320,6 +322,12 @@
             this.buttonDetener.UseVisualStyleBackColor = true;
             this.buttonDetener.Click += new System.EventHandler(this.buttonDetener_Click);
             // 
+            // notifyIconReproduciendo
+            // 
+            this.notifyIconReproduciendo.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconReproduciendo.Icon")));
+            this.notifyIconReproduciendo.Text = "notifyIconReproduciendo";
+            this.notifyIconReproduciendo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconReproduciendo_MouseClick);
+            // 
             // Reproductor
             // 
             this.AllowDrop = true;
@@ -347,6 +355,7 @@
             this.Controls.Add(this.pictureBoxCaratula);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
+            this.MaximizeBox = false;
             this.Name = "Reproductor";
             this.Text = "x";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reproductor_FormClosing);
@@ -393,5 +402,6 @@
         private System.Windows.Forms.Button buttonTwit;
         private System.Windows.Forms.Button buttoncrearLR;
         private System.Windows.Forms.Button buttonDetener;
+        private System.Windows.Forms.NotifyIcon notifyIconReproduciendo;
     }
 }

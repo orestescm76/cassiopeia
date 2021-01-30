@@ -45,6 +45,10 @@ namespace aplicacion_musica
         public static Thread tareaRefrescoToken;
         public static bool ModoStream = false;
         public static int NumIdiomas = 0;
+        private static bool ComprobarActualizaciones = true;
+        private static bool Spotify = true;
+        private static bool InicioReproductor = false;
+        private static bool Consola = false;
         public static void Refresco()
         {
             while(true)
@@ -474,11 +478,44 @@ namespace aplicacion_musica
         [STAThread]
         static void Main(String[] args)
         {
+            //Creación log.
+            Log Log = Log.Instance;
             //prepara la aplicación para que ejecute formularios y demás.
             Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             Config.CargarConfiguracion();
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Config.Idioma + ".resx");
+            //Parseo de argumentos...
+            foreach (string Arg in args)
+            {
+                switch (Arg)
+                {
+                    case "-consola":
+                        Consola = true;
+                        AllocConsole();
+                        Console.Title = "Consola debug v" + version;
+                        Console.WriteLine("Log creado " + DateTime.Now);
+                        Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -consola", TipoMensaje.Info);
+                        break;
+                    case "-noSpotify":
+                        Spotify = false;
+                        break;
+                    case "-modoStream":
+                    case "-streamMode":
+                        ModoStream = true;
+                        break;
+                    case "-noActualizar":
+                    case "-noUpdates":
+                        ComprobarActualizaciones = false;
+                        break;
+                    case "-reproductor":
+                    case "-player":
+                        InicioReproductor = true;
+                        break;
+                    default:
+                        break;
+                }
+            }
             //Cargar idiomas...
             DirectoryInfo cod = new DirectoryInfo("./idiomas");
             Programa.idiomas = new String[cod.GetFiles().Length];
@@ -492,26 +529,19 @@ namespace aplicacion_musica
                 j++;
             }
 
-            Log Log = Log.Instance;
+
             string versionNueva;
-            if (HayActualizacions(out versionNueva))
+            if (HayActualizacions(out versionNueva) && ComprobarActualizaciones)
             {
                 Log.ImprimirMensaje("Está disponible la actualización " + versionNueva, TipoMensaje.Info);
                 DialogResult act = MessageBox.Show(textosLocal.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + textosLocal.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
                 if (act == DialogResult.Yes)
                     Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
             }
-            if (args.Contains("-consola"))
-            {
-                AllocConsole();
-                Console.Title = "Consola debug v" + version;
-                Console.WriteLine("Log creado " + DateTime.Now);
-                Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -consola", TipoMensaje.Info);
-            }
             miColeccion = new Coleccion();
             SpotifyActivado = false;
             principal = new principal();
-            if(!args.Contains("-noSpotify"))
+            if(Spotify)
             {
                 if (!Config.VinculadoConSpotify)
                     _spotify = new Spotify(false);
@@ -529,9 +559,6 @@ namespace aplicacion_musica
                 _spotify = null;
                 principal.HayInternet(false);
             }
-
-            if (args.Contains("-modoStream") || args.Contains("-streamMode"))
-                ModoStream = true;
             if(!ModoStream)
             {
                 Log.ImprimirMensaje("Configurando géneros", TipoMensaje.Info);
@@ -574,13 +601,11 @@ namespace aplicacion_musica
             {
                 Application.Run();
             }
-            else if (!args.Contains("-reproductor") || args.Contains("-player")) //tirale con el principal
+            else if (!InicioReproductor) //tirale con el principal
                 Application.Run(principal);
             else
             {
-                ModoReproductor = true;
                 Application.Run(Reproductor.Instancia);
-                //Reproductor.Instancia.Show();
             }
             if(_spotify != null && tareaRefrescoToken != null)
                 tareaRefrescoToken.Abort();
@@ -590,7 +615,7 @@ namespace aplicacion_musica
 
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");
-            if (args.Contains("-consola") || args.Contains("-console"))
+            if (Consola)
             {
                 Console.WriteLine("Programa finalizado, presione una tecla para continuar...");
                 Console.ReadKey();

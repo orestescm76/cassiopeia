@@ -616,4 +616,7 @@
   <data name="album_noagregado" xml:space="preserve">
     <value>The album couldn't be added. Maybe is it repeated?</value>
   </data>
+  <data name="click_reproductor" xml:space="preserve">
+    <value>Click here to show the Player</value>
+  </data>
 </root>

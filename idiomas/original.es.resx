@@ -620,4 +620,7 @@
   <data name="album_noagregado" xml:space="preserve">
     <value>No se ha agregado el álbum, puede que esté repetido.</value>
   </data>
+  <data name="click_reproductor" xml:space="preserve">
+    <value>Haz click para mostrar el Reproductor</value>
+  </data>
 </root>

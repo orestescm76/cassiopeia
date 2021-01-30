@@ -56,6 +56,7 @@ namespace aplicacion_musica
         Process foobar2kInstance = null;
         string SpotifyID = null;
         bool ModoCD = false;
+        bool Reproduciendo = false;
         public static Reproductor Instancia { get; set; }
         public Reproductor()
         {
@@ -102,6 +103,7 @@ namespace aplicacion_musica
             //reproduce un cd
             controlBotones(true);
             nucleo.ReproducirCD(disp);
+            Reproduciendo = true;
             if (nucleo.PistasCD == null)
                 return;
             ModoCD = true;
@@ -276,13 +278,15 @@ namespace aplicacion_musica
         }
         private void PonerTextos()
         {
-            Text = Programa.textosLocal.GetString("reproductor");
+            if(!Reproduciendo)
+                Text = Programa.textosLocal.GetString("reproductor");
             buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
             notifyIcon1.Text = Programa.textosLocal.GetString("cerrarModoStream");
             buttoncrearLR.Text = Programa.textosLocal.GetString("crearLR");
             buttonAgregar.Text = Programa.textosLocal.GetString("agregarBD");
             buttonTwit.Text = Programa.textosLocal.GetString("twittearCancion");
             buttonAbrir.Text = Programa.textosLocal.GetString("abrir_cancion");
+            notifyIconReproduciendo.Text = Programa.textosLocal.GetString("click_reproductor");
         }
         public void SetPATH(Cancion c) //probablemente deprecated pero configura los paths
         {
@@ -332,7 +336,9 @@ namespace aplicacion_musica
             else if (File.Exists(dir.FullName + "\\cover.png"))
                 pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.png");
             //Si esto no fuera posible, hay que extraerla de la cancion.
-
+            LectorMetadatos Lector = new LectorMetadatos(path);
+            if (Lector.Cover != null)
+                pictureBoxCaratula.Image = Lector.Cover;
             nucleo.Apagar();
             try
             {
@@ -346,9 +352,7 @@ namespace aplicacion_musica
                 MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
                 return;
             }
-            LectorMetadatos Lector = new LectorMetadatos(path);
-            if (Lector.Cover != null)
-                pictureBoxCaratula.Image = Lector.Cover;
+
             if (GuardarHistorial)
             {
                 using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
@@ -473,7 +477,9 @@ namespace aplicacion_musica
             estadoReproductor = EstadoReproductor.Reproduciendo;
             buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
             buttonTwit.Enabled = true;
+            Reproduciendo = true;
             ConfigurarTimers(true);
+            
 
         }
         private bool FicheroLeible(string s)
@@ -681,6 +687,8 @@ namespace aplicacion_musica
             if (!Programa.ModoReproductor || !Programa.ModoStream)
             {
                 Hide();
+                if(Reproduciendo)
+                    notifyIconReproduciendo.Visible = true;
                 if (e.CloseReason != CloseReason.ApplicationExitCall)
                     e.Cancel = true;
                 else
@@ -1100,6 +1108,7 @@ namespace aplicacion_musica
         private void Detener()
         {
             nucleo.Apagar();
+            Reproduciendo = false;
             ConfigurarTimers(false);
             controlBotones(false);
             trackBarPosicion.Enabled = false;
@@ -1109,10 +1118,17 @@ namespace aplicacion_musica
             labelPosicion.Text = "0:00";
             labelPorcentaje.Text = "0%";
             Text = "";
+            labelDatosCancion.Text = "";
+            notifyIconReproduciendo.Visible = false;
         }
         private void buttonDetener_Click(object sender, EventArgs e)
         {
             Detener();
+        }
+
+        private void notifyIconReproduciendo_MouseClick(object sender, MouseEventArgs e)
+        {
+            Show();
         }
     }
 }
