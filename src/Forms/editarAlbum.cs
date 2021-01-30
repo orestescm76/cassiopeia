@@ -80,7 +80,7 @@ namespace aplicacion_musica
                 albumAEditar.nombre = textBoxTitulo.Text;
                 albumAEditar.year = Convert.ToInt16(textBoxAño.Text);
                 string gn = comboBoxGeneros.SelectedItem.ToString();
-                Genero g = Programa.generos[Programa.findGeneroTraducido(gn)];
+                Genero g = Programa.generos[Programa.FindGeneroTraducido(gn)];
                 albumAEditar.genero = g;
                 albumAEditar.caratula = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
@@ -116,9 +116,9 @@ namespace aplicacion_musica
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
             nuevo.Show();
-            Programa.refrescarVista();
+            Programa.RefrescarVista();
             Close();
-            Programa.refrescarVista();
+            Programa.RefrescarVista();
             Log.Instance.ImprimirMensaje("Guardado sin problema", TipoMensaje.Correcto);
         }
 

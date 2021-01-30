@@ -92,6 +92,11 @@ namespace aplicacion_musica
             else notifyIcon1.Visible = false;
             buttonTwit.Enabled = false;
         }
+        private void ConfigurarTimers(bool val) //Configura los timers cancion y metadatos.
+        {
+            timerCancion.Enabled = val;
+            timerMetadatos.Enabled = val;
+        }
         public void ReproducirCD(char disp)
         {
             //reproduce un cd
@@ -208,12 +213,15 @@ namespace aplicacion_musica
                 buttonAbrir.Enabled = false;
                 Spotify = true;
                 toolStripStatusLabelCorreoUsuario.Text = Programa.textosLocal.GetString("conectadoComo") + " " + user.DisplayName;
+                controlBotones(true);
                 if (!EsPremium)
                 {
                     toolStripStatusLabelCorreoUsuario.Text += " - NO PREMIUM";
+                    controlBotones(false);
                 }
                 buttonTwit.Enabled = true;
                 buttoncrearLR.Hide();
+                
             }
             else
                 return;
@@ -308,11 +316,53 @@ namespace aplicacion_musica
 
             }
         }
-        public void ReproducirCancion(Cancion c) //reproduce una cancion por path o por sus metadatos
+        public void ReproducirCancion(string path) //reproduce una cancion por path
+        {
+            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+            controlBotones(true);
+            ConfigurarTimers(false);
+            estadoReproductor = EstadoReproductor.Detenido;
+            DirectoryInfo dir = new DirectoryInfo(path);
+            dir = dir.Parent;
+            //Intento sacar la portada mediante un fichero primero.
+            if (File.Exists(dir.FullName + "\\folder.jpg"))
+                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\folder.jpg");
+            else if (File.Exists(dir.FullName + "\\cover.jpg"))
+                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.jpg");
+            else if (File.Exists(dir.FullName + "\\cover.png"))
+                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.png");
+            //Si esto no fuera posible, hay que extraerla de la cancion.
+
+            nucleo.Apagar();
+            try
+            {
+                nucleo.CargarCancion(path);
+                PrepararReproductor();
+                nucleo.Reproducir();
+            }
+            catch (Exception)
+            {
+                Log.ImprimirMensaje("Hubo un problema", TipoMensaje.Error);
+                MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
+                return;
+            }
+            LectorMetadatos Lector = new LectorMetadatos(path);
+            if (Lector.Cover != null)
+                pictureBoxCaratula.Image = Lector.Cover;
+            if (GuardarHistorial)
+            {
+                using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
+                {
+                    escritor.WriteLine(NumCancion + " - " + Lector.Artista + " - " + Lector.Titulo);
+                    NumCancion++;
+                }
+            }
+
+        }
+        public void ReproducirCancion(Cancion c) //reproduce una cancion
         {
             controlBotones(true);
-            timerCancion.Enabled = false;
-            timerMetadatos.Enabled = false;
+            ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Detenido;
             if(c.album == null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
             {
@@ -327,16 +377,16 @@ namespace aplicacion_musica
 
             }
             string s = "";
-            try
-            {
-                if(c.album != null)
-                    SetPATH(c);
-            }
-            catch (DirectoryNotFoundException)
-            {
-                Log.ImprimirMensaje("No se encuentra el directorio", TipoMensaje.Error);
-                return;
-            }
+            //try
+            //{
+            //    if(c.album != null)
+            //        SetPATH(c);
+            //}
+            //catch (DirectoryNotFoundException)
+            //{
+            //    Log.ImprimirMensaje("No se encuentra el directorio", TipoMensaje.Error);
+            //    return;
+            //}
 
             CancionLocalReproduciendo = c;
             if (string.IsNullOrEmpty(c.PATH))
@@ -386,14 +436,10 @@ namespace aplicacion_musica
                 if (LM.Cover != null)
                     pictureBoxCaratula.Image = LM.Cover;
             }
-            timerCancion.Enabled = true;
-            timerMetadatos.Enabled = true;
-            buttonTwit.Enabled = true;
         }
         public void ReproducirCancion(int Pista)
         {
-            timerCancion.Enabled = false;
-            timerMetadatos.Enabled = false;
+            ConfigurarTimers(false);
 
             estadoReproductor = EstadoReproductor.Detenido;
             nucleo.SaltarCancionCD(Pista);
@@ -406,6 +452,7 @@ namespace aplicacion_musica
         }
         private void PrepararReproductor()
         {
+            trackBarPosicion.Value = 0; //reseteo
             nucleo.SetVolumen(Volumen);
             dur = nucleo.Duracion();
             pos = TimeSpan.Zero;
@@ -422,12 +469,12 @@ namespace aplicacion_musica
             }
             labelDatosCancion.Text = nucleo.GetDatos();
             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
-            timerCancion.Enabled = true;
             labelDuracion.Text = (int)dur.TotalMinutes + ":" + dur.Seconds;
             estadoReproductor = EstadoReproductor.Reproduciendo;
             buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
             buttonTwit.Enabled = true;
-            
+            ConfigurarTimers(true);
+
         }
         private bool FicheroLeible(string s)
         {
@@ -656,19 +703,16 @@ namespace aplicacion_musica
             DialogResult r = openFileDialog1.ShowDialog();
             if (r != DialogResult.Cancel)
             {
-                timerCancion.Enabled = false;
                 nucleo.Apagar();
                 estadoReproductor = EstadoReproductor.Detenido;
                 fich = openFileDialog1.FileName;
+               
                 this.fich = fich;
                 try
                 {
                     if (FicheroLeible(fich))
                     {
-                        nucleo.CargarCancion(fich);
-                        PrepararReproductor();
-                        controlBotones(true);
-                        nucleo.Reproducir();
+                        ReproducirCancion(fich);
                     }
                 }
                 catch (Exception ex)
@@ -678,36 +722,13 @@ namespace aplicacion_musica
                     nucleo.Apagar();
                     return;
                 }
-                try
-                {
-                    System.Drawing.Image caratula = nucleo.GetCaratula();
-                    if(caratula != null) 
-                        pictureBoxCaratula.Image = nucleo.GetCaratula();
-                    else
-                    {
-                        FileInfo fi = new FileInfo(openFileDialog1.FileName);
-                        DirectoryInfo info = new DirectoryInfo(fi.DirectoryName);
-                        foreach (FileInfo item in info.GetFiles())
-                        {
-                            if (item.Name.ToLower() == "cover.jpg" || item.Name.ToLower() == "folder.jpg")
-                                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(item.FullName);
-                        }
-                    }
-
-                }
-                catch (NullReferenceException)
-                {
-                    Log.ImprimirMensaje("No hay carátula, usando por defecto", TipoMensaje.Advertencia);
-                    pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
-                }
             }
         }
-
-        private void buttonReproducirPausar_Click(object sender, EventArgs e)
+        private void PausaReproducir()
         {
             switch (estadoReproductor)
             {
-                case EstadoReproductor.Reproduciendo:
+                case EstadoReproductor.Reproduciendo: //Si está reproduciendo pausa.
                     if (!Spotify)
                         nucleo.Pausar();
                     else if (Spotify && EsPremium)
@@ -730,7 +751,7 @@ namespace aplicacion_musica
                     else if (Spotify && EsPremium)
                     {
                         ErrorResponse err = _spotify.ResumePlayback("", "", null, "", 0);
-                        if(err.Error != null && err.Error.Message != null)
+                        if (err.Error != null && err.Error.Message != null)
                         {
                             Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error);
                             MessageBox.Show(err.Error.Message);
@@ -741,7 +762,7 @@ namespace aplicacion_musica
                     buttonReproducirPausar.Text = "❚❚";
                     break;
                 case EstadoReproductor.Detenido:
-                    if(!Spotify)
+                    if (!Spotify)
                         nucleo.Reproducir();
                     else if (Spotify && EsPremium)
                     {
@@ -759,6 +780,10 @@ namespace aplicacion_musica
                 default:
                     break;
             }
+        }
+        private void buttonReproducirPausar_Click(object sender, EventArgs e)
+        {
+            PausaReproducir();
         }
 
         private void labelDuracion_Click(object sender, EventArgs e)
@@ -783,10 +808,12 @@ namespace aplicacion_musica
             {
                 timerCancion.Enabled = true;
                 timerMetadatos.Enabled = true;
+                int value = trackBarPosicion.Value;
                 if (!ModoCD)
                     nucleo.Saltar(TimeSpan.FromSeconds(trackBarPosicion.Value));
                 else
                     nucleo.SaltarCD((int)nucleo.TimeSpanASectores(TimeSpan.FromSeconds(trackBarPosicion.Value)));
+                trackBarPosicion.Value = value;
             }
             else if (Spotify && EsPremium)
             {
@@ -798,9 +825,7 @@ namespace aplicacion_musica
         }
         private void trackBarPosicion_Scroll(object sender, EventArgs e)
         {
-
-            timerCancion.Enabled = false;
-            timerMetadatos.Enabled = false;
+            ConfigurarTimers(false);
             pos = new TimeSpan(0, 0, trackBarPosicion.Value);
             duracionView.SetToolTip(trackBarPosicion, pos.ToString());
             timerCancion_Tick(null, null);
@@ -914,14 +939,23 @@ namespace aplicacion_musica
 
         private void Reproductor_KeyDown(object sender, KeyEventArgs e)
         {
+            //Condiciones especiales
             if (e.KeyData == Keys.F9 && !Spotify && lrui != null)
                 lrui.Show();
             if (e.Control && e.KeyData == Keys.Right)
                 buttonSaltarAdelante_Click(null, null);
             if (e.Control && e.KeyData == Keys.Left)
                 buttonSaltarAtras_Click(null, null);
-            if (e.KeyData == Keys.Space)
-                buttonReproducirPausar_Click(null, null);
+            switch(e.KeyData)
+            {
+                case Keys.Space:
+                case Keys.MediaPlayPause:
+                    PausaReproducir();
+                    break;
+                case Keys.MediaStop:
+                    Detener();
+                    break;
+            }
 
         }
 
@@ -940,7 +974,12 @@ namespace aplicacion_musica
 
         private void buttonAgregar_Click(object sender, EventArgs e)
         {
-            Programa._spotify.insertarAlbumFromURI(cancionReproduciendo.Album.Id);
+            bool res = Programa._spotify.InsertarAlbumFromURI(cancionReproduciendo.Album.Id);
+            if(res) //Añadido correctamente...
+                MessageBox.Show(Programa.textosLocal.GetString("album_agregado"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show(Programa.textosLocal.GetString("album_noagregado"), "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -1058,18 +1097,22 @@ namespace aplicacion_musica
             buttonSaltarAdelante.Enabled = encendido;
             buttonSaltarAtras.Enabled = encendido;
         }
-
-        private void buttonDetener_Click(object sender, EventArgs e)
+        private void Detener()
         {
             nucleo.Apagar();
-            timerCancion.Enabled = false;
-            timerMetadatos.Enabled = false;
+            ConfigurarTimers(false);
             controlBotones(false);
+            trackBarPosicion.Enabled = false;
+            trackBarPosicion.Value = 0;
             pictureBoxCaratula.Image = Resources.albumdesconocido;
             labelDuracion.Text = "XX:XX";
             labelPosicion.Text = "0:00";
             labelPorcentaje.Text = "0%";
             Text = "";
+        }
+        private void buttonDetener_Click(object sender, EventArgs e)
+        {
+            Detener();
         }
     }
 }

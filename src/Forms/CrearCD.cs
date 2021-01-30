@@ -103,7 +103,7 @@ namespace aplicacion_musica
                 cd.YearRelease = Convert.ToInt16(textBoxAño.Text);
                 cd.PaisPublicacion = textBoxPais.Text;
                 visualizarAlbum nuevo = new visualizarAlbum(ref cd);
-                Programa.refrescarVista();
+                Programa.RefrescarVista();
                 nuevo.Show();
             }
             else if (NC != album.numCanciones)

@@ -584,4 +584,10 @@
   <data name="portapapeles_vistaprevia" xml:space="preserve">
     <value></value>
   </data>
+  <data name="album_agregado" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="album_noagregado" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

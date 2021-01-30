@@ -56,7 +56,7 @@ namespace aplicacion_musica
                 Log.Instance.ImprimirMensaje("Intentando cargar " + cual, TipoMensaje.Info);
                 if (Path.GetExtension(cual) == ".ogg")
                 {
-                    FileStream stream = new FileStream(cual, FileMode.Open);
+                    FileStream stream = new FileStream(cual, FileMode.Open, FileAccess.Read);
                     NVorbis = new NVorbisSource(stream);
                     _sonido = NVorbis.ToWaveSource(16);
                 }
@@ -74,14 +74,16 @@ namespace aplicacion_musica
                 _salida.Initialize(_sonido);
                 Log.Instance.ImprimirMensaje("Cargado correctamente" + cual, TipoMensaje.Correcto);
             }
-            catch (IOException)
+            catch (IOException ex)
             {
-                Log.Instance.ImprimirMensaje("No se puede reproducir el fichero porque está siendo utilizado por otro proceso", TipoMensaje.Error);
+                Log.Instance.ImprimirMensaje("Error de IO", TipoMensaje.Error);
+                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
                 throw;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Log.Instance.ImprimirMensaje("No se encuentra el fichero", TipoMensaje.Advertencia);
+                Log.Instance.ImprimirMensaje("Hubo un problema...", TipoMensaje.Error);
+                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
                 throw;
             }
 

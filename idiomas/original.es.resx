@@ -614,4 +614,10 @@
   <data name="portapapeles_vistaprevia" xml:space="preserve">
     <value>Vista previa</value>
   </data>
+  <data name="album_agregado" xml:space="preserve">
+    <value>Se ha agregado el álbum correctamente.</value>
+  </data>
+  <data name="album_noagregado" xml:space="preserve">
+    <value>No se ha agregado el álbum, puede que esté repetido.</value>
+  </data>
 </root>

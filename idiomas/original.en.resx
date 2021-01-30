@@ -610,4 +610,10 @@
   <data name="portapapeles_vistaprevia" xml:space="preserve">
     <value>Preview</value>
   </data>
+  <data name="album_agregado" xml:space="preserve">
+    <value>Album has been added without problems.</value>
+  </data>
+  <data name="album_noagregado" xml:space="preserve">
+    <value>The album couldn't be added. Maybe is it repeated?</value>
+  </data>
 </root>

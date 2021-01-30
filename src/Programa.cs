@@ -61,24 +61,24 @@ namespace aplicacion_musica
         {
             principal.HayInternet(i);
         }
-        public static void cambiarIdioma(String idioma)
+        public static void CambiarIdioma(String idioma)
         {
             Log.Instance.ImprimirMensaje("Cambiando idioma al " + idioma, TipoMensaje.Info);
             textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + idioma + ".resx");
             Config.Idioma = idioma;
-            refrescarGeneros();
-            refrescarVista();
+            RefrescarGeneros();
+            RefrescarVista();
             Reproductor.Instancia.RefrescarTextos();
         }
         public static void ActivarReproduccionSpotify()
         {
             principal.ActivarReproduccionSpotify();
         }
-        public static void refrescarVista()
+        public static void RefrescarVista()
         {
             principal.Refrescar();
         }
-        public static int findGenero(string g)
+        public static int FindGenero(string g)
         {
             for (int i = 0; i < idGeneros.Length; i++)
             {
@@ -87,7 +87,7 @@ namespace aplicacion_musica
             }
             return -1;
         }
-        public static int findGeneroTraducido(string g)
+        public static int FindGeneroTraducido(string g)
         {
             for (int i = 0; i < generos.Length; i++)
             {
@@ -96,14 +96,14 @@ namespace aplicacion_musica
             }
             return -1;
         }
-        public static void refrescarGeneros()
+        public static void RefrescarGeneros()
         {
             for (int i = 0; i < generos.Length-1; i++)
             {
                 generos[i].traducido = textosLocal.GetString("genero_" + generos[i].Id);
             }
         }
-        public static void cargarAlbumes(string fichero)
+        public static void CargarAlbumes(string fichero)
         {
             Log.Instance.ImprimirMensaje("Cargando álbumes almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumes(string)");
             Stopwatch crono = Stopwatch.StartNew();
@@ -115,7 +115,7 @@ namespace aplicacion_musica
                     LineaJson = lector.ReadLine();
                     Album a = JsonConvert.DeserializeObject<Album>(LineaJson);
                     a.RefrescarDuracion();
-                    a.genero = generos[findGenero(a.genero.Id)];
+                    a.genero = generos[FindGenero(a.genero.Id)];
                     a.numCanciones = (short)a.canciones.Count;
                     a.ConfigurarCanciones();
                     miColeccion.agregarAlbum(ref a);
@@ -124,9 +124,9 @@ namespace aplicacion_musica
             }
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargados " + miColeccion.albumes.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
-            refrescarVista();
+            RefrescarVista();
         }
-        public static void cargarAlbumesCSV(string fichero)
+        public static void CargarAlbumesCSV(string fichero)
         {
             Log.Instance.ImprimirMensaje("Cargando álbumes CSV almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumesLegacy(string)");
             Stopwatch crono = Stopwatch.StartNew();
@@ -153,7 +153,7 @@ namespace aplicacion_musica
                         Environment.Exit(-1);
                     }
                     short nC = 0;
-                    int gen = findGenero(datos[4]);
+                    int gen = FindGenero(datos[4]);
                     Genero g = Programa.generos[gen];
                     if (string.IsNullOrEmpty(datos[5])) datos[5] = string.Empty;
                     Album a = null;
@@ -233,9 +233,9 @@ namespace aplicacion_musica
             }
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargados " + miColeccion.albumes.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
-            refrescarVista();
+            RefrescarVista();
         }
-        public static void cargarCDS(string fichero = "cd.json")
+        public static void CargarCDS(string fichero = "cd.json")
         {
             if (!File.Exists(fichero))
                 return;
@@ -549,13 +549,13 @@ namespace aplicacion_musica
                     }
                 }
                 if (args.Contains("-json"))
-                    cargarAlbumes("discos.json");
+                    CargarAlbumes("discos.json");
                 else
                 {
                     if (File.Exists("discos.csv"))
                     {
-                        cargarAlbumesCSV("discos.csv");
-                        cargarCDS();
+                        CargarAlbumesCSV("discos.csv");
+                        CargarCDS();
                     }
                     else
                     {

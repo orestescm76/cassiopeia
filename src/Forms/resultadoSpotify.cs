@@ -62,7 +62,7 @@ namespace aplicacion_musica
                 DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
                 crono.Stop();
                 Console.WriteLine("Agregdos " + listViewResultadoBusqueda.SelectedItems.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + "ms");
-                Programa.refrescarVista();
+                Programa.RefrescarVista();
             }
             else
             {

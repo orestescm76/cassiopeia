@@ -663,7 +663,7 @@ namespace aplicacion_musica
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
-                Programa.cargarAlbumesCSV(fichero);
+                Programa.CargarAlbumesCSV(fichero);
             }
             cargarVista();
         }
@@ -676,7 +676,7 @@ namespace aplicacion_musica
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
-                Programa.cargarAlbumesCSV(fichero);
+                Programa.CargarAlbumesCSV(fichero);
             }
         }
 
@@ -688,7 +688,7 @@ namespace aplicacion_musica
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
-                Programa.cargarCDS(fichero);
+                Programa.CargarCDS(fichero);
             }
             cargarVista();
         }

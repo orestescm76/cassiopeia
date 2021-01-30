@@ -179,7 +179,7 @@ namespace aplicacion_musica.src.Forms
                     for (int i = 0; i < radioButtonsIdiomas.Length; i++)
                     {
                         if (radioButtonsIdiomas[i].Checked)
-                            Programa.cambiarIdioma(Programa.idiomas[i]);
+                            Programa.CambiarIdioma(Programa.idiomas[i]);
                     }
                     PonerTextos();
                     break;

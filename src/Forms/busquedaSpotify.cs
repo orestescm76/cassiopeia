@@ -33,7 +33,7 @@ namespace aplicacion_musica
                     String[] uri = textBoxURISpotify.Text.Split(':');
                     if (uri[1] != "album")
                         throw new ArgumentException();
-                    Programa._spotify.insertarAlbumFromURI(uri[2]);
+                    Programa._spotify.InsertarAlbumFromURI(uri[2]);
                     DialogResult = DialogResult.Yes;
                     Dispose();
                 }

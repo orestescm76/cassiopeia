@@ -60,7 +60,7 @@ namespace aplicacion_musica
                 string gent = comboBox1.SelectedItem.ToString();
                 year = Convert.ToInt16(yearTextBox.Text);
                 nC = Convert.ToInt16(numCancionesTextBox.Text);
-                Genero g = Programa.generos[Programa.findGeneroTraducido(gent)];
+                Genero g = Programa.generos[Programa.FindGeneroTraducido(gent)];
                 Album a = null;
                 if(caratula == "")
                     a = new Album(g, titulo, artista, year, nC, "");
@@ -86,7 +86,7 @@ namespace aplicacion_musica
                 }
                 if(!cancelado)
                     Log.Instance.ImprimirMensaje(artista + " - " + titulo + " agregado correctamente", TipoMensaje.Correcto);
-                Programa.refrescarVista();
+                Programa.RefrescarVista();
                 Close();
             }
             catch (NullReferenceException ex)

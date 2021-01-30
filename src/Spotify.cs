@@ -186,7 +186,7 @@ namespace aplicacion_musica
             }
 
         }
-        public void insertarAlbumFromURI(string uri)
+        public bool InsertarAlbumFromURI(string uri)
         {
             Log.Instance.ImprimirMensaje("Insertando álbum con URI "+uri, TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -198,11 +198,14 @@ namespace aplicacion_musica
             }
             catch (Exception)
             {
-                return;
+                crono.Stop();
+                Log.Instance.ImprimirMensaje("Repetido", TipoMensaje.Advertencia);
+                return false;
             }
             crono.Stop();
             Log.Instance.ImprimirMensaje("Añadido",TipoMensaje.Correcto, crono);
-            Programa.refrescarVista();
+            Programa.RefrescarVista();
+            return true;
         }
         public void procesarAlbum(SimpleAlbum album)
         {

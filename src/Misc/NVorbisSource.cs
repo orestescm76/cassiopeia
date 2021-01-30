@@ -17,7 +17,13 @@ namespace aplicacion_musica
         private bool _disposed;
         private TimeSpan posAnt;
         private int BitRate;
-
+        public NVorbisSource(String path)
+        {
+            _vorbisReader = new VorbisReader(path);
+            WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 16, _vorbisReader.Channels, AudioEncoding.Vorbis1);
+            posAnt = TimeSpan.Zero;
+            _vorbisReader.SamplePosition = 0;
+        }
         public NVorbisSource(Stream stream)
         {
             if (stream == null)
@@ -25,10 +31,10 @@ namespace aplicacion_musica
             if (!stream.CanRead)
                 throw new ArgumentException("Stream is not readable.", "stream");
             _stream = stream;
-            _vorbisReader = new VorbisReader(stream, false);
+            _vorbisReader = new VorbisReader(stream);
             WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 16, _vorbisReader.Channels, AudioEncoding.Vorbis1);
             posAnt = TimeSpan.Zero;
-            //_vorbisReader.DecodedPosition = 5;
+            _vorbisReader.SamplePosition = 0;
         }
 
         public bool CanSeek
@@ -37,13 +43,12 @@ namespace aplicacion_musica
         }
         public TimeSpan Duracion { get { return _vorbisReader.TotalTime; } }
         public WaveFormat WaveFormat { get; }
-
         //got fixed through workitem #17, thanks for reporting @rgodart.
         public long Length
         {
             get 
-            { 
-                return CanSeek ? (long)(_vorbisReader.TotalTime.TotalSeconds * WaveFormat.SampleRate * WaveFormat.Channels) : 0; 
+            {
+                return (long)_vorbisReader.TotalTime.TotalSeconds * WaveFormat.SampleRate * _vorbisReader.Channels;
             }
         }
         public int Bitrate
@@ -58,12 +63,7 @@ namespace aplicacion_musica
         {
             get
             {
-                long pos = (long)(_vorbisReader.TimePosition.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels);
-                if (pos < 0)
-                {
-                    return (long)(posAnt.TotalSeconds * _vorbisReader.SampleRate * _vorbisReader.Channels);
-                }
-                return CanSeek ? pos : 0;
+                return (long)_vorbisReader.TimePosition.TotalSeconds * WaveFormat.SampleRate * _vorbisReader.Channels;
             }
             set
             {
@@ -77,7 +77,7 @@ namespace aplicacion_musica
                     _vorbisReader.TimePosition = TimeSpan.FromSeconds((double)value / _vorbisReader.SampleRate / _vorbisReader.Channels);
 
                 }
-                catch (Exception)
+                catch (ArgumentOutOfRangeException)
                 {
 
                     Log.Instance.ImprimirMensaje("Error intentando cambiar el puntero de la canción, poniendo uno de reserva...", TipoMensaje.Error);
