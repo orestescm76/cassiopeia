@@ -44,7 +44,7 @@ namespace aplicacion_musica
             Application.ApplicationExit += new EventHandler(salidaAplicacion);
 
             vistaAlbumes.View = View.Details;
-            ponerTextos();
+            PonerTextos();
             vistaAlbumes.FullRowSelect = true;
             duracionSeleccionada.AutoSize = true;
             barraAbajo.Visible = true;
@@ -59,7 +59,7 @@ namespace aplicacion_musica
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
             Log.ImprimirMensaje("Formulario principal creado", TipoMensaje.Correcto, crono);
         }
-        public void Refrescar() { ponerTextos(); cargarVista(); }
+        public void Refrescar() { PonerTextos(); CargarVista(); }
         public void HayInternet(bool i)
         {
             buscarEnSpotifyToolStripMenuItem.Enabled = i;
@@ -73,7 +73,7 @@ namespace aplicacion_musica
         {
             spotifyToolStripMenuItem.Enabled = true;
         }
-        private void cargarVista()
+        private void CargarVista()
         {
             Log.Instance.ImprimirMensaje("Cargando vista" + TipoVista, TipoMensaje.Info);
             vistaAlbumes.Items.Clear();
@@ -112,7 +112,7 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
-        private void ponerTextos()
+        private void PonerTextos()
         {
             Text = Programa.textosLocal.GetString("titulo_ventana_principal") + " " + Programa.version + " Codename " + Programa.CodeName;
             archivoMenuItem1.Text = Programa.textosLocal.GetString("archivo");
@@ -148,7 +148,7 @@ namespace aplicacion_musica
             nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = Programa.textosLocal.GetString("nuevoAlbumDesdeCarpeta");
             configToolStripMenuItem.Text = Programa.textosLocal.GetString("configuracion");
         }
-        private void ordenarColumnas(object sender, ColumnClickEventArgs e)
+        private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
         {
             Log.ImprimirMensaje("Ordenando columnas", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -205,7 +205,7 @@ namespace aplicacion_musica
         {
             agregarAlbum agregarAlbum = new agregarAlbum();
             agregarAlbum.Show();
-            cargarVista();
+            CargarVista();
         }
         private void guardarDiscos(string nombre, TipoGuardado tipoGuardado)
         {
@@ -286,7 +286,7 @@ namespace aplicacion_musica
             }
             if(e.KeyCode == Keys.F5)
             {
-                cargarVista();
+                CargarVista();
             }
             if (e.KeyCode == Keys.Escape)
             {
@@ -643,7 +643,7 @@ namespace aplicacion_musica
         private void cdToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TipoVista = TipoVista.CD;
-            cargarVista();
+            CargarVista();
             digitalToolStripMenuItem.Checked = false;
             
         }
@@ -652,7 +652,7 @@ namespace aplicacion_musica
         {
             TipoVista = TipoVista.Digital;
             cdToolStripMenuItem.Checked = false;
-            cargarVista();
+            CargarVista();
         }
 
         private void cargarDiscosLegacyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -665,7 +665,7 @@ namespace aplicacion_musica
                 string fichero = openFileDialog1.FileName;
                 Programa.CargarAlbumesCSV(fichero);
             }
-            cargarVista();
+            CargarVista();
         }
 
         private void digitalToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -690,7 +690,7 @@ namespace aplicacion_musica
                 string fichero = openFileDialog1.FileName;
                 Programa.CargarCDS(fichero);
             }
-            cargarVista();
+            CargarVista();
         }
 
         private void vincularToolStripMenuItem_Click(object sender, EventArgs e)

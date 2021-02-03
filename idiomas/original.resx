@@ -593,4 +593,10 @@
   <data name="click_reproductor" xml:space="preserve">
     <value></value>
   </data>
+  <data name="nuevaPlaylist" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="reproduciendo" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

@@ -619,4 +619,10 @@
   <data name="click_reproductor" xml:space="preserve">
     <value>Click here to show the Player</value>
   </data>
+  <data name="nuevaPlaylist" xml:space="preserve">
+    <value>New playlist</value>
+  </data>
+  <data name="reproduciendo" xml:space="preserve">
+    <value>Playing</value>
+  </data>
 </root>

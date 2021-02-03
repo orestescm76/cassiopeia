@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Collections;
+using CSCore;
 using CSCore.Tags.ID3;
 using NVorbis;
 using JAudioTags;
@@ -14,12 +14,14 @@ namespace aplicacion_musica
         private readonly VorbisReader _vorbisReader = null;
         private readonly FLACFile _FLACfile;
         private readonly ID3v2QuickInfo _mp3iD3 = null;
+        private readonly IWaveSource _sonido;
         public string Artista { get; private set; }
         public string Titulo { get; private set; }
         public int Pista { get; private set; }
         public string Album { get; private set; }
         public int Año { get; private set; }
         public Image Cover { get; set; }
+        public TimeSpan Duracion { get; private set; }
         public LectorMetadatos(string s)
         {
             switch (Path.GetExtension(s))
@@ -41,6 +43,9 @@ namespace aplicacion_musica
                         Cover = _mp3iD3.Image;
                     else
                         Cover = null;
+                    _sonido = CSCore.Codecs.CodecFactory.Instance.GetCodec(s).ToSampleSource().ToStereo().ToWaveSource(16);
+                    Duracion = _sonido.GetLength();
+                    _sonido.Dispose();
                     break;
                 case ".flac":
                     _FLACfile = new FLACFile(s, true);
@@ -57,6 +62,9 @@ namespace aplicacion_musica
                         Log.Instance.ImprimirMensaje("No se ha podido extraer la fecha del FLAC", TipoMensaje.Advertencia);
                         Año = 0;
                     }
+                    _sonido = CSCore.Codecs.CodecFactory.Instance.GetCodec(s).ToSampleSource().ToStereo().ToWaveSource(16);
+                    Duracion = _sonido.GetLength();
+                    _sonido.Dispose();
                     break;
                 case ".ogg":
                     _vorbisReader = new VorbisReader(s);
@@ -72,11 +80,13 @@ namespace aplicacion_musica
                         Log.Instance.ImprimirMensaje("No se ha podido extraer la fecha del OGG", TipoMensaje.Advertencia);
                         Año = 0;
                     }
+                    Duracion = _vorbisReader.TotalTime;
                     _vorbisReader.Dispose();
                     break;
                 default:
                     break;
             }
+            _sonido = null;
         }
         public bool Evaluable()
         {

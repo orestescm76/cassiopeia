@@ -55,6 +55,10 @@ namespace aplicacion_musica
             album = a;
             Bonus = b;
         }
+        public Cancion(string path) //Crea una canción fantasma con sólo un PATH
+        {
+            this.PATH = path;
+        }
         public override string ToString()
         {
             if (album != null)

@@ -39,7 +39,7 @@ namespace aplicacion_musica
         SpotifyWebAPI _spotify;
         FullTrack cancionReproduciendo;
         private BackgroundWorker backgroundWorker;
-        private int ListaReproduccionPuntero;
+        private int ListaReproduccionPuntero=0;
         bool SpotifyListo = false;
         bool EsPremium = false;
         DirectoryInfo directorioCanciones;
@@ -64,6 +64,7 @@ namespace aplicacion_musica
             controlBotones(false);
             timerCancion.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
+            trackBarPosicion.Enabled = false;
             DuracionSeleccionada = new ToolTip();
             VolumenSeleccionado = new ToolTip();
             Volumen = 1.0f;
@@ -444,12 +445,14 @@ namespace aplicacion_musica
         public void ReproducirCancion(int Pista)
         {
             ConfigurarTimers(false);
-
             estadoReproductor = EstadoReproductor.Detenido;
-            nucleo.SaltarCancionCD(Pista);
+            if (ModoCD)
+                nucleo.SaltarCancionCD(Pista);
+            else
+                ReproducirCancion(ListaReproduccion.Canciones[Pista]);
+            PrepararReproductor();
             ListaReproduccionPuntero = Pista;
             lrui.SetActivo(ListaReproduccionPuntero);
-            PrepararReproductor();
             timerCancion.Enabled = true;
             timerMetadatos.Enabled = false;
             buttonTwit.Enabled = false;
@@ -661,7 +664,7 @@ namespace aplicacion_musica
                 trackBarPosicion.Value = (int)val;
             }
 
-            if (pos == dur)
+            if (pos.Minutes == dur.Minutes && pos.Seconds == dur.Seconds)
             {
                 estadoReproductor = EstadoReproductor.Detenido;
                 if(ListaReproduccion != null)
@@ -720,7 +723,9 @@ namespace aplicacion_musica
                 {
                     if (FicheroLeible(fich))
                     {
-                        ReproducirCancion(fich);
+                        Cancion c = new Cancion(fich);
+                        ListaReproduccion.AgregarCancion(c);
+                        ReproducirLista(ListaReproduccion);
                     }
                 }
                 catch (Exception ex)
@@ -893,6 +898,10 @@ namespace aplicacion_musica
 
         private void buttonSaltarAdelante_Click(object sender, EventArgs e)
         {
+            SaltarAdelante();
+        }
+        private void SaltarAdelante()
+        {
             if (EsPremium && Spotify)
                 _spotify.SkipPlaybackToNext();
             else
@@ -917,7 +926,7 @@ namespace aplicacion_musica
                         }
                         catch (Exception)
                         {
-
+                            MessageBox.Show("No puedes");
                             return;
                         }
 
@@ -926,8 +935,7 @@ namespace aplicacion_musica
                 }
             }
         }
-
-        private void buttonSaltarAtras_Click(object sender, EventArgs e)
+        private void SaltarAtras()
         {
             if (Spotify && EsPremium)
                 _spotify.SkipPlaybackToPrevious();
@@ -943,6 +951,10 @@ namespace aplicacion_musica
                         ReproducirCancion(ListaReproduccionPuntero);
                 }
             }
+        }
+        private void buttonSaltarAtras_Click(object sender, EventArgs e)
+        {
+            SaltarAtras();
         }
 
         private void Reproductor_KeyDown(object sender, KeyEventArgs e)
@@ -1089,7 +1101,8 @@ namespace aplicacion_musica
             ListaReproduccion lr = new ListaReproduccion("");
             ListaReproduccion = lr;
             lrui = new ListaReproduccionUI(ListaReproduccion);
-            ListaReproduccionPuntero = -1;
+            ListaReproduccionPuntero = 0;
+            lrui.Show();
         }
         public TimeSpan getDuracionFromFile(string path)
         {
@@ -1120,6 +1133,10 @@ namespace aplicacion_musica
             Text = "";
             labelDatosCancion.Text = "";
             notifyIconReproduciendo.Visible = false;
+        }
+        public void ActivarPorLista() //Prepara para reproducir una lista de reproducción
+        {
+            controlBotones(true);
         }
         private void buttonDetener_Click(object sender, EventArgs e)
         {

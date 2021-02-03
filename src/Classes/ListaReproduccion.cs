@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 
 namespace aplicacion_musica
@@ -57,6 +58,24 @@ namespace aplicacion_musica
         {
             get => Canciones[key];
             set => Canciones[key] = value;
+        }
+        public void Guardar(string name)
+        {
+            StreamWriter Writer = new StreamWriter(name);
+            foreach (var cancion in Canciones)
+            {
+                Writer.WriteLine(cancion.PATH);
+            }
+        }
+        public void Cargar(string path)
+        {
+            StreamReader reader = new StreamReader(path);
+            while(!reader.EndOfStream)
+            {
+                Cancion c = new Cancion();
+                c.PATH = reader.ReadLine();
+                Canciones.Add(c);
+            }
         }
     }
 }

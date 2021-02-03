@@ -384,7 +384,7 @@
             this.vistaAlbumes.TabIndex = 1;
             this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
             this.vistaAlbumes.View = System.Windows.Forms.View.Details;
-            this.vistaAlbumes.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ordenarColumnas);
+            this.vistaAlbumes.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.OrdenarColumnas);
             this.vistaAlbumes.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.vistaAlbumes_DrawColumnHeader);
             this.vistaAlbumes.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.vistaAlbumes_ItemMouseHover);
             this.vistaAlbumes.SelectedIndexChanged += new System.EventHandler(this.vistaAlbumes_SelectedIndexChanged_1);

@@ -22,30 +22,57 @@ namespace aplicacion_musica
             CargarVista();
             listViewCanciones.Size = Size;
             Puntero = 0;
-            SetActivo(Puntero);
             Text = lr.Nombre;
+            PonerTextos();
+        }
+        private void PonerTextos()
+        {
+            nuevaToolStripMenuItem.Text = Programa.textosLocal.GetString("nuevaPlaylist");
+            saveToolStripMenuItem.Text = Programa.textosLocal.GetString("guardar");
+            addToolStripMenuItem.Text = Programa.textosLocal.GetString("añadir_cancion");
+            listViewCanciones.Columns[0].Text = Programa.textosLocal.GetString("reproduciendo");
+            listViewCanciones.Columns[1].Text = Programa.textosLocal.GetString("artista");
+            listViewCanciones.Columns[2].Text = Programa.textosLocal.GetString("titulo");
+            listViewCanciones.Columns[3].Text = Programa.textosLocal.GetString("duracion");
         }
         private void CargarVista()
         {
+            listViewCanciones.Items.Clear();
+            ListViewItem[] items = new ListViewItem[listaReproduccion.Canciones.Count];
             for (int i = 0; i < listaReproduccion.Canciones.Count; i++)
             {
-                string[] data = new string[3];
+                string[] data = new string[4];
                 data[0] = "";
-                listaReproduccion.Canciones[i].ToStringArray().CopyTo(data, 1);
-                ListViewItem item = new ListViewItem(data);
-                listViewCanciones.Items.Add(item);
+                //Coger los datos de la canción, si fuera necesario.
+                if(string.IsNullOrEmpty(listaReproduccion.Canciones[i].titulo))
+                {
+                    LectorMetadatos lectorMetadatos = new LectorMetadatos(listaReproduccion.Canciones[i].PATH);
+                    data[1] = lectorMetadatos.Artista;
+                    data[2] = lectorMetadatos.Titulo;
+                    data[3] = lectorMetadatos.Duracion.ToString();
+                }
+                else
+                {
+                    data[1] = listaReproduccion.Canciones[i].album.artista;
+                    data[2] = listaReproduccion.Canciones[i].titulo;
+                    data[3] = listaReproduccion.Canciones[i].duracion.ToString();
+                }
+                items[i] = new ListViewItem(data);
             }
+            listViewCanciones.Items.AddRange(items);
         }
         public void Refrescar()
         {
-            listViewCanciones.Clear();
             CargarVista();
         }
         public void SetActivo(int punt)
         {
-            listViewCanciones.Items[Puntero].SubItems[0].Text = "";
-            listViewCanciones.Items[punt].SubItems[0].Text = Playing;
-            Puntero = punt;
+            if(punt != -1)
+            {
+                listViewCanciones.Items[Puntero].SubItems[0].Text = "";
+                listViewCanciones.Items[punt].SubItems[0].Text = Playing;
+                Puntero = punt;
+            }
         }
 
         private void ListaReproduccionUI_DragEnter(object sender, DragEventArgs e)
@@ -56,11 +83,26 @@ namespace aplicacion_musica
         private void ListaReproduccionUI_DragDrop(object sender, DragEventArgs e)
         {
             Cancion c = null;
+            string[] canciones = null;
             if((c = (Cancion)e.Data.GetData(typeof(Cancion))) != null)
             {
-                listaReproduccion.AgregarCancion(c);
-                Refrescar();
+                if(!string.IsNullOrEmpty(c.PATH))
+                {
+                    listaReproduccion.AgregarCancion(c);
+                }
             }
+            else if ((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null) //El usuario arrastra desde el explorador.
+            {
+                foreach (string cancion in canciones)
+                {
+                    Cancion clr = new Cancion(cancion);
+                    listaReproduccion.AgregarCancion(clr);
+                    
+                }
+            }
+            Refrescar();
+            
+            Reproductor.Instancia.ActivarPorLista();
         }
 
         private void listViewCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -76,8 +118,16 @@ namespace aplicacion_musica
 
         private void ListaReproduccionUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.Hide();
-            e.Cancel = true;
+            if(e.CloseReason != CloseReason.ApplicationExitCall)
+            {
+                this.Hide();
+                e.Cancel = true;
+            }
+        }
+
+        private void ListaReproduccionUI_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
