@@ -1,4 +1,4 @@
-﻿namespace aplicacion_musica
+﻿namespace aplicacion_musica.src.Forms
 {
     partial class ListaReproduccionUI
     {
@@ -30,13 +30,14 @@
         {
             this.listViewCanciones = new System.Windows.Forms.ListView();
             this.columnPlaying = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnArtista = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnDuration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnArtista = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.nuevaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,6 +66,10 @@
             this.columnPlaying.Text = "Playing";
             this.columnPlaying.Width = 82;
             // 
+            // columnArtista
+            // 
+            this.columnArtista.Text = "artista";
+            // 
             // columnName
             // 
             this.columnName.Text = "Titulo";
@@ -75,16 +80,13 @@
             this.columnDuration.Text = "Duracion";
             this.columnDuration.Width = 84;
             // 
-            // columnArtista
-            // 
-            this.columnArtista.Text = "artista";
-            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuevaToolStripMenuItem,
             this.saveToolStripMenuItem,
-            this.addToolStripMenuItem});
+            this.addToolStripMenuItem,
+            this.changeNameToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(488, 24);
@@ -97,17 +99,25 @@
             this.nuevaToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.nuevaToolStripMenuItem.Text = "nueva";
             // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(42, 20);
+            this.saveToolStripMenuItem.Text = "save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
             this.addToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.addToolStripMenuItem.Text = "add";
             // 
-            // saveToolStripMenuItem
+            // changeNameToolStripMenuItem
             // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(42, 20);
-            this.saveToolStripMenuItem.Text = "save";
+            this.changeNameToolStripMenuItem.Name = "changeNameToolStripMenuItem";
+            this.changeNameToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
+            this.changeNameToolStripMenuItem.Text = "changeName";
+            this.changeNameToolStripMenuItem.Click += new System.EventHandler(this.changeNameToolStripMenuItem_Click);
             // 
             // ListaReproduccionUI
             // 
@@ -144,5 +154,6 @@
         private System.Windows.Forms.ToolStripMenuItem nuevaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeNameToolStripMenuItem;
     }
 }

@@ -507,9 +507,21 @@ namespace aplicacion_musica
         {
             if(e.Button == MouseButtons.Right)
             {
-                if (TipoVista == TipoVista.CD)
-                    clickDerechoMenuContexto.Items[0].Visible = false;
-                clickDerechoMenuContexto.Show(vistaAlbumes,e.Location);
+                switch (TipoVista)
+                {
+                    case TipoVista.Digital:
+                        clickDerechoMenuContexto.Items[0].Visible = true;
+                        break;
+                    case TipoVista.CD:
+                        clickDerechoMenuContexto.Items[0].Visible = false;
+                        break;
+                    case TipoVista.Vinilo:
+                        break;
+                    default:
+                        break;
+                }
+                clickDerechoMenuContexto.Show(vistaAlbumes, e.Location);
+
             }
         }
         private void crearCDToolStripMenuItem_Click(object sender, EventArgs e)

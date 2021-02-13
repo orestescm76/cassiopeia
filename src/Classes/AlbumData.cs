@@ -73,7 +73,7 @@ namespace aplicacion_musica
 
             foreach (Song song in Songs)
             {
-                if (!song.Bonus)
+                if (!song.IsBonus)
                     length += song.duracion;
             }
 

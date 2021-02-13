@@ -92,7 +92,7 @@ namespace aplicacion_musica
                     albumAEditar.IdSpotify = (textBoxURISpotify.Text);
                 foreach (Song c in albumAEditar.Songs)
                 {
-                    if(!c.Bonus)
+                    if(!c.IsBonus)
                         nuevaDuracion += c.duracion;
                 }
             }

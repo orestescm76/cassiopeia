@@ -30,7 +30,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -235,6 +235,12 @@
     <Compile Include="src\Forms\visualizarAlbum.Designer.cs">
       <DependentUpon>visualizarAlbum.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Forms\WriteName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Forms\WriteName.Designer.cs">
+      <DependentUpon>WriteName.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Misc\CancionConverter.cs" />
     <Compile Include="src\Misc\ClaveAPI.cs" />
     <Compile Include="src\Misc\ListViewItemComparer.cs" />
@@ -318,6 +324,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\visualizarAlbum.resx">
       <DependentUpon>visualizarAlbum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Forms\WriteName.resx">
+      <DependentUpon>WriteName.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -10,7 +10,7 @@ namespace aplicacion_musica
         public string titulo { get; set; }
         [JsonConverter(typeof(TiempoConverter))]
         public TimeSpan duracion { get; set; }
-        public bool Bonus { get; set; }
+        public bool IsBonus { get; set; }
         [JsonIgnore]
         public String PATH { get; set; }
         public string[] Lyrics { get; set; }
@@ -33,14 +33,14 @@ namespace aplicacion_musica
         {
             this.titulo = titulo;
             duracion = new TimeSpan(0, 0, 0, 0, ms);
-            this.Bonus = Bonus;
+            this.IsBonus = Bonus;
         }
         public Song(Song c)
         {
             titulo = c.titulo;
             album = c.album;
             duracion = c.duracion;
-            Bonus = c.Bonus;
+            IsBonus = c.IsBonus;
         }
         public Song(string t, TimeSpan d, ref AlbumData a)
         {
@@ -53,7 +53,7 @@ namespace aplicacion_musica
             titulo = t;
             duracion = d;
             album = a;
-            Bonus = b;
+            IsBonus = b;
         }
         public Song(string path) //Crea una canción fantasma con sólo un PATH
         {
@@ -69,7 +69,7 @@ namespace aplicacion_musica
         public String[] ToStringArray()
         {
             String[] datos;
-            if (duracion.TotalMinutes>=60)
+            if (duracion.TotalMinutes >= 60)
                 datos = new string[] { titulo, duracion.ToString(@"h\:mm\:ss") };
             else
                 datos = new string[] { titulo, duracion.ToString(@"mm\:ss") };

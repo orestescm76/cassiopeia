@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace aplicacion_musica
+namespace aplicacion_musica.src.Forms
 {
     public partial class ListaReproduccionUI : Form
     {
@@ -127,6 +127,26 @@ namespace aplicacion_musica
 
         private void ListaReproduccionUI_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void changeNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WriteName WriteNameForm = new WriteName();
+            DialogResult Result = WriteNameForm.ShowDialog();
+            if (Result == DialogResult.OK)
+                listaReproduccion.Nombre = WriteNameForm.PlaylistName;
+            Text = listaReproduccion.Nombre;
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+            }
 
         }
     }

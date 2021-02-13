@@ -129,7 +129,7 @@ namespace aplicacion_musica
                 {
                     item.BackColor = Color.LightSalmon;
                 }
-                if (c.Bonus)
+                if (c.IsBonus)
                 {
                     item.BackColor = Color.SkyBlue;
                 }
@@ -172,7 +172,7 @@ namespace aplicacion_musica
                     {
                         items[i].BackColor = Color.LightSalmon;
                     }
-                    if (c.Bonus)
+                    if (c.IsBonus)
                     {
                         items[i].BackColor = Color.SkyBlue;
                         durBonus += c.duracion;
@@ -204,7 +204,7 @@ namespace aplicacion_musica
                     {
                         items[i].BackColor = Color.LightSalmon;
                     }
-                    if (c.Bonus)
+                    if (c.IsBonus)
                     {
                         items[i].BackColor = Color.SkyBlue;
                         durBonus += c.duracion;
@@ -237,7 +237,7 @@ namespace aplicacion_musica
                     {
                         items[i].BackColor = Color.LightSalmon;
                     }
-                    if (c.Bonus)
+                    if (c.IsBonus)
                     {
                         items[i].BackColor = Color.SkyBlue;
                         durBonus += c.duracion;
@@ -395,14 +395,7 @@ namespace aplicacion_musica
             foreach (ListViewItem item in vistaCanciones.SelectedItems)
             {
                 Song c = albumToVisualize.Songs[Convert.ToInt32(item.SubItems[0].Text)-1];
-                if(c.Bonus)
-                {
-                    c.Bonus = false;
-                }
-                else
-                {
-                    c.Bonus = true;
-                }
+                c.IsBonus = !c.IsBonus;
             }
             cargarVista();
         }

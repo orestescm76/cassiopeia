@@ -76,7 +76,7 @@ namespace aplicacion_musica
             Config.Idioma = idioma;
             RefrescarGeneros();
             RefrescarVista();
-            Reproductor.Instancia.RefrescarTextos();
+            src.Forms.Reproductor.Instancia.RefrescarTextos();
         }
         public static void ActivarReproduccionSpotify()
         {
@@ -375,7 +375,7 @@ namespace aplicacion_musica
 
                                         }
                                         else //titulo;400;0
-                                            salida.WriteLine(a.Songs[i].titulo + ";" + (int)a.Songs[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.Songs[i].Bonus));
+                                            salida.WriteLine(a.Songs[i].titulo + ";" + (int)a.Songs[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.Songs[i].IsBonus));
                                     }
                                 }
                                 salida.WriteLine();
@@ -600,8 +600,8 @@ namespace aplicacion_musica
                     CargarLyrics();
             }
             //creo el Reproductor
-            Reproductor.Instancia = new Reproductor();
-            Reproductor.Instancia.RefrescarTextos();
+            src.Forms.Reproductor.Instancia = new src.Forms.Reproductor();
+            src.Forms.Reproductor.Instancia.RefrescarTextos();
             if (ModoStream) //enchufa la app sin nada, solo el spotify y el texto
             {
                 Application.Run();
@@ -610,7 +610,7 @@ namespace aplicacion_musica
                 Application.Run(principal);
             else
             {
-                Application.Run(Reproductor.Instancia);
+                Application.Run(src.Forms.Reproductor.Instancia);
             }
             if(_spotify != null && tareaRefrescoToken != null)
                 tareaRefrescoToken.Abort();

@@ -69,7 +69,7 @@ namespace aplicacion_musica
             textBoxNumPartes.Hide();
             ConsejoEsBonus = new ToolTip();
             ConsejoEsBonus.SetToolTip(checkBoxBonus, Programa.textosLocal.GetString("esBonusAyuda"));
-            if (c.Bonus)
+            if (c.IsBonus)
                 checkBoxBonus.Checked = true;
             np = 0;
             ponerTextos();
@@ -157,7 +157,7 @@ namespace aplicacion_musica
                     {
                         cancion.titulo = t;
                         cancion.duracion = new TimeSpan(0, min, sec);
-                        cancion.Bonus = bonus;
+                        cancion.IsBonus = bonus;
                         DialogResult = DialogResult.OK;
                         Close();
                     }
