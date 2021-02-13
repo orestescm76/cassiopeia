@@ -9,15 +9,15 @@ namespace aplicacion_musica
         public string t;
         public int min, sec, np;
         private int cual;
-        Album album;
-        Cancion cancion;
+        AlbumData album;
+        Song cancion;
         CancionLarga cancionlarga;
         bool editar;
         bool larga;
         bool bonus;
         ToolTip ConsejoEsLarga;
         ToolTip ConsejoEsBonus;
-        public agregarCancion(ref Album a, int n) //caso normal
+        public agregarCancion(ref AlbumData a, int n) //caso normal
         {
             Log.Instance.ImprimirMensaje("Creando canción", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -37,7 +37,7 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
-        public agregarCancion(ref Cancion c) //editar
+        public agregarCancion(ref Song c) //editar
         {
             Log.Instance.ImprimirMensaje("Editando canción", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -76,7 +76,7 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
-        public agregarCancion(ref Album a, int n, bool l) //crear canción larga
+        public agregarCancion(ref AlbumData a, int n, bool l) //crear canción larga
         {
             Log.Instance.ImprimirMensaje("Creando canción con partes", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -96,7 +96,7 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
-        public agregarCancion(ref CancionLarga l, int n, ref Album a) //crear parte de canción larga
+        public agregarCancion(ref CancionLarga l, int n, ref AlbumData a) //crear parte de canción larga
         {
             Log.Instance.ImprimirMensaje("Creando parte de canción larga", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -119,7 +119,7 @@ namespace aplicacion_musica
         {
             int cualdeVerdad = cual;
             if (cual == -2)
-                cualdeVerdad = album.numCanciones;
+                cualdeVerdad = album.NumberOfSongs;
             if(editar)
             {
                 Text = Programa.textosLocal.GetString("editando") + " " + cancion.titulo;
@@ -163,11 +163,11 @@ namespace aplicacion_musica
                     }
                     else
                     {
-                        Cancion c = new Cancion(t, new TimeSpan(0, min, sec), ref album, bonus);
+                        Song c = new Song(t, new TimeSpan(0, min, sec), ref album, bonus);
                         if (cual != 0)
-                            album.agregarCancion(c, cual);
+                            album.AddSong(c, cual);
                         else
-                            album.agregarCancion(c);
+                            album.AddSong(c);
                         DialogResult = DialogResult.OK;
                         Close();
                     }
@@ -178,7 +178,7 @@ namespace aplicacion_musica
                     min = sec = 0;
                     np = Convert.ToInt32(textBoxNumPartes.Text);
                     CancionLarga cl = new CancionLarga(t, ref album);
-                    album.agregarCancion(cl, cual);
+                    album.AddSong(cl, cual);
                     for (int i = 0; i < np; i++)
                     {
                         agregarCancion addParte = new agregarCancion(ref cl, i + 1, ref album);
@@ -196,10 +196,9 @@ namespace aplicacion_musica
                     sec = Convert.ToInt32(secsTextBox.Text);
                     TimeSpan dur = new TimeSpan(0, min, sec);
                     np = 0;
-                    Cancion p = new Cancion(t, dur, ref album);
-                    cancionlarga.addParte(ref p);
+                    Song p = new Song(t, dur, ref album);
+                    cancionlarga.addParte(p);
                     DialogResult = DialogResult.OK;
-                    album.duracion += dur;
                 }
                 Dispose();
             }
@@ -227,8 +226,8 @@ namespace aplicacion_musica
                 min = Convert.ToInt32(minTextBox.Text);
                 sec = Convert.ToInt32(secsTextBox.Text);
                 t = tituloTextBox.Text;
-                Cancion c = new Cancion(t, new TimeSpan(0, min, sec), ref album);
-                album.agregarCancion(c, cual);
+                Song c = new Song(t, new TimeSpan(0, min, sec), ref album);
+                album.AddSong(c, cual);
                 Log.Instance.ImprimirMensaje(t + " añadido correctamente", TipoMensaje.Correcto);
             }
             catch (Exception ex)

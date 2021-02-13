@@ -13,7 +13,11 @@ namespace aplicacion_musica
         public Disco[] Discos { get; set; }
         public String[] Anotaciones { get; set; }
         public FormatoCD FormatoCD { get; set; }
-        public DiscoCompacto(string s, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f) : base(s, ee)
+        public DiscoCompacto() : base()
+        {
+
+        }
+        public DiscoCompacto(string s, int nc, EstadoMedio e, EstadoMedio ee, FormatoCD f) : base(s, ee)
         {
             FormatoCD = f;
             Discos = new Disco[1];
@@ -22,7 +26,7 @@ namespace aplicacion_musica
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
-        public DiscoCompacto(string s, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, int nCD) : base(s, ee)
+        public DiscoCompacto(string s, int nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, int nCD) : base(s, ee)
         {
             FormatoCD = f;
             Discos = new Disco[nCD];
@@ -43,7 +47,7 @@ namespace aplicacion_musica
         {
             Discos = new Disco[nCD];
         }
-        public DiscoCompacto(string s, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, short y, string p): base(s, ee, y, p)
+        public DiscoCompacto(string s, int nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, short y, string p): base(s, ee, y, p)
         {
             FormatoCD = f;
             Discos = new Disco[1];

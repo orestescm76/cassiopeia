@@ -7,18 +7,18 @@ namespace aplicacion_musica
 {
     public class ListaReproduccion
     {
-        public List<Cancion> Canciones { get; private set; }
+        public List<Song> Canciones { get; private set; }
         public ListaReproduccion(String n)
         {
             Nombre = n;
-            Canciones = new List<Cancion>();
+            Canciones = new List<Song>();
         }
         public String Nombre { get; set; }
-        public void AgregarCancion(Cancion c)
+        public void AgregarCancion(Song c)
         {
             Canciones.Add(c);
         }
-        public Cancion GetCancion(int cual) //¡sobre 0!
+        public Song GetCancion(int cual) //¡sobre 0!
         {
             return Canciones[cual];
         }
@@ -36,7 +36,7 @@ namespace aplicacion_musica
                 return true;
             else return false;
         }
-        private void Shuffle(List<Cancion> list)
+        private void Shuffle(List<Song> list)
         {
             Random rng = new Random();
             int n = list.Count;
@@ -44,7 +44,7 @@ namespace aplicacion_musica
             {
                 n--;
                 int k = rng.Next(n + 1);
-                Cancion valor = list[k];
+                Song valor = list[k];
                 list[k] = list[n];
                 list[n] = valor;
             }
@@ -54,7 +54,7 @@ namespace aplicacion_musica
             Shuffle(Canciones);
         }
 
-        public Cancion this[int key]
+        public Song this[int key]
         {
             get => Canciones[key];
             set => Canciones[key] = value;
@@ -73,7 +73,7 @@ namespace aplicacion_musica
             StreamReader reader = new StreamReader(path);
             while(!reader.EndOfStream)
             {
-                Cancion c = new Cancion();
+                Song c = new Song();
                 c.PATH = reader.ReadLine();
                 Canciones.Add(c);
             }

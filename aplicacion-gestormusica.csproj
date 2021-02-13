@@ -120,7 +120,7 @@
     <Compile Include="src\CD\CDWave.cs" />
     <Compile Include="src\CD\DriveLock.cs" />
     <Compile Include="src\CD\PistaCD.cs" />
-    <Compile Include="src\Classes\Album.cs" />
+    <Compile Include="src\Classes\AlbumData.cs" />
     <Compile Include="src\Classes\AlbumFisico.cs" />
     <Compile Include="src\Classes\Cancion.cs" />
     <Compile Include="src\Classes\CancionLarga.cs" />

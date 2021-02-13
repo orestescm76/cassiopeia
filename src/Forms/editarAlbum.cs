@@ -6,18 +6,18 @@ namespace aplicacion_musica
 {
     public partial class editarAlbum : Form
     {
-        private Album albumAEditar;
+        private AlbumData albumAEditar;
         private string[] generosTraducidos = new string[Programa.genres.Length-1];
-        public editarAlbum(ref Album a)
+        public editarAlbum(ref AlbumData a)
         {
             InitializeComponent();
             Console.WriteLine("Editando canción");
             albumAEditar = a;
-            textBoxArtista.Text = albumAEditar.artista;
-            textBoxAño.Text = albumAEditar.year.ToString();
-            textBoxTitulo.Text = albumAEditar.nombre;
-            labelRuta.Text = albumAEditar.caratula;
-            labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
+            textBoxArtista.Text = albumAEditar.Artist;
+            textBoxAño.Text = albumAEditar.Year.ToString();
+            textBoxTitulo.Text = albumAEditar.Title;
+            labelRuta.Text = albumAEditar.Cover;
+            labelDirectorioActual.Text = albumAEditar.SoundFilesPath;
             textBoxURISpotify.Text = albumAEditar.IdSpotify;
             vistaCanciones.View = View.List;
             ponerTextos();
@@ -26,7 +26,7 @@ namespace aplicacion_musica
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal.GetString("editando") + " " + albumAEditar.artista + " - " + albumAEditar.nombre;
+            Text = Programa.textosLocal.GetString("editando") + " " + albumAEditar.Artist + " - " + albumAEditar.Title;
             labelArtista.Text = Programa.textosLocal.GetString("artista");
             labelTitulo.Text = Programa.textosLocal.GetString("titulo");
             labelAño.Text = Programa.textosLocal.GetString("año");
@@ -39,7 +39,7 @@ namespace aplicacion_musica
             botonCaratula.Text = Programa.textosLocal.GetString("buscar");
             buttonAñadirCancion.Text = Programa.textosLocal.GetString("añadir_cancion");
             buttonDirectorio.Text = Programa.textosLocal.GetString("buscarDirectorio");
-            labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
+            labelDirectorioActual.Text = albumAEditar.SoundFilesPath;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
                 generosTraducidos[i] = Programa.genres[i].Name;
@@ -49,7 +49,7 @@ namespace aplicacion_musica
             int index = 0;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
-                if (albumAEditar.genero.Name == generosTraducidos[i])
+                if (albumAEditar.Genre.Name == generosTraducidos[i])
                     index = i;
             }
             comboBoxGeneros.SelectedIndex = index;
@@ -63,10 +63,10 @@ namespace aplicacion_musica
         private void cargarVista()
         {
             vistaCanciones.Items.Clear();
-            ListViewItem[] items = new ListViewItem[albumAEditar.numCanciones];
+            ListViewItem[] items = new ListViewItem[albumAEditar.NumberOfSongs];
             for (int i = 0; i < items.Length; i++)
             {
-                items[i] = new ListViewItem(albumAEditar.canciones[i].titulo);
+                items[i] = new ListViewItem(albumAEditar.Songs[i].titulo);
             }
             vistaCanciones.Items.AddRange(items);
         }
@@ -76,26 +76,25 @@ namespace aplicacion_musica
             try//si está vacío pues guarda vacío
             {
                 Log.Instance.ImprimirMensaje("Intentando guardar", TipoMensaje.Info);
-                albumAEditar.artista = textBoxArtista.Text;
-                albumAEditar.nombre = textBoxTitulo.Text;
-                albumAEditar.year = Convert.ToInt16(textBoxAño.Text);
+                albumAEditar.Artist = textBoxArtista.Text;
+                albumAEditar.Title = textBoxTitulo.Text;
+                albumAEditar.Year = Convert.ToInt16(textBoxAño.Text);
                 string gn = comboBoxGeneros.SelectedItem.ToString();
                 Genre g = Programa.genres[Programa.FindGeneroTraducido(gn)];
-                albumAEditar.genero = g;
-                albumAEditar.caratula = labelRuta.Text;
+                albumAEditar.Genre = g;
+                albumAEditar.Cover = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
-                albumAEditar.DirectorioSonido = labelDirectorioActual.Text;
+                albumAEditar.SoundFilesPath = labelDirectorioActual.Text;
                 string[] uriSpotify = textBoxURISpotify.Text.Split(':');
                 if(uriSpotify.Length == 3)
                     albumAEditar.IdSpotify = (uriSpotify[2]);
                 else
                     albumAEditar.IdSpotify = (textBoxURISpotify.Text);
-                foreach (Cancion c in albumAEditar.canciones)
+                foreach (Song c in albumAEditar.Songs)
                 {
                     if(!c.IsBonus)
                         nuevaDuracion += c.duracion;
                 }
-                albumAEditar.duracion = nuevaDuracion;
             }
             catch (NullReferenceException)
             {
@@ -133,7 +132,7 @@ namespace aplicacion_musica
         {
             OpenFileDialog abrirImagen = new OpenFileDialog();
             abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
-            abrirImagen.InitialDirectory = albumAEditar.DirectorioSonido ?? Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            abrirImagen.InitialDirectory = albumAEditar.SoundFilesPath ?? Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
                 string fichero = abrirImagen.FileName;
@@ -145,7 +144,7 @@ namespace aplicacion_musica
         {
             Log.Instance.ImprimirMensaje("Editando canción", TipoMensaje.Info);
             String text = vistaCanciones.SelectedItems[0].Text;
-            Cancion cancionAEditar = albumAEditar.DevolverCancion(text);
+            Song cancionAEditar = albumAEditar.GetSong(text);
             agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
             cargarVista();
@@ -174,8 +173,7 @@ namespace aplicacion_musica
                 int i = 0;
                 foreach (ListViewItem item in vistaCanciones.SelectedItems)
                 {
-                    Cancion cancionABorrar = albumAEditar.DevolverCancion(item.Text);
-                    albumAEditar.BorrarCancion(cancionABorrar);
+                    albumAEditar.RemoveSong(item.Text);
                     itemsborrar[i] = item;
                     i++;
                 }

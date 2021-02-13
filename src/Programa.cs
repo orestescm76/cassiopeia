@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Collections.Generic;
 using System.Net;
+
 /* VERSION 1.6.xx CODENAME COCKROACH
 * Reproductor:
 *  Soporte CD Audio
@@ -110,6 +111,7 @@ namespace aplicacion_musica
                 genres[i].Name = textosLocal.GetString("genero_" + genres[i].Id);
             }
         }
+
         public static void CargarAlbumes(string fichero)
         {
             Log.Instance.ImprimirMensaje("Cargando álbumes almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumes(string)");
@@ -120,19 +122,18 @@ namespace aplicacion_musica
                 while (!lector.EndOfStream)
                 {
                     LineaJson = lector.ReadLine();
-                    Album a = JsonConvert.DeserializeObject<Album>(LineaJson);
-                    a.RefrescarDuracion();
-                    a.genero = genres[FindGenero(a.genero.Id)];
-                    a.numCanciones = (short)a.canciones.Count;
+                    AlbumData a = JsonConvert.DeserializeObject<AlbumData>(LineaJson);
+                    a.Genre = genres[FindGenero(a.Genre.Id)];
                     a.ConfigurarCanciones();
                     miColeccion.agregarAlbum(ref a);
-                    a.LevantarBorrado();
+                    a.CanBeRemoved = true;
                 }
             }
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargados " + miColeccion.albumes.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
             RefrescarVista();
         }
+
         public static void CargarAlbumesCSV(string fichero)
         {
             Log.Instance.ImprimirMensaje("Cargando álbumes CSV almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumesLegacy(string)");
@@ -163,11 +164,11 @@ namespace aplicacion_musica
                     int gen = FindGenero(datos[4]);
                     Genre g = Programa.genres[gen];
                     if (string.IsNullOrEmpty(datos[5])) datos[5] = string.Empty;
-                    Album a = null;
+                    AlbumData a = null;
                     try
                     {
                         nC = Convert.ToInt16(datos[3]);
-                        a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
+                        a = new AlbumData(g, datos[0], datos[1], Convert.ToInt16(datos[2]), datos[5]);
                     }
                     catch (FormatException e)
                     {
@@ -176,9 +177,9 @@ namespace aplicacion_musica
                         Environment.Exit(-1);
                     }
                     if (!string.IsNullOrEmpty(datos[6]))
-                        a.SetSpotifyID(datos[6]);
+                        a.IdSpotify = datos[6];
                     if (!string.IsNullOrEmpty(datos[7]))
-                        a.DirectorioSonido = datos[7];
+                        a.SoundFilesPath = datos[7];
                     bool exito = false;
                     for (int i = 0; i < nC; i++)
                     {
@@ -201,8 +202,8 @@ namespace aplicacion_musica
                                 if (datosCancion.Length == 3)
                                 {
                                     byte bonus = Convert.ToByte(datosCancion[2]);
-                                    Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a, Convert.ToBoolean(bonus));
-                                    a.agregarCancion(c, i);
+                                    Song c = new Song(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a, Convert.ToBoolean(bonus));
+                                    a.AddSong(c, i);
                                 }
                                 else
                                 {
@@ -213,10 +214,10 @@ namespace aplicacion_musica
                                         linea = lector.ReadLine();
                                         lineaC++;
                                         datosCancion = linea.Split(';');
-                                        Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
-                                        cl.addParte(ref c);
+                                        Song c = new Song(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
+                                        cl.addParte(c);
                                     }
-                                    a.agregarCancion(cl, i);
+                                    a.AddSong(cl, i);
                                 }
                             }
                             catch (FormatException e)
@@ -230,11 +231,12 @@ namespace aplicacion_musica
                     if (miColeccion.estaEnColeccion(a))
                     {
                         exito = false; //pues ya está repetido.
-                        Log.Instance.ImprimirMensaje("Álbum repetido -> " + a.artista + " - " + a.nombre, TipoMensaje.Advertencia);
+                        Log.Instance.ImprimirMensaje("Álbum repetido -> " + a.Artist + " - " + a.Title, TipoMensaje.Advertencia);
                     }
                     if (exito)
                         miColeccion.agregarAlbum(ref a);
-                    a.LevantarBorrado();
+
+                    a.CanBeRemoved = true;
                     lineaC++;
                 }
             }
@@ -255,7 +257,7 @@ namespace aplicacion_musica
                     DiscoCompacto cd = JsonConvert.DeserializeObject<DiscoCompacto>(linea);
                     cd.InstallAlbum();
                     miColeccion.AgregarCD(ref cd);
-                    cd.Album.ProtegerBorrado();
+                    cd.Album.CanBeRemoved = false;
                 }
             }
         }
@@ -269,14 +271,14 @@ namespace aplicacion_musica
                 {
                     linea = entrada.ReadLine();
                     string[] datos = linea.Split(';');
-                    List<Album> listaAlbumes = miColeccion.buscarAlbum(datos[2]);
+                    List<AlbumData> listaAlbumes = miColeccion.buscarAlbum(datos[2]);
                     if (listaAlbumes.Count != 0)
                     {
-                        foreach (Album album in listaAlbumes)
+                        foreach (AlbumData album in listaAlbumes)
                         {
-                            if(album.artista == datos[0] && album.nombre == datos[2])
+                            if(album.Artist == datos[0] && album.Title == datos[2])
                             {
-                                Cancion c = album.canciones[album.buscarCancion(datos[1])];
+                                Song c = album.GetSong(datos[1]);
                                 linea = entrada.ReadLine();
                                 c.PATH = linea;
                             }
@@ -296,11 +298,11 @@ namespace aplicacion_musica
             Stopwatch crono = Stopwatch.StartNew();
             using(StreamWriter salida = new FileInfo("paths.txt").CreateText())
             {
-                foreach (Album album in miColeccion.albumes)
+                foreach (AlbumData album in miColeccion.albumes)
                 {
-                    if (string.IsNullOrEmpty(album.DirectorioSonido))
+                    if (string.IsNullOrEmpty(album.SoundFilesPath))
                         continue;
-                    foreach (Cancion cancion in album.canciones)
+                    foreach (Song cancion in album.Songs)
                     {
                         if (!string.IsNullOrEmpty(cancion.PATH))
                         {
@@ -326,7 +328,7 @@ namespace aplicacion_musica
                         case TipoGuardado.Digital:
                             Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.albumes.Count + " discos)", TipoMensaje.Info);
                             Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
-                            foreach (Album a in Programa.miColeccion.albumes)
+                            foreach (AlbumData a in Programa.miColeccion.albumes)
                             {
                                 JsonSerializer s = new JsonSerializer();
                                 s.TypeNameHandling = TypeNameHandling.All;
@@ -356,24 +358,24 @@ namespace aplicacion_musica
                         case TipoGuardado.Digital:
                             Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.albumes.Count + " discos)", TipoMensaje.Info);
                             Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
-                            foreach (Album a in miColeccion.albumes)
+                            foreach (AlbumData a in miColeccion.albumes)
                             {
-                                if (!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
+                                if (!(a.Songs[0] == null)) //no puede ser un album con 0 canciones
                                 {
-                                    salida.WriteLine(a.nombre + ";" + a.artista + ";" + a.year + ";" + a.numCanciones + ";" + a.genero.Id + ";" + a.caratula + ";"+a.IdSpotify + ";"+a.DirectorioSonido);
-                                    for (int i = 0; i < a.numCanciones; i++)
+                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + a.Cover + ";"+a.IdSpotify + ";"+a.SoundFilesPath);
+                                    for (int i = 0; i < a.NumberOfSongs; i++)
                                     {
-                                        if (a.canciones[i] is CancionLarga cl)
+                                        if (a.Songs[i] is CancionLarga cl)
                                         {
                                             salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar
-                                            foreach (Cancion parte in cl.Partes)
+                                            foreach (Song parte in cl.Partes)
                                             {
                                                 salida.WriteLine(parte.titulo + ";" + parte.duracion.TotalSeconds);
                                             }
 
                                         }
                                         else //titulo;400;0
-                                            salida.WriteLine(a.canciones[i].titulo + ";" + (int)a.canciones[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.canciones[i].IsBonus));
+                                            salida.WriteLine(a.Songs[i].titulo + ";" + (int)a.Songs[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.Songs[i].IsBonus));
                                     }
                                 }
                                 salida.WriteLine();
@@ -405,8 +407,8 @@ namespace aplicacion_musica
                 {
                     linea = entrada.ReadLine();
                     string[] datos = linea.Split(';');
-                    Album a = miColeccion.buscarAlbum(datos[2])[0];
-                    Cancion c = a.canciones[a.buscarCancion(datos[1])];
+                    AlbumData albumData = miColeccion.buscarAlbum(datos[2])[0];
+                    Song song = albumData.GetSong(datos[1]);
                     List<string> lyrics = new List<string>();
                     do
                     {
@@ -414,7 +416,7 @@ namespace aplicacion_musica
                         lyrics.Add(linea);
                     } while (linea != "---");
                     lyrics.Remove("---");
-                    c.Lyrics = lyrics.ToArray();
+                    song.Lyrics = lyrics.ToArray();
                 }
             }
             crono.Stop();
@@ -426,13 +428,13 @@ namespace aplicacion_musica
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamWriter salida = new FileInfo("lyrics.txt").CreateText())
             {
-                foreach (Album album in miColeccion.albumes)
+                foreach (AlbumData album in miColeccion.albumes)
                 {
-                    foreach (Cancion cancion in album.canciones)
+                    foreach (Song cancion in album.Songs)
                     {
                         if (cancion.Lyrics != null && cancion.Lyrics.Length != 0)
                         {
-                            salida.WriteLine(album.artista + ";" + cancion.titulo + ";" + album.nombre);
+                            salida.WriteLine(album.Artist + ";" + cancion.titulo + ";" + album.Title);
                             foreach (string line in cancion.Lyrics)
                             {
                                 salida.WriteLine(line);
