@@ -177,7 +177,7 @@ namespace aplicacion_musica
                         Environment.Exit(-1);
                     }
                     if (!string.IsNullOrEmpty(datos[6]))
-                        a.SetSpotifyID(datos[6]);
+                        a.IdSpotify = datos[6];
                     if (!string.IsNullOrEmpty(datos[7]))
                         a.SoundFilesPath = datos[7];
                     bool exito = false;

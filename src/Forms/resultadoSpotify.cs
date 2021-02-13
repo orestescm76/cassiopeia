@@ -68,7 +68,7 @@ namespace aplicacion_musica
             {
                 int IndexAlbum = Convert.ToInt32(listViewResultadoBusqueda.SelectedItems[0].SubItems[0].Text);
                 SimpleAlbum temp = listaBusqueda[IndexAlbum];
-                AlbumAEditar.SetSpotifyID(temp.Id);
+                AlbumAEditar.IdSpotify = temp.Id;
             }
             Dispose();
         }

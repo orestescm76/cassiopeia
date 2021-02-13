@@ -238,7 +238,7 @@ namespace aplicacion_musica
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
                 throw new InvalidOperationException();
             }
-            a.SetSpotifyID(album.Id);
+            a.IdSpotify = album.Id;
             List<Song> canciones = new List<Song>(a.NumberOfSongs);
             List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id,a.NumberOfSongs).Items;
             for (int i = 0; i < c.Count; i++)
@@ -281,7 +281,7 @@ namespace aplicacion_musica
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
                 throw new InvalidOperationException();
             }
-            a.SetSpotifyID(album.Id);
+            a.IdSpotify = album.Id;
             List<Song> canciones = new List<Song>(a.NumberOfSongs);
             List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, a.NumberOfSongs).Items;
             for (int i = 0; i < c.Count; i++)

@@ -86,7 +86,7 @@ namespace aplicacion_musica
             return datos;
         }
 
-        private string getID()
+        private string GetID()
         {
             return Artist + Title;
         }
@@ -94,12 +94,12 @@ namespace aplicacion_musica
         public override bool Equals(Object other)
         {
             AlbumData albumData = other as AlbumData;
-            return getID() == albumData.getID();
+            return GetID() == albumData.GetID();
         }
 
         public static bool operator ==(AlbumData leftAlbumData, AlbumData rightAlbumData)
         {
-            return leftAlbumData.getID() == rightAlbumData.getID();
+            return leftAlbumData.GetID() == rightAlbumData.GetID();
         }
 
         public static bool operator !=(AlbumData leftAlbumData, AlbumData rightAlbumData)
@@ -150,16 +150,6 @@ namespace aplicacion_musica
             return Artist + " - " + Title + "(" + Length + ") (" + Genre.Name + ")";
         }
 
-        public void BorrarCancion(int index)
-        {
-            Songs.RemoveAt(index);
-        }
-
-        public void RemoveSong(Song song)
-        {
-            Songs.Remove(song);
-        }
-
         public void RemoveSong(string title)
         {
             Song song = GetSong(title);
@@ -172,11 +162,6 @@ namespace aplicacion_musica
             {
                 cancion.SetAlbum(this);
             }
-        }
-
-        public void SetSpotifyID(string id)
-        {
-            IdSpotify = id;
         }
 
         public String GetTerminoBusqueda()
