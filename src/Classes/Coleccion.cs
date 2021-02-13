@@ -28,7 +28,7 @@ namespace aplicacion_musica
             List<Album> encontrados = new List<Album>();
             foreach(Album a in albumes)
             {
-                if (a.nombre == titulo)
+                if (a.Title == titulo)
                     encontrados.Add(a);
             }
             return encontrados;
@@ -47,7 +47,7 @@ namespace aplicacion_musica
             String[] busqueda = s.Split('_');
             foreach (Album album in albumes)
             {
-                if (album.artista == busqueda[0] && album.nombre == busqueda[1])
+                if (album.Artist == busqueda[0] && album.Title == busqueda[1])
                     return album;
             }
             return null;
@@ -62,7 +62,7 @@ namespace aplicacion_musica
             String[] busqueda = s.Split('_');
             foreach (DiscoCompacto cdd in cds)
             {
-                if (cdd.Album.artista == busqueda[0] && cdd.Album.nombre == busqueda[1])
+                if (cdd.Album.Artist == busqueda[0] && cdd.Album.Title == busqueda[1])
                     cd = cdd;
             }
         }

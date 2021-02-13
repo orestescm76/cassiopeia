@@ -59,10 +59,10 @@ namespace aplicacion_musica
             buttonPATH.Hide();
             albumAVisualizar = cd.Album;
             numDisco = 1;
-            infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + cd.Album.artista + Environment.NewLine +
-                Programa.textosLocal.GetString("titulo") + ": " + cd.Album.nombre + Environment.NewLine +
-                Programa.textosLocal.GetString("año") + ": " + cd.Album.year + Environment.NewLine +
-                Programa.textosLocal.GetString("duracion") + ": " + cd.Album.duracion.ToString() + Environment.NewLine +
+            infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + cd.Album.Artist + Environment.NewLine +
+                Programa.textosLocal.GetString("titulo") + ": " + cd.Album.Title + Environment.NewLine +
+                Programa.textosLocal.GetString("año") + ": " + cd.Album.Year + Environment.NewLine +
+                Programa.textosLocal.GetString("duracion") + ": " + cd.Album.Lenght.ToString() + Environment.NewLine +
                 Programa.textosLocal.GetString("genero") + ": " + cd.Album.genero.Name + Environment.NewLine +
                 Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(cd.FormatoCD.ToString()) + Environment.NewLine +
                 Programa.textosLocal.GetString("añoPublicacion") + ": " + cd.YearRelease + Environment.NewLine +
@@ -87,7 +87,7 @@ namespace aplicacion_musica
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal.GetString("visualizando") + " " + albumAVisualizar.artista + " - " + albumAVisualizar.nombre;
+            Text = Programa.textosLocal.GetString("visualizando") + " " + albumAVisualizar.Artist + " - " + albumAVisualizar.Title;
             vistaCanciones.Columns[0].Text = "#";
             vistaCanciones.Columns[1].Text = Programa.textosLocal.GetString("titulo");
             vistaCanciones.Columns[2].Text = Programa.textosLocal.GetString("duracion");
@@ -118,7 +118,7 @@ namespace aplicacion_musica
             ponerTextos();
             vistaCanciones.Items.Clear();
             int i = 0;
-            foreach (Cancion c in albumAVisualizar.canciones)
+            foreach (Cancion c in albumAVisualizar.Songs)
             {
                 String[] datos = new string[3];
                 datos[0] = (i + 1).ToString();
@@ -145,7 +145,7 @@ namespace aplicacion_musica
                 reproducirspotifyToolStripMenuItem.Enabled = false;
             if (string.IsNullOrEmpty(albumAVisualizar.DirectorioSonido))
                 reproducirToolStripMenuItem.Enabled = false;
-            ListViewItem[] items = new ListViewItem[albumAVisualizar.canciones.Count];
+            ListViewItem[] items = new ListViewItem[albumAVisualizar.Songs.Count];
             int i = 0, j = 0, d = 0;
             TimeSpan durBonus = new TimeSpan();
             if (CDaVisualizar != null && CDaVisualizar.Discos.Length > 1)
@@ -155,7 +155,7 @@ namespace aplicacion_musica
                 vistaCanciones.Groups.Add(d1);
                 vistaCanciones.Groups.Add(d2);
                 vistaCanciones.ShowGroups = true;
-                foreach (Cancion c in albumAVisualizar.canciones)
+                foreach (Cancion c in albumAVisualizar.Songs)
                 {
                     String[] datos = new string[3];
                     datos[0] = (j + 1).ToString();
@@ -180,10 +180,10 @@ namespace aplicacion_musica
                     i++;
                 }
                 if (durBonus.TotalMilliseconds != 0)
-                    infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.artista + Environment.NewLine +
-                        Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
-                        Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
-                        Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
+                    infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.Artist + Environment.NewLine +
+                        Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.Title + Environment.NewLine +
+                        Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.Year + Environment.NewLine +
+                        Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.Lenght.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
                         Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.Name + Environment.NewLine +
                         Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("estado_medio") + ": " + Programa.textosLocal.GetString(CDaVisualizar.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
@@ -192,7 +192,7 @@ namespace aplicacion_musica
             }
             else if (CDaVisualizar != null)
             {
-                foreach (Cancion c in albumAVisualizar.canciones)
+                foreach (Cancion c in albumAVisualizar.Songs)
                 {
 
                     String[] datos = new string[3];
@@ -212,10 +212,10 @@ namespace aplicacion_musica
                     i++;
                 }
                 if (durBonus.TotalMilliseconds != 0)
-                    infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.artista + Environment.NewLine +
-                        Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
-                        Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
-                        Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
+                    infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.Artist + Environment.NewLine +
+                        Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.Title + Environment.NewLine +
+                        Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.Year + Environment.NewLine +
+                        Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.Lenght.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
                         Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.Name + Environment.NewLine + 
                         Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("estado_medio") + ": " + Programa.textosLocal.GetString(CDaVisualizar.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
@@ -225,7 +225,7 @@ namespace aplicacion_musica
             }
             else
             {
-                foreach (Cancion c in albumAVisualizar.canciones)
+                foreach (Cancion c in albumAVisualizar.Songs)
                 {
 
                     String[] datos = new string[3];
@@ -245,16 +245,16 @@ namespace aplicacion_musica
                     i++;
                 }
                 if (durBonus.TotalMilliseconds != 0)
-                    infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.artista + Environment.NewLine +
-                        Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
-                        Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
-                        Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
+                    infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.Artist + Environment.NewLine +
+                        Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.Title + Environment.NewLine +
+                        Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.Year + Environment.NewLine +
+                        Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.Lenght.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
                         Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.Name;
                 else
-                    infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.artista + Environment.NewLine +
-                        Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
-                        Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
-                        Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + Environment.NewLine +
+                    infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.Artist + Environment.NewLine +
+                        Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.Title + Environment.NewLine +
+                        Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.Year + Environment.NewLine +
+                        Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.Lenght.ToString() + Environment.NewLine +
                         Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.Name + Environment.NewLine +
                         Programa.textosLocal.GetString("localizacion") + ": " + albumAVisualizar.DirectorioSonido + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
@@ -349,7 +349,7 @@ namespace aplicacion_musica
             else
             {
                 ListaReproduccion ls = new ListaReproduccion(albumAVisualizar.ToString());
-                foreach (Cancion cancion in albumAVisualizar.canciones)
+                foreach (Cancion cancion in albumAVisualizar.Songs)
                 {
                     ls.AgregarCancion(cancion);
                 }
@@ -394,16 +394,16 @@ namespace aplicacion_musica
         {
             foreach (ListViewItem item in vistaCanciones.SelectedItems)
             {
-                Cancion c = albumAVisualizar.canciones[Convert.ToInt32(item.SubItems[0].Text)-1];
+                Cancion c = albumAVisualizar.Songs[Convert.ToInt32(item.SubItems[0].Text)-1];
                 if(c.Bonus)
                 {
                     c.Bonus = false;
-                    albumAVisualizar.duracion += c.duracion;
+                    albumAVisualizar.Lenght += c.duracion;
                 }
                 else
                 {
                     c.Bonus = true;
-                    albumAVisualizar.duracion -= c.duracion;
+                    albumAVisualizar.Lenght -= c.duracion;
                 }
             }
             cargarVista();
@@ -462,18 +462,18 @@ namespace aplicacion_musica
                 string extension = Path.GetExtension(file.FullName);
                 if (extension != ".ogg" && extension != ".mp3" && extension != ".flac")
                     continue;
-                foreach (Cancion c in albumAVisualizar.canciones)
+                foreach (Cancion c in albumAVisualizar.Songs)
                 {
                     try
                     {
                         LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                        if (LM.Evaluable() && (c.titulo.ToLower() == LM.Titulo.ToLower()) && (c.album.artista.ToLower() == LM.Artista.ToLower()))
+                        if (LM.Evaluable() && (c.titulo.ToLower() == LM.Titulo.ToLower()) && (c.album.Artist.ToLower() == LM.Artista.ToLower()))
                         {
                             c.PATH = file.FullName;
                             Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
                             break;
                         }
-                        else if (LM.Evaluable() && string.Equals(c.titulo, LM.Titulo) && string.Equals(LM.Artista, c.album.artista))
+                        else if (LM.Evaluable() && string.Equals(c.titulo, LM.Titulo) && string.Equals(LM.Artista, c.album.Artist))
                         {
                             c.PATH = file.FullName;
                             Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
@@ -500,7 +500,7 @@ namespace aplicacion_musica
                 MessageBox.Show(Programa.textosLocal.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
             {
-                foreach (Cancion cancion in albumAVisualizar.canciones)
+                foreach (Cancion cancion in albumAVisualizar.Songs)
                 {
                     if (cancion.PATH == null) //No se ha encontrado
                     {
@@ -575,7 +575,7 @@ namespace aplicacion_musica
         {
             ListViewItem item = vistaCanciones.SelectedItems[0];
             int num = item.Index;
-            if (!(albumAVisualizar.canciones[num] is CancionLarga))
+            if (!(albumAVisualizar.Songs[num] is CancionLarga))
             {
                 MessageBox.Show(Programa.textosLocal.GetString("error_defusion"));
                 return;

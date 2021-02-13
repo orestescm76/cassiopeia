@@ -21,7 +21,7 @@ namespace aplicacion_musica.src.Forms
         RadioButton[] radioButtonsIdiomas;
         TextBox portapapelesConfig;
         Label vistaPreviaPortapapeles;
-        Album test = new Album("Sabbath Bloddy Sabbath", "Black Sabbath", 1973, 0);
+        Album test = new Album("Sabbath Bloddy Sabbath", "Black Sabbath", 1973);
         ConfigActiva config;
         public ConfigForm()
         {
@@ -102,15 +102,15 @@ namespace aplicacion_musica.src.Forms
             vistaPreviaPortapapeles.Location = new Point(portapapelesConfig.Location.X, portapapelesConfig.Location.Y + 30);
             vistaPreviaPortapapeles.AutoSize = true;
             vistaPreviaPortapapeles.Font = portapapelesConfig.Font;
-            string val = Config.Portapapeles.Replace("%artist%", test.artista); //Es seguro.
+            string val = Config.Portapapeles.Replace("%artist%", test.Artist); //Es seguro.
             try
             {
-                val = val.Replace("%artist%", test.artista);
-                val = val.Replace("%title%", test.nombre);
-                val = val.Replace("%year%", test.year.ToString());
+                val = val.Replace("%artist%", test.Artist);
+                val = val.Replace("%title%", test.Title);
+                val = val.Replace("%year%", test.Year.ToString());
                 val = val.Replace("%genre%", test.genero.Name);
-                val = val.Replace("%length%", test.duracion.ToString());
-                val = val.Replace("%length_seconds%", ((int)test.duracion.TotalSeconds).ToString());
+                val = val.Replace("%length%", test.Lenght.ToString());
+                val = val.Replace("%length_seconds%", ((int)test.Lenght.TotalSeconds).ToString());
                 vistaPreviaPortapapeles.Text = val;
             }
             catch (NullReferenceException)
@@ -123,15 +123,15 @@ namespace aplicacion_musica.src.Forms
 
         private void PortapapelesConfig_TextChanged(object sender, EventArgs e)
         {
-            string val = portapapelesConfig.Text.Replace("%artist%", test.artista); //Es seguro.
+            string val = portapapelesConfig.Text.Replace("%artist%", test.Artist); //Es seguro.
             try
             {
-                val = val.Replace("%artist%", test.artista);
-                val = val.Replace("%title%", test.nombre);
-                val = val.Replace("%year%", test.year.ToString());
+                val = val.Replace("%artist%", test.Artist);
+                val = val.Replace("%title%", test.Title);
+                val = val.Replace("%year%", test.Year.ToString());
                 val = val.Replace("%genre%", test.genero.Name);
-                val = val.Replace("%length%", test.duracion.ToString());
-                val = val.Replace("%length_seconds%", ((int)test.duracion.TotalSeconds).ToString());
+                val = val.Replace("%length%", test.Lenght.ToString());
+                val = val.Replace("%length_seconds%", ((int)test.Lenght.TotalSeconds).ToString());
                 vistaPreviaPortapapeles.Text = val;
             }
             catch (NullReferenceException)

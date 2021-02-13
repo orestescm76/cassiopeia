@@ -119,7 +119,7 @@ namespace aplicacion_musica
         {
             int cualdeVerdad = cual;
             if (cual == -2)
-                cualdeVerdad = album.numCanciones;
+                cualdeVerdad = album.NumberOfSongs;
             if(editar)
             {
                 Text = Programa.textosLocal.GetString("editando") + " " + cancion.titulo;
@@ -199,7 +199,7 @@ namespace aplicacion_musica
                     Cancion p = new Cancion(t, dur, ref album);
                     cancionlarga.addParte(ref p);
                     DialogResult = DialogResult.OK;
-                    album.duracion += dur;
+                    album.Lenght += dur;
                 }
                 Dispose();
             }

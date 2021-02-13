@@ -38,8 +38,8 @@ namespace aplicacion_musica
             EstadoExterior = ee;
             YearRelease = y;
             PaisPublicacion = p;
-            Artista = Album.artista;
-            Nombre = Album.nombre;
+            Artista = Album.Artist;
+            Nombre = Album.Title;
         }
         public AlbumFisico(String s)
         {

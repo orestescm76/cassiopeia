@@ -299,7 +299,7 @@ namespace aplicacion_musica
                 try
                 {
                     LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                    if (LM.Evaluable() && c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.artista.ToLower() == LM.Artista.ToLower())
+                    if (LM.Evaluable() && c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.Artist.ToLower() == LM.Artista.ToLower())
                     {
                         c.PATH = file.FullName;
                         break;
@@ -396,7 +396,7 @@ namespace aplicacion_musica
             CancionLocalReproduciendo = c;
             if (string.IsNullOrEmpty(c.PATH))
             {   
-                MessageBox.Show(c.titulo + " " +c.album.nombre + Environment.NewLine + "ERROR_CANCION");
+                MessageBox.Show(c.titulo + " " +c.album.Title + Environment.NewLine + "ERROR_CANCION");
                 return;
             }
             else
@@ -416,7 +416,7 @@ namespace aplicacion_musica
             {
                 using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
                 {
-                    escritor.WriteLine(NumCancion + " - " + c.album.artista + " - " + c.titulo);
+                    escritor.WriteLine(NumCancion + " - " + c.album.Artist + " - " + c.titulo);
                     NumCancion++;
                 }
             }
@@ -1053,7 +1053,7 @@ namespace aplicacion_musica
                 test = Programa.textosLocal.GetString("compartirLocal1").Replace(" ", "%20") + "%20" + 
                     CancionLocalReproduciendo.titulo + "%20" + 
                     Programa.textosLocal.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
-                    CancionLocalReproduciendo.album.artista + "%20" +
+                    CancionLocalReproduciendo.album.Artist + "%20" +
                     Programa.textosLocal.GetString("compartirLocal3").Replace(" ", "%20") + "%20" + 
                     Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + 
                     Programa.version + "%20" + Programa.CodeName;

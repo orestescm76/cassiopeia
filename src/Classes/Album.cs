@@ -7,162 +7,180 @@ namespace aplicacion_musica
 {
     public class Album
     {
-        public String nombre { get; set; }
-        public String artista { get; set; }
-        public short year { get; set; }
-        [JsonIgnore]
-        public short numCanciones { get; set; }
-        [JsonIgnore]
-        public TimeSpan duracion { get; set; }
-        public List<Cancion> canciones { get; set; }
+        public String Title { get; set; }
+        public String Artist { get; set; }
+        public short Year { get; set; }
+
+        [JsonIgnore] public int NumberOfSongs { 
+            get
+            {
+                return Songs.Count;
+            }
+        }
+
+        [JsonIgnore] public TimeSpan Lenght { get; set; }
+
+        public List<Cancion> Songs { get; set; }
         public String caratula { get; set; }
         public Genre genero { get; set; }
         public String IdSpotify { get; set; }
         public String DirectorioSonido { get; set; }
         [JsonIgnore]
         public bool PuedeBorrarse { get; private set; }
+
         public Album()
         {
-            canciones = new List<Cancion>();
+            Songs = new List<Cancion>();
             genero = Programa.genres.Last();
         }
-        public Album(Genre g, string n = "", string a = "", short y = 0, short nc = 0, string c = "")
+
+        public Album(Genre g, string n = "", string a = "", short y = 0, string c = "")
         {
-            duracion = new TimeSpan();
-            nombre = n;
-            artista = a;
-            year = y;
-            numCanciones = nc;
-            canciones = new List<Cancion>(nc);
+            Lenght = new TimeSpan();
+            Title = n;
+            Artist = a;
+            Year = y;
+            Songs = new List<Cancion>();
             caratula = c;
             genero = g;
             PuedeBorrarse = true;
         }
-        public Album(string n = "", string a = "", short y = 0, short nc = 0, string c = "")
+
+        public Album(string n = "", string a = "", short y = 0, string c = "")
         {
-            duracion = new TimeSpan();
-            nombre = n;
-            artista = a;
-            year = y;
-            numCanciones = nc;
+            Lenght = new TimeSpan();
+            Title = n;
+            Artist = a;
+            Year = y;
             caratula = c;
             genero = new Genre("");
             PuedeBorrarse = true;
         }
+
         public Album(Album a)
         {
-            duracion = a.duracion;
-            nombre = a.nombre;
-            artista = a.artista;
-            year = a.year;
-            numCanciones = a.numCanciones;
-            canciones = a.canciones;
+            Lenght = a.Lenght;
+            Title = a.Title;
+            Artist = a.Artist;
+            Year = a.Year;
+            Songs = a.Songs;
             caratula = a.caratula;
             PuedeBorrarse = true;
         }
+
         public void agregarCancion(Cancion c)
         {
-            canciones.Add(c);
+            Songs.Add(c);
+
             if (!c.Bonus)
-                duracion += c.duracion;
-            numCanciones = (short)canciones.Count;
+                Lenght += c.duracion;
         }
+
         public void agregarCancion(Cancion c, int cual)
         {
-            canciones.Insert(cual, c);
+            Songs.Insert(cual, c);
+
             if (!c.Bonus)
-                duracion += c.duracion;
-            numCanciones = (short)canciones.Count;
+                Lenght += c.duracion;
         }
+
         public String[] ToStringArray()
         {
-            String[] datos = { artista, nombre, year.ToString(), duracion.ToString(), genero.Name };
+            String[] datos = { Artist, Title, Year.ToString(), Lenght.ToString(), genero.Name };
             return datos;
         }
+
         public String[] SongsToStringArray()
         {
-            String[] datos = new string[numCanciones];
-            for (int i = 0; i < canciones.Count; i++)
+            String[] datos = new string[NumberOfSongs];
+            for (int i = 0; i < Songs.Count; i++)
             {
-                datos[i] = canciones[i].titulo;
+                datos[i] = Songs[i].titulo;
             }
             return datos;
         }
+
         private string getID()
         {
-            return artista + nombre;
+            return Artist + Title;
         }
+
         public bool sonIguales(Album otro)
         {
             if (getID() == otro.getID())
                 return true;
             else return false;
         }
+
         public int buscarCancion(string t)
         {
             int i = 0;
-            while (t != canciones[i].titulo)
+            while (t != Songs[i].titulo)
                 i++;
             return i;
         }
+
         public Cancion DevolverCancion(string t)
         {
             Cancion c = null;
             int i = 0;
-            c = canciones[i];
-            while (t != canciones[i].titulo)
+            c = Songs[i];
+            while (t != Songs[i].titulo)
             {
                 i++;
-                c = canciones[i];
+                c = Songs[i];
             }
 
             return c;
         }
         public void RefrescarDuracion()
         {
-            duracion = new TimeSpan();
-            for (int i = 0; i < canciones.Count; i++)
+            Lenght = new TimeSpan();
+            for (int i = 0; i < Songs.Count; i++)
             {
-                if (!canciones[i].Bonus)
-                    duracion += canciones[i].duracion;
+                if (!Songs[i].Bonus)
+                    Lenght += Songs[i].duracion;
             }
         }
         public Cancion getCancion(int n)
         {
-            return canciones[n];
+            return Songs[n];
         }
 
         public Cancion getCancion(String b)
         {
-            for (int i = 0; i < canciones.Count; i++)
+            for (int i = 0; i < Songs.Count; i++)
             {
-                if (b == canciones[i].titulo)
-                    return canciones[i];
+                if (b == Songs[i].titulo)
+                    return Songs[i];
             }
             return null;
         }
         public override string ToString()
         {
             //artista - nombre (dur) (gen) 
-            return artista + " - " + nombre + "(" + duracion + ") (" + genero.Name + ")";
+            return Artist + " - " + Title + "(" + Lenght + ") (" + genero.Name + ")";
         }
+
         public void BorrarCancion(int cual)
         {
-            if (!canciones[cual].Bonus)
-                duracion -= canciones[cual].duracion;
-            canciones.RemoveAt(cual);
-            numCanciones--;
+            if (!Songs[cual].Bonus)
+                Lenght -= Songs[cual].duracion;
+
+            Songs.RemoveAt(cual);
         }
+
         public void BorrarCancion(Cancion cancion)
         {
             if (!cancion.Bonus)
-                duracion -= cancion.duracion;
-            canciones.Remove(cancion);
-            numCanciones--;
+                Lenght -= cancion.duracion;
+
+            Songs.Remove(cancion);
         }
+
         public void ConfigurarCanciones()
         {
-            foreach (Cancion cancion in canciones)
+            foreach (Cancion cancion in Songs)
             {
                 cancion.SetAlbum(this);
             }
@@ -173,7 +191,7 @@ namespace aplicacion_musica
         }
         public String GetTerminoBusqueda()
         {
-            return artista + " " + nombre;
+            return Artist + " " + Title;
         }
         public void ProtegerBorrado()
         {
@@ -185,20 +203,19 @@ namespace aplicacion_musica
         }
         public void QuitarCancion(Cancion c)
         {
-            canciones.Remove(c);
-            numCanciones--;
-            duracion -= c.duracion;
+            Songs.Remove(c);
+            Lenght -= c.duracion;
         }
         public string GetPortapapeles()
         {
-            string val = Config.Portapapeles.Replace("%artist%", artista); //Es seguro.
+            string val = Config.Portapapeles.Replace("%artist%", Artist); //Es seguro.
             try
             {
-                val = val.Replace("%title%", nombre);
-                val = val.Replace("%year%", year.ToString());
+                val = val.Replace("%title%", Title);
+                val = val.Replace("%year%", Year.ToString());
                 val = val.Replace("%genre%", genero.Name);
-                val = val.Replace("%length%", duracion.ToString());
-                val = val.Replace("%length_seconds%", ((int)duracion.TotalSeconds).ToString());
+                val = val.Replace("%length%", Lenght.ToString());
+                val = val.Replace("%length_seconds%", ((int)Lenght.TotalSeconds).ToString());
                 return val;
             }
             catch (NullReferenceException)

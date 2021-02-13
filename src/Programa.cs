@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Collections.Generic;
 using System.Net;
+
 /* VERSION 1.6.xx CODENAME COCKROACH
 * Reproductor:
 *  Soporte CD Audio
@@ -123,7 +124,6 @@ namespace aplicacion_musica
                     Album a = JsonConvert.DeserializeObject<Album>(LineaJson);
                     a.RefrescarDuracion();
                     a.genero = genres[FindGenero(a.genero.Id)];
-                    a.numCanciones = (short)a.canciones.Count;
                     a.ConfigurarCanciones();
                     miColeccion.agregarAlbum(ref a);
                     a.LevantarBorrado();
@@ -167,7 +167,7 @@ namespace aplicacion_musica
                     try
                     {
                         nC = Convert.ToInt16(datos[3]);
-                        a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), Convert.ToInt16(datos[3]), datos[5]);
+                        a = new Album(g, datos[0], datos[1], Convert.ToInt16(datos[2]), datos[5]);
                     }
                     catch (FormatException e)
                     {
@@ -230,7 +230,7 @@ namespace aplicacion_musica
                     if (miColeccion.estaEnColeccion(a))
                     {
                         exito = false; //pues ya está repetido.
-                        Log.Instance.ImprimirMensaje("Álbum repetido -> " + a.artista + " - " + a.nombre, TipoMensaje.Advertencia);
+                        Log.Instance.ImprimirMensaje("Álbum repetido -> " + a.Artist + " - " + a.Title, TipoMensaje.Advertencia);
                     }
                     if (exito)
                         miColeccion.agregarAlbum(ref a);
@@ -274,9 +274,9 @@ namespace aplicacion_musica
                     {
                         foreach (Album album in listaAlbumes)
                         {
-                            if(album.artista == datos[0] && album.nombre == datos[2])
+                            if(album.Artist == datos[0] && album.Title == datos[2])
                             {
-                                Cancion c = album.canciones[album.buscarCancion(datos[1])];
+                                Cancion c = album.Songs[album.buscarCancion(datos[1])];
                                 linea = entrada.ReadLine();
                                 c.PATH = linea;
                             }
@@ -300,7 +300,7 @@ namespace aplicacion_musica
                 {
                     if (string.IsNullOrEmpty(album.DirectorioSonido))
                         continue;
-                    foreach (Cancion cancion in album.canciones)
+                    foreach (Cancion cancion in album.Songs)
                     {
                         if (!string.IsNullOrEmpty(cancion.PATH))
                         {
@@ -358,12 +358,12 @@ namespace aplicacion_musica
                             Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
                             foreach (Album a in miColeccion.albumes)
                             {
-                                if (!(a.canciones[0] == null)) //no puede ser un album con 0 canciones
+                                if (!(a.Songs[0] == null)) //no puede ser un album con 0 canciones
                                 {
-                                    salida.WriteLine(a.nombre + ";" + a.artista + ";" + a.year + ";" + a.numCanciones + ";" + a.genero.Id + ";" + a.caratula + ";"+a.IdSpotify + ";"+a.DirectorioSonido);
-                                    for (int i = 0; i < a.numCanciones; i++)
+                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.genero.Id + ";" + a.caratula + ";"+a.IdSpotify + ";"+a.DirectorioSonido);
+                                    for (int i = 0; i < a.NumberOfSongs; i++)
                                     {
-                                        if (a.canciones[i] is CancionLarga cl)
+                                        if (a.Songs[i] is CancionLarga cl)
                                         {
                                             salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar
                                             foreach (Cancion parte in cl.Partes)
@@ -373,7 +373,7 @@ namespace aplicacion_musica
 
                                         }
                                         else //titulo;400;0
-                                            salida.WriteLine(a.canciones[i].titulo + ";" + (int)a.canciones[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.canciones[i].Bonus));
+                                            salida.WriteLine(a.Songs[i].titulo + ";" + (int)a.Songs[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.Songs[i].Bonus));
                                     }
                                 }
                                 salida.WriteLine();
@@ -406,7 +406,7 @@ namespace aplicacion_musica
                     linea = entrada.ReadLine();
                     string[] datos = linea.Split(';');
                     Album a = miColeccion.buscarAlbum(datos[2])[0];
-                    Cancion c = a.canciones[a.buscarCancion(datos[1])];
+                    Cancion c = a.Songs[a.buscarCancion(datos[1])];
                     List<string> lyrics = new List<string>();
                     do
                     {
@@ -428,11 +428,11 @@ namespace aplicacion_musica
             {
                 foreach (Album album in miColeccion.albumes)
                 {
-                    foreach (Cancion cancion in album.canciones)
+                    foreach (Cancion cancion in album.Songs)
                     {
                         if (cancion.Lyrics != null && cancion.Lyrics.Length != 0)
                         {
-                            salida.WriteLine(album.artista + ";" + cancion.titulo + ";" + album.nombre);
+                            salida.WriteLine(album.Artist + ";" + cancion.titulo + ";" + album.Title);
                             foreach (string line in cancion.Lyrics)
                             {
                                 salida.WriteLine(line);

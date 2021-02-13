@@ -53,7 +53,7 @@ namespace aplicacion_musica
                 }
                 else
                 {
-                    data[1] = listaReproduccion.Canciones[i].album.artista;
+                    data[1] = listaReproduccion.Canciones[i].album.Artist;
                     data[2] = listaReproduccion.Canciones[i].titulo;
                     data[3] = listaReproduccion.Canciones[i].duracion.ToString();
                 }

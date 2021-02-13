@@ -13,9 +13,9 @@ namespace aplicacion_musica
             InitializeComponent();
             Console.WriteLine("Editando canción");
             albumAEditar = a;
-            textBoxArtista.Text = albumAEditar.artista;
-            textBoxAño.Text = albumAEditar.year.ToString();
-            textBoxTitulo.Text = albumAEditar.nombre;
+            textBoxArtista.Text = albumAEditar.Artist;
+            textBoxAño.Text = albumAEditar.Year.ToString();
+            textBoxTitulo.Text = albumAEditar.Title;
             labelRuta.Text = albumAEditar.caratula;
             labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
             textBoxURISpotify.Text = albumAEditar.IdSpotify;
@@ -26,7 +26,7 @@ namespace aplicacion_musica
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal.GetString("editando") + " " + albumAEditar.artista + " - " + albumAEditar.nombre;
+            Text = Programa.textosLocal.GetString("editando") + " " + albumAEditar.Artist + " - " + albumAEditar.Title;
             labelArtista.Text = Programa.textosLocal.GetString("artista");
             labelTitulo.Text = Programa.textosLocal.GetString("titulo");
             labelAño.Text = Programa.textosLocal.GetString("año");
@@ -63,10 +63,10 @@ namespace aplicacion_musica
         private void cargarVista()
         {
             vistaCanciones.Items.Clear();
-            ListViewItem[] items = new ListViewItem[albumAEditar.numCanciones];
+            ListViewItem[] items = new ListViewItem[albumAEditar.NumberOfSongs];
             for (int i = 0; i < items.Length; i++)
             {
-                items[i] = new ListViewItem(albumAEditar.canciones[i].titulo);
+                items[i] = new ListViewItem(albumAEditar.Songs[i].titulo);
             }
             vistaCanciones.Items.AddRange(items);
         }
@@ -76,9 +76,9 @@ namespace aplicacion_musica
             try//si está vacío pues guarda vacío
             {
                 Log.Instance.ImprimirMensaje("Intentando guardar", TipoMensaje.Info);
-                albumAEditar.artista = textBoxArtista.Text;
-                albumAEditar.nombre = textBoxTitulo.Text;
-                albumAEditar.year = Convert.ToInt16(textBoxAño.Text);
+                albumAEditar.Artist = textBoxArtista.Text;
+                albumAEditar.Title = textBoxTitulo.Text;
+                albumAEditar.Year = Convert.ToInt16(textBoxAño.Text);
                 string gn = comboBoxGeneros.SelectedItem.ToString();
                 Genre g = Programa.genres[Programa.FindGeneroTraducido(gn)];
                 albumAEditar.genero = g;
@@ -90,12 +90,12 @@ namespace aplicacion_musica
                     albumAEditar.IdSpotify = (uriSpotify[2]);
                 else
                     albumAEditar.IdSpotify = (textBoxURISpotify.Text);
-                foreach (Cancion c in albumAEditar.canciones)
+                foreach (Cancion c in albumAEditar.Songs)
                 {
                     if(!c.Bonus)
                         nuevaDuracion += c.duracion;
                 }
-                albumAEditar.duracion = nuevaDuracion;
+                albumAEditar.Lenght = nuevaDuracion;
             }
             catch (NullReferenceException)
             {
