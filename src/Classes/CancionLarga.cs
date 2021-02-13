@@ -19,7 +19,7 @@ namespace aplicacion_musica
             album = a;
             Partes = new List<Song>();
         }
-        public void addParte(ref Song p)
+        public void addParte(Song p)
         {
             Partes.Add(p);
             duracion += p.duracion;

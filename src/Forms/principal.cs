@@ -736,7 +736,7 @@ namespace aplicacion_musica
             if(string.IsNullOrEmpty(a.IdSpotify))
             {
                 SpotifyAPI.Web.Models.SimpleAlbum album = Programa._spotify.DevolverAlbum(a.GetTerminoBusqueda());
-                if (a == null || album == null)
+                if (object.ReferenceEquals(a, null) || object.ReferenceEquals(album, null))
                 {
                     Log.ImprimirMensaje("Album fue nulo", TipoMensaje.Error);
                 }

@@ -43,7 +43,7 @@ namespace aplicacion_musica
             barraAbajo.Font = new Font("Segoe UI", 10);
             Controls.Add(barraAbajo);
             labelEstadoDisco.Hide();
-            if(albumAVisualizar != null && (albumAVisualizar.SoundFilesPath == "" || albumAVisualizar.SoundFilesPath == null))
+            if(!ReferenceEquals(albumAVisualizar, null) && (albumAVisualizar.SoundFilesPath == "" || albumAVisualizar.SoundFilesPath == null))
             {
                 buttonAnotaciones.Enabled = false;
             }
@@ -309,7 +309,7 @@ namespace aplicacion_musica
             {
                 if(CDaVisualizar !=  null &&CDaVisualizar.Discos.Length > 1)
                 {
-                    Song can = albumAVisualizar.getCancion(cancion.SubItems[1].Text);
+                    Song can = albumAVisualizar.GetSong(cancion.SubItems[1].Text);
                     seleccion += can.duracion;
                 }
                 else
@@ -417,7 +417,7 @@ namespace aplicacion_musica
 
         private void infoAlbum_Click(object sender, EventArgs e)
         {
-            if(albumAVisualizar != null)
+            if(!ReferenceEquals(albumAVisualizar, null))
             {
                 Process explorador = new Process();
                 explorador.StartInfo.UseShellExecute = true;
@@ -552,21 +552,21 @@ namespace aplicacion_musica
                 return;
             }
             int num = vistaCanciones.SelectedItems[0].Index;
-            List<Song> cancionesABorrar = new List<Song>();
+            List<string> cancionesABorrar = new List<string>();
             CancionLarga cl = new CancionLarga();
             cl.SetAlbum(albumAVisualizar);
             cl.titulo = albumAVisualizar.getCancion(num).titulo;
+
             foreach (ListViewItem cancionItem in vistaCanciones.SelectedItems)
             {
-                int i = cancionItem.Index;
-                Song c = albumAVisualizar.getCancion(i);
-                cl.addParte(ref c);
-                cancionesABorrar.Add(c);
+                cl.addParte(albumAVisualizar.getCancion(cancionItem.Index));
+                cancionesABorrar.Add(cancionItem.SubItems[1].Text);
             }
-            albumAVisualizar.AddSong(cl, num); //should work...
 
-            foreach (Song song in cancionesABorrar)
-                albumAVisualizar.RemoveSong(song);
+            foreach (string songTitle in cancionesABorrar)
+                albumAVisualizar.RemoveSong(songTitle);
+
+            albumAVisualizar.AddSong(cl, num); //IT works...
 
             refrescarVista();
         }

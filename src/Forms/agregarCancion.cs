@@ -197,7 +197,7 @@ namespace aplicacion_musica
                     TimeSpan dur = new TimeSpan(0, min, sec);
                     np = 0;
                     Song p = new Song(t, dur, ref album);
-                    cancionlarga.addParte(ref p);
+                    cancionlarga.addParte(p);
                     DialogResult = DialogResult.OK;
                 }
                 Dispose();

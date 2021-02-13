@@ -369,7 +369,7 @@ namespace aplicacion_musica
             controlBotones(true);
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Detenido;
-            if(c.album == null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
+            if(object.ReferenceEquals(c.album, null)) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
             {
                 DirectoryInfo dir = new DirectoryInfo(c.PATH);
                 dir = dir.Parent;
@@ -422,7 +422,7 @@ namespace aplicacion_musica
             }
             PrepararReproductor();
             LectorMetadatos LM = new LectorMetadatos(c.PATH);
-            if (c.album != null && c.album.Cover != null )
+            if (!ReferenceEquals(c.album, null) && c.album.Cover != null )
             {
                 if(c.album.Cover != "")
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.Cover);

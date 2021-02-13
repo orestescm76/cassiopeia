@@ -215,7 +215,7 @@ namespace aplicacion_musica
                                         lineaC++;
                                         datosCancion = linea.Split(';');
                                         Song c = new Song(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
-                                        cl.addParte(ref c);
+                                        cl.addParte(c);
                                     }
                                     a.AddSong(cl, i);
                                 }
@@ -278,7 +278,7 @@ namespace aplicacion_musica
                         {
                             if(album.Artist == datos[0] && album.Title == datos[2])
                             {
-                                Song c = album.Songs[album.buscarCancion(datos[1])];
+                                Song c = album.GetSong(datos[1]);
                                 linea = entrada.ReadLine();
                                 c.PATH = linea;
                             }
@@ -407,8 +407,8 @@ namespace aplicacion_musica
                 {
                     linea = entrada.ReadLine();
                     string[] datos = linea.Split(';');
-                    AlbumData a = miColeccion.buscarAlbum(datos[2])[0];
-                    Song c = a.Songs[a.buscarCancion(datos[1])];
+                    AlbumData albumData = miColeccion.buscarAlbum(datos[2])[0];
+                    Song song = albumData.GetSong(datos[1]);
                     List<string> lyrics = new List<string>();
                     do
                     {
@@ -416,7 +416,7 @@ namespace aplicacion_musica
                         lyrics.Add(linea);
                     } while (linea != "---");
                     lyrics.Remove("---");
-                    c.Lyrics = lyrics.ToArray();
+                    song.Lyrics = lyrics.ToArray();
                 }
             }
             crono.Stop();

@@ -61,7 +61,7 @@ namespace aplicacion_musica
         }
         public override string ToString()
         {
-            if (album != null)
+            if (!ReferenceEquals(album, null))
                 return album.Artist + " - " + titulo + " (" + album.Title + ")";
             else
                 return titulo;

@@ -91,33 +91,52 @@ namespace aplicacion_musica
             return Artist + Title;
         }
 
-        public bool Equals(AlbumData otro)
+        public override bool Equals(Object other)
         {
-            if (getID() == otro.getID())
-                return true;
-            else return false;
+            AlbumData albumData = other as AlbumData;
+            return getID() == albumData.getID();
         }
 
-        public int buscarCancion(string t)
+        public static bool operator ==(AlbumData leftAlbumData, AlbumData rightAlbumData)
         {
-            int i = 0;
-            while (t != Songs[i].titulo)
-                i++;
-            return i;
+            return leftAlbumData.getID() == rightAlbumData.getID();
         }
 
-        public Song DevolverCancion(string t)
+        public static bool operator !=(AlbumData leftAlbumData, AlbumData rightAlbumData)
         {
-            Song c = null;
-            int i = 0;
-            c = Songs[i];
-            while (t != Songs[i].titulo)
+            return !(leftAlbumData == rightAlbumData);
+        }
+
+        public int GetSongPosition(string title)
+        {
+            int songPos = -1;
+
+            for (int i = 0; i < Songs.Count; i++)
             {
-                i++;
-                c = Songs[i];
+                if (Songs[i].titulo.Equals(title))
+                {
+                    songPos = i;
+                    break;
+                }
             }
 
-            return c;
+            return songPos;
+        }
+
+        public Song GetSong(string title)
+        {
+            Song song = null;
+
+            foreach (Song s in Songs)
+            {
+                if (s.titulo.Equals(title))
+                {
+                    song = s;
+                    break;
+                }
+            }
+
+            return song;
         }
 
         public Song getCancion(int n)
@@ -125,15 +144,6 @@ namespace aplicacion_musica
             return Songs[n];
         }
 
-        public Song getCancion(String b)
-        {
-            for (int i = 0; i < Songs.Count; i++)
-            {
-                if (b == Songs[i].titulo)
-                    return Songs[i];
-            }
-            return null;
-        }
         public override string ToString()
         {
             //artista - nombre (dur) (gen) 
@@ -147,6 +157,12 @@ namespace aplicacion_musica
 
         public void RemoveSong(Song song)
         {
+            Songs.Remove(song);
+        }
+
+        public void RemoveSong(string title)
+        {
+            Song song = GetSong(title);
             Songs.Remove(song);
         }
 

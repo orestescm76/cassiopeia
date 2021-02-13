@@ -29,7 +29,7 @@ namespace aplicacion_musica.src.Forms
             ConsejoDeshacer = new ToolTip();
             PonerTextos();
             textBoxLyrics.DeselectAll();
-            if(cancion.album == null)
+            if(object.ReferenceEquals(cancion.album, null))
             {
                 buttonBack.Enabled = false;
                 buttonNext.Enabled = false;
@@ -50,7 +50,7 @@ namespace aplicacion_musica.src.Forms
             textBoxLyrics.Lines = cancion.Lyrics;
             Text = cancion.ToString();
             textBoxLyrics.DeselectAll();
-            if (cancion.album == null)
+            if (object.ReferenceEquals(cancion.album, null))
             {
                 buttonBack.Enabled = false;
                 buttonNext.Enabled = false;
