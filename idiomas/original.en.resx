@@ -625,4 +625,7 @@
   <data name="reproduciendo" xml:space="preserve">
     <value>Playing</value>
   </data>
+  <data name="playlistName" xml:space="preserve">
+    <value>Enter the playlist name...</value>
+  </data>
 </root>

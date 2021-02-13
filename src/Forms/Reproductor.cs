@@ -11,7 +11,7 @@ using System.Threading;
 using System.Diagnostics;
 using aplicacion_musica.Properties;
 
-namespace aplicacion_musica
+namespace aplicacion_musica.src.Forms
 {
     public enum EstadoReproductor
     {

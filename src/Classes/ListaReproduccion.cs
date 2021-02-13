@@ -62,6 +62,7 @@ namespace aplicacion_musica
         public void Guardar(string name)
         {
             StreamWriter Writer = new StreamWriter(name);
+            Writer.WriteLine(Nombre);
             foreach (var cancion in Canciones)
             {
                 Writer.WriteLine(cancion.PATH);
