@@ -16,7 +16,7 @@ namespace aplicacion_musica
         public TimeSpan duracion { get; set; }
         public List<Cancion> canciones { get; set; }
         public String caratula { get; set; }
-        public Genero genero { get; set; }
+        public Genre genero { get; set; }
         public String IdSpotify { get; set; }
         public String DirectorioSonido { get; set; }
         [JsonIgnore]
@@ -24,9 +24,9 @@ namespace aplicacion_musica
         public Album()
         {
             canciones = new List<Cancion>();
-            genero = Programa.generos.Last();
+            genero = Programa.genres.Last();
         }
-        public Album(Genero g, string n = "", string a = "", short y = 0, short nc = 0, string c = "")
+        public Album(Genre g, string n = "", string a = "", short y = 0, short nc = 0, string c = "")
         {
             duracion = new TimeSpan();
             nombre = n;
@@ -46,7 +46,7 @@ namespace aplicacion_musica
             year = y;
             numCanciones = nc;
             caratula = c;
-            genero = new Genero("");
+            genero = new Genre("");
             PuedeBorrarse = true;
         }
         public Album(Album a)
@@ -76,7 +76,7 @@ namespace aplicacion_musica
         }
         public String[] ToStringArray()
         {
-            String[] datos = { artista, nombre, year.ToString(), duracion.ToString(), genero.traducido };
+            String[] datos = { artista, nombre, year.ToString(), duracion.ToString(), genero.Name };
             return datos;
         }
         public String[] SongsToStringArray()
@@ -144,7 +144,7 @@ namespace aplicacion_musica
         public override string ToString()
         {
             //artista - nombre (dur) (gen) 
-            return artista + " - " + nombre + "(" + duracion + ") (" + genero.traducido + ")";
+            return artista + " - " + nombre + "(" + duracion + ") (" + genero.Name + ")";
         }
         public void BorrarCancion(int cual)
         {
@@ -196,7 +196,7 @@ namespace aplicacion_musica
             {
                 val = val.Replace("%title%", nombre);
                 val = val.Replace("%year%", year.ToString());
-                val = val.Replace("%genre%", genero.traducido);
+                val = val.Replace("%genre%", genero.Name);
                 val = val.Replace("%length%", duracion.ToString());
                 val = val.Replace("%length_seconds%", ((int)duracion.TotalSeconds).ToString());
                 return val;

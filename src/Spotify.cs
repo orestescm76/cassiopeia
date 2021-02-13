@@ -22,6 +22,7 @@ namespace aplicacion_musica
         public bool cuentaVinculada = false;
         private string CodigoRefresco;
         Token tokenActual;
+
         public Spotify(bool v)
         {
             if(!v)

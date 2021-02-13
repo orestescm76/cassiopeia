@@ -7,7 +7,7 @@ namespace aplicacion_musica
     public partial class editarAlbum : Form
     {
         private Album albumAEditar;
-        private string[] generosTraducidos = new string[Programa.generos.Length-1];
+        private string[] generosTraducidos = new string[Programa.genres.Length-1];
         public editarAlbum(ref Album a)
         {
             InitializeComponent();
@@ -42,14 +42,14 @@ namespace aplicacion_musica
             labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
-                generosTraducidos[i] = Programa.generos[i].traducido;
+                generosTraducidos[i] = Programa.genres[i].Name;
             }
             Array.Sort(generosTraducidos);
             comboBoxGeneros.Items.AddRange(generosTraducidos);
             int index = 0;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
-                if (albumAEditar.genero.traducido == generosTraducidos[i])
+                if (albumAEditar.genero.Name == generosTraducidos[i])
                     index = i;
             }
             comboBoxGeneros.SelectedIndex = index;
@@ -80,7 +80,7 @@ namespace aplicacion_musica
                 albumAEditar.nombre = textBoxTitulo.Text;
                 albumAEditar.year = Convert.ToInt16(textBoxAño.Text);
                 string gn = comboBoxGeneros.SelectedItem.ToString();
-                Genero g = Programa.generos[Programa.FindGeneroTraducido(gn)];
+                Genre g = Programa.genres[Programa.FindGeneroTraducido(gn)];
                 albumAEditar.genero = g;
                 albumAEditar.caratula = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
