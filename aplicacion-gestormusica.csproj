@@ -127,7 +127,7 @@
     <Compile Include="src\Classes\Coleccion.cs" />
     <Compile Include="src\Classes\Disco.cs" />
     <Compile Include="src\Classes\DiscoCompacto.cs" />
-    <Compile Include="src\Classes\Genero.cs" />
+    <Compile Include="src\Classes\Genre.cs" />
     <Compile Include="src\Classes\LectorMetadatos.cs" />
     <Compile Include="src\Classes\ListaReproduccion.cs" />
     <Compile Include="src\Classes\Log.cs" />

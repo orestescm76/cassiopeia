@@ -108,7 +108,7 @@ namespace aplicacion_musica.src.Forms
                 val = val.Replace("%artist%", test.artista);
                 val = val.Replace("%title%", test.nombre);
                 val = val.Replace("%year%", test.year.ToString());
-                val = val.Replace("%genre%", test.genero.traducido);
+                val = val.Replace("%genre%", test.genero.Name);
                 val = val.Replace("%length%", test.duracion.ToString());
                 val = val.Replace("%length_seconds%", ((int)test.duracion.TotalSeconds).ToString());
                 vistaPreviaPortapapeles.Text = val;
@@ -129,7 +129,7 @@ namespace aplicacion_musica.src.Forms
                 val = val.Replace("%artist%", test.artista);
                 val = val.Replace("%title%", test.nombre);
                 val = val.Replace("%year%", test.year.ToString());
-                val = val.Replace("%genre%", test.genero.traducido);
+                val = val.Replace("%genre%", test.genero.Name);
                 val = val.Replace("%length%", test.duracion.ToString());
                 val = val.Replace("%length_seconds%", ((int)test.duracion.TotalSeconds).ToString());
                 vistaPreviaPortapapeles.Text = val;

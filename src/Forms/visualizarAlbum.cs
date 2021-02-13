@@ -63,7 +63,7 @@ namespace aplicacion_musica
                 Programa.textosLocal.GetString("titulo") + ": " + cd.Album.nombre + Environment.NewLine +
                 Programa.textosLocal.GetString("año") + ": " + cd.Album.year + Environment.NewLine +
                 Programa.textosLocal.GetString("duracion") + ": " + cd.Album.duracion.ToString() + Environment.NewLine +
-                Programa.textosLocal.GetString("genero") + ": " + cd.Album.genero.traducido + Environment.NewLine +
+                Programa.textosLocal.GetString("genero") + ": " + cd.Album.genero.Name + Environment.NewLine +
                 Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(cd.FormatoCD.ToString()) + Environment.NewLine +
                 Programa.textosLocal.GetString("añoPublicacion") + ": " + cd.YearRelease + Environment.NewLine +
                 Programa.textosLocal.GetString("paisPublicacion") + ":" + cd.PaisPublicacion + Environment.NewLine +
@@ -184,7 +184,7 @@ namespace aplicacion_musica
                         Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
                         Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
                         Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
-                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido + Environment.NewLine +
+                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.Name + Environment.NewLine +
                         Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("estado_medio") + ": " + Programa.textosLocal.GetString(CDaVisualizar.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(CDaVisualizar.FormatoCD.ToString()) + Environment.NewLine;
@@ -216,7 +216,7 @@ namespace aplicacion_musica
                         Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
                         Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
                         Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
-                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido + Environment.NewLine + 
+                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.Name + Environment.NewLine + 
                         Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("estado_medio") + ": " + Programa.textosLocal.GetString(CDaVisualizar.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
                         Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(CDaVisualizar.FormatoCD.ToString()) + Environment.NewLine;
@@ -249,13 +249,13 @@ namespace aplicacion_musica
                         Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
                         Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
                         Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
-                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido;
+                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.Name;
                 else
                     infoAlbum.Text = Programa.textosLocal.GetString("artista") + ": " + albumAVisualizar.artista + Environment.NewLine +
                         Programa.textosLocal.GetString("titulo") + ": " + albumAVisualizar.nombre + Environment.NewLine +
                         Programa.textosLocal.GetString("año") + ": " + albumAVisualizar.year + Environment.NewLine +
                         Programa.textosLocal.GetString("duracion") + ": " + albumAVisualizar.duracion.ToString() + Environment.NewLine +
-                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.traducido + Environment.NewLine +
+                        Programa.textosLocal.GetString("genero") + ": " + albumAVisualizar.genero.Name + Environment.NewLine +
                         Programa.textosLocal.GetString("localizacion") + ": " + albumAVisualizar.DirectorioSonido + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
             }

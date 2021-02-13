@@ -7,7 +7,7 @@ namespace aplicacion_musica
     public partial class agregarAlbum : Form
     {
         private string caratula = "";
-        private String[] generosTraducidos = new string[Programa.generos.Length-1];
+        private String[] genresToSelect = new string[Programa.genres.Length-1];
         public agregarAlbum()
         {
             InitializeComponent();
@@ -25,12 +25,12 @@ namespace aplicacion_musica
             add.Text = Programa.textosLocal.GetString("añadir");
             addCaratula.Text = Programa.textosLocal.GetString("addcaratula");
             labelCaratula.Text = Programa.textosLocal.GetString("caratula");
-            for (int i = 0; i < Programa.generos.Length-1; i++)
+            for (int i = 0; i < Programa.genres.Length-1; i++)
             {
-                generosTraducidos[i] = Programa.generos[i].traducido;
+                genresToSelect[i] = Programa.genres[i].Name;
             }
-            Array.Sort(generosTraducidos);
-            comboBox1.Items.AddRange(generosTraducidos);
+            Array.Sort(genresToSelect);
+            comboBox1.Items.AddRange(genresToSelect);
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -60,7 +60,7 @@ namespace aplicacion_musica
                 string gent = comboBox1.SelectedItem.ToString();
                 year = Convert.ToInt16(yearTextBox.Text);
                 nC = Convert.ToInt16(numCancionesTextBox.Text);
-                Genero g = Programa.generos[Programa.FindGeneroTraducido(gent)];
+                Genre g = Programa.genres[Programa.FindGeneroTraducido(gent)];
                 Album a = null;
                 if(caratula == "")
                     a = new Album(g, titulo, artista, year, nC, "");

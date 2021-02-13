@@ -32,7 +32,7 @@ namespace aplicacion_musica
         public static String[] idGeneros = {"clasica", "hardrock", "rockprog", "progmetal", "rockpsicodelico", "heavymetal", "blackmetal", "electronica", "postrock", "indierock",
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "jazz fusion", ""};
         public static Coleccion miColeccion;
-        public static Genero[] generos = new Genero[idGeneros.Length];
+        public static Genre[] genres = new Genre[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
         public static readonly string version = ver.ToString()+ " ";
         public static string[] idiomas;
@@ -49,6 +49,7 @@ namespace aplicacion_musica
         private static bool Spotify = true;
         private static bool InicioReproductor = false;
         private static bool Consola = false;
+
         public static void Refresco()
         {
             while(true)
@@ -57,9 +58,11 @@ namespace aplicacion_musica
                 {
                     _spotify.RefrescarToken();
                 }
+
                 Thread.Sleep(TimeSpan.FromSeconds(15));
             }
         }
+
         //método mierdoso por temas de privado público
         public static void HayInternet(bool i)
         {
@@ -93,18 +96,18 @@ namespace aplicacion_musica
         }
         public static int FindGeneroTraducido(string g)
         {
-            for (int i = 0; i < generos.Length; i++)
+            for (int i = 0; i < genres.Length; i++)
             {
-                if (g == generos[i].traducido)
+                if (g == genres[i].Name)
                     return i;
             }
             return -1;
         }
         public static void RefrescarGeneros()
         {
-            for (int i = 0; i < generos.Length-1; i++)
+            for (int i = 0; i < genres.Length-1; i++)
             {
-                generos[i].traducido = textosLocal.GetString("genero_" + generos[i].Id);
+                genres[i].Name = textosLocal.GetString("genero_" + genres[i].Id);
             }
         }
         public static void CargarAlbumes(string fichero)
@@ -119,7 +122,7 @@ namespace aplicacion_musica
                     LineaJson = lector.ReadLine();
                     Album a = JsonConvert.DeserializeObject<Album>(LineaJson);
                     a.RefrescarDuracion();
-                    a.genero = generos[FindGenero(a.genero.Id)];
+                    a.genero = genres[FindGenero(a.genero.Id)];
                     a.numCanciones = (short)a.canciones.Count;
                     a.ConfigurarCanciones();
                     miColeccion.agregarAlbum(ref a);
@@ -158,7 +161,7 @@ namespace aplicacion_musica
                     }
                     short nC = 0;
                     int gen = FindGenero(datos[4]);
-                    Genero g = Programa.generos[gen];
+                    Genre g = Programa.genres[gen];
                     if (string.IsNullOrEmpty(datos[5])) datos[5] = string.Empty;
                     Album a = null;
                     try
@@ -566,13 +569,13 @@ namespace aplicacion_musica
                 {
                     if (idGeneros[i] == "")
                     {
-                        generos[i] = new Genero(idGeneros[i]);
-                        generos[i].setTraduccion("-");
+                        genres[i] = new Genre(idGeneros[i]);
+                        genres[i].Name = "-";
                     }
                     else
                     {
-                        generos[i] = new Genero(idGeneros[i]);
-                        generos[i].setTraduccion(textosLocal.GetString("genero_" + generos[i].Id));
+                        genres[i] = new Genre(idGeneros[i]);
+                        genres[i].Name = textosLocal.GetString("genero_" + genres[i].Id);
                     }
                 }
                 if (args.Contains("-json"))
