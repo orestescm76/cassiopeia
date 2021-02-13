@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace aplicacion_musica
 {
-    public class CancionLarga : Cancion
+    public class CancionLarga : Song
     {
-        public List<Cancion> Partes { get; private set; }
+        public List<Song> Partes { get; private set; }
         public CancionLarga() 
         {
-            Partes = new List<Cancion>();
+            Partes = new List<Song>();
         }
-        public CancionLarga(string t, ref Album a)
+        public CancionLarga(string t, ref AlbumData a)
         {
             titulo = t;
             album = a;
-            Partes = new List<Cancion>();
+            Partes = new List<Song>();
         }
-        public void addParte(ref Cancion p)
+        public void addParte(Song p)
         {
             Partes.Add(p);
             duracion += p.duracion;

@@ -5,24 +5,24 @@ namespace aplicacion_musica
 {
     public partial class CrearCD : Form
     {
-        private Album album;
+        private AlbumData album;
         private DiscoCompacto cd;
         private short numDiscos;
         private short NDisco;
         private int NC;
         private bool edit = false;
-        public CrearCD(ref Album a)
+        public CrearCD(ref AlbumData a)
         {
             InitializeComponent();
             album = a;
-            Console.WriteLine("Creando sólo un CD, duración: " + album.Lenght);
+            Console.WriteLine("Creando sólo un CD, duración: " + album.Length);
             numericUpDownNumCanciones.Hide();
             labelNumCanciones.Hide();
             NDisco = 1;
             NC = a.NumberOfSongs;
             PonerTextos();
         }
-        public CrearCD(ref Album a, short nd)
+        public CrearCD(ref AlbumData a, short nd)
         {
             InitializeComponent();
             Console.WriteLine("Creando primer CD");
@@ -89,7 +89,8 @@ namespace aplicacion_musica
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            album.ProtegerBorrado();
+            album.CanBeRemoved = false;
+
             EstadoMedio exterior = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), comboBoxEstadoExterior.SelectedIndex.ToString());
             EstadoMedio medio = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), comboBoxEstadoMedio.SelectedIndex.ToString());
             FormatoCD formato = (FormatoCD)Enum.Parse(typeof(FormatoCD), comboBoxFormatoCD.SelectedIndex.ToString());

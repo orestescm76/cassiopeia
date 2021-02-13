@@ -21,7 +21,7 @@ namespace aplicacion_musica.src.Forms
         RadioButton[] radioButtonsIdiomas;
         TextBox portapapelesConfig;
         Label vistaPreviaPortapapeles;
-        Album test = new Album("Sabbath Bloddy Sabbath", "Black Sabbath", 1973);
+        AlbumData test = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973);
         ConfigActiva config;
         public ConfigForm()
         {
@@ -108,9 +108,9 @@ namespace aplicacion_musica.src.Forms
                 val = val.Replace("%artist%", test.Artist);
                 val = val.Replace("%title%", test.Title);
                 val = val.Replace("%year%", test.Year.ToString());
-                val = val.Replace("%genre%", test.genero.Name);
-                val = val.Replace("%length%", test.Lenght.ToString());
-                val = val.Replace("%length_seconds%", ((int)test.Lenght.TotalSeconds).ToString());
+                val = val.Replace("%genre%", test.Genre.Name);
+                val = val.Replace("%length%", test.Length.ToString());
+                val = val.Replace("%length_seconds%", ((int)test.Length.TotalSeconds).ToString());
                 vistaPreviaPortapapeles.Text = val;
             }
             catch (NullReferenceException)
@@ -129,9 +129,9 @@ namespace aplicacion_musica.src.Forms
                 val = val.Replace("%artist%", test.Artist);
                 val = val.Replace("%title%", test.Title);
                 val = val.Replace("%year%", test.Year.ToString());
-                val = val.Replace("%genre%", test.genero.Name);
-                val = val.Replace("%length%", test.Lenght.ToString());
-                val = val.Replace("%length_seconds%", ((int)test.Lenght.TotalSeconds).ToString());
+                val = val.Replace("%genre%", test.Genre.Name);
+                val = val.Replace("%length%", test.Length.ToString());
+                val = val.Replace("%length_seconds%", ((int)test.Length.TotalSeconds).ToString());
                 vistaPreviaPortapapeles.Text = val;
             }
             catch (NullReferenceException)

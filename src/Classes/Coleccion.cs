@@ -8,51 +8,51 @@ namespace aplicacion_musica
 {
     class Coleccion
     {
-        public List<Album> albumes { get; private set; }
+        public List<AlbumData> albumes { get; private set; }
         public List<DiscoCompacto> cds { get; private set; }
         public Coleccion()
         {
-            albumes = new List<Album>();
+            albumes = new List<AlbumData>();
             cds = new List<DiscoCompacto>();
         }
-        public void agregarAlbum(ref Album a) { albumes.Add(a); }
-        public void quitarAlbum(ref Album a) 
+        public void agregarAlbum(ref AlbumData a) { albumes.Add(a); }
+        public void quitarAlbum(ref AlbumData a) 
         {
-            if (a.PuedeBorrarse)
+            if (a.CanBeRemoved)
                 albumes.Remove(a);
             else
                 throw new InvalidOperationException();
         }
-        public List<Album> buscarAlbum(string titulo)
+        public List<AlbumData> buscarAlbum(string titulo)
         {
-            List<Album> encontrados = new List<Album>();
-            foreach(Album a in albumes)
+            List<AlbumData> encontrados = new List<AlbumData>();
+            foreach(AlbumData a in albumes)
             {
                 if (a.Title == titulo)
                     encontrados.Add(a);
             }
             return encontrados;
         }
-        public bool estaEnColeccion(Album a)
+        public bool estaEnColeccion(AlbumData a)
         {
-            foreach(Album album in albumes)
+            foreach(AlbumData album in albumes)
             {
-                if (album.sonIguales(a))
+                if (album.Equals(a))
                     return true;
             }
             return false;
         }
-        public Album devolverAlbum(string s)
+        public AlbumData devolverAlbum(string s)
         {
             String[] busqueda = s.Split('_');
-            foreach (Album album in albumes)
+            foreach (AlbumData album in albumes)
             {
                 if (album.Artist == busqueda[0] && album.Title == busqueda[1])
                     return album;
             }
             return null;
         }
-        public Album devolverAlbum(int i)
+        public AlbumData devolverAlbum(int i)
         {
             return albumes[i];
         }
@@ -66,7 +66,7 @@ namespace aplicacion_musica
                     cd = cdd;
             }
         }
-        public void cambiarLista(ref List<Album> n)
+        public void cambiarLista(ref List<AlbumData> n)
         {
             albumes = n;
         }

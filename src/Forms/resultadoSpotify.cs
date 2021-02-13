@@ -11,8 +11,8 @@ namespace aplicacion_musica
         private ListViewItemComparer lvwColumnSorter;
         private List<SimpleAlbum> listaBusqueda = new List<SimpleAlbum>();
         bool EditarID = false;
-        Album AlbumAEditar;
-        public resultadoSpotify(ref List<SimpleAlbum> l, bool edit, Album album = null)
+        AlbumData AlbumAEditar;
+        public resultadoSpotify(ref List<SimpleAlbum> l, bool edit, AlbumData album = null)
         {
             InitializeComponent();
             EditarID = edit;
@@ -68,7 +68,7 @@ namespace aplicacion_musica
             {
                 int IndexAlbum = Convert.ToInt32(listViewResultadoBusqueda.SelectedItems[0].SubItems[0].Text);
                 SimpleAlbum temp = listaBusqueda[IndexAlbum];
-                AlbumAEditar.SetSpotifyID(temp.Id);
+                AlbumAEditar.IdSpotify = temp.Id;
             }
             Dispose();
         }

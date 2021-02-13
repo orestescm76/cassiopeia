@@ -23,7 +23,7 @@ namespace aplicacion_musica
     {
 
         [Newtonsoft.Json.JsonIgnore] //no quiero guardarlo 2 veces, ni cargarlo
-        public Album Album { get; protected set; }
+        public AlbumData Album { get; protected set; }
         public EstadoMedio EstadoExterior { get; set; }
         public short YearRelease {get;set;}
         public String PaisPublicacion { get; set; }

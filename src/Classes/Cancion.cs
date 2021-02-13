@@ -3,10 +3,10 @@ using Newtonsoft.Json;
 
 namespace aplicacion_musica
 {
-    public class Cancion
+    public class Song
     {
         [JsonIgnore]
-        public Album album { get; protected set; }
+        public AlbumData album { get; protected set; }
         public string titulo { get; set; }
         [JsonConverter(typeof(TiempoConverter))]
         public TimeSpan duracion { get; set; }
@@ -26,42 +26,42 @@ namespace aplicacion_musica
             }
         }
 
-        public Cancion()
+        public Song()
         {
         }
-        public Cancion(String titulo, int ms, bool Bonus)
+        public Song(String titulo, int ms, bool Bonus)
         {
             this.titulo = titulo;
             duracion = new TimeSpan(0, 0, 0, 0, ms);
             this.Bonus = Bonus;
         }
-        public Cancion(Cancion c)
+        public Song(Song c)
         {
             titulo = c.titulo;
             album = c.album;
             duracion = c.duracion;
             Bonus = c.Bonus;
         }
-        public Cancion(string t, TimeSpan d, ref Album a)
+        public Song(string t, TimeSpan d, ref AlbumData a)
         {
             titulo = t;
             duracion = d;
             album = a;
         }
-        public Cancion(string t, TimeSpan d, ref Album a, bool b)
+        public Song(string t, TimeSpan d, ref AlbumData a, bool b)
         {
             titulo = t;
             duracion = d;
             album = a;
             Bonus = b;
         }
-        public Cancion(string path) //Crea una canción fantasma con sólo un PATH
+        public Song(string path) //Crea una canción fantasma con sólo un PATH
         {
             this.PATH = path;
         }
         public override string ToString()
         {
-            if (album != null)
+            if (!ReferenceEquals(album, null))
                 return album.Artist + " - " + titulo + " (" + album.Title + ")";
             else
                 return titulo;
@@ -79,7 +79,7 @@ namespace aplicacion_musica
         {
             return Convert.ToInt32(duracion.TotalMilliseconds);
         }
-        public void SetAlbum(Album a)
+        public void SetAlbum(AlbumData a)
         {
             album = a;
         }
