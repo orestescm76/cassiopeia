@@ -386,7 +386,7 @@ namespace aplicacion_musica
                 {
                     String a = album.SubItems[0].Text + "_" + album.SubItems[1].Text;
                     AlbumData ad = Programa.miColeccion.devolverAlbum(a);
-                    seleccion += ad.Lenght;
+                    seleccion += ad.Length;
                 }
                 duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": " + seleccion.ToString();
             }
@@ -396,7 +396,7 @@ namespace aplicacion_musica
             AlbumData a = Programa.miColeccion.albumes.First();
             for (int i = 1; i < Programa.miColeccion.albumes.Count; i++)
             {
-                if (a.Lenght > Programa.miColeccion.albumes[i].Lenght)
+                if (a.Length > Programa.miColeccion.albumes[i].Length)
                     a = Programa.miColeccion.albumes[i];
             }
             visualizarAlbum v = new visualizarAlbum(ref a);
@@ -408,7 +408,7 @@ namespace aplicacion_musica
             AlbumData a = Programa.miColeccion.albumes.First();
             for (int i = 1; i < Programa.miColeccion.albumes.Count; i++)
             {
-                if (a.Lenght < Programa.miColeccion.albumes[i].Lenght)
+                if (a.Length < Programa.miColeccion.albumes[i].Length)
                     a = Programa.miColeccion.albumes[i];
             }
             visualizarAlbum v = new visualizarAlbum(ref a);
@@ -517,14 +517,14 @@ namespace aplicacion_musica
             string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "_" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
             AlbumData a = Programa.miColeccion.devolverAlbum(seleccion);
 
-            if(a.Lenght.TotalMinutes < 80)
+            if(a.Length.TotalMinutes < 80)
             {
                 CrearCD formCD = new CrearCD(ref a);
                 formCD.Show();
             }
             else
             {
-                short numDiscos = (short)Math.Ceiling((a.Lenght.TotalMinutes / 80));
+                short numDiscos = (short)Math.Ceiling((a.Length.TotalMinutes / 80));
                 CrearCD fCD = new CrearCD(ref a, numDiscos);
                 fCD.ShowDialog();
                 for (short i = 2; i <= numDiscos; i++)
@@ -795,7 +795,7 @@ namespace aplicacion_musica
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AlbumData a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]);
-            Cancion cancion = a.getCancion(0);
+            Song cancion = a.getCancion(0);
             VisorLyrics VL = new VisorLyrics(cancion);
             VL.Show();
         }
@@ -840,12 +840,12 @@ namespace aplicacion_musica
                         case ".ogg":
                             a.Title = LM.Album;
                             a.Artist = LM.Artista;
-                            Cancion c = new Cancion(LM.Titulo, (int)Reproductor.Instancia.getDuracionFromFile(cancion.FullName).TotalMilliseconds, false);
+                            Song c = new Song(LM.Titulo, (int)Reproductor.Instancia.getDuracionFromFile(cancion.FullName).TotalMilliseconds, false);
                             c.PATH = cancion.FullName;
                             c.Num = LM.Pista;
                             a.Year = (short)LM.Año;
                             c.SetAlbum(a);
-                            a.agregarCancion(c);
+                            a.AddSong(c);
                             break;
                         case ".jpg":
                             if (cancion.Name == "folder.jpg" || cancion.Name == "cover.jpg")

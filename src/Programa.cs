@@ -123,7 +123,6 @@ namespace aplicacion_musica
                 {
                     LineaJson = lector.ReadLine();
                     AlbumData a = JsonConvert.DeserializeObject<AlbumData>(LineaJson);
-                    a.RefrescarDuracion();
                     a.Genre = genres[FindGenero(a.Genre.Id)];
                     a.ConfigurarCanciones();
                     miColeccion.agregarAlbum(ref a);
@@ -203,8 +202,8 @@ namespace aplicacion_musica
                                 if (datosCancion.Length == 3)
                                 {
                                     byte bonus = Convert.ToByte(datosCancion[2]);
-                                    Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a, Convert.ToBoolean(bonus));
-                                    a.agregarCancion(c, i);
+                                    Song c = new Song(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a, Convert.ToBoolean(bonus));
+                                    a.AddSong(c, i);
                                 }
                                 else
                                 {
@@ -215,10 +214,10 @@ namespace aplicacion_musica
                                         linea = lector.ReadLine();
                                         lineaC++;
                                         datosCancion = linea.Split(';');
-                                        Cancion c = new Cancion(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
+                                        Song c = new Song(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[1])), ref a);
                                         cl.addParte(ref c);
                                     }
-                                    a.agregarCancion(cl, i);
+                                    a.AddSong(cl, i);
                                 }
                             }
                             catch (FormatException e)
@@ -279,7 +278,7 @@ namespace aplicacion_musica
                         {
                             if(album.Artist == datos[0] && album.Title == datos[2])
                             {
-                                Cancion c = album.Songs[album.buscarCancion(datos[1])];
+                                Song c = album.Songs[album.buscarCancion(datos[1])];
                                 linea = entrada.ReadLine();
                                 c.PATH = linea;
                             }
@@ -303,7 +302,7 @@ namespace aplicacion_musica
                 {
                     if (string.IsNullOrEmpty(album.SoundFilesPath))
                         continue;
-                    foreach (Cancion cancion in album.Songs)
+                    foreach (Song cancion in album.Songs)
                     {
                         if (!string.IsNullOrEmpty(cancion.PATH))
                         {
@@ -369,7 +368,7 @@ namespace aplicacion_musica
                                         if (a.Songs[i] is CancionLarga cl)
                                         {
                                             salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar
-                                            foreach (Cancion parte in cl.Partes)
+                                            foreach (Song parte in cl.Partes)
                                             {
                                                 salida.WriteLine(parte.titulo + ";" + parte.duracion.TotalSeconds);
                                             }
@@ -409,7 +408,7 @@ namespace aplicacion_musica
                     linea = entrada.ReadLine();
                     string[] datos = linea.Split(';');
                     AlbumData a = miColeccion.buscarAlbum(datos[2])[0];
-                    Cancion c = a.Songs[a.buscarCancion(datos[1])];
+                    Song c = a.Songs[a.buscarCancion(datos[1])];
                     List<string> lyrics = new List<string>();
                     do
                     {
@@ -431,7 +430,7 @@ namespace aplicacion_musica
             {
                 foreach (AlbumData album in miColeccion.albumes)
                 {
-                    foreach (Cancion cancion in album.Songs)
+                    foreach (Song cancion in album.Songs)
                     {
                         if (cancion.Lyrics != null && cancion.Lyrics.Length != 0)
                         {

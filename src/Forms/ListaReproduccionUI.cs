@@ -82,9 +82,9 @@ namespace aplicacion_musica
 
         private void ListaReproduccionUI_DragDrop(object sender, DragEventArgs e)
         {
-            Cancion c = null;
+            Song c = null;
             string[] canciones = null;
-            if((c = (Cancion)e.Data.GetData(typeof(Cancion))) != null)
+            if((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
                 if(!string.IsNullOrEmpty(c.PATH))
                 {
@@ -95,7 +95,7 @@ namespace aplicacion_musica
             {
                 foreach (string cancion in canciones)
                 {
-                    Cancion clr = new Cancion(cancion);
+                    Song clr = new Song(cancion);
                     listaReproduccion.AgregarCancion(clr);
                     
                 }

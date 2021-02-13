@@ -12,10 +12,10 @@ namespace aplicacion_musica.src.Forms
 {
     public partial class VisorLyrics : Form
     {
-        private Cancion cancion;
+        private Song cancion;
         private ToolTip ConsejoDeshacer;
         private Font Tipografia;
-        public VisorLyrics(Cancion c)
+        public VisorLyrics(Song c)
         {
             InitializeComponent();
             Icon = Properties.Resources.letras;
@@ -38,7 +38,7 @@ namespace aplicacion_musica.src.Forms
             buttonNext.Enabled = (cancion.Num != cancion.album.Songs.Count);
             textBoxLyrics.MouseWheel += new MouseEventHandler(textBoxLyrics_MouseWheel);
         }
-        private void CambiarCancion(Cancion c)
+        private void CambiarCancion(Song c)
         {
             cancion = c;
             Recargar();

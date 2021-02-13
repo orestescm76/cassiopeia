@@ -37,7 +37,7 @@ namespace aplicacion_musica
         {
             foreach(AlbumData album in albumes)
             {
-                if (album.sonIguales(a))
+                if (album.Equals(a))
                     return true;
             }
             return false;

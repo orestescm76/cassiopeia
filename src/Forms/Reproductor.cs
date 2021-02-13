@@ -51,7 +51,7 @@ namespace aplicacion_musica
         private bool GuardarHistorial;
         private FileInfo Historial;
         private uint NumCancion;
-        Cancion CancionLocalReproduciendo = null;
+        Song CancionLocalReproduciendo = null;
         private bool foobar2000 = true;
         Process foobar2kInstance = null;
         string SpotifyID = null;
@@ -113,7 +113,7 @@ namespace aplicacion_musica
             ListaReproduccion lr = new ListaReproduccion("CD-A");
             for (int i = 0; i < nucleo.PistasCD.Length; i++)
             {
-                Cancion c = new Cancion("Pista " + (i + 1), (int)nucleo.PistasCD[i].Duracion.TotalMilliseconds, false);
+                Song c = new Song("Pista " + (i + 1), (int)nucleo.PistasCD[i].Duracion.TotalMilliseconds, false);
                 lr.AgregarCancion(c);
             }
             ListaReproduccion = lr;
@@ -269,7 +269,7 @@ namespace aplicacion_musica
         {
             ListaReproduccion = lr;
             ListaReproduccionPuntero = 0;
-            Cancion c = lr[ListaReproduccionPuntero];
+            Song c = lr[ListaReproduccionPuntero];
             lrui = new ListaReproduccionUI(lr);
             ReproducirCancion(c);
         }
@@ -289,7 +289,7 @@ namespace aplicacion_musica
             buttonAbrir.Text = Programa.textosLocal.GetString("abrir_cancion");
             notifyIconReproduciendo.Text = Programa.textosLocal.GetString("click_reproductor");
         }
-        public void SetPATH(Cancion c) //probablemente deprecated pero configura los paths
+        public void SetPATH(Song c) //probablemente deprecated pero configura los paths
         {
             directorioCanciones = new DirectoryInfo(c.album.SoundFilesPath);
             foreach (FileInfo file in directorioCanciones.GetFiles())
@@ -364,7 +364,7 @@ namespace aplicacion_musica
             }
 
         }
-        public void ReproducirCancion(Cancion c) //reproduce una cancion
+        public void ReproducirCancion(Song c) //reproduce una cancion
         {
             controlBotones(true);
             ConfigurarTimers(false);
@@ -723,7 +723,7 @@ namespace aplicacion_musica
                 {
                     if (FicheroLeible(fich))
                     {
-                        Cancion c = new Cancion(fich);
+                        Song c = new Song(fich);
                         ListaReproduccion.AgregarCancion(c);
                         ReproducirLista(ListaReproduccion);
                     }
@@ -1066,9 +1066,9 @@ namespace aplicacion_musica
         private void Reproductor_DragDrop(object sender, DragEventArgs e)
         {
             Log.ImprimirMensaje("Detectado Drag & Drop", TipoMensaje.Info);
-            Cancion c = null;
+            Song c = null;
             String[] canciones = null;
-            if((c = (Cancion)e.Data.GetData(typeof(Cancion))) != null)
+            if((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
                 if (!string.IsNullOrEmpty(c.PATH))
                 {
@@ -1081,7 +1081,7 @@ namespace aplicacion_musica
                 ListaReproduccion lrDragDrop = new ListaReproduccion("Selección");
                 foreach (string cancion in canciones)
                 {
-                    Cancion clr = new Cancion();
+                    Song clr = new Song();
                     clr.PATH = cancion;
                     lrDragDrop.AgregarCancion(clr);
                 }

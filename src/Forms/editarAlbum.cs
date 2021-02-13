@@ -90,12 +90,11 @@ namespace aplicacion_musica
                     albumAEditar.IdSpotify = (uriSpotify[2]);
                 else
                     albumAEditar.IdSpotify = (textBoxURISpotify.Text);
-                foreach (Cancion c in albumAEditar.Songs)
+                foreach (Song c in albumAEditar.Songs)
                 {
                     if(!c.Bonus)
                         nuevaDuracion += c.duracion;
                 }
-                albumAEditar.Lenght = nuevaDuracion;
             }
             catch (NullReferenceException)
             {
@@ -145,7 +144,7 @@ namespace aplicacion_musica
         {
             Log.Instance.ImprimirMensaje("Editando canción", TipoMensaje.Info);
             String text = vistaCanciones.SelectedItems[0].Text;
-            Cancion cancionAEditar = albumAEditar.DevolverCancion(text);
+            Song cancionAEditar = albumAEditar.DevolverCancion(text);
             agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
             cargarVista();
@@ -174,8 +173,8 @@ namespace aplicacion_musica
                 int i = 0;
                 foreach (ListViewItem item in vistaCanciones.SelectedItems)
                 {
-                    Cancion cancionABorrar = albumAEditar.DevolverCancion(item.Text);
-                    albumAEditar.BorrarCancion(cancionABorrar);
+                    Song cancionABorrar = albumAEditar.DevolverCancion(item.Text);
+                    albumAEditar.RemoveSong(cancionABorrar);
                     itemsborrar[i] = item;
                     i++;
                 }

@@ -239,16 +239,15 @@ namespace aplicacion_musica
                 throw new InvalidOperationException();
             }
             a.SetSpotifyID(album.Id);
-            List<Cancion> canciones = new List<Cancion>(a.NumberOfSongs);
+            List<Song> canciones = new List<Song>(a.NumberOfSongs);
             List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id,a.NumberOfSongs).Items;
             for (int i = 0; i < c.Count; i++)
             {
-                canciones.Add(new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
+                canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
                 if(canciones[i].duracion.Milliseconds > 500)
                     canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
                 else
                     canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
-                a.Lenght += canciones[i].duracion;
             }
             a.Songs = canciones;
             Programa.miColeccion.agregarAlbum(ref a);
@@ -283,16 +282,15 @@ namespace aplicacion_musica
                 throw new InvalidOperationException();
             }
             a.SetSpotifyID(album.Id);
-            List<Cancion> canciones = new List<Cancion>(a.NumberOfSongs);
+            List<Song> canciones = new List<Song>(a.NumberOfSongs);
             List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, a.NumberOfSongs).Items;
             for (int i = 0; i < c.Count; i++)
             {
-                canciones.Add(new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
+                canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
                 if (canciones[i].duracion.Milliseconds > 500)
                     canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
                 else
                     canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
-                a.Lenght += canciones[i].duracion;
             }
             a.Songs = canciones;
             a.CanBeRemoved = true;
@@ -341,7 +339,7 @@ namespace aplicacion_musica
         {
             FullAlbum album = _spotify.GetAlbum(uri);
             List<string> uris = new List<string>();
-            foreach(Cancion parte in cl.Partes)
+            foreach(Song parte in cl.Partes)
             {
                 uris.Add("spotify:track:"+DevolverCancionDelAlbum(uri, parte.titulo));
             }

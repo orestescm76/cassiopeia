@@ -15,7 +15,7 @@ namespace aplicacion_musica
         {
             InitializeComponent();
             album = a;
-            Console.WriteLine("Creando sólo un CD, duración: " + album.Lenght);
+            Console.WriteLine("Creando sólo un CD, duración: " + album.Length);
             numericUpDownNumCanciones.Hide();
             labelNumCanciones.Hide();
             NDisco = 1;
