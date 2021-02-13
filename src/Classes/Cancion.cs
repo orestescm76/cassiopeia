@@ -18,7 +18,7 @@ namespace aplicacion_musica
         {
             get
             {
-                return album.canciones.IndexOf(this)+1;
+                return album.Songs.IndexOf(this)+1;
             }
             set
             {
@@ -62,7 +62,7 @@ namespace aplicacion_musica
         public override string ToString()
         {
             if (album != null)
-                return album.artista + " - " + titulo + " (" + album.nombre + ")";
+                return album.Artist + " - " + titulo + " (" + album.Title + ")";
             else
                 return titulo;
         }
@@ -86,7 +86,7 @@ namespace aplicacion_musica
         //Tame Impala;The Less I Know The Better;Currents
         public String GuardarPATH()
         {
-            return album.artista+";"+titulo+";"+album.nombre + Environment.NewLine+PATH + Environment.NewLine;
+            return album.Artist+";"+titulo+";"+album.Title + Environment.NewLine+PATH + Environment.NewLine;
         }
     }
 }

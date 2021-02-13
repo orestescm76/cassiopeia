@@ -35,7 +35,7 @@ namespace aplicacion_musica.src.Forms
                 buttonNext.Enabled = false;
             }
             buttonBack.Enabled = !(cancion.Num == 1);
-            buttonNext.Enabled = (cancion.Num != cancion.album.canciones.Count);
+            buttonNext.Enabled = (cancion.Num != cancion.album.Songs.Count);
             textBoxLyrics.MouseWheel += new MouseEventHandler(textBoxLyrics_MouseWheel);
         }
         private void CambiarCancion(Cancion c)
@@ -56,7 +56,7 @@ namespace aplicacion_musica.src.Forms
                 buttonNext.Enabled = false;
             }
             buttonBack.Enabled = !(cancion.Num == 1);
-            buttonNext.Enabled = (cancion.Num != cancion.album.canciones.Count);
+            buttonNext.Enabled = (cancion.Num != cancion.album.Songs.Count);
         }
         private void PonerTextos()
         {

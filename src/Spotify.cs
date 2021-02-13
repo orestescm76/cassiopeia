@@ -232,15 +232,15 @@ namespace aplicacion_musica
                 }
 
             }
-            Album a = new Album(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Convert.ToInt16(album.TotalTracks), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
+            Album a = new Album(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
             if (Programa.miColeccion.estaEnColeccion(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
                 throw new InvalidOperationException();
             }
             a.SetSpotifyID(album.Id);
-            List<Cancion> canciones = new List<Cancion>(a.numCanciones);
-            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id,a.numCanciones).Items;
+            List<Cancion> canciones = new List<Cancion>(a.NumberOfSongs);
+            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id,a.NumberOfSongs).Items;
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
@@ -248,9 +248,9 @@ namespace aplicacion_musica
                     canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
                 else
                     canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
-                a.duracion += canciones[i].duracion;
+                a.Lenght += canciones[i].duracion;
             }
-            a.canciones = canciones;
+            a.Songs = canciones;
             Programa.miColeccion.agregarAlbum(ref a);
         }
         public void procesarAlbum(FullAlbum album)
@@ -276,15 +276,15 @@ namespace aplicacion_musica
                 }
 
             }
-            Album a = new Album(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Convert.ToInt16(album.TotalTracks), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
+            Album a = new Album(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
             if (Programa.miColeccion.estaEnColeccion(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
                 throw new InvalidOperationException();
             }
             a.SetSpotifyID(album.Id);
-            List<Cancion> canciones = new List<Cancion>(a.numCanciones);
-            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, a.numCanciones).Items;
+            List<Cancion> canciones = new List<Cancion>(a.NumberOfSongs);
+            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, a.NumberOfSongs).Items;
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Cancion(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
@@ -292,9 +292,9 @@ namespace aplicacion_musica
                     canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
                 else
                     canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
-                a.duracion += canciones[i].duracion;
+                a.Lenght += canciones[i].duracion;
             }
-            a.canciones = canciones;
+            a.Songs = canciones;
             a.LevantarBorrado();
             Programa.miColeccion.agregarAlbum(ref a);
         }

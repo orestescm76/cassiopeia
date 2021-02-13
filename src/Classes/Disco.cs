@@ -9,12 +9,13 @@ namespace aplicacion_musica
     public class Disco
     {
         public EstadoMedio EstadoDisco { get; set; }
-        public short NumCanciones { get; set; }
+        public int NumCanciones { get; set; }
         public Disco()
         {
 
         }
-        public Disco(short nc, EstadoMedio e)
+
+        public Disco(int nc, EstadoMedio e)
         {
             NumCanciones = nc;
             EstadoDisco = e;

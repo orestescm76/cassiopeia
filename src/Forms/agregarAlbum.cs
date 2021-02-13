@@ -63,9 +63,9 @@ namespace aplicacion_musica
                 Genre g = Programa.genres[Programa.FindGeneroTraducido(gent)];
                 Album a = null;
                 if(caratula == "")
-                    a = new Album(g, titulo, artista, year, nC, "");
+                    a = new Album(g, titulo, artista, year, "");
                 else
-                    a = new Album(g, titulo, artista, year, nC, caratula);
+                    a = new Album(g, titulo, artista, year, caratula);
                 Programa.miColeccion.agregarAlbum(ref a);
                 DialogResult cancelar = DialogResult.OK;
                 for (int i = 0; i < nC; i++)
