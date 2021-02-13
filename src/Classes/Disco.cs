@@ -10,10 +10,12 @@ namespace aplicacion_musica
     {
         public EstadoMedio EstadoDisco { get; set; }
         public short NumCanciones { get; set; }
+
         public Disco()
         {
 
         }
+
         public Disco(short nc, EstadoMedio e)
         {
             NumCanciones = nc;

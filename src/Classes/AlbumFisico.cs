@@ -29,9 +29,6 @@ namespace aplicacion_musica
         public String PaisPublicacion { get; set; }
         public String Artista { get; set; }
         public String Nombre { get; set; }
-        public AlbumFisico() 
-        {
-        }
         public AlbumFisico(String s, EstadoMedio ee, short y = 0, String p = null)
         {
             Album = Programa.miColeccion.devolverAlbum(s);

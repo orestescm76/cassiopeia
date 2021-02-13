@@ -63,14 +63,14 @@ namespace aplicacion_musica
         public void agregarCancion(Cancion c)
         {
             canciones.Add(c);
-            if (!c.Bonus)
+            if (!c.IsBonus)
                 duracion += c.duracion;
             numCanciones = (short)canciones.Count;
         }
         public void agregarCancion(Cancion c, int cual)
         {
             canciones.Insert(cual, c);
-            if (!c.Bonus)
+            if (!c.IsBonus)
                 duracion += c.duracion;
             numCanciones = (short)canciones.Count;
         }
@@ -123,7 +123,7 @@ namespace aplicacion_musica
             duracion = new TimeSpan();
             for (int i = 0; i < canciones.Count; i++)
             {
-                if (!canciones[i].Bonus)
+                if (!canciones[i].IsBonus)
                     duracion += canciones[i].duracion;
             }
         }
@@ -148,14 +148,14 @@ namespace aplicacion_musica
         }
         public void BorrarCancion(int cual)
         {
-            if (!canciones[cual].Bonus)
+            if (!canciones[cual].IsBonus)
                 duracion -= canciones[cual].duracion;
             canciones.RemoveAt(cual);
             numCanciones--;
         }
         public void BorrarCancion(Cancion cancion)
         {
-            if (!cancion.Bonus)
+            if (!cancion.IsBonus)
                 duracion -= cancion.duracion;
             canciones.Remove(cancion);
             numCanciones--;

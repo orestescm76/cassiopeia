@@ -13,10 +13,6 @@ namespace aplicacion_musica
         public Disco[] Discos { get; set; }
         public String[] Anotaciones { get; set; }
         public FormatoCD FormatoCD { get; set; }
-        public DiscoCompacto() : base()
-        {
-
-        }
         public DiscoCompacto(string s, short nc, EstadoMedio e, EstadoMedio ee, FormatoCD f) : base(s, ee)
         {
             FormatoCD = f;

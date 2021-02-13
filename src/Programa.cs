@@ -370,7 +370,7 @@ namespace aplicacion_musica
 
                                         }
                                         else //titulo;400;0
-                                            salida.WriteLine(a.canciones[i].titulo + ";" + (int)a.canciones[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.canciones[i].Bonus));
+                                            salida.WriteLine(a.canciones[i].titulo + ";" + (int)a.canciones[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.canciones[i].IsBonus));
                                     }
                                 }
                                 salida.WriteLine();

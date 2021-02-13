@@ -724,6 +724,8 @@ namespace aplicacion_musica
                     if (FicheroLeible(fich))
                     {
                         Cancion c = new Cancion(fich);
+                        if (ListaReproduccion == null)
+                            ListaReproduccion = new ListaReproduccion("Selección");
                         ListaReproduccion.AgregarCancion(c);
                         ReproducirLista(ListaReproduccion);
                     }
@@ -1033,7 +1035,7 @@ namespace aplicacion_musica
                 salida.WriteLine(foobar2kInstance.MainWindowTitle);
             }
         }
-
+        //Esto está rotísimo... ;(
         private void buttonTwit_Click(object sender, EventArgs e)
         {
             string test;

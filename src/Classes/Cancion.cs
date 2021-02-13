@@ -10,7 +10,7 @@ namespace aplicacion_musica
         public string titulo { get; set; }
         [JsonConverter(typeof(TiempoConverter))]
         public TimeSpan duracion { get; set; }
-        public bool Bonus { get; set; }
+        public bool IsBonus { get; set; }
         [JsonIgnore]
         public String PATH { get; set; }
         public string[] Lyrics { get; set; }
@@ -18,7 +18,7 @@ namespace aplicacion_musica
         {
             get
             {
-                return album.canciones.IndexOf(this)+1;
+                return album.canciones.IndexOf(this) + 1;
             }
             set
             {
@@ -33,14 +33,14 @@ namespace aplicacion_musica
         {
             this.titulo = titulo;
             duracion = new TimeSpan(0, 0, 0, 0, ms);
-            this.Bonus = Bonus;
+            this.IsBonus = Bonus;
         }
         public Cancion(Cancion c)
         {
             titulo = c.titulo;
             album = c.album;
             duracion = c.duracion;
-            Bonus = c.Bonus;
+            IsBonus = c.IsBonus;
         }
         public Cancion(string t, TimeSpan d, ref Album a)
         {
@@ -53,7 +53,7 @@ namespace aplicacion_musica
             titulo = t;
             duracion = d;
             album = a;
-            Bonus = b;
+            IsBonus = b;
         }
         public Cancion(string path) //Crea una canción fantasma con sólo un PATH
         {
@@ -69,15 +69,11 @@ namespace aplicacion_musica
         public String[] ToStringArray()
         {
             String[] datos;
-            if (duracion.TotalMinutes>=60)
+            if (duracion.TotalMinutes >= 60)
                 datos = new string[] { titulo, duracion.ToString(@"h\:mm\:ss") };
             else
                 datos = new string[] { titulo, duracion.ToString(@"mm\:ss") };
             return datos;
-        }
-        public int GetMilisegundos()
-        {
-            return Convert.ToInt32(duracion.TotalMilliseconds);
         }
         public void SetAlbum(Album a)
         {
@@ -86,7 +82,7 @@ namespace aplicacion_musica
         //Tame Impala;The Less I Know The Better;Currents
         public String GuardarPATH()
         {
-            return album.artista+";"+titulo+";"+album.nombre + Environment.NewLine+PATH + Environment.NewLine;
+            return album.artista + ";" + titulo + ";" + album.nombre + Environment.NewLine + PATH + Environment.NewLine;
         }
     }
 }
