@@ -13,7 +13,7 @@ namespace aplicacion_musica
         {
             Partes = new List<Cancion>();
         }
-        public CancionLarga(string t, ref Album a)
+        public CancionLarga(string t, ref AlbumData a)
         {
             titulo = t;
             album = a;

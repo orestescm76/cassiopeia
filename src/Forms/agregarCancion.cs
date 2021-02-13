@@ -9,7 +9,7 @@ namespace aplicacion_musica
         public string t;
         public int min, sec, np;
         private int cual;
-        Album album;
+        AlbumData album;
         Cancion cancion;
         CancionLarga cancionlarga;
         bool editar;
@@ -17,7 +17,7 @@ namespace aplicacion_musica
         bool bonus;
         ToolTip ConsejoEsLarga;
         ToolTip ConsejoEsBonus;
-        public agregarCancion(ref Album a, int n) //caso normal
+        public agregarCancion(ref AlbumData a, int n) //caso normal
         {
             Log.Instance.ImprimirMensaje("Creando canción", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -76,7 +76,7 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
-        public agregarCancion(ref Album a, int n, bool l) //crear canción larga
+        public agregarCancion(ref AlbumData a, int n, bool l) //crear canción larga
         {
             Log.Instance.ImprimirMensaje("Creando canción con partes", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -96,7 +96,7 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
-        public agregarCancion(ref CancionLarga l, int n, ref Album a) //crear parte de canción larga
+        public agregarCancion(ref CancionLarga l, int n, ref AlbumData a) //crear parte de canción larga
         {
             Log.Instance.ImprimirMensaje("Creando parte de canción larga", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();

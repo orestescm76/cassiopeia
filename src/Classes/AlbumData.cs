@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace aplicacion_musica
 {
-    public class Album
+    public class AlbumData
     {
         public String Title { get; set; }
         public String Artist { get; set; }
@@ -21,51 +21,52 @@ namespace aplicacion_musica
         [JsonIgnore] public TimeSpan Lenght { get; set; }
 
         public List<Cancion> Songs { get; set; }
-        public String caratula { get; set; }
-        public Genre genero { get; set; }
+        public String Cover { get; set; }
+        public Genre Genre { get; set; }
         public String IdSpotify { get; set; }
-        public String DirectorioSonido { get; set; }
+        public String SoundFilesPath { get; set; }
+
         [JsonIgnore]
-        public bool PuedeBorrarse { get; private set; }
+        public bool CanBeRemoved { get; set; }
 
-        public Album()
+        public AlbumData()
         {
             Songs = new List<Cancion>();
-            genero = Programa.genres.Last();
+            Genre = Programa.genres.Last();
         }
 
-        public Album(Genre g, string n = "", string a = "", short y = 0, string c = "")
+        public AlbumData(Genre g, string n = "", string a = "", short y = 0, string c = "")
         {
             Lenght = new TimeSpan();
             Title = n;
             Artist = a;
             Year = y;
             Songs = new List<Cancion>();
-            caratula = c;
-            genero = g;
-            PuedeBorrarse = true;
+            Cover = c;
+            Genre = g;
+            CanBeRemoved = true;
         }
 
-        public Album(string n = "", string a = "", short y = 0, string c = "")
+        public AlbumData(string n = "", string a = "", short y = 0, string c = "")
         {
             Lenght = new TimeSpan();
             Title = n;
             Artist = a;
             Year = y;
-            caratula = c;
-            genero = new Genre("");
-            PuedeBorrarse = true;
+            Cover = c;
+            Genre = new Genre("");
+            CanBeRemoved = true;
         }
 
-        public Album(Album a)
+        public AlbumData(AlbumData a)
         {
             Lenght = a.Lenght;
             Title = a.Title;
             Artist = a.Artist;
             Year = a.Year;
             Songs = a.Songs;
-            caratula = a.caratula;
-            PuedeBorrarse = true;
+            Cover = a.Cover;
+            CanBeRemoved = true;
         }
 
         public void agregarCancion(Cancion c)
@@ -86,7 +87,7 @@ namespace aplicacion_musica
 
         public String[] ToStringArray()
         {
-            String[] datos = { Artist, Title, Year.ToString(), Lenght.ToString(), genero.Name };
+            String[] datos = { Artist, Title, Year.ToString(), Lenght.ToString(), Genre.Name };
             return datos;
         }
 
@@ -105,7 +106,7 @@ namespace aplicacion_musica
             return Artist + Title;
         }
 
-        public bool sonIguales(Album otro)
+        public bool sonIguales(AlbumData otro)
         {
             if (getID() == otro.getID())
                 return true;
@@ -159,7 +160,7 @@ namespace aplicacion_musica
         public override string ToString()
         {
             //artista - nombre (dur) (gen) 
-            return Artist + " - " + Title + "(" + Lenght + ") (" + genero.Name + ")";
+            return Artist + " - " + Title + "(" + Lenght + ") (" + Genre.Name + ")";
         }
 
         public void BorrarCancion(int cual)
@@ -185,22 +186,17 @@ namespace aplicacion_musica
                 cancion.SetAlbum(this);
             }
         }
+
         public void SetSpotifyID(string id)
         {
             IdSpotify = id;
         }
+
         public String GetTerminoBusqueda()
         {
             return Artist + " " + Title;
         }
-        public void ProtegerBorrado()
-        {
-            PuedeBorrarse = false;
-        }
-        public void LevantarBorrado()
-        {
-            PuedeBorrarse = true;
-        }
+
         public void QuitarCancion(Cancion c)
         {
             Songs.Remove(c);
@@ -213,7 +209,7 @@ namespace aplicacion_musica
             {
                 val = val.Replace("%title%", Title);
                 val = val.Replace("%year%", Year.ToString());
-                val = val.Replace("%genre%", genero.Name);
+                val = val.Replace("%genre%", Genre.Name);
                 val = val.Replace("%length%", Lenght.ToString());
                 val = val.Replace("%length_seconds%", ((int)Lenght.TotalSeconds).ToString());
                 return val;

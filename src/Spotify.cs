@@ -232,7 +232,7 @@ namespace aplicacion_musica
                 }
 
             }
-            Album a = new Album(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
+            AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
             if (Programa.miColeccion.estaEnColeccion(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
@@ -276,7 +276,7 @@ namespace aplicacion_musica
                 }
 
             }
-            Album a = new Album(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
+            AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
             if (Programa.miColeccion.estaEnColeccion(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
@@ -295,17 +295,20 @@ namespace aplicacion_musica
                 a.Lenght += canciones[i].duracion;
             }
             a.Songs = canciones;
-            a.LevantarBorrado();
+            a.CanBeRemoved = true;
             Programa.miColeccion.agregarAlbum(ref a);
         }
+
         public void Reiniciar()
         {
             Log.Instance.ImprimirMensaje("Reiniciando Spotify", TipoMensaje.Info);
         }
+
         public ErrorResponse ReproducirAlbum(string uri)
         {
             return _spotify.ResumePlayback(contextUri: "spotify:album:" + uri, offset: "", positionMs: 0);
         }
+
         public ErrorResponse ReproducirCancion(string uri, int cual) //reproduce una cancion de un album
         {
             FullAlbum album = _spotify.GetAlbum(uri);

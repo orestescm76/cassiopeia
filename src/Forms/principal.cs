@@ -83,7 +83,7 @@ namespace aplicacion_musica
                 case TipoVista.Digital:
                     ListViewItem[] items = new ListViewItem[Programa.miColeccion.albumes.Count];
                     int i = 0;
-                    foreach (Album a in Programa.miColeccion.albumes)
+                    foreach (AlbumData a in Programa.miColeccion.albumes)
                     {
                         String[] datos = a.ToStringArray();
                         items[i] = new ListViewItem(datos);
@@ -171,7 +171,7 @@ namespace aplicacion_musica
                 lvwColumnSorter.Orden = SortOrder.Descending;
             }
             vistaAlbumes.Sort();
-            List<Album> nuevaLista = new List<Album>();
+            List<AlbumData> nuevaLista = new List<AlbumData>();
             string[] s = null;
             switch (TipoVista)
             {
@@ -189,7 +189,7 @@ namespace aplicacion_musica
             for (int i = 0; i < s.Length; i++)
             {
                 s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "_" + vistaAlbumes.Items[i].SubItems[1].Text;
-                Album a = Programa.miColeccion.devolverAlbum(s[i]);
+                AlbumData a = Programa.miColeccion.devolverAlbum(s[i]);
                 nuevaLista.Add(a);
             }
             Programa.miColeccion.cambiarLista(ref nuevaLista);
@@ -235,7 +235,7 @@ namespace aplicacion_musica
                     foreach (ListViewItem item in vistaAlbumes.SelectedItems)
                     {
                         Stopwatch crono = Stopwatch.StartNew();
-                        Album a = Programa.miColeccion.devolverAlbum(item.Index);
+                        AlbumData a = Programa.miColeccion.devolverAlbum(item.Index);
                         crono.Stop();
                         Log.ImprimirMensajeTiempoCorto("Finalizado", TipoMensaje.Correcto, crono);
                         crono.Reset(); crono.Start();
@@ -323,7 +323,7 @@ namespace aplicacion_musica
                     {
                         try
                         {
-                            Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[i]);
+                            AlbumData a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[i]);
                             Programa.miColeccion.quitarAlbum(ref a);
                             for (int j = 0; j < cuantos; j++)
                             {
@@ -348,11 +348,12 @@ namespace aplicacion_musica
                         DiscoCompacto cdaborrar = Programa.miColeccion.getCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
                         DiscoCompacto cdd = cdaborrar;
                         Programa.miColeccion.BorrarCD(ref cdaborrar);
-                        cdd.Album.LevantarBorrado();
+                        cdd.Album.CanBeRemoved = true;
+
                         foreach (DiscoCompacto cd in Programa.miColeccion.cds)
                         {
                             if (cd.Album == cdd.Album)
-                                cd.Album.ProtegerBorrado();
+                                cd.Album.CanBeRemoved = false;
                         }
                     }
                     for (int i = 0; i < cuantos; i++)
@@ -384,7 +385,7 @@ namespace aplicacion_musica
                 foreach (ListViewItem album in vistaAlbumes.SelectedItems)
                 {
                     String a = album.SubItems[0].Text + "_" + album.SubItems[1].Text;
-                    Album ad = Programa.miColeccion.devolverAlbum(a);
+                    AlbumData ad = Programa.miColeccion.devolverAlbum(a);
                     seleccion += ad.Lenght;
                 }
                 duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": " + seleccion.ToString();
@@ -392,7 +393,7 @@ namespace aplicacion_musica
         }
         private void masCortoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Album a = Programa.miColeccion.albumes.First();
+            AlbumData a = Programa.miColeccion.albumes.First();
             for (int i = 1; i < Programa.miColeccion.albumes.Count; i++)
             {
                 if (a.Lenght > Programa.miColeccion.albumes[i].Lenght)
@@ -404,7 +405,7 @@ namespace aplicacion_musica
 
         private void masLargoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Album a = Programa.miColeccion.albumes.First();
+            AlbumData a = Programa.miColeccion.albumes.First();
             for (int i = 1; i < Programa.miColeccion.albumes.Count; i++)
             {
                 if (a.Lenght < Programa.miColeccion.albumes[i].Lenght)
@@ -445,7 +446,7 @@ namespace aplicacion_musica
             {
                 case TipoVista.Digital:
                     int ganador = generador.Next(0, Programa.miColeccion.albumes.Count);
-                    Album a = Programa.miColeccion.albumes[ganador];
+                    AlbumData a = Programa.miColeccion.albumes[ganador];
                     visualizarAlbum vistazo = new visualizarAlbum(ref a);
                     vistazo.Show();
                     break;
@@ -514,7 +515,7 @@ namespace aplicacion_musica
         private void crearCDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "_" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
-            Album a = Programa.miColeccion.devolverAlbum(seleccion);
+            AlbumData a = Programa.miColeccion.devolverAlbum(seleccion);
 
             if(a.Lenght.TotalMinutes < 80)
             {
@@ -624,7 +625,7 @@ namespace aplicacion_musica
             switch (TipoVista)
             {
                 case TipoVista.Digital:
-                    Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]);
+                    AlbumData a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]);
                     i = a.GetPortapapeles();
                     break;
                 case TipoVista.CD:
@@ -730,7 +731,7 @@ namespace aplicacion_musica
         }
         private void spotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works! no es O(1)
+            AlbumData a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works! no es O(1)
             Log.ImprimirMensaje(a.ToString(), TipoMensaje.Info);
             if(string.IsNullOrEmpty(a.IdSpotify))
             {
@@ -793,7 +794,7 @@ namespace aplicacion_musica
 
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Album a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]);
+            AlbumData a = Programa.miColeccion.devolverAlbum(vistaAlbumes.SelectedIndices[0]);
             Cancion cancion = a.getCancion(0);
             VisorLyrics VL = new VisorLyrics(cancion);
             VL.Show();
@@ -806,7 +807,7 @@ namespace aplicacion_musica
 
         private void nuevoAlbumDesdeCarpetaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Album a = new Album();
+            AlbumData a = new AlbumData();
             CommonOpenFileDialog browserDialog = new CommonOpenFileDialog();
             browserDialog.InitialDirectory = Config.UltimoDirectorioAbierto;
             browserDialog.IsFolderPicker = true; //Selección de carpeta.
@@ -832,7 +833,7 @@ namespace aplicacion_musica
                             {
                                 Image cover = LM.Cover;
                                 cover.Save(carpeta.FullName + "\\cover.jpg");
-                                a.caratula = carpeta.FullName + "\\cover.jpg";
+                                a.Cover = carpeta.FullName + "\\cover.jpg";
                             }
                             break;
                         case ".flac":
@@ -848,12 +849,12 @@ namespace aplicacion_musica
                             break;
                         case ".jpg":
                             if (cancion.Name == "folder.jpg" || cancion.Name == "cover.jpg")
-                                a.caratula = cancion.FullName;
+                                a.Cover = cancion.FullName;
                             break;
                     }
                     bC.Progreso();
                 }
-                a.DirectorioSonido = carpeta.FullName;
+                a.SoundFilesPath = carpeta.FullName;
                 bC.Close();
                 Programa.miColeccion.agregarAlbum(ref a);
                 Refrescar();

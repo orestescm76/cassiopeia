@@ -11,8 +11,8 @@ namespace aplicacion_musica
         private ListViewItemComparer lvwColumnSorter;
         private List<SimpleAlbum> listaBusqueda = new List<SimpleAlbum>();
         bool EditarID = false;
-        Album AlbumAEditar;
-        public resultadoSpotify(ref List<SimpleAlbum> l, bool edit, Album album = null)
+        AlbumData AlbumAEditar;
+        public resultadoSpotify(ref List<SimpleAlbum> l, bool edit, AlbumData album = null)
         {
             InitializeComponent();
             EditarID = edit;

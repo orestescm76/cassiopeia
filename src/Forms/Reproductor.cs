@@ -291,7 +291,7 @@ namespace aplicacion_musica
         }
         public void SetPATH(Cancion c) //probablemente deprecated pero configura los paths
         {
-            directorioCanciones = new DirectoryInfo(c.album.DirectorioSonido);
+            directorioCanciones = new DirectoryInfo(c.album.SoundFilesPath);
             foreach (FileInfo file in directorioCanciones.GetFiles())
             {
                 if (CancionLocalReproduciendo == null || file.FullName == CancionLocalReproduciendo.PATH)
@@ -422,18 +422,18 @@ namespace aplicacion_musica
             }
             PrepararReproductor();
             LectorMetadatos LM = new LectorMetadatos(c.PATH);
-            if (c.album != null && c.album.caratula != null )
+            if (c.album != null && c.album.Cover != null )
             {
-                if(c.album.caratula != "")
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.caratula);
+                if(c.album.Cover != "")
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.Cover);
                 else
                 {
-                    if(File.Exists(c.album.DirectorioSonido + "\\cover.jpg"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.DirectorioSonido + "\\cover.jpg");
-                    else if (File.Exists(c.album.DirectorioSonido + "\\cover.png"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.DirectorioSonido + "\\cover.png");
-                    else if (File.Exists(c.album.DirectorioSonido + "\\folder.jpg"))
-                            pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.DirectorioSonido + "\\folder.jpg");
+                    if(File.Exists(c.album.SoundFilesPath + "\\cover.jpg"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.jpg");
+                    else if (File.Exists(c.album.SoundFilesPath + "\\cover.png"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.png");
+                    else if (File.Exists(c.album.SoundFilesPath + "\\folder.jpg"))
+                            pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\folder.jpg");
                 }
             }
             else

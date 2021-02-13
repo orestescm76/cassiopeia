@@ -6,7 +6,7 @@ namespace aplicacion_musica
     public class Cancion
     {
         [JsonIgnore]
-        public Album album { get; protected set; }
+        public AlbumData album { get; protected set; }
         public string titulo { get; set; }
         [JsonConverter(typeof(TiempoConverter))]
         public TimeSpan duracion { get; set; }
@@ -42,13 +42,13 @@ namespace aplicacion_musica
             duracion = c.duracion;
             Bonus = c.Bonus;
         }
-        public Cancion(string t, TimeSpan d, ref Album a)
+        public Cancion(string t, TimeSpan d, ref AlbumData a)
         {
             titulo = t;
             duracion = d;
             album = a;
         }
-        public Cancion(string t, TimeSpan d, ref Album a, bool b)
+        public Cancion(string t, TimeSpan d, ref AlbumData a, bool b)
         {
             titulo = t;
             duracion = d;
@@ -79,7 +79,7 @@ namespace aplicacion_musica
         {
             return Convert.ToInt32(duracion.TotalMilliseconds);
         }
-        public void SetAlbum(Album a)
+        public void SetAlbum(AlbumData a)
         {
             album = a;
         }
