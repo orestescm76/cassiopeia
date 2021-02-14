@@ -66,7 +66,7 @@ namespace aplicacion_musica
                     a = new AlbumData(g, titulo, artista, year, "");
                 else
                     a = new AlbumData(g, titulo, artista, year, caratula);
-                Programa.miColeccion.agregarAlbum(ref a);
+                Programa.miColeccion.AddAlbum(ref a);
                 DialogResult cancelar = DialogResult.OK;
                 for (int i = 0; i < nC; i++)
                 {
@@ -76,7 +76,7 @@ namespace aplicacion_musica
                     if (cancelar == DialogResult.Cancel)
                     {
                         Log.Instance.ImprimirMensaje("Cancelado el proceso de añadir álbum", TipoMensaje.Advertencia);
-                        Programa.miColeccion.quitarAlbum(ref a);
+                        Programa.miColeccion.RemoveAlbum(ref a);
                         Close();
                         cancelado = true;
                         break;

@@ -233,7 +233,7 @@ namespace aplicacion_musica
 
             }
             AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            if (Programa.miColeccion.estaEnColeccion(a))
+            if (Programa.miColeccion.IsInCollection(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
                 throw new InvalidOperationException();
@@ -250,7 +250,7 @@ namespace aplicacion_musica
                     canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
             }
             a.Songs = canciones;
-            Programa.miColeccion.agregarAlbum(ref a);
+            Programa.miColeccion.AddAlbum(ref a);
         }
         public void procesarAlbum(FullAlbum album)
         {
@@ -276,7 +276,7 @@ namespace aplicacion_musica
 
             }
             AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            if (Programa.miColeccion.estaEnColeccion(a))
+            if (Programa.miColeccion.IsInCollection(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
                 throw new InvalidOperationException();
@@ -294,7 +294,7 @@ namespace aplicacion_musica
             }
             a.Songs = canciones;
             a.CanBeRemoved = true;
-            Programa.miColeccion.agregarAlbum(ref a);
+            Programa.miColeccion.AddAlbum(ref a);
         }
 
         public void Reiniciar()

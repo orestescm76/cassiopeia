@@ -117,7 +117,7 @@ namespace aplicacion_musica
                 else
                 {
                     DiscoCompacto cd = new DiscoCompacto(s, Convert.ToInt16(numericUpDownNumCanciones.Value), medio, exterior, formato, numDiscos);
-                    Programa.miColeccion.AgregarCD(ref cd);
+                    Programa.miColeccion.AddCD(ref cd);
                 }
             }
             else
@@ -132,7 +132,7 @@ namespace aplicacion_musica
                 {
                      cd = new DiscoCompacto(s, album.NumberOfSongs, medio, exterior, formato, 0, textBoxPais.Text);
                 }
-                Programa.miColeccion.AgregarCD(ref cd);
+                Programa.miColeccion.AddCD(ref cd);
                 visualizarAlbum v = new visualizarAlbum(ref cd);
                 v.Show();
             }

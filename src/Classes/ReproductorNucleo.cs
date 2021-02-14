@@ -109,7 +109,7 @@ namespace aplicacion_musica
             else if (FormatoSonido == FormatoSonido.CDA)
                 return SectoresATimeSpan(_sonido.Length);
             else
-                return NVorbis.Duracion;
+                return NVorbis.Length_Timespan;
         }
         public TimeSpan Posicion()
         {
@@ -151,8 +151,8 @@ namespace aplicacion_musica
                 case FormatoSonido.OGG:
                     try
                     {
-                        artista = NVorbis.GetArtista();
-                        titulo = NVorbis.GetTitulo();
+                        artista = NVorbis.GetArtist();
+                        titulo = NVorbis.GetTitle();
                         return artista + " - " + titulo;
                     }
                     catch (NullReferenceException)

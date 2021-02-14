@@ -124,7 +124,7 @@
     <Compile Include="src\Classes\AlbumFisico.cs" />
     <Compile Include="src\Classes\Cancion.cs" />
     <Compile Include="src\Classes\CancionLarga.cs" />
-    <Compile Include="src\Classes\Coleccion.cs" />
+    <Compile Include="src\Classes\Collection.cs" />
     <Compile Include="src\Classes\Disco.cs" />
     <Compile Include="src\Classes\DiscoCompacto.cs" />
     <Compile Include="src\Classes\Genre.cs" />
@@ -241,7 +241,6 @@
     <Compile Include="src\Forms\WriteName.Designer.cs">
       <DependentUpon>WriteName.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Misc\CancionConverter.cs" />
     <Compile Include="src\Misc\ClaveAPI.cs" />
     <Compile Include="src\Misc\ListViewItemComparer.cs" />
     <Compile Include="src\Misc\NVorbisSource.cs" />
