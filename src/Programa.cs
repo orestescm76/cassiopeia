@@ -147,7 +147,6 @@ namespace aplicacion_musica
                     LineaJson = lector.ReadLine();
                     AlbumData a = JsonConvert.DeserializeObject<AlbumData>(LineaJson);
                     a.Genre = genres[FindGenero(a.Genre.Id)];
-                    a.ConfigurarCanciones();
                     miColeccion.AddAlbum(ref a);
                     a.CanBeRemoved = true;
                 }
@@ -385,7 +384,7 @@ namespace aplicacion_musica
                             {
                                 if (!(a.Songs[0] == null)) //no puede ser un album con 0 canciones
                                 {
-                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + a.Cover + ";"+a.IdSpotify + ";"+a.SoundFilesPath);
+                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + a.CoverPath + ";"+a.IdSpotify + ";"+a.SoundFilesPath);
                                     for (int i = 0; i < a.NumberOfSongs; i++)
                                     {
                                         if (a.Songs[i] is CancionLarga cl)

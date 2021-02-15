@@ -16,7 +16,7 @@ namespace aplicacion_musica
             textBoxArtista.Text = albumAEditar.Artist;
             textBoxAño.Text = albumAEditar.Year.ToString();
             textBoxTitulo.Text = albumAEditar.Title;
-            labelRuta.Text = albumAEditar.Cover;
+            labelRuta.Text = albumAEditar.CoverPath;
             labelDirectorioActual.Text = albumAEditar.SoundFilesPath;
             textBoxURISpotify.Text = albumAEditar.IdSpotify;
             vistaCanciones.View = View.List;
@@ -82,7 +82,7 @@ namespace aplicacion_musica
                 string gn = comboBoxGeneros.SelectedItem.ToString();
                 Genre g = Programa.genres[Programa.FindGeneroTraducido(gn)];
                 albumAEditar.Genre = g;
-                albumAEditar.Cover = labelRuta.Text;
+                albumAEditar.CoverPath = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
                 albumAEditar.SoundFilesPath = labelDirectorioActual.Text;
                 string[] uriSpotify = textBoxURISpotify.Text.Split(':');

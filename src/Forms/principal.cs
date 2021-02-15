@@ -747,7 +747,7 @@ namespace aplicacion_musica
             Log.ImprimirMensaje(a.ToString(), TipoMensaje.Info);
             if(string.IsNullOrEmpty(a.IdSpotify))
             {
-                SpotifyAPI.Web.Models.SimpleAlbum album = Programa._spotify.DevolverAlbum(a.GetTerminoBusqueda());
+                SpotifyAPI.Web.Models.SimpleAlbum album = Programa._spotify.DevolverAlbum(a.GetSpotifySearchLabel());
                 if (object.ReferenceEquals(a, null) || object.ReferenceEquals(album, null))
                 {
                     Log.ImprimirMensaje("Album fue nulo", TipoMensaje.Error);
@@ -807,7 +807,7 @@ namespace aplicacion_musica
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AlbumData a = Programa.miColeccion.GetAlbum(vistaAlbumes.SelectedIndices[0]);
-            Song cancion = a.getCancion(0);
+            Song cancion = a.GetSong(0);
             VisorLyrics VL = new VisorLyrics(cancion);
             VL.Show();
         }
@@ -845,7 +845,7 @@ namespace aplicacion_musica
                             {
                                 Image cover = LM.Cover;
                                 cover.Save(carpeta.FullName + "\\cover.jpg");
-                                a.Cover = carpeta.FullName + "\\cover.jpg";
+                                a.CoverPath = carpeta.FullName + "\\cover.jpg";
                             }
                             break;
                         case ".flac":
@@ -861,7 +861,7 @@ namespace aplicacion_musica
                             break;
                         case ".jpg":
                             if (cancion.Name == "folder.jpg" || cancion.Name == "cover.jpg")
-                                a.Cover = cancion.FullName;
+                                a.CoverPath = cancion.FullName;
                             break;
                     }
                     bC.Progreso();

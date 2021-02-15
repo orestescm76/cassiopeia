@@ -23,9 +23,9 @@ namespace aplicacion_musica
 
             try
             {
-                if (!string.IsNullOrEmpty(a.Cover))
+                if (!string.IsNullOrEmpty(a.CoverPath))
                 {
-                    Image caratula = Image.FromFile(a.Cover);
+                    Image caratula = Image.FromFile(a.CoverPath);
                     vistaCaratula.Image = caratula;
                     vistaCaratula.SizeMode = PictureBoxSizeMode.StretchImage;
                 }
@@ -69,9 +69,9 @@ namespace aplicacion_musica
                 Programa.textosLocal.GetString("paisPublicacion") + ":" + cd.PaisPublicacion + Environment.NewLine +
                 Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine;
             labelEstadoDisco.Text = Programa.textosLocal.GetString("estado_medio") + " " + numDisco + ": " + Programa.textosLocal.GetString(cd.Discos[0].EstadoDisco.ToString()) + Environment.NewLine;
-            if (cd.Album.Cover != "")
+            if (cd.Album.CoverPath != "")
             {
-                Image caratula = Image.FromFile(cd.Album.Cover);
+                Image caratula = Image.FromFile(cd.Album.CoverPath);
                 vistaCaratula.Image = caratula;
                 vistaCaratula.SizeMode = PictureBoxSizeMode.StretchImage;
             }
@@ -315,7 +315,7 @@ namespace aplicacion_musica
                 else
                 {
                     int c = Convert.ToInt32(cancion.SubItems[0].Text); c--;
-                    Song can = albumToVisualize.getCancion(c);
+                    Song can = albumToVisualize.GetSong(c);
                     seleccion += can.duracion;
                 }
             }
@@ -325,7 +325,7 @@ namespace aplicacion_musica
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int n = Convert.ToInt32(vistaCanciones.SelectedItems[0].SubItems[0].Text);
-            Song c = albumToVisualize.getCancion(n-1);
+            Song c = albumToVisualize.GetSong(n-1);
             if(c is CancionLarga cl)
             {
                 string infoDetallada = "";
@@ -433,13 +433,13 @@ namespace aplicacion_musica
         }
         private void reproducirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Song cancionAReproducir = albumToVisualize.getCancion(vistaCanciones.SelectedItems[0].Index);
+            Song cancionAReproducir = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
             Reproductor.Instancia.ReproducirCancion(cancionAReproducir);
         }
 
         private void vistaCanciones_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            Song cancion = albumToVisualize.getCancion(vistaCanciones.SelectedItems[0].Index);
+            Song cancion = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
             vistaCanciones.DoDragDrop(cancion, DragDropEffects.Copy);
         }
 
@@ -506,7 +506,7 @@ namespace aplicacion_musica
 
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Song cancion = albumToVisualize.getCancion(vistaCanciones.SelectedItems[0].Index);
+            Song cancion = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
             VisorLyrics VL = new VisorLyrics(cancion);
             VL.Show();
         }
@@ -529,7 +529,7 @@ namespace aplicacion_musica
             defusionarToolStripMenuItem.Visible = true;
             fusionarToolStripMenuItem.Visible = true;
             int i = vistaCanciones.SelectedItems[0].Index;
-            Song seleccion = albumToVisualize.getCancion(i);
+            Song seleccion = albumToVisualize.GetSong(i);
             if (vistaCanciones.SelectedItems.Count > 1)
                 defusionarToolStripMenuItem.Visible = false;
             if (!(seleccion is CancionLarga))
@@ -548,11 +548,11 @@ namespace aplicacion_musica
             List<string> cancionesABorrar = new List<string>();
             CancionLarga cl = new CancionLarga();
             cl.SetAlbum(albumToVisualize);
-            cl.titulo = albumToVisualize.getCancion(num).titulo;
+            cl.titulo = albumToVisualize.GetSong(num).titulo;
 
             foreach (ListViewItem cancionItem in vistaCanciones.SelectedItems)
             {
-                cl.addParte(albumToVisualize.getCancion(cancionItem.Index));
+                cl.addParte(albumToVisualize.GetSong(cancionItem.Index));
                 cancionesABorrar.Add(cancionItem.SubItems[1].Text);
             }
 
@@ -575,7 +575,7 @@ namespace aplicacion_musica
                 return;
             }
 
-            CancionLarga longSong = (CancionLarga)albumToVisualize.getCancion(num);
+            CancionLarga longSong = (CancionLarga)albumToVisualize.GetSong(num);
             foreach (Song parte in longSong.Partes)
             {
                 albumToVisualize.AddSong(parte, num);
