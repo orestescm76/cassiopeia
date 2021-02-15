@@ -27,13 +27,13 @@ namespace aplicacion_musica.src.Forms
         }
         private void PonerTextos()
         {
-            nuevaToolStripMenuItem.Text = Programa.textosLocal.GetString("nuevaPlaylist");
-            saveToolStripMenuItem.Text = Programa.textosLocal.GetString("guardar");
-            addToolStripMenuItem.Text = Programa.textosLocal.GetString("añadir_cancion");
-            listViewCanciones.Columns[0].Text = Programa.textosLocal.GetString("reproduciendo");
-            listViewCanciones.Columns[1].Text = Programa.textosLocal.GetString("artista");
-            listViewCanciones.Columns[2].Text = Programa.textosLocal.GetString("titulo");
-            listViewCanciones.Columns[3].Text = Programa.textosLocal.GetString("duracion");
+            nuevaToolStripMenuItem.Text = Program.LocalTexts.GetString("nuevaPlaylist");
+            saveToolStripMenuItem.Text = Program.LocalTexts.GetString("guardar");
+            addToolStripMenuItem.Text = Program.LocalTexts.GetString("añadir_cancion");
+            listViewCanciones.Columns[0].Text = Program.LocalTexts.GetString("reproduciendo");
+            listViewCanciones.Columns[1].Text = Program.LocalTexts.GetString("artista");
+            listViewCanciones.Columns[2].Text = Program.LocalTexts.GetString("titulo");
+            listViewCanciones.Columns[3].Text = Program.LocalTexts.GetString("duracion");
         }
         private void CargarVista()
         {

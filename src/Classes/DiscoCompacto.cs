@@ -65,7 +65,7 @@ namespace aplicacion_musica
         }
         public void InstallAlbum()
         {
-            Album = Programa.miColeccion.GetAlbum(Artista + "_" + Nombre);
+            Album = Program.Collection.GetAlbum(Artista + "_" + Nombre);
         }
     }
 }

@@ -247,7 +247,7 @@
     <Compile Include="src\Misc\Settings.cs" />
     <Compile Include="src\Misc\TiempoConverter.cs" />
     <Compile Include="src\Misc\WinAPI.cs" />
-    <Compile Include="src\Programa.cs" />
+    <Compile Include="src\Program.cs" />
     <Compile Include="src\Spotify.cs" />
     <EmbeddedResource Include="idiomas\original.ca.resx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

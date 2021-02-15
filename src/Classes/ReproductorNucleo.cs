@@ -235,7 +235,7 @@ namespace aplicacion_musica
             catch (IOException)
             {
                 Log.Instance.ImprimirMensaje("No se puede leer el CD. El dispositivo no está preparado...", TipoMensaje.Error);
-                MessageBox.Show(Programa.textosLocal.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Program.LocalTexts.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
             PistaCD[] Pistas = new PistaCD[Ficheros.Length];

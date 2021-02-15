@@ -30,9 +30,9 @@ namespace aplicacion_musica
             cancionlarga = null;
             np = 0;
             ConsejoEsLarga = new ToolTip();
-            ConsejoEsLarga.SetToolTip(esLarga, Programa.textosLocal.GetString("ayuda_larga"));
+            ConsejoEsLarga.SetToolTip(esLarga, Program.LocalTexts.GetString("ayuda_larga"));
             ConsejoEsBonus = new ToolTip();
-            ConsejoEsBonus.SetToolTip(checkBoxBonus, Programa.textosLocal.GetString("esBonusAyuda"));
+            ConsejoEsBonus.SetToolTip(checkBoxBonus, Program.LocalTexts.GetString("esBonusAyuda"));
             ponerTextos();
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
@@ -68,7 +68,7 @@ namespace aplicacion_musica
             labelNumPartes.Hide();
             textBoxNumPartes.Hide();
             ConsejoEsBonus = new ToolTip();
-            ConsejoEsBonus.SetToolTip(checkBoxBonus, Programa.textosLocal.GetString("esBonusAyuda"));
+            ConsejoEsBonus.SetToolTip(checkBoxBonus, Program.LocalTexts.GetString("esBonusAyuda"));
             if (c.IsBonus)
                 checkBoxBonus.Checked = true;
             np = 0;
@@ -122,25 +122,25 @@ namespace aplicacion_musica
                 cualdeVerdad = album.NumberOfSongs;
             if(editar)
             {
-                Text = Programa.textosLocal.GetString("editando") + " " + cancion.titulo;
-                buttonOK.Text = Programa.textosLocal.GetString("hecho");
+                Text = Program.LocalTexts.GetString("editando") + " " + cancion.titulo;
+                buttonOK.Text = Program.LocalTexts.GetString("hecho");
             }
 
             else
             {
-                Text = Programa.textosLocal.GetString("añadir_cancion") + " " + (cualdeVerdad+1);
-                buttonOK.Text = Programa.textosLocal.GetString("hecho");
+                Text = Program.LocalTexts.GetString("añadir_cancion") + " " + (cualdeVerdad+1);
+                buttonOK.Text = Program.LocalTexts.GetString("hecho");
             }
             if(cancionlarga != null)
             {
-                Text = Programa.textosLocal.GetString("añadir_cancion") + " " + cancionlarga.GetNumeroRomano(cual);
+                Text = Program.LocalTexts.GetString("añadir_cancion") + " " + cancionlarga.GetNumeroRomano(cual);
             }
-            buttonCancelar.Text = Programa.textosLocal.GetString("cancelar");
-            labelTituloCancion.Text = Programa.textosLocal.GetString("introduce_cancion");
-            labelMinutosSegundos.Text = Programa.textosLocal.GetString("min:sec");
-            esLarga.Text = Programa.textosLocal.GetString("esLarga");
-            labelNumPartes.Text = Programa.textosLocal.GetString("num_partes");
-            checkBoxBonus.Text = Programa.textosLocal.GetString("esBonus");
+            buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
+            labelTituloCancion.Text = Program.LocalTexts.GetString("introduce_cancion");
+            labelMinutosSegundos.Text = Program.LocalTexts.GetString("min:sec");
+            esLarga.Text = Program.LocalTexts.GetString("esLarga");
+            labelNumPartes.Text = Program.LocalTexts.GetString("num_partes");
+            checkBoxBonus.Text = Program.LocalTexts.GetString("esBonus");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -204,14 +204,14 @@ namespace aplicacion_musica
             {
                 Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
 
-                MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
+                MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
 
             }
 
             catch (FormatException ex)
             {
                 Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
-                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
+                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
                 //throw;
             }
 

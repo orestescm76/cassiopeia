@@ -67,18 +67,18 @@ namespace aplicacion_musica
         }
         private void PonerTextos()
         {
-            labelEstadoExterior.Text = Programa.textosLocal.GetString("estado_exterior");
-            labelEstadoMedio.Text = Programa.textosLocal.GetString("estado_medio");
-            labelFormato.Text = Programa.textosLocal.GetString("formato");
-            labelAñoPublicacion.Text = Programa.textosLocal.GetString("añoPublicacion");
-            labelPaisPublicacion.Text = Programa.textosLocal.GetString("paisPublicacion");
-            labelNumCanciones.Text = Programa.textosLocal.GetString("numcanciones");
+            labelEstadoExterior.Text = Program.LocalTexts.GetString("estado_exterior");
+            labelEstadoMedio.Text = Program.LocalTexts.GetString("estado_medio");
+            labelFormato.Text = Program.LocalTexts.GetString("formato");
+            labelAñoPublicacion.Text = Program.LocalTexts.GetString("añoPublicacion");
+            labelPaisPublicacion.Text = Program.LocalTexts.GetString("paisPublicacion");
+            labelNumCanciones.Text = Program.LocalTexts.GetString("numcanciones");
             String[] eeT = new string[7];
             String[] fT = new string[4];
             for (int i = 0; i < eeT.Length; i++)
-                eeT[i] = Programa.textosLocal.GetString(Enum.GetName(typeof(EstadoMedio), i));
+                eeT[i] = Program.LocalTexts.GetString(Enum.GetName(typeof(EstadoMedio), i));
             for (int i = 0; i < fT.Length; i++)
-                fT[i] = Programa.textosLocal.GetString(Enum.GetName(typeof(FormatoCD), i));
+                fT[i] = Program.LocalTexts.GetString(Enum.GetName(typeof(FormatoCD), i));
             comboBoxEstadoMedio.Items.AddRange(eeT);
             comboBoxEstadoExterior.Items.AddRange(eeT);
             comboBoxFormatoCD.Items.AddRange(fT);
@@ -104,7 +104,7 @@ namespace aplicacion_musica
                 cd.YearRelease = Convert.ToInt16(textBoxAño.Text);
                 cd.PaisPublicacion = textBoxPais.Text;
                 visualizarAlbum nuevo = new visualizarAlbum(ref cd);
-                Programa.RefrescarVista();
+                Program.ReloadView();
                 nuevo.Show();
             }
             else if (NC != album.NumberOfSongs)
@@ -117,7 +117,7 @@ namespace aplicacion_musica
                 else
                 {
                     DiscoCompacto cd = new DiscoCompacto(s, Convert.ToInt16(numericUpDownNumCanciones.Value), medio, exterior, formato, numDiscos);
-                    Programa.miColeccion.AddCD(ref cd);
+                    Program.Collection.AddCD(ref cd);
                 }
             }
             else
@@ -132,7 +132,7 @@ namespace aplicacion_musica
                 {
                      cd = new DiscoCompacto(s, album.NumberOfSongs, medio, exterior, formato, 0, textBoxPais.Text);
                 }
-                Programa.miColeccion.AddCD(ref cd);
+                Program.Collection.AddCD(ref cd);
                 visualizarAlbum v = new visualizarAlbum(ref cd);
                 v.Show();
             }

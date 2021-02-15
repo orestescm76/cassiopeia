@@ -12,7 +12,7 @@ namespace aplicacion_musica
             InitializeComponent();
             this.cd = cd;
             textBox1.Lines = cd.Anotaciones;
-            buttonOk.Text = Programa.textosLocal.GetString("hecho");
+            buttonOk.Text = Program.LocalTexts.GetString("hecho");
         }
 
         private void buttonOk_Click(object sender, EventArgs e)

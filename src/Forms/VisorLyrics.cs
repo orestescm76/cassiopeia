@@ -60,14 +60,14 @@ namespace aplicacion_musica.src.Forms
         }
         private void PonerTextos()
         {
-            buttonBuscar.Text = Programa.textosLocal.GetString("buscar");
-            buttonEditar.Text = Programa.textosLocal.GetString("editar");
-            buttonCerrar.Text = Programa.textosLocal.GetString("cerrar");
-            buttonLimpiar.Text = Programa.textosLocal.GetString("limpiar");
-            buttonDeshacer.Text = Programa.textosLocal.GetString("deshacer");
-            ConsejoDeshacer.SetToolTip(buttonDeshacer, Programa.textosLocal.GetString("consejoDeshacer"));
-            buttonBack.Text = Programa.textosLocal.GetString("anterior");
-            buttonNext.Text = Programa.textosLocal.GetString("siguiente");
+            buttonBuscar.Text = Program.LocalTexts.GetString("buscar");
+            buttonEditar.Text = Program.LocalTexts.GetString("editar");
+            buttonCerrar.Text = Program.LocalTexts.GetString("cerrar");
+            buttonLimpiar.Text = Program.LocalTexts.GetString("limpiar");
+            buttonDeshacer.Text = Program.LocalTexts.GetString("deshacer");
+            ConsejoDeshacer.SetToolTip(buttonDeshacer, Program.LocalTexts.GetString("consejoDeshacer"));
+            buttonBack.Text = Program.LocalTexts.GetString("anterior");
+            buttonNext.Text = Program.LocalTexts.GetString("siguiente");
         }
         private void Guardar()
         {
@@ -78,12 +78,12 @@ namespace aplicacion_musica.src.Forms
             if(!textBoxLyrics.ReadOnly)
             {
                 textBoxLyrics.ReadOnly = true;
-                buttonEditar.Text = Programa.textosLocal.GetString("editar");
+                buttonEditar.Text = Program.LocalTexts.GetString("editar");
             }
             else
             {
                 textBoxLyrics.ReadOnly = false;
-                buttonEditar.Text = Programa.textosLocal.GetString("aceptar");
+                buttonEditar.Text = Program.LocalTexts.GetString("aceptar");
 
             }
         }

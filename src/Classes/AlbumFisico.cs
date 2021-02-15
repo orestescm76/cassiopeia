@@ -35,7 +35,7 @@ namespace aplicacion_musica
         }
         public AlbumFisico(String s, EstadoMedio ee, short y = 0, String p = null)
         {
-            Album = Programa.miColeccion.GetAlbum(s);
+            Album = Program.Collection.GetAlbum(s);
             EstadoExterior = ee;
             YearRelease = y;
             PaisPublicacion = p;
@@ -44,7 +44,7 @@ namespace aplicacion_musica
         }
         public AlbumFisico(String s)
         {
-            Album = Programa.miColeccion.GetAlbum(s);
+            Album = Program.Collection.GetAlbum(s);
         }
     }
 }

@@ -8,10 +8,10 @@ namespace aplicacion_musica
         public busquedaSpotify()
         {
             InitializeComponent();
-            Text = Programa.textosLocal.GetString("buscar_Spotify");
-            labelBusqueda.Text = Programa.textosLocal.GetString("busqueda_Spotify");
-            buscarButton.Text = Programa.textosLocal.GetString("buscar");
-            labelAlternativa.Text = Programa.textosLocal.GetString("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
+            Text = Program.LocalTexts.GetString("buscar_Spotify");
+            labelBusqueda.Text = Program.LocalTexts.GetString("busqueda_Spotify");
+            buscarButton.Text = Program.LocalTexts.GetString("buscar");
+            labelAlternativa.Text = Program.LocalTexts.GetString("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -33,18 +33,18 @@ namespace aplicacion_musica
                     String[] uri = textBoxURISpotify.Text.Split(':');
                     if (uri[1] != "album")
                         throw new ArgumentException();
-                    Programa._spotify.InsertarAlbumFromURI(uri[2]);
+                    Program._spotify.InsertarAlbumFromURI(uri[2]);
                     DialogResult = DialogResult.Yes;
                     Dispose();
                 }
             }
             catch (IndexOutOfRangeException)
             {
-                MessageBox.Show(Programa.textosLocal.GetString("error_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
+                MessageBox.Show(Program.LocalTexts.GetString("error_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
             }
             catch(ArgumentException)
             {
-                MessageBox.Show(Programa.textosLocal.GetString("error_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
+                MessageBox.Show(Program.LocalTexts.GetString("error_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)");
             }
         }
     }

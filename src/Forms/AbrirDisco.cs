@@ -13,8 +13,8 @@ namespace aplicacion_musica.src.Forms
         }
         private void PonerTextos()
         {
-            Text = Programa.textosLocal.GetString("abrirCD");
-            buttonPlay.Text = Programa.textosLocal.GetString("reproducir");
+            Text = Program.LocalTexts.GetString("abrirCD");
+            buttonPlay.Text = Program.LocalTexts.GetString("reproducir");
             buttonRip.Text = "Rip";
         }
         private void AbrirDisco_Load(object sender, EventArgs e)

@@ -37,26 +37,26 @@ namespace aplicacion_musica.src.Forms
         }
         private void PonerTextos()
         {
-            Text = Programa.textosLocal.GetString("configuracion");
-            treeViewConfiguracion.Nodes[0].Text = Programa.textosLocal.GetString("idioma");
-            label1.Text = Programa.textosLocal.GetString("seleccione_opcion");
-            buttonAplicar.Text = Programa.textosLocal.GetString("aplicar");
-            buttonOK.Text = Programa.textosLocal.GetString("aceptar");
-            buttonCancelar.Text = Programa.textosLocal.GetString("cancelar");
-            treeViewConfiguracion.Nodes[1].Text = Programa.textosLocal.GetString("cambiar_portapapeles");
+            Text = Program.LocalTexts.GetString("configuracion");
+            treeViewConfiguracion.Nodes[0].Text = Program.LocalTexts.GetString("idioma");
+            label1.Text = Program.LocalTexts.GetString("seleccione_opcion");
+            buttonAplicar.Text = Program.LocalTexts.GetString("aplicar");
+            buttonOK.Text = Program.LocalTexts.GetString("aceptar");
+            buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
+            treeViewConfiguracion.Nodes[1].Text = Program.LocalTexts.GetString("cambiar_portapapeles");
         }
         private void CargarIdiomas()
         {
             config = ConfigActiva.Idioma;
-            radioButtonsIdiomas = new RadioButton[Programa.NumIdiomas];
-            PictureBox[] pictureBoxesIdiomas = new PictureBox[Programa.NumIdiomas];
-            groupBoxRaiz.Text = Programa.textosLocal.GetString("cambiar_idioma");
+            radioButtonsIdiomas = new RadioButton[Program.NumIdiomas];
+            PictureBox[] pictureBoxesIdiomas = new PictureBox[Program.NumIdiomas];
+            groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_idioma");
             int y = 44;
-            for (int i = 0; i < Programa.NumIdiomas; i++)
+            for (int i = 0; i < Program.NumIdiomas; i++)
             {
                 radioButtonsIdiomas[i] = new RadioButton();
                 radioButtonsIdiomas[i].Location = new Point(44, y);
-                radioButtonsIdiomas[i].Text = Programa.idiomas[i];
+                radioButtonsIdiomas[i].Text = Program.idiomas[i];
                 if (radioButtonsIdiomas[i].Text == Config.Idioma)
                     radioButtonsIdiomas[i].Checked = true;
                 radioButtonsIdiomas[i].Font = new Font("Segoe UI", 9);
@@ -64,9 +64,9 @@ namespace aplicacion_musica.src.Forms
                 pictureBoxesIdiomas[i].Location = new Point(6, y);
                 pictureBoxesIdiomas[i].Size = new Size(32, 32);
                 pictureBoxesIdiomas[i].SizeMode = PictureBoxSizeMode.StretchImage;
-                CultureInfo nombreIdioma = new CultureInfo(Programa.idiomas[i]);
+                CultureInfo nombreIdioma = new CultureInfo(Program.idiomas[i]);
                 radioButtonsIdiomas[i].Text = nombreIdioma.NativeName;
-                switch (Programa.idiomas[i])
+                switch (Program.idiomas[i])
                 {
                     case "es":
                         pictureBoxesIdiomas[i].Image = Properties.Resources.es;
@@ -92,7 +92,7 @@ namespace aplicacion_musica.src.Forms
         {
             config = ConfigActiva.Portapapeles;
             vistaPreviaPortapapeles = new Label();
-            groupBoxRaiz.Text = Programa.textosLocal.GetString("cambiar_portapapeles");
+            groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_portapapeles");
             portapapelesConfig = new TextBox();
             portapapelesConfig.TextChanged += PortapapelesConfig_TextChanged;
             portapapelesConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
@@ -179,7 +179,7 @@ namespace aplicacion_musica.src.Forms
                     for (int i = 0; i < radioButtonsIdiomas.Length; i++)
                     {
                         if (radioButtonsIdiomas[i].Checked)
-                            Programa.CambiarIdioma(Programa.idiomas[i]);
+                            Program.ChangeLanguage(Program.idiomas[i]);
                     }
                     PonerTextos();
                     break;

@@ -19,7 +19,7 @@ namespace aplicacion_musica.src.Forms
         }
         private void PonerTextos()
         {
-            Text = Programa.textosLocal.GetString("playlistName");
+            Text = Program.LocalTexts.GetString("playlistName");
         }
         private void WriteName_Load(object sender, EventArgs e)
         {

@@ -71,7 +71,7 @@ namespace aplicacion_musica.src.Forms
             trackBarVolumen.Value = 100;
             duracionView = new ToolTip();
             buttonAgregar.Hide();
-            if (!Programa.SpotifyActivado)
+            if (!Program.SpotifyActivado)
                 buttonSpotify.Enabled = false;
             Icon = Resources.iconoReproductor;
             GuardarHistorial = false;
@@ -81,10 +81,10 @@ namespace aplicacion_musica.src.Forms
                 Historial = new FileInfo("Log Musical " + now.Day + "-"+ now.Month + "-"+ now.Year+"-"+ now.Hour + "."+ now.Minute + ".txt");
                 NumCancion = 1;
             }
-            if (Programa.ModoStream) //inicia el programa con solo la imperesión
+            if (Program.ModoStream) //inicia el programa con solo la imperesión
             {
                 notifyIcon1.Visible = true;
-                while (!Programa._spotify.cuentaLista)
+                while (!Program._spotify.cuentaLista)
                 {
                     Thread.Sleep(100);
                 }
@@ -126,7 +126,7 @@ namespace aplicacion_musica.src.Forms
         }
         private void PrepararSpotify()
         {
-            _spotify = Programa._spotify._spotify;
+            _spotify = Program._spotify._spotify;
             user = _spotify.GetPrivateProfile();
             Log.ImprimirMensaje("Iniciando el Reproductor en modo Spotify, con cuenta " + user.Email, TipoMensaje.Info);
             Spotify = true;
@@ -155,7 +155,7 @@ namespace aplicacion_musica.src.Forms
             Log.Instance.ImprimirMensaje("Apagando Spotify", TipoMensaje.Info);
             backgroundWorker.CancelAsync();
             buttoncrearLR.Show();
-            buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
+            buttonSpotify.Text = Program.LocalTexts.GetString("cambiarSpotify");
             timerSpotify.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
             Spotify = false;
@@ -195,9 +195,9 @@ namespace aplicacion_musica.src.Forms
                 controlBotones(true);
                 buttonDetener.Enabled = true;
             }
-            if (Programa._spotify.cuentaVinculada)
+            if (Program._spotify.cuentaVinculada)
             {
-                if (!SpotifyListo || Programa.ModoStream)
+                if (!SpotifyListo || Program.ModoStream)
                 {
                     PrepararSpotify();
                 }
@@ -212,10 +212,10 @@ namespace aplicacion_musica.src.Forms
                 buttonAgregar.Show();
                 Icon = Properties.Resources.spotifyico;
                 timerSpotify.Enabled = true;
-                buttonSpotify.Text = Programa.textosLocal.GetString("cambiarLocal");
+                buttonSpotify.Text = Program.LocalTexts.GetString("cambiarLocal");
                 buttonAbrir.Enabled = false;
                 Spotify = true;
-                toolStripStatusLabelCorreoUsuario.Text = Programa.textosLocal.GetString("conectadoComo") + " " + user.DisplayName;
+                toolStripStatusLabelCorreoUsuario.Text = Program.LocalTexts.GetString("conectadoComo") + " " + user.DisplayName;
                 controlBotones(true);
                 if (!EsPremium)
                 {
@@ -280,14 +280,14 @@ namespace aplicacion_musica.src.Forms
         private void PonerTextos()
         {
             if(!Reproduciendo)
-                Text = Programa.textosLocal.GetString("reproductor");
-            buttonSpotify.Text = Programa.textosLocal.GetString("cambiarSpotify");
-            notifyIcon1.Text = Programa.textosLocal.GetString("cerrarModoStream");
-            buttoncrearLR.Text = Programa.textosLocal.GetString("crearLR");
-            buttonAgregar.Text = Programa.textosLocal.GetString("agregarBD");
-            buttonTwit.Text = Programa.textosLocal.GetString("twittearCancion");
-            buttonAbrir.Text = Programa.textosLocal.GetString("abrir_cancion");
-            notifyIconReproduciendo.Text = Programa.textosLocal.GetString("click_reproductor");
+                Text = Program.LocalTexts.GetString("reproductor");
+            buttonSpotify.Text = Program.LocalTexts.GetString("cambiarSpotify");
+            notifyIcon1.Text = Program.LocalTexts.GetString("cerrarModoStream");
+            buttoncrearLR.Text = Program.LocalTexts.GetString("crearLR");
+            buttonAgregar.Text = Program.LocalTexts.GetString("agregarBD");
+            buttonTwit.Text = Program.LocalTexts.GetString("twittearCancion");
+            buttonAbrir.Text = Program.LocalTexts.GetString("abrir_cancion");
+            notifyIconReproduciendo.Text = Program.LocalTexts.GetString("click_reproductor");
         }
         public void SetPATH(Song c) //probablemente deprecated pero configura los paths
         {
@@ -350,7 +350,7 @@ namespace aplicacion_musica.src.Forms
             catch (Exception)
             {
                 Log.ImprimirMensaje("Hubo un problema", TipoMensaje.Error);
-                MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
+                MessageBox.Show(Program.LocalTexts.GetString("errorReproduccion"));
                 return;
             }
 
@@ -409,7 +409,7 @@ namespace aplicacion_musica.src.Forms
             }
             catch (Exception)
             {
-                MessageBox.Show(Programa.textosLocal.GetString("errorReproduccion"));
+                MessageBox.Show(Program.LocalTexts.GetString("errorReproduccion"));
                 return;
             }
             if(GuardarHistorial)
@@ -513,7 +513,7 @@ namespace aplicacion_musica.src.Forms
                 trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                 pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
                 SpotifyID = PC.Item.Id;
-                if(!Programa.ModoStream)
+                if(!Program.ModoStream)
                 {
                     trackBarPosicion.Value = (int)pos.TotalSeconds;
                     if (PC.Item.Id != cancionReproduciendo.Id || pictureBoxCaratula.Image == null)
@@ -581,7 +581,7 @@ namespace aplicacion_musica.src.Forms
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e) //tarea asíncrona que comprueba si el token ha caducado y espera a la tarea que lo refresque
         {
-            if(!Programa._spotify.TokenExpirado())
+            if(!Program._spotify.TokenExpirado())
             {
                 PlaybackContext PC = _spotify.GetPlayback();
                 e.Result = PC;
@@ -589,7 +589,7 @@ namespace aplicacion_musica.src.Forms
             else
             {
                 Log.ImprimirMensaje("Token caducado!", TipoMensaje.Advertencia);
-                while(Programa._spotify.TokenExpirado())
+                while(Program._spotify.TokenExpirado())
                 {
                     Thread.Sleep(100);
                 }
@@ -687,7 +687,7 @@ namespace aplicacion_musica.src.Forms
 
         private void Reproductor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!Programa.ModoReproductor || !Programa.ModoStream)
+            if (!Program.ModoReproductor || !Program.ModoStream)
             {
                 Hide();
                 if(Reproduciendo)
@@ -996,11 +996,11 @@ namespace aplicacion_musica.src.Forms
 
         private void buttonAgregar_Click(object sender, EventArgs e)
         {
-            bool res = Programa._spotify.InsertarAlbumFromURI(cancionReproduciendo.Album.Id);
+            bool res = Program._spotify.InsertarAlbumFromURI(cancionReproduciendo.Album.Id);
             if(res) //Añadido correctamente...
-                MessageBox.Show(Programa.textosLocal.GetString("album_agregado"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(Program.LocalTexts.GetString("album_agregado"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
-                MessageBox.Show(Programa.textosLocal.GetString("album_noagregado"), "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(Program.LocalTexts.GetString("album_noagregado"), "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
         }
 
@@ -1043,25 +1043,25 @@ namespace aplicacion_musica.src.Forms
             if (Spotify)
             {
                 if (!string.IsNullOrEmpty(cancionReproduciendo.Id))
-                    test = Programa.textosLocal.GetString("compartirTwitter1").Replace(" ", "%20") + "%20https://open.spotify.com/track/" + cancionReproduciendo.Id + "%0a" +
-                        Programa.textosLocal.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Programa.version + "%20" + Programa.CodeName;
+                    test = Program.LocalTexts.GetString("compartirTwitter1").Replace(" ", "%20") + "%20https://open.spotify.com/track/" + cancionReproduciendo.Id + "%0a" +
+                        Program.LocalTexts.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Program.Version + "%20" + Program.CodeName;
                 else
-                    test = Programa.textosLocal.GetString("compartirTwitter1").Replace(" ", "%20") + "%20" +
+                    test = Program.LocalTexts.GetString("compartirTwitter1").Replace(" ", "%20") + "%20" +
                         cancionReproduciendo.Name + "%20" +
                         cancionReproduciendo.Artists[0].Name + "%20"+ "%0a" +
-                        Programa.textosLocal.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Programa.version + "%20" + Programa.CodeName;
+                        Program.LocalTexts.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Program.Version + "%20" + Program.CodeName;
             }
             else if(!ModoCD)
-                test = Programa.textosLocal.GetString("compartirLocal1").Replace(" ", "%20") + "%20" + 
+                test = Program.LocalTexts.GetString("compartirLocal1").Replace(" ", "%20") + "%20" + 
                     CancionLocalReproduciendo.titulo + "%20" + 
-                    Programa.textosLocal.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
+                    Program.LocalTexts.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
                     CancionLocalReproduciendo.album.Artist + "%20" +
-                    Programa.textosLocal.GetString("compartirLocal3").Replace(" ", "%20") + "%20" + 
-                    Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + 
-                    Programa.version + "%20" + Programa.CodeName;
+                    Program.LocalTexts.GetString("compartirLocal3").Replace(" ", "%20") + "%20" + 
+                    Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + 
+                    Program.Version + "%20" + Program.CodeName;
             else
-                test = "Escuchando un CD con " + Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
-                    Programa.version + "%20" + Programa.CodeName;
+                test = "Escuchando un CD con " + Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
+                    Program.Version + "%20" + Program.CodeName;
             link += test;
             Process.Start(link);
         }
