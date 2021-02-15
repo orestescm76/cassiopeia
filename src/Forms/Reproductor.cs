@@ -422,10 +422,10 @@ namespace aplicacion_musica.src.Forms
             }
             PrepararReproductor();
             LectorMetadatos LM = new LectorMetadatos(c.PATH);
-            if (!ReferenceEquals(c.album, null) && c.album.Cover != null )
+            if (!ReferenceEquals(c.album, null) && c.album.CoverPath != null )
             {
-                if(c.album.Cover != "")
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.Cover);
+                if(c.album.CoverPath != "")
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.CoverPath);
                 else
                 {
                     if(File.Exists(c.album.SoundFilesPath + "\\cover.jpg"))

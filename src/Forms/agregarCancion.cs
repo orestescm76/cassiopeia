@@ -164,10 +164,7 @@ namespace aplicacion_musica
                     else
                     {
                         Song c = new Song(t, new TimeSpan(0, min, sec), ref album, bonus);
-                        if (cual != 0)
-                            album.AddSong(c, cual);
-                        else
-                            album.AddSong(c);
+                        album.AddSong(c);
                         DialogResult = DialogResult.OK;
                         Close();
                     }
@@ -177,11 +174,12 @@ namespace aplicacion_musica
                     t = tituloTextBox.Text;
                     min = sec = 0;
                     np = Convert.ToInt32(textBoxNumPartes.Text);
-                    CancionLarga cl = new CancionLarga(t, ref album);
-                    album.AddSong(cl, cual);
+                    CancionLarga longSong = new CancionLarga(t, ref album);
+
+                    album.AddSong(longSong);
                     for (int i = 0; i < np; i++)
                     {
-                        agregarCancion addParte = new agregarCancion(ref cl, i + 1, ref album);
+                        agregarCancion addParte = new agregarCancion(ref longSong, i + 1, ref album);
                         addParte.ShowDialog();
                         if (addParte.DialogResult == DialogResult.Cancel)
                             break;

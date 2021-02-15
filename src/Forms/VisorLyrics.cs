@@ -107,13 +107,13 @@ namespace aplicacion_musica.src.Forms
         private void buttonNext_Click(object sender, EventArgs e)
         {
             Guardar();
-            CambiarCancion(cancion.album.getCancion(cancion.Num));
+            CambiarCancion(cancion.album.GetSong(cancion.Num));
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
             Guardar();
-            CambiarCancion(cancion.album.getCancion(cancion.Num-2));
+            CambiarCancion(cancion.album.GetSong(cancion.Num-2));
         }
         private void textBoxLyrics_MouseWheel(object sender, MouseEventArgs e)
         {
