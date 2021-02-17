@@ -13,15 +13,15 @@ namespace aplicacion_musica.src.Forms
 {
     enum ConfigActiva
     {
-        Idioma,
-        Portapapeles
+        Language,
+        Clipboard
     }
     public partial class ConfigForm : Form
     {
         RadioButton[] radioButtonsIdiomas;
         TextBox portapapelesConfig;
         Label vistaPreviaPortapapeles;
-        AlbumData test = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973);
+        AlbumData AlbumCopyPreview = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973); //Only used if the collection is empty.
         ConfigActiva config;
         public ConfigForm()
         {
@@ -30,16 +30,16 @@ namespace aplicacion_musica.src.Forms
 
         private void ConfigForm_Load(object sender, EventArgs e)
         {
-            label1.Show();
+            labelSelect.Show();
             
             PonerTextos();
-            label1.Location = new Point(290 - (label1.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
+            labelSelect.Location = new Point(290 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
         }
         private void PonerTextos()
         {
             Text = Program.LocalTexts.GetString("configuracion");
             treeViewConfiguracion.Nodes[0].Text = Program.LocalTexts.GetString("idioma");
-            label1.Text = Program.LocalTexts.GetString("seleccione_opcion");
+            labelSelect.Text = Program.LocalTexts.GetString("seleccione_opcion");
             buttonAplicar.Text = Program.LocalTexts.GetString("aplicar");
             buttonOK.Text = Program.LocalTexts.GetString("aceptar");
             buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
@@ -47,7 +47,7 @@ namespace aplicacion_musica.src.Forms
         }
         private void CargarIdiomas()
         {
-            config = ConfigActiva.Idioma;
+            config = ConfigActiva.Language;
             radioButtonsIdiomas = new RadioButton[Program.NumIdiomas];
             PictureBox[] pictureBoxesIdiomas = new PictureBox[Program.NumIdiomas];
             groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_idioma");
@@ -90,7 +90,7 @@ namespace aplicacion_musica.src.Forms
         }
         private void CargarPortapapeles()
         {
-            config = ConfigActiva.Portapapeles;
+            config = ConfigActiva.Clipboard;
             vistaPreviaPortapapeles = new Label();
             groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_portapapeles");
             portapapelesConfig = new TextBox();
@@ -102,20 +102,30 @@ namespace aplicacion_musica.src.Forms
             vistaPreviaPortapapeles.Location = new Point(portapapelesConfig.Location.X, portapapelesConfig.Location.Y + 30);
             vistaPreviaPortapapeles.AutoSize = true;
             vistaPreviaPortapapeles.Font = portapapelesConfig.Font;
-            string val = Config.Portapapeles.Replace("%artist%", test.Artist); //Es seguro.
+            string Preview = "";
+            if (Program.Collection.Albums.Count == 0)
+                Preview = Config.Portapapeles.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
+            else
+            {
+                //Select a random album from the collection.
+                Random random = new Random();
+                AlbumData AlbumRef = Program.Collection.Albums[random.Next(Program.Collection.Albums.Count)];
+                AlbumCopyPreview = AlbumRef;
+                Preview = Config.Portapapeles.Replace("%artist%", AlbumCopyPreview.Artist);
+            }
             try
             {
-                val = val.Replace("%artist%", test.Artist);
-                val = val.Replace("%title%", test.Title);
-                val = val.Replace("%year%", test.Year.ToString());
-                val = val.Replace("%genre%", test.Genre.Name);
-                val = val.Replace("%length%", test.Length.ToString());
-                val = val.Replace("%length_seconds%", ((int)test.Length.TotalSeconds).ToString());
-                vistaPreviaPortapapeles.Text = val;
+                Preview = Preview.Replace("%artist%", AlbumCopyPreview.Artist);
+                Preview = Preview.Replace("%title%", AlbumCopyPreview.Title);
+                Preview = Preview.Replace("%year%", AlbumCopyPreview.Year.ToString());
+                Preview = Preview.Replace("%genre%", AlbumCopyPreview.Genre.Name);
+                Preview = Preview.Replace("%length%", AlbumCopyPreview.Length.ToString());
+                Preview = Preview.Replace("%length_seconds%", ((int)AlbumCopyPreview.Length.TotalSeconds).ToString());
+                vistaPreviaPortapapeles.Text = Preview;
             }
             catch (NullReferenceException)
             {
-                vistaPreviaPortapapeles.Text = val;
+                vistaPreviaPortapapeles.Text = Preview;
             }
             groupBoxRaiz.Controls.Add(portapapelesConfig);
             groupBoxRaiz.Controls.Add(vistaPreviaPortapapeles);
@@ -123,29 +133,29 @@ namespace aplicacion_musica.src.Forms
 
         private void PortapapelesConfig_TextChanged(object sender, EventArgs e)
         {
-            string val = portapapelesConfig.Text.Replace("%artist%", test.Artist); //Es seguro.
+            string Preview = portapapelesConfig.Text.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
             try
             {
-                val = val.Replace("%artist%", test.Artist);
-                val = val.Replace("%title%", test.Title);
-                val = val.Replace("%year%", test.Year.ToString());
-                val = val.Replace("%genre%", test.Genre.Name);
-                val = val.Replace("%length%", test.Length.ToString());
-                val = val.Replace("%length_seconds%", ((int)test.Length.TotalSeconds).ToString());
-                vistaPreviaPortapapeles.Text = val;
+                Preview = Preview.Replace("%artist%", AlbumCopyPreview.Artist);
+                Preview = Preview.Replace("%title%", AlbumCopyPreview.Title);
+                Preview = Preview.Replace("%year%", AlbumCopyPreview.Year.ToString());
+                Preview = Preview.Replace("%genre%", AlbumCopyPreview.Genre.Name);
+                Preview = Preview.Replace("%length%", AlbumCopyPreview.Length.ToString());
+                Preview = Preview.Replace("%length_seconds%", ((int)AlbumCopyPreview.Length.TotalSeconds).ToString());
+                vistaPreviaPortapapeles.Text = Preview;
             }
             catch (NullReferenceException)
             {
-                vistaPreviaPortapapeles.Text = val;
+                vistaPreviaPortapapeles.Text = Preview;
             }
         }
         private void Limpiar()
         {
-            label1.Show();
+            labelSelect.Show();
         }
         private void CargarPagina(string tag)
         {
-            label1.Hide();
+            labelSelect.Hide();
             groupBoxRaiz.Controls.Clear();
 
             switch (tag)
@@ -157,8 +167,8 @@ namespace aplicacion_musica.src.Forms
                     CargarPortapapeles();
                     break;
                 default:
-                    groupBoxRaiz.Controls.Add(label1);
-                    label1.Show();
+                    groupBoxRaiz.Controls.Add(labelSelect);
+                    labelSelect.Show();
                     break;
             }
         }
@@ -175,7 +185,7 @@ namespace aplicacion_musica.src.Forms
         {
             switch (config)
             {
-                case ConfigActiva.Idioma:
+                case ConfigActiva.Language:
                     for (int i = 0; i < radioButtonsIdiomas.Length; i++)
                     {
                         if (radioButtonsIdiomas[i].Checked)
@@ -183,7 +193,7 @@ namespace aplicacion_musica.src.Forms
                     }
                     PonerTextos();
                     break;
-                case ConfigActiva.Portapapeles:
+                case ConfigActiva.Clipboard:
                     Config.Portapapeles = portapapelesConfig.Text;
                     break;
                 default:

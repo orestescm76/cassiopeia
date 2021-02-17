@@ -147,6 +147,23 @@ namespace aplicacion_musica
             verLogToolStripMenuItem.Text = Program.LocalTexts.GetString("verLog");
             nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = Program.LocalTexts.GetString("nuevoAlbumDesdeCarpeta");
             configToolStripMenuItem.Text = Program.LocalTexts.GetString("configuracion");
+            UpdateViewInfo();
+        }
+        private void UpdateViewInfo()
+        {
+            switch (TipoVista)
+            {
+                case TipoVista.Digital:
+                    toolStripStatusLabelViewInfo.Text = Program.LocalTexts.GetString("digital");
+                    break;
+                case TipoVista.CD:
+                    toolStripStatusLabelViewInfo.Text = "CD";
+                    break;
+                case TipoVista.Vinilo:
+                    break;
+                default:
+                    break;
+            }
         }
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -268,12 +285,10 @@ namespace aplicacion_musica
 
         private void vistaAlbumes_KeyDown(object sender, KeyEventArgs e)
         {
-
             if(vistaAlbumes.SelectedItems.Count == 1 && (e.KeyCode == Keys.C && e.Control))
             {
-                //arista - titulo. (año) (hh:mm:ss)
-                string i = vistaAlbumes.SelectedItems[0].SubItems[0].Text + " - " + vistaAlbumes.SelectedItems[0].SubItems[1].Text + ". ("
-                    + vistaAlbumes.SelectedItems[0].SubItems[2].Text + ") (" + vistaAlbumes.SelectedItems[0].SubItems[3].Text + ") (" + vistaAlbumes.SelectedItems[0].SubItems[4].Text + ")";
+                string i;
+                i = CopyAlbumToClipboard(vistaAlbumes.SelectedIndices[0]);
                 Clipboard.SetText(i);
                 Log.Instance.ImprimirMensaje("Copiado " + i + " al portapapeles", TipoMensaje.Info);
             }
@@ -630,18 +645,20 @@ namespace aplicacion_musica
             //vistaAlbumes.OwnerDraw = false;
             return;
         }
-
+        private string CopyAlbumToClipboard(int AlbumIndex)
+        {
+            AlbumData album = Program.Collection.GetAlbum(AlbumIndex);
+            return album.GetPortapapeles();
+        }
         private void copiarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string i = null;
             switch (TipoVista)
             {
                 case TipoVista.Digital:
-                    AlbumData a = Program.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]);
-                    i = a.GetPortapapeles();
+                    i = CopyAlbumToClipboard(vistaAlbumes.SelectedIndices[0]);
                     break;
                 case TipoVista.CD:
-
                     break;
                 case TipoVista.Vinilo:
                     break;
@@ -658,7 +675,7 @@ namespace aplicacion_musica
             TipoVista = TipoVista.CD;
             CargarVista();
             digitalToolStripMenuItem.Checked = false;
-            
+            UpdateViewInfo();
         }
 
         private void digitalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -666,6 +683,7 @@ namespace aplicacion_musica
             TipoVista = TipoVista.Digital;
             cdToolStripMenuItem.Checked = false;
             CargarVista();
+            UpdateViewInfo();
         }
 
         private void cargarDiscosLegacyToolStripMenuItem_Click(object sender, EventArgs e)

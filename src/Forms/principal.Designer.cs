@@ -53,6 +53,7 @@
             this.generarAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tipografiaLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.digitalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,7 +79,7 @@
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.process1 = new System.Diagnostics.Process();
-            this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripStatusLabelViewInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -256,23 +257,30 @@
             // generarAlbumToolStripMenuItem
             // 
             this.generarAlbumToolStripMenuItem.Name = "generarAlbumToolStripMenuItem";
-            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.generarAlbumToolStripMenuItem.Text = "generarAlbum";
             this.generarAlbumToolStripMenuItem.Click += new System.EventHandler(this.generarAlbumToolStripMenuItem_Click);
             // 
             // tipografiaLyricsToolStripMenuItem
             // 
             this.tipografiaLyricsToolStripMenuItem.Name = "tipografiaLyricsToolStripMenuItem";
-            this.tipografiaLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tipografiaLyricsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.tipografiaLyricsToolStripMenuItem.Text = "tipografiaLyrics";
             this.tipografiaLyricsToolStripMenuItem.Click += new System.EventHandler(this.tipografiaLyricsToolStripMenuItem_Click);
             // 
             // verLogToolStripMenuItem
             // 
             this.verLogToolStripMenuItem.Name = "verLogToolStripMenuItem";
-            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.verLogToolStripMenuItem.Text = "verLog";
             this.verLogToolStripMenuItem.Click += new System.EventHandler(this.verLogToolStripMenuItem_Click);
+            // 
+            // configToolStripMenuItem
+            // 
+            this.configToolStripMenuItem.Name = "configToolStripMenuItem";
+            this.configToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.configToolStripMenuItem.Text = "config";
+            this.configToolStripMenuItem.Click += new System.EventHandler(this.configToolStripMenuItem_Click);
             // 
             // verToolStripMenuItem
             // 
@@ -290,7 +298,7 @@
             this.digitalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.digitalToolStripMenuItem.Name = "digitalToolStripMenuItem";
             this.digitalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.digitalToolStripMenuItem.Text = "digital";
             this.digitalToolStripMenuItem.Click += new System.EventHandler(this.digitalToolStripMenuItem_Click);
             // 
@@ -299,7 +307,7 @@
             this.cdToolStripMenuItem.CheckOnClick = true;
             this.cdToolStripMenuItem.Name = "cdToolStripMenuItem";
             this.cdToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.cdToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.cdToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cdToolStripMenuItem.Text = "CD";
             this.cdToolStripMenuItem.Click += new System.EventHandler(this.cdToolStripMenuItem_Click);
             // 
@@ -420,7 +428,8 @@
             // barraAbajo
             // 
             this.barraAbajo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.duracionSeleccionada});
+            this.duracionSeleccionada,
+            this.toolStripStatusLabelViewInfo});
             this.barraAbajo.Location = new System.Drawing.Point(0, 536);
             this.barraAbajo.Name = "barraAbajo";
             this.barraAbajo.Size = new System.Drawing.Size(842, 22);
@@ -430,8 +439,8 @@
             // duracionSeleccionada
             // 
             this.duracionSeleccionada.Name = "duracionSeleccionada";
-            this.duracionSeleccionada.Size = new System.Drawing.Size(118, 17);
-            this.duracionSeleccionada.Text = "toolStripStatusLabel1";
+            this.duracionSeleccionada.Size = new System.Drawing.Size(183, 17);
+            this.duracionSeleccionada.Text = "toolStripStatusLabelTotalDuration";
             // 
             // clickDerechoMenuContexto
             // 
@@ -483,12 +492,11 @@
             this.process1.StartInfo.UserName = "";
             this.process1.SynchronizingObject = this;
             // 
-            // configToolStripMenuItem
+            // toolStripStatusLabelViewInfo
             // 
-            this.configToolStripMenuItem.Name = "configToolStripMenuItem";
-            this.configToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.configToolStripMenuItem.Text = "config";
-            this.configToolStripMenuItem.Click += new System.EventHandler(this.configToolStripMenuItem_Click);
+            this.toolStripStatusLabelViewInfo.Name = "toolStripStatusLabelViewInfo";
+            this.toolStripStatusLabelViewInfo.Size = new System.Drawing.Size(168, 17);
+            this.toolStripStatusLabelViewInfo.Text = "toolStripStatusLabelViewMode";
             // 
             // principal
             // 
@@ -567,5 +575,6 @@
         private System.Windows.Forms.ToolStripMenuItem verLogToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem nuevoAlbumDesdeCarpetaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelViewInfo;
     }
 }
