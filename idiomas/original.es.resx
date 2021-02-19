@@ -638,4 +638,16 @@
   <data name="errorPortada" xml:space="preserve">
     <value>Error descargando la portada.</value>
   </data>
+  <data name="verLR" xml:space="preserve">
+    <value>Ver la lista de reproducción</value>
+  </data>
+  <data name="cambiarNombrePL" xml:space="preserve">
+    <value>Cambiar nombre</value>
+  </data>
+  <data name="errrorLR" xml:space="preserve">
+    <value>Error abriendo el fichero. Comprueba que esté correcto.</value>
+  </data>
+  <data name="abrir" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
 </root>

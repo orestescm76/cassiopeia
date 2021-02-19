@@ -45,7 +45,7 @@ namespace aplicacion_musica.src.Forms
         {
             if(listViewDiscos.SelectedItems.Count == 1)
             {
-                Reproductor.Instancia.ReproducirCD(listViewDiscos.SelectedItems[0].Text[0]);
+                Reproductor.Instancia.PlayCD(listViewDiscos.SelectedItems[0].Text[0]);
                 Close();
                 Dispose();
             }

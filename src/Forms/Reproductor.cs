@@ -39,7 +39,7 @@ namespace aplicacion_musica.src.Forms
         SpotifyWebAPI _spotify;
         FullTrack cancionReproduciendo;
         private BackgroundWorker backgroundWorker;
-        private int ListaReproduccionPuntero=0;
+        private int ListaReproduccionPuntero = 0;
         bool SpotifyListo = false;
         bool EsPremium = false;
         DirectoryInfo directorioCanciones;
@@ -55,13 +55,13 @@ namespace aplicacion_musica.src.Forms
         private bool foobar2000 = true;
         Process foobar2kInstance = null;
         string SpotifyID = null;
-        bool ModoCD = false;
         bool Reproduciendo = false;
+        public bool ModoCD { get; private set; }
         public static Reproductor Instancia { get; set; }
         public Reproductor()
         {
             InitializeComponent();
-            controlBotones(false);
+            SetPlayerButtons(false);
             timerCancion.Enabled = false;
             estadoReproductor = EstadoReproductor.Detenido;
             trackBarPosicion.Enabled = false;
@@ -93,16 +93,17 @@ namespace aplicacion_musica.src.Forms
 
             else notifyIcon1.Visible = false;
             buttonTwit.Enabled = false;
+            ModoCD = false;
         }
         private void ConfigurarTimers(bool val) //Configura los timers cancion y metadatos.
         {
             timerCancion.Enabled = val;
             timerMetadatos.Enabled = val;
         }
-        public void ReproducirCD(char disp)
+        public void PlayCD(char disp)
         {
             //reproduce un cd
-            controlBotones(true);
+            SetPlayerButtons(true);
             nucleo.ReproducirCD(disp);
             Reproduciendo = true;
             if (nucleo.PistasCD == null)
@@ -110,15 +111,12 @@ namespace aplicacion_musica.src.Forms
             ModoCD = true;
             PrepararReproductor();
             Text = "CD - Pista 1";
-            ListaReproduccion lr = new ListaReproduccion("CD-A");
+            CreatePlaylist("CD-A");
             for (int i = 0; i < nucleo.PistasCD.Length; i++)
             {
                 Song c = new Song("Pista " + (i + 1), (int)nucleo.PistasCD[i].Duracion.TotalMilliseconds, false);
-                lr.AgregarCancion(c);
+                ListaReproduccion.AgregarCancion(c);
             }
-            ListaReproduccion = lr;
-            ListaReproduccionPuntero = 0;
-            lrui = new ListaReproduccionUI(lr);
         }
         public void SpotifyEncendido()
         {
@@ -174,7 +172,7 @@ namespace aplicacion_musica.src.Forms
             labelDatosCancion.Text = "";
             Icon = Properties.Resources.iconoReproductor;
             checkBoxFoobar.Visible = true;
-            controlBotones(false);
+            SetPlayerButtons(false);
             buttonDetener.Enabled = true;
             buttonAgregar.Hide();
         }
@@ -187,12 +185,12 @@ namespace aplicacion_musica.src.Forms
                 timerCancion.Enabled = false;
                 checkBoxFoobar.Visible = false;
                 nucleo.Apagar();
-                controlBotones(false);
+                SetPlayerButtons(false);
                 buttonDetener.Enabled = false;
             }
             catch (Exception)
             {
-                controlBotones(true);
+                SetPlayerButtons(true);
                 buttonDetener.Enabled = true;
             }
             if (Program._spotify.cuentaVinculada)
@@ -216,11 +214,11 @@ namespace aplicacion_musica.src.Forms
                 buttonAbrir.Enabled = false;
                 Spotify = true;
                 toolStripStatusLabelCorreoUsuario.Text = Program.LocalTexts.GetString("conectadoComo") + " " + user.DisplayName;
-                controlBotones(true);
+                SetPlayerButtons(true);
                 if (!EsPremium)
                 {
                     toolStripStatusLabelCorreoUsuario.Text += " - NO PREMIUM";
-                    controlBotones(false);
+                    SetPlayerButtons(false);
                 }
                 buttonTwit.Enabled = true;
                 buttoncrearLR.Hide();
@@ -324,7 +322,7 @@ namespace aplicacion_musica.src.Forms
         public void ReproducirCancion(string path) //reproduce una cancion por path
         {
             pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
-            controlBotones(true);
+            SetPlayerButtons(true);
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Detenido;
             DirectoryInfo dir = new DirectoryInfo(path);
@@ -366,7 +364,7 @@ namespace aplicacion_musica.src.Forms
         }
         public void ReproducirCancion(Song c) //reproduce una cancion
         {
-            controlBotones(true);
+            SetPlayerButtons(true);
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Detenido;
             if(object.ReferenceEquals(c.album, null)) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
@@ -977,8 +975,13 @@ namespace aplicacion_musica.src.Forms
                 case Keys.MediaStop:
                     Detener();
                     break;
+                case Keys.MediaNextTrack:
+                    SaltarAdelante();
+                    break;
+                case Keys.MediaPreviousTrack:
+                    SaltarAtras();
+                    break;
             }
-
         }
 
         private void timerMetadatos_Tick(object sender, EventArgs e)
@@ -1080,14 +1083,16 @@ namespace aplicacion_musica.src.Forms
             }
             else if((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null)
             {
-                ListaReproduccion lrDragDrop = new ListaReproduccion("Selección");
+                Log.ImprimirMensaje("Detectado Drag & Drop", TipoMensaje.Info);
+                Log.ImprimirMensaje("Creando playlist con "+canciones.Length + " canciones.", TipoMensaje.Info);
+                CreatePlaylist(Program.LocalTexts.GetString("seleccion"));
                 foreach (string cancion in canciones)
                 {
                     Song clr = new Song();
                     clr.PATH = cancion;
-                    lrDragDrop.AgregarCancion(clr);
+                    ListaReproduccion.AgregarCancion(clr);
                 }
-                ReproducirLista(lrDragDrop);
+                ReproducirLista(ListaReproduccion);
             }
             else
                 Log.ImprimirMensaje("No se ha podido determinar la canción", TipoMensaje.Advertencia);
@@ -1097,14 +1102,35 @@ namespace aplicacion_musica.src.Forms
         {
             e.Effect = DragDropEffects.Copy;
         }
-
+        //Creates a playlist and sets it as the active one, overriding the previous one.
+        private void CreatePlaylist(string Title)
+        {
+            buttoncrearLR.Text = Program.LocalTexts.GetString("verLR");
+            ListaReproduccion lr = new ListaReproduccion(Title);
+            ListaReproduccion = lr;
+            ListaReproduccionPuntero = 0;
+            if(!(lrui is null))
+            {
+                lrui.ListaReproduccion = lr;
+            }
+        }
+        public void SetPlaylist(ListaReproduccion playlist) //Sets a loaded playlist from a file.
+        {
+            ListaReproduccion = playlist;
+            //Not needed to change the text, because we have a empty playlist after opening the form.
+        }
         private void buttonLR_Click(object sender, EventArgs e)
         {
-            ListaReproduccion lr = new ListaReproduccion("");
-            ListaReproduccion = lr;
-            lrui = new ListaReproduccionUI(ListaReproduccion);
-            ListaReproduccionPuntero = 0;
-            lrui.Show();
+            if(ListaReproduccion is null) //If we don't have a playlist, create one and its UI.
+            {
+                CreatePlaylist("");
+                lrui = new ListaReproduccionUI(ListaReproduccion);
+                lrui.Show();
+            }
+            else
+            {
+                lrui.Show();
+            }
         }
         public TimeSpan getDuracionFromFile(string path)
         {
@@ -1113,8 +1139,8 @@ namespace aplicacion_musica.src.Forms
             nucleo.Apagar();
             return dur;
         }
-        //Controla los botones de reproducir, pausar... etc
-        private void controlBotones(bool encendido)
+        //Controls the player buttons
+        private void SetPlayerButtons(bool encendido)
         {
             buttonReproducirPausar.Enabled = encendido;
             buttonSaltarAdelante.Enabled = encendido;
@@ -1125,7 +1151,7 @@ namespace aplicacion_musica.src.Forms
             nucleo.Apagar();
             Reproduciendo = false;
             ConfigurarTimers(false);
-            controlBotones(false);
+            SetPlayerButtons(false);
             trackBarPosicion.Enabled = false;
             trackBarPosicion.Value = 0;
             pictureBoxCaratula.Image = Resources.albumdesconocido;
@@ -1138,7 +1164,7 @@ namespace aplicacion_musica.src.Forms
         }
         public void ActivarPorLista() //Prepara para reproducir una lista de reproducción
         {
-            controlBotones(true);
+            SetPlayerButtons(true);
         }
         private void buttonDetener_Click(object sender, EventArgs e)
         {

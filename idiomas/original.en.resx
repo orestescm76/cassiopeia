@@ -634,4 +634,16 @@
   <data name="errorPortada" xml:space="preserve">
     <value>Error downloading the cover.</value>
   </data>
+  <data name="verLR" xml:space="preserve">
+    <value>View playlist.</value>
+  </data>
+  <data name="cambiarNombrePL" xml:space="preserve">
+    <value>Change playlist name</value>
+  </data>
+  <data name="errrorLR" xml:space="preserve">
+    <value>Error opening the file, check if it is good.</value>
+  </data>
+  <data name="abrir" xml:space="preserve">
+    <value>Open</value>
+  </data>
 </root>

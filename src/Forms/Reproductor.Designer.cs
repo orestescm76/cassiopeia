@@ -108,6 +108,7 @@
             this.buttonAbrir.TabIndex = 3;
             this.buttonAbrir.Text = "abrir_cancion";
             this.buttonAbrir.UseVisualStyleBackColor = true;
+            this.buttonAbrir.Visible = false;
             this.buttonAbrir.Click += new System.EventHandler(this.buttonAbrir_Click);
             // 
             // labelPosicion
