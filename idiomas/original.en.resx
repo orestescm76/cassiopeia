@@ -628,4 +628,10 @@
   <data name="playlistName" xml:space="preserve">
     <value>Enter the playlist name...</value>
   </data>
+  <data name="errorBusquedaSpotify" xml:space="preserve">
+    <value>Cannot process the query. Check if both textboxes have text.</value>
+  </data>
+  <data name="errorPortada" xml:space="preserve">
+    <value>Error downloading the cover.</value>
+  </data>
 </root>

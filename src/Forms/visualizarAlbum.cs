@@ -43,7 +43,7 @@ namespace aplicacion_musica
             barraAbajo.Font = new Font("Segoe UI", 10);
             Controls.Add(barraAbajo);
             labelEstadoDisco.Hide();
-            if(!ReferenceEquals(albumToVisualize, null) && (albumToVisualize.SoundFilesPath == "" || albumToVisualize.SoundFilesPath == null))
+            if(!(albumToVisualize is null) && string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
             {
                 buttonAnotaciones.Enabled = false;
             }
@@ -69,7 +69,7 @@ namespace aplicacion_musica
                 Program.LocalTexts.GetString("paisPublicacion") + ":" + cd.PaisPublicacion + Environment.NewLine +
                 Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine;
             labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(cd.Discos[0].EstadoDisco.ToString()) + Environment.NewLine;
-            if (cd.Album.CoverPath != "")
+            if (!string.IsNullOrEmpty(cd.Album.CoverPath))
             {
                 Image caratula = Image.FromFile(cd.Album.CoverPath);
                 vistaCaratula.Image = caratula;
@@ -94,7 +94,7 @@ namespace aplicacion_musica
             okDoomerButton.Text = Program.LocalTexts.GetString("hecho");
             editarButton.Text = Program.LocalTexts.GetString("editar");
             duracionSeleccionada.Text = Program.LocalTexts.GetString("dur_total") + ": 00:00:00";
-            if (CDaVisualizar != null)
+            if (!(CDaVisualizar is null))
                 buttonAnotaciones.Text = Program.LocalTexts.GetString("editar_anotaciones");
             else
                 buttonAnotaciones.Text = Program.LocalTexts.GetString("reproducir");
@@ -102,7 +102,7 @@ namespace aplicacion_musica
             reproducirToolStripMenuItem.Text = Program.LocalTexts.GetString("reproducir");
             reproducirspotifyToolStripMenuItem.Text = Program.LocalTexts.GetString("reproducirSpotify");
             buttonPATH.Text = Program.LocalTexts.GetString("calcularPATHS");
-            if(Config.Idioma == "el")
+            if(Config.Idioma == "el") //Greek needs a little adjustment on the UI
             {
                 Font but = buttonPATH.Font;
                 Font neo = new Font(but.FontFamily, 7);
@@ -141,14 +141,14 @@ namespace aplicacion_musica
         private void cargarVista()
         {
             vistaCanciones.Items.Clear();
-            if (string.IsNullOrEmpty(albumToVisualize.IdSpotify) || Program._spotify == null || !Program._spotify.cuentaLista)
+            if (string.IsNullOrEmpty(albumToVisualize.IdSpotify) || Program._spotify is null || !Program._spotify.cuentaLista)
                 reproducirspotifyToolStripMenuItem.Enabled = false;
             if (string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
                 reproducirToolStripMenuItem.Enabled = false;
             ListViewItem[] items = new ListViewItem[albumToVisualize.Songs.Count];
             int i = 0, j = 0, d = 0;
             TimeSpan durBonus = new TimeSpan();
-            if (CDaVisualizar != null && CDaVisualizar.Discos.Length > 1)
+            if (!(CDaVisualizar is null) && CDaVisualizar.Discos.Length > 1)
             {
                 ListViewGroup d1 = new ListViewGroup("Disco 1");
                 ListViewGroup d2 = new ListViewGroup("Disco 2");
@@ -190,7 +190,7 @@ namespace aplicacion_musica
                         Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(CDaVisualizar.FormatoCD.ToString()) + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
             }
-            else if (CDaVisualizar != null)
+            else if (!(CDaVisualizar is null))
             {
                 foreach (Song c in albumToVisualize.Songs)
                 {
@@ -307,7 +307,7 @@ namespace aplicacion_musica
             TimeSpan seleccion = new TimeSpan();
             foreach (ListViewItem cancion in vistaCanciones.SelectedItems)
             {
-                if(CDaVisualizar !=  null &&CDaVisualizar.Discos.Length > 1)
+                if(!(CDaVisualizar is null) &&CDaVisualizar.Discos.Length > 1)
                 {
                     Song can = albumToVisualize.GetSong(cancion.SubItems[1].Text);
                     seleccion += can.duracion;
@@ -341,7 +341,7 @@ namespace aplicacion_musica
 
         private void buttonAnotaciones_Click(object sender, EventArgs e)
         {
-            if(CDaVisualizar != null)
+            if(!(CDaVisualizar is null))
             {
                 Anotaciones anoForm = new Anotaciones(ref CDaVisualizar);
                 anoForm.ShowDialog();
@@ -410,7 +410,7 @@ namespace aplicacion_musica
 
         private void infoAlbum_Click(object sender, EventArgs e)
         {
-            if(!ReferenceEquals(albumToVisualize, null))
+            if(!string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
             {
                 Process explorador = new Process();
                 explorador.StartInfo.UseShellExecute = true;

@@ -251,7 +251,7 @@
     <value>Error al intentar realizar la operación, algún campo está sin rellenar.</value>
   </data>
   <data name="error_vacio2" xml:space="preserve">
-    <value>No has puesto nada en el formulario, abortando...</value>
+    <value>No has puesto nada en el formulario.</value>
   </data>
   <data name="esBonus" xml:space="preserve">
     <value>Es una canción bonus</value>
@@ -631,5 +631,11 @@
   </data>
   <data name="playlistName" xml:space="preserve">
     <value>Escribe el nombre de la lista de reproducción</value>
+  </data>
+  <data name="errorBusquedaSpotify" xml:space="preserve">
+    <value>Error al procesar el formulario, comprueba que sólo haya texto en un campo.</value>
+  </data>
+  <data name="errorPortada" xml:space="preserve">
+    <value>Error descargando la portada.</value>
   </data>
 </root>

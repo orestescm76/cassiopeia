@@ -482,17 +482,8 @@ namespace aplicacion_musica
 
         private void buscarEnSpotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                busquedaSpotify b = new busquedaSpotify();
-                if(b.ShowDialog() == DialogResult.No)
-                    Program._spotify.buscarAlbum(BusquedaSpotify);
-                b.Dispose();
-            }
-            catch (NullReferenceException)
-            {
-                MessageBox.Show(Program.LocalTexts.GetString("error_vacio2"));
-            }
+            SearchSpotify busquedaSpotifyForm = new SearchSpotify();
+            busquedaSpotifyForm.ShowDialog();
         }
 
         private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -562,12 +553,6 @@ namespace aplicacion_musica
                 }
             }
         }
-
-        private void clickDerechoMenuContexto_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
         private void colorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog DC = new ColorDialog();

@@ -602,4 +602,10 @@
   <data name="playlistName" xml:space="preserve">
     <value></value>
   </data>
+  <data name="errorBusquedaSpotify" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="errorPortada" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

@@ -4,15 +4,15 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using SpotifyAPI.Web.Models;
 
-namespace aplicacion_musica
+namespace aplicacion_musica.src.Forms
 {
-    public partial class resultadoSpotify : Form
+    public partial class SpotifyResults : Form
     {
         private ListViewItemComparer lvwColumnSorter;
         private List<SimpleAlbum> listaBusqueda = new List<SimpleAlbum>();
         bool EditarID = false;
         AlbumData AlbumAEditar;
-        public resultadoSpotify(ref List<SimpleAlbum> l, bool edit, AlbumData album = null)
+        public SpotifyResults(ref List<SimpleAlbum> l, bool edit, AlbumData album = null)
         {
             InitializeComponent();
             EditarID = edit;
@@ -61,7 +61,7 @@ namespace aplicacion_musica
                 }
                 DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
                 crono.Stop();
-                Console.WriteLine("Agregdos " + listViewResultadoBusqueda.SelectedItems.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + "ms");
+                Console.WriteLine("Agregados " + listViewResultadoBusqueda.SelectedItems.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + "ms");
                 Program.ReloadView();
             }
             else

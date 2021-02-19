@@ -146,27 +146,23 @@ namespace aplicacion_musica
             tokenActual = newToken;
             Log.Instance.ImprimirMensaje("Token refrescado!", TipoMensaje.Correcto);
         }
-        public void buscarAlbum(string a)
+        public List<SimpleAlbum> SearchAlbums(string query)
         {
             Log.Instance.ImprimirMensaje("Búsqueda en Spotify", TipoMensaje.Info, "Spotify.buscarAlbum(string)");
             Stopwatch crono = Stopwatch.StartNew();
             try
             {
-                List<SimpleAlbum> item = _spotify.SearchItems(a, SearchType.Album).Albums.Items;
-
-                resultadoSpotify res = new resultadoSpotify(ref item, false);
-                crono.Stop();
+                List<SimpleAlbum> AlbumList = _spotify.SearchItems(query, SearchType.Album).Albums.Items;
                 Log.Instance.ImprimirMensaje("Búsqueda en Spotify ha finalizado correctamente", TipoMensaje.Correcto, crono);
-                res.ShowDialog();
-                if (res.DialogResult == System.Windows.Forms.DialogResult.Cancel)
-                    return;
+                return AlbumList;
             }
             catch (NullReferenceException e)
             {
                 Log.Instance.ImprimirMensaje("Error buscando álbumes", TipoMensaje.Error);
                 Log.Instance.ImprimirMensaje(e.InnerException.Message, TipoMensaje.Error);
+                crono.Stop();
             }
-
+            return null;
         }
         public SimpleAlbum DevolverAlbum(string a)
         {
@@ -226,8 +222,8 @@ namespace aplicacion_musica
                 }
                 catch (System.Net.WebException)
                 {
-                    Console.WriteLine("Excepción capturada System.Net.WebException");
-                    System.Windows.Forms.MessageBox.Show("");
+                    Log.Instance.ImprimirMensaje("Excepción capturada System.Net.WebException", TipoMensaje.Advertencia);
+                    System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("errorPortada"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                     portada = "";
                 }
 
@@ -236,11 +232,11 @@ namespace aplicacion_musica
             if (Program.Collection.IsInCollection(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
-                throw new InvalidOperationException();
+                return;
             }
             a.IdSpotify = album.Id;
             List<Song> canciones = new List<Song>(a.NumberOfSongs);
-            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id,a.NumberOfSongs).Items;
+            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, 50).Items;
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
@@ -283,7 +279,7 @@ namespace aplicacion_musica
             }
             a.IdSpotify = album.Id;
             List<Song> canciones = new List<Song>(a.NumberOfSongs);
-            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, a.NumberOfSongs).Items;
+            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id).Items;
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));

@@ -1,6 +1,6 @@
-﻿namespace aplicacion_musica
+﻿namespace aplicacion_musica.src.Forms
 {
-    partial class busquedaSpotify
+    partial class SearchSpotify
     {
         /// <summary>
         /// Required designer variable.
@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(busquedaSpotify));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchSpotify));
             this.textBoxBusqueda = new System.Windows.Forms.TextBox();
-            this.buscarButton = new System.Windows.Forms.Button();
+            this.buttonOk = new System.Windows.Forms.Button();
             this.labelBusqueda = new System.Windows.Forms.Label();
             this.textBoxURISpotify = new System.Windows.Forms.TextBox();
             this.labelAlternativa = new System.Windows.Forms.Label();
@@ -43,15 +43,15 @@
             this.textBoxBusqueda.Size = new System.Drawing.Size(330, 20);
             this.textBoxBusqueda.TabIndex = 0;
             // 
-            // buscarButton
+            // buttonOk
             // 
-            this.buscarButton.Location = new System.Drawing.Point(146, 125);
-            this.buscarButton.Name = "buscarButton";
-            this.buscarButton.Size = new System.Drawing.Size(75, 23);
-            this.buscarButton.TabIndex = 0;
-            this.buscarButton.Text = "Buscar";
-            this.buscarButton.UseVisualStyleBackColor = true;
-            this.buscarButton.Click += new System.EventHandler(this.button1_Click);
+            this.buttonOk.Location = new System.Drawing.Point(146, 125);
+            this.buttonOk.Name = "buttonOk";
+            this.buttonOk.Size = new System.Drawing.Size(75, 23);
+            this.buttonOk.TabIndex = 0;
+            this.buttonOk.Text = "Buscar";
+            this.buttonOk.UseVisualStyleBackColor = true;
+            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // labelBusqueda
             // 
@@ -86,7 +86,7 @@
             this.Controls.Add(this.labelAlternativa);
             this.Controls.Add(this.textBoxURISpotify);
             this.Controls.Add(this.labelBusqueda);
-            this.Controls.Add(this.buscarButton);
+            this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.textBoxBusqueda);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -100,7 +100,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox textBoxBusqueda;
-        private System.Windows.Forms.Button buscarButton;
+        private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Label labelBusqueda;
         private System.Windows.Forms.TextBox textBoxURISpotify;
         private System.Windows.Forms.Label labelAlternativa;

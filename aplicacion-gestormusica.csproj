@@ -169,11 +169,11 @@
     <Compile Include="src\Forms\BarraCarga.Designer.cs">
       <DependentUpon>BarraCarga.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Forms\busquedaSpotify.cs">
+    <Compile Include="src\Forms\SearchSpotify.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Forms\busquedaSpotify.Designer.cs">
-      <DependentUpon>busquedaSpotify.cs</DependentUpon>
+    <Compile Include="src\Forms\SearchSpotify.Designer.cs">
+      <DependentUpon>SearchSpotify.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Forms\ConfigForm.cs">
       <SubType>Form</SubType>
@@ -211,11 +211,11 @@
     <Compile Include="src\Forms\Reproductor.Designer.cs">
       <DependentUpon>Reproductor.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Forms\resultadoSpotify.cs">
+    <Compile Include="src\Forms\SpotifyResults.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Forms\resultadoSpotify.Designer.cs">
-      <DependentUpon>resultadoSpotify.cs</DependentUpon>
+    <Compile Include="src\Forms\SpotifyResults.Designer.cs">
+      <DependentUpon>SpotifyResults.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Forms\VisorLog.cs">
       <SubType>Form</SubType>
@@ -291,8 +291,8 @@
     <EmbeddedResource Include="src\Forms\BarraCarga.resx">
       <DependentUpon>BarraCarga.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\busquedaSpotify.resx">
-      <DependentUpon>busquedaSpotify.cs</DependentUpon>
+    <EmbeddedResource Include="src\Forms\SearchSpotify.resx">
+      <DependentUpon>SearchSpotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
@@ -312,8 +312,8 @@
     <EmbeddedResource Include="src\Forms\Reproductor.resx">
       <DependentUpon>Reproductor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\resultadoSpotify.resx">
-      <DependentUpon>resultadoSpotify.cs</DependentUpon>
+    <EmbeddedResource Include="src\Forms\SpotifyResults.resx">
+      <DependentUpon>SpotifyResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\VisorLog.resx">
       <DependentUpon>VisorLog.cs</DependentUpon>

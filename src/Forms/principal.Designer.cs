@@ -73,13 +73,13 @@
             this.columnID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.barraAbajo = new System.Windows.Forms.StatusStrip();
             this.duracionSeleccionada = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelViewInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.clickDerechoMenuContexto = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.crearCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.process1 = new System.Diagnostics.Process();
-            this.toolStripStatusLabelViewInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -298,7 +298,7 @@
             this.digitalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.digitalToolStripMenuItem.Name = "digitalToolStripMenuItem";
             this.digitalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.digitalToolStripMenuItem.Text = "digital";
             this.digitalToolStripMenuItem.Click += new System.EventHandler(this.digitalToolStripMenuItem_Click);
             // 
@@ -307,7 +307,7 @@
             this.cdToolStripMenuItem.CheckOnClick = true;
             this.cdToolStripMenuItem.Name = "cdToolStripMenuItem";
             this.cdToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.cdToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cdToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.cdToolStripMenuItem.Text = "CD";
             this.cdToolStripMenuItem.Click += new System.EventHandler(this.cdToolStripMenuItem_Click);
             // 
@@ -442,6 +442,12 @@
             this.duracionSeleccionada.Size = new System.Drawing.Size(183, 17);
             this.duracionSeleccionada.Text = "toolStripStatusLabelTotalDuration";
             // 
+            // toolStripStatusLabelViewInfo
+            // 
+            this.toolStripStatusLabelViewInfo.Name = "toolStripStatusLabelViewInfo";
+            this.toolStripStatusLabelViewInfo.Size = new System.Drawing.Size(168, 17);
+            this.toolStripStatusLabelViewInfo.Text = "toolStripStatusLabelViewMode";
+            // 
             // clickDerechoMenuContexto
             // 
             this.clickDerechoMenuContexto.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -450,20 +456,19 @@
             this.spotifyToolStripMenuItem,
             this.verLyricsToolStripMenuItem});
             this.clickDerechoMenuContexto.Name = "contextMenuStrip1";
-            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(120, 92);
-            this.clickDerechoMenuContexto.Opening += new System.ComponentModel.CancelEventHandler(this.clickDerechoMenuContexto_Opening);
+            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(181, 114);
             // 
             // crearCDToolStripMenuItem
             // 
             this.crearCDToolStripMenuItem.Name = "crearCDToolStripMenuItem";
-            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.crearCDToolStripMenuItem.Text = "cd";
             this.crearCDToolStripMenuItem.Click += new System.EventHandler(this.crearCDToolStripMenuItem_Click);
             // 
             // copiarToolStripMenuItem
             // 
             this.copiarToolStripMenuItem.Name = "copiarToolStripMenuItem";
-            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copiarToolStripMenuItem.Text = "copiar";
             this.copiarToolStripMenuItem.Click += new System.EventHandler(this.copiarToolStripMenuItem_Click);
             // 
@@ -471,14 +476,14 @@
             // 
             this.spotifyToolStripMenuItem.Enabled = false;
             this.spotifyToolStripMenuItem.Name = "spotifyToolStripMenuItem";
-            this.spotifyToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.spotifyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.spotifyToolStripMenuItem.Text = "Spotify";
             this.spotifyToolStripMenuItem.Click += new System.EventHandler(this.spotifyToolStripMenuItem_Click);
             // 
             // verLyricsToolStripMenuItem
             // 
             this.verLyricsToolStripMenuItem.Name = "verLyricsToolStripMenuItem";
-            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
             // 
@@ -491,12 +496,6 @@
             this.process1.StartInfo.StandardOutputEncoding = null;
             this.process1.StartInfo.UserName = "";
             this.process1.SynchronizingObject = this;
-            // 
-            // toolStripStatusLabelViewInfo
-            // 
-            this.toolStripStatusLabelViewInfo.Name = "toolStripStatusLabelViewInfo";
-            this.toolStripStatusLabelViewInfo.Size = new System.Drawing.Size(168, 17);
-            this.toolStripStatusLabelViewInfo.Text = "toolStripStatusLabelViewMode";
             // 
             // principal
             // 
