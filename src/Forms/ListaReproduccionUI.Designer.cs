@@ -35,12 +35,12 @@
             this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnDuration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.addSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.changeNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelDuration = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
@@ -71,22 +71,22 @@
             // columnPlaying
             // 
             this.columnPlaying.Text = "Playing";
-            this.columnPlaying.Width = 25;
+            this.columnPlaying.Width = 46;
             // 
             // columnArtista
             // 
             this.columnArtista.Text = "artista";
-            this.columnArtista.Width = 25;
+            this.columnArtista.Width = 40;
             // 
             // columnName
             // 
             this.columnName.Text = "Titulo";
-            this.columnName.Width = 25;
+            this.columnName.Width = 38;
             // 
             // columnDuration
             // 
             this.columnDuration.Text = "Duracion";
-            this.columnDuration.Width = 25;
+            this.columnDuration.Width = 359;
             // 
             // menuStrip1
             // 
@@ -99,20 +99,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(488, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // addSongToolStripMenuItem
-            // 
-            this.addSongToolStripMenuItem.Name = "addSongToolStripMenuItem";
-            this.addSongToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.addSongToolStripMenuItem.Text = "add song";
-            this.addSongToolStripMenuItem.Click += new System.EventHandler(this.addSongToolStripMenuItem_Click);
-            // 
-            // changeNameToolStripMenuItem
-            // 
-            this.changeNameToolStripMenuItem.Name = "changeNameToolStripMenuItem";
-            this.changeNameToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
-            this.changeNameToolStripMenuItem.Text = "changeName";
-            this.changeNameToolStripMenuItem.Click += new System.EventHandler(this.changeNameToolStripMenuItem_Click);
             // 
             // fileToolStripMenuItem
             // 
@@ -127,22 +113,36 @@
             // nuevaToolStripMenuItem
             // 
             this.nuevaToolStripMenuItem.Name = "nuevaToolStripMenuItem";
-            this.nuevaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nuevaToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.nuevaToolStripMenuItem.Text = "nueva";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.saveToolStripMenuItem.Text = "save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.openToolStripMenuItem.Text = "open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // addSongToolStripMenuItem
+            // 
+            this.addSongToolStripMenuItem.Name = "addSongToolStripMenuItem";
+            this.addSongToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.addSongToolStripMenuItem.Text = "add song";
+            this.addSongToolStripMenuItem.Click += new System.EventHandler(this.addSongToolStripMenuItem_Click);
+            // 
+            // changeNameToolStripMenuItem
+            // 
+            this.changeNameToolStripMenuItem.Name = "changeNameToolStripMenuItem";
+            this.changeNameToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
+            this.changeNameToolStripMenuItem.Text = "changeName";
+            this.changeNameToolStripMenuItem.Click += new System.EventHandler(this.changeNameToolStripMenuItem_Click);
             // 
             // statusStrip
             // 

@@ -265,10 +265,7 @@ namespace aplicacion_musica.src.Forms
 
         public void ReproducirLista(ListaReproduccion lr)
         {
-            ListaReproduccion = lr;
-            ListaReproduccionPuntero = 0;
             Song c = lr[ListaReproduccionPuntero];
-            lrui = new ListaReproduccionUI(lr);
             ReproducirCancion(c);
         }
         public void RefrescarTextos()
@@ -338,6 +335,7 @@ namespace aplicacion_musica.src.Forms
             LectorMetadatos Lector = new LectorMetadatos(path);
             if (Lector.Cover != null)
                 pictureBoxCaratula.Image = Lector.Cover;
+            Text = Lector.GetSongTitle();
             nucleo.Apagar();
             try
             {
@@ -367,7 +365,7 @@ namespace aplicacion_musica.src.Forms
             SetPlayerButtons(true);
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Detenido;
-            if(object.ReferenceEquals(c.album, null)) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
+            if(c.album is null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
             {
                 DirectoryInfo dir = new DirectoryInfo(c.PATH);
                 dir = dir.Parent;
@@ -379,7 +377,6 @@ namespace aplicacion_musica.src.Forms
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.png");
 
             }
-            string s = "";
             //try
             //{
             //    if(c.album != null)
@@ -392,13 +389,34 @@ namespace aplicacion_musica.src.Forms
             //}
 
             CancionLocalReproduciendo = c;
-            if (string.IsNullOrEmpty(c.PATH))
-            {   
-                MessageBox.Show(c.titulo + " " +c.album.Title + Environment.NewLine + "ERROR_CANCION");
-                return;
+            //if (string.IsNullOrEmpty(c.PATH))
+            //{   
+            //    MessageBox.Show(c.titulo + " " +c.album.Title + Environment.NewLine + "ERROR_CANCION");
+            //    return;
+            //}
+            //else
+            //    s = c.PATH;
+            LectorMetadatos LM = new LectorMetadatos(c.PATH);
+            if (!(c.album is null) && c.album.CoverPath != null)
+            {
+                if (c.album.CoverPath != "")
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.CoverPath);
+                else
+                {
+                    if (File.Exists(c.album.SoundFilesPath + "\\cover.jpg"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.jpg");
+                    else if (File.Exists(c.album.SoundFilesPath + "\\cover.png"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.png");
+                    else if (File.Exists(c.album.SoundFilesPath + "\\folder.jpg"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\folder.jpg");
+                }
             }
             else
-                s = c.PATH;
+            {
+                if (LM.Cover != null)
+                    pictureBoxCaratula.Image = LM.Cover;
+            }
+            Text = LM.GetSongTitle();
             nucleo.Apagar();
             try
             {
@@ -419,26 +437,7 @@ namespace aplicacion_musica.src.Forms
                 }
             }
             PrepararReproductor();
-            LectorMetadatos LM = new LectorMetadatos(c.PATH);
-            if (!ReferenceEquals(c.album, null) && c.album.CoverPath != null )
-            {
-                if(c.album.CoverPath != "")
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.CoverPath);
-                else
-                {
-                    if(File.Exists(c.album.SoundFilesPath + "\\cover.jpg"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.jpg");
-                    else if (File.Exists(c.album.SoundFilesPath + "\\cover.png"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.png");
-                    else if (File.Exists(c.album.SoundFilesPath + "\\folder.jpg"))
-                            pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\folder.jpg");
-                }
-            }
-            else
-            {
-                if (LM.Cover != null)
-                    pictureBoxCaratula.Image = LM.Cover;
-            }
+
         }
         public void ReproducirCancion(int Pista)
         {
@@ -455,6 +454,10 @@ namespace aplicacion_musica.src.Forms
             timerMetadatos.Enabled = false;
             buttonTwit.Enabled = false;
         }
+        private void SetWindowTitle(string text)
+        {
+            Text = text;
+        }
         private void PrepararReproductor()
         {
             trackBarPosicion.Value = 0; //reseteo
@@ -463,7 +466,6 @@ namespace aplicacion_musica.src.Forms
             pos = TimeSpan.Zero;
             if (!ModoCD)
             {
-                Text = nucleo.CancionReproduciendose();
                 buttoncrearLR.Show();
             }
             else
@@ -1083,16 +1085,28 @@ namespace aplicacion_musica.src.Forms
             }
             else if((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null)
             {
-                Log.ImprimirMensaje("Detectado Drag & Drop", TipoMensaje.Info);
                 Log.ImprimirMensaje("Creando playlist con "+canciones.Length + " canciones.", TipoMensaje.Info);
-                CreatePlaylist(Program.LocalTexts.GetString("seleccion"));
-                foreach (string cancion in canciones)
+                if(ListaReproduccion is null)
                 {
-                    Song clr = new Song();
-                    clr.PATH = cancion;
-                    ListaReproduccion.AgregarCancion(clr);
+                    CreatePlaylist(Program.LocalTexts.GetString("seleccion"));
+                    foreach (string cancion in canciones)
+                    {
+                        Song clr = new Song();
+                        clr.PATH = cancion;
+                        ListaReproduccion.AgregarCancion(clr);
+                    }
+                    ReproducirLista(ListaReproduccion);
                 }
-                ReproducirLista(ListaReproduccion);
+                else
+                {
+                    foreach (string songfile in canciones)
+                    {
+                        Song clr = new Song();
+                        clr.PATH = songfile;
+                        ListaReproduccion.AgregarCancion(clr);
+                    }
+                }
+                lrui.Refrescar();
             }
             else
                 Log.ImprimirMensaje("No se ha podido determinar la canción", TipoMensaje.Advertencia);
@@ -1109,10 +1123,14 @@ namespace aplicacion_musica.src.Forms
             ListaReproduccion lr = new ListaReproduccion(Title);
             ListaReproduccion = lr;
             ListaReproduccionPuntero = 0;
-            if(!(lrui is null))
-            {
-                lrui.ListaReproduccion = lr;
-            }
+            if (lrui is null)
+                CreatePlaylistUI();
+            lrui.ListaReproduccion = lr;
+        }
+        private void CreatePlaylistUI()
+        {
+            lrui = new ListaReproduccionUI(ListaReproduccion);
+            
         }
         public void SetPlaylist(ListaReproduccion playlist) //Sets a loaded playlist from a file.
         {
@@ -1121,10 +1139,11 @@ namespace aplicacion_musica.src.Forms
         }
         private void buttonLR_Click(object sender, EventArgs e)
         {
-            if(ListaReproduccion is null) //If we don't have a playlist, create one and its UI.
+            if(ListaReproduccion is null) //If we don't have a playlist, create one. If we don't have the UI, create it.
             {
                 CreatePlaylist("");
-                lrui = new ListaReproduccionUI(ListaReproduccion);
+                if (lrui is null)
+                    CreatePlaylistUI();
                 lrui.Show();
             }
             else

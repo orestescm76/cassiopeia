@@ -646,4 +646,13 @@
   <data name="abrir" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="defusionarCancionPartes" xml:space="preserve">
+    <value>Undo multipart song</value>
+  </data>
+  <data name="error_defusion" xml:space="preserve">
+    <value>You can't divide a single song.</value>
+  </data>
+  <data name="error_fusionsingular" xml:space="preserve">
+    <value>You can't form a multipart song with only one song.</value>
+  </data>
 </root>
