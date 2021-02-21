@@ -184,12 +184,12 @@ namespace aplicacion_musica
                 return clipboardText;
             }
         }
+
         public bool NeedsMetadata()
         {
             if (string.IsNullOrEmpty(Artist) || string.IsNullOrEmpty(Title))
                 return true;
             else return false;
         }
-
     }
 }
