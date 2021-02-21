@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace aplicacion_musica
 {
-    public class CancionLarga : Song
+    public class LongSong : Song
     {
         public List<Song> Partes { get; private set; }
-        public CancionLarga() 
+        public LongSong() 
         {
             Partes = new List<Song>();
         }
-        public CancionLarga(string t, ref AlbumData a)
+        public LongSong(string t, ref AlbumData a)
         {
             Title = t;
             AlbumFrom = a;

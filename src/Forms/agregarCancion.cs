@@ -11,7 +11,7 @@ namespace aplicacion_musica
         private int cual;
         AlbumData album;
         Song cancion;
-        CancionLarga cancionlarga;
+        LongSong cancionlarga;
         bool editar;
         bool larga;
         bool bonus;
@@ -47,7 +47,7 @@ namespace aplicacion_musica
             cancion = c;
             editar = true;
             cancionlarga = null;
-            if(c is CancionLarga)
+            if(c is LongSong)
             {
                 minTextBox.Enabled = false;
                 secsTextBox.Enabled = false;
@@ -59,7 +59,7 @@ namespace aplicacion_musica
             else
                 minTextBox.Text = c.Length.Minutes.ToString();
             secsTextBox.Text = c.Length.Seconds.ToString();
-            if (c is CancionLarga)
+            if (c is LongSong)
             {
                 minTextBox.Enabled = false;
                 secsTextBox.Enabled = false;
@@ -96,7 +96,7 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
-        public agregarCancion(ref CancionLarga l, int n, ref AlbumData a) //crear parte de canción larga
+        public agregarCancion(ref LongSong l, int n, ref AlbumData a) //crear parte de canción larga
         {
             Log.Instance.ImprimirMensaje("Creando parte de canción larga", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -174,7 +174,7 @@ namespace aplicacion_musica
                     t = tituloTextBox.Text;
                     min = sec = 0;
                     np = Convert.ToInt32(textBoxNumPartes.Text);
-                    CancionLarga longSong = new CancionLarga(t, ref album);
+                    LongSong longSong = new LongSong(t, ref album);
 
                     album.AddSong(longSong);
                     for (int i = 0; i < np; i++)
