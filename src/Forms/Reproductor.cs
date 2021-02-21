@@ -439,7 +439,7 @@ namespace aplicacion_musica.src.Forms
             PrepararReproductor();
 
         }
-        public void ReproducirCancion(CancionLarga c)
+        public void ReproducirCancion(LongSong c)
         {
             SetPlayerButtons(true);
             ConfigurarTimers(false);

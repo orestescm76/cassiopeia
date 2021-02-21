@@ -331,7 +331,7 @@ namespace aplicacion_musica
             }
             return string.Empty;
         }
-        public ErrorResponse ReproducirCancion(string uri, CancionLarga cl)
+        public ErrorResponse ReproducirCancion(string uri, LongSong cl)
         {
             FullAlbum album = _spotify.GetAlbum(uri);
             List<string> uris = new List<string>();

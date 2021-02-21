@@ -125,7 +125,7 @@ namespace aplicacion_musica
                 c.ToStringArray().CopyTo(datos, 1);
                 ListViewItem item = new ListViewItem(datos);
 
-                if (c is CancionLarga)
+                if (c is LongSong)
                 {
                     item.BackColor = Color.LightSalmon;
                 }
@@ -168,7 +168,7 @@ namespace aplicacion_musica
                         d++;
                         j = 0;
                     }
-                    if (c is CancionLarga)
+                    if (c is LongSong)
                     {
                         items[i].BackColor = Color.LightSalmon;
                     }
@@ -200,7 +200,7 @@ namespace aplicacion_musica
                     c.ToStringArray().CopyTo(datos, 1);
                     items[i] = new ListViewItem(datos);
 
-                    if (c is CancionLarga)
+                    if (c is LongSong)
                     {
                         items[i].BackColor = Color.LightSalmon;
                     }
@@ -233,7 +233,7 @@ namespace aplicacion_musica
                     c.ToStringArray().CopyTo(datos, 1);
                     items[i] = new ListViewItem(datos);
 
-                    if (c is CancionLarga)
+                    if (c is LongSong)
                     {
                         items[i].BackColor = Color.LightSalmon;
                     }
@@ -326,7 +326,7 @@ namespace aplicacion_musica
         {
             int n = Convert.ToInt32(vistaCanciones.SelectedItems[0].SubItems[0].Text);
             Song c = albumToVisualize.GetSong(n-1);
-            if(c is CancionLarga cl)
+            if(c is LongSong cl)
             {
                 string infoDetallada = "";
                 for (int i = 0; i < cl.Partes.Count; i++)
@@ -434,9 +434,9 @@ namespace aplicacion_musica
         private void reproducirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Song cancionAReproducir = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
-            if(cancionAReproducir is CancionLarga)
+            if(cancionAReproducir is LongSong)
             {
-                CancionLarga cl = (CancionLarga)cancionAReproducir;
+                LongSong cl = (LongSong)cancionAReproducir;
                 Reproductor.Instancia.ReproducirCancion(cl);
             }
                 
@@ -539,7 +539,7 @@ namespace aplicacion_musica
             Song seleccion = albumToVisualize.GetSong(i);
             if (vistaCanciones.SelectedItems.Count > 1)
                 defusionarToolStripMenuItem.Visible = false;
-            if (!(seleccion is CancionLarga))
+            if (!(seleccion is LongSong))
                 defusionarToolStripMenuItem.Visible = false;
             else
                 fusionarToolStripMenuItem.Visible = false;
@@ -553,7 +553,7 @@ namespace aplicacion_musica
             }
             int num = vistaCanciones.SelectedItems[0].Index;
             List<string> cancionesABorrar = new List<string>();
-            CancionLarga cl = new CancionLarga();
+            LongSong cl = new LongSong();
             cl.SetAlbum(albumToVisualize);
             cl.Title = albumToVisualize.GetSong(num).Title;
 
@@ -576,13 +576,13 @@ namespace aplicacion_musica
             ListViewItem item = vistaCanciones.SelectedItems[0];
 
             int num = item.Index;
-            if (!(albumToVisualize.Songs[num] is CancionLarga))
+            if (!(albumToVisualize.Songs[num] is LongSong))
             {
                 MessageBox.Show(Program.LocalTexts.GetString("error_defusion"));
                 return;
             }
 
-            CancionLarga longSong = (CancionLarga)albumToVisualize.GetSong(num);
+            LongSong longSong = (LongSong)albumToVisualize.GetSong(num);
             foreach (Song parte in longSong.Partes)
             {
                 albumToVisualize.AddSong(parte, num);
