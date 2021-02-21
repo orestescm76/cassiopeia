@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Globalization;
+
 namespace aplicacion_musica
 {
-
     public enum EstadoMedio
     {
         M,
@@ -21,28 +16,30 @@ namespace aplicacion_musica
 
     public class AlbumFisico
     {
-
-        [Newtonsoft.Json.JsonIgnore] //no quiero guardarlo 2 veces, ni cargarlo
-        public AlbumData Album { get; protected set; }
+        //no quiero guardarlo 2 veces, ni cargarlo 
+        [Newtonsoft.Json.JsonIgnore] public AlbumData Album { get; protected set; }
         public EstadoMedio EstadoExterior { get; set; }
-        public short YearRelease {get;set;}
-        public String PaisPublicacion { get; set; }
-        public String Artista { get; set; }
-        public String Nombre { get; set; }
+        public short Year {get;set;}
+        public string Country { get; set; }
+        public string Artist { get; set; }
+        public string Title { get; set; }
+
         public AlbumFisico()
         {
 
         }
-        public AlbumFisico(String s, EstadoMedio ee, short y = 0, String p = null)
+
+        public AlbumFisico(string s, EstadoMedio estado, short y = 0, String p = null)
         {
             Album = Programa.miColeccion.GetAlbum(s);
-            EstadoExterior = ee;
-            YearRelease = y;
-            PaisPublicacion = p;
-            Artista = Album.Artist;
-            Nombre = Album.Title;
+            EstadoExterior = estado;
+            Year = y;
+            Country = p;
+            Artist = Album.Artist;
+            Title = Album.Title;
         }
-        public AlbumFisico(String s)
+
+        public AlbumFisico(string s)
         {
             Album = Programa.miColeccion.GetAlbum(s);
         }

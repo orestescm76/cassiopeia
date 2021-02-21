@@ -244,10 +244,10 @@ namespace aplicacion_musica
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
-                if(canciones[i].duracion.Milliseconds > 500)
-                    canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
+                if(canciones[i].Length.Milliseconds > 500)
+                    canciones[i].Length += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].Length.Milliseconds);
                 else
-                    canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
+                    canciones[i].Length -= new TimeSpan(0, 0, 0, 0, canciones[i].Length.Milliseconds);
             }
             a.Songs = canciones;
             Programa.miColeccion.AddAlbum(ref a);
@@ -287,10 +287,10 @@ namespace aplicacion_musica
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
-                if (canciones[i].duracion.Milliseconds > 500)
-                    canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
+                if (canciones[i].Length.Milliseconds > 500)
+                    canciones[i].Length += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].Length.Milliseconds);
                 else
-                    canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
+                    canciones[i].Length -= new TimeSpan(0, 0, 0, 0, canciones[i].Length.Milliseconds);
             }
             a.Songs = canciones;
             a.CanBeRemoved = true;
@@ -341,7 +341,7 @@ namespace aplicacion_musica
             List<string> uris = new List<string>();
             foreach(Song parte in cl.Partes)
             {
-                uris.Add("spotify:track:"+DevolverCancionDelAlbum(uri, parte.titulo));
+                uris.Add("spotify:track:"+DevolverCancionDelAlbum(uri, parte.Title));
             }
             return _spotify.ResumePlayback(uris: uris, offset: "", positionMs: 0);
         }

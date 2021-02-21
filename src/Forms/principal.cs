@@ -638,7 +638,7 @@ namespace aplicacion_musica
             {
                 case TipoVista.Digital:
                     AlbumData a = Programa.miColeccion.GetAlbum(vistaAlbumes.SelectedIndices[0]);
-                    i = a.GetPortapapeles();
+                    i = a.ToClipboard();
                     break;
                 case TipoVista.CD:
 
@@ -853,8 +853,7 @@ namespace aplicacion_musica
                             a.Title = LM.Album;
                             a.Artist = LM.Artista;
                             Song c = new Song(LM.Titulo, (int)Reproductor.Instancia.getDuracionFromFile(cancion.FullName).TotalMilliseconds, false);
-                            c.PATH = cancion.FullName;
-                            c.Num = LM.Pista;
+                            c.Path = cancion.FullName;
                             a.Year = (short)LM.Año;
                             c.SetAlbum(a);
                             a.AddSong(c);

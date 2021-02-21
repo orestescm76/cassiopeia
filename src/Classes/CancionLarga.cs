@@ -15,14 +15,14 @@ namespace aplicacion_musica
         }
         public CancionLarga(string t, ref AlbumData a)
         {
-            titulo = t;
-            album = a;
+            Title = t;
+            AlbumFrom = a;
             Partes = new List<Song>();
         }
         public void addParte(Song p)
         {
             Partes.Add(p);
-            duracion += p.duracion;
+            Length += p.Length;
         }
         public String GetNumeroRomano(int _x)
         {

@@ -39,14 +39,17 @@ namespace aplicacion_musica
             }
             return false;
         }
+
         public AlbumData GetAlbum(string s) //s is equal to Black Sabbath_Paranoid
         {
             String[] busqueda = s.Split('_');
+
             foreach (AlbumData album in Albums)
             {
                 if (album.Artist == busqueda[0] && album.Title == busqueda[1])
                     return album;
             }
+
             return null;
         }
         public AlbumData GetAlbum(int index)

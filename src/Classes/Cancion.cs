@@ -5,88 +5,90 @@ namespace aplicacion_musica
 {
     public class Song
     {
-        [JsonIgnore]
-        public AlbumData album { get; protected set; }
-        public string titulo { get; set; }
-        [JsonConverter(typeof(TiempoConverter))]
-        public TimeSpan duracion { get; set; }
-        public bool IsBonus { get; set; }
-        [JsonIgnore]
-        public String PATH { get; set; }
-        public string[] Lyrics { get; set; }
-        public int Num
-        {
-            get
-            {
-                return album.Songs.IndexOf(this)+1;
-            }
-            set
-            {
+        [JsonIgnore] public AlbumData AlbumFrom { get; protected set; }
+        public string Title { get; set; }
 
-            }
-        }
+        [JsonConverter(typeof(TiempoConverter))]
+        public TimeSpan Length { get; set; }
+        public bool IsBonus { get; set; }
+
+        [JsonIgnore] public string Path { get; set; }
+        public string[] Lyrics { get; set; }
+
+        public int IndexInAlbum { get => AlbumFrom.Songs.IndexOf(this) + 1; set { } }
 
         public Song()
         {
         }
+
         public Song(String titulo, int ms, bool Bonus)
         {
-            this.titulo = titulo;
-            duracion = new TimeSpan(0, 0, 0, 0, ms);
+            this.Title = titulo;
+            Length = new TimeSpan(0, 0, 0, 0, ms);
             this.IsBonus = Bonus;
         }
+
         public Song(Song c)
         {
-            titulo = c.titulo;
-            album = c.album;
-            duracion = c.duracion;
+            Title = c.Title;
+            AlbumFrom = c.AlbumFrom;
+            Length = c.Length;
             IsBonus = c.IsBonus;
         }
+
         public Song(string t, TimeSpan d, ref AlbumData a)
         {
-            titulo = t;
-            duracion = d;
-            album = a;
+            Title = t;
+            Length = d;
+            AlbumFrom = a;
         }
+
         public Song(string t, TimeSpan d, ref AlbumData a, bool b)
         {
-            titulo = t;
-            duracion = d;
-            album = a;
+            Title = t;
+            Length = d;
+            AlbumFrom = a;
             IsBonus = b;
         }
+
         public Song(string path) //Crea una canción fantasma con sólo un PATH
         {
-            this.PATH = path;
+            this.Path = path;
         }
+
         public override string ToString()
         {
-            if (!ReferenceEquals(album, null))
-                return album.Artist + " - " + titulo + " (" + album.Title + ")";
+            if (!ReferenceEquals(AlbumFrom, null))
+                return AlbumFrom.Artist + " - " + Title + " (" + AlbumFrom.Title + ")";
             else
-                return titulo;
+                return Title;
         }
+
         public String[] ToStringArray()
         {
             String[] datos;
-            if (duracion.TotalMinutes >= 60)
-                datos = new string[] { titulo, duracion.ToString(@"h\:mm\:ss") };
-            else
-                datos = new string[] { titulo, duracion.ToString(@"mm\:ss") };
+
+            string length = Length.TotalMinutes >= 60 ? @"h\:mm\:ss" : @"mm\:ss";
+
+            datos = new string[] { Title, Length.ToString(length) };
+
             return datos;
         }
-        public int GetMilisegundos()
+
+        public int LengthMiliseconds()
         {
-            return Convert.ToInt32(duracion.TotalMilliseconds);
+            return Convert.ToInt32(Length.TotalMilliseconds);
         }
+
         public void SetAlbum(AlbumData a)
         {
-            album = a;
+            AlbumFrom = a;
         }
+
         //Tame Impala;The Less I Know The Better;Currents
         public String GuardarPATH()
         {
-            return album.Artist+";"+titulo+";"+album.Title + Environment.NewLine+PATH + Environment.NewLine;
+            return AlbumFrom.Artist+";"+Title+";"+AlbumFrom.Title + Environment.NewLine+Path + Environment.NewLine;
         }
     }
 }

@@ -250,13 +250,18 @@ namespace aplicacion_musica
                             }
                         }
                     }
+
                     if (miColeccion.IsInCollection(a))
                     {
                         exito = false; //pues ya está repetido.
                         Log.Instance.ImprimirMensaje("Álbum repetido -> " + a.Artist + " - " + a.Title, TipoMensaje.Advertencia);
                     }
+
                     if (exito)
+                    {
                         miColeccion.AddAlbum(ref a);
+                    }
+
 
                     a.CanBeRemoved = true;
                     lineaC++;
@@ -266,10 +271,12 @@ namespace aplicacion_musica
             Log.Instance.ImprimirMensaje("Cargados " + miColeccion.Albums.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
             RefrescarVista();
         }
+
         public static void CargarCDS(string fichero = "cd.json")
         {
             if (!File.Exists(fichero))
                 return;
+
             using(StreamReader lector = new StreamReader(fichero))
             {
                 string linea;
@@ -277,12 +284,14 @@ namespace aplicacion_musica
                 {
                     linea = lector.ReadLine();
                     DiscoCompacto cd = JsonConvert.DeserializeObject<DiscoCompacto>(linea);
+
                     cd.InstallAlbum();
                     miColeccion.AddCD(ref cd);
                     cd.Album.CanBeRemoved = false;
                 }
             }
         }
+
         private static void CargarPATHS()
         {
             Log.Instance.ImprimirMensaje("Cargando PATHS", TipoMensaje.Info);
@@ -302,7 +311,7 @@ namespace aplicacion_musica
                             {
                                 Song c = album.GetSong(datos[(int)CSV_PATHS_LYRICS.SongTitle]);
                                 linea = entrada.ReadLine();
-                                c.PATH = linea;
+                                c.Path = linea;
                             }
                         }
                     }
@@ -326,7 +335,7 @@ namespace aplicacion_musica
                         continue;
                     foreach (Song cancion in album.Songs)
                     {
-                        if (!string.IsNullOrEmpty(cancion.PATH))
+                        if (!string.IsNullOrEmpty(cancion.Path))
                         {
                             salida.Write(cancion.GuardarPATH());
                         }
@@ -389,15 +398,15 @@ namespace aplicacion_musica
                                     {
                                         if (a.Songs[i] is CancionLarga cl)
                                         {
-                                            salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar
+                                            salida.WriteLine(cl.Title + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar
                                             foreach (Song parte in cl.Partes)
                                             {
-                                                salida.WriteLine(parte.titulo + ";" + parte.duracion.TotalSeconds);
+                                                salida.WriteLine(parte.Title + ";" + parte.Length.TotalSeconds);
                                             }
 
                                         }
                                         else //titulo;400;0
-                                            salida.WriteLine(a.Songs[i].titulo + ";" + (int)a.Songs[i].duracion.TotalSeconds + ";"+Convert.ToInt32(a.Songs[i].IsBonus));
+                                            salida.WriteLine(a.Songs[i].Title + ";" + (int)a.Songs[i].Length.TotalSeconds + ";"+Convert.ToInt32(a.Songs[i].IsBonus));
                                     }
                                 }
                                 salida.WriteLine();
@@ -456,7 +465,7 @@ namespace aplicacion_musica
                     {
                         if (cancion.Lyrics != null && cancion.Lyrics.Length != 0)
                         {
-                            salida.WriteLine(album.Artist + ";" + cancion.titulo + ";" + album.Title);
+                            salida.WriteLine(album.Artist + ";" + cancion.Title + ";" + album.Title);
                             foreach (string line in cancion.Lyrics)
                             {
                                 salida.WriteLine(line);
@@ -502,6 +511,7 @@ namespace aplicacion_musica
             else
                 return false;
         }
+
         [STAThread]
         static void Main(String[] args)
         {
@@ -543,6 +553,7 @@ namespace aplicacion_musica
                         break;
                 }
             }
+
             //Cargar idiomas...
             DirectoryInfo cod = new DirectoryInfo("./idiomas");
             Programa.idiomas = new String[cod.GetFiles().Length];
@@ -556,7 +567,6 @@ namespace aplicacion_musica
                 j++;
             }
 
-
             string versionNueva;
             if (HayActualizacions(out versionNueva) && ComprobarActualizaciones)
             {
@@ -565,9 +575,11 @@ namespace aplicacion_musica
                 if (act == DialogResult.Yes)
                     Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
             }
+
             miColeccion = new Collection();
             SpotifyActivado = false;
             principal = new principal();
+
             if(Spotify)
             {
                 if (!Config.VinculadoConSpotify)
@@ -586,6 +598,7 @@ namespace aplicacion_musica
                 _spotify = null;
                 principal.HayInternet(false);
             }
+
             if(!ModoStream)
             {
                 Log.ImprimirMensaje("Configurando géneros", TipoMensaje.Info);
