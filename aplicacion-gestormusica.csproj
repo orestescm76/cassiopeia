@@ -59,9 +59,6 @@
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <HintPath>packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
     </Reference>
-    <Reference Include="JAudioTags">
-      <HintPath>packages\JAudioTags.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>packages\Microsoft.WindowsAPICodePack.dll</HintPath>
     </Reference>
@@ -110,6 +107,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="TagLibSharp, Version=2.2.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <HintPath>packages\TagLibSharp.2.2.0\lib\net45\TagLibSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Unosquare.Labs.EmbedIO, Version=2.9.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\EmbedIO.2.9.2\lib\netstandard2.0\Unosquare.Labs.EmbedIO.dll</HintPath>
     </Reference>
@@ -169,11 +169,11 @@
     <Compile Include="src\Forms\BarraCarga.Designer.cs">
       <DependentUpon>BarraCarga.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Forms\busquedaSpotify.cs">
+    <Compile Include="src\Forms\SearchSpotify.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Forms\busquedaSpotify.Designer.cs">
-      <DependentUpon>busquedaSpotify.cs</DependentUpon>
+    <Compile Include="src\Forms\SearchSpotify.Designer.cs">
+      <DependentUpon>SearchSpotify.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Forms\ConfigForm.cs">
       <SubType>Form</SubType>
@@ -211,11 +211,11 @@
     <Compile Include="src\Forms\Reproductor.Designer.cs">
       <DependentUpon>Reproductor.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Forms\resultadoSpotify.cs">
+    <Compile Include="src\Forms\SpotifyResults.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Forms\resultadoSpotify.Designer.cs">
-      <DependentUpon>resultadoSpotify.cs</DependentUpon>
+    <Compile Include="src\Forms\SpotifyResults.Designer.cs">
+      <DependentUpon>SpotifyResults.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Forms\VisorLog.cs">
       <SubType>Form</SubType>
@@ -247,7 +247,7 @@
     <Compile Include="src\Misc\Settings.cs" />
     <Compile Include="src\Misc\TiempoConverter.cs" />
     <Compile Include="src\Misc\WinAPI.cs" />
-    <Compile Include="src\Programa.cs" />
+    <Compile Include="src\Program.cs" />
     <Compile Include="src\Spotify.cs" />
     <EmbeddedResource Include="idiomas\original.ca.resx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -291,8 +291,8 @@
     <EmbeddedResource Include="src\Forms\BarraCarga.resx">
       <DependentUpon>BarraCarga.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\busquedaSpotify.resx">
-      <DependentUpon>busquedaSpotify.cs</DependentUpon>
+    <EmbeddedResource Include="src\Forms\SearchSpotify.resx">
+      <DependentUpon>SearchSpotify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
@@ -312,8 +312,8 @@
     <EmbeddedResource Include="src\Forms\Reproductor.resx">
       <DependentUpon>Reproductor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\resultadoSpotify.resx">
-      <DependentUpon>resultadoSpotify.cs</DependentUpon>
+    <EmbeddedResource Include="src\Forms\SpotifyResults.resx">
+      <DependentUpon>SpotifyResults.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\VisorLog.resx">
       <DependentUpon>VisorLog.cs</DependentUpon>

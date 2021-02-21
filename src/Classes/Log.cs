@@ -21,7 +21,7 @@ namespace aplicacion_musica
             Fichero = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false);
             Fichero.AutoFlush = true;
             VisorLog = new VisorLog();
-            Fichero.WriteLine("Gestor de música " + Programa.version);
+            Fichero.WriteLine("Gestor de música " + Program.Version);
             Fichero.WriteLine("Versión de NET: " + Environment.Version);
             Fichero.WriteLine("Log creado el " + DateTime.Now);
         }

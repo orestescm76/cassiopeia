@@ -602,4 +602,22 @@
   <data name="playlistName" xml:space="preserve">
     <value></value>
   </data>
+  <data name="errorBusquedaSpotify" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="errorPortada" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="verLR" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="cambiarNombrePL" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="errrorLR" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="abrir" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

@@ -8,6 +8,18 @@ namespace aplicacion_musica
     public class ListaReproduccion
     {
         public List<Song> Canciones { get; private set; }
+        public TimeSpan Duration { get => GetDuration(); }
+
+        private TimeSpan GetDuration()
+        {
+            TimeSpan time = new TimeSpan();
+            foreach (Song song in Canciones)
+            {
+                time += song.duracion;
+            }
+            return time;
+        }
+
         public ListaReproduccion(String n)
         {
             Nombre = n;
@@ -67,15 +79,25 @@ namespace aplicacion_musica
             {
                 Writer.WriteLine(cancion.Path);
             }
+            Writer.Flush();
         }
         public void Cargar(string path)
         {
             StreamReader reader = new StreamReader(path);
-            while(!reader.EndOfStream)
+            try
             {
-                Song c = new Song();
-                c.Path = reader.ReadLine();
-                Canciones.Add(c);
+                Nombre = reader.ReadLine();
+                while (!reader.EndOfStream)
+                {
+                    Song c = new Song();
+                    c.PATH = reader.ReadLine();
+                    Canciones.Add(c);
+                }
+            }
+            catch (Exception)
+            {
+                Log.Instance.ImprimirMensaje("Error abriendo el fichero " + path, TipoMensaje.Error);
+                throw;
             }
         }
     }

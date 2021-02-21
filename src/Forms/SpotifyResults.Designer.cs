@@ -1,6 +1,6 @@
-﻿namespace aplicacion_musica
+﻿namespace aplicacion_musica.src.Forms
 {
-    partial class resultadoSpotify
+    partial class SpotifyResults
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(resultadoSpotify));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpotifyResults));
             this.labelResultado = new System.Windows.Forms.Label();
             this.labelAyuda = new System.Windows.Forms.Label();
             this.buttonCancelar = new System.Windows.Forms.Button();

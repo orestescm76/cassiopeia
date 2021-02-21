@@ -41,7 +41,7 @@ namespace aplicacion_musica
 
         public AlbumFisico(string s)
         {
-            Album = Programa.miColeccion.GetAlbum(s);
+            Album = Program.Collection.GetAlbum(s);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace aplicacion_musica
         {
             Log.Instance.ImprimirMensaje("Intentando conectar con Spotify asíncronamente", TipoMensaje.Info, "Spotify.iniciar()");
             Stopwatch crono = Stopwatch.StartNew();
-            Programa.HayInternet(false);
+            Program.HayInternet(false);
             try
             {
                 CredentialsAuth authMetadatos = new CredentialsAuth(clavePublica, clavePrivada);
@@ -55,26 +55,26 @@ namespace aplicacion_musica
                 crono.Stop();
                 if(_spotify.AccessToken != null)
                 {
-                    Programa.HayInternet(true);
+                    Program.HayInternet(true);
                     Log.Instance.ImprimirMensaje("Conectado sin errores", TipoMensaje.Correcto, crono);
                 }
                 else
                 {
-                    Programa.HayInternet(false);
+                    Program.HayInternet(false);
                     Log.Instance.ImprimirMensaje("Se ha conectado pero el token es nulo", TipoMensaje.Error, crono);
                 }
             }
             catch (NullReferenceException)
             {
-                Programa.HayInternet(false);
+                Program.HayInternet(false);
                 Log.Instance.ImprimirMensaje("No se ha podido conectar con Spotify", TipoMensaje.Error);
-                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+                System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("error_internet"));
             }
             catch (HttpRequestException)
             {
-                Programa.HayInternet(false);
+                Program.HayInternet(false);
                 Log.Instance.ImprimirMensaje("No se ha podido conectar con Spotify", TipoMensaje.Error);
-                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+                System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("error_internet"));
             }
         }
         private void iniciarModoStream()
@@ -82,7 +82,7 @@ namespace aplicacion_musica
             try
             {
                 Log.Instance.ImprimirMensaje("Intentando conectar cuenta de Spotify", TipoMensaje.Info, "Spotify.iniciarModoStream()");
-                Programa.HayInternet(true);
+                Program.HayInternet(true);
                 Stopwatch crono = Stopwatch.StartNew();
                 auth = new AuthorizationCodeAuth(
                     clavePublica,
@@ -107,7 +107,7 @@ namespace aplicacion_musica
                         cuentaLista = true;
                         cuentaVinculada = true;
                         Config.VinculadoConSpotify = true;
-                        Programa.ActivarReproduccionSpotify();
+                        Program.ActivarReproduccionSpotify();
                         Log.Instance.ImprimirMensaje("Conectado sin errores como " + _spotify.GetPrivateProfile().DisplayName, TipoMensaje.Correcto, crono);
                     }
                     else
@@ -118,23 +118,23 @@ namespace aplicacion_musica
                         Config.VinculadoConSpotify = false;
                     }
                     CodigoRefresco = token.RefreshToken;
-                    Programa.tareaRefrescoToken = new Thread(Programa.Refresco);
-                    Programa.tareaRefrescoToken.Start();
+                    Program.tareaRefrescoToken = new Thread(Program.RefreshSpotifyToken);
+                    Program.tareaRefrescoToken.Start();
                 };
                 auth.Start();
                 auth.OpenBrowser();
             }
             catch (NullReferenceException)
             {
-                Programa.HayInternet(false);
+                Program.HayInternet(false);
                 Console.WriteLine("Algo fue mal");
-                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+                System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("error_internet"));
             }
             catch (HttpRequestException)
             {
-                Programa.HayInternet(false);
+                Program.HayInternet(false);
                 Console.WriteLine("No tienes internet");
-                System.Windows.Forms.MessageBox.Show(Programa.textosLocal.GetString("error_internet"));
+                System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("error_internet"));
             }
         }
         public void RefrescarToken()
@@ -146,27 +146,23 @@ namespace aplicacion_musica
             tokenActual = newToken;
             Log.Instance.ImprimirMensaje("Token refrescado!", TipoMensaje.Correcto);
         }
-        public void buscarAlbum(string a)
+        public List<SimpleAlbum> SearchAlbums(string query)
         {
             Log.Instance.ImprimirMensaje("Búsqueda en Spotify", TipoMensaje.Info, "Spotify.buscarAlbum(string)");
             Stopwatch crono = Stopwatch.StartNew();
             try
             {
-                List<SimpleAlbum> item = _spotify.SearchItems(a, SearchType.Album).Albums.Items;
-
-                resultadoSpotify res = new resultadoSpotify(ref item, false);
-                crono.Stop();
+                List<SimpleAlbum> AlbumList = _spotify.SearchItems(query, SearchType.Album).Albums.Items;
                 Log.Instance.ImprimirMensaje("Búsqueda en Spotify ha finalizado correctamente", TipoMensaje.Correcto, crono);
-                res.ShowDialog();
-                if (res.DialogResult == System.Windows.Forms.DialogResult.Cancel)
-                    return;
+                return AlbumList;
             }
             catch (NullReferenceException e)
             {
                 Log.Instance.ImprimirMensaje("Error buscando álbumes", TipoMensaje.Error);
                 Log.Instance.ImprimirMensaje(e.InnerException.Message, TipoMensaje.Error);
+                crono.Stop();
             }
-
+            return null;
         }
         public SimpleAlbum DevolverAlbum(string a)
         {
@@ -205,7 +201,7 @@ namespace aplicacion_musica
             }
             crono.Stop();
             Log.Instance.ImprimirMensaje("Añadido",TipoMensaje.Correcto, crono);
-            Programa.RefrescarVista();
+            Program.ReloadView();
             return true;
         }
         public void procesarAlbum(SimpleAlbum album)
@@ -226,21 +222,21 @@ namespace aplicacion_musica
                 }
                 catch (System.Net.WebException)
                 {
-                    Console.WriteLine("Excepción capturada System.Net.WebException");
-                    System.Windows.Forms.MessageBox.Show("");
+                    Log.Instance.ImprimirMensaje("Excepción capturada System.Net.WebException", TipoMensaje.Advertencia);
+                    System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("errorPortada"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                     portada = "";
                 }
 
             }
             AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            if (Programa.miColeccion.IsInCollection(a))
+            if (Program.Collection.IsInCollection(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
-                throw new InvalidOperationException();
+                return;
             }
             a.IdSpotify = album.Id;
             List<Song> canciones = new List<Song>(a.NumberOfSongs);
-            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id,a.NumberOfSongs).Items;
+            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, 50).Items;
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
@@ -250,7 +246,7 @@ namespace aplicacion_musica
                     canciones[i].Length -= new TimeSpan(0, 0, 0, 0, canciones[i].Length.Milliseconds);
             }
             a.Songs = canciones;
-            Programa.miColeccion.AddAlbum(ref a);
+            Program.Collection.AddAlbum(ref a);
         }
         public void procesarAlbum(FullAlbum album)
         {
@@ -276,14 +272,14 @@ namespace aplicacion_musica
 
             }
             AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            if (Programa.miColeccion.IsInCollection(a))
+            if (Program.Collection.IsInCollection(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
                 throw new InvalidOperationException();
             }
             a.IdSpotify = album.Id;
             List<Song> canciones = new List<Song>(a.NumberOfSongs);
-            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id, a.NumberOfSongs).Items;
+            List<SimpleTrack> c = _spotify.GetAlbumTracks(album.Id).Items;
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
@@ -294,7 +290,7 @@ namespace aplicacion_musica
             }
             a.Songs = canciones;
             a.CanBeRemoved = true;
-            Programa.miColeccion.AddAlbum(ref a);
+            Program.Collection.AddAlbum(ref a);
         }
 
         public void Reiniciar()

@@ -25,17 +25,17 @@ using System.Net;
 */
 namespace aplicacion_musica
 {
-    static class Programa
+    static class Program
     {
         [DllImport("kernel32.dll")]
         static extern bool AllocConsole();
-        public static ResXResourceSet textosLocal;
+        public static ResXResourceSet LocalTexts;
         public static String[] idGeneros = {"clasica", "hardrock", "rockprog", "progmetal", "rockpsicodelico", "heavymetal", "blackmetal", "electronica", "postrock", "indierock",
             "stoner", "pop", "jazz", "disco", "vaporwave", "chiptune", "punk", "postpunk", "folk", "blues" ,"funk", "new wave", "rocksinfonico", "ska", "flamenquito", "jazz fusion", ""};
-        public static Collection miColeccion;
-        public static Genre[] genres = new Genre[idGeneros.Length];
+        public static Collection Collection;
+        public static Genre[] Genres = new Genre[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-        public static readonly string version = ver.ToString()+ " ";
+        public static readonly string Version = "v" + ver.ToString()+ "-beta";
         public static string[] idiomas;
         public static Spotify _spotify;
         private static principal principal = null;
@@ -49,7 +49,7 @@ namespace aplicacion_musica
         private static bool ComprobarActualizaciones = true;
         private static bool Spotify = true;
         private static bool InicioReproductor = false;
-        private static bool Consola = false;
+        private static bool Console = false;
 
         private enum CSV_Albums
         {
@@ -74,7 +74,7 @@ namespace aplicacion_musica
             SongTitle,
             Album
         }
-        public static void Refresco()
+        public static void RefreshSpotifyToken()
         {
             while(true)
             {
@@ -92,24 +92,24 @@ namespace aplicacion_musica
         {
             principal.HayInternet(i);
         }
-        public static void CambiarIdioma(String idioma)
+        public static void ChangeLanguage(String idioma)
         {
             Log.Instance.ImprimirMensaje("Cambiando idioma al " + idioma, TipoMensaje.Info);
-            textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + idioma + ".resx");
+            LocalTexts = new ResXResourceSet(@"./idiomas/" + "original." + idioma + ".resx");
             Config.Idioma = idioma;
-            RefrescarGeneros();
-            RefrescarVista();
+            ReloadGenres();
+            ReloadView();
             src.Forms.Reproductor.Instancia.RefrescarTextos();
         }
         public static void ActivarReproduccionSpotify()
         {
             principal.ActivarReproduccionSpotify();
         }
-        public static void RefrescarVista()
+        public static void ReloadView()
         {
             principal.Refrescar();
         }
-        public static int FindGenero(string g)
+        public static int FindGenre(string g)
         {
             for (int i = 0; i < idGeneros.Length; i++)
             {
@@ -118,20 +118,20 @@ namespace aplicacion_musica
             }
             return -1;
         }
-        public static int FindGeneroTraducido(string g)
+        public static int FindTranslatedGenre(string g)
         {
-            for (int i = 0; i < genres.Length; i++)
+            for (int i = 0; i < Genres.Length; i++)
             {
-                if (g == genres[i].Name)
+                if (g == Genres[i].Name)
                     return i;
             }
             return -1;
         }
-        public static void RefrescarGeneros()
+        public static void ReloadGenres()
         {
-            for (int i = 0; i < genres.Length-1; i++)
+            for (int i = 0; i < Genres.Length-1; i++)
             {
-                genres[i].Name = textosLocal.GetString("genero_" + genres[i].Id);
+                Genres[i].Name = LocalTexts.GetString("genero_" + Genres[i].Id);
             }
         }
 
@@ -146,17 +146,17 @@ namespace aplicacion_musica
                 {
                     LineaJson = lector.ReadLine();
                     AlbumData a = JsonConvert.DeserializeObject<AlbumData>(LineaJson);
-                    a.Genre = genres[FindGenero(a.Genre.Id)];
-                    miColeccion.AddAlbum(ref a);
+                    a.Genre = Genres[FindGenre(a.Genre.Id)];
+                    Collection.AddAlbum(ref a);
                     a.CanBeRemoved = true;
                 }
             }
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargados " + miColeccion.Albums.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
-            RefrescarVista();
+            Log.Instance.ImprimirMensaje("Cargados " + Collection.Albums.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
+            ReloadView();
         }
 
-        public static void CargarAlbumesCSV(string fichero)
+        public static void LoadCSVAlbums(string fichero)
         {
             Log.Instance.ImprimirMensaje("Cargando álbumes CSV almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumesLegacy(string)");
             Stopwatch crono = Stopwatch.StartNew();
@@ -183,8 +183,8 @@ namespace aplicacion_musica
                         Environment.Exit(-1);
                     }
                     short nC = 0;
-                    int gen = FindGenero(datos[(int)CSV_Albums.Genre]);
-                    Genre g = Programa.genres[gen];
+                    int gen = FindGenre(datos[(int)CSV_Albums.Genre]);
+                    Genre g = Program.Genres[gen];
                     if (string.IsNullOrEmpty(datos[(int)CSV_Albums.Cover_PATH])) datos[(int)CSV_Albums.Cover_PATH] = string.Empty;
                     AlbumData a = null;
                     try
@@ -250,17 +250,14 @@ namespace aplicacion_musica
                             }
                         }
                     }
-
-                    if (miColeccion.IsInCollection(a))
+                    if (Collection.IsInCollection(a))
                     {
                         exito = false; //pues ya está repetido.
                         Log.Instance.ImprimirMensaje("Álbum repetido -> " + a.Artist + " - " + a.Title, TipoMensaje.Advertencia);
                     }
 
                     if (exito)
-                    {
-                        miColeccion.AddAlbum(ref a);
-                    }
+                        Collection.AddAlbum(ref a);
 
 
                     a.CanBeRemoved = true;
@@ -268,11 +265,10 @@ namespace aplicacion_musica
                 }
             }
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargados " + miColeccion.Albums.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
-            RefrescarVista();
+            Log.Instance.ImprimirMensaje("Cargados " + Collection.Albums.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
+            ReloadView();
         }
-
-        public static void CargarCDS(string fichero = "cd.json")
+        public static void LoadCD(string fichero = "cd.json")
         {
             if (!File.Exists(fichero))
                 return;
@@ -286,13 +282,12 @@ namespace aplicacion_musica
                     DiscoCompacto cd = JsonConvert.DeserializeObject<DiscoCompacto>(linea);
 
                     cd.InstallAlbum();
-                    miColeccion.AddCD(ref cd);
+                    Collection.AddCD(ref cd);
                     cd.Album.CanBeRemoved = false;
                 }
             }
         }
-
-        private static void CargarPATHS()
+        private static void LoadPATHS()
         {
             Log.Instance.ImprimirMensaje("Cargando PATHS", TipoMensaje.Info);
             using(StreamReader entrada = new FileInfo("paths.txt").OpenText())
@@ -302,7 +297,7 @@ namespace aplicacion_musica
                 {
                     linea = entrada.ReadLine();
                     string[] datos = linea.Split(';');
-                    List<AlbumData> listaAlbumes = miColeccion.SearchAlbum(datos[(int)CSV_PATHS_LYRICS.Album]);
+                    List<AlbumData> listaAlbumes = Collection.SearchAlbum(datos[(int)CSV_PATHS_LYRICS.Album]);
                     if (listaAlbumes.Count != 0)
                     {
                         foreach (AlbumData album in listaAlbumes)
@@ -323,13 +318,13 @@ namespace aplicacion_musica
                 }
             }
         }
-        public static void GuardarPATHS()
+        public static void SavePATHS()
         {
             Log.Instance.ImprimirMensaje("Guardando PATHS", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
             using(StreamWriter salida = new FileInfo("paths.txt").CreateText())
             {
-                foreach (AlbumData album in miColeccion.Albums)
+                foreach (AlbumData album in Collection.Albums)
                 {
                     if (string.IsNullOrEmpty(album.SoundFilesPath))
                         continue;
@@ -345,7 +340,7 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Guardados los PATHS", TipoMensaje.Correcto, crono);
         }
-        public static void GuardarDiscos(string path, TipoGuardado tipoGuardado, bool json = false)
+        public static void SaveAlbums(string path, TipoGuardado tipoGuardado, bool json = false)
         {
 
             Stopwatch crono = Stopwatch.StartNew();
@@ -357,9 +352,9 @@ namespace aplicacion_musica
                     switch (tipoGuardado)
                     {
                         case TipoGuardado.Digital:
-                            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.Albums.Count + " discos)", TipoMensaje.Info);
+                            Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.Albums.Count + " discos)", TipoMensaje.Info);
                             Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
-                            foreach (AlbumData a in Programa.miColeccion.Albums)
+                            foreach (AlbumData a in Program.Collection.Albums)
                             {
                                 JsonSerializer s = new JsonSerializer();
                                 s.TypeNameHandling = TypeNameHandling.All;
@@ -367,9 +362,9 @@ namespace aplicacion_musica
                             }
                             break;
                         case TipoGuardado.CD:
-                            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.CDS.Count + " cds)", TipoMensaje.Info);
+                            Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.CDS.Count + " cds)", TipoMensaje.Info);
                             Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
-                            foreach (DiscoCompacto compacto in Programa.miColeccion.CDS)
+                            foreach (DiscoCompacto compacto in Program.Collection.CDS)
                             {
                                 salida.WriteLine(JsonConvert.SerializeObject(compacto));
                             }
@@ -387,9 +382,9 @@ namespace aplicacion_musica
                     switch (tipoGuardado)
                     {
                         case TipoGuardado.Digital:
-                            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + " - Guardando la base de datos... (" + Programa.miColeccion.Albums.Count + " discos)", TipoMensaje.Info);
+                            Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.Albums.Count + " discos)", TipoMensaje.Info);
                             Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
-                            foreach (AlbumData a in miColeccion.Albums)
+                            foreach (AlbumData a in Collection.Albums)
                             {
                                 if (!(a.Songs[0] == null)) //no puede ser un album con 0 canciones
                                 {
@@ -401,7 +396,7 @@ namespace aplicacion_musica
                                             salida.WriteLine(cl.Title + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar
                                             foreach (Song parte in cl.Partes)
                                             {
-                                                salida.WriteLine(parte.Title + ";" + parte.Length.TotalSeconds);
+                                                salida.WriteLine(parte.titulo + ";" + (int)parte.duracion.TotalSeconds);
                                             }
 
                                         }
@@ -424,10 +419,10 @@ namespace aplicacion_musica
             }
             crono.Stop();
             fich.Refresh();
-            Log.Instance.ImprimirMensaje(nameof(GuardarDiscos) + "- Guardado", TipoMensaje.Correcto, crono);
+            Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + "- Guardado", TipoMensaje.Correcto, crono);
             crono.Stop();
         }
-        private static void CargarLyrics()
+        private static void LoadLyrics()
         {
             Log.Instance.ImprimirMensaje("Cargando lyrics", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -438,7 +433,7 @@ namespace aplicacion_musica
                 {
                     linea = entrada.ReadLine();
                     string[] datos = linea.Split(';');
-                    AlbumData albumData = miColeccion.SearchAlbum(datos[(int)CSV_PATHS_LYRICS.Album])[0];
+                    AlbumData albumData = Collection.SearchAlbum(datos[(int)CSV_PATHS_LYRICS.Album])[0];
                     Song song = albumData.GetSong(datos[(int)CSV_PATHS_LYRICS.SongTitle]);
                     List<string> lyrics = new List<string>();
                     do
@@ -453,13 +448,13 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Lyrics cargadas", TipoMensaje.Correcto, crono);
         }
-        private static void GuardarLyrics()
+        private static void SaveLyrics()
         {
             Log.Instance.ImprimirMensaje("Guardando lyrics", TipoMensaje.Info);
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamWriter salida = new FileInfo("lyrics.txt").CreateText())
             {
-                foreach (AlbumData album in miColeccion.Albums)
+                foreach (AlbumData album in Collection.Albums)
                 {
                     foreach (Song cancion in album.Songs)
                     {
@@ -480,7 +475,7 @@ namespace aplicacion_musica
             FileInfo lyrics = new FileInfo("lyrics.txt");
             Log.Instance.ImprimirMensaje("Tamaño del fichero: " + lyrics.Length/1024 + " kb", TipoMensaje.Info);
         }
-        static bool HayActualizacions(out string verNueva)
+        static bool CheckForUpdates(out string verNueva)
         {
             HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/aplicacion-gestormusica/releases");
             string contenido = string.Empty;
@@ -506,7 +501,7 @@ namespace aplicacion_musica
             int indexVersion = contenido.IndexOf("tag_name");
             verNueva = contenido.Substring(indexVersion, 40);
             verNueva = verNueva.Split('v')[1].Split('\"')[0];
-            if (verNueva != version)
+            if (verNueva != Version)
                 return true;
             else
                 return false;
@@ -521,17 +516,17 @@ namespace aplicacion_musica
             Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             Config.CargarConfiguracion();
-            textosLocal = new ResXResourceSet(@"./idiomas/" + "original." + Config.Idioma + ".resx");
+            LocalTexts = new ResXResourceSet(@"./idiomas/" + "original." + Config.Idioma + ".resx");
             //Parseo de argumentos...
             foreach (string Arg in args)
             {
                 switch (Arg)
                 {
                     case "-consola":
-                        Consola = true;
+                        Console = true;
                         AllocConsole();
-                        Console.Title = "Consola debug v" + version;
-                        Console.WriteLine("Log creado " + DateTime.Now);
+                        System.Console.Title = "Consola debug v" + Version;
+                        System.Console.WriteLine("Log creado " + DateTime.Now);
                         Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -consola", TipoMensaje.Info);
                         break;
                     case "-noSpotify":
@@ -556,27 +551,26 @@ namespace aplicacion_musica
 
             //Cargar idiomas...
             DirectoryInfo cod = new DirectoryInfo("./idiomas");
-            Programa.idiomas = new String[cod.GetFiles().Length];
+            Program.idiomas = new String[cod.GetFiles().Length];
             int j = 0;
             foreach (var idioma in cod.GetFiles())
             {
-                Programa.NumIdiomas++;
+                Program.NumIdiomas++;
                 string id = idioma.Name.Replace(".resx", "");
                 id = id.Replace("original.", "");
-                Programa.idiomas[j] = id;
+                Program.idiomas[j] = id;
                 j++;
             }
 
             string versionNueva;
-            if (HayActualizacions(out versionNueva) && ComprobarActualizaciones)
+            if (CheckForUpdates(out versionNueva) && ComprobarActualizaciones)
             {
                 Log.ImprimirMensaje("Está disponible la actualización " + versionNueva, TipoMensaje.Info);
-                DialogResult act = MessageBox.Show(textosLocal.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + textosLocal.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
+                DialogResult act = MessageBox.Show(LocalTexts.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + LocalTexts.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
                 if (act == DialogResult.Yes)
                     Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
             }
-
-            miColeccion = new Collection();
+            Collection = new Collection();
             SpotifyActivado = false;
             principal = new principal();
 
@@ -606,13 +600,13 @@ namespace aplicacion_musica
                 {
                     if (idGeneros[i] == "")
                     {
-                        genres[i] = new Genre(idGeneros[i]);
-                        genres[i].Name = "-";
+                        Genres[i] = new Genre(idGeneros[i]);
+                        Genres[i].Name = "-";
                     }
                     else
                     {
-                        genres[i] = new Genre(idGeneros[i]);
-                        genres[i].Name = textosLocal.GetString("genero_" + genres[i].Id);
+                        Genres[i] = new Genre(idGeneros[i]);
+                        Genres[i].Name = LocalTexts.GetString("genero_" + Genres[i].Id);
                     }
                 }
                 if (args.Contains("-json"))
@@ -621,8 +615,8 @@ namespace aplicacion_musica
                 {
                     if (File.Exists("discos.csv"))
                     {
-                        CargarAlbumesCSV("discos.csv");
-                        CargarCDS();
+                        LoadCSVAlbums("discos.csv");
+                        LoadCD();
                     }
                     else
                     {
@@ -630,9 +624,9 @@ namespace aplicacion_musica
                     }
                 }
                 if (File.Exists("paths.txt"))
-                    CargarPATHS();
+                    LoadPATHS();
                 if (File.Exists("lyrics.txt"))
-                    CargarLyrics();
+                    LoadLyrics();
             }
             //creo el Reproductor
             src.Forms.Reproductor.Instancia = new src.Forms.Reproductor();
@@ -649,16 +643,16 @@ namespace aplicacion_musica
             }
             if(_spotify != null && tareaRefrescoToken != null)
                 tareaRefrescoToken.Abort();
-            GuardarPATHS();
-            GuardarLyrics();
+            SavePATHS();
+            SaveLyrics();
             Config.GuardarConfiguracion();
 
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");
-            if (Consola)
+            if (Console)
             {
-                Console.WriteLine("Programa finalizado, presione una tecla para continuar...");
-                Console.ReadKey();
+                System.Console.WriteLine("Programa finalizado, presione una tecla para continuar...");
+                System.Console.ReadKey();
             }
             Log.Instance.CerrarLog();
         }
