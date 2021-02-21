@@ -279,7 +279,7 @@ namespace aplicacion_musica
                 while(!lector.EndOfStream)
                 {
                     linea = lector.ReadLine();
-                    DiscoCompacto cd = JsonConvert.DeserializeObject<DiscoCompacto>(linea);
+                    CompactDisc cd = JsonConvert.DeserializeObject<CompactDisc>(linea);
 
                     cd.InstallAlbum();
                     Collection.AddCD(ref cd);
@@ -364,7 +364,7 @@ namespace aplicacion_musica
                         case TipoGuardado.CD:
                             Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.CDS.Count + " cds)", TipoMensaje.Info);
                             Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
-                            foreach (DiscoCompacto compacto in Program.Collection.CDS)
+                            foreach (CompactDisc compacto in Program.Collection.CDS)
                             {
                                 salida.WriteLine(JsonConvert.SerializeObject(compacto));
                             }

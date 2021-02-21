@@ -95,7 +95,7 @@ namespace aplicacion_musica
                     ListViewItem[] cds = new ListViewItem[Program.Collection.CDS.Count];
                     vistaAlbumes.Columns[5].Width = 0;
                     int j = 0;
-                    foreach (DiscoCompacto cd in Program.Collection.CDS)
+                    foreach (CompactDisc cd in Program.Collection.CDS)
                     {
                         String[] datos = cd.toStringArray();
                         cds[j] = new ListViewItem(datos);
@@ -267,7 +267,7 @@ namespace aplicacion_musica
                     {
                         Stopwatch crono = Stopwatch.StartNew();
                         string b = cdViewItem.SubItems[0].Text + '_' + cdViewItem.SubItems[1].Text;
-                        DiscoCompacto cd;
+                        CompactDisc cd;
                         Program.Collection.GetAlbum(b, out cd);
                         crono.Stop();
                         Log.ImprimirMensajeTiempoCorto("Finalizado", TipoMensaje.Correcto, crono);
@@ -360,12 +360,12 @@ namespace aplicacion_musica
                     }
                     for (int i = 0; i < cuantos; i++)
                     {
-                        DiscoCompacto cdaborrar = Program.Collection.GetCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
-                        DiscoCompacto cdd = cdaborrar;
+                        CompactDisc cdaborrar = Program.Collection.GetCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
+                        CompactDisc cdd = cdaborrar;
                         Program.Collection.DeleteCD(ref cdaborrar);
                         cdd.Album.CanBeRemoved = true;
 
-                        foreach (DiscoCompacto cd in Program.Collection.CDS)
+                        foreach (CompactDisc cd in Program.Collection.CDS)
                         {
                             if (cd.Album == cdd.Album)
                                 cd.Album.CanBeRemoved = false;
@@ -467,7 +467,7 @@ namespace aplicacion_musica
                     break;
                 case TipoVista.CD:
                     int ganadorCD = generador.Next(0, Program.Collection.CDS.Count);
-                    DiscoCompacto cd = Program.Collection.CDS[ganadorCD];
+                    CompactDisc cd = Program.Collection.CDS[ganadorCD];
                     visualizarAlbum vistazocd = new visualizarAlbum(ref cd);
                     vistazocd.Show();
                     break;
@@ -547,7 +547,7 @@ namespace aplicacion_musica
                 fCD.ShowDialog();
                 for (short i = 2; i <= numDiscos; i++)
                 {
-                    DiscoCompacto temp = Program.Collection.CDS.Last();
+                    CompactDisc temp = Program.Collection.CDS.Last();
                     CrearCD formCD = new CrearCD(ref temp, i);
                     formCD.ShowDialog();
                 }

@@ -6,7 +6,7 @@ namespace aplicacion_musica
 {
     public partial class agregarCancion : Form
     {
-        public string t;
+        public string title;
         public int min, sec, np;
         private int cual;
         AlbumData album;
@@ -137,6 +137,7 @@ namespace aplicacion_musica
             {
                 Text = Program.LocalTexts.GetString("añadir_cancion") + " " + Utils.ConvertToRomanNumeral(cual);
             }
+
             buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
             labelTituloCancion.Text = Program.LocalTexts.GetString("introduce_cancion");
             labelMinutosSegundos.Text = Program.LocalTexts.GetString("min:sec");
@@ -153,11 +154,11 @@ namespace aplicacion_musica
                 {
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
-                    t = tituloTextBox.Text;
+                    title = tituloTextBox.Text;
                     bonus = checkBoxBonus.Checked;
                     if (editar) //si edita
                     {
-                        cancion.Title = t;
+                        cancion.Title = title;
                         cancion.Length = new TimeSpan(0, min, sec);
                         cancion.IsBonus = bonus;
                         DialogResult = DialogResult.OK;
@@ -165,7 +166,7 @@ namespace aplicacion_musica
                     }
                     else
                     {
-                        Song c = new Song(t, new TimeSpan(0, min, sec), ref album, bonus);
+                        Song c = new Song(title, new TimeSpan(0, min, sec), ref album, bonus);
                         album.AddSong(c);
                         DialogResult = DialogResult.OK;
                         Close();
@@ -173,10 +174,10 @@ namespace aplicacion_musica
                 }
                 else if(larga && cancionlarga == null) //caso de que creemos una cancion larga, sin partes
                 {
-                    t = tituloTextBox.Text;
+                    title = tituloTextBox.Text;
                     min = sec = 0;
                     np = Convert.ToInt32(textBoxNumPartes.Text);
-                    LongSong longSong = new LongSong(t, album);
+                    LongSong longSong = new LongSong(title, album);
 
                     album.AddSong(longSong);
                     for (int i = 0; i < np; i++)
@@ -191,12 +192,12 @@ namespace aplicacion_musica
                 }
                 else if(cancionlarga != null && larga == true)//parte de una cancion normal
                 {
-                    t = tituloTextBox.Text;
+                    title = tituloTextBox.Text;
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
                     TimeSpan dur = new TimeSpan(0, min, sec);
                     np = 0;
-                    Song p = new Song(t, dur, ref album);
+                    Song p = new Song(title, dur, ref album);
                     cancionlarga.AddPart(p);
                     DialogResult = DialogResult.OK;
                 }
@@ -225,10 +226,10 @@ namespace aplicacion_musica
             {
                 min = Convert.ToInt32(minTextBox.Text);
                 sec = Convert.ToInt32(secsTextBox.Text);
-                t = tituloTextBox.Text;
-                Song c = new Song(t, new TimeSpan(0, min, sec), ref album);
+                title = tituloTextBox.Text;
+                Song c = new Song(title, new TimeSpan(0, min, sec), ref album);
                 album.AddSong(c, cual);
-                Log.Instance.ImprimirMensaje(t + " añadido correctamente", TipoMensaje.Correcto);
+                Log.Instance.ImprimirMensaje(title + " añadido correctamente", TipoMensaje.Correcto);
             }
             catch (Exception ex)
             {

@@ -2,7 +2,7 @@
 
 namespace aplicacion_musica
 {
-    public enum EstadoMedio
+    public enum MediaCondition
     {
         M,
         NMint,
@@ -18,7 +18,7 @@ namespace aplicacion_musica
     {
         //no quiero guardarlo 2 veces, ni cargarlo 
         [Newtonsoft.Json.JsonIgnore] public AlbumData Album { get; protected set; }
-        public EstadoMedio EstadoExterior { get; set; }
+        public MediaCondition EstadoExterior { get; set; }
         public short Year {get;set;}
         public string Country { get; set; }
         public string Artist { get; set; }
@@ -29,7 +29,7 @@ namespace aplicacion_musica
 
         }
 
-        public AlbumFisico(string s, EstadoMedio estado, short y = 0, String p = null)
+        public AlbumFisico(string s, MediaCondition estado, short y = 0, String p = null)
         {
             Album = Program.Collection.GetAlbum(s);
             EstadoExterior = estado;

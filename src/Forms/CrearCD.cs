@@ -6,7 +6,7 @@ namespace aplicacion_musica
     public partial class CrearCD : Form
     {
         private AlbumData album;
-        private DiscoCompacto cd;
+        private CompactDisc cd;
         private short numDiscos;
         private short NDisco;
         private int NC;
@@ -31,7 +31,7 @@ namespace aplicacion_musica
             numDiscos = nd;
             PonerTextos();
         }
-        public CrearCD(ref DiscoCompacto cdd, short n, bool edit = false)
+        public CrearCD(ref CompactDisc cdd, short n, bool edit = false)
         {
             InitializeComponent();
             NDisco = n;
@@ -48,7 +48,7 @@ namespace aplicacion_musica
                 labelPaisPublicacion.Hide();
                 textBoxPais.Hide();
                 textBoxAño.Hide();
-                numericUpDownNumCanciones.Maximum = album.NumberOfSongs - cdd.Discos[0].NumCanciones;
+                numericUpDownNumCanciones.Maximum = album.NumberOfSongs - cdd.Discos[0].NumberOfSongs;
                 numericUpDownNumCanciones.Value = numericUpDownNumCanciones.Maximum;
                 Log.Instance.ImprimirMensaje("Creando otro CD con un máximo de "+numericUpDownNumCanciones.Maximum, TipoMensaje.Info);
             }
@@ -56,10 +56,10 @@ namespace aplicacion_musica
             {
                 Log.Instance.ImprimirMensaje("Editando CD", TipoMensaje.Info);
                 this.edit = true;
-                comboBoxFormatoCD.SelectedItem = cdd.FormatoCD;
-                comboBoxEstadoMedio.SelectedItem = cdd.Discos[n-1].EstadoDisco;
+                comboBoxFormatoCD.SelectedItem = cdd.SleeveType;
+                comboBoxEstadoMedio.SelectedItem = cdd.Discos[n-1].MediaCondition;
                 comboBoxEstadoExterior.SelectedItem = cdd.EstadoExterior;
-                numericUpDownNumCanciones.Value = cdd.Discos[n-1].NumCanciones;
+                numericUpDownNumCanciones.Value = cdd.Discos[n-1].NumberOfSongs;
                 textBoxAño.Text = cd.Year.ToString();
                 textBoxPais.Text = cd.Country;
             }
@@ -76,9 +76,9 @@ namespace aplicacion_musica
             String[] eeT = new string[7];
             String[] fT = new string[4];
             for (int i = 0; i < eeT.Length; i++)
-                eeT[i] = Program.LocalTexts.GetString(Enum.GetName(typeof(EstadoMedio), i));
+                eeT[i] = Program.LocalTexts.GetString(Enum.GetName(typeof(MediaCondition), i));
             for (int i = 0; i < fT.Length; i++)
-                fT[i] = Program.LocalTexts.GetString(Enum.GetName(typeof(FormatoCD), i));
+                fT[i] = Program.LocalTexts.GetString(Enum.GetName(typeof(SleeveType), i));
             comboBoxEstadoMedio.Items.AddRange(eeT);
             comboBoxEstadoExterior.Items.AddRange(eeT);
             comboBoxFormatoCD.Items.AddRange(fT);
@@ -91,16 +91,16 @@ namespace aplicacion_musica
         {
             album.CanBeRemoved = false;
 
-            EstadoMedio exterior = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), comboBoxEstadoExterior.SelectedIndex.ToString());
-            EstadoMedio medio = (EstadoMedio)Enum.Parse(typeof(EstadoMedio), comboBoxEstadoMedio.SelectedIndex.ToString());
-            FormatoCD formato = (FormatoCD)Enum.Parse(typeof(FormatoCD), comboBoxFormatoCD.SelectedIndex.ToString());
+            MediaCondition exterior = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoExterior.SelectedIndex.ToString());
+            MediaCondition medio = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoMedio.SelectedIndex.ToString());
+            SleeveType formato = (SleeveType)Enum.Parse(typeof(SleeveType), comboBoxFormatoCD.SelectedIndex.ToString());
             string s = album.Artist + "_" + album.Title;
             if(edit)
             {
-                cd.FormatoCD = formato;
-                cd.Discos[NDisco - 1].EstadoDisco = medio;
+                cd.SleeveType = formato;
+                cd.Discos[NDisco - 1].MediaCondition = medio;
                 cd.EstadoExterior = exterior;
-                cd.Discos[NDisco - 1].NumCanciones=(short)numericUpDownNumCanciones.Value;
+                cd.Discos[NDisco - 1].NumberOfSongs=(short)numericUpDownNumCanciones.Value;
                 cd.Year = Convert.ToInt16(textBoxAño.Text);
                 cd.Country = textBoxPais.Text;
                 visualizarAlbum nuevo = new visualizarAlbum(ref cd);
@@ -111,26 +111,26 @@ namespace aplicacion_musica
             {
                 if(NDisco > 1)
                 {
-                    Disco nuevo = new Disco(Convert.ToInt16(numericUpDownNumCanciones.Value), medio);
+                    Disc nuevo = new Disc(Convert.ToInt16(numericUpDownNumCanciones.Value), medio);
                     cd.Discos[NDisco-1] = nuevo;
                 }
                 else
                 {
-                    DiscoCompacto cd = new DiscoCompacto(s, Convert.ToInt16(numericUpDownNumCanciones.Value), medio, exterior, formato, numDiscos);
+                    CompactDisc cd = new CompactDisc(s, Convert.ToInt16(numericUpDownNumCanciones.Value), medio, exterior, formato, numDiscos);
                     Program.Collection.AddCD(ref cd);
                 }
             }
             else
             {
-                DiscoCompacto cd = null;
+                CompactDisc cd = null;
                 try
                 {
-                     cd = new DiscoCompacto(s, album.NumberOfSongs, medio, exterior, formato, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
+                     cd = new CompactDisc(s, album.NumberOfSongs, medio, exterior, formato, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
 
                 }
                 catch (Exception)
                 {
-                     cd = new DiscoCompacto(s, album.NumberOfSongs, medio, exterior, formato, 0, textBoxPais.Text);
+                     cd = new CompactDisc(s, album.NumberOfSongs, medio, exterior, formato, 0, textBoxPais.Text);
                 }
                 Program.Collection.AddCD(ref cd);
                 visualizarAlbum v = new visualizarAlbum(ref cd);

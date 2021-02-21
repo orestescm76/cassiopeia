@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace aplicacion_musica
 {
     public class LongSong : Song
     {
         public List<Song> Parts { get; private set; }
+
+        public void AddPart(Song p)
+        {
+            Parts.Add(p);
+        }
 
         public override TimeSpan Length { 
             get 
@@ -35,10 +37,6 @@ namespace aplicacion_musica
             AlbumFrom = album;
             Parts = new List<Song>();
         }
-
-        public void AddPart(Song p)
-        {
-            Parts.Add(p);
-        }
     }
+
 }

@@ -12,7 +12,7 @@ namespace aplicacion_musica
     {
         private AlbumData albumToVisualize;
         private byte numDisco;
-        private DiscoCompacto CDaVisualizar;
+        private CompactDisc CDaVisualizar;
         private ListViewItemComparer lvwColumnSorter;
         public visualizarAlbum(ref AlbumData a)
         {
@@ -52,7 +52,7 @@ namespace aplicacion_musica
             ponerTextos();
             cargarVista();
         }
-        public visualizarAlbum(ref DiscoCompacto cd)
+        public visualizarAlbum(ref CompactDisc cd)
         {
             InitializeComponent();
             CDaVisualizar = cd;
@@ -64,11 +64,11 @@ namespace aplicacion_musica
                 Program.LocalTexts.GetString("año") + ": " + cd.Album.Year + Environment.NewLine +
                 Program.LocalTexts.GetString("duracion") + ": " + cd.Album.Length.ToString() + Environment.NewLine +
                 Program.LocalTexts.GetString("genero") + ": " + cd.Album.Genre.Name + Environment.NewLine +
-                Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(cd.FormatoCD.ToString()) + Environment.NewLine +
+                Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(cd.SleeveType.ToString()) + Environment.NewLine +
                 Program.LocalTexts.GetString("añoPublicacion") + ": " + cd.Year + Environment.NewLine +
                 Program.LocalTexts.GetString("paisPublicacion") + ":" + cd.Country + Environment.NewLine +
                 Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine;
-            labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(cd.Discos[0].EstadoDisco.ToString()) + Environment.NewLine;
+            labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(cd.Discos[0].MediaCondition.ToString()) + Environment.NewLine;
             if (!string.IsNullOrEmpty(cd.Album.CoverPath))
             {
                 Image caratula = Image.FromFile(cd.Album.CoverPath);
@@ -163,7 +163,7 @@ namespace aplicacion_musica
                     items[i] = new ListViewItem(datos);
                     j++;
                     items[i].Group = vistaCanciones.Groups[d];
-                    if (j >= CDaVisualizar.Discos[d].NumCanciones)
+                    if (j >= CDaVisualizar.Discos[d].NumberOfSongs)
                     {
                         d++;
                         j = 0;
@@ -186,8 +186,8 @@ namespace aplicacion_musica
                         Program.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
                         Program.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine +
                         Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
-                        Program.LocalTexts.GetString("estado_medio") + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
-                        Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(CDaVisualizar.FormatoCD.ToString()) + Environment.NewLine;
+                        Program.LocalTexts.GetString("estado_medio") + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[0].MediaCondition.ToString()) + Environment.NewLine +
+                        Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
             }
             else if (!(CDaVisualizar is null))
@@ -218,8 +218,8 @@ namespace aplicacion_musica
                         Program.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
                         Program.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine + 
                         Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
-                        Program.LocalTexts.GetString("estado_medio") + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[0].EstadoDisco.ToString()) + Environment.NewLine +
-                        Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(CDaVisualizar.FormatoCD.ToString()) + Environment.NewLine;
+                        Program.LocalTexts.GetString("estado_medio") + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[0].MediaCondition.ToString()) + Environment.NewLine +
+                        Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
                 
             }
@@ -367,11 +367,11 @@ namespace aplicacion_musica
                 {
                     case 1:
                         numDisco = 2;
-                        labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[numDisco-1].EstadoDisco.ToString()) + Environment.NewLine;
+                        labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[numDisco-1].MediaCondition.ToString()) + Environment.NewLine;
                         break;
                     case 2:
                         numDisco = 1;
-                        labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[numDisco - 1].EstadoDisco.ToString()) + Environment.NewLine;
+                        labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[numDisco - 1].MediaCondition.ToString()) + Environment.NewLine;
                         break;
                     default:
                         break;

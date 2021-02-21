@@ -6,11 +6,11 @@ namespace aplicacion_musica
     class Collection
     {
         public List<AlbumData> Albums { get; private set; }
-        public List<DiscoCompacto> CDS { get; private set; }
+        public List<CompactDisc> CDS { get; private set; }
         public Collection()
         {
             Albums = new List<AlbumData>();
-            CDS = new List<DiscoCompacto>();
+            CDS = new List<CompactDisc>();
         }
         public void AddAlbum(ref AlbumData album) { Albums.Add(album); }
         public void RemoveAlbum(ref AlbumData album) 
@@ -56,11 +56,11 @@ namespace aplicacion_musica
         {
             return Albums[index];
         }
-        public void GetAlbum(string s, out DiscoCompacto cd)
+        public void GetAlbum(string s, out CompactDisc cd)
         {
             cd = null;
             String[] busqueda = s.Split('_');
-            foreach (DiscoCompacto cdd in CDS)
+            foreach (CompactDisc cdd in CDS)
             {
                 if (cdd.Album.Artist == busqueda[0] && cdd.Album.Title == busqueda[1])
                     cd = cdd;
@@ -75,13 +75,13 @@ namespace aplicacion_musica
             Albums.Clear();
             CDS.Clear();
         }
-        public void AddCD(ref DiscoCompacto cd)
+        public void AddCD(ref CompactDisc cd)
         {
             CDS.Add(cd);
         }
-        public DiscoCompacto GetCDById(string i)
+        public CompactDisc GetCDById(string i)
         {
-            DiscoCompacto busqueda = null;
+            CompactDisc busqueda = null;
             for (int j = 0; j < CDS.Count; j++)
             {
                 if (i == CDS[j].Id)
@@ -91,7 +91,7 @@ namespace aplicacion_musica
         }
         public void DeleteCD(String id)
         {
-            foreach (DiscoCompacto item in CDS)
+            foreach (CompactDisc item in CDS)
             {
                 if(item.Id == id)
                 {
@@ -100,7 +100,7 @@ namespace aplicacion_musica
                 }
             }
         }
-        public void DeleteCD(ref DiscoCompacto cd)
+        public void DeleteCD(ref CompactDisc cd)
         {
             CDS.Remove(cd);
         }
