@@ -478,7 +478,7 @@
     <value>Play in Spotify</value>
   </data>
   <data name="errorReproduccion" xml:space="preserve">
-    <value>The music file can't be played. Something happened.</value>
+    <value>The music file can't be played. Something happened</value>
   </data>
   <data name="buscarDirectorio" xml:space="preserve">
     <value>Search folder</value>
@@ -529,7 +529,7 @@
     <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. The program will time 30 seconds before cancelling the vinculation. Do you wish to continue?</value>
   </data>
   <data name="agradecimiento3" xml:space="preserve">
-    <value> * The programmers of NVorbis, CSCore y JAudio</value>
+    <value> * The programmers of NVorbis, CSCore and TagLib</value>
   </data>
   <data name="abrirCD" xml:space="preserve">
     <value>Open audio CD...</value>
@@ -654,5 +654,11 @@
   </data>
   <data name="error_fusionsingular" xml:space="preserve">
     <value>You can't form a multipart song with only one song.</value>
+  </data>
+  <data name="pathsCorrectos" xml:space="preserve">
+    <value>PATHS have been loaded correctly.</value>
+  </data>
+  <data name="pathsError" xml:space="preserve">
+    <value>Some errors happened during the load of the PATHS. Check log for details.</value>
   </data>
 </root>

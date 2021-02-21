@@ -41,7 +41,10 @@ namespace aplicacion_musica.src.Forms
         }
         public void UpdateTime()
         {
-            toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("dur_total") + ": " + ListaReproduccion.Duration.ToString(@"mm\:ss");
+            if (ListaReproduccion.Duration.TotalMinutes < 60)
+                toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + ListaReproduccion.Duration.ToString(@"mm\:ss");
+            else
+                toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + ListaReproduccion.Duration.ToString(@"hh\:mm\:ss");
         }
         private void CargarVista()
         {
@@ -210,7 +213,10 @@ namespace aplicacion_musica.src.Forms
                     Song song = ListaReproduccion[songItem.Index];
                     seleccion += song.duracion;
                 }
-                toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + seleccion.ToString(@"mm\:ss");
+                if(seleccion.TotalMinutes < 60)
+                    toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + seleccion.ToString(@"mm\:ss");
+                else
+                    toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + seleccion.ToString(@"hh\:mm\:ss");
             }
             else
                 UpdateTime();

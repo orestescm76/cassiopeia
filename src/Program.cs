@@ -35,7 +35,7 @@ namespace aplicacion_musica
         public static Collection Collection;
         public static Genre[] Genres = new Genre[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-        public static readonly string Version = ver.ToString()+ " ";
+        public static readonly string Version = "v" + ver.ToString()+ "-beta";
         public static string[] idiomas;
         public static Spotify _spotify;
         private static principal principal = null;
@@ -392,7 +392,7 @@ namespace aplicacion_musica
                                             salida.WriteLine(cl.titulo + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar
                                             foreach (Song parte in cl.Partes)
                                             {
-                                                salida.WriteLine(parte.titulo + ";" + parte.duracion.TotalSeconds);
+                                                salida.WriteLine(parte.titulo + ";" + (int)parte.duracion.TotalSeconds);
                                             }
 
                                         }

@@ -16,7 +16,8 @@ namespace aplicacion_musica
         private void PonerTextos()
         {
             labelAcercaDe.Text = "";
-            string acercadeTexto = Program.Version + "Codename " + Program.CodeName;
+            labelAcercaDe.AutoSize = true;
+            string acercadeTexto = Program.Version + " Codename " + Program.CodeName;
             acercadeTexto += Environment.NewLine;
             acercadeTexto += Program.LocalTexts.GetString("desarrolladoPor") + " Orestes Colomina Monsalve" + Environment.NewLine +
                 Program.LocalTexts.GetString("contacto") + Environment.NewLine + Environment.NewLine + Program.LocalTexts.GetString("agradecimientosA") + Environment.NewLine +

@@ -33,6 +33,7 @@ namespace aplicacion_musica
                     Cover = Image.FromStream(ms);
             }
             Duracion = MusicFile.Properties.Duration;
+            
         }
         public bool Evaluable()
         {
@@ -41,6 +42,10 @@ namespace aplicacion_musica
         public string GetSongTitle()
         {
             return Artista + " - " + Titulo;
+        }
+        public void Dispose()
+        {
+            MusicFile.Dispose();
         }
     }
 }

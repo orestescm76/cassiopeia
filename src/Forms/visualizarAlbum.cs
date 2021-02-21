@@ -434,7 +434,14 @@ namespace aplicacion_musica
         private void reproducirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Song cancionAReproducir = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
-            Reproductor.Instancia.ReproducirCancion(cancionAReproducir);
+            if(cancionAReproducir is CancionLarga)
+            {
+                CancionLarga cl = (CancionLarga)cancionAReproducir;
+                Reproductor.Instancia.ReproducirCancion(cl);
+            }
+                
+            else
+                Reproductor.Instancia.ReproducirCancion(cancionAReproducir);
         }
 
         private void vistaCanciones_ItemDrag(object sender, ItemDragEventArgs e)

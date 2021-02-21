@@ -439,6 +439,20 @@ namespace aplicacion_musica.src.Forms
             PrepararReproductor();
 
         }
+        public void ReproducirCancion(CancionLarga c)
+        {
+            SetPlayerButtons(true);
+            ConfigurarTimers(false);
+            estadoReproductor = EstadoReproductor.Detenido;
+
+            if (ListaReproduccion is null)
+                CreatePlaylist(c.titulo);
+            foreach (Song song in c.Partes)
+            {
+                ListaReproduccion.AgregarCancion(song);
+            }
+            ReproducirLista(ListaReproduccion);
+        }
         public void ReproducirCancion(int Pista)
         {
             ConfigurarTimers(false);
@@ -1144,10 +1158,12 @@ namespace aplicacion_musica.src.Forms
                 CreatePlaylist("");
                 if (lrui is null)
                     CreatePlaylistUI();
+                
                 lrui.Show();
             }
             else
             {
+                lrui.Refrescar();
                 lrui.Show();
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using System.ComponentModel;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.IO;
 using System.Windows.Forms;
@@ -834,38 +834,38 @@ namespace aplicacion_musica
                 Config.UltimoDirectorioAbierto = carpeta.FullName;
                 BarraCarga bC = new BarraCarga(carpeta.GetFiles().Length);
                 bC.Show();
-                foreach (var cancion in carpeta.GetFiles())
+                foreach (var filename in carpeta.GetFiles())
                 {
-                    LectorMetadatos LM = new LectorMetadatos(cancion.FullName);
-                    switch (Path.GetExtension(cancion.FullName))
+
+                    switch (Path.GetExtension(filename.FullName))
                     {
                         case ".mp3":
-
-                            a.Title = LM.Album;
-                            a.Artist = LM.Artista;
-                            a.Year = (short)LM.Año;
-                            if (LM.Cover != null)
-                            {
-                                Image cover = LM.Cover;
-                                cover.Save(carpeta.FullName + "\\cover.jpg");
-                                a.CoverPath = carpeta.FullName + "\\cover.jpg";
-                            }
-                            break;
-                        case ".flac":
                         case ".ogg":
-                            a.Title = LM.Album;
-                            a.Artist = LM.Artista;
-                            Song c = new Song(LM.Titulo, (int)Reproductor.Instancia.getDuracionFromFile(cancion.FullName).TotalMilliseconds, false);
-                            c.PATH = cancion.FullName;
-                            c.Num = LM.Pista;
-                            a.Year = (short)LM.Año;
+                        case ".flac":
+                            LectorMetadatos LM = new LectorMetadatos(filename.FullName);
+                            if (a.NeedsMetadata())
+                            {
+                                a.Title = LM.Album;
+                                a.Artist = LM.Artista;
+                                a.Year = (short)LM.Año;
+                                if (!(LM.Cover is null) && !File.Exists("cover.jpg"))
+                                {
+                                    Bitmap cover = new Bitmap(LM.Cover);
+                                    cover.Save(carpeta.FullName + "\\cover.jpg", ImageFormat.Jpeg);
+                                    a.CoverPath = carpeta.FullName + "\\cover.jpg";
+                                }
+                            }
+                            Song c = new Song(LM.Titulo, (int)LM.Duracion.TotalMilliseconds, false);
                             c.SetAlbum(a);
+                            c.PATH = filename.FullName;
                             a.AddSong(c);
+                            LM.Dispose();
                             break;
                         case ".jpg":
-                            if (cancion.Name == "folder.jpg" || cancion.Name == "cover.jpg")
-                                a.CoverPath = cancion.FullName;
+                            if (filename.Name == "folder.jpg" || filename.Name == "cover.jpg")
+                                a.CoverPath = filename.FullName;
                             break;
+
                     }
                     bC.Progreso();
                 }
