@@ -122,8 +122,8 @@
     <Compile Include="src\CD\PistaCD.cs" />
     <Compile Include="src\Classes\AlbumData.cs" />
     <Compile Include="src\Classes\AlbumFisico.cs" />
-    <Compile Include="src\Classes\Cancion.cs" />
-    <Compile Include="src\Classes\CancionLarga.cs" />
+    <Compile Include="src\Classes\Song.cs" />
+    <Compile Include="src\Classes\LongSong.cs" />
     <Compile Include="src\Classes\Collection.cs" />
     <Compile Include="src\Classes\Disco.cs" />
     <Compile Include="src\Classes\DiscoCompacto.cs" />

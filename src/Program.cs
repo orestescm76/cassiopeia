@@ -396,7 +396,7 @@ namespace aplicacion_musica
                                             salida.WriteLine(cl.Title + ";" + cl.Partes.Count);//no tiene duracion y son 2 datos a guardar
                                             foreach (Song parte in cl.Partes)
                                             {
-                                                salida.WriteLine(parte.titulo + ";" + (int)parte.duracion.TotalSeconds);
+                                                salida.WriteLine(parte.Title + ";" + (int)(parte.Length.TotalSeconds));
                                             }
 
                                         }

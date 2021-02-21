@@ -51,11 +51,6 @@ namespace aplicacion_musica
             IsBonus = b;
         }
 
-        public Song(string path) //Crea una canción fantasma con sólo un PATH
-        {
-            this.Path = path;
-        }
-
         public override string ToString()
         {
             if (!ReferenceEquals(AlbumFrom, null))

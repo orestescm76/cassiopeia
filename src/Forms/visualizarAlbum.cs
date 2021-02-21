@@ -65,8 +65,8 @@ namespace aplicacion_musica
                 Program.LocalTexts.GetString("duracion") + ": " + cd.Album.Length.ToString() + Environment.NewLine +
                 Program.LocalTexts.GetString("genero") + ": " + cd.Album.Genre.Name + Environment.NewLine +
                 Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(cd.FormatoCD.ToString()) + Environment.NewLine +
-                Program.LocalTexts.GetString("añoPublicacion") + ": " + cd.YearRelease + Environment.NewLine +
-                Program.LocalTexts.GetString("paisPublicacion") + ":" + cd.PaisPublicacion + Environment.NewLine +
+                Program.LocalTexts.GetString("añoPublicacion") + ": " + cd.Year + Environment.NewLine +
+                Program.LocalTexts.GetString("paisPublicacion") + ":" + cd.Country + Environment.NewLine +
                 Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine;
             labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(cd.Discos[0].EstadoDisco.ToString()) + Environment.NewLine;
             if (!string.IsNullOrEmpty(cd.Album.CoverPath))

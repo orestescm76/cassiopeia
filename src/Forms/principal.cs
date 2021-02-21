@@ -633,7 +633,7 @@ namespace aplicacion_musica
         private string CopyAlbumToClipboard(int AlbumIndex)
         {
             AlbumData album = Program.Collection.GetAlbum(AlbumIndex);
-            return album.GetPortapapeles();
+            return album.ToClipboard();
         }
         private void copiarToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -857,7 +857,7 @@ namespace aplicacion_musica
                             }
                             Song c = new Song(LM.Titulo, (int)LM.Duracion.TotalMilliseconds, false);
                             c.SetAlbum(a);
-                            c.PATH = filename.FullName;
+                            c.Path = filename.FullName;
                             a.AddSong(c);
                             LM.Dispose();
                             break;

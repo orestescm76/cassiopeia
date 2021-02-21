@@ -15,7 +15,7 @@ namespace aplicacion_musica
             TimeSpan time = new TimeSpan();
             foreach (Song song in Canciones)
             {
-                time += song.duracion;
+                time += song.Length;
             }
             return time;
         }
@@ -90,7 +90,7 @@ namespace aplicacion_musica
                 while (!reader.EndOfStream)
                 {
                     Song c = new Song();
-                    c.PATH = reader.ReadLine();
+                    c.Path = reader.ReadLine();
                     Canciones.Add(c);
                 }
             }
