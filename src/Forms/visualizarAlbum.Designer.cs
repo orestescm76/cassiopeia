@@ -246,17 +246,18 @@
             this.clickDerechoAlbum.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copiarImagenStrip});
             this.clickDerechoAlbum.Name = "clickDerechoAlbum";
-            this.clickDerechoAlbum.Size = new System.Drawing.Size(181, 48);
+            this.clickDerechoAlbum.Size = new System.Drawing.Size(172, 26);
             // 
             // copiarImagenStrip
             // 
             this.copiarImagenStrip.Name = "copiarImagenStrip";
-            this.copiarImagenStrip.Size = new System.Drawing.Size(180, 22);
+            this.copiarImagenStrip.Size = new System.Drawing.Size(171, 22);
             this.copiarImagenStrip.Text = "copiarImagenStrip";
             this.copiarImagenStrip.Click += new System.EventHandler(this.copiar_Click);
             // 
             // visualizarAlbum
             // 
+            this.AcceptButton = this.okDoomerButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(833, 464);
@@ -269,9 +270,10 @@
             this.Controls.Add(this.okDoomerButton);
             this.Controls.Add(this.vistaCanciones);
             this.Controls.Add(this.infoAlbum);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.MaximizeBox = false;
             this.Name = "visualizarAlbum";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "visualizarAlbum";

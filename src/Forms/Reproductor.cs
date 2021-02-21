@@ -250,15 +250,15 @@ namespace aplicacion_musica.src.Forms
                 }
             }
         }
-        private string GetTextoReproductor(EstadoReproductor er)
+        private string GetTextButtonPlayer(EstadoReproductor er)
         {
             switch (er)
             {
-                case EstadoReproductor.Reproduciendo:
-                    return "❚❚";
-                case EstadoReproductor.Pausado:
+                case EstadoReproductor.Reproduciendo: //return pause
+                    return ";";
+                case EstadoReproductor.Pausado: //return play
                 case EstadoReproductor.Detenido:
-                    return "▶";
+                    return "4";
             }
             return "";
         }
@@ -492,7 +492,7 @@ namespace aplicacion_musica.src.Forms
             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
             labelDuracion.Text = (int)dur.TotalMinutes + ":" + dur.Seconds;
             estadoReproductor = EstadoReproductor.Reproduciendo;
-            buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
+            buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
             buttonTwit.Enabled = true;
             Reproduciendo = true;
             ConfigurarTimers(true);
@@ -771,7 +771,7 @@ namespace aplicacion_musica.src.Forms
                         break;
                     }
                     estadoReproductor = EstadoReproductor.Pausado;
-                    buttonReproducirPausar.Text = "▶";
+                    buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                     break;
 
                 case EstadoReproductor.Pausado:
@@ -788,7 +788,7 @@ namespace aplicacion_musica.src.Forms
                         break;
                     }
                     estadoReproductor = EstadoReproductor.Reproduciendo;
-                    buttonReproducirPausar.Text = "❚❚";
+                    buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                     break;
                 case EstadoReproductor.Detenido:
                     if (!Spotify)
@@ -804,7 +804,7 @@ namespace aplicacion_musica.src.Forms
                         break;
                     }
                     estadoReproductor = EstadoReproductor.Reproduciendo;
-                    buttonReproducirPausar.Text = "❚❚";
+                    buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                     break;
                 default:
                     break;
@@ -927,7 +927,7 @@ namespace aplicacion_musica.src.Forms
                     if (ListaReproduccion.Final(ListaReproduccionPuntero))
                     {
                         nucleo.Detener();
-                        buttonReproducirPausar.Text = GetTextoReproductor(EstadoReproductor.Detenido);
+                        buttonReproducirPausar.Text = GetTextButtonPlayer(EstadoReproductor.Detenido);
                     }
                     else
                     {
