@@ -599,4 +599,7 @@
   <data name="reproduciendo" xml:space="preserve">
     <value></value>
   </data>
+  <data name="playlistName" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

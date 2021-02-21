@@ -60,8 +60,8 @@ namespace aplicacion_musica
                 comboBoxEstadoMedio.SelectedItem = cdd.Discos[n-1].EstadoDisco;
                 comboBoxEstadoExterior.SelectedItem = cdd.EstadoExterior;
                 numericUpDownNumCanciones.Value = cdd.Discos[n-1].NumCanciones;
-                textBoxAño.Text = cd.YearRelease.ToString();
-                textBoxPais.Text = cd.PaisPublicacion;
+                textBoxAño.Text = cd.Year.ToString();
+                textBoxPais.Text = cd.Country;
             }
             PonerTextos();
         }
@@ -101,8 +101,8 @@ namespace aplicacion_musica
                 cd.Discos[NDisco - 1].EstadoDisco = medio;
                 cd.EstadoExterior = exterior;
                 cd.Discos[NDisco - 1].NumCanciones=(short)numericUpDownNumCanciones.Value;
-                cd.YearRelease = Convert.ToInt16(textBoxAño.Text);
-                cd.PaisPublicacion = textBoxPais.Text;
+                cd.Year = Convert.ToInt16(textBoxAño.Text);
+                cd.Country = textBoxPais.Text;
                 visualizarAlbum nuevo = new visualizarAlbum(ref cd);
                 Programa.RefrescarVista();
                 nuevo.Show();
@@ -117,7 +117,7 @@ namespace aplicacion_musica
                 else
                 {
                     DiscoCompacto cd = new DiscoCompacto(s, Convert.ToInt16(numericUpDownNumCanciones.Value), medio, exterior, formato, numDiscos);
-                    Programa.miColeccion.AgregarCD(ref cd);
+                    Programa.miColeccion.AddCD(ref cd);
                 }
             }
             else
@@ -132,7 +132,7 @@ namespace aplicacion_musica
                 {
                      cd = new DiscoCompacto(s, album.NumberOfSongs, medio, exterior, formato, 0, textBoxPais.Text);
                 }
-                Programa.miColeccion.AgregarCD(ref cd);
+                Programa.miColeccion.AddCD(ref cd);
                 visualizarAlbum v = new visualizarAlbum(ref cd);
                 v.Show();
             }

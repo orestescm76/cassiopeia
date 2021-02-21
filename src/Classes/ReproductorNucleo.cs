@@ -109,7 +109,7 @@ namespace aplicacion_musica
             else if (FormatoSonido == FormatoSonido.CDA)
                 return SectoresATimeSpan(_sonido.Length);
             else
-                return NVorbis.Duracion;
+                return NVorbis.Length_Timespan;
         }
         public TimeSpan Posicion()
         {
@@ -151,8 +151,8 @@ namespace aplicacion_musica
                 case FormatoSonido.OGG:
                     try
                     {
-                        artista = NVorbis.GetArtista();
-                        titulo = NVorbis.GetTitulo();
+                        artista = NVorbis.GetArtist();
+                        titulo = NVorbis.GetTitle();
                         return artista + " - " + titulo;
                     }
                     catch (NullReferenceException)
@@ -212,12 +212,10 @@ namespace aplicacion_musica
             _salida.Stop();
             _sonido.SetPosition(TimeSpan.Zero);
         }
-        public TimeSpan SectoresATimeSpan(long sec)
+        public TimeSpan SectoresATimeSpan(long sector)
         {
-            TimeSpan dur;
-            double secs = sec / 75.0;
-            dur = TimeSpan.FromSeconds(secs);
-            return dur;
+            double secs = sector / 75.0;
+            return TimeSpan.FromSeconds(secs);
         }
         public long TimeSpanASectores(TimeSpan dur)
         {
@@ -251,11 +249,12 @@ namespace aplicacion_musica
                     byte[] idR = br.ReadBytes(4);
                     byte[] id = new byte[4];
                     int c = 0;
+
                     for (int j = 3; j >= 0; j--)
                     {
-                        id[c] = idR[j];
-                        c++;
+                        id[c++] = idR[j];
                     }
+
                     ID = BitConverter.ToString(id);
                     ID = ID.Replace("-", "");
                     uint sectorInicial = br.ReadUInt32();

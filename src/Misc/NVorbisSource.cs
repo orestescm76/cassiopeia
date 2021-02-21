@@ -41,7 +41,7 @@ namespace aplicacion_musica
         {
             get { return _stream.CanSeek; }
         }
-        public TimeSpan Duracion { get { return _vorbisReader.TotalTime; } }
+        public TimeSpan Length_Timespan { get { return _vorbisReader.TotalTime; } }
         public WaveFormat WaveFormat { get; }
         //got fixed through workitem #17, thanks for reporting @rgodart.
         public long Length
@@ -104,11 +104,11 @@ namespace aplicacion_musica
                 throw new ObjectDisposedException("NVorbisSource");
             _disposed = true;
         }
-        public string GetTitulo()
+        public string GetTitle()
         {
             return _vorbisReader.Tags.Title;
         }
-        public string GetArtista()
+        public string GetArtist()
         {
             return _vorbisReader.Tags.Artist;
         }

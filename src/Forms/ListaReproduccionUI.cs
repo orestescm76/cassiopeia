@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace aplicacion_musica
+namespace aplicacion_musica.src.Forms
 {
     public partial class ListaReproduccionUI : Form
     {
@@ -44,18 +44,18 @@ namespace aplicacion_musica
                 string[] data = new string[4];
                 data[0] = "";
                 //Coger los datos de la canción, si fuera necesario.
-                if(string.IsNullOrEmpty(listaReproduccion.Canciones[i].titulo))
+                if(string.IsNullOrEmpty(listaReproduccion.Canciones[i].Title))
                 {
-                    LectorMetadatos lectorMetadatos = new LectorMetadatos(listaReproduccion.Canciones[i].PATH);
+                    LectorMetadatos lectorMetadatos = new LectorMetadatos(listaReproduccion.Canciones[i].Path);
                     data[1] = lectorMetadatos.Artista;
                     data[2] = lectorMetadatos.Titulo;
                     data[3] = lectorMetadatos.Duracion.ToString();
                 }
                 else
                 {
-                    data[1] = listaReproduccion.Canciones[i].album.Artist;
-                    data[2] = listaReproduccion.Canciones[i].titulo;
-                    data[3] = listaReproduccion.Canciones[i].duracion.ToString();
+                    data[1] = listaReproduccion.Canciones[i].AlbumFrom.Artist;
+                    data[2] = listaReproduccion.Canciones[i].Title;
+                    data[3] = listaReproduccion.Canciones[i].Length.ToString();
                 }
                 items[i] = new ListViewItem(data);
             }
@@ -86,7 +86,7 @@ namespace aplicacion_musica
             string[] canciones = null;
             if((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
-                if(!string.IsNullOrEmpty(c.PATH))
+                if(!string.IsNullOrEmpty(c.Path))
                 {
                     listaReproduccion.AgregarCancion(c);
                 }
@@ -127,6 +127,26 @@ namespace aplicacion_musica
 
         private void ListaReproduccionUI_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void changeNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WriteName WriteNameForm = new WriteName();
+            DialogResult Result = WriteNameForm.ShowDialog();
+            if (Result == DialogResult.OK)
+                listaReproduccion.Nombre = WriteNameForm.PlaylistName;
+            Text = listaReproduccion.Nombre;
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+            }
 
         }
     }

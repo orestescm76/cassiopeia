@@ -16,7 +16,7 @@ namespace aplicacion_musica
             textBoxArtista.Text = albumAEditar.Artist;
             textBoxAño.Text = albumAEditar.Year.ToString();
             textBoxTitulo.Text = albumAEditar.Title;
-            labelRuta.Text = albumAEditar.Cover;
+            labelRuta.Text = albumAEditar.CoverPath;
             labelDirectorioActual.Text = albumAEditar.SoundFilesPath;
             textBoxURISpotify.Text = albumAEditar.IdSpotify;
             vistaCanciones.View = View.List;
@@ -66,7 +66,7 @@ namespace aplicacion_musica
             ListViewItem[] items = new ListViewItem[albumAEditar.NumberOfSongs];
             for (int i = 0; i < items.Length; i++)
             {
-                items[i] = new ListViewItem(albumAEditar.Songs[i].titulo);
+                items[i] = new ListViewItem(albumAEditar.Songs[i].Title);
             }
             vistaCanciones.Items.AddRange(items);
         }
@@ -82,7 +82,7 @@ namespace aplicacion_musica
                 string gn = comboBoxGeneros.SelectedItem.ToString();
                 Genre g = Programa.genres[Programa.FindGeneroTraducido(gn)];
                 albumAEditar.Genre = g;
-                albumAEditar.Cover = labelRuta.Text;
+                albumAEditar.CoverPath = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
                 albumAEditar.SoundFilesPath = labelDirectorioActual.Text;
                 string[] uriSpotify = textBoxURISpotify.Text.Split(':');
@@ -92,8 +92,8 @@ namespace aplicacion_musica
                     albumAEditar.IdSpotify = (textBoxURISpotify.Text);
                 foreach (Song c in albumAEditar.Songs)
                 {
-                    if(!c.Bonus)
-                        nuevaDuracion += c.duracion;
+                    if(!c.IsBonus)
+                        nuevaDuracion += c.Length;
                 }
             }
             catch (NullReferenceException)

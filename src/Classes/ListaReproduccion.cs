@@ -62,9 +62,10 @@ namespace aplicacion_musica
         public void Guardar(string name)
         {
             StreamWriter Writer = new StreamWriter(name);
+            Writer.WriteLine(Nombre);
             foreach (var cancion in Canciones)
             {
-                Writer.WriteLine(cancion.PATH);
+                Writer.WriteLine(cancion.Path);
             }
         }
         public void Cargar(string path)
@@ -73,7 +74,7 @@ namespace aplicacion_musica
             while(!reader.EndOfStream)
             {
                 Song c = new Song();
-                c.PATH = reader.ReadLine();
+                c.Path = reader.ReadLine();
                 Canciones.Add(c);
             }
         }

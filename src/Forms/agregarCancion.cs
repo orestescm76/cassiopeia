@@ -53,12 +53,12 @@ namespace aplicacion_musica
                 secsTextBox.Enabled = false;
                 checkBoxBonus.Enabled = false;
             }
-            tituloTextBox.Text = c.titulo;
-            if (c.duracion.TotalMinutes >= 60)
-                minTextBox.Text = ((int)c.duracion.TotalMinutes).ToString();
+            tituloTextBox.Text = c.Title;
+            if (c.Length.TotalMinutes >= 60)
+                minTextBox.Text = ((int)c.Length.TotalMinutes).ToString();
             else
-                minTextBox.Text = c.duracion.Minutes.ToString();
-            secsTextBox.Text = c.duracion.Seconds.ToString();
+                minTextBox.Text = c.Length.Minutes.ToString();
+            secsTextBox.Text = c.Length.Seconds.ToString();
             if (c is CancionLarga)
             {
                 minTextBox.Enabled = false;
@@ -69,7 +69,7 @@ namespace aplicacion_musica
             textBoxNumPartes.Hide();
             ConsejoEsBonus = new ToolTip();
             ConsejoEsBonus.SetToolTip(checkBoxBonus, Programa.textosLocal.GetString("esBonusAyuda"));
-            if (c.Bonus)
+            if (c.IsBonus)
                 checkBoxBonus.Checked = true;
             np = 0;
             ponerTextos();
@@ -122,7 +122,7 @@ namespace aplicacion_musica
                 cualdeVerdad = album.NumberOfSongs;
             if(editar)
             {
-                Text = Programa.textosLocal.GetString("editando") + " " + cancion.titulo;
+                Text = Programa.textosLocal.GetString("editando") + " " + cancion.Title;
                 buttonOK.Text = Programa.textosLocal.GetString("hecho");
             }
 
@@ -155,19 +155,16 @@ namespace aplicacion_musica
                     bonus = checkBoxBonus.Checked;
                     if (editar) //si edita
                     {
-                        cancion.titulo = t;
-                        cancion.duracion = new TimeSpan(0, min, sec);
-                        cancion.Bonus = bonus;
+                        cancion.Title = t;
+                        cancion.Length = new TimeSpan(0, min, sec);
+                        cancion.IsBonus = bonus;
                         DialogResult = DialogResult.OK;
                         Close();
                     }
                     else
                     {
                         Song c = new Song(t, new TimeSpan(0, min, sec), ref album, bonus);
-                        if (cual != 0)
-                            album.AddSong(c, cual);
-                        else
-                            album.AddSong(c);
+                        album.AddSong(c);
                         DialogResult = DialogResult.OK;
                         Close();
                     }
@@ -177,11 +174,12 @@ namespace aplicacion_musica
                     t = tituloTextBox.Text;
                     min = sec = 0;
                     np = Convert.ToInt32(textBoxNumPartes.Text);
-                    CancionLarga cl = new CancionLarga(t, ref album);
-                    album.AddSong(cl, cual);
+                    CancionLarga longSong = new CancionLarga(t, ref album);
+
+                    album.AddSong(longSong);
                     for (int i = 0; i < np; i++)
                     {
-                        agregarCancion addParte = new agregarCancion(ref cl, i + 1, ref album);
+                        agregarCancion addParte = new agregarCancion(ref longSong, i + 1, ref album);
                         addParte.ShowDialog();
                         if (addParte.DialogResult == DialogResult.Cancel)
                             break;

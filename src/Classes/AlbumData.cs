@@ -10,10 +10,14 @@ namespace aplicacion_musica
         public String Title { get; set; }
         public String Artist { get; set; }
         public short Year { get; set; }
-        public List<Song> Songs { get; set; }
-        public String Cover { get; set; }
         public Genre Genre { get; set; }
+
+        public List<Song> Songs { get; set; }
+
+        public String ID { get => Title+Artist; }
         public String IdSpotify { get; set; }
+
+        public String CoverPath { get; set; }
         public String SoundFilesPath { get; set; }
 
         [JsonIgnore] public int NumberOfSongs { get { return Songs.Count; } }
@@ -26,80 +30,48 @@ namespace aplicacion_musica
             Genre = Programa.genres.Last();
         }
 
-        public AlbumData(Genre g, string n = "", string a = "", short y = 0, string c = "")
+        public AlbumData(Genre genre, string title = "", string artist = "", short year = 0, string coverPath = "")
         {
-            Title = n;
-            Artist = a;
-            Year = y;
+            Title = title;
+            Artist = artist;
+            Year = year;
             Songs = new List<Song>();
-            Cover = c;
-            Genre = g;
+            CoverPath = coverPath;
+            Genre = genre;
             CanBeRemoved = true;
         }
 
-        public AlbumData(string n = "", string a = "", short y = 0, string c = "")
+        public AlbumData(string title = "", string artist = "", short year = 0, string coverPath = "")
         {
-            Title = n;
-            Artist = a;
-            Year = y;
-            Cover = c;
+            Title = title;
+            Artist = artist;
+            Year = year;
+            CoverPath = coverPath;
             Genre = new Genre("");
+            Songs = new List<Song>();
             CanBeRemoved = true;
         }
 
-        public AlbumData(AlbumData a)
+        public AlbumData(AlbumData other)
         {
-            Title = a.Title;
-            Artist = a.Artist;
-            Year = a.Year;
-            Songs = a.Songs;
-            Cover = a.Cover;
+            Title = other.Title;
+            Artist = other.Artist;
+            Year = other.Year;
+            Songs = other.Songs;
+            CoverPath = other.CoverPath;
             CanBeRemoved = true;
         }
 
-        public void AddSong(Song song)
-        {
-            Songs.Add(song);
-        }
-
-        public void AddSong(Song song, int index)
-        {
-            Songs.Insert(index, song);
-        }
-
-        private TimeSpan GetLength()
-        {
-            TimeSpan length = new TimeSpan();
-
-            foreach (Song song in Songs)
-            {
-                if (!song.Bonus)
-                    length += song.duracion;
-            }
-
-            return length;
-        }
-
-        public String[] ToStringArray()
-        {
-            String[] datos = { Artist, Title, Year.ToString(), Length.ToString(), Genre.Name };
-            return datos;
-        }
-
-        private string GetID()
-        {
-            return Artist + Title;
-        }
-
+        //---COMPARISON---
         public override bool Equals(Object other)
         {
             AlbumData albumData = other as AlbumData;
-            return GetID() == albumData.GetID();
+            return ID == albumData.ID;
         }
 
         public static bool operator ==(AlbumData leftAlbumData, AlbumData rightAlbumData)
         {
-            return leftAlbumData.GetID() == rightAlbumData.GetID();
+            return leftAlbumData.ID == rightAlbumData.ID;
         }
 
         public static bool operator !=(AlbumData leftAlbumData, AlbumData rightAlbumData)
@@ -107,20 +79,23 @@ namespace aplicacion_musica
             return !(leftAlbumData == rightAlbumData);
         }
 
-        public int GetSongPosition(string title)
+        //---SONGS MANAGEMENT---
+        public void AddSong(Song song)
         {
-            int songPos = -1;
+            Songs.Add(song);
+            song.SetAlbum(this);
+        }
 
-            for (int i = 0; i < Songs.Count; i++)
-            {
-                if (Songs[i].titulo.Equals(title))
-                {
-                    songPos = i;
-                    break;
-                }
-            }
+        public void AddSong(Song song, int index)
+        {
+            Songs.Insert(index, song);
+            song.SetAlbum(this);
+        }
 
-            return songPos;
+        public void RemoveSong(string title)
+        {
+            Song song = GetSong(title);
+            Songs.Remove(song);
         }
 
         public Song GetSong(string title)
@@ -129,7 +104,7 @@ namespace aplicacion_musica
 
             foreach (Song s in Songs)
             {
-                if (s.titulo.Equals(title))
+                if (s.Title.Equals(title))
                 {
                     song = s;
                     break;
@@ -139,52 +114,76 @@ namespace aplicacion_musica
             return song;
         }
 
-        public Song getCancion(int n)
+        public Song GetSong(int n)
         {
             return Songs[n];
         }
 
+        public int GetSongPosition(string title)
+        {
+            int songPos = -1;
+
+            for (int i = 0; i < Songs.Count; i++)
+            {
+                if (Songs[i].Title.Equals(title))
+                {
+                    songPos = i;
+                    break;
+                }
+            }
+
+            return songPos;
+        }
+
+        //---DATA---
+        private TimeSpan GetLength()
+        {
+            TimeSpan length = new TimeSpan();
+
+            foreach (Song song in Songs)
+            {
+                if (!song.IsBonus)
+                    length += song.Length;
+            }
+
+            return length;
+        }
+
         public override string ToString()
         {
-            //artista - nombre (dur) (gen) 
+            //Artist - Title (Length) (Genre) 
             return Artist + " - " + Title + "(" + Length + ") (" + Genre.Name + ")";
         }
 
-        public void RemoveSong(string title)
+        public String[] ToStringArray()
         {
-            Song song = GetSong(title);
-            Songs.Remove(song);
+            String[] datos = { Artist, Title, Year.ToString(), Length.ToString(), Genre.Name };
+            return datos;
         }
 
-        public void ConfigurarCanciones()
-        {
-            foreach (Song cancion in Songs)
-            {
-                cancion.SetAlbum(this);
-            }
-        }
-
-        public String GetTerminoBusqueda()
+        public String GetSpotifySearchLabel()
         {
             return Artist + " " + Title;
         }
 
-        public string GetPortapapeles()
+        public string ToClipboard()
         {
-            string val = Config.Portapapeles.Replace("%artist%", Artist); //Es seguro.
+            string clipboardText = Config.Portapapeles.Replace("%artist%", Artist); //Es seguro.
+
             try
             {
-                val = val.Replace("%title%", Title);
-                val = val.Replace("%year%", Year.ToString());
-                val = val.Replace("%genre%", Genre.Name);
-                val = val.Replace("%length%", Length.ToString());
-                val = val.Replace("%length_seconds%", ((int)Length.TotalSeconds).ToString());
-                return val;
+                clipboardText = clipboardText.Replace("%title%", Title);
+                clipboardText = clipboardText.Replace("%year%", Year.ToString());
+                clipboardText = clipboardText.Replace("%genre%", Genre.Name);
+                clipboardText = clipboardText.Replace("%length%", Length.ToString());
+                clipboardText = clipboardText.Replace("%length_seconds%", ((int)Length.TotalSeconds).ToString());
+                return clipboardText;
             }
             catch (NullReferenceException)
             {
-                return val;
+                return clipboardText;
             }
         }
+
     }
 }

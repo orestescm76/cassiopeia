@@ -56,6 +56,7 @@ namespace aplicacion_musica
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
+
         public String[] toStringArray()
         {
             String[] d = new string[6];
@@ -63,9 +64,10 @@ namespace aplicacion_musica
             d[5] = Id;
             return d;
         }
+
         public void InstallAlbum()
         {
-            Album = Programa.miColeccion.devolverAlbum(Artista + "_" + Nombre);
+            Album = Programa.miColeccion.GetAlbum(Artist + "_" + Title);
         }
     }
 }

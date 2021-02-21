@@ -1,4 +1,4 @@
-﻿namespace aplicacion_musica
+﻿namespace aplicacion_musica.src.Forms
 {
     partial class Reproductor
     {

@@ -29,13 +29,13 @@ namespace aplicacion_musica.src.Forms
             ConsejoDeshacer = new ToolTip();
             PonerTextos();
             textBoxLyrics.DeselectAll();
-            if(object.ReferenceEquals(cancion.album, null))
+            if(object.ReferenceEquals(cancion.AlbumFrom, null))
             {
                 buttonBack.Enabled = false;
                 buttonNext.Enabled = false;
             }
-            buttonBack.Enabled = !(cancion.Num == 1);
-            buttonNext.Enabled = (cancion.Num != cancion.album.Songs.Count);
+            buttonBack.Enabled = !(cancion.IndexInAlbum == 1);
+            buttonNext.Enabled = (cancion.IndexInAlbum != cancion.AlbumFrom.Songs.Count);
             textBoxLyrics.MouseWheel += new MouseEventHandler(textBoxLyrics_MouseWheel);
         }
         private void CambiarCancion(Song c)
@@ -50,13 +50,13 @@ namespace aplicacion_musica.src.Forms
             textBoxLyrics.Lines = cancion.Lyrics;
             Text = cancion.ToString();
             textBoxLyrics.DeselectAll();
-            if (object.ReferenceEquals(cancion.album, null))
+            if (object.ReferenceEquals(cancion.AlbumFrom, null))
             {
                 buttonBack.Enabled = false;
                 buttonNext.Enabled = false;
             }
-            buttonBack.Enabled = !(cancion.Num == 1);
-            buttonNext.Enabled = (cancion.Num != cancion.album.Songs.Count);
+            buttonBack.Enabled = !(cancion.IndexInAlbum == 1);
+            buttonNext.Enabled = (cancion.IndexInAlbum != cancion.AlbumFrom.Songs.Count);
         }
         private void PonerTextos()
         {
@@ -107,13 +107,13 @@ namespace aplicacion_musica.src.Forms
         private void buttonNext_Click(object sender, EventArgs e)
         {
             Guardar();
-            CambiarCancion(cancion.album.getCancion(cancion.Num));
+            CambiarCancion(cancion.AlbumFrom.GetSong(cancion.IndexInAlbum));
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
             Guardar();
-            CambiarCancion(cancion.album.getCancion(cancion.Num-2));
+            CambiarCancion(cancion.AlbumFrom.GetSong(cancion.IndexInAlbum-2));
         }
         private void textBoxLyrics_MouseWheel(object sender, MouseEventArgs e)
         {

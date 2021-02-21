@@ -11,7 +11,7 @@ using System.Threading;
 using System.Diagnostics;
 using aplicacion_musica.Properties;
 
-namespace aplicacion_musica
+namespace aplicacion_musica.src.Forms
 {
     public enum EstadoReproductor
     {
@@ -291,24 +291,24 @@ namespace aplicacion_musica
         }
         public void SetPATH(Song c) //probablemente deprecated pero configura los paths
         {
-            directorioCanciones = new DirectoryInfo(c.album.SoundFilesPath);
+            directorioCanciones = new DirectoryInfo(c.AlbumFrom.SoundFilesPath);
             foreach (FileInfo file in directorioCanciones.GetFiles())
             {
-                if (CancionLocalReproduciendo == null || file.FullName == CancionLocalReproduciendo.PATH)
+                if (CancionLocalReproduciendo == null || file.FullName == CancionLocalReproduciendo.Path)
                     continue;
                 try
                 {
                     LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                    if (LM.Evaluable() && c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.Artist.ToLower() == LM.Artista.ToLower())
+                    if (LM.Evaluable() && c.Title.ToLower() == LM.Titulo.ToLower() && c.AlbumFrom.Artist.ToLower() == LM.Artista.ToLower())
                     {
-                        c.PATH = file.FullName;
+                        c.Path = file.FullName;
                         break;
                     }
                     else
                     {
-                        if (file.FullName.ToLower().Contains(c.titulo.ToLower()))
+                        if (file.FullName.ToLower().Contains(c.Title.ToLower()))
                         {
-                            c.PATH = file.FullName;
+                            c.Path = file.FullName;
                             Text = c.ToString();
                             break;
                         }
@@ -369,9 +369,9 @@ namespace aplicacion_musica
             controlBotones(true);
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Detenido;
-            if(object.ReferenceEquals(c.album, null)) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
+            if(object.ReferenceEquals(c.AlbumFrom, null)) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
             {
-                DirectoryInfo dir = new DirectoryInfo(c.PATH);
+                DirectoryInfo dir = new DirectoryInfo(c.Path);
                 dir = dir.Parent;
                 if(File.Exists(dir.FullName + "\\folder.jpg"))
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\folder.jpg");
@@ -394,17 +394,17 @@ namespace aplicacion_musica
             //}
 
             CancionLocalReproduciendo = c;
-            if (string.IsNullOrEmpty(c.PATH))
+            if (string.IsNullOrEmpty(c.Path))
             {   
-                MessageBox.Show(c.titulo + " " +c.album.Title + Environment.NewLine + "ERROR_CANCION");
+                MessageBox.Show(c.Title + " " +c.AlbumFrom.Title + Environment.NewLine + "ERROR_CANCION");
                 return;
             }
             else
-                s = c.PATH;
+                s = c.Path;
             nucleo.Apagar();
             try
             {
-                nucleo.CargarCancion(CancionLocalReproduciendo.PATH);
+                nucleo.CargarCancion(CancionLocalReproduciendo.Path);
                 nucleo.Reproducir();
             }
             catch (Exception)
@@ -416,24 +416,24 @@ namespace aplicacion_musica
             {
                 using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
                 {
-                    escritor.WriteLine(NumCancion + " - " + c.album.Artist + " - " + c.titulo);
+                    escritor.WriteLine(NumCancion + " - " + c.AlbumFrom.Artist + " - " + c.Title);
                     NumCancion++;
                 }
             }
             PrepararReproductor();
-            LectorMetadatos LM = new LectorMetadatos(c.PATH);
-            if (!ReferenceEquals(c.album, null) && c.album.Cover != null )
+            LectorMetadatos LM = new LectorMetadatos(c.Path);
+            if (!ReferenceEquals(c.AlbumFrom, null) && c.AlbumFrom.CoverPath != null )
             {
-                if(c.album.Cover != "")
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.Cover);
+                if(c.AlbumFrom.CoverPath != "")
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.CoverPath);
                 else
                 {
-                    if(File.Exists(c.album.SoundFilesPath + "\\cover.jpg"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.jpg");
-                    else if (File.Exists(c.album.SoundFilesPath + "\\cover.png"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.png");
-                    else if (File.Exists(c.album.SoundFilesPath + "\\folder.jpg"))
-                            pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\folder.jpg");
+                    if(File.Exists(c.AlbumFrom.SoundFilesPath + "\\cover.jpg"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\cover.jpg");
+                    else if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\cover.png"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\cover.png");
+                    else if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\folder.jpg"))
+                            pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\folder.jpg");
                 }
             }
             else
@@ -724,6 +724,8 @@ namespace aplicacion_musica
                     if (FicheroLeible(fich))
                     {
                         Song c = new Song(fich);
+                        if (ListaReproduccion == null)
+                            ListaReproduccion = new ListaReproduccion("Selección");
                         ListaReproduccion.AgregarCancion(c);
                         ReproducirLista(ListaReproduccion);
                     }
@@ -1033,7 +1035,7 @@ namespace aplicacion_musica
                 salida.WriteLine(foobar2kInstance.MainWindowTitle);
             }
         }
-
+        //Esto está rotísimo... ;(
         private void buttonTwit_Click(object sender, EventArgs e)
         {
             string test;
@@ -1051,9 +1053,9 @@ namespace aplicacion_musica
             }
             else if(!ModoCD)
                 test = Programa.textosLocal.GetString("compartirLocal1").Replace(" ", "%20") + "%20" + 
-                    CancionLocalReproduciendo.titulo + "%20" + 
+                    CancionLocalReproduciendo.Title + "%20" + 
                     Programa.textosLocal.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
-                    CancionLocalReproduciendo.album.Artist + "%20" +
+                    CancionLocalReproduciendo.AlbumFrom.Artist + "%20" +
                     Programa.textosLocal.GetString("compartirLocal3").Replace(" ", "%20") + "%20" + 
                     Programa.textosLocal.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + 
                     Programa.version + "%20" + Programa.CodeName;
@@ -1070,7 +1072,7 @@ namespace aplicacion_musica
             String[] canciones = null;
             if((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
-                if (!string.IsNullOrEmpty(c.PATH))
+                if (!string.IsNullOrEmpty(c.Path))
                 {
                     ModoCD = false;
                     ReproducirCancion(c);
@@ -1082,7 +1084,7 @@ namespace aplicacion_musica
                 foreach (string cancion in canciones)
                 {
                     Song clr = new Song();
-                    clr.PATH = cancion;
+                    clr.Path = cancion;
                     lrDragDrop.AgregarCancion(clr);
                 }
                 ReproducirLista(lrDragDrop);

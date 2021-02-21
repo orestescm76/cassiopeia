@@ -233,7 +233,7 @@ namespace aplicacion_musica
 
             }
             AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            if (Programa.miColeccion.estaEnColeccion(a))
+            if (Programa.miColeccion.IsInCollection(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
                 throw new InvalidOperationException();
@@ -244,13 +244,13 @@ namespace aplicacion_musica
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
-                if(canciones[i].duracion.Milliseconds > 500)
-                    canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
+                if(canciones[i].Length.Milliseconds > 500)
+                    canciones[i].Length += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].Length.Milliseconds);
                 else
-                    canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
+                    canciones[i].Length -= new TimeSpan(0, 0, 0, 0, canciones[i].Length.Milliseconds);
             }
             a.Songs = canciones;
-            Programa.miColeccion.agregarAlbum(ref a);
+            Programa.miColeccion.AddAlbum(ref a);
         }
         public void procesarAlbum(FullAlbum album)
         {
@@ -276,7 +276,7 @@ namespace aplicacion_musica
 
             }
             AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            if (Programa.miColeccion.estaEnColeccion(a))
+            if (Programa.miColeccion.IsInCollection(a))
             {
                 Log.Instance.ImprimirMensaje("Intentando añadir duplicado, cancelando...", TipoMensaje.Advertencia);
                 throw new InvalidOperationException();
@@ -287,14 +287,14 @@ namespace aplicacion_musica
             for (int i = 0; i < c.Count; i++)
             {
                 canciones.Add(new Song(c[i].Name, new TimeSpan(0, 0, 0, 0, c[i].DurationMs), ref a));
-                if (canciones[i].duracion.Milliseconds > 500)
-                    canciones[i].duracion += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].duracion.Milliseconds);
+                if (canciones[i].Length.Milliseconds > 500)
+                    canciones[i].Length += new TimeSpan(0, 0, 0, 0, 1000 - canciones[i].Length.Milliseconds);
                 else
-                    canciones[i].duracion -= new TimeSpan(0, 0, 0, 0, canciones[i].duracion.Milliseconds);
+                    canciones[i].Length -= new TimeSpan(0, 0, 0, 0, canciones[i].Length.Milliseconds);
             }
             a.Songs = canciones;
             a.CanBeRemoved = true;
-            Programa.miColeccion.agregarAlbum(ref a);
+            Programa.miColeccion.AddAlbum(ref a);
         }
 
         public void Reiniciar()
@@ -341,7 +341,7 @@ namespace aplicacion_musica
             List<string> uris = new List<string>();
             foreach(Song parte in cl.Partes)
             {
-                uris.Add("spotify:track:"+DevolverCancionDelAlbum(uri, parte.titulo));
+                uris.Add("spotify:track:"+DevolverCancionDelAlbum(uri, parte.Title));
             }
             return _spotify.ResumePlayback(uris: uris, offset: "", positionMs: 0);
         }

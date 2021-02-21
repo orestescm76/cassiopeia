@@ -23,9 +23,9 @@ namespace aplicacion_musica
 
             try
             {
-                if (!string.IsNullOrEmpty(a.Cover))
+                if (!string.IsNullOrEmpty(a.CoverPath))
                 {
-                    Image caratula = Image.FromFile(a.Cover);
+                    Image caratula = Image.FromFile(a.CoverPath);
                     vistaCaratula.Image = caratula;
                     vistaCaratula.SizeMode = PictureBoxSizeMode.StretchImage;
                 }
@@ -65,13 +65,13 @@ namespace aplicacion_musica
                 Programa.textosLocal.GetString("duracion") + ": " + cd.Album.Length.ToString() + Environment.NewLine +
                 Programa.textosLocal.GetString("genero") + ": " + cd.Album.Genre.Name + Environment.NewLine +
                 Programa.textosLocal.GetString("formato") + ": " + Programa.textosLocal.GetString(cd.FormatoCD.ToString()) + Environment.NewLine +
-                Programa.textosLocal.GetString("añoPublicacion") + ": " + cd.YearRelease + Environment.NewLine +
-                Programa.textosLocal.GetString("paisPublicacion") + ":" + cd.PaisPublicacion + Environment.NewLine +
+                Programa.textosLocal.GetString("añoPublicacion") + ": " + cd.Year + Environment.NewLine +
+                Programa.textosLocal.GetString("paisPublicacion") + ":" + cd.Country + Environment.NewLine +
                 Programa.textosLocal.GetString("estado_exterior") + ": " + Programa.textosLocal.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine;
             labelEstadoDisco.Text = Programa.textosLocal.GetString("estado_medio") + " " + numDisco + ": " + Programa.textosLocal.GetString(cd.Discos[0].EstadoDisco.ToString()) + Environment.NewLine;
-            if (cd.Album.Cover != "")
+            if (cd.Album.CoverPath != "")
             {
-                Image caratula = Image.FromFile(cd.Album.Cover);
+                Image caratula = Image.FromFile(cd.Album.CoverPath);
                 vistaCaratula.Image = caratula;
                 vistaCaratula.SizeMode = PictureBoxSizeMode.StretchImage;
             }
@@ -129,7 +129,7 @@ namespace aplicacion_musica
                 {
                     item.BackColor = Color.LightSalmon;
                 }
-                if (c.Bonus)
+                if (c.IsBonus)
                 {
                     item.BackColor = Color.SkyBlue;
                 }
@@ -172,10 +172,10 @@ namespace aplicacion_musica
                     {
                         items[i].BackColor = Color.LightSalmon;
                     }
-                    if (c.Bonus)
+                    if (c.IsBonus)
                     {
                         items[i].BackColor = Color.SkyBlue;
-                        durBonus += c.duracion;
+                        durBonus += c.Length;
                     }
                     i++;
                 }
@@ -204,10 +204,10 @@ namespace aplicacion_musica
                     {
                         items[i].BackColor = Color.LightSalmon;
                     }
-                    if (c.Bonus)
+                    if (c.IsBonus)
                     {
                         items[i].BackColor = Color.SkyBlue;
-                        durBonus += c.duracion;
+                        durBonus += c.Length;
                     }
                     i++;
                 }
@@ -237,10 +237,10 @@ namespace aplicacion_musica
                     {
                         items[i].BackColor = Color.LightSalmon;
                     }
-                    if (c.Bonus)
+                    if (c.IsBonus)
                     {
                         items[i].BackColor = Color.SkyBlue;
-                        durBonus += c.duracion;
+                        durBonus += c.Length;
                     }
                     i++;
                 }
@@ -310,13 +310,13 @@ namespace aplicacion_musica
                 if(CDaVisualizar !=  null &&CDaVisualizar.Discos.Length > 1)
                 {
                     Song can = albumToVisualize.GetSong(cancion.SubItems[1].Text);
-                    seleccion += can.duracion;
+                    seleccion += can.Length;
                 }
                 else
                 {
                     int c = Convert.ToInt32(cancion.SubItems[0].Text); c--;
-                    Song can = albumToVisualize.getCancion(c);
-                    seleccion += can.duracion;
+                    Song can = albumToVisualize.GetSong(c);
+                    seleccion += can.Length;
                 }
             }
             duracionSeleccionada.Text = Programa.textosLocal.GetString("dur_total") + ": " + seleccion.ToString();
@@ -325,14 +325,14 @@ namespace aplicacion_musica
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int n = Convert.ToInt32(vistaCanciones.SelectedItems[0].SubItems[0].Text);
-            Song c = albumToVisualize.getCancion(n-1);
+            Song c = albumToVisualize.GetSong(n-1);
             if(c is CancionLarga cl)
             {
                 string infoDetallada = "";
                 for (int i = 0; i < cl.Partes.Count; i++)
                 {
                     infoDetallada += cl.GetNumeroRomano(i + 1) + ". ";
-                    infoDetallada += cl.Partes[i].titulo + " - " + cl.Partes[i].duracion;
+                    infoDetallada += cl.Partes[i].Title + " - " + cl.Partes[i].Length;
                     infoDetallada += Environment.NewLine;
                 }
                 MessageBox.Show(infoDetallada);
@@ -395,14 +395,7 @@ namespace aplicacion_musica
             foreach (ListViewItem item in vistaCanciones.SelectedItems)
             {
                 Song c = albumToVisualize.Songs[Convert.ToInt32(item.SubItems[0].Text)-1];
-                if(c.Bonus)
-                {
-                    c.Bonus = false;
-                }
-                else
-                {
-                    c.Bonus = true;
-                }
+                c.IsBonus = !c.IsBonus;
             }
             cargarVista();
         }
@@ -440,13 +433,13 @@ namespace aplicacion_musica
         }
         private void reproducirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Song cancionAReproducir = albumToVisualize.getCancion(vistaCanciones.SelectedItems[0].Index);
+            Song cancionAReproducir = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
             Reproductor.Instancia.ReproducirCancion(cancionAReproducir);
         }
 
         private void vistaCanciones_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            Song cancion = albumToVisualize.getCancion(vistaCanciones.SelectedItems[0].Index);
+            Song cancion = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
             vistaCanciones.DoDragDrop(cancion, DragDropEffects.Copy);
         }
 
@@ -465,24 +458,24 @@ namespace aplicacion_musica
                     try
                     {
                         LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                        if (LM.Evaluable() && (c.titulo.ToLower() == LM.Titulo.ToLower()) && (c.album.Artist.ToLower() == LM.Artista.ToLower()))
+                        if (LM.Evaluable() && (c.Title.ToLower() == LM.Titulo.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artista.ToLower()))
                         {
-                            c.PATH = file.FullName;
-                            Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
+                            c.Path = file.FullName;
+                            Log.Instance.ImprimirMensaje(c.Path + " leído correctamente", TipoMensaje.Correcto);
                             break;
                         }
-                        else if (LM.Evaluable() && string.Equals(c.titulo, LM.Titulo) && string.Equals(LM.Artista, c.album.Artist))
+                        else if (LM.Evaluable() && string.Equals(c.Title, LM.Titulo) && string.Equals(LM.Artista, c.AlbumFrom.Artist))
                         {
-                            c.PATH = file.FullName;
-                            Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
+                            c.Path = file.FullName;
+                            Log.Instance.ImprimirMensaje(c.Path + " leído correctamente", TipoMensaje.Correcto);
                             break;
                         }
                         else
                         {
-                            if (file.FullName.ToLower().Contains(c.titulo.ToLower()))
+                            if (file.FullName.ToLower().Contains(c.Title.ToLower()))
                             {
-                                c.PATH = file.FullName;
-                                Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
+                                c.Path = file.FullName;
+                                Log.Instance.ImprimirMensaje(c.Path + " leído correctamente", TipoMensaje.Correcto);
                                 break;
                             }
                         }
@@ -500,9 +493,9 @@ namespace aplicacion_musica
             {
                 foreach (Song cancion in albumToVisualize.Songs)
                 {
-                    if (cancion.PATH == null) //No se ha encontrado
+                    if (cancion.Path == null) //No se ha encontrado
                     {
-                        Log.Instance.ImprimirMensaje("No se encontró la canción para " + cancion.titulo + ".", TipoMensaje.Advertencia);
+                        Log.Instance.ImprimirMensaje("No se encontró la canción para " + cancion.Title + ".", TipoMensaje.Advertencia);
                     }
                 }
                 MessageBox.Show(Programa.textosLocal.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -513,7 +506,7 @@ namespace aplicacion_musica
 
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Song cancion = albumToVisualize.getCancion(vistaCanciones.SelectedItems[0].Index);
+            Song cancion = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
             VisorLyrics VL = new VisorLyrics(cancion);
             VL.Show();
         }
@@ -536,7 +529,7 @@ namespace aplicacion_musica
             defusionarToolStripMenuItem.Visible = true;
             fusionarToolStripMenuItem.Visible = true;
             int i = vistaCanciones.SelectedItems[0].Index;
-            Song seleccion = albumToVisualize.getCancion(i);
+            Song seleccion = albumToVisualize.GetSong(i);
             if (vistaCanciones.SelectedItems.Count > 1)
                 defusionarToolStripMenuItem.Visible = false;
             if (!(seleccion is CancionLarga))
@@ -555,11 +548,11 @@ namespace aplicacion_musica
             List<string> cancionesABorrar = new List<string>();
             CancionLarga cl = new CancionLarga();
             cl.SetAlbum(albumToVisualize);
-            cl.titulo = albumToVisualize.getCancion(num).titulo;
+            cl.Title = albumToVisualize.GetSong(num).Title;
 
             foreach (ListViewItem cancionItem in vistaCanciones.SelectedItems)
             {
-                cl.addParte(albumToVisualize.getCancion(cancionItem.Index));
+                cl.addParte(albumToVisualize.GetSong(cancionItem.Index));
                 cancionesABorrar.Add(cancionItem.SubItems[1].Text);
             }
 
@@ -582,16 +575,16 @@ namespace aplicacion_musica
                 return;
             }
 
-            CancionLarga longSong = (CancionLarga)albumToVisualize.getCancion(num);
+            CancionLarga longSong = (CancionLarga)albumToVisualize.GetSong(num);
             foreach (Song parte in longSong.Partes)
             {
                 albumToVisualize.AddSong(parte, num);
                 num++;
             }
 
-            longSong.titulo = "---"; //This is for safe defusing
+            longSong.Title = "---"; //This is for safe defusing
 
-            albumToVisualize.RemoveSong(longSong.titulo);
+            albumToVisualize.RemoveSong(longSong.Title);
             refrescarVista();
         }
     }
