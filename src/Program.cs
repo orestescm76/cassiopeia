@@ -229,7 +229,7 @@ namespace aplicacion_musica
                                 }
                                 else
                                 {
-                                    LongSong cl = new LongSong(datosCancion[(int)CSV_Songs.Title], ref a);
+                                    LongSong cl = new LongSong(datosCancion[(int)CSV_Songs.Title], a);
                                     int np = Convert.ToInt32(datosCancion[(int)CSV_Songs.TotalSeconds]);
                                     for (int j = 0; j < np; j++)
                                     {
@@ -237,7 +237,7 @@ namespace aplicacion_musica
                                         lineaC++;
                                         datosCancion = linea.Split(';');
                                         Song c = new Song(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[(int)CSV_Songs.TotalSeconds])), ref a);
-                                        cl.addParte(c);
+                                        cl.AddPart(c);
                                     }
                                     a.AddSong(cl, i);
                                 }
@@ -393,8 +393,8 @@ namespace aplicacion_musica
                                     {
                                         if (a.Songs[i] is LongSong longSong)
                                         {
-                                            salida.WriteLine(longSong.Title + ";" + longSong.Partes.Count);//no tiene duracion y son 2 datos a guardar
-                                            foreach (Song parte in longSong.Partes)
+                                            salida.WriteLine(longSong.Title + ";" + longSong.Parts.Count);//no tiene duracion y son 2 datos a guardar
+                                            foreach (Song parte in longSong.Parts)
                                             {
                                                 salida.WriteLine(parte.Title + ";" + (int)(parte.Length.TotalSeconds));
                                             }

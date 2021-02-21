@@ -447,7 +447,7 @@ namespace aplicacion_musica.src.Forms
 
             if (ListaReproduccion is null)
                 CreatePlaylist(c.Title);
-            foreach (Song song in c.Partes)
+            foreach (Song song in c.Parts)
             {
                 ListaReproduccion.AgregarCancion(song);
             }
@@ -723,21 +723,25 @@ namespace aplicacion_musica.src.Forms
 
         private void buttonAbrir_Click(object sender, EventArgs e)
         {
-            string fich = null;
+            string songPath = null;
+
             openFileDialog1.Filter = "*.mp3, *.flac, *.ogg|*.mp3;*.flac;*.ogg";
             DialogResult r = openFileDialog1.ShowDialog();
             if (r != DialogResult.Cancel)
             {
                 nucleo.Apagar();
                 estadoReproductor = EstadoReproductor.Detenido;
-                fich = openFileDialog1.FileName;
+                songPath = openFileDialog1.FileName;
                
-                this.fich = fich;
+                this.fich = songPath;
+
                 try
                 {
-                    if (FicheroLeible(fich))
+                    if (FicheroLeible(songPath))
                     {
-                        Song c = new Song(fich);
+                        Song c = new Song();
+                        c.Path = songPath;
+
                         if (ListaReproduccion == null)
                             ListaReproduccion = new ListaReproduccion("Selección");
                         ListaReproduccion.AgregarCancion(c);

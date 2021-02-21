@@ -329,10 +329,10 @@ namespace aplicacion_musica
             if(c is LongSong cl)
             {
                 string infoDetallada = "";
-                for (int i = 0; i < cl.Partes.Count; i++)
+                for (int i = 0; i < cl.Parts.Count; i++)
                 {
-                    infoDetallada += cl.GetNumeroRomano(i + 1) + ". ";
-                    infoDetallada += cl.Partes[i].Title + " - " + cl.Partes[i].Length;
+                    infoDetallada += Utils.ConvertToRomanNumeral(i + 1) + ". ";
+                    infoDetallada += cl.Parts[i].Title + " - " + cl.Parts[i].Length;
                     infoDetallada += Environment.NewLine;
                 }
                 MessageBox.Show(infoDetallada);
@@ -559,7 +559,7 @@ namespace aplicacion_musica
 
             foreach (ListViewItem cancionItem in vistaCanciones.SelectedItems)
             {
-                cl.addParte(albumToVisualize.GetSong(cancionItem.Index));
+                cl.AddPart(albumToVisualize.GetSong(cancionItem.Index));
                 cancionesABorrar.Add(cancionItem.SubItems[1].Text);
             }
 
@@ -583,7 +583,7 @@ namespace aplicacion_musica
             }
 
             LongSong longSong = (LongSong)albumToVisualize.GetSong(num);
-            foreach (Song parte in longSong.Partes)
+            foreach (Song parte in longSong.Parts)
             {
                 albumToVisualize.AddSong(parte, num);
                 num++;

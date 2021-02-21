@@ -96,6 +96,7 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
+
         public agregarCancion(ref LongSong l, int n, ref AlbumData a) //crear parte de canción larga
         {
             Log.Instance.ImprimirMensaje("Creando parte de canción larga", TipoMensaje.Info);
@@ -115,25 +116,26 @@ namespace aplicacion_musica
             crono.Stop();
             Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
         }
+
         private void ponerTextos()
         {
             int cualdeVerdad = cual;
             if (cual == -2)
                 cualdeVerdad = album.NumberOfSongs;
+
             if(editar)
             {
                 Text = Program.LocalTexts.GetString("editando") + " " + cancion.Title;
                 buttonOK.Text = Program.LocalTexts.GetString("hecho");
-            }
-
-            else
+            } else
             {
                 Text = Program.LocalTexts.GetString("añadir_cancion") + " " + (cualdeVerdad+1);
                 buttonOK.Text = Program.LocalTexts.GetString("hecho");
             }
+
             if(cancionlarga != null)
             {
-                Text = Program.LocalTexts.GetString("añadir_cancion") + " " + cancionlarga.GetNumeroRomano(cual);
+                Text = Program.LocalTexts.GetString("añadir_cancion") + " " + Utils.ConvertToRomanNumeral(cual);
             }
             buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
             labelTituloCancion.Text = Program.LocalTexts.GetString("introduce_cancion");
@@ -174,7 +176,7 @@ namespace aplicacion_musica
                     t = tituloTextBox.Text;
                     min = sec = 0;
                     np = Convert.ToInt32(textBoxNumPartes.Text);
-                    LongSong longSong = new LongSong(t, ref album);
+                    LongSong longSong = new LongSong(t, album);
 
                     album.AddSong(longSong);
                     for (int i = 0; i < np; i++)
@@ -195,7 +197,7 @@ namespace aplicacion_musica
                     TimeSpan dur = new TimeSpan(0, min, sec);
                     np = 0;
                     Song p = new Song(t, dur, ref album);
-                    cancionlarga.addParte(p);
+                    cancionlarga.AddPart(p);
                     DialogResult = DialogResult.OK;
                 }
                 Dispose();

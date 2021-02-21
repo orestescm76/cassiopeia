@@ -335,7 +335,7 @@ namespace aplicacion_musica
         {
             FullAlbum album = _spotify.GetAlbum(uri);
             List<string> uris = new List<string>();
-            foreach(Song parte in cl.Partes)
+            foreach(Song parte in cl.Parts)
             {
                 uris.Add("spotify:track:"+DevolverCancionDelAlbum(uri, parte.Title));
             }
