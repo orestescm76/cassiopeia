@@ -53,12 +53,12 @@ namespace aplicacion_musica
                 secsTextBox.Enabled = false;
                 checkBoxBonus.Enabled = false;
             }
-            tituloTextBox.Text = c.titulo;
-            if (c.duracion.TotalMinutes >= 60)
-                minTextBox.Text = ((int)c.duracion.TotalMinutes).ToString();
+            tituloTextBox.Text = c.Title;
+            if (c.Length.TotalMinutes >= 60)
+                minTextBox.Text = ((int)c.Length.TotalMinutes).ToString();
             else
-                minTextBox.Text = c.duracion.Minutes.ToString();
-            secsTextBox.Text = c.duracion.Seconds.ToString();
+                minTextBox.Text = c.Length.Minutes.ToString();
+            secsTextBox.Text = c.Length.Seconds.ToString();
             if (c is CancionLarga)
             {
                 minTextBox.Enabled = false;
@@ -155,8 +155,8 @@ namespace aplicacion_musica
                     bonus = checkBoxBonus.Checked;
                     if (editar) //si edita
                     {
-                        cancion.titulo = t;
-                        cancion.duracion = new TimeSpan(0, min, sec);
+                        cancion.Title = t;
+                        cancion.Length = new TimeSpan(0, min, sec);
                         cancion.IsBonus = bonus;
                         DialogResult = DialogResult.OK;
                         Close();

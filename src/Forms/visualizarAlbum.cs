@@ -175,7 +175,7 @@ namespace aplicacion_musica
                     if (c.IsBonus)
                     {
                         items[i].BackColor = Color.SkyBlue;
-                        durBonus += c.duracion;
+                        durBonus += c.Length;
                     }
                     i++;
                 }
@@ -207,7 +207,7 @@ namespace aplicacion_musica
                     if (c.IsBonus)
                     {
                         items[i].BackColor = Color.SkyBlue;
-                        durBonus += c.duracion;
+                        durBonus += c.Length;
                     }
                     i++;
                 }
@@ -240,7 +240,7 @@ namespace aplicacion_musica
                     if (c.IsBonus)
                     {
                         items[i].BackColor = Color.SkyBlue;
-                        durBonus += c.duracion;
+                        durBonus += c.Length;
                     }
                     i++;
                 }
@@ -310,13 +310,13 @@ namespace aplicacion_musica
                 if(!(CDaVisualizar is null) &&CDaVisualizar.Discos.Length > 1)
                 {
                     Song can = albumToVisualize.GetSong(cancion.SubItems[1].Text);
-                    seleccion += can.duracion;
+                    seleccion += can.Length;
                 }
                 else
                 {
                     int c = Convert.ToInt32(cancion.SubItems[0].Text); c--;
                     Song can = albumToVisualize.GetSong(c);
-                    seleccion += can.duracion;
+                    seleccion += can.Length;
                 }
             }
             duracionSeleccionada.Text = Program.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
@@ -332,7 +332,7 @@ namespace aplicacion_musica
                 for (int i = 0; i < cl.Partes.Count; i++)
                 {
                     infoDetallada += cl.GetNumeroRomano(i + 1) + ". ";
-                    infoDetallada += cl.Partes[i].titulo + " - " + cl.Partes[i].duracion;
+                    infoDetallada += cl.Partes[i].Title + " - " + cl.Partes[i].Length;
                     infoDetallada += Environment.NewLine;
                 }
                 MessageBox.Show(infoDetallada);
@@ -465,24 +465,24 @@ namespace aplicacion_musica
                     try
                     {
                         LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                        if (LM.Evaluable() && (c.titulo.ToLower() == LM.Titulo.ToLower()) && (c.album.Artist.ToLower() == LM.Artista.ToLower()))
+                        if (LM.Evaluable() && (c.Title.ToLower() == LM.Titulo.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artista.ToLower()))
                         {
-                            c.PATH = file.FullName;
-                            Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
+                            c.Path = file.FullName;
+                            Log.Instance.ImprimirMensaje(c.Path + " leído correctamente", TipoMensaje.Correcto);
                             break;
                         }
-                        else if (LM.Evaluable() && string.Equals(c.titulo, LM.Titulo) && string.Equals(LM.Artista, c.album.Artist))
+                        else if (LM.Evaluable() && string.Equals(c.Title, LM.Titulo) && string.Equals(LM.Artista, c.AlbumFrom.Artist))
                         {
-                            c.PATH = file.FullName;
-                            Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
+                            c.Path = file.FullName;
+                            Log.Instance.ImprimirMensaje(c.Path + " leído correctamente", TipoMensaje.Correcto);
                             break;
                         }
                         else
                         {
-                            if (file.FullName.ToLower().Contains(c.titulo.ToLower()))
+                            if (file.FullName.ToLower().Contains(c.Title.ToLower()))
                             {
-                                c.PATH = file.FullName;
-                                Log.Instance.ImprimirMensaje(c.PATH + " leído correctamente", TipoMensaje.Correcto);
+                                c.Path = file.FullName;
+                                Log.Instance.ImprimirMensaje(c.Path + " leído correctamente", TipoMensaje.Correcto);
                                 break;
                             }
                         }
@@ -500,9 +500,9 @@ namespace aplicacion_musica
             {
                 foreach (Song cancion in albumToVisualize.Songs)
                 {
-                    if (cancion.PATH == null) //No se ha encontrado
+                    if (cancion.Path == null) //No se ha encontrado
                     {
-                        Log.Instance.ImprimirMensaje("No se encontró la canción para " + cancion.titulo + ".", TipoMensaje.Advertencia);
+                        Log.Instance.ImprimirMensaje("No se encontró la canción para " + cancion.Title + ".", TipoMensaje.Advertencia);
                     }
                 }
                 MessageBox.Show(Program.LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -555,7 +555,7 @@ namespace aplicacion_musica
             List<string> cancionesABorrar = new List<string>();
             CancionLarga cl = new CancionLarga();
             cl.SetAlbum(albumToVisualize);
-            cl.titulo = albumToVisualize.GetSong(num).titulo;
+            cl.Title = albumToVisualize.GetSong(num).Title;
 
             foreach (ListViewItem cancionItem in vistaCanciones.SelectedItems)
             {
@@ -589,9 +589,9 @@ namespace aplicacion_musica
                 num++;
             }
 
-            longSong.titulo = "---"; //This is for safe defusing
+            longSong.Title = "---"; //This is for safe defusing
 
-            albumToVisualize.RemoveSong(longSong.titulo);
+            albumToVisualize.RemoveSong(longSong.Title);
             refrescarVista();
         }
     }

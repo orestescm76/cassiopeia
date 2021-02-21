@@ -286,24 +286,24 @@ namespace aplicacion_musica.src.Forms
         }
         public void SetPATH(Song c) //probablemente deprecated pero configura los paths
         {
-            directorioCanciones = new DirectoryInfo(c.album.SoundFilesPath);
+            directorioCanciones = new DirectoryInfo(c.AlbumFrom.SoundFilesPath);
             foreach (FileInfo file in directorioCanciones.GetFiles())
             {
-                if (CancionLocalReproduciendo == null || file.FullName == CancionLocalReproduciendo.PATH)
+                if (CancionLocalReproduciendo == null || file.FullName == CancionLocalReproduciendo.Path)
                     continue;
                 try
                 {
                     LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                    if (LM.Evaluable() && c.titulo.ToLower() == LM.Titulo.ToLower() && c.album.Artist.ToLower() == LM.Artista.ToLower())
+                    if (LM.Evaluable() && c.Title.ToLower() == LM.Titulo.ToLower() && c.AlbumFrom.Artist.ToLower() == LM.Artista.ToLower())
                     {
-                        c.PATH = file.FullName;
+                        c.Path = file.FullName;
                         break;
                     }
                     else
                     {
-                        if (file.FullName.ToLower().Contains(c.titulo.ToLower()))
+                        if (file.FullName.ToLower().Contains(c.Title.ToLower()))
                         {
-                            c.PATH = file.FullName;
+                            c.Path = file.FullName;
                             Text = c.ToString();
                             break;
                         }
@@ -367,7 +367,7 @@ namespace aplicacion_musica.src.Forms
             estadoReproductor = EstadoReproductor.Detenido;
             if(c.album is null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
             {
-                DirectoryInfo dir = new DirectoryInfo(c.PATH);
+                DirectoryInfo dir = new DirectoryInfo(c.Path);
                 dir = dir.Parent;
                 if(File.Exists(dir.FullName + "\\folder.jpg"))
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\folder.jpg");
@@ -420,7 +420,7 @@ namespace aplicacion_musica.src.Forms
             nucleo.Apagar();
             try
             {
-                nucleo.CargarCancion(CancionLocalReproduciendo.PATH);
+                nucleo.CargarCancion(CancionLocalReproduciendo.Path);
                 nucleo.Reproducir();
             }
             catch (Exception)
@@ -432,7 +432,7 @@ namespace aplicacion_musica.src.Forms
             {
                 using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
                 {
-                    escritor.WriteLine(NumCancion + " - " + c.album.Artist + " - " + c.titulo);
+                    escritor.WriteLine(NumCancion + " - " + c.AlbumFrom.Artist + " - " + c.Title);
                     NumCancion++;
                 }
             }
@@ -1091,7 +1091,7 @@ namespace aplicacion_musica.src.Forms
             String[] canciones = null;
             if((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
-                if (!string.IsNullOrEmpty(c.PATH))
+                if (!string.IsNullOrEmpty(c.Path))
                 {
                     ModoCD = false;
                     ReproducirCancion(c);

@@ -77,7 +77,7 @@ namespace aplicacion_musica
             Writer.WriteLine(Nombre);
             foreach (var cancion in Canciones)
             {
-                Writer.WriteLine(cancion.PATH);
+                Writer.WriteLine(cancion.Path);
             }
             Writer.Flush();
         }

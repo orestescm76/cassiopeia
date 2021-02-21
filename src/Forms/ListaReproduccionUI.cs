@@ -65,9 +65,9 @@ namespace aplicacion_musica.src.Forms
                 }
                 else
                 {
-                    data[1] = ListaReproduccion.Canciones[i].album.Artist;
-                    data[2] = ListaReproduccion.Canciones[i].titulo;
-                    data[3] = ListaReproduccion.Canciones[i].duracion.ToString(@"mm\:ss");
+                    data[1] = listaReproduccion.Canciones[i].AlbumFrom.Artist;
+                    data[2] = listaReproduccion.Canciones[i].Title;
+                    data[3] = listaReproduccion.Canciones[i].Length.ToString();
                 }
                 items[i] = new ListViewItem(data);
             }
@@ -99,7 +99,7 @@ namespace aplicacion_musica.src.Forms
             string[] canciones = null;
             if((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
-                if(!string.IsNullOrEmpty(c.PATH))
+                if(!string.IsNullOrEmpty(c.Path))
                 {
                     ListaReproduccion.AgregarCancion(c);
                 }

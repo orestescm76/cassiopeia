@@ -62,19 +62,6 @@ namespace aplicacion_musica
             CanBeRemoved = true;
         }
 
-        private TimeSpan GetLength()
-        {
-            TimeSpan length = new TimeSpan();
-
-            foreach (Song song in Songs)
-            {
-                if (!song.IsBonus)
-                    length += song.duracion;
-            }
-
-            return length;
-        }
-
         //---COMPARISON---
         public override bool Equals(Object other)
         {
@@ -117,7 +104,7 @@ namespace aplicacion_musica
 
             foreach (Song s in Songs)
             {
-                if (s.titulo.Equals(title))
+                if (s.Title.Equals(title))
                 {
                     song = s;
                     break;
@@ -138,7 +125,7 @@ namespace aplicacion_musica
 
             for (int i = 0; i < Songs.Count; i++)
             {
-                if (Songs[i].titulo.Equals(title))
+                if (Songs[i].Title.Equals(title))
                 {
                     songPos = i;
                     break;
@@ -149,6 +136,19 @@ namespace aplicacion_musica
         }
 
         //---DATA---
+        private TimeSpan GetLength()
+        {
+            TimeSpan length = new TimeSpan();
+
+            foreach (Song song in Songs)
+            {
+                if (!song.IsBonus)
+                    length += song.Length;
+            }
+
+            return length;
+        }
+
         public override string ToString()
         {
             //Artist - Title (Length) (Genre) 
@@ -166,23 +166,25 @@ namespace aplicacion_musica
             return Artist + " " + Title;
         }
 
-        public string GetPortapapeles()
+        public string ToClipboard()
         {
-            string val = Config.Portapapeles.Replace("%artist%", Artist); //Es seguro.
+            string clipboardText = Config.Portapapeles.Replace("%artist%", Artist); //Es seguro.
+
             try
             {
-                val = val.Replace("%title%", Title);
-                val = val.Replace("%year%", Year.ToString());
-                val = val.Replace("%genre%", Genre.Name);
-                val = val.Replace("%length%", Length.ToString());
-                val = val.Replace("%length_seconds%", ((int)Length.TotalSeconds).ToString());
-                return val;
+                clipboardText = clipboardText.Replace("%title%", Title);
+                clipboardText = clipboardText.Replace("%year%", Year.ToString());
+                clipboardText = clipboardText.Replace("%genre%", Genre.Name);
+                clipboardText = clipboardText.Replace("%length%", Length.ToString());
+                clipboardText = clipboardText.Replace("%length_seconds%", ((int)Length.TotalSeconds).ToString());
+                return clipboardText;
             }
             catch (NullReferenceException)
             {
-                return val;
+                return clipboardText;
             }
         }
+
         public bool NeedsMetadata()
         {
             if (string.IsNullOrEmpty(Artist) || string.IsNullOrEmpty(Title))

@@ -66,7 +66,7 @@ namespace aplicacion_musica
             ListViewItem[] items = new ListViewItem[albumAEditar.NumberOfSongs];
             for (int i = 0; i < items.Length; i++)
             {
-                items[i] = new ListViewItem(albumAEditar.Songs[i].titulo);
+                items[i] = new ListViewItem(albumAEditar.Songs[i].Title);
             }
             vistaCanciones.Items.AddRange(items);
         }
@@ -93,7 +93,7 @@ namespace aplicacion_musica
                 foreach (Song c in albumAEditar.Songs)
                 {
                     if(!c.IsBonus)
-                        nuevaDuracion += c.duracion;
+                        nuevaDuracion += c.Length;
                 }
             }
             catch (NullReferenceException)
