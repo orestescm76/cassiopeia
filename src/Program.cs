@@ -229,7 +229,7 @@ namespace aplicacion_musica
                                 }
                                 else
                                 {
-                                    LongSong cl = new LongSong(datosCancion[(int)CSV_Songs.Title], ref a);
+                                    LongSong cl = new LongSong(datosCancion[(int)CSV_Songs.Title], a);
                                     int np = Convert.ToInt32(datosCancion[(int)CSV_Songs.TotalSeconds]);
                                     for (int j = 0; j < np; j++)
                                     {
@@ -237,7 +237,7 @@ namespace aplicacion_musica
                                         lineaC++;
                                         datosCancion = linea.Split(';');
                                         Song c = new Song(datosCancion[0], TimeSpan.FromSeconds(Convert.ToInt32(datosCancion[(int)CSV_Songs.TotalSeconds])), ref a);
-                                        cl.addParte(c);
+                                        cl.AddPart(c);
                                     }
                                     a.AddSong(cl, i);
                                 }
@@ -279,7 +279,7 @@ namespace aplicacion_musica
                 while(!lector.EndOfStream)
                 {
                     linea = lector.ReadLine();
-                    DiscoCompacto cd = JsonConvert.DeserializeObject<DiscoCompacto>(linea);
+                    CompactDisc cd = JsonConvert.DeserializeObject<CompactDisc>(linea);
 
                     cd.InstallAlbum();
                     Collection.AddCD(ref cd);
@@ -364,7 +364,7 @@ namespace aplicacion_musica
                         case TipoGuardado.CD:
                             Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.CDS.Count + " cds)", TipoMensaje.Info);
                             Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
-                            foreach (DiscoCompacto compacto in Program.Collection.CDS)
+                            foreach (CompactDisc compacto in Program.Collection.CDS)
                             {
                                 salida.WriteLine(JsonConvert.SerializeObject(compacto));
                             }
@@ -393,8 +393,8 @@ namespace aplicacion_musica
                                     {
                                         if (a.Songs[i] is LongSong longSong)
                                         {
-                                            salida.WriteLine(longSong.Title + ";" + longSong.Partes.Count);//no tiene duracion y son 2 datos a guardar
-                                            foreach (Song parte in longSong.Partes)
+                                            salida.WriteLine(longSong.Title + ";" + longSong.Parts.Count);//no tiene duracion y son 2 datos a guardar
+                                            foreach (Song parte in longSong.Parts)
                                             {
                                                 salida.WriteLine(parte.Title + ";" + (int)(parte.Length.TotalSeconds));
                                             }

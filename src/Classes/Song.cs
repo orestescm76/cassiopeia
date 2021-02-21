@@ -7,9 +7,7 @@ namespace aplicacion_musica
     {
         [JsonIgnore] public AlbumData AlbumFrom { get; protected set; }
         public string Title { get; set; }
-
-        [JsonConverter(typeof(TiempoConverter))]
-        public TimeSpan Length { get; set; }
+        [JsonConverter(typeof(TiempoConverter))] public virtual TimeSpan Length { get; set; }
         public bool IsBonus { get; set; }
 
         [JsonIgnore] public string Path { get; set; }

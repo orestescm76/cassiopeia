@@ -132,6 +132,7 @@
     <Compile Include="src\Classes\ListaReproduccion.cs" />
     <Compile Include="src\Classes\Log.cs" />
     <Compile Include="src\Classes\ReproductorNucleo.cs" />
+    <Compile Include="src\Classes\Utils.cs" />
     <Compile Include="src\Config.cs" />
     <Compile Include="src\Forms\AbrirDisco.cs">
       <SubType>Form</SubType>

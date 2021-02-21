@@ -6,8 +6,8 @@ namespace aplicacion_musica
 {
     public partial class Anotaciones : Form
     {
-        DiscoCompacto cd;
-        public Anotaciones(ref DiscoCompacto cd)
+        CompactDisc cd;
+        public Anotaciones(ref CompactDisc cd)
         {
             InitializeComponent();
             this.cd = cd;
