@@ -4,29 +4,29 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using SpotifyAPI.Web.Models;
 
-namespace aplicacion_musica
+namespace aplicacion_musica.src.Forms
 {
-    public partial class resultadoSpotify : Form
+    public partial class SpotifyResults : Form
     {
         private ListViewItemComparer lvwColumnSorter;
         private List<SimpleAlbum> listaBusqueda = new List<SimpleAlbum>();
         bool EditarID = false;
         AlbumData AlbumAEditar;
-        public resultadoSpotify(ref List<SimpleAlbum> l, bool edit, AlbumData album = null)
+        public SpotifyResults(ref List<SimpleAlbum> l, bool edit, AlbumData album = null)
         {
             InitializeComponent();
             EditarID = edit;
             AlbumAEditar = album;
-            Text = Programa.textosLocal.GetString("resultado_busqueda");
-            labelAyuda.Text = Programa.textosLocal.GetString("ayudaAñadir");
-            labelResultado.Text = Programa.textosLocal.GetString("seHanEncontrado") + l.Count + " " + Programa.textosLocal.GetString("resultados");
+            Text = Program.LocalTexts.GetString("resultado_busqueda");
+            labelAyuda.Text = Program.LocalTexts.GetString("ayudaAñadir");
+            labelResultado.Text = Program.LocalTexts.GetString("seHanEncontrado") + l.Count + " " + Program.LocalTexts.GetString("resultados");
             listaBusqueda = l;
-            listViewResultadoBusqueda.Columns[1].Text = Programa.textosLocal.GetString("artista");
-            listViewResultadoBusqueda.Columns[2].Text = Programa.textosLocal.GetString("titulo");
-            listViewResultadoBusqueda.Columns[3].Text = Programa.textosLocal.GetString("año");
-            listViewResultadoBusqueda.Columns[4].Text = Programa.textosLocal.GetString("numcanciones");
-            buttonCancelar.Text = Programa.textosLocal.GetString("cancelar");
-            buttonOK.Text = Programa.textosLocal.GetString("añadir");
+            listViewResultadoBusqueda.Columns[1].Text = Program.LocalTexts.GetString("artista");
+            listViewResultadoBusqueda.Columns[2].Text = Program.LocalTexts.GetString("titulo");
+            listViewResultadoBusqueda.Columns[3].Text = Program.LocalTexts.GetString("año");
+            listViewResultadoBusqueda.Columns[4].Text = Program.LocalTexts.GetString("numcanciones");
+            buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
+            buttonOK.Text = Program.LocalTexts.GetString("añadir");
             int n = 1;
             foreach(SimpleAlbum a in listaBusqueda)
             {
@@ -57,12 +57,12 @@ namespace aplicacion_musica
                 for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
                 {
                     int cual = Convert.ToInt32(listViewResultadoBusqueda.SelectedItems[i].SubItems[0].Text);//la imagen tiene url
-                    Programa._spotify.procesarAlbum(listaBusqueda[cual - 1]);
+                    Program._spotify.procesarAlbum(listaBusqueda[cual - 1]);
                 }
                 DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
                 crono.Stop();
-                Console.WriteLine("Agregdos " + listViewResultadoBusqueda.SelectedItems.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + "ms");
-                Programa.RefrescarVista();
+                Console.WriteLine("Agregados " + listViewResultadoBusqueda.SelectedItems.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + "ms");
+                Program.ReloadView();
             }
             else
             {

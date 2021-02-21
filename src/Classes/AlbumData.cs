@@ -27,7 +27,7 @@ namespace aplicacion_musica
         public AlbumData()
         {
             Songs = new List<Song>();
-            Genre = Programa.genres.Last();
+            Genre = Program.Genres.Last();
         }
 
         public AlbumData(Genre genre, string title = "", string artist = "", short year = 0, string coverPath = "")
@@ -185,5 +185,11 @@ namespace aplicacion_musica
             }
         }
 
+        public bool NeedsMetadata()
+        {
+            if (string.IsNullOrEmpty(Artist) || string.IsNullOrEmpty(Title))
+                return true;
+            else return false;
+        }
     }
 }

@@ -464,7 +464,7 @@
     <value>Reproductor</value>
   </data>
   <data name="agradecimiento3" xml:space="preserve">
-    <value> * Els creadors de NVorbis, CSCore y JAudio</value>
+    <value> * Els creadors de NVorbis, CSCore y TagLib</value>
   </data>
   <data name="siguiente" xml:space="preserve">
     <value>Següent</value>
@@ -504,5 +504,8 @@
   </data>
   <data name="aceptar" xml:space="preserve">
     <value>Acceptar</value>
+  </data>
+  <data name="limpiar" xml:space="preserve">
+    <value>Esborrar</value>
   </data>
 </root>

@@ -6,13 +6,13 @@ namespace aplicacion_musica
 {
     public partial class Anotaciones : Form
     {
-        DiscoCompacto cd;
-        public Anotaciones(ref DiscoCompacto cd)
+        CompactDisc cd;
+        public Anotaciones(ref CompactDisc cd)
         {
             InitializeComponent();
             this.cd = cd;
             textBox1.Lines = cd.Anotaciones;
-            buttonOk.Text = Programa.textosLocal.GetString("hecho");
+            buttonOk.Text = Program.LocalTexts.GetString("hecho");
         }
 
         private void buttonOk_Click(object sender, EventArgs e)

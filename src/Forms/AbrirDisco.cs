@@ -13,8 +13,8 @@ namespace aplicacion_musica.src.Forms
         }
         private void PonerTextos()
         {
-            Text = Programa.textosLocal.GetString("abrirCD");
-            buttonPlay.Text = Programa.textosLocal.GetString("reproducir");
+            Text = Program.LocalTexts.GetString("abrirCD");
+            buttonPlay.Text = Program.LocalTexts.GetString("reproducir");
             buttonRip.Text = "Rip";
         }
         private void AbrirDisco_Load(object sender, EventArgs e)
@@ -45,7 +45,7 @@ namespace aplicacion_musica.src.Forms
         {
             if(listViewDiscos.SelectedItems.Count == 1)
             {
-                Reproductor.Instancia.ReproducirCD(listViewDiscos.SelectedItems[0].Text[0]);
+                Reproductor.Instancia.PlayCD(listViewDiscos.SelectedItems[0].Text[0]);
                 Close();
                 Dispose();
             }

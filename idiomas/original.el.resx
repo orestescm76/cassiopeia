@@ -187,7 +187,7 @@
     <value>* @esgmonologos στο Twitter για την εικόνα</value>
   </data>
   <data name="agradecimiento3" xml:space="preserve">
-    <value>* Οι δημιουργοί NAudio, CSCore και JAudio </value>
+    <value> * Οι δημιουργοί NAudio, CSCore και TagLib</value>
   </data>
   <data name="agradecimiento4" xml:space="preserve">
     <value>* Όλοι που με βοηθάνε</value>
@@ -256,7 +256,7 @@
     <value>με</value>
   </data>
   <data name="compartirTwitter1" xml:space="preserve">
-    <value>Τι καλό τραγούδι</value>
+    <value>Τι καλό τραγούδι:</value>
   </data>
   <data name="contacto" xml:space="preserve">
     <value>Επικοινωνείτε με εμένα: @orestescm76 στο Twitter, GitHub και Telegram.</value>
@@ -436,7 +436,7 @@
     <value>Σχεδόν νέο (NM-)</value>
   </data>
   <data name="ayuda_larga" xml:space="preserve">
-    <value>Ρύθμιση παράθυρου για δημιουργώντας ενός τραγουδιού με πολλών μερών</value>
+    <value>Ρύθμιση παράθυρου για δημιουργώντας ενός τραγουδιού με πολλών μερών.</value>
   </data>
   <data name="ayudaAñadir" xml:space="preserve">
     <value>Διαλέγετε το άλμπουμ ότι θέλετε να αθροίσετε και κλικ στο "Άθροιση"</value>
@@ -466,7 +466,7 @@
     <value>Αναπαραγωγή στο Spotify</value>
   </data>
   <data name="seHanEncontrado" xml:space="preserve">
-    <value>Bρίσκονται</value>
+    <value>Bρίσκονται </value>
   </data>
   <data name="resultados" xml:space="preserve">
     <value>αποτέλεσματα</value>
@@ -478,7 +478,7 @@
     <value>Δημιουργώντας CD από αυτό το άλμπουμ</value>
   </data>
   <data name="crearLR" xml:space="preserve">
-    <value>Δημιουργώντας λίστας αναπαραγωγής </value>
+    <value>Δημιουργώντας λίστας αναπαραγωγής</value>
   </data>
   <data name="cerrarModoStream" xml:space="preserve">
     <value>Διπλό κλικ εδώ για τελείωμα</value>
@@ -551,5 +551,14 @@
   </data>
   <data name="aplicar" xml:space="preserve">
     <value>Εφαρμογή</value>
+  </data>
+  <data name="verLR" xml:space="preserve">
+    <value>Προβολή λίστα αναπαραγωγής.</value>
+  </data>
+  <data name="cambiarNombrePL" xml:space="preserve">
+    <value>Αλλαγή τον όνομα</value>
+  </data>
+  <data name="abrir" xml:space="preserve">
+    <value>Άνοιγμα</value>
   </data>
 </root>

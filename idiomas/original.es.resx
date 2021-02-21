@@ -251,7 +251,7 @@
     <value>Error al intentar realizar la operación, algún campo está sin rellenar.</value>
   </data>
   <data name="error_vacio2" xml:space="preserve">
-    <value>No has puesto nada en el formulario, abortando...</value>
+    <value>No has puesto nada en el formulario.</value>
   </data>
   <data name="esBonus" xml:space="preserve">
     <value>Es una canción bonus</value>
@@ -431,7 +431,7 @@
     <value>Selección</value>
   </data>
   <data name="setBonus" xml:space="preserve">
-    <value>Configurar como canción bonus y viceversa.</value>
+    <value>Configurar como canción bonus y viceversa</value>
   </data>
   <data name="setLarga" xml:space="preserve">
     <value>Fusionar como canción por partes</value>
@@ -525,7 +525,7 @@
     <value>Reproductor</value>
   </data>
   <data name="agradecimiento3" xml:space="preserve">
-    <value> * Los creadores de NVorbis, CSCore y JAudio</value>
+    <value> * Los creadores de NVorbis, CSCore y TagLib</value>
   </data>
   <data name="abrirCD" xml:space="preserve">
     <value>Abrir CD de audio</value>
@@ -631,5 +631,29 @@
   </data>
   <data name="playlistName" xml:space="preserve">
     <value>Escribe el nombre de la lista de reproducción</value>
+  </data>
+  <data name="errorBusquedaSpotify" xml:space="preserve">
+    <value>Error al procesar el formulario, comprueba que sólo haya texto en un campo.</value>
+  </data>
+  <data name="errorPortada" xml:space="preserve">
+    <value>Error descargando la portada.</value>
+  </data>
+  <data name="verLR" xml:space="preserve">
+    <value>Ver la lista de reproducción</value>
+  </data>
+  <data name="cambiarNombrePL" xml:space="preserve">
+    <value>Cambiar nombre</value>
+  </data>
+  <data name="errrorLR" xml:space="preserve">
+    <value>Error abriendo el fichero. Comprueba que esté correcto.</value>
+  </data>
+  <data name="abrir" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="pathsCorrectos" xml:space="preserve">
+    <value>Se han cargado los PATHS correctamente.</value>
+  </data>
+  <data name="pathsError" xml:space="preserve">
+    <value>Hubo un error cargando los PATHS. Comprueba el log.</value>
   </data>
 </root>

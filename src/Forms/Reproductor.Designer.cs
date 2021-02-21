@@ -81,12 +81,12 @@
             // 
             // buttonReproducirPausar
             // 
-            this.buttonReproducirPausar.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonReproducirPausar.Font = new System.Drawing.Font("Webdings", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.buttonReproducirPausar.Location = new System.Drawing.Point(157, 408);
             this.buttonReproducirPausar.Name = "buttonReproducirPausar";
             this.buttonReproducirPausar.Size = new System.Drawing.Size(43, 42);
             this.buttonReproducirPausar.TabIndex = 2;
-            this.buttonReproducirPausar.Text = "▶";
+            this.buttonReproducirPausar.Text = "4";
             this.buttonReproducirPausar.UseVisualStyleBackColor = true;
             this.buttonReproducirPausar.Click += new System.EventHandler(this.buttonReproducirPausar_Click);
             // 
@@ -108,6 +108,7 @@
             this.buttonAbrir.TabIndex = 3;
             this.buttonAbrir.Text = "abrir_cancion";
             this.buttonAbrir.UseVisualStyleBackColor = true;
+            this.buttonAbrir.Visible = false;
             this.buttonAbrir.Click += new System.EventHandler(this.buttonAbrir_Click);
             // 
             // labelPosicion
@@ -313,12 +314,12 @@
             // 
             // buttonDetener
             // 
-            this.buttonDetener.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.buttonDetener.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.buttonDetener.Location = new System.Drawing.Point(157, 456);
             this.buttonDetener.Name = "buttonDetener";
             this.buttonDetener.Size = new System.Drawing.Size(43, 42);
             this.buttonDetener.TabIndex = 18;
-            this.buttonDetener.Text = "■ ";
+            this.buttonDetener.Text = "<";
             this.buttonDetener.UseVisualStyleBackColor = true;
             this.buttonDetener.Click += new System.EventHandler(this.buttonDetener_Click);
             // 

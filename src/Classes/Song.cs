@@ -7,9 +7,7 @@ namespace aplicacion_musica
     {
         [JsonIgnore] public AlbumData AlbumFrom { get; protected set; }
         public string Title { get; set; }
-
-        [JsonConverter(typeof(TiempoConverter))]
-        public TimeSpan Length { get; set; }
+        [JsonConverter(typeof(TiempoConverter))] public virtual TimeSpan Length { get; set; }
         public bool IsBonus { get; set; }
 
         [JsonIgnore] public string Path { get; set; }
@@ -49,11 +47,6 @@ namespace aplicacion_musica
             Length = d;
             AlbumFrom = a;
             IsBonus = b;
-        }
-
-        public Song(string path) //Crea una canción fantasma con sólo un PATH
-        {
-            this.Path = path;
         }
 
         public override string ToString()

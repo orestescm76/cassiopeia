@@ -31,8 +31,8 @@ namespace aplicacion_musica
             if (!stream.CanRead)
                 throw new ArgumentException("Stream is not readable.", "stream");
             _stream = stream;
-            _vorbisReader = new VorbisReader(stream);
-            WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 16, _vorbisReader.Channels, AudioEncoding.Vorbis1);
+            _vorbisReader = new VorbisReader(stream,false);
+            WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 16, _vorbisReader.Channels, AudioEncoding.IeeeFloat);
             posAnt = TimeSpan.Zero;
             _vorbisReader.SamplePosition = 0;
         }

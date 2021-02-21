@@ -3,55 +3,55 @@ using Newtonsoft.Json;
 
 namespace aplicacion_musica
 {
-    public enum FormatoCD
+    public enum SleeveType
     {
         Jewel, Digipack, MiniLP, NoStorage
     }
-    public class DiscoCompacto : AlbumFisico
+    public class CompactDisc : AlbumFisico
     {
         public String Id { get; set; }
-        public Disco[] Discos { get; set; }
+        public Disc[] Discos { get; set; }
         public String[] Anotaciones { get; set; }
-        public FormatoCD FormatoCD { get; set; }
-        public DiscoCompacto() : base()
+        public SleeveType SleeveType { get; set; }
+        public CompactDisc() : base()
         {
 
         }
-        public DiscoCompacto(string s, int nc, EstadoMedio e, EstadoMedio ee, FormatoCD f) : base(s, ee)
+        public CompactDisc(string s, int nc, MediaCondition e, MediaCondition ee, SleeveType sleeveType) : base(s, ee)
         {
-            FormatoCD = f;
-            Discos = new Disco[1];
-            Discos[0] = new Disco(nc, e);
+            SleeveType = sleeveType;
+            Discos = new Disc[1];
+            Discos[0] = new Disc(nc, e);
             Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray());//porque puede ser que tenga dos copias del mismo álbum
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
-        public DiscoCompacto(string s, int nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, int nCD) : base(s, ee)
+        public CompactDisc(string s, int nc, MediaCondition e, MediaCondition ee, SleeveType f, int nCD) : base(s, ee)
         {
-            FormatoCD = f;
-            Discos = new Disco[nCD];
-            Discos[0] = new Disco(nc, e);
+            SleeveType = f;
+            Discos = new Disc[nCD];
+            Discos[0] = new Disc(nc, e);
             Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray()); //porque puede ser que tenga dos copias del mismo álbum
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
-        public DiscoCompacto(string s, EstadoMedio ee, FormatoCD f, int nCD) : base(s, ee)
+        public CompactDisc(string s, MediaCondition ee, SleeveType f, int nCD) : base(s, ee)
         {
-            FormatoCD = f;
-            Discos = new Disco[nCD];
+            SleeveType = f;
+            Discos = new Disc[nCD];
             Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray()); //porque puede ser que tenga dos copias del mismo álbum
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
-        public DiscoCompacto(string s, int nCD) : base(s)
+        public CompactDisc(string s, int nCD) : base(s)
         {
-            Discos = new Disco[nCD];
+            Discos = new Disc[nCD];
         }
-        public DiscoCompacto(string s, int nc, EstadoMedio e, EstadoMedio ee, FormatoCD f, short y, string p): base(s, ee, y, p)
+        public CompactDisc(string s, int nc, MediaCondition e, MediaCondition ee, SleeveType f, short y, string p): base(s, ee, y, p)
         {
-            FormatoCD = f;
-            Discos = new Disco[1];
-            Discos[0] = new Disco(nc, e);
+            SleeveType = f;
+            Discos = new Disc[1];
+            Discos[0] = new Disc(nc, e);
             Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray()); //porque puede ser que tenga dos copias del mismo álbum
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
@@ -67,7 +67,7 @@ namespace aplicacion_musica
 
         public void InstallAlbum()
         {
-            Album = Programa.miColeccion.GetAlbum(Artist + "_" + Title);
+            Album = Program.Collection.GetAlbum(Artist + "_" + Title);
         }
     }
 }

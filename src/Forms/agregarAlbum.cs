@@ -7,7 +7,7 @@ namespace aplicacion_musica
     public partial class agregarAlbum : Form
     {
         private string caratula = "";
-        private String[] genresToSelect = new string[Programa.genres.Length-1];
+        private String[] genresToSelect = new string[Program.Genres.Length-1];
         public agregarAlbum()
         {
             InitializeComponent();
@@ -16,18 +16,18 @@ namespace aplicacion_musica
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal.GetString("agregar_album");
-            labelArtista.Text = Programa.textosLocal.GetString("artista");
-            labelTitulo.Text = Programa.textosLocal.GetString("titulo");
-            labelAño.Text = Programa.textosLocal.GetString("año");
-            labelNumCanciones.Text = Programa.textosLocal.GetString("numcanciones");
-            labelGenero.Text = Programa.textosLocal.GetString("genero");
-            add.Text = Programa.textosLocal.GetString("añadir");
-            addCaratula.Text = Programa.textosLocal.GetString("addcaratula");
-            labelCaratula.Text = Programa.textosLocal.GetString("caratula");
-            for (int i = 0; i < Programa.genres.Length-1; i++)
+            Text = Program.LocalTexts.GetString("agregar_album");
+            labelArtista.Text = Program.LocalTexts.GetString("artista");
+            labelTitulo.Text = Program.LocalTexts.GetString("titulo");
+            labelAño.Text = Program.LocalTexts.GetString("año");
+            labelNumCanciones.Text = Program.LocalTexts.GetString("numcanciones");
+            labelGenero.Text = Program.LocalTexts.GetString("genero");
+            add.Text = Program.LocalTexts.GetString("añadir");
+            addCaratula.Text = Program.LocalTexts.GetString("addcaratula");
+            labelCaratula.Text = Program.LocalTexts.GetString("caratula");
+            for (int i = 0; i < Program.Genres.Length-1; i++)
             {
-                genresToSelect[i] = Programa.genres[i].Name;
+                genresToSelect[i] = Program.Genres[i].Name;
             }
             Array.Sort(genresToSelect);
             comboBox1.Items.AddRange(genresToSelect);
@@ -36,7 +36,7 @@ namespace aplicacion_musica
         {
             Log.Instance.ImprimirMensaje("Buscando carátula", TipoMensaje.Info);
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.Filter = Program.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
@@ -60,13 +60,13 @@ namespace aplicacion_musica
                 string gent = comboBox1.SelectedItem.ToString();
                 year = Convert.ToInt16(yearTextBox.Text);
                 nC = Convert.ToInt16(numCancionesTextBox.Text);
-                Genre g = Programa.genres[Programa.FindGeneroTraducido(gent)];
+                Genre g = Program.Genres[Program.FindTranslatedGenre(gent)];
                 AlbumData a = null;
                 if(caratula == "")
                     a = new AlbumData(g, titulo, artista, year, "");
                 else
                     a = new AlbumData(g, titulo, artista, year, caratula);
-                Programa.miColeccion.AddAlbum(ref a);
+                Program.Collection.AddAlbum(ref a);
                 DialogResult cancelar = DialogResult.OK;
                 for (int i = 0; i < nC; i++)
                 {
@@ -76,7 +76,7 @@ namespace aplicacion_musica
                     if (cancelar == DialogResult.Cancel)
                     {
                         Log.Instance.ImprimirMensaje("Cancelado el proceso de añadir álbum", TipoMensaje.Advertencia);
-                        Programa.miColeccion.RemoveAlbum(ref a);
+                        Program.Collection.RemoveAlbum(ref a);
                         Close();
                         cancelado = true;
                         break;
@@ -86,19 +86,19 @@ namespace aplicacion_musica
                 }
                 if(!cancelado)
                     Log.Instance.ImprimirMensaje(artista + " - " + titulo + " agregado correctamente", TipoMensaje.Correcto);
-                Programa.RefrescarVista();
+                Program.ReloadView();
                 Close();
             }
             catch (NullReferenceException ex)
             {
                 Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
-                MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
+                MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
             }
 
             catch (FormatException ex)
             {
                 Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
-                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
+                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
                 //throw;
             }
 

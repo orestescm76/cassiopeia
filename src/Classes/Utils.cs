@@ -6,111 +6,98 @@ using System.Threading.Tasks;
 
 namespace aplicacion_musica
 {
-    public class CancionLarga : Song
+    public static class Utils
     {
-        public List<Song> Partes { get; private set; }
-        public CancionLarga() 
+        static public String ConvertToRomanNumeral(int arabicNumeral)
         {
-            Partes = new List<Song>();
-        }
-        public CancionLarga(string t, ref AlbumData a)
-        {
-            Title = t;
-            AlbumFrom = a;
-            Partes = new List<Song>();
-        }
-        public void addParte(Song p)
-        {
-            Partes.Add(p);
-            Length += p.Length;
-        }
-        public String GetNumeroRomano(int _x)
-        {
-            String num = "";
-            int x = _x;
-            switch(x/10)
+            String romanNumeral = "";
+            int x = arabicNumeral;
+
+            switch (x / 10)
             {
                 case 1:
-                    num+=("X");
+                    romanNumeral += ("X");
                     x -= 10;
                     break;
                 case 2:
-                    num += ("XX");
+                    romanNumeral += ("XX");
                     x -= 20;
                     break;
                 case 3:
-                    num += ("XXX");
+                    romanNumeral += ("XXX");
                     x -= 30;
                     break;
                 case 4:
-                    num += ("XL");
+                    romanNumeral += ("XL");
                     x -= 40;
                     break;
                 case 5:
-                    num += ("L");
+                    romanNumeral += ("L");
                     x -= 50;
                     break;
                 case 6:
-                    num += ("LX");
+                    romanNumeral += ("LX");
                     x -= 60;
                     break;
                 case 7:
-                    num += ("LXX");
+                    romanNumeral += ("LXX");
                     x -= 70;
                     break;
                 case 8:
-                    num += ("LXXX");
+                    romanNumeral += ("LXXX");
                     x -= 80;
                     break;
                 case 9:
-                    num += ("XC");
+                    romanNumeral += ("XC");
                     x -= 90;
                     break;
                 default:
                     break;
             }
-            switch(x)
+
+            switch (x)
             {
                 case 1:
-                    num += ("I");
+                    romanNumeral += ("I");
                     x -= 10;
                     break;
                 case 2:
-                    num += ("II");
+                    romanNumeral += ("II");
                     x -= 20;
                     break;
                 case 3:
-                    num += ("III");
+                    romanNumeral += ("III");
                     x -= 30;
                     break;
                 case 4:
-                    num += ("IV");
+                    romanNumeral += ("IV");
                     x -= 40;
                     break;
                 case 5:
-                    num += ("V");
+                    romanNumeral += ("V");
                     x -= 50;
                     break;
                 case 6:
-                    num += ("VI");
+                    romanNumeral += ("VI");
                     x -= 60;
                     break;
                 case 7:
-                    num += ("VII");
+                    romanNumeral += ("VII");
                     x -= 70;
                     break;
                 case 8:
-                    num += ("VIII");
+                    romanNumeral += ("VIII");
                     x -= 80;
                     break;
                 case 9:
-                    num += ("IX");
+                    romanNumeral += ("IX");
                     x -= 90;
                     break;
                 default:
                     break;
             }
-            return num;
+
+            return romanNumeral;
         }
     }
 }

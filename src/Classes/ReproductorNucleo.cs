@@ -4,7 +4,6 @@ using CSCore;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 using CSCore.Streams;
-using JAudioTags;
 using aplicacion_musica.CD;
 using System.Windows.Forms;
 
@@ -22,12 +21,8 @@ namespace aplicacion_musica
         private ISoundOut _salida;
         public FormatoSonido FormatoSonido { get; private set; }
         private IWaveSource _sonido;
-        private CSCore.Tags.ID3.ID3v2QuickInfo tags;
-        private FLACFile _ficheroFLAC;
         private SingleBlockNotificationStream notificationStream;
         private NVorbisSource NVorbis;
-        private String artista;
-        private String titulo;
         private CDDrive Disquetera;
         public PistaCD[] PistasCD { private set; get; }
         long tamFich;
@@ -36,13 +31,9 @@ namespace aplicacion_musica
             switch (Path.GetExtension(cual))
             {
                 case ".mp3":
-                    CSCore.Tags.ID3.ID3v2 mp3tag = CSCore.Tags.ID3.ID3v2.FromFile(cual);
-                    tags = new CSCore.Tags.ID3.ID3v2QuickInfo(mp3tag);
                     FormatoSonido = FormatoSonido.MP3;
                     break;
                 case ".flac":
-                    _ficheroFLAC = new FLACFile(cual, true);
-                    CSCore.Codecs.FLAC.FlacFile ff = new CSCore.Codecs.FLAC.FlacFile(cual);
                     FormatoSonido = FormatoSonido.FLAC;
                     break;
                 case ".ogg":
@@ -64,13 +55,12 @@ namespace aplicacion_musica
                 {
                     _sonido = CSCore.Codecs.CodecFactory.Instance.GetCodec(cual).ToSampleSource().ToStereo().ToWaveSource(16);
                     notificationStream = new SingleBlockNotificationStream(_sonido.ToSampleSource());
-                    //_salida.Initialize(notificationStream.ToWaveSource(16));
                     FileInfo info = new FileInfo(cual);
                     tamFich = info.Length;
                 }
                 
                 _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
-                _sonido.Position = 0;
+                //_sonido.Position = 0;
                 _salida.Initialize(_sonido);
                 Log.Instance.ImprimirMensaje("Cargado correctamente" + cual, TipoMensaje.Correcto);
             }
@@ -78,12 +68,16 @@ namespace aplicacion_musica
             {
                 Log.Instance.ImprimirMensaje("Error de IO", TipoMensaje.Error);
                 Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                _salida = null;
+                _sonido = null;
                 throw;
             }
             catch (Exception ex)
             {
                 Log.Instance.ImprimirMensaje("Hubo un problema...", TipoMensaje.Error);
                 Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                _salida = null;
+                _sonido = null;
                 throw;
             }
 
@@ -109,7 +103,17 @@ namespace aplicacion_musica
             else if (FormatoSonido == FormatoSonido.CDA)
                 return SectoresATimeSpan(_sonido.Length);
             else
-                return NVorbis.Length_Timespan;
+            {
+                try
+                {
+                    return NVorbis.Length_Timespan;
+                }
+                catch (Exception)
+                {
+                }
+                return TimeSpan.Zero;
+            }
+                
         }
         public TimeSpan Posicion()
         {
@@ -138,55 +142,6 @@ namespace aplicacion_musica
             else return true;
         }
         public void Apagar() { Limpiar(); }
-        public String CancionReproduciendose()
-        {
-            switch (FormatoSonido)
-            {
-                case FormatoSonido.MP3:
-                    if (tags != null)
-                        return tags.LeadPerformers + " - " + tags.Title;
-                    else return null;
-                case FormatoSonido.FLAC:
-                    return _ficheroFLAC.ARTIST + " - " + _ficheroFLAC.TITLE;
-                case FormatoSonido.OGG:
-                    try
-                    {
-                        artista = NVorbis.GetArtist();
-                        titulo = NVorbis.GetTitle();
-                        return artista + " - " + titulo;
-                    }
-                    catch (NullReferenceException)
-                    {
-                        Log.Instance.ImprimirMensaje("No hay metadatos", TipoMensaje.Advertencia);
-                        return null;
-                    }
-                default:
-                    return null;
-            }
-        }
-        public System.Drawing.Image GetCaratula()
-        {
-            switch (FormatoSonido)
-            {
-                case FormatoSonido.MP3:
-                    try
-                    {
-                        return tags.Image;
-                    }
-                    catch (ArgumentException)
-                    {
-
-                        return null;
-                    }
-
-                case FormatoSonido.FLAC:
-                    return null;
-                case FormatoSonido.OGG:
-                    return null;
-                default:
-                    return null;
-            }
-        }
         public String GetDatos()
         {
             switch (FormatoSonido)
@@ -205,7 +160,8 @@ namespace aplicacion_musica
         }
         public void SetVolumen(float v)
         {
-            _salida.Volume = v;
+            if(!(_salida is null))
+                _salida.Volume = v;
         }
         public void Detener() //detiene una canción
         {
@@ -235,7 +191,7 @@ namespace aplicacion_musica
             catch (IOException)
             {
                 Log.Instance.ImprimirMensaje("No se puede leer el CD. El dispositivo no está preparado...", TipoMensaje.Error);
-                MessageBox.Show(Programa.textosLocal.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Program.LocalTexts.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
             PistaCD[] Pistas = new PistaCD[Ficheros.Length];
