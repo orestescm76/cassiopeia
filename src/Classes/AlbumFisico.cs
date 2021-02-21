@@ -31,7 +31,7 @@ namespace aplicacion_musica
 
         public AlbumFisico(string s, EstadoMedio estado, short y = 0, String p = null)
         {
-            Album = Programa.miColeccion.GetAlbum(s);
+            Album = Program.Collection.GetAlbum(s);
             EstadoExterior = estado;
             Year = y;
             Country = p;

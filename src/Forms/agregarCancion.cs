@@ -122,7 +122,7 @@ namespace aplicacion_musica
                 cualdeVerdad = album.NumberOfSongs;
             if(editar)
             {
-                Text = Program.LocalTexts.GetString("editando") + " " + cancion.titulo;
+                Text = Program.LocalTexts.GetString("editando") + " " + cancion.Title;
                 buttonOK.Text = Program.LocalTexts.GetString("hecho");
             }
 

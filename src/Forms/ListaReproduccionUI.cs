@@ -55,19 +55,19 @@ namespace aplicacion_musica.src.Forms
                 string[] data = new string[4];
                 data[0] = "";
                 //Coger los datos de la canción, si fuera necesario.
-                if(string.IsNullOrEmpty(ListaReproduccion.Canciones[i].titulo))
+                if(string.IsNullOrEmpty(ListaReproduccion.Canciones[i].Title))
                 {
-                    LectorMetadatos lectorMetadatos = new LectorMetadatos(ListaReproduccion.Canciones[i].PATH);
+                    LectorMetadatos lectorMetadatos = new LectorMetadatos(ListaReproduccion.Canciones[i].Path);
                     data[1] = lectorMetadatos.Artista;
                     data[2] = lectorMetadatos.Titulo;
                     data[3] = lectorMetadatos.Duracion.ToString(@"mm\:ss");
-                    ListaReproduccion.Canciones[i].duracion = lectorMetadatos.Duracion;
+                    ListaReproduccion.Canciones[i].Length = lectorMetadatos.Duracion;
                 }
                 else
                 {
-                    data[1] = listaReproduccion.Canciones[i].AlbumFrom.Artist;
-                    data[2] = listaReproduccion.Canciones[i].Title;
-                    data[3] = listaReproduccion.Canciones[i].Length.ToString();
+                    data[1] = ListaReproduccion.Canciones[i].AlbumFrom.Artist;
+                    data[2] = ListaReproduccion.Canciones[i].Title;
+                    data[3] = ListaReproduccion.Canciones[i].Length.ToString();
                 }
                 items[i] = new ListViewItem(data);
             }
@@ -211,7 +211,7 @@ namespace aplicacion_musica.src.Forms
                 foreach (ListViewItem songItem in listViewCanciones.SelectedItems)
                 {
                     Song song = ListaReproduccion[songItem.Index];
-                    seleccion += song.duracion;
+                    seleccion += song.Length;
                 }
                 if(seleccion.TotalMinutes < 60)
                     toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + seleccion.ToString(@"mm\:ss");

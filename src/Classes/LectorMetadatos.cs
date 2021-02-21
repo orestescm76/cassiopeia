@@ -28,9 +28,19 @@ namespace aplicacion_musica
             Año = (int)MusicFile.Tag.Year;
             if (MusicFile.Tag.Pictures.Length != 0)
             {
-                byte[] ImageData = MusicFile.Tag.Pictures[0].Data.Data;
-                using (MemoryStream ms = new MemoryStream(ImageData))
-                    Cover = Image.FromStream(ms);
+                try
+                {
+                    byte[] ImageData = MusicFile.Tag.Pictures[0].Data.Data;
+                    using (MemoryStream ms = new MemoryStream(ImageData))
+                        Cover = Image.FromStream(ms);
+                }
+                catch (Exception)
+                {
+
+                    Log.Instance.ImprimirMensaje("No se ha podido extraer la carátula interna.",TipoMensaje.Advertencia);
+                    Cover = null;
+                }
+
             }
             Duracion = MusicFile.Properties.Duration;
             

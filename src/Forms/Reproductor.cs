@@ -250,15 +250,15 @@ namespace aplicacion_musica.src.Forms
                 }
             }
         }
-        private string GetTextoReproductor(EstadoReproductor er)
+        private string GetTextButtonPlayer(EstadoReproductor er)
         {
             switch (er)
             {
-                case EstadoReproductor.Reproduciendo:
-                    return "❚❚";
-                case EstadoReproductor.Pausado:
+                case EstadoReproductor.Reproduciendo: //return pause
+                    return ";";
+                case EstadoReproductor.Pausado: //return play
                 case EstadoReproductor.Detenido:
-                    return "▶";
+                    return "4";
             }
             return "";
         }
@@ -365,7 +365,7 @@ namespace aplicacion_musica.src.Forms
             SetPlayerButtons(true);
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Detenido;
-            if(c.album is null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
+            if(c.AlbumFrom is null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
             {
                 DirectoryInfo dir = new DirectoryInfo(c.Path);
                 dir = dir.Parent;
@@ -396,19 +396,19 @@ namespace aplicacion_musica.src.Forms
             //}
             //else
             //    s = c.PATH;
-            LectorMetadatos LM = new LectorMetadatos(c.PATH);
-            if (!(c.album is null) && c.album.CoverPath != null)
+            LectorMetadatos LM = new LectorMetadatos(c.Path);
+            if (!(c.AlbumFrom is null) && c.AlbumFrom.CoverPath != null)
             {
-                if (c.album.CoverPath != "")
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.CoverPath);
+                if (c.AlbumFrom.CoverPath != "")
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.CoverPath);
                 else
                 {
-                    if (File.Exists(c.album.SoundFilesPath + "\\cover.jpg"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.jpg");
-                    else if (File.Exists(c.album.SoundFilesPath + "\\cover.png"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\cover.png");
-                    else if (File.Exists(c.album.SoundFilesPath + "\\folder.jpg"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.album.SoundFilesPath + "\\folder.jpg");
+                    if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\cover.jpg"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\cover.jpg");
+                    else if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\cover.png"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\cover.png");
+                    else if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\folder.jpg"))
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\folder.jpg");
                 }
             }
             else
@@ -446,7 +446,7 @@ namespace aplicacion_musica.src.Forms
             estadoReproductor = EstadoReproductor.Detenido;
 
             if (ListaReproduccion is null)
-                CreatePlaylist(c.titulo);
+                CreatePlaylist(c.Title);
             foreach (Song song in c.Partes)
             {
                 ListaReproduccion.AgregarCancion(song);
@@ -492,7 +492,7 @@ namespace aplicacion_musica.src.Forms
             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
             labelDuracion.Text = (int)dur.TotalMinutes + ":" + dur.Seconds;
             estadoReproductor = EstadoReproductor.Reproduciendo;
-            buttonReproducirPausar.Text = GetTextoReproductor(estadoReproductor);
+            buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
             buttonTwit.Enabled = true;
             Reproduciendo = true;
             ConfigurarTimers(true);
@@ -771,7 +771,7 @@ namespace aplicacion_musica.src.Forms
                         break;
                     }
                     estadoReproductor = EstadoReproductor.Pausado;
-                    buttonReproducirPausar.Text = "▶";
+                    buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                     break;
 
                 case EstadoReproductor.Pausado:
@@ -788,7 +788,7 @@ namespace aplicacion_musica.src.Forms
                         break;
                     }
                     estadoReproductor = EstadoReproductor.Reproduciendo;
-                    buttonReproducirPausar.Text = "❚❚";
+                    buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                     break;
                 case EstadoReproductor.Detenido:
                     if (!Spotify)
@@ -804,7 +804,7 @@ namespace aplicacion_musica.src.Forms
                         break;
                     }
                     estadoReproductor = EstadoReproductor.Reproduciendo;
-                    buttonReproducirPausar.Text = "❚❚";
+                    buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                     break;
                 default:
                     break;
@@ -927,7 +927,7 @@ namespace aplicacion_musica.src.Forms
                     if (ListaReproduccion.Final(ListaReproduccionPuntero))
                     {
                         nucleo.Detener();
-                        buttonReproducirPausar.Text = GetTextoReproductor(EstadoReproductor.Detenido);
+                        buttonReproducirPausar.Text = GetTextButtonPlayer(EstadoReproductor.Detenido);
                     }
                     else
                     {
@@ -1072,9 +1072,9 @@ namespace aplicacion_musica.src.Forms
             }
             else if(!ModoCD)
                 test = Program.LocalTexts.GetString("compartirLocal1").Replace(" ", "%20") + "%20" + 
-                    CancionLocalReproduciendo.titulo + "%20" + 
+                    CancionLocalReproduciendo.Title + "%20" + 
                     Program.LocalTexts.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
-                    CancionLocalReproduciendo.album.Artist + "%20" +
+                    CancionLocalReproduciendo.AlbumFrom.Artist + "%20" +
                     Program.LocalTexts.GetString("compartirLocal3").Replace(" ", "%20") + "%20" + 
                     Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + 
                     Program.Version + "%20" + Program.CodeName;
@@ -1106,7 +1106,7 @@ namespace aplicacion_musica.src.Forms
                     foreach (string cancion in canciones)
                     {
                         Song clr = new Song();
-                        clr.PATH = cancion;
+                        clr.Path = cancion;
                         ListaReproduccion.AgregarCancion(clr);
                     }
                     ReproducirLista(ListaReproduccion);
@@ -1116,7 +1116,7 @@ namespace aplicacion_musica.src.Forms
                     foreach (string songfile in canciones)
                     {
                         Song clr = new Song();
-                        clr.PATH = songfile;
+                        clr.Path = songfile;
                         ListaReproduccion.AgregarCancion(clr);
                     }
                 }
