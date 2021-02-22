@@ -35,7 +35,7 @@ namespace aplicacion_musica.src.Forms
         SpotifyWebAPI _spotify;
         FullTrack cancionReproduciendo;
         private BackgroundWorker backgroundWorker;
-        private int ListaReproduccionPuntero = 0;
+        public int ListaReproduccionPuntero { get; set; }
         bool SpotifyListo = false;
         bool EsPremium = false;
         DirectoryInfo directorioCanciones;
@@ -79,7 +79,7 @@ namespace aplicacion_musica.src.Forms
             }
             if (Program.ModoStream) //inicia el programa con solo la imperesión
             {
-                notifyIcon1.Visible = true;
+                notifyIconStream.Visible = true;
                 while (!Program._spotify.cuentaLista)
                 {
                     Thread.Sleep(100);
@@ -87,7 +87,7 @@ namespace aplicacion_musica.src.Forms
                 ActivarSpotify();
             }
 
-            else notifyIcon1.Visible = false;
+            else notifyIconStream.Visible = false;
             buttonTwit.Enabled = false;
             ModoCD = false;
         }
@@ -273,7 +273,7 @@ namespace aplicacion_musica.src.Forms
             if(!Reproduciendo)
                 Text = Program.LocalTexts.GetString("reproductor");
             buttonSpotify.Text = Program.LocalTexts.GetString("cambiarSpotify");
-            notifyIcon1.Text = Program.LocalTexts.GetString("cerrarModoStream");
+            notifyIconStream.Text = Program.LocalTexts.GetString("cerrarModoStream");
             buttoncrearLR.Text = Program.LocalTexts.GetString("crearLR");
             buttonAgregar.Text = Program.LocalTexts.GetString("agregarBD");
             buttonTwit.Text = Program.LocalTexts.GetString("twittearCancion");
@@ -1139,7 +1139,7 @@ namespace aplicacion_musica.src.Forms
             ListaReproduccionPuntero = 0;
             if (lrui is null)
                 CreatePlaylistUI();
-            lrui.ListaReproduccion = lr;
+            lrui.Playlist = lr;
         }
         private void CreatePlaylistUI()
         {
@@ -1196,6 +1196,7 @@ namespace aplicacion_musica.src.Forms
             Text = "";
             labelDatosCancion.Text = "";
             notifyIconReproduciendo.Visible = false;
+            lrui.Stop(); //Update the UI.
         }
         public void ActivarPorLista() //Prepara para reproducir una lista de reproducción
         {

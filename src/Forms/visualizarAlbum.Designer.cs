@@ -50,24 +50,24 @@
             this.fusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.defusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonPATH = new System.Windows.Forms.Button();
-            this.clickDerechoAlbum = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.clickDerechoCover = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copiarImagenStrip = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).BeginInit();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoConfig.SuspendLayout();
-            this.clickDerechoAlbum.SuspendLayout();
+            this.clickDerechoCover.SuspendLayout();
             this.SuspendLayout();
             // 
             // vistaCaratula
             // 
             this.vistaCaratula.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.vistaCaratula.ContextMenuStrip = this.clickDerechoCover;
             this.vistaCaratula.Location = new System.Drawing.Point(442, 8);
             this.vistaCaratula.Name = "vistaCaratula";
             this.vistaCaratula.Size = new System.Drawing.Size(385, 385);
             this.vistaCaratula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.vistaCaratula.TabIndex = 0;
             this.vistaCaratula.TabStop = false;
-            this.vistaCaratula.MouseClick += new System.Windows.Forms.MouseEventHandler(this.vistaCaratula_MouseClick);
             // 
             // vistaCanciones
             // 
@@ -76,6 +76,7 @@
             this.num,
             this.titulo,
             this.duracion});
+            this.vistaCanciones.ContextMenuStrip = this.clickDerechoConfig;
             this.vistaCanciones.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vistaCanciones.FullRowSelect = true;
             this.vistaCanciones.HideSelection = false;
@@ -87,7 +88,6 @@
             this.vistaCanciones.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ordenarColumnas);
             this.vistaCanciones.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.vistaCanciones_ItemDrag);
             this.vistaCanciones.SelectedIndexChanged += new System.EventHandler(this.vistaCanciones_SelectedIndexChanged_1);
-            this.vistaCanciones.MouseClick += new System.Windows.Forms.MouseEventHandler(this.vistaCanciones_MouseClick);
             this.vistaCanciones.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaCanciones_MouseDoubleClick);
             // 
             // num
@@ -241,12 +241,12 @@
             this.buttonPATH.UseVisualStyleBackColor = true;
             this.buttonPATH.Click += new System.EventHandler(this.buttonPATH_Click);
             // 
-            // clickDerechoAlbum
+            // clickDerechoCover
             // 
-            this.clickDerechoAlbum.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clickDerechoCover.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.copiarImagenStrip});
-            this.clickDerechoAlbum.Name = "clickDerechoAlbum";
-            this.clickDerechoAlbum.Size = new System.Drawing.Size(172, 26);
+            this.clickDerechoCover.Name = "clickDerechoAlbum";
+            this.clickDerechoCover.Size = new System.Drawing.Size(172, 26);
             // 
             // copiarImagenStrip
             // 
@@ -282,7 +282,7 @@
             this.barraAbajo.ResumeLayout(false);
             this.barraAbajo.PerformLayout();
             this.clickDerechoConfig.ResumeLayout(false);
-            this.clickDerechoAlbum.ResumeLayout(false);
+            this.clickDerechoCover.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,7 +308,7 @@
         private System.Windows.Forms.ToolStripMenuItem reproducirToolStripMenuItem;
         private System.Windows.Forms.Button buttonPATH;
         private System.Windows.Forms.ToolStripMenuItem verLyricsToolStripMenuItem;
-        private System.Windows.Forms.ContextMenuStrip clickDerechoAlbum;
+        private System.Windows.Forms.ContextMenuStrip clickDerechoCover;
         private System.Windows.Forms.ToolStripMenuItem copiarImagenStrip;
         private System.Windows.Forms.ToolStripMenuItem fusionarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem defusionarToolStripMenuItem;

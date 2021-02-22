@@ -400,14 +400,6 @@ namespace aplicacion_musica
             cargarVista();
         }
 
-        private void vistaCanciones_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                clickDerechoConfig.Show(vistaCanciones, e.Location);
-            }
-        }
-
         private void infoAlbum_Click(object sender, EventArgs e)
         {
             if(!string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
@@ -516,14 +508,6 @@ namespace aplicacion_musica
             Song cancion = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
             VisorLyrics VL = new VisorLyrics(cancion);
             VL.Show();
-        }
-
-        private void vistaCaratula_MouseClick(object sender, MouseEventArgs e)
-        {
-            if(e.Button == MouseButtons.Right)
-            {
-                clickDerechoAlbum.Show(vistaCaratula, e.Location);
-            }
         }
 
         private void copiar_Click(object sender, EventArgs e)

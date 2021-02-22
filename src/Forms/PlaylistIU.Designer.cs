@@ -46,8 +46,12 @@
             this.toolStripStatusLabelDuration = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripMenuItemPlay = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripStatusLabelTracksSelected = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,11 +65,12 @@
             this.columnArtista,
             this.columnName,
             this.columnDuration});
+            this.listViewSongs.ContextMenuStrip = this.contextMenuStrip;
             this.listViewSongs.FullRowSelect = true;
             this.listViewSongs.HideSelection = false;
             this.listViewSongs.Location = new System.Drawing.Point(0, 27);
             this.listViewSongs.Name = "listViewSongs";
-            this.listViewSongs.Size = new System.Drawing.Size(487, 365);
+            this.listViewSongs.Size = new System.Drawing.Size(506, 365);
             this.listViewSongs.TabIndex = 0;
             this.listViewSongs.UseCompatibleStateImageBehavior = false;
             this.listViewSongs.View = System.Windows.Forms.View.Details;
@@ -100,7 +105,7 @@
             this.changeNameToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(487, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(506, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -151,8 +156,15 @@
             // 
             // contextMenuStrip
             // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemPlay,
+            this.toolStripSeparator,
+            this.toolStripMenuItemRemove});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.contextMenuStrip.Size = new System.Drawing.Size(181, 76);
+            this.contextMenuStrip.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip_Closing);
+            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // toolStripStatusLabelDuration
             // 
@@ -170,7 +182,7 @@
             this.toolStripStatusLabelTracksSelected});
             this.statusStrip.Location = new System.Drawing.Point(0, 393);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(487, 24);
+            this.statusStrip.Size = new System.Drawing.Size(506, 24);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -183,13 +195,32 @@
             this.toolStripStatusLabelInfo.Size = new System.Drawing.Size(250, 19);
             this.toolStripStatusLabelInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // toolStripMenuItemPlay
+            // 
+            this.toolStripMenuItemPlay.Name = "toolStripMenuItemPlay";
+            this.toolStripMenuItemPlay.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPlay.Text = "play";
+            this.toolStripMenuItemPlay.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
+            this.toolStripMenuItemPlay.MouseEnter += new System.EventHandler(this.toolStripMenuItemPlay_MouseEnter);
+            // 
+            // toolStripSeparator
+            // 
+            this.toolStripSeparator.Name = "toolStripSeparator";
+            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
+            // 
+            // toolStripMenuItemRemove
+            // 
+            this.toolStripMenuItemRemove.Name = "toolStripMenuItemRemove";
+            this.toolStripMenuItemRemove.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemRemove.Text = "remove";
+            this.toolStripMenuItemRemove.Click += new System.EventHandler(this.toolStripMenuItemRemove_Click);
+            this.toolStripMenuItemRemove.MouseEnter += new System.EventHandler(this.toolStripMenuItemRemove_MouseEnter);
+            // 
             // toolStripStatusLabelTracksSelected
             // 
-            this.toolStripStatusLabelTracksSelected.AutoSize = false;
-            this.toolStripStatusLabelTracksSelected.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)));
-            this.toolStripStatusLabelTracksSelected.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.toolStripStatusLabelTracksSelected.Name = "toolStripStatusLabelTracksSelected";
-            this.toolStripStatusLabelTracksSelected.Size = new System.Drawing.Size(100, 19);
+            this.toolStripStatusLabelTracksSelected.Size = new System.Drawing.Size(118, 19);
+            this.toolStripStatusLabelTracksSelected.Text = "toolStripStatusLabel1";
             // 
             // PlaylistIU
             // 
@@ -197,7 +228,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(487, 417);
+            this.ClientSize = new System.Drawing.Size(506, 417);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.listViewSongs);
@@ -209,8 +240,10 @@
             this.SizeChanged += new System.EventHandler(this.PlaylistIU_SizeChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.PlaylistIU_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.PlaylistIU_DragEnter);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PlaylistIU_KeyDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -236,6 +269,9 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelDuration;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelInfo;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPlay;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRemove;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTracksSelected;
     }
 }

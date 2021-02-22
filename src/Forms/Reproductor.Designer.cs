@@ -51,7 +51,7 @@
             this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
             this.timerMetadatos = new System.Windows.Forms.Timer(this.components);
             this.buttonAgregar = new System.Windows.Forms.Button();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyIconStream = new System.Windows.Forms.NotifyIcon(this.components);
             this.checkBoxFoobar = new System.Windows.Forms.CheckBox();
             this.timerFoobar = new System.Windows.Forms.Timer(this.components);
             this.buttonTwit = new System.Windows.Forms.Button();
@@ -265,11 +265,11 @@
             this.buttonAgregar.UseVisualStyleBackColor = true;
             this.buttonAgregar.Click += new System.EventHandler(this.buttonAgregar_Click);
             // 
-            // notifyIcon1
+            // notifyIconStream
             // 
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            this.notifyIconStream.Text = "notifyIcon1";
+            this.notifyIconStream.Visible = true;
+            this.notifyIconStream.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
             // checkBoxFoobar
             // 
@@ -397,7 +397,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCorreoUsuario;
         private System.Windows.Forms.Timer timerMetadatos;
         private System.Windows.Forms.Button buttonAgregar;
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.NotifyIcon notifyIconStream;
         private System.Windows.Forms.CheckBox checkBoxFoobar;
         private System.Windows.Forms.Timer timerFoobar;
         private System.Windows.Forms.Button buttonTwit;

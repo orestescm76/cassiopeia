@@ -5,16 +5,16 @@ namespace aplicacion_musica.src.Forms
 {
     public partial class PlaylistIU : Form
     {
-        public Playlist ListaReproduccion { get; set; }
+        public Playlist Playlist { get; set; }
         private string Playing = "▶";
-        private int Puntero;
+        private int Pointer;
         public PlaylistIU(Playlist lr)
         {
             InitializeComponent();
-            ListaReproduccion = lr;
+            Playlist = lr;
             LoadView();
             listViewSongs.Size = Size;
-            Puntero = 0;
+            Pointer = 0;
             Text = lr.Nombre;
             PutTexts();
             toolStripStatusLabelInfo.Width = statusStrip.Size.Width - 200;
@@ -34,40 +34,55 @@ namespace aplicacion_musica.src.Forms
             listViewSongs.Columns[3].Text = Program.LocalTexts.GetString("duracion");
             toolStripStatusLabelTracksSelected.Text = "0 " + Program.LocalTexts.GetString("canciones");
             toolStripStatusLabelDuration.Text = "0:00";
+            toolStripMenuItemPlay.Text = Program.LocalTexts.GetString("reproducir");
+            toolStripMenuItemRemove.Text = Program.LocalTexts.GetString("suprimir");
         }
         public void UpdateTime()
         {
-            if (ListaReproduccion.Duration.TotalMinutes < 60)
-                toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + ListaReproduccion.Duration.ToString(@"mm\:ss");
+            if (Playlist.Duration.TotalMinutes < 60)
+                toolStripStatusLabelDuration.Text = Playlist.Duration.ToString(@"mm\:ss");
             else
-                toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + ListaReproduccion.Duration.ToString(@"hh\:mm\:ss");
+                toolStripStatusLabelDuration.Text = Playlist.Duration.ToString(@"hh\:mm\:ss");
+        }
+        private Song[] GetSelectedSongs()
+        {
+            Song[] selectedSongs = new Song[listViewSongs.SelectedItems.Count];
+            for (int i = 0; i < listViewSongs.SelectedIndices.Count; i++)
+            {
+                selectedSongs[i] = Playlist.GetCancion(listViewSongs.SelectedIndices[i]);
+            }
+            return selectedSongs;
         }
         private void LoadView()
         {
             listViewSongs.Items.Clear();
-            ListViewItem[] items = new ListViewItem[ListaReproduccion.Canciones.Count];
-            for (int i = 0; i < ListaReproduccion.Canciones.Count; i++)
+            ListViewItem[] items = new ListViewItem[Playlist.Canciones.Count];
+            for (int i = 0; i < Playlist.Canciones.Count; i++)
             {
                 string[] data = new string[4];
                 data[0] = "";
                 //Pick song data if it's mandatory
-                if(string.IsNullOrEmpty(ListaReproduccion.Canciones[i].Title))
+                if(string.IsNullOrEmpty(Playlist.Canciones[i].Title))
                 {
-                    LectorMetadatos lectorMetadatos = new LectorMetadatos(ListaReproduccion.Canciones[i].Path);
+                    LectorMetadatos lectorMetadatos = new LectorMetadatos(Playlist.Canciones[i].Path);
                     data[1] = lectorMetadatos.Artista;
                     data[2] = lectorMetadatos.Titulo;
                     data[3] = lectorMetadatos.Duracion.ToString(@"mm\:ss");
-                    ListaReproduccion.Canciones[i].Length = lectorMetadatos.Duracion;
+                    Playlist.Canciones[i].Length = lectorMetadatos.Duracion;
                 }
                 else
                 {
-                    data[1] = ListaReproduccion.Canciones[i].AlbumFrom.Artist;
-                    data[2] = ListaReproduccion.Canciones[i].Title;
-                    data[3] = ListaReproduccion.Canciones[i].Length.ToString();
+                    data[1] = Playlist.Canciones[i].AlbumFrom.Artist;
+                    data[2] = Playlist.Canciones[i].Title;
+                    data[3] = Playlist.Canciones[i].Length.ToString();
                 }
                 items[i] = new ListViewItem(data);
             }
             listViewSongs.Items.AddRange(items);
+            for (int i = 0; i < listViewSongs.Columns.Count; i++)
+            {
+                listViewSongs.Columns[i].Width = -2;
+            }
             UpdateTime();
         }
         public void RefreshView()
@@ -78,9 +93,9 @@ namespace aplicacion_musica.src.Forms
         {
             if(punt != -1)
             {
-                listViewSongs.Items[Puntero].SubItems[0].Text = "";
+                listViewSongs.Items[Pointer].SubItems[0].Text = "";
                 listViewSongs.Items[punt].SubItems[0].Text = Playing;
-                Puntero = punt;
+                Pointer = punt;
             }
         }
         private void SavePlaylist()
@@ -91,10 +106,40 @@ namespace aplicacion_musica.src.Forms
             saveFileDialog.Filter = ".plf|*.plf";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                ListaReproduccion.Guardar(saveFileDialog.FileName);
+                Playlist.Guardar(saveFileDialog.FileName);
                 Log.Instance.ImprimirMensaje("Guardado correctamente", TipoMensaje.Correcto);
             }
         }
+        //I don't care if the user has multiple songs selected, i play the first one.
+        private void PlaySelectedSong()
+        {
+            SetActiveSong(listViewSongs.SelectedItems[0].Index);
+            Reproductor.Instancia.ReproducirCancion(Playlist[Pointer]);
+            Reproductor.Instancia.ListaReproduccionPuntero = Pointer;
+        }
+        //Gets the selected songs and removes them from the playlist
+        private void RemoveSongs()
+        {
+            Log.Instance.ImprimirMensaje("Borrando canciones de la playlist", TipoMensaje.Info);
+            Song[] selectedSongs = GetSelectedSongs();
+            for (int i = 0; i < selectedSongs.Length; i++)
+            {
+                Playlist.DeleteSong(selectedSongs[i]);
+                listViewSongs.SelectedItems[i].Remove();
+            }
+            Log.Instance.ImprimirMensaje("Borrado correcto", TipoMensaje.Correcto);
+        }
+        private void SetPlayVisibility(bool value)
+        {
+            toolStripMenuItemPlay.Visible = value;
+            toolStripSeparator.Visible = value;
+        }
+        public void Stop()
+        {
+            Pointer = 0;
+            SetActiveSong(Pointer);
+        }
+
         private void PlaylistIU_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
@@ -108,7 +153,7 @@ namespace aplicacion_musica.src.Forms
             {
                 if(!string.IsNullOrEmpty(c.Path))
                 {
-                    ListaReproduccion.AgregarCancion(c);
+                    Playlist.AgregarCancion(c);
                 }
             }
             else if ((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null) //El usuario arrastra desde el explorador.
@@ -117,7 +162,7 @@ namespace aplicacion_musica.src.Forms
                 {
                     Song clr = new Song();
                     clr.Path = songPath;
-                    ListaReproduccion.AgregarCancion(clr);
+                    Playlist.AgregarCancion(clr);
                 }
             }
             RefreshView();
@@ -127,7 +172,7 @@ namespace aplicacion_musica.src.Forms
 
         private void listViewSongs_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Reproductor.Instancia.ReproducirCancion(listViewSongs.SelectedItems[0].Index);
+            PlaySelectedSong();
         }
 
         private void PlaylistIU_SizeChanged(object sender, EventArgs e)
@@ -150,8 +195,8 @@ namespace aplicacion_musica.src.Forms
             WriteName WriteNameForm = new WriteName();
             DialogResult Result = WriteNameForm.ShowDialog();
             if (Result == DialogResult.OK)
-                ListaReproduccion.Nombre = WriteNameForm.PlaylistName;
-            Text = ListaReproduccion.Nombre;
+                Playlist.Nombre = WriteNameForm.PlaylistName;
+            Text = Playlist.Nombre;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -169,7 +214,7 @@ namespace aplicacion_musica.src.Forms
             {
                 try
                 {
-                    ListaReproduccion.Cargar(openFileDialog.FileName);
+                    Playlist.Cargar(openFileDialog.FileName);
                     Log.Instance.ImprimirMensaje("Abierto correctamente", TipoMensaje.Correcto);
                 }
                 catch (Exception)
@@ -192,7 +237,7 @@ namespace aplicacion_musica.src.Forms
                 {
                     Song song = new Song();
                     song.Path = songFile;
-                    ListaReproduccion.AgregarCancion(song);
+                    Playlist.AgregarCancion(song);
                 }
                 RefreshView();
             }
@@ -202,17 +247,17 @@ namespace aplicacion_musica.src.Forms
         {
             if (listViewSongs.SelectedItems.Count != 0)
             {
+                toolStripStatusLabelTracksSelected.Text = listViewSongs.SelectedItems.Count + " " + Program.LocalTexts.GetString("canciones");
                 TimeSpan seleccion = new TimeSpan();
                 foreach (ListViewItem songItem in listViewSongs.SelectedItems)
                 {
-                    Song song = ListaReproduccion[songItem.Index];
+                    Song song = Playlist[songItem.Index];
                     seleccion += song.Length;
                 }
                 if(seleccion.TotalMinutes < 60)
-                    toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + seleccion.ToString(@"mm\:ss");
+                    toolStripStatusLabelDuration.Text = seleccion.ToString(@"mm\:ss");
                 else
-                    toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + seleccion.ToString(@"hh\:mm\:ss");
-                toolStripStatusLabelTracksSelected.Text = listViewSongs.SelectedItems.Count + " " + Program.LocalTexts.GetString("canciones");
+                    toolStripStatusLabelDuration.Text = seleccion.ToString(@"hh\:mm\:ss");
             }
             else
             {
@@ -238,9 +283,59 @@ namespace aplicacion_musica.src.Forms
             if(result != DialogResult.Yes) //for some reason, the user cancels at the save dialog...
             {
                 Reproductor.Instancia.CreatePlaylist(Program.LocalTexts.GetString("nuevaPlaylist"));
-                Puntero = 0;
+                Pointer = 0;
                 RefreshView();
             }
+        }
+
+        private void playToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PlaySelectedSong();
+        }
+
+        private void toolStripMenuItemRemove_Click(object sender, EventArgs e)
+        {
+            RemoveSongs();
+        }
+
+        private void PlaylistIU_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyData)
+            {
+                case Keys.Delete:
+                    RemoveSongs();
+                    break;
+                case Keys.Enter:
+                    PlaySelectedSong();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void contextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (listViewSongs.SelectedItems.Count != 1)
+                SetPlayVisibility(false);
+            else
+                SetPlayVisibility(true);
+            if (listViewSongs.SelectedItems.Count == 0)
+                e.Cancel = true;
+        }
+
+        private void toolStripMenuItemPlay_MouseEnter(object sender, EventArgs e)
+        {
+            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoReproducir");
+        }
+
+        private void toolStripMenuItemRemove_MouseEnter(object sender, EventArgs e)
+        {
+            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoBorrar");
+        }
+
+        private void contextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        {
+
         }
     }
 }

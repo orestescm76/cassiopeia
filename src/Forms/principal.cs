@@ -6,7 +6,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
-using System.Globalization;
 using aplicacion_musica.src.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
@@ -392,7 +391,7 @@ namespace aplicacion_musica
 
         }
 
-        private void vistaAlbumes_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void vistaAlbumes_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(!borrando)
             {
@@ -507,28 +506,6 @@ namespace aplicacion_musica
             }
             vistaAlbumes.Items.Clear();
             Program.Collection.Clear();
-        }
-
-        private void vistaAlbumes_MouseClick(object sender, MouseEventArgs e)
-        {
-            if(e.Button == MouseButtons.Right)
-            {
-                switch (TipoVista)
-                {
-                    case TipoVista.Digital:
-                        clickDerechoMenuContexto.Items[0].Visible = true;
-                        break;
-                    case TipoVista.CD:
-                        clickDerechoMenuContexto.Items[0].Visible = false;
-                        break;
-                    case TipoVista.Vinilo:
-                        break;
-                    default:
-                        break;
-                }
-                clickDerechoMenuContexto.Show(vistaAlbumes, e.Location);
-
-            }
         }
         private void crearCDToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -880,6 +857,23 @@ namespace aplicacion_musica
         {
             ConfigForm configForm = new ConfigForm();
             configForm.ShowDialog();
+        }
+
+        private void clickDerechoMenuContexto_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            switch (TipoVista)
+            {
+                case TipoVista.Digital:
+                    clickDerechoMenuContexto.Items[0].Visible = true;
+                    break;
+                case TipoVista.CD:
+                    clickDerechoMenuContexto.Items[0].Visible = false;
+                    break;
+                case TipoVista.Vinilo:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

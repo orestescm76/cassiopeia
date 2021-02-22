@@ -662,4 +662,13 @@
   <data name="canciones" xml:space="preserve">
     <value>canciones</value>
   </data>
+  <data name="suprimir" xml:space="preserve">
+    <value>Suprimir</value>
+  </data>
+  <data name="infoReproducir" xml:space="preserve">
+    <value>Reproduce la canción seleccionada</value>
+  </data>
+  <data name="infoBorrar" xml:space="preserve">
+    <value>Borra de la lista de reproducción las canciones seleccionadas</value>
+  </data>
 </root>

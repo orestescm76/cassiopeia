@@ -100,5 +100,9 @@ namespace aplicacion_musica
                 throw;
             }
         }
+        public void DeleteSong(Song song)
+        {
+            Canciones.Remove(song);
+        }
     }
 }

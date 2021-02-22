@@ -564,4 +564,7 @@
   <data name="canciones" xml:space="preserve">
     <value>τραγούδια</value>
   </data>
+  <data name="suprimir" xml:space="preserve">
+    <value>Διαγραφή</value>
+  </data>
 </root>

@@ -626,4 +626,13 @@
   <data name="canciones" xml:space="preserve">
     <value></value>
   </data>
+  <data name="suprimir" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="infoReproducir" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="infoBorrar" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

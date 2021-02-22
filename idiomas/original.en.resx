@@ -667,4 +667,13 @@
   <data name="canciones" xml:space="preserve">
     <value>tracks</value>
   </data>
+  <data name="suprimir" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="infoReproducir" xml:space="preserve">
+    <value>Plays the selected song</value>
+  </data>
+  <data name="infoBorrar" xml:space="preserve">
+    <value>Removes the selected songs from the playlist.</value>
+  </data>
 </root>
