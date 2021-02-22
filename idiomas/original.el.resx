@@ -403,7 +403,7 @@
     <value>Αλλαγή γραμματοσειράς της θεατής στίχων</value>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
-    <value>Διαχειριστής της μουσικής</value>
+    <value>Κασσιόπη</value>
   </data>
   <data name="uriSpotify" xml:space="preserve">
     <value>URI του Spotify</value>
@@ -560,5 +560,8 @@
   </data>
   <data name="abrir" xml:space="preserve">
     <value>Άνοιγμα</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>τραγούδια</value>
   </data>
 </root>

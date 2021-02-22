@@ -442,7 +442,7 @@
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
-    <value>Music manager</value>
+    <value>Cassiopea</value>
   </data>
   <data name="ver" xml:space="preserve">
     <value>View</value>
@@ -660,5 +660,11 @@
   </data>
   <data name="pathsError" xml:space="preserve">
     <value>Some errors happened during the load of the PATHS. Check log for details.</value>
+  </data>
+  <data name="guardarPL" xml:space="preserve">
+    <value>Do you want to save the playlist?</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>tracks</value>
   </data>
 </root>

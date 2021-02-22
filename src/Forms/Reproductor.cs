@@ -19,13 +19,9 @@ namespace aplicacion_musica.src.Forms
         Pausado,
         Detenido
     }
-    /*
-     * τοδο:
-     * consola y visualizacion UI. <
-     */
     public partial class Reproductor : Form
     {
-        public ListaReproduccion ListaReproduccion { get; set; }
+        public Playlist ListaReproduccion { get; set; }
         private readonly ReproductorNucleo nucleo = new ReproductorNucleo();
         private readonly ObservableCollection<MMDevice> _devices = new ObservableCollection<MMDevice>();
         private string fich;
@@ -46,7 +42,7 @@ namespace aplicacion_musica.src.Forms
         PrivateProfile user;
         private Log Log = Log.Instance;
         private float Volumen;
-        private ListaReproduccionUI lrui;
+        private PlaylistIU lrui;
         private ToolTip duracionView;
         private bool GuardarHistorial;
         private FileInfo Historial;
@@ -159,7 +155,7 @@ namespace aplicacion_musica.src.Forms
             Spotify = false;
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
-            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+            pictureBoxCaratula.Image = Resources.albumdesconocido;
             buttonAbrir.Enabled = true;
             trackBarPosicion.Value = 0;
             dur = new TimeSpan(0);
@@ -263,7 +259,7 @@ namespace aplicacion_musica.src.Forms
             return "";
         }
 
-        public void ReproducirLista(ListaReproduccion lr)
+        public void ReproducirLista(Playlist lr)
         {
             Song c = lr[ListaReproduccionPuntero];
             ReproducirCancion(c);
@@ -463,7 +459,7 @@ namespace aplicacion_musica.src.Forms
                 ReproducirCancion(ListaReproduccion.Canciones[Pista]);
             PrepararReproductor();
             ListaReproduccionPuntero = Pista;
-            lrui.SetActivo(ListaReproduccionPuntero);
+            lrui.SetActiveSong(ListaReproduccionPuntero);
             timerCancion.Enabled = true;
             timerMetadatos.Enabled = false;
             buttonTwit.Enabled = false;
@@ -684,7 +680,7 @@ namespace aplicacion_musica.src.Forms
                 if(ListaReproduccion != null)
                 {
                     ListaReproduccionPuntero++;
-                    lrui.SetActivo(ListaReproduccionPuntero);
+                    lrui.SetActiveSong(ListaReproduccionPuntero);
                     if (!ListaReproduccion.Final(ListaReproduccionPuntero))
                     {
                         if (!ModoCD)
@@ -743,7 +739,7 @@ namespace aplicacion_musica.src.Forms
                         c.Path = songPath;
 
                         if (ListaReproduccion == null)
-                            ListaReproduccion = new ListaReproduccion("Selección");
+                            ListaReproduccion = new Playlist("Selección");
                         ListaReproduccion.AgregarCancion(c);
                         ReproducirLista(ListaReproduccion);
                     }
@@ -907,7 +903,7 @@ namespace aplicacion_musica.src.Forms
                 try
                 {
                     ListaReproduccion.Mezclar();//cambiar func
-                    lrui.Refrescar();
+                    lrui.RefreshView();
                 }
                 catch (NullReferenceException)
                 {
@@ -938,7 +934,7 @@ namespace aplicacion_musica.src.Forms
                         try
                         {
                             ListaReproduccionPuntero++;
-                            lrui.SetActivo(ListaReproduccionPuntero);
+                            lrui.SetActiveSong(ListaReproduccionPuntero);
                             if (!ModoCD)
                                 ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
                             else
@@ -964,7 +960,7 @@ namespace aplicacion_musica.src.Forms
                 if (ListaReproduccion != null && !ListaReproduccion.Inicio(ListaReproduccionPuntero))
                 {
                     ListaReproduccionPuntero--;
-                    lrui.SetActivo(ListaReproduccionPuntero);
+                    lrui.SetActiveSong(ListaReproduccionPuntero);
                     if (!ModoCD)
                         ReproducirCancion(ListaReproduccion.GetCancion(ListaReproduccionPuntero));
                     else
@@ -1124,7 +1120,7 @@ namespace aplicacion_musica.src.Forms
                         ListaReproduccion.AgregarCancion(clr);
                     }
                 }
-                lrui.Refrescar();
+                lrui.RefreshView();
             }
             else
                 Log.ImprimirMensaje("No se ha podido determinar la canción", TipoMensaje.Advertencia);
@@ -1135,10 +1131,10 @@ namespace aplicacion_musica.src.Forms
             e.Effect = DragDropEffects.Copy;
         }
         //Creates a playlist and sets it as the active one, overriding the previous one.
-        private void CreatePlaylist(string Title)
+        public void CreatePlaylist(string Title)
         {
             buttoncrearLR.Text = Program.LocalTexts.GetString("verLR");
-            ListaReproduccion lr = new ListaReproduccion(Title);
+            Playlist lr = new Playlist(Title);
             ListaReproduccion = lr;
             ListaReproduccionPuntero = 0;
             if (lrui is null)
@@ -1147,10 +1143,10 @@ namespace aplicacion_musica.src.Forms
         }
         private void CreatePlaylistUI()
         {
-            lrui = new ListaReproduccionUI(ListaReproduccion);
+            lrui = new PlaylistIU(ListaReproduccion);
             
         }
-        public void SetPlaylist(ListaReproduccion playlist) //Sets a loaded playlist from a file.
+        public void SetPlaylist(Playlist playlist) //Sets a loaded playlist from a file.
         {
             ListaReproduccion = playlist;
             //Not needed to change the text, because we have a empty playlist after opening the form.
@@ -1167,7 +1163,7 @@ namespace aplicacion_musica.src.Forms
             }
             else
             {
-                lrui.Refrescar();
+                lrui.RefreshView();
                 lrui.Show();
             }
         }

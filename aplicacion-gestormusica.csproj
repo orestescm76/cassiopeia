@@ -68,8 +68,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NVorbis, Version=0.10.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\NVorbis.0.10.1\lib\net45\NVorbis.dll</HintPath>
+    <Reference Include="NVorbis">
+      <HintPath>packages\NVorbis.dll</HintPath>
     </Reference>
     <Reference Include="SpotifyAPI.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\SpotifyAPI.Web.5.0.0\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
@@ -122,14 +122,14 @@
     <Compile Include="src\CD\PistaCD.cs" />
     <Compile Include="src\Classes\AlbumData.cs" />
     <Compile Include="src\Classes\AlbumFisico.cs" />
+    <Compile Include="src\Classes\CompactDisc.cs" />
+    <Compile Include="src\Classes\Disc.cs" />
     <Compile Include="src\Classes\Song.cs" />
     <Compile Include="src\Classes\LongSong.cs" />
     <Compile Include="src\Classes\Collection.cs" />
-    <Compile Include="src\Classes\Disco.cs" />
-    <Compile Include="src\Classes\DiscoCompacto.cs" />
     <Compile Include="src\Classes\Genre.cs" />
     <Compile Include="src\Classes\LectorMetadatos.cs" />
-    <Compile Include="src\Classes\ListaReproduccion.cs" />
+    <Compile Include="src\Classes\Playlist.cs" />
     <Compile Include="src\Classes\Log.cs" />
     <Compile Include="src\Classes\ReproductorNucleo.cs" />
     <Compile Include="src\Classes\Utils.cs" />
@@ -194,11 +194,11 @@
     <Compile Include="src\Forms\editarAlbum.Designer.cs">
       <DependentUpon>editarAlbum.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Forms\ListaReproduccionUI.cs">
+    <Compile Include="src\Forms\PlaylistIU.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Forms\ListaReproduccionUI.Designer.cs">
-      <DependentUpon>ListaReproduccionUI.cs</DependentUpon>
+    <Compile Include="src\Forms\PlaylistIU.Designer.cs">
+      <DependentUpon>PlaylistIU.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Forms\principal.cs">
       <SubType>Form</SubType>
@@ -304,8 +304,8 @@
     <EmbeddedResource Include="src\Forms\editarAlbum.resx">
       <DependentUpon>editarAlbum.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\ListaReproduccionUI.resx">
-      <DependentUpon>ListaReproduccionUI.cs</DependentUpon>
+    <EmbeddedResource Include="src\Forms\PlaylistIU.resx">
+      <DependentUpon>PlaylistIU.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\principal.resx">
       <DependentUpon>principal.cs</DependentUpon>

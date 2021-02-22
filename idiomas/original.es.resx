@@ -656,4 +656,10 @@
   <data name="pathsError" xml:space="preserve">
     <value>Hubo un error cargando los PATHS. Comprueba el log.</value>
   </data>
+  <data name="guardarPL" xml:space="preserve">
+    <value>¿Quiere guardar la lista de reproducción actual?</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>canciones</value>
+  </data>
 </root>

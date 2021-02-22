@@ -1,43 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace aplicacion_musica.src.Forms
 {
-    public partial class ListaReproduccionUI : Form
+    public partial class PlaylistIU : Form
     {
-        public ListaReproduccion ListaReproduccion { get; set; }
+        public Playlist ListaReproduccion { get; set; }
         private string Playing = "▶";
         private int Puntero;
-        public ListaReproduccionUI(ListaReproduccion lr)
+        public PlaylistIU(Playlist lr)
         {
             InitializeComponent();
             ListaReproduccion = lr;
-            CargarVista();
-            listViewCanciones.Size = Size;
+            LoadView();
+            listViewSongs.Size = Size;
             Puntero = 0;
             Text = lr.Nombre;
-            PonerTextos();
+            PutTexts();
+            toolStripStatusLabelInfo.Width = statusStrip.Size.Width - 200;
         }
-        private void PonerTextos()
+        private void PutTexts()
         {
             fileToolStripMenuItem.Text = Program.LocalTexts.GetString("archivo");
-            nuevaToolStripMenuItem.Text = Program.LocalTexts.GetString("nuevaPlaylist");
+            newToolStripMenuItem.Text = Program.LocalTexts.GetString("nuevaPlaylist");
             saveToolStripMenuItem.Text = Program.LocalTexts.GetString("guardar");
             openToolStripMenuItem.Text = Program.LocalTexts.GetString("abrir");
             addSongToolStripMenuItem.Text = Program.LocalTexts.GetString("añadir_cancion");
             changeNameToolStripMenuItem.Text = Program.LocalTexts.GetString("cambiarNombrePL");
             addSongToolStripMenuItem.Text = Program.LocalTexts.GetString("añadir_cancion");
-            listViewCanciones.Columns[0].Text = Program.LocalTexts.GetString("reproduciendo");
-            listViewCanciones.Columns[1].Text = Program.LocalTexts.GetString("artista");
-            listViewCanciones.Columns[2].Text = Program.LocalTexts.GetString("titulo");
-            listViewCanciones.Columns[3].Text = Program.LocalTexts.GetString("duracion");
+            listViewSongs.Columns[0].Text = Program.LocalTexts.GetString("reproduciendo");
+            listViewSongs.Columns[1].Text = Program.LocalTexts.GetString("artista");
+            listViewSongs.Columns[2].Text = Program.LocalTexts.GetString("titulo");
+            listViewSongs.Columns[3].Text = Program.LocalTexts.GetString("duracion");
+            toolStripStatusLabelTracksSelected.Text = "0 " + Program.LocalTexts.GetString("canciones");
+            toolStripStatusLabelDuration.Text = "0:00";
         }
         public void UpdateTime()
         {
@@ -46,15 +42,15 @@ namespace aplicacion_musica.src.Forms
             else
                 toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + ListaReproduccion.Duration.ToString(@"hh\:mm\:ss");
         }
-        private void CargarVista()
+        private void LoadView()
         {
-            listViewCanciones.Items.Clear();
+            listViewSongs.Items.Clear();
             ListViewItem[] items = new ListViewItem[ListaReproduccion.Canciones.Count];
             for (int i = 0; i < ListaReproduccion.Canciones.Count; i++)
             {
                 string[] data = new string[4];
                 data[0] = "";
-                //Coger los datos de la canción, si fuera necesario.
+                //Pick song data if it's mandatory
                 if(string.IsNullOrEmpty(ListaReproduccion.Canciones[i].Title))
                 {
                     LectorMetadatos lectorMetadatos = new LectorMetadatos(ListaReproduccion.Canciones[i].Path);
@@ -71,29 +67,40 @@ namespace aplicacion_musica.src.Forms
                 }
                 items[i] = new ListViewItem(data);
             }
-            listViewCanciones.Items.AddRange(items);
+            listViewSongs.Items.AddRange(items);
             UpdateTime();
         }
-        public void Refrescar()
+        public void RefreshView()
         {
-            CargarVista();
+            LoadView();
         }
-        public void SetActivo(int punt)
+        public void SetActiveSong(int punt)
         {
             if(punt != -1)
             {
-                listViewCanciones.Items[Puntero].SubItems[0].Text = "";
-                listViewCanciones.Items[punt].SubItems[0].Text = Playing;
+                listViewSongs.Items[Puntero].SubItems[0].Text = "";
+                listViewSongs.Items[punt].SubItems[0].Text = Playing;
                 Puntero = punt;
             }
         }
-
-        private void ListaReproduccionUI_DragEnter(object sender, DragEventArgs e)
+        private void SavePlaylist()
+        {
+            Log.Instance.ImprimirMensaje("Guardando playlist", TipoMensaje.Info);
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            saveFileDialog.Filter = ".plf|*.plf";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ListaReproduccion.Guardar(saveFileDialog.FileName);
+                Log.Instance.ImprimirMensaje("Guardado correctamente", TipoMensaje.Correcto);
+            }
+        }
+        private void PlaylistIU_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
         }
 
-        private void ListaReproduccionUI_DragDrop(object sender, DragEventArgs e)
+        private void PlaylistIU_DragDrop(object sender, DragEventArgs e)
         {
             Song c = null;
             string[] canciones = null;
@@ -113,33 +120,29 @@ namespace aplicacion_musica.src.Forms
                     ListaReproduccion.AgregarCancion(clr);
                 }
             }
-            Refrescar();
+            RefreshView();
             
             Reproductor.Instancia.ActivarPorLista();
         }
 
-        private void listViewCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void listViewSongs_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Reproductor.Instancia.ReproducirCancion(listViewCanciones.SelectedItems[0].Index);
+            Reproductor.Instancia.ReproducirCancion(listViewSongs.SelectedItems[0].Index);
         }
 
-        private void ListaReproduccionUI_SizeChanged(object sender, EventArgs e)
+        private void PlaylistIU_SizeChanged(object sender, EventArgs e)
         {
-            listViewCanciones.Size = Size;
+            listViewSongs.Size = Size;
+            toolStripStatusLabelInfo.Width = statusStrip.Size.Width - 200;
         }
 
-        private void ListaReproduccionUI_FormClosing(object sender, FormClosingEventArgs e)
+        private void PlaylistIU_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(e.CloseReason != CloseReason.ApplicationExitCall)
             {
                 Hide();
                 e.Cancel = true;
             }
-        }
-
-        private void ListaReproduccionUI_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void changeNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -153,16 +156,7 @@ namespace aplicacion_musica.src.Forms
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Log.Instance.ImprimirMensaje("Guardando playlist",TipoMensaje.Info);
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
-            saveFileDialog.Filter = ".plf|*.plf";
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                ListaReproduccion.Guardar(saveFileDialog.FileName);
-                Log.Instance.ImprimirMensaje("Guardado correctamente", TipoMensaje.Correcto);
-            }
-            
+            SavePlaylist();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -183,7 +177,7 @@ namespace aplicacion_musica.src.Forms
                     MessageBox.Show(Program.LocalTexts.GetString("errrorLR"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            Refrescar();
+            RefreshView();
         }
 
         private void addSongToolStripMenuItem_Click(object sender, EventArgs e)
@@ -200,16 +194,16 @@ namespace aplicacion_musica.src.Forms
                     song.Path = songFile;
                     ListaReproduccion.AgregarCancion(song);
                 }
-                Refrescar();
+                RefreshView();
             }
         }
         //Called everytime the user selects a song in the UI.
-        private void listViewCanciones_SelectedIndexChanged(object sender, EventArgs e)
+        private void listViewSongs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listViewCanciones.SelectedItems.Count != 0)
+            if (listViewSongs.SelectedItems.Count != 0)
             {
                 TimeSpan seleccion = new TimeSpan();
-                foreach (ListViewItem songItem in listViewCanciones.SelectedItems)
+                foreach (ListViewItem songItem in listViewSongs.SelectedItems)
                 {
                     Song song = ListaReproduccion[songItem.Index];
                     seleccion += song.Length;
@@ -218,9 +212,35 @@ namespace aplicacion_musica.src.Forms
                     toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + seleccion.ToString(@"mm\:ss");
                 else
                     toolStripStatusLabelDuration.Text = Program.LocalTexts.GetString("duracion") + ": " + seleccion.ToString(@"hh\:mm\:ss");
+                toolStripStatusLabelTracksSelected.Text = listViewSongs.SelectedItems.Count + " " + Program.LocalTexts.GetString("canciones");
             }
             else
+            {
                 UpdateTime();
+                toolStripStatusLabelTracksSelected.Text = "0 " + Program.LocalTexts.GetString("canciones");
+            }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Creates a new playlist and sends it to the Player.
+            DialogResult result = MessageBox.Show(Program.LocalTexts.GetString("guardarPL"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            switch (result)
+            {
+                case DialogResult.Yes:
+                    SavePlaylist();
+                    break;
+                case DialogResult.No:
+                    break;
+                default:
+                    break;
+            }
+            if(result != DialogResult.Yes) //for some reason, the user cancels at the save dialog...
+            {
+                Reproductor.Instancia.CreatePlaylist(Program.LocalTexts.GetString("nuevaPlaylist"));
+                Puntero = 0;
+                RefreshView();
+            }
         }
     }
 }

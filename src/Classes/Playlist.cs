@@ -5,7 +5,7 @@ using System.IO;
 
 namespace aplicacion_musica
 {
-    public class ListaReproduccion
+    public class Playlist
     {
         public List<Song> Canciones { get; private set; }
         public TimeSpan Duration { get => GetDuration(); }
@@ -20,7 +20,7 @@ namespace aplicacion_musica
             return time;
         }
 
-        public ListaReproduccion(String n)
+        public Playlist(String n)
         {
             Nombre = n;
             Canciones = new List<Song>();

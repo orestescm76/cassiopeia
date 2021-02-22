@@ -434,7 +434,7 @@
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
-    <value>Gestor de música</value>
+    <value>Cassiopea</value>
   </data>
   <data name="ver" xml:space="preserve">
     <value>Veure</value>
@@ -507,5 +507,8 @@
   </data>
   <data name="limpiar" xml:space="preserve">
     <value>Esborrar</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>cançons</value>
   </data>
 </root>

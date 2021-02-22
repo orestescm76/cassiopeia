@@ -348,7 +348,7 @@ namespace aplicacion_musica
             }
             else
             {
-                ListaReproduccion ls = new ListaReproduccion(albumToVisualize.ToString());
+                Playlist ls = new Playlist(albumToVisualize.ToString());
                 foreach (Song cancion in albumToVisualize.Songs)
                 {
                     ls.AgregarCancion(cancion);

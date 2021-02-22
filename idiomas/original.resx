@@ -620,4 +620,10 @@
   <data name="abrir" xml:space="preserve">
     <value></value>
   </data>
+  <data name="guardarPL" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value></value>
+  </data>
 </root>
