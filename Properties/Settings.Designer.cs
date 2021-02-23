@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace cassiopeia.Properties {
+namespace Cassiopeia.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
