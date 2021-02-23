@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cassiopea.CD
+namespace Cassiopeia.CD
 {
     public class PistaCD
     {

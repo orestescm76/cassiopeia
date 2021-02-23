@@ -23,7 +23,7 @@ using System.Net;
 * Misc:
 *  Argumentos de lanzamiento en inglés
 */
-namespace Cassiopea
+namespace Cassiopeia
 {
     static class Program
     {

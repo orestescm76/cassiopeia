@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Cassiopea.src.Forms
+namespace Cassiopeia.src.Forms
 {
     public partial class PlaylistIU : Form
     {

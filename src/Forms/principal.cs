@@ -6,10 +6,10 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
-using Cassiopea.src.Forms;
+using Cassiopeia.src.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     public enum TipoVista
     {

@@ -1,8 +1,8 @@
-﻿using Cassiopea.src.Forms;
+﻿using Cassiopeia.src.Forms;
 using System;
 using System.Diagnostics;
 using System.IO;
-namespace Cassiopea
+namespace Cassiopeia
 {
     public enum MessageType
     {

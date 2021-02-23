@@ -1,4 +1,4 @@
-﻿namespace Cassiopea.src.Forms
+﻿namespace Cassiopeia.src.Forms
 {
     partial class Reproductor
     {
@@ -239,8 +239,8 @@
             // 
             // pictureBoxCaratula
             // 
-            this.pictureBoxCaratula.Image = global::Cassiopea.Properties.Resources.albumdesconocido;
-            this.pictureBoxCaratula.InitialImage = global::Cassiopea.Properties.Resources.albumdesconocido;
+            this.pictureBoxCaratula.Image = global::Cassiopeia.Properties.Resources.albumdesconocido;
+            this.pictureBoxCaratula.InitialImage = global::Cassiopeia.Properties.Resources.albumdesconocido;
             this.pictureBoxCaratula.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxCaratula.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBoxCaratula.Name = "pictureBoxCaratula";

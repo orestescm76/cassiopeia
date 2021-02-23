@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     public enum SleeveType
     {

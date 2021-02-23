@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     public partial class acercaDe : Form
     {

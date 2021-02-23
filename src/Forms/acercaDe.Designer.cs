@@ -1,4 +1,4 @@
-﻿namespace Cassiopea
+﻿namespace Cassiopeia
 {
     partial class acercaDe
     {
@@ -49,7 +49,7 @@
             // 
             this.pictureBoxBanner.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxBanner.ErrorImage = null;
-            this.pictureBoxBanner.Image = global::Cassiopea.Properties.Resources.banner;
+            this.pictureBoxBanner.Image = global::Cassiopeia.Properties.Resources.banner;
             this.pictureBoxBanner.InitialImage = null;
             this.pictureBoxBanner.Location = new System.Drawing.Point(0, -2);
             this.pictureBoxBanner.Name = "pictureBoxBanner";

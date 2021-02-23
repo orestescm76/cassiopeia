@@ -1,4 +1,4 @@
-﻿namespace Cassiopea.src.Forms
+﻿namespace Cassiopeia.src.Forms
 {
     partial class BarraCarga
     {

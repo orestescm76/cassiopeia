@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Cassiopea.CD
+namespace Cassiopeia.CD
 {
     public sealed class CDDrive : IDisposable
     {

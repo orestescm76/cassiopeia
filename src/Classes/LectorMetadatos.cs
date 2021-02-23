@@ -3,7 +3,7 @@ using System.IO;
 using System.Drawing;
 using File = TagLib.File;
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     public class LectorMetadatos
     {

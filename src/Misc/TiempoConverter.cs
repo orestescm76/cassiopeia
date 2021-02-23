@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     public class TiempoConverter: JsonConverter<TimeSpan>
     {

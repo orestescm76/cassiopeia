@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Cassiopea.CD
+namespace Cassiopeia.CD
 {
     internal class DriveLock : IDisposable
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Collections;
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     class ListViewItemComparer : IComparer
     {

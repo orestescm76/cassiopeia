@@ -1,4 +1,4 @@
-﻿namespace Cassiopea
+﻿namespace Cassiopeia
 {
     partial class agregarCancion
     {

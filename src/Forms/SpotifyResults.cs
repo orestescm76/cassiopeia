@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using SpotifyAPI.Web.Models;
 
-namespace Cassiopea.src.Forms
+namespace Cassiopeia.src.Forms
 {
     public partial class SpotifyResults : Form
     {

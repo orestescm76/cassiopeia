@@ -9,9 +9,9 @@ using System.IO;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
-using Cassiopea.Properties;
+using Cassiopeia.Properties;
 
-namespace Cassiopea.src.Forms
+namespace Cassiopeia.src.Forms
 {
     public enum EstadoReproductor
     {

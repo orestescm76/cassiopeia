@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Cassiopea.src.Forms
+namespace Cassiopeia.src.Forms
 {
     public partial class AbrirDisco : Form
     {

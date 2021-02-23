@@ -8,7 +8,7 @@ using System.IO;
  * For more details: https://github.com/filoe/cscore
  */
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     public sealed class NVorbisSource : ISampleSource
     {

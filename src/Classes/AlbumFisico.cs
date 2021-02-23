@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     public enum MediaCondition
     {

@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
-using Cassiopea.src.Forms;
+using Cassiopeia.src.Forms;
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     public partial class visualizarAlbum : Form
     {

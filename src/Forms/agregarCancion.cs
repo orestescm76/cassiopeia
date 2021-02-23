@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace Cassiopea
+namespace Cassiopeia
 {
     public partial class agregarCancion : Form
     {
