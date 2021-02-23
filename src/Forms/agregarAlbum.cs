@@ -12,7 +12,7 @@ namespace aplicacion_musica
         {
             InitializeComponent();
             ponerTextos();
-            Log.Instance.ImprimirMensaje("Creando álbum", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Creando álbum", MessageType.Info);
         }
         private void ponerTextos()
         {
@@ -34,7 +34,7 @@ namespace aplicacion_musica
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Log.Instance.ImprimirMensaje("Buscando carátula", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Buscando carátula", MessageType.Info);
             OpenFileDialog abrirImagen = new OpenFileDialog();
             abrirImagen.Filter = Program.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
@@ -44,7 +44,7 @@ namespace aplicacion_musica
                 caratula = fichero;
                 ruta.Text = fichero;
             }
-            Log.Instance.ImprimirMensaje("Imagen " + ruta + " cargada", TipoMensaje.Correcto);
+            Log.Instance.PrintMessage("Imagen " + ruta + " cargada", MessageType.Correct);
         }
 
         private void add_Click(object sender, EventArgs e)
@@ -75,7 +75,7 @@ namespace aplicacion_musica
                     cancelar = agregarCancion.ShowDialog();
                     if (cancelar == DialogResult.Cancel)
                     {
-                        Log.Instance.ImprimirMensaje("Cancelado el proceso de añadir álbum", TipoMensaje.Advertencia);
+                        Log.Instance.PrintMessage("Cancelado el proceso de añadir álbum", MessageType.Warning);
                         Program.Collection.RemoveAlbum(ref a);
                         Close();
                         cancelado = true;
@@ -85,19 +85,19 @@ namespace aplicacion_musica
                         continue;
                 }
                 if(!cancelado)
-                    Log.Instance.ImprimirMensaje(artista + " - " + titulo + " agregado correctamente", TipoMensaje.Correcto);
+                    Log.Instance.PrintMessage(artista + " - " + titulo + " agregado correctamente", MessageType.Correct);
                 Program.ReloadView();
                 Close();
             }
             catch (NullReferenceException ex)
             {
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
                 MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
             }
 
             catch (FormatException ex)
             {
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
                 MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
                 //throw;
             }

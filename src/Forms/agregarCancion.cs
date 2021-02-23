@@ -19,7 +19,7 @@ namespace aplicacion_musica
         ToolTip ConsejoEsBonus;
         public agregarCancion(ref AlbumData a, int n) //caso normal
         {
-            Log.Instance.ImprimirMensaje("Creando canción", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Creando canción", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             album = a;
@@ -35,11 +35,11 @@ namespace aplicacion_musica
             ConsejoEsBonus.SetToolTip(checkBoxBonus, Program.LocalTexts.GetString("esBonusAyuda"));
             ponerTextos();
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Miliseconds);
         }
         public agregarCancion(ref Song c) //editar
         {
-            Log.Instance.ImprimirMensaje("Editando canción", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Editando canción", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             cual = -1;
@@ -74,11 +74,11 @@ namespace aplicacion_musica
             np = 0;
             ponerTextos();
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Miliseconds);
         }
         public agregarCancion(ref AlbumData a, int n, bool l) //crear canción larga
         {
-            Log.Instance.ImprimirMensaje("Creando canción con partes", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Creando canción con partes", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             larga = l;
@@ -94,12 +94,12 @@ namespace aplicacion_musica
             esLarga.Hide();
             checkBoxBonus.Hide();
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Miliseconds);
         }
 
         public agregarCancion(ref LongSong l, int n, ref AlbumData a) //crear parte de canción larga
         {
-            Log.Instance.ImprimirMensaje("Creando parte de canción larga", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Creando parte de canción larga", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             cancionlarga = l;
@@ -114,7 +114,7 @@ namespace aplicacion_musica
             checkBoxBonus.Hide();
             ponerTextos();
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Miliseconds);
         }
 
         private void ponerTextos()
@@ -205,7 +205,7 @@ namespace aplicacion_musica
             }
             catch (NullReferenceException ex)
             {
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
 
                 MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
 
@@ -213,7 +213,7 @@ namespace aplicacion_musica
 
             catch (FormatException ex)
             {
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
                 MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
                 //throw;
             }
@@ -229,12 +229,12 @@ namespace aplicacion_musica
                 title = tituloTextBox.Text;
                 Song c = new Song(title, new TimeSpan(0, min, sec), ref album);
                 album.AddSong(c, cual);
-                Log.Instance.ImprimirMensaje(title + " añadido correctamente", TipoMensaje.Correcto);
+                Log.Instance.PrintMessage(title + " añadido correctamente", MessageType.Correct);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK);
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
 
             }
             Close();
@@ -251,7 +251,7 @@ namespace aplicacion_musica
         private void button2_Click(object sender, EventArgs e)
         {
             DialogResult =  DialogResult.Cancel;
-            Log.Instance.ImprimirMensaje("Cancelado", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Cancelado", MessageType.Info);
             Close();
         }
 

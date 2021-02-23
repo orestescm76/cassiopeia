@@ -44,7 +44,7 @@ namespace aplicacion_musica
             }
             try
             {
-                Log.Instance.ImprimirMensaje("Intentando cargar " + cual, TipoMensaje.Info);
+                Log.Instance.PrintMessage("Intentando cargar " + cual, MessageType.Info);
                 if (Path.GetExtension(cual) == ".ogg")
                 {
                     FileStream stream = new FileStream(cual, FileMode.Open, FileAccess.Read);
@@ -62,20 +62,20 @@ namespace aplicacion_musica
                 _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
                 //_sonido.Position = 0;
                 _salida.Initialize(_sonido);
-                Log.Instance.ImprimirMensaje("Cargado correctamente" + cual, TipoMensaje.Correcto);
+                Log.Instance.PrintMessage("Cargado correctamente" + cual, MessageType.Correct);
             }
             catch (IOException ex)
             {
-                Log.Instance.ImprimirMensaje("Error de IO", TipoMensaje.Error);
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                Log.Instance.PrintMessage("Error de IO", MessageType.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
                 _salida = null;
                 _sonido = null;
                 throw;
             }
             catch (Exception ex)
             {
-                Log.Instance.ImprimirMensaje("Hubo un problema...", TipoMensaje.Error);
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                Log.Instance.PrintMessage("Hubo un problema...", MessageType.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
                 _salida = null;
                 _sonido = null;
                 throw;
@@ -180,7 +180,7 @@ namespace aplicacion_musica
         //Lee un cd de audio segun los ficheros CDA que genera Windows
         public PistaCD[] LeerCD(char Disco)
         {
-            Log.Instance.ImprimirMensaje("Leyendo CD", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Leyendo CD", MessageType.Info);
             DirectoryInfo DiscoD = null;
             FileInfo[] Ficheros = null;
             try
@@ -190,7 +190,7 @@ namespace aplicacion_musica
             }
             catch (IOException)
             {
-                Log.Instance.ImprimirMensaje("No se puede leer el CD. El dispositivo no está preparado...", TipoMensaje.Error);
+                Log.Instance.PrintMessage("No se puede leer el CD. El dispositivo no está preparado...", MessageType.Error);
                 MessageBox.Show(Program.LocalTexts.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
@@ -225,7 +225,7 @@ namespace aplicacion_musica
             Disquetera = CDDrive.Open(disp);
             if (Disquetera == null)
             {
-                Log.Instance.ImprimirMensaje("No se puede leer el CD. El dispositivo no está preparado...", TipoMensaje.Error);
+                Log.Instance.PrintMessage("No se puede leer el CD. El dispositivo no está preparado...", MessageType.Error);
                 throw new IOException();
             }
             FormatoSonido = FormatoSonido.CDA;
@@ -237,7 +237,7 @@ namespace aplicacion_musica
             _sonido = Disquetera.ReadTrack(Pistas[0]);
             _salida.Initialize(_sonido);
             _salida.Play();
-            Log.Instance.ImprimirMensaje("Se ha cargado correctamente el CD", TipoMensaje.Correcto);
+            Log.Instance.PrintMessage("Se ha cargado correctamente el CD", MessageType.Correct);
         }
         public void SaltarCancionCD(int cual) //sobre 0
         {

@@ -51,8 +51,8 @@ namespace aplicacion_musica.src.Forms
         {
             if(!EditarID)
             {
-                Log.Instance.ImprimirMensaje("Intentando añadir " + listViewResultadoBusqueda.SelectedItems.Count +
-                    " álbumes", TipoMensaje.Info);
+                Log.Instance.PrintMessage("Intentando añadir " + listViewResultadoBusqueda.SelectedItems.Count +
+                    " álbumes", MessageType.Info);
                 Stopwatch crono = Stopwatch.StartNew();
                 for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
                 {

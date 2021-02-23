@@ -32,7 +32,7 @@ namespace aplicacion_musica
             }
             catch (FileNotFoundException)
             {
-                Log.Instance.ImprimirMensaje("No se encuentra la carátula", TipoMensaje.Advertencia);
+                Log.Instance.PrintMessage("No se encuentra la carátula", MessageType.Warning);
                 vistaCaratula.Image = Properties.Resources.albumdesconocido;
             }
             lvwColumnSorter = new ListViewItemComparer();
@@ -409,7 +409,7 @@ namespace aplicacion_musica
                 explorador.StartInfo.FileName = "explorer.exe";
                 explorador.StartInfo.Arguments = albumToVisualize.SoundFilesPath;
                 explorador.Start();
-                Log.Instance.ImprimirMensaje("Abierto explorer con PID: " + explorador.Id, TipoMensaje.Info);
+                Log.Instance.PrintMessage("Abierto explorer con PID: " + explorador.Id, MessageType.Info);
             }
         }
 
@@ -444,7 +444,7 @@ namespace aplicacion_musica
 
         private void buttonPATH_Click(object sender, EventArgs e)
         {
-            Log.Instance.ImprimirMensaje("Buscando canciones para " + albumToVisualize.ToString(), TipoMensaje.Info);
+            Log.Instance.PrintMessage("Buscando canciones para " + albumToVisualize.ToString(), MessageType.Info);
             bool correcto = true;
             DirectoryInfo directorioCanciones = new DirectoryInfo(albumToVisualize.SoundFilesPath);
             foreach (FileInfo file in directorioCanciones.GetFiles())
@@ -460,13 +460,13 @@ namespace aplicacion_musica
                         if (LM.Evaluable() && (c.Title.ToLower() == LM.Titulo.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artista.ToLower()))
                         {
                             c.Path = file.FullName;
-                            Log.Instance.ImprimirMensaje(c.Path + " leído correctamente", TipoMensaje.Correcto);
+                            Log.Instance.PrintMessage(c.Path + " leído correctamente", MessageType.Correct);
                             break;
                         }
                         else if (LM.Evaluable() && string.Equals(c.Title, LM.Titulo) && string.Equals(LM.Artista, c.AlbumFrom.Artist))
                         {
                             c.Path = file.FullName;
-                            Log.Instance.ImprimirMensaje(c.Path + " leído correctamente", TipoMensaje.Correcto);
+                            Log.Instance.PrintMessage(c.Path + " leído correctamente", MessageType.Correct);
                             break;
                         }
                         else
@@ -474,7 +474,7 @@ namespace aplicacion_musica
                             if (file.FullName.ToLower().Contains(c.Title.ToLower()))
                             {
                                 c.Path = file.FullName;
-                                Log.Instance.ImprimirMensaje(c.Path + " leído correctamente", TipoMensaje.Correcto);
+                                Log.Instance.PrintMessage(c.Path + " leído correctamente", MessageType.Correct);
                                 break;
                             }
                         }
@@ -494,7 +494,7 @@ namespace aplicacion_musica
                 {
                     if (cancion.Path == null) //No se ha encontrado
                     {
-                        Log.Instance.ImprimirMensaje("No se encontró la canción para " + cancion.Title + ".", TipoMensaje.Advertencia);
+                        Log.Instance.PrintMessage("No se encontró la canción para " + cancion.Title + ".", MessageType.Warning);
                     }
                 }
                 MessageBox.Show(Program.LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -513,7 +513,7 @@ namespace aplicacion_musica
         private void copiar_Click(object sender, EventArgs e)
         {
             Clipboard.SetImage(vistaCaratula.Image);
-            Log.Instance.ImprimirMensaje("Enviada imagen al portapapeles", TipoMensaje.Correcto);
+            Log.Instance.PrintMessage("Enviada imagen al portapapeles", MessageType.Correct);
         }
         private void clickDerechoConfig_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {

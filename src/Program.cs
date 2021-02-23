@@ -94,7 +94,7 @@ namespace aplicacion_musica
         }
         public static void ChangeLanguage(String idioma)
         {
-            Log.Instance.ImprimirMensaje("Cambiando idioma al " + idioma, TipoMensaje.Info);
+            Log.Instance.PrintMessage("Cambiando idioma al " + idioma, MessageType.Info);
             LocalTexts = new ResXResourceSet(@"./idiomas/" + "original." + idioma + ".resx");
             Config.Idioma = idioma;
             ReloadGenres();
@@ -137,7 +137,7 @@ namespace aplicacion_musica
 
         public static void CargarAlbumes(string fichero)
         {
-            Log.Instance.ImprimirMensaje("Cargando álbumes almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumes(string)");
+            Log.Instance.PrintMessage("Cargando álbumes almacenados en " + fichero, MessageType.Info, "cargarAlbumes(string)");
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamReader lector = new StreamReader(fichero))
             {
@@ -152,13 +152,13 @@ namespace aplicacion_musica
                 }
             }
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargados " + Collection.Albums.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Miliseconds);
             ReloadView();
         }
 
         public static void LoadCSVAlbums(string fichero)
         {
-            Log.Instance.ImprimirMensaje("Cargando álbumes CSV almacenados en " + fichero, TipoMensaje.Info, "cargarAlbumesLegacy(string)");
+            Log.Instance.PrintMessage("Cargando álbumes CSV almacenados en " + fichero, MessageType.Info, "cargarAlbumesLegacy(string)");
             Stopwatch crono = Stopwatch.StartNew();
             //cargando CSV a lo bestia
             int lineaC = 1;
@@ -178,7 +178,7 @@ namespace aplicacion_musica
                     string[] datos = linea.Split(';');
                     if (datos.Length != 8)
                     {
-                        Log.Instance.ImprimirMensaje("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, TipoMensaje.Error);
+                        Log.Instance.PrintMessage("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, MessageType.Error);
                         MessageBox.Show("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Environment.Exit(-1);
                     }
@@ -194,7 +194,7 @@ namespace aplicacion_musica
                     }
                     catch (FormatException e)
                     {
-                        Log.Instance.ImprimirMensaje("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, TipoMensaje.Error);
+                        Log.Instance.PrintMessage("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, MessageType.Error);
                         MessageBox.Show("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Environment.Exit(-1);
                     }
@@ -244,7 +244,7 @@ namespace aplicacion_musica
                             }
                             catch (FormatException e)
                             {
-                                Log.Instance.ImprimirMensaje("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, TipoMensaje.Error);
+                                Log.Instance.PrintMessage("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, MessageType.Error);
                                 MessageBox.Show("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 Environment.Exit(-1);
                             }
@@ -253,7 +253,7 @@ namespace aplicacion_musica
                     if (Collection.IsInCollection(a))
                     {
                         exito = false; //pues ya está repetido.
-                        Log.Instance.ImprimirMensaje("Álbum repetido -> " + a.Artist + " - " + a.Title, TipoMensaje.Advertencia);
+                        Log.Instance.PrintMessage("Álbum repetido -> " + a.Artist + " - " + a.Title, MessageType.Warning);
                     }
 
                     if (exito)
@@ -265,7 +265,7 @@ namespace aplicacion_musica
                 }
             }
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargados " + Collection.Albums.Count + " álbumes correctamente", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Miliseconds);
             ReloadView();
         }
         public static void LoadCD(string fichero = "cd.json")
@@ -289,7 +289,7 @@ namespace aplicacion_musica
         }
         private static void LoadPATHS()
         {
-            Log.Instance.ImprimirMensaje("Cargando PATHS", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Cargando PATHS", MessageType.Info);
             using(StreamReader entrada = new FileInfo("paths.txt").OpenText())
             {
                 string linea = null;
@@ -320,7 +320,7 @@ namespace aplicacion_musica
         }
         public static void SavePATHS()
         {
-            Log.Instance.ImprimirMensaje("Guardando PATHS", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Guardando PATHS", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             using(StreamWriter salida = new FileInfo("paths.txt").CreateText())
             {
@@ -338,7 +338,7 @@ namespace aplicacion_musica
                 }
             }
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Guardados los PATHS", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Guardados los PATHS", MessageType.Correct, crono, TimeType.Miliseconds);
         }
         public static void SaveAlbums(string path, TipoGuardado tipoGuardado, bool json = false)
         {
@@ -352,8 +352,8 @@ namespace aplicacion_musica
                     switch (tipoGuardado)
                     {
                         case TipoGuardado.Digital:
-                            Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.Albums.Count + " discos)", TipoMensaje.Info);
-                            Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
+                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.Albums.Count + " discos)", MessageType.Info);
+                            Log.Instance.PrintMessage("Nombre del fichero: " + path, MessageType.Info);
                             foreach (AlbumData a in Program.Collection.Albums)
                             {
                                 JsonSerializer s = new JsonSerializer();
@@ -362,8 +362,8 @@ namespace aplicacion_musica
                             }
                             break;
                         case TipoGuardado.CD:
-                            Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.CDS.Count + " cds)", TipoMensaje.Info);
-                            Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
+                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.CDS.Count + " cds)", MessageType.Info);
+                            Log.Instance.PrintMessage("Nombre del fichero: " + path, MessageType.Info);
                             foreach (CompactDisc compacto in Program.Collection.CDS)
                             {
                                 salida.WriteLine(JsonConvert.SerializeObject(compacto));
@@ -382,8 +382,8 @@ namespace aplicacion_musica
                     switch (tipoGuardado)
                     {
                         case TipoGuardado.Digital:
-                            Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.Albums.Count + " discos)", TipoMensaje.Info);
-                            Log.Instance.ImprimirMensaje("Nombre del fichero: " + path, TipoMensaje.Info);
+                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Program.Collection.Albums.Count + " discos)", MessageType.Info);
+                            Log.Instance.PrintMessage("Nombre del fichero: " + path, MessageType.Info);
                             foreach (AlbumData a in Collection.Albums)
                             {
                                 if (!(a.Songs[0] == null)) //no puede ser un album con 0 canciones
@@ -419,12 +419,12 @@ namespace aplicacion_musica
             }
             crono.Stop();
             fich.Refresh();
-            Log.Instance.ImprimirMensaje(nameof(SaveAlbums) + "- Guardado", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage(nameof(SaveAlbums) + "- Guardado", MessageType.Correct, crono, TimeType.Miliseconds);
             crono.Stop();
         }
         private static void LoadLyrics()
         {
-            Log.Instance.ImprimirMensaje("Cargando lyrics", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Cargando lyrics", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamReader entrada = new FileInfo("lyrics.txt").OpenText())
             {
@@ -446,11 +446,11 @@ namespace aplicacion_musica
                 }
             }
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Lyrics cargadas", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Lyrics cargadas", MessageType.Correct, crono, TimeType.Miliseconds);
         }
         private static void SaveLyrics()
         {
-            Log.Instance.ImprimirMensaje("Guardando lyrics", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Guardando lyrics", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamWriter salida = new FileInfo("lyrics.txt").CreateText())
             {
@@ -471,9 +471,9 @@ namespace aplicacion_musica
                 }
             }
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Guardados las letras", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Guardados las letras", MessageType.Correct, crono, TimeType.Miliseconds);
             FileInfo lyrics = new FileInfo("lyrics.txt");
-            Log.Instance.ImprimirMensaje("Tamaño del fichero: " + lyrics.Length/1024 + " kb", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Tamaño del fichero: " + lyrics.Length/1024 + " kb", MessageType.Info);
         }
         static bool CheckForUpdates(out string verNueva)
         {
@@ -493,8 +493,8 @@ namespace aplicacion_musica
             }
             catch (WebException e)
             {
-                Log.Instance.ImprimirMensaje("Hubo un problema intentando localizar la nueva versión...", TipoMensaje.Error);
-                Log.Instance.ImprimirMensaje("Respuesta del servidor: " + e.Response, TipoMensaje.Info);
+                Log.Instance.PrintMessage("Hubo un problema intentando localizar la nueva versión...", MessageType.Error);
+                Log.Instance.PrintMessage("Respuesta del servidor: " + e.Response, MessageType.Info);
                 verNueva = string.Empty;
                 return false;
             }
@@ -527,7 +527,7 @@ namespace aplicacion_musica
                         AllocConsole();
                         System.Console.Title = "Consola debug v" + Version;
                         System.Console.WriteLine("Log creado " + DateTime.Now);
-                        Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -consola", TipoMensaje.Info);
+                        Log.PrintMessage("Se ha iniciado la aplicación con el parámetro -consola", MessageType.Info);
                         break;
                     case "-noSpotify":
                         Spotify = false;
@@ -565,7 +565,7 @@ namespace aplicacion_musica
             string versionNueva;
             if (CheckForUpdates(out versionNueva) && ComprobarActualizaciones)
             {
-                Log.ImprimirMensaje("Está disponible la actualización " + versionNueva, TipoMensaje.Info);
+                Log.PrintMessage("Está disponible la actualización " + versionNueva, MessageType.Info);
                 DialogResult act = MessageBox.Show(LocalTexts.GetString("actualizacion1") + Environment.NewLine + versionNueva + Environment.NewLine + LocalTexts.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
                 if (act == DialogResult.Yes)
                     Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
@@ -588,14 +588,14 @@ namespace aplicacion_musica
             else
             {
                 SpotifyActivado = false;
-                Log.ImprimirMensaje("Se ha iniciado la aplicación con el parámetro -noSpotify, no habrá integración con Spotify", TipoMensaje.Info);
+                Log.PrintMessage("Se ha iniciado la aplicación con el parámetro -noSpotify, no habrá integración con Spotify", MessageType.Info);
                 _spotify = null;
                 principal.HayInternet(false);
             }
 
             if(!ModoStream)
             {
-                Log.ImprimirMensaje("Configurando géneros", TipoMensaje.Info);
+                Log.PrintMessage("Configurando géneros", MessageType.Info);
                 for (int i = 0; i < idGeneros.Length; i++)
                 {
                     if (idGeneros[i] == "")
@@ -620,7 +620,7 @@ namespace aplicacion_musica
                     }
                     else
                     {
-                        Log.ImprimirMensaje("discos.csv no existe, se creará una base de datos vacía.", TipoMensaje.Advertencia);
+                        Log.PrintMessage("discos.csv no existe, se creará una base de datos vacía.", MessageType.Warning);
                     }
                 }
                 if (File.Exists("paths.txt"))
@@ -654,7 +654,7 @@ namespace aplicacion_musica
                 System.Console.WriteLine("Programa finalizado, presione una tecla para continuar...");
                 System.Console.ReadKey();
             }
-            Log.Instance.CerrarLog();
+            Log.Instance.CloseLog();
         }
 
     }

@@ -80,7 +80,7 @@ namespace aplicacion_musica
                 catch (ArgumentOutOfRangeException)
                 {
 
-                    Log.Instance.ImprimirMensaje("Error intentando cambiar el puntero de la canción, poniendo uno de reserva...", TipoMensaje.Error);
+                    Log.Instance.PrintMessage("Error intentando cambiar el puntero de la canción, poniendo uno de reserva...", MessageType.Error);
                     _vorbisReader.TimePosition = posAnt;
                 }
             }
