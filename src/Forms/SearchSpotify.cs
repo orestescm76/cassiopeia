@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace aplicacion_musica.src.Forms
+namespace Cassiopea.src.Forms
 {
     public partial class SearchSpotify : Form
     {

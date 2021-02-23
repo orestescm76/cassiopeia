@@ -1,4 +1,4 @@
-﻿namespace aplicacion_musica.Properties {
+﻿namespace Cassiopea.Properties {
     
     
     // Esta clase le permite controlar eventos específicos en la clase de configuración:

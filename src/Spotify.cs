@@ -9,7 +9,7 @@ using SpotifyAPI.Web.Models;
 using SpotifyAPI.Web.Enums;
 using System.Threading;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     class Spotify
     {

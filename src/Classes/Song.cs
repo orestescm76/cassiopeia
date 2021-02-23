@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     public class Song
     {

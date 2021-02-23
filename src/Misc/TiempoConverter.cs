@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     public class TiempoConverter: JsonConverter<TimeSpan>
     {

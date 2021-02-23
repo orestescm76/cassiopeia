@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     public partial class editarAlbum : Form
     {

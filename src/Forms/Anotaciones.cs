@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Windows.Forms;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     public partial class Anotaciones : Form
     {

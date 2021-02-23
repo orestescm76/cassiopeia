@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace aplicacion_musica.CD
+namespace Cassiopea.CD
 {
     internal class CdWaveProvider : IWaveSource
     {

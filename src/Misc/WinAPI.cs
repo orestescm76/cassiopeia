@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     //Clase para tener funciones de la API de Windows
     internal class WinAPI

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{49B665F7-98D5-41F7-B230-580319842E0B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>aplicacion_musica</RootNamespace>
-    <AssemblyName>aplicacion-gestormusica</AssemblyName>
+    <RootNamespace>cassiopea</RootNamespace>
+    <AssemblyName>cassiopea</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

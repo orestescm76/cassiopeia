@@ -9,9 +9,9 @@ using System.IO;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
-using aplicacion_musica.Properties;
+using Cassiopea.Properties;
 
-namespace aplicacion_musica.src.Forms
+namespace Cassiopea.src.Forms
 {
     public enum EstadoReproductor
     {

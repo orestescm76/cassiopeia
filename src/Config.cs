@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Resources;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     //Clase para temas de configuración
     public static class Config

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     class ClaveAPI
     {

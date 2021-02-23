@@ -1,4 +1,4 @@
-﻿namespace aplicacion_musica.src.Forms
+﻿namespace Cassiopea.src.Forms
 {
     partial class PlaylistIU
     {

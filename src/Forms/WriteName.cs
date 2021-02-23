@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace aplicacion_musica.src.Forms
+namespace Cassiopea.src.Forms
 {
     public partial class WriteName : Form
     {

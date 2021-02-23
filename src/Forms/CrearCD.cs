@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     public partial class CrearCD : Form
     {

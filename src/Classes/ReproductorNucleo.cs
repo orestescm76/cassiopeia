@@ -4,10 +4,10 @@ using CSCore;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 using CSCore.Streams;
-using aplicacion_musica.CD;
+using Cassiopea.CD;
 using System.Windows.Forms;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     public enum FormatoSonido
     {

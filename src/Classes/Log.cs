@@ -1,8 +1,8 @@
-﻿using aplicacion_musica.src.Forms;
+﻿using Cassiopea.src.Forms;
 using System;
 using System.Diagnostics;
 using System.IO;
-namespace aplicacion_musica
+namespace Cassiopea
 {
     public enum MessageType
     {

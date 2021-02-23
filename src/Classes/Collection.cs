@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     class Collection
     {

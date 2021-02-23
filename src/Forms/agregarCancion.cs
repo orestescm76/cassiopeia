@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     public partial class agregarCancion : Form
     {

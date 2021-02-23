@@ -6,10 +6,10 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
-using aplicacion_musica.src.Forms;
+using Cassiopea.src.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace aplicacion_musica
+namespace Cassiopea
 {
     public enum TipoVista
     {

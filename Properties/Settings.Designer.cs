@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace aplicacion_musica.Properties {
+namespace cassiopea.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
