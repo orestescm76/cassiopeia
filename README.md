@@ -1,4 +1,4 @@
-# Music manager
+# Cassiopea - Music manager
 [![Tam](https://img.shields.io/github/languages/code-size/orestescm76/aplicacion-gestormusica?label=Size)](https://github.com/orestescm76/aplicacion-gestormusica)
 [![Ultima version](https://img.shields.io/github/v/release/orestescm76/aplicacion-gestormusica?color=red)](https://github.com/orestescm76/aplicacion-gestormusica)
 

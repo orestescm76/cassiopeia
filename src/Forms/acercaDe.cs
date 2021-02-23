@@ -52,10 +52,10 @@ namespace aplicacion_musica
         }
         private void acercaDe_KeyDown(object sender, KeyEventArgs e)
         {
-            if ((e.Control & e.Alt) && e.KeyData == Keys.F9)
+            if (e.KeyData == Keys.Escape)
             {
-                bannerAntiguo = !bannerAntiguo;
-                cambiarBanner();
+                Close();
+                Dispose();
             }
         }
 

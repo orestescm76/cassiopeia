@@ -42,9 +42,7 @@ namespace aplicacion_musica
         }
         public bool Inicio(int i)
         {
-            if (i == 0)
-                return true;
-            else if (i == -1)
+            if (i == 0 || i == -1)
                 return true;
             else return false;
         }
