@@ -61,7 +61,6 @@ namespace Cassiopeia
             CoverPath = other.CoverPath;
             CanBeRemoved = true;
         }
-
         //---COMPARISON---
         public override bool Equals(Object other)
         {
@@ -151,8 +150,8 @@ namespace Cassiopeia
 
         public override string ToString()
         {
-            //Artist - Title (Length) (Genre) 
-            return Artist + " - " + Title + "(" + Length + ") (" + Genre.Name + ")";
+            //Returns whatever the clipboard string is.
+            return ToClipboard();
         }
 
         public String[] ToStringArray()

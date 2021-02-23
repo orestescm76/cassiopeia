@@ -43,7 +43,7 @@ namespace Cassiopeia
             barraAbajo.Font = new Font("Segoe UI", 10);
             Controls.Add(barraAbajo);
             labelEstadoDisco.Hide();
-            if(!(albumToVisualize is null) && string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
+            if (!(albumToVisualize is null) && string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
             {
                 buttonAnotaciones.Enabled = false;
             }
@@ -102,7 +102,7 @@ namespace Cassiopeia
             reproducirToolStripMenuItem.Text = Program.LocalTexts.GetString("reproducir");
             reproducirspotifyToolStripMenuItem.Text = Program.LocalTexts.GetString("reproducirSpotify");
             buttonPATH.Text = Program.LocalTexts.GetString("calcularPATHS");
-            if(Config.Idioma == "el") //Greek needs a little adjustment on the UI
+            if (Config.Idioma == "el") //Greek needs a little adjustment on the UI
             {
                 Font but = buttonPATH.Font;
                 Font neo = new Font(but.FontFamily, 7);
@@ -216,12 +216,12 @@ namespace Cassiopeia
                         Program.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine +
                         Program.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine +
                         Program.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
-                        Program.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine + 
+                        Program.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine +
                         Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
                         Program.LocalTexts.GetString("estado_medio") + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[0].MediaCondition.ToString()) + Environment.NewLine +
                         Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
-                
+
             }
             else
             {
@@ -290,7 +290,7 @@ namespace Cassiopeia
         }
         private void editarButton_Click(object sender, EventArgs e)
         {
-            if(CDaVisualizar is null)
+            if (CDaVisualizar is null)
             {
                 editarAlbum editor = new editarAlbum(ref albumToVisualize);
                 editor.Show();
@@ -307,7 +307,7 @@ namespace Cassiopeia
             TimeSpan seleccion = new TimeSpan();
             foreach (ListViewItem cancion in vistaCanciones.SelectedItems)
             {
-                if(!(CDaVisualizar is null) &&CDaVisualizar.Discos.Length > 1)
+                if (!(CDaVisualizar is null) && CDaVisualizar.Discos.Length > 1)
                 {
                     Song can = albumToVisualize.GetSong(cancion.SubItems[1].Text);
                     seleccion += can.Length;
@@ -325,8 +325,8 @@ namespace Cassiopeia
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int n = Convert.ToInt32(vistaCanciones.SelectedItems[0].SubItems[0].Text);
-            Song c = albumToVisualize.GetSong(n-1);
-            if(c is LongSong cl)
+            Song c = albumToVisualize.GetSong(n - 1);
+            if (c is LongSong cl)
             {
                 string infoDetallada = "";
                 for (int i = 0; i < cl.Parts.Count; i++)
@@ -341,19 +341,19 @@ namespace Cassiopeia
 
         private void buttonAnotaciones_Click(object sender, EventArgs e)
         {
-            if(!(CDaVisualizar is null))
+            if (!(CDaVisualizar is null))
             {
                 Anotaciones anoForm = new Anotaciones(ref CDaVisualizar);
                 anoForm.ShowDialog();
             }
             else
             {
-                Playlist ls = new Playlist(albumToVisualize.ToString());
+                Reproductor.Instancia.CreatePlaylist(albumToVisualize.ToString());
                 foreach (Song cancion in albumToVisualize.Songs)
                 {
-                    ls.AgregarCancion(cancion);
+                    Reproductor.Instancia.Playlist.AgregarCancion(cancion);
                 }
-                Reproductor.Instancia.ReproducirLista(ls);
+                Reproductor.Instancia.ReproducirLista();
             }
         }
 
@@ -367,7 +367,7 @@ namespace Cassiopeia
                 {
                     case 1:
                         numDisco = 2;
-                        labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[numDisco-1].MediaCondition.ToString()) + Environment.NewLine;
+                        labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[numDisco - 1].MediaCondition.ToString()) + Environment.NewLine;
                         break;
                     case 2:
                         numDisco = 1;
@@ -381,7 +381,7 @@ namespace Cassiopeia
 
         private void visualizarAlbum_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Control && e.KeyCode == Keys.A)
+            if (e.Control && e.KeyCode == Keys.A)
             {
                 foreach (ListViewItem item in vistaCanciones.Items)
                 {
@@ -394,7 +394,7 @@ namespace Cassiopeia
         {
             foreach (ListViewItem item in vistaCanciones.SelectedItems)
             {
-                Song c = albumToVisualize.Songs[Convert.ToInt32(item.SubItems[0].Text)-1];
+                Song c = albumToVisualize.Songs[Convert.ToInt32(item.SubItems[0].Text) - 1];
                 c.IsBonus = !c.IsBonus;
             }
             cargarVista();
@@ -402,7 +402,7 @@ namespace Cassiopeia
 
         private void infoAlbum_Click(object sender, EventArgs e)
         {
-            if(!string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
+            if (!string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
             {
                 Process explorador = new Process();
                 explorador.StartInfo.UseShellExecute = true;
@@ -415,23 +415,23 @@ namespace Cassiopeia
 
         private void reproducirspotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(!string.IsNullOrEmpty(albumToVisualize.IdSpotify))
+            if (!string.IsNullOrEmpty(albumToVisualize.IdSpotify))
             {
                 SpotifyAPI.Web.Models.ErrorResponse err = Program._spotify.ReproducirCancion(albumToVisualize.IdSpotify, vistaCanciones.SelectedItems[0].Index);
                 if (err.Error != null && err.Error.Message != null)
                     MessageBox.Show(err.Error.Message);
             }
-                
+
         }
         private void reproducirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Song cancionAReproducir = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
-            if(cancionAReproducir is LongSong)
+            if (cancionAReproducir is LongSong)
             {
                 LongSong cl = (LongSong)cancionAReproducir;
                 Reproductor.Instancia.ReproducirCancion(cl);
             }
-                
+
             else
                 Reproductor.Instancia.ReproducirCancion(cancionAReproducir);
         }
@@ -441,7 +441,11 @@ namespace Cassiopeia
             Song cancion = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
             vistaCanciones.DoDragDrop(cancion, DragDropEffects.Copy);
         }
-
+        private void vistaCanciones_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+            Song droppedData = (Song)e.Data.GetData(typeof(Song));
+        }
         private void buttonPATH_Click(object sender, EventArgs e)
         {
             Log.Instance.PrintMessage("Buscando canciones para " + albumToVisualize.ToString(), MessageType.Info);
@@ -578,5 +582,6 @@ namespace Cassiopeia
             albumToVisualize.RemoveSong(longSong.Title);
             refrescarVista();
         }
+
     }
 }

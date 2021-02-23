@@ -38,13 +38,13 @@ namespace Cassiopeia
                 catch (Exception)
                 {
 
-                    Log.Instance.PrintMessage("No se ha podido extraer la carátula interna.", MessageType.Warning);
+                    Log.Instance.PrintMessage("Cannot extract the internal cover.", MessageType.Warning);
                     Cover = null;
                 }
 
             }
-
-            Duracion = MusicFile.Properties.Duration;       
+            Duracion = MusicFile.Properties.Duration;
+            Log.Instance.PrintMessage(s + " successfully read!", MessageType.Correct);
         }
 
         public bool Evaluable()

@@ -799,14 +799,20 @@ namespace Cassiopeia
 
         private void nuevoAlbumDesdeCarpetaToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Log.PrintMessage("Creating an album from a directory.", MessageType.Info);
+
             AlbumData a = new AlbumData();
             CommonOpenFileDialog browserDialog = new CommonOpenFileDialog();
             browserDialog.InitialDirectory = Config.UltimoDirectorioAbierto;
             browserDialog.IsFolderPicker = true; //Selección de carpeta.
             //FolderBrowserDialog browserDialog = new FolderBrowserDialog();
             CommonFileDialogResult result = browserDialog.ShowDialog();
+            //To avoid a random song order, i create an array to store the songs. 150 should be big enough.
+            Song[] tempStorage = new Song[150];
+            int numSongs = 0; //to keep track of how many songs i've addded.
             if (result != CommonFileDialogResult.Cancel)
             {
+                Stopwatch crono = Stopwatch.StartNew();
                 DirectoryInfo carpeta = new DirectoryInfo(browserDialog.FileName);
                 Config.UltimoDirectorioAbierto = carpeta.FullName;
                 BarraCarga bC = new BarraCarga(carpeta.GetFiles().Length);
@@ -833,22 +839,40 @@ namespace Cassiopeia
                                 }
                             }
                             Song c = new Song(LM.Titulo, (int)LM.Duracion.TotalMilliseconds, false);
+                            if (LM.Pista != 0) //A music file with no track number? Can happen. Instead, do the normal process.
+                            {
+                                tempStorage[LM.Pista - 1] = c;
+                                numSongs++;
+                            }
+                            else
+                                a.AddSong(c);
                             c.SetAlbum(a);
                             c.Path = filename.FullName;
-                            a.AddSong(c);
                             LM.Dispose();
                             break;
                         case ".jpg":
                             if (filename.Name == "folder.jpg" || filename.Name == "cover.jpg")
                                 a.CoverPath = filename.FullName;
                             break;
-
                     }
                     bC.Progreso();
+                }
+                if(numSongs != 0) //The counter has been updated and songs had a track number.
+                {
+                    //This list goes to the album.
+                    List<Song> songList = new List<Song>();
+                    for (int i = 0; i < numSongs; i++)
+                    {
+                        //Copy the correct song order.
+                        songList.Add(tempStorage[i]);
+                    }
+                    a.Songs = songList;
                 }
                 a.SoundFilesPath = carpeta.FullName;
                 bC.Close();
                 Program.Collection.AddAlbum(ref a);
+                crono.Stop();
+                Log.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Miliseconds);
                 Refrescar();
             }
         }

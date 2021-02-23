@@ -36,7 +36,7 @@ namespace Cassiopeia
 
             if (file != null)
             {
-                file.WriteLine("Cassiopeia - Music Manager" + Program.Version);
+                file.WriteLine("Cassiopeia - Music Manager " + Program.Version);
                 file.WriteLine(".NET Version: " + Environment.Version);
                 file.WriteLine("Log created on " + DateTime.Now);
             }
