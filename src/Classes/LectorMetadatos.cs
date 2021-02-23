@@ -26,6 +26,7 @@ namespace aplicacion_musica
             Pista = (int)MusicFile.Tag.Track;
             Duracion = MusicFile.Properties.Duration;
             Año = (int)MusicFile.Tag.Year;
+
             if (MusicFile.Tag.Pictures.Length != 0)
             {
                 try
@@ -37,22 +38,25 @@ namespace aplicacion_musica
                 catch (Exception)
                 {
 
-                    Log.Instance.ImprimirMensaje("No se ha podido extraer la carátula interna.",TipoMensaje.Advertencia);
+                    Log.Instance.PrintMessage("No se ha podido extraer la carátula interna.", MessageType.Warning);
                     Cover = null;
                 }
 
             }
-            Duracion = MusicFile.Properties.Duration;
-            
+
+            Duracion = MusicFile.Properties.Duration;       
         }
+
         public bool Evaluable()
         {
-            return ((Artista != null) && (Titulo != null)) ? true : false;
+            return (Artista != null) && (Titulo != null);
         }
+
         public string GetSongTitle()
         {
             return Artista + " - " + Titulo;
         }
+
         public void Dispose()
         {
             MusicFile.Dispose();

@@ -27,9 +27,5 @@ namespace aplicacion_musica.src.Forms
                 e.Cancel = false;
             Hide();
         }
-        public void Apagar()
-        {
-            Dispose();
-        }
     }
 }

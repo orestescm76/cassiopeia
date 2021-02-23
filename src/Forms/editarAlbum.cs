@@ -75,7 +75,7 @@ namespace aplicacion_musica
         {
             try//si está vacío pues guarda vacío
             {
-                Log.Instance.ImprimirMensaje("Intentando guardar", TipoMensaje.Info);
+                Log.Instance.PrintMessage("Intentando guardar", MessageType.Info);
                 albumAEditar.Artist = textBoxArtista.Text;
                 albumAEditar.Title = textBoxTitulo.Text;
                 albumAEditar.Year = Convert.ToInt16(textBoxAño.Text);
@@ -98,19 +98,19 @@ namespace aplicacion_musica
             }
             catch (NullReferenceException)
             {
-                Log.Instance.ImprimirMensaje("Algún campo está vacío", TipoMensaje.Advertencia);
+                Log.Instance.PrintMessage("Algún campo está vacío", MessageType.Warning);
                 MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
             }
 
             catch (FormatException)
             {
-                Log.Instance.ImprimirMensaje("Formato incorrecto, no se guardará nada.", TipoMensaje.Advertencia);
+                Log.Instance.PrintMessage("Formato incorrecto, no se guardará nada.", MessageType.Warning);
                 MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
                 //throw;
             }
             catch (IndexOutOfRangeException)
             {
-                Log.Instance.ImprimirMensaje("Formato incorrecto, no se guardará nada.", TipoMensaje.Advertencia);
+                Log.Instance.PrintMessage("Formato incorrecto, no se guardará nada.", MessageType.Warning);
                 MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
@@ -118,7 +118,7 @@ namespace aplicacion_musica
             Program.ReloadView();
             Close();
             Program.ReloadView();
-            Log.Instance.ImprimirMensaje("Guardado sin problema", TipoMensaje.Correcto);
+            Log.Instance.PrintMessage("Guardado sin problema", MessageType.Correct);
         }
 
         private void botonCancelar_Click(object sender, EventArgs e)
@@ -142,13 +142,13 @@ namespace aplicacion_musica
 
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e) //editar cancion
         {
-            Log.Instance.ImprimirMensaje("Editando canción", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Editando canción", MessageType.Info);
             String text = vistaCanciones.SelectedItems[0].Text;
             Song cancionAEditar = albumAEditar.GetSong(text);
             agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
             cargarVista();
-            Log.Instance.ImprimirMensaje("Guardado correctamente", TipoMensaje.Correcto);
+            Log.Instance.PrintMessage("Guardado correctamente", MessageType.Correct);
         }
 
         private void buttonAñadirCancion_Click(object sender, EventArgs e)

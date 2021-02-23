@@ -100,14 +100,14 @@ namespace aplicacion_musica.src.Forms
         }
         private void SavePlaylist()
         {
-            Log.Instance.ImprimirMensaje("Guardando playlist", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Guardando playlist", MessageType.Info);
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
             saveFileDialog.Filter = ".plf|*.plf";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Playlist.Guardar(saveFileDialog.FileName);
-                Log.Instance.ImprimirMensaje("Guardado correctamente", TipoMensaje.Correcto);
+                Log.Instance.PrintMessage("Guardado correctamente", MessageType.Correct);
             }
         }
         //I don't care if the user has multiple songs selected, i play the first one.
@@ -120,14 +120,14 @@ namespace aplicacion_musica.src.Forms
         //Gets the selected songs and removes them from the playlist
         private void RemoveSongs()
         {
-            Log.Instance.ImprimirMensaje("Borrando canciones de la playlist", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Borrando canciones de la playlist", MessageType.Info);
             Song[] selectedSongs = GetSelectedSongs();
             for (int i = 0; i < selectedSongs.Length; i++)
             {
                 Playlist.DeleteSong(selectedSongs[i]);
                 listViewSongs.SelectedItems[i].Remove();
             }
-            Log.Instance.ImprimirMensaje("Borrado correcto", TipoMensaje.Correcto);
+            Log.Instance.PrintMessage("Borrado correcto", MessageType.Correct);
         }
         private void SetPlayVisibility(bool value)
         {
@@ -206,7 +206,7 @@ namespace aplicacion_musica.src.Forms
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Log.Instance.ImprimirMensaje("Abriendo playlist", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Abriendo playlist", MessageType.Info);
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.CurrentDirectory;
             openFileDialog.Filter = ".plf|*.plf";
@@ -215,7 +215,7 @@ namespace aplicacion_musica.src.Forms
                 try
                 {
                     Playlist.Cargar(openFileDialog.FileName);
-                    Log.Instance.ImprimirMensaje("Abierto correctamente", TipoMensaje.Correcto);
+                    Log.Instance.PrintMessage("Abierto correctamente", MessageType.Correct);
                 }
                 catch (Exception)
                 {

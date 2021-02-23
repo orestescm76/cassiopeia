@@ -96,7 +96,7 @@ namespace aplicacion_musica
             }
             catch (Exception)
             {
-                Log.Instance.ImprimirMensaje("Error abriendo el fichero " + path, TipoMensaje.Error);
+                Log.Instance.PrintMessage("Error abriendo el fichero " + path, MessageType.Error);
                 throw;
             }
         }

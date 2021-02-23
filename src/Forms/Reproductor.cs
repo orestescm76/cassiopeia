@@ -122,7 +122,7 @@ namespace aplicacion_musica.src.Forms
         {
             _spotify = Program._spotify._spotify;
             user = _spotify.GetPrivateProfile();
-            Log.ImprimirMensaje("Iniciando el Reproductor en modo Spotify, con cuenta " + user.Email, TipoMensaje.Info);
+            Log.PrintMessage("Iniciando el Reproductor en modo Spotify, con cuenta " + user.Email, MessageType.Info);
             Spotify = true;
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
@@ -146,7 +146,7 @@ namespace aplicacion_musica.src.Forms
         }
         private void ApagarSpotify()
         {
-            Log.Instance.ImprimirMensaje("Apagando Spotify", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Apagando Spotify", MessageType.Info);
             backgroundWorker.CancelAsync();
             buttoncrearLR.Show();
             buttonSpotify.Text = Program.LocalTexts.GetString("cambiarSpotify");
@@ -174,7 +174,7 @@ namespace aplicacion_musica.src.Forms
         }
         public void ActivarSpotify()
         {
-            Log.Instance.ImprimirMensaje("Activando Spotify", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Activando Spotify", MessageType.Info);
             try
             {
                 timerMetadatos.Enabled = false;
@@ -201,7 +201,7 @@ namespace aplicacion_musica.src.Forms
                 }
                 catch (Exception)
                 {
-                    Log.ImprimirMensaje("No hay fichero de np.jpg", TipoMensaje.Advertencia);
+                    Log.PrintMessage("No hay fichero de np.jpg", MessageType.Warning);
                 }
                 buttonAgregar.Show();
                 Icon = Properties.Resources.spotifyico;
@@ -237,12 +237,12 @@ namespace aplicacion_musica.src.Forms
                 }
                 catch (System.Net.WebException)
                 {
-                    Log.ImprimirMensaje("Error descargando la imagen", TipoMensaje.Advertencia);
+                    Log.PrintMessage("Error descargando la imagen", MessageType.Warning);
                     File.Delete("./covers/np.jpg");
                 }
                 catch (IOException)
                 {
-                    Log.ImprimirMensaje("Error descargando la imagen, no es posible reemplazar el fichero...", TipoMensaje.Error);
+                    Log.PrintMessage("Error descargando la imagen, no es posible reemplazar el fichero...", MessageType.Error);
                 }
             }
         }
@@ -341,7 +341,7 @@ namespace aplicacion_musica.src.Forms
             }
             catch (Exception)
             {
-                Log.ImprimirMensaje("Hubo un problema", TipoMensaje.Error);
+                Log.PrintMessage("Hubo un problema", MessageType.Error);
                 MessageBox.Show(Program.LocalTexts.GetString("errorReproduccion"));
                 return;
             }
@@ -548,7 +548,7 @@ namespace aplicacion_musica.src.Forms
                         }
                         else
                         {
-                            Log.ImprimirMensaje("Se ha detectado una canción local.", TipoMensaje.Info);
+                            Log.PrintMessage("Se ha detectado una canción local.", MessageType.Info);
                             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                             pictureBoxCaratula.Image.Dispose();
                             pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
@@ -598,7 +598,7 @@ namespace aplicacion_musica.src.Forms
             }
             else
             {
-                Log.ImprimirMensaje("Token caducado!", TipoMensaje.Advertencia);
+                Log.PrintMessage("Token caducado!", MessageType.Warning);
                 while(Program._spotify.TokenExpirado())
                 {
                     Thread.Sleep(100);
@@ -623,16 +623,16 @@ namespace aplicacion_musica.src.Forms
                     }
                 }
             }
-            Log.ImprimirMensaje("Iniciando el Reproductor en modo local",TipoMensaje.Info);
+            Log.PrintMessage("Iniciando el Reproductor en modo local",MessageType.Info);
             try
             {
                 foobar2kInstance = Process.GetProcessesByName("foobar2000")[0];
-                Log.ImprimirMensaje("Se ha encontrado foobar2000", TipoMensaje.Correcto);
+                Log.PrintMessage("Se ha encontrado foobar2000", MessageType.Correct);
             }
             catch (IndexOutOfRangeException)
             {
 
-                Log.ImprimirMensaje("No se ha encontrado foobar2000", TipoMensaje.Info);
+                Log.PrintMessage("No se ha encontrado foobar2000", MessageType.Info);
                 foobar2kInstance = null;
                 checkBoxFoobar.Enabled = false;
             }
@@ -746,8 +746,8 @@ namespace aplicacion_musica.src.Forms
                 }
                 catch (Exception ex)
                 {
-                    Log.ImprimirMensaje("Error intentando cargar la canción", TipoMensaje.Error);
-                    Log.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                    Log.PrintMessage("Error intentando cargar la canción", MessageType.Error);
+                    Log.PrintMessage(ex.Message, MessageType.Error);
                     nucleo.Apagar();
                     return;
                 }
@@ -765,7 +765,7 @@ namespace aplicacion_musica.src.Forms
                         ErrorResponse err = _spotify.PausePlayback();
                         if (err.Error != null && err.Error.Message != null)
                         {
-                            Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error);
+                            Log.PrintMessage(err.Error.Message, MessageType.Error);
                             MessageBox.Show(err.Error.Message);
                         }
                         break;
@@ -782,7 +782,7 @@ namespace aplicacion_musica.src.Forms
                         ErrorResponse err = _spotify.ResumePlayback("", "", null, "", 0);
                         if (err.Error != null && err.Error.Message != null)
                         {
-                            Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error);
+                            Log.PrintMessage(err.Error.Message, MessageType.Error);
                             MessageBox.Show(err.Error.Message);
                         }
                         break;
@@ -798,7 +798,7 @@ namespace aplicacion_musica.src.Forms
                         ErrorResponse err = _spotify.ResumePlayback("", "", null, "", 0);
                         if (err.Error != null && err.Error.Message != null)
                         {
-                            Log.ImprimirMensaje(err.Error.Message, TipoMensaje.Error);
+                            Log.PrintMessage(err.Error.Message, MessageType.Error);
                             MessageBox.Show(err.Error.Message);
                         }
                         break;
@@ -907,7 +907,7 @@ namespace aplicacion_musica.src.Forms
                 }
                 catch (NullReferenceException)
                 {
-                    Log.ImprimirMensaje("No hay lista de reproducción", TipoMensaje.Advertencia);
+                    Log.PrintMessage("No hay lista de reproducción", MessageType.Warning);
                 }
             }
         }
@@ -1086,7 +1086,7 @@ namespace aplicacion_musica.src.Forms
         }
         private void Reproductor_DragDrop(object sender, DragEventArgs e)
         {
-            Log.ImprimirMensaje("Detectado Drag & Drop", TipoMensaje.Info);
+            Log.PrintMessage("Detectado Drag & Drop", MessageType.Info);
             Song c = null;
             String[] canciones = null;
             if((c = (Song)e.Data.GetData(typeof(Song))) != null)
@@ -1099,7 +1099,7 @@ namespace aplicacion_musica.src.Forms
             }
             else if((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null)
             {
-                Log.ImprimirMensaje("Creando playlist con "+canciones.Length + " canciones.", TipoMensaje.Info);
+                Log.PrintMessage("Creando playlist con "+canciones.Length + " canciones.", MessageType.Info);
                 if(ListaReproduccion is null)
                 {
                     CreatePlaylist(Program.LocalTexts.GetString("seleccion"));
@@ -1123,7 +1123,7 @@ namespace aplicacion_musica.src.Forms
                 lrui.RefreshView();
             }
             else
-                Log.ImprimirMensaje("No se ha podido determinar la canción", TipoMensaje.Advertencia);
+                Log.PrintMessage("No se ha podido determinar la canción", MessageType.Warning);
         }
 
         private void Reproductor_DragEnter(object sender, DragEventArgs e)

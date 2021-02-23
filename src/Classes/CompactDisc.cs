@@ -13,10 +13,12 @@ namespace aplicacion_musica
         public Disc[] Discos { get; set; }
         public String[] Anotaciones { get; set; }
         public SleeveType SleeveType { get; set; }
+
         public CompactDisc() : base()
         {
 
         }
+
         public CompactDisc(string s, int nc, MediaCondition e, MediaCondition ee, SleeveType sleeveType) : base(s, ee)
         {
             SleeveType = sleeveType;
@@ -26,6 +28,7 @@ namespace aplicacion_musica
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
+
         public CompactDisc(string s, int nc, MediaCondition e, MediaCondition ee, SleeveType f, int nCD) : base(s, ee)
         {
             SleeveType = f;
@@ -35,6 +38,7 @@ namespace aplicacion_musica
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
+
         public CompactDisc(string s, MediaCondition ee, SleeveType f, int nCD) : base(s, ee)
         {
             SleeveType = f;
@@ -43,10 +47,12 @@ namespace aplicacion_musica
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
+
         public CompactDisc(string s, int nCD) : base(s)
         {
             Discos = new Disc[nCD];
         }
+
         public CompactDisc(string s, int nc, MediaCondition e, MediaCondition ee, SleeveType f, short y, string p): base(s, ee, y, p)
         {
             SleeveType = f;
@@ -57,7 +63,7 @@ namespace aplicacion_musica
             Id.Replace('+', 'm');
         }
 
-        public String[] toStringArray()
+        public String[] ToStringArray()
         {
             String[] d = new string[6];
             Array.Copy(Album.ToStringArray(), d, 5);
