@@ -18,6 +18,7 @@ namespace Cassiopeia.src.Forms
             Text = lr.Nombre;
             PutTexts();
             toolStripStatusLabelInfo.Width = statusStrip.Size.Width - 200;
+            Icon = Properties.Resources.playlist;
         }
         private void PutTexts()
         {
@@ -228,7 +229,7 @@ namespace Cassiopeia.src.Forms
         private void addSongToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = Config.UltimoDirectorioAbierto;
+            openFileDialog.InitialDirectory = Config.LastOpenedDirectory;
             openFileDialog.Filter = ".mp3, .ogg, .flac|*.mp3; *.ogg; *.flac";
             openFileDialog.Multiselect = true;
             if (openFileDialog.ShowDialog() == DialogResult.OK)

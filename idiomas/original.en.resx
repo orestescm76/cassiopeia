@@ -581,7 +581,7 @@
     <value>Vinculation has been canelled because it has exceeded the wait time.</value>
   </data>
   <data name="actualizacion1" xml:space="preserve">
-    <value>A new version of Music Manager is avaliable.</value>
+    <value>A new version of Cassiopeia is available.</value>
   </data>
   <data name="actualizacion2" xml:space="preserve">
     <value>Click on "Yes" to download it.</value>
@@ -675,5 +675,20 @@
   </data>
   <data name="infoBorrar" xml:space="preserve">
     <value>Removes the selected songs from the playlist.</value>
+  </data>
+  <data name="bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
+  <data name="longSong" xml:space="preserve">
+    <value>Long song</value>
+  </data>
+  <data name="helpColorLongSong" xml:space="preserve">
+    <value>Sets the color to highlight a song with multiple parts.</value>
+  </data>
+  <data name="helpColorBonus" xml:space="preserve">
+    <value>Sets the color to highlight a bonus song, which it didn't release along the original album.</value>
+  </data>
+  <data name="colorsHighlight" xml:space="preserve">
+    <value>Highlight colors</value>
   </data>
 </root>

@@ -102,7 +102,7 @@ namespace Cassiopeia
             reproducirToolStripMenuItem.Text = Program.LocalTexts.GetString("reproducir");
             reproducirspotifyToolStripMenuItem.Text = Program.LocalTexts.GetString("reproducirSpotify");
             buttonPATH.Text = Program.LocalTexts.GetString("calcularPATHS");
-            if (Config.Idioma == "el") //Greek needs a little adjustment on the UI
+            if (Config.Language == "el") //Greek needs a little adjustment on the UI
             {
                 Font but = buttonPATH.Font;
                 Font neo = new Font(but.FontFamily, 7);
@@ -127,11 +127,11 @@ namespace Cassiopeia
 
                 if (c is LongSong)
                 {
-                    item.BackColor = Color.LightSalmon;
+                    item.BackColor = Config.ColorLongSong;
                 }
                 if (c.IsBonus)
                 {
-                    item.BackColor = Color.SkyBlue;
+                    item.BackColor = Config.ColorBonus;
                 }
                 vistaCanciones.Items.Add(item);
                 i++;
@@ -170,11 +170,11 @@ namespace Cassiopeia
                     }
                     if (c is LongSong)
                     {
-                        items[i].BackColor = Color.LightSalmon;
+                        items[i].BackColor = Config.ColorLongSong;
                     }
                     if (c.IsBonus)
                     {
-                        items[i].BackColor = Color.SkyBlue;
+                        items[i].BackColor = Config.ColorBonus;
                         durBonus += c.Length;
                     }
                     i++;
@@ -202,11 +202,11 @@ namespace Cassiopeia
 
                     if (c is LongSong)
                     {
-                        items[i].BackColor = Color.LightSalmon;
+                        items[i].BackColor = Config.ColorLongSong;
                     }
                     if (c.IsBonus)
                     {
-                        items[i].BackColor = Color.SkyBlue;
+                        items[i].BackColor = Config.ColorBonus;
                         durBonus += c.Length;
                     }
                     i++;
@@ -235,11 +235,11 @@ namespace Cassiopeia
 
                     if (c is LongSong)
                     {
-                        items[i].BackColor = Color.LightSalmon;
+                        items[i].BackColor = Config.ColorLongSong;
                     }
                     if (c.IsBonus)
                     {
-                        items[i].BackColor = Color.SkyBlue;
+                        items[i].BackColor = Config.ColorBonus;
                         durBonus += c.Length;
                     }
                     i++;

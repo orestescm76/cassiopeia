@@ -106,7 +106,7 @@ namespace Cassiopeia
                     {
                         cuentaLista = true;
                         cuentaVinculada = true;
-                        Config.VinculadoConSpotify = true;
+                        Config.LinkedWithSpotify = true;
                         Program.ActivarReproduccionSpotify();
                         Log.Instance.PrintMessage("Conectado sin errores como " + _spotify.GetPrivateProfile().DisplayName, MessageType.Correct, crono, TimeType.Miliseconds);
                     }
@@ -115,7 +115,7 @@ namespace Cassiopeia
                         cuentaLista = false;
                         cuentaVinculada = false;
                         Log.Instance.PrintMessage("Se ha conectado pero el token es nulo", MessageType.Error, crono, TimeType.Miliseconds);
-                        Config.VinculadoConSpotify = false;
+                        Config.LinkedWithSpotify = false;
                     }
                     CodigoRefresco = token.RefreshToken;
                     Program.tareaRefrescoToken = new Thread(Program.RefreshSpotifyToken);

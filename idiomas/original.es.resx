@@ -576,7 +576,7 @@
     <value>Se ha cancelado la vinculación por tiempo de espera</value>
   </data>
   <data name="actualizacion1" xml:space="preserve">
-    <value>Está disponible una nueva versión del Gestor de Música.</value>
+    <value>Está disponible una nueva versión de Cassiopeia.</value>
   </data>
   <data name="actualizacion2" xml:space="preserve">
     <value>Haz click en "Sí" para descargarla.</value>
@@ -670,5 +670,20 @@
   </data>
   <data name="infoBorrar" xml:space="preserve">
     <value>Borra de la lista de reproducción las canciones seleccionadas</value>
+  </data>
+  <data name="bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
+  <data name="longSong" xml:space="preserve">
+    <value>Canción larga</value>
+  </data>
+  <data name="helpColorLongSong" xml:space="preserve">
+    <value>Configura el color para resaltar que una canción contiene varias partes.</value>
+  </data>
+  <data name="helpColorBonus" xml:space="preserve">
+    <value>Configura el color para resaltar que una canción es bonus, es decir, que no estaba en el álbum original.</value>
+  </data>
+  <data name="colorsHighlight" xml:space="preserve">
+    <value>Colores de resalte</value>
   </data>
 </root>

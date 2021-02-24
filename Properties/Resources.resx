@@ -152,6 +152,12 @@
   <data name="letras" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\letras.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="playlist" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\playlist.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="spotifyico" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\spotifyico.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

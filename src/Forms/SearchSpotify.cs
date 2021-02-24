@@ -19,6 +19,7 @@ namespace Cassiopeia.src.Forms
             labelBusqueda.Text = Program.LocalTexts.GetString("busqueda_Spotify");
             buttonOk.Text = Program.LocalTexts.GetString("buscar");
             labelAlternativa.Text = Program.LocalTexts.GetString("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
+            Icon = Properties.Resources.spotifyico;
         }
         private SearchType CheckQuery()
         {

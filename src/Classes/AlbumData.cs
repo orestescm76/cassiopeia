@@ -167,7 +167,7 @@ namespace Cassiopeia
 
         public string ToClipboard()
         {
-            string clipboardText = Config.Portapapeles.Replace("%artist%", Artist); //Es seguro.
+            string clipboardText = Config.Clipboard.Replace("%artist%", Artist); //Es seguro.
 
             try
             {

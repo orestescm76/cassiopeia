@@ -19,7 +19,7 @@ namespace Cassiopeia.src.Forms
         {
             InitializeComponent();
             Icon = Properties.Resources.letras;
-            Tipografia = new Font(Config.TipografiaLyrics, 9);
+            Tipografia = new Font(Config.LyricsFont, 9);
             textBoxLyrics.Font = Tipografia;
             cancion = c;
             if (c.Lyrics == null)
@@ -29,7 +29,7 @@ namespace Cassiopeia.src.Forms
             ConsejoDeshacer = new ToolTip();
             PonerTextos();
             textBoxLyrics.DeselectAll();
-            if(object.ReferenceEquals(cancion.AlbumFrom, null))
+            if(cancion.AlbumFrom is null)
             {
                 buttonBack.Enabled = false;
                 buttonNext.Enabled = false;

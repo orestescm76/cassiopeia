@@ -29,12 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlaylistIU));
             this.listViewSongs = new System.Windows.Forms.ListView();
             this.columnPlaying = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnArtista = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnDuration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemPlay = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,16 +45,12 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addSongToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripStatusLabelDuration = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripMenuItemPlay = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripStatusLabelTracksSelected = new System.Windows.Forms.ToolStripStatusLabel();
-            this.menuStrip1.SuspendLayout();
             this.contextMenuStrip.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,6 +95,39 @@
             // 
             this.columnDuration.Text = "Duracion";
             this.columnDuration.Width = 359;
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemPlay,
+            this.toolStripSeparator,
+            this.toolStripMenuItemRemove});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.contextMenuStrip.Size = new System.Drawing.Size(115, 54);
+            this.contextMenuStrip.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip_Closing);
+            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
+            // 
+            // toolStripMenuItemPlay
+            // 
+            this.toolStripMenuItemPlay.Name = "toolStripMenuItemPlay";
+            this.toolStripMenuItemPlay.Size = new System.Drawing.Size(114, 22);
+            this.toolStripMenuItemPlay.Text = "play";
+            this.toolStripMenuItemPlay.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
+            this.toolStripMenuItemPlay.MouseEnter += new System.EventHandler(this.toolStripMenuItemPlay_MouseEnter);
+            // 
+            // toolStripSeparator
+            // 
+            this.toolStripSeparator.Name = "toolStripSeparator";
+            this.toolStripSeparator.Size = new System.Drawing.Size(111, 6);
+            // 
+            // toolStripMenuItemRemove
+            // 
+            this.toolStripMenuItemRemove.Name = "toolStripMenuItemRemove";
+            this.toolStripMenuItemRemove.Size = new System.Drawing.Size(114, 22);
+            this.toolStripMenuItemRemove.Text = "remove";
+            this.toolStripMenuItemRemove.Click += new System.EventHandler(this.toolStripMenuItemRemove_Click);
+            this.toolStripMenuItemRemove.MouseEnter += new System.EventHandler(this.toolStripMenuItemRemove_MouseEnter);
             // 
             // menuStrip1
             // 
@@ -154,18 +186,6 @@
             this.changeNameToolStripMenuItem.Text = "changeName";
             this.changeNameToolStripMenuItem.Click += new System.EventHandler(this.changeNameToolStripMenuItem_Click);
             // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemPlay,
-            this.toolStripSeparator,
-            this.toolStripMenuItemRemove});
-            this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.contextMenuStrip.Size = new System.Drawing.Size(181, 76);
-            this.contextMenuStrip.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip_Closing);
-            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
-            // 
             // toolStripStatusLabelDuration
             // 
             this.toolStripStatusLabelDuration.AutoSize = false;
@@ -195,27 +215,6 @@
             this.toolStripStatusLabelInfo.Size = new System.Drawing.Size(250, 19);
             this.toolStripStatusLabelInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // toolStripMenuItemPlay
-            // 
-            this.toolStripMenuItemPlay.Name = "toolStripMenuItemPlay";
-            this.toolStripMenuItemPlay.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItemPlay.Text = "play";
-            this.toolStripMenuItemPlay.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
-            this.toolStripMenuItemPlay.MouseEnter += new System.EventHandler(this.toolStripMenuItemPlay_MouseEnter);
-            // 
-            // toolStripSeparator
-            // 
-            this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(177, 6);
-            // 
-            // toolStripMenuItemRemove
-            // 
-            this.toolStripMenuItemRemove.Name = "toolStripMenuItemRemove";
-            this.toolStripMenuItemRemove.Size = new System.Drawing.Size(180, 22);
-            this.toolStripMenuItemRemove.Text = "remove";
-            this.toolStripMenuItemRemove.Click += new System.EventHandler(this.toolStripMenuItemRemove_Click);
-            this.toolStripMenuItemRemove.MouseEnter += new System.EventHandler(this.toolStripMenuItemRemove_MouseEnter);
-            // 
             // toolStripStatusLabelTracksSelected
             // 
             this.toolStripStatusLabelTracksSelected.Name = "toolStripStatusLabelTracksSelected";
@@ -232,7 +231,6 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.listViewSongs);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PlaylistIU";
             this.Text = "ListaReproduccionUI";
@@ -241,9 +239,9 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.PlaylistIU_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.PlaylistIU_DragEnter);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PlaylistIU_KeyDown);
+            this.contextMenuStrip.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.contextMenuStrip.ResumeLayout(false);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.ResumeLayout(false);

@@ -235,7 +235,7 @@ namespace Cassiopeia
             guardarDiscos("discos.csv", TipoGuardado.Digital);
             guardarDiscos("cd.json", TipoGuardado.CD);
             using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
-                salida.Write(Config.Idioma);
+                salida.Write(Config.Language);
             Log.PrintMessage("Apagando reproductor", MessageType.Info);
             Reproductor.Instancia.Apagar();
             Reproductor.Instancia.Dispose();
@@ -778,10 +778,10 @@ namespace Cassiopeia
         {
             FontDialog fontDialog = new FontDialog();
             Font fuente = null;
-            fontDialog.Font = new Font(Config.TipografiaLyrics, 10);
+            fontDialog.Font = new Font(Config.LyricsFont, 10);
             fontDialog.ShowDialog();
             fuente = fontDialog.Font;
-            Config.TipografiaLyrics = fuente.FontFamily.Name;
+            Config.LyricsFont = fuente.FontFamily.Name;
         }
 
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -803,7 +803,7 @@ namespace Cassiopeia
 
             AlbumData a = new AlbumData();
             CommonOpenFileDialog browserDialog = new CommonOpenFileDialog();
-            browserDialog.InitialDirectory = Config.UltimoDirectorioAbierto;
+            browserDialog.InitialDirectory = Config.LastOpenedDirectory;
             browserDialog.IsFolderPicker = true; //Selección de carpeta.
             //FolderBrowserDialog browserDialog = new FolderBrowserDialog();
             CommonFileDialogResult result = browserDialog.ShowDialog();
@@ -814,7 +814,7 @@ namespace Cassiopeia
             {
                 Stopwatch crono = Stopwatch.StartNew();
                 DirectoryInfo carpeta = new DirectoryInfo(browserDialog.FileName);
-                Config.UltimoDirectorioAbierto = carpeta.FullName;
+                Config.LastOpenedDirectory = carpeta.FullName;
                 BarraCarga bC = new BarraCarga(carpeta.GetFiles().Length);
                 bC.Show();
                 foreach (var filename in carpeta.GetFiles())

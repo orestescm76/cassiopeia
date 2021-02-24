@@ -635,4 +635,19 @@
   <data name="infoBorrar" xml:space="preserve">
     <value></value>
   </data>
+  <data name="bonus" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="longSong" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="helpColorLongSong" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="helpColorBonus" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="colorsHighlight" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

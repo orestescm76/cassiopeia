@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchSpotify));
             this.textBoxBusqueda = new System.Windows.Forms.TextBox();
             this.buttonOk = new System.Windows.Forms.Button();
             this.labelBusqueda = new System.Windows.Forms.Label();
@@ -78,7 +77,7 @@
             this.labelAlternativa.TabIndex = 4;
             this.labelAlternativa.Text = "o introduce";
             // 
-            // busquedaSpotify
+            // SearchSpotify
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -89,8 +88,7 @@
             this.Controls.Add(this.buttonOk);
             this.Controls.Add(this.textBoxBusqueda);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "busquedaSpotify";
+            this.Name = "SearchSpotify";
             this.Text = "Búsqueda en Spotify";
             this.ResumeLayout(false);
             this.PerformLayout();

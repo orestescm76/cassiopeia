@@ -96,7 +96,7 @@ namespace Cassiopeia
         {
             Log.Instance.PrintMessage("Cambiando idioma al " + idioma, MessageType.Info);
             LocalTexts = new ResXResourceSet(@"./idiomas/" + "original." + idioma + ".resx");
-            Config.Idioma = idioma;
+            Config.Language = idioma;
             ReloadGenres();
             ReloadView();
             src.Forms.Reproductor.Instancia.RefrescarTextos();
@@ -477,7 +477,7 @@ namespace Cassiopeia
         }
         static bool CheckForUpdates(out string verNueva)
         {
-            HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/aplicacion-gestormusica/releases");
+            HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/cassiopeia/releases");
             string contenido = string.Empty;
             GithubRequest.Accept = "text/html,application/vnd.github.v3+json";
             GithubRequest.UserAgent = ".NET Framework Test Agent"; //Si no lo pongo, 403.
@@ -500,7 +500,7 @@ namespace Cassiopeia
             }
             int indexVersion = contenido.IndexOf("tag_name");
             verNueva = contenido.Substring(indexVersion, 40);
-            verNueva = verNueva.Split('v')[1].Split('\"')[0];
+            verNueva = verNueva.Split('\"')[2];
             if (verNueva != Version)
                 return true;
             else
@@ -516,7 +516,7 @@ namespace Cassiopeia
             Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             Config.CargarConfiguracion();
-            LocalTexts = new ResXResourceSet(@"./idiomas/" + "original." + Config.Idioma + ".resx");
+            LocalTexts = new ResXResourceSet(@"./idiomas/" + "original." + Config.Language + ".resx");
             //Parseo de argumentos...
             foreach (string Arg in args)
             {
@@ -576,7 +576,7 @@ namespace Cassiopeia
 
             if(Spotify)
             {
-                if (!Config.VinculadoConSpotify)
+                if (!Config.LinkedWithSpotify)
                     _spotify = new Spotify(false);
                 else
                 {

@@ -25,7 +25,7 @@ namespace Cassiopeia
                 Program.LocalTexts.GetString("agradecimiento3") + Environment.NewLine +
                 Program.LocalTexts.GetString("agradecimiento4") + Environment.NewLine;
 
-            switch (Config.Idioma)
+            switch (Config.Language)
             {
                 case "ca":
                     acercadeTexto += Program.LocalTexts.GetString("agradecimientoTraduccion");

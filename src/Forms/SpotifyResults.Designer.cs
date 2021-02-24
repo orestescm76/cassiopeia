@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SpotifyResults));
             this.labelResultado = new System.Windows.Forms.Label();
             this.labelAyuda = new System.Windows.Forms.Label();
             this.buttonCancelar = new System.Windows.Forms.Button();
@@ -126,7 +125,7 @@
             this.columnaNumSongs.Text = "num canciones";
             this.columnaNumSongs.Width = 72;
             // 
-            // resultadoSpotify
+            // SpotifyResults
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -136,8 +135,7 @@
             this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.labelAyuda);
             this.Controls.Add(this.labelResultado);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "resultadoSpotify";
+            this.Name = "SpotifyResults";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "resultadoSpotify";
             this.ResumeLayout(false);

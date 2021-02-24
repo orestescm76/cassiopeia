@@ -40,6 +40,14 @@ Doesn't require any installation, can be carried on a USB flash drive.
 * https://github.com/filoe/cscore/blob/master/license.md
 * https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md
 * https://github.com/NVorbis/NVorbis/blob/master/LICENSE
+* Icons made by:
+	* From https://www.flaticon.com:
+		* Prosymbols. (Settings)
+		* Pixel perfect. (Playlist)
+	* Setyo Ari Wibowo; https://thenounproject.com (Lyrics)
+	* Microsoft (Player)
+	* Spotify (Spotify)
+	* @esgmonologos (Main icon)
 
 ### Currently working on:
 * Greek translation

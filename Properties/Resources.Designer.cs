@@ -172,6 +172,26 @@ namespace Cassiopeia.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
         /// </summary>
+        internal static System.Drawing.Icon playlist {
+            get {
+                object obj = ResourceManager.GetObject("playlist", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
+        /// </summary>
+        internal static System.Drawing.Icon settings {
+            get {
+                object obj = ResourceManager.GetObject("settings", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
+        /// </summary>
         internal static System.Drawing.Icon spotifyico {
             get {
                 object obj = ResourceManager.GetObject("spotifyico", resourceCulture);

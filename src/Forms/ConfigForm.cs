@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
 {
-    enum ConfigActiva
+    enum ActiveConfig
     {
         Language,
-        Clipboard
+        Clipboard,
+        Colors
     }
     public partial class ConfigForm : Form
     {
@@ -22,7 +17,14 @@ namespace Cassiopeia.src.Forms
         TextBox portapapelesConfig;
         Label vistaPreviaPortapapeles;
         AlbumData AlbumCopyPreview = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973); //Only used if the collection is empty.
-        ConfigActiva config;
+
+        Button btColorBonus;
+        Button btColorLongSong;
+
+        ToolTip ttbtColorBonus;
+        ToolTip ttbtColorLongSong;
+
+        ActiveConfig config;
         public ConfigForm()
         {
             InitializeComponent();
@@ -34,6 +36,7 @@ namespace Cassiopeia.src.Forms
             
             PonerTextos();
             labelSelect.Location = new Point(290 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
+            Icon = Properties.Resources.settings;
         }
         private void PonerTextos()
         {
@@ -44,10 +47,11 @@ namespace Cassiopeia.src.Forms
             buttonOK.Text = Program.LocalTexts.GetString("aceptar");
             buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
             treeViewConfiguracion.Nodes[1].Text = Program.LocalTexts.GetString("cambiar_portapapeles");
+            treeViewConfiguracion.Nodes[2].Text = Program.LocalTexts.GetString("colorsHighlight");
         }
-        private void CargarIdiomas()
+        private void LoadLanguageConfig()
         {
-            config = ConfigActiva.Language;
+            config = ActiveConfig.Language;
             radioButtonsIdiomas = new RadioButton[Program.NumIdiomas];
             PictureBox[] pictureBoxesIdiomas = new PictureBox[Program.NumIdiomas];
             groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_idioma");
@@ -57,7 +61,7 @@ namespace Cassiopeia.src.Forms
                 radioButtonsIdiomas[i] = new RadioButton();
                 radioButtonsIdiomas[i].Location = new Point(44, y);
                 radioButtonsIdiomas[i].Text = Program.idiomas[i];
-                if (radioButtonsIdiomas[i].Text == Config.Idioma)
+                if (radioButtonsIdiomas[i].Text == Config.Language)
                     radioButtonsIdiomas[i].Checked = true;
                 radioButtonsIdiomas[i].Font = new Font("Segoe UI", 9);
                 pictureBoxesIdiomas[i] = new PictureBox();
@@ -88,9 +92,9 @@ namespace Cassiopeia.src.Forms
                 pictureBoxesIdiomas[i].Show();
             }
         }
-        private void CargarPortapapeles()
+        private void LoadClipboardConfig()
         {
-            config = ConfigActiva.Clipboard;
+            config = ActiveConfig.Clipboard;
             vistaPreviaPortapapeles = new Label();
             groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_portapapeles");
             portapapelesConfig = new TextBox();
@@ -98,20 +102,20 @@ namespace Cassiopeia.src.Forms
             portapapelesConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
             Size size = portapapelesConfig.Size; size.Width = 500; portapapelesConfig.Size = size;
             portapapelesConfig.Font = new Font("Segoe UI", 9);
-            portapapelesConfig.Text = Config.Portapapeles;
+            portapapelesConfig.Text = Config.Clipboard;
             vistaPreviaPortapapeles.Location = new Point(portapapelesConfig.Location.X, portapapelesConfig.Location.Y + 30);
             vistaPreviaPortapapeles.AutoSize = true;
             vistaPreviaPortapapeles.Font = portapapelesConfig.Font;
             string Preview = "";
             if (Program.Collection.Albums.Count == 0)
-                Preview = Config.Portapapeles.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
+                Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
             else
             {
                 //Select a random album from the collection.
                 Random random = new Random();
                 AlbumData AlbumRef = Program.Collection.Albums[random.Next(Program.Collection.Albums.Count)];
                 AlbumCopyPreview = AlbumRef;
-                Preview = Config.Portapapeles.Replace("%artist%", AlbumCopyPreview.Artist);
+                Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist);
             }
             try
             {
@@ -129,6 +133,95 @@ namespace Cassiopeia.src.Forms
             }
             groupBoxRaiz.Controls.Add(portapapelesConfig);
             groupBoxRaiz.Controls.Add(vistaPreviaPortapapeles);
+        }
+
+        private void LoadColorConfig()
+        {
+            config = ActiveConfig.Colors;
+            //Create stuff
+            btColorBonus = new Button();
+            btColorLongSong = new Button();
+            ttbtColorBonus = new ToolTip();
+            ttbtColorLongSong = new ToolTip();
+
+            ttbtColorLongSong.SetToolTip(btColorLongSong, Program.LocalTexts.GetString("helpColorLongSong"));
+            ttbtColorBonus.SetToolTip(btColorBonus, Program.LocalTexts.GetString("helpColorBonus"));
+            //Event config
+            btColorBonus.Click += buttonColor_Click;
+            btColorLongSong.Click += buttonColor_Click;
+
+            btColorBonus.Size = new Size(220, 60);
+            btColorLongSong.Size = btColorBonus.Size;
+
+            int x = (groupBoxRaiz.Width / 2) - 110;
+            int y = groupBoxRaiz.Height / 2;
+
+            btColorBonus.Location = new Point(x, y - 70);
+            btColorLongSong.Location = new Point(x, y + 10);
+
+            btColorBonus.BackColor = Config.ColorBonus;
+            btColorBonus.Text = Program.LocalTexts.GetString("bonus");
+
+            btColorLongSong.BackColor = Config.ColorLongSong;
+            btColorLongSong.Text = Program.LocalTexts.GetString("longSong");
+
+            //Config internal tags
+            btColorBonus.Tag = "bonus";
+            btColorLongSong.Tag = "longsong";
+
+            groupBoxRaiz.Controls.Add(btColorBonus);
+            groupBoxRaiz.Controls.Add(btColorLongSong);
+        }
+
+        private void Aplicar(ActiveConfig config)
+        {
+            switch (config)
+            {
+                case ActiveConfig.Language:
+                    for (int i = 0; i < radioButtonsIdiomas.Length; i++)
+                    {
+                        if (radioButtonsIdiomas[i].Checked)
+                            Program.ChangeLanguage(Program.idiomas[i]);
+                    }
+                    PonerTextos();
+                    break;
+                case ActiveConfig.Clipboard:
+                    Config.Clipboard = portapapelesConfig.Text;
+                    break;
+                case ActiveConfig.Colors:
+                    Config.ColorBonus = btColorBonus.BackColor;
+                    Config.ColorLongSong = btColorLongSong.BackColor;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void Limpiar()
+        {
+            labelSelect.Show();
+        }
+        private void CargarPagina(string tag)
+        {
+            labelSelect.Hide();
+            groupBoxRaiz.Controls.Clear();
+
+            switch (tag)
+            {
+                case "language":
+                    LoadLanguageConfig();
+                    break;
+                case "clipboard":
+                    LoadClipboardConfig();
+                    break;
+                case "colors":
+                    LoadColorConfig();
+                    break;
+                default:
+                    groupBoxRaiz.Controls.Add(labelSelect);
+                    labelSelect.Show();
+                    break;
+            }
         }
 
         private void PortapapelesConfig_TextChanged(object sender, EventArgs e)
@@ -149,29 +242,7 @@ namespace Cassiopeia.src.Forms
                 vistaPreviaPortapapeles.Text = Preview;
             }
         }
-        private void Limpiar()
-        {
-            labelSelect.Show();
-        }
-        private void CargarPagina(string tag)
-        {
-            labelSelect.Hide();
-            groupBoxRaiz.Controls.Clear();
-
-            switch (tag)
-            {
-                case "idioma":
-                    CargarIdiomas();
-                    break;
-                case "portapapeles":
-                    CargarPortapapeles();
-                    break;
-                default:
-                    groupBoxRaiz.Controls.Add(labelSelect);
-                    labelSelect.Show();
-                    break;
-            }
-        }
+        //Events
         private void groupBoxIdioma_Enter(object sender, EventArgs e)
         {
 
@@ -181,26 +252,7 @@ namespace Cassiopeia.src.Forms
         {
             CargarPagina(e.Node.Tag.ToString());
         }
-        private void Aplicar(ConfigActiva config)
-        {
-            switch (config)
-            {
-                case ConfigActiva.Language:
-                    for (int i = 0; i < radioButtonsIdiomas.Length; i++)
-                    {
-                        if (radioButtonsIdiomas[i].Checked)
-                            Program.ChangeLanguage(Program.idiomas[i]);
-                    }
-                    PonerTextos();
-                    break;
-                case ConfigActiva.Clipboard:
-                    Config.Portapapeles = portapapelesConfig.Text;
-                    break;
-                default:
-                    break;
-            }
 
-        }
         private void buttonAplicar_Click(object sender, EventArgs e)
         {
             Aplicar(config);
@@ -210,6 +262,19 @@ namespace Cassiopeia.src.Forms
         {
             Aplicar(config);
             Close();
+        }
+        private void buttonColor_Click(object sender, EventArgs e)
+        {
+            Button btSender = (Button)sender;
+            Color newColor = btSender.BackColor;
+
+            ColorDialog colorDialog = new ColorDialog();
+            colorDialog.Color = btSender.BackColor;
+
+            colorDialog.ShowDialog();
+            newColor = colorDialog.Color;
+
+            btSender.BackColor = newColor;
         }
     }
 }

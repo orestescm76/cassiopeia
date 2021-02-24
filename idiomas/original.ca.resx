@@ -511,4 +511,7 @@
   <data name="canciones" xml:space="preserve">
     <value>cançons</value>
   </data>
+  <data name="bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
 </root>

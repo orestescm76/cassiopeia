@@ -39,6 +39,7 @@ namespace Cassiopeia.src.Forms
             lvwColumnSorter = new ListViewItemComparer();
             listViewResultadoBusqueda.ListViewItemSorter = lvwColumnSorter;
             listViewResultadoBusqueda.View = View.Details;
+            Icon = Properties.Resources.spotifyico;
         }
 
         private void buttonCancelar_Click(object sender, EventArgs e)

@@ -53,7 +53,7 @@ namespace Cassiopeia
                     index = i;
             }
             comboBoxGeneros.SelectedIndex = index;
-            if(Config.Idioma == "el")
+            if(Config.Language == "el")
             {
                 Font but = buttonAñadirCancion.Font;
                 Font neo = new Font(but.FontFamily, 7);
@@ -187,11 +187,11 @@ namespace Cassiopeia
         private void buttonDirectorio_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialogCarpetaAlbum = new FolderBrowserDialog();
-            dialogCarpetaAlbum.SelectedPath = Config.UltimoDirectorioAbierto;
+            dialogCarpetaAlbum.SelectedPath = Config.LastOpenedDirectory;
             DialogResult dr = dialogCarpetaAlbum.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                labelDirectorioActual.Text = Config.UltimoDirectorioAbierto = dialogCarpetaAlbum.SelectedPath;
+                labelDirectorioActual.Text = Config.LastOpenedDirectory = dialogCarpetaAlbum.SelectedPath;
             }
         }
     }
