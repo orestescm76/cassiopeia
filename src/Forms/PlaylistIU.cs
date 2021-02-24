@@ -62,6 +62,15 @@ namespace Cassiopeia.src.Forms
             {
                 string[] data = new string[4];
                 data[0] = "";
+                //We can be playing a CD!
+                if(Reproductor.Instancia.ModoCD)
+                {
+                    data[1] = "";
+                    data[2] = "";
+                    data[3] = Playlist.Canciones[i].Length.ToString();
+                    items[i] = new ListViewItem(data);
+                    continue; //don't check anything else
+                }
                 //Pick song data if it's mandatory
                 if(string.IsNullOrEmpty(Playlist.Canciones[i].Title))
                 {
@@ -94,9 +103,17 @@ namespace Cassiopeia.src.Forms
         {
             if(punt != -1)
             {
-                listViewSongs.Items[Pointer].SubItems[0].Text = "";
                 listViewSongs.Items[punt].SubItems[0].Text = Playing;
                 Pointer = punt;
+                listViewSongs.Items[Pointer].SubItems[0].Text = "";
+                
+            }
+            else
+            {
+                foreach (ListViewItem item in listViewSongs.Items)
+                {
+                    item.SubItems[0].Text = "";
+                }
             }
         }
         private void SavePlaylist()
@@ -115,7 +132,13 @@ namespace Cassiopeia.src.Forms
         private void PlaySelectedSong()
         {
             SetActiveSong(listViewSongs.SelectedItems[0].Index);
-            Reproductor.Instancia.ReproducirCancion(Playlist[Pointer]);
+            //Are we playing a CD?
+            if (Reproductor.Instancia.ModoCD)
+                Reproductor.Instancia.ReproducirCancion(Pointer);
+
+            else
+                Reproductor.Instancia.ReproducirCancion(Playlist[Pointer]);
+            
             Reproductor.Instancia.ListaReproduccionPuntero = Pointer;
         }
         //Gets the selected songs and removes them from the playlist
@@ -137,7 +160,7 @@ namespace Cassiopeia.src.Forms
         }
         public void Stop()
         {
-            Pointer = 0;
+            Pointer = -1;
             SetActiveSong(Pointer);
         }
 

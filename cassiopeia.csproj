@@ -42,7 +42,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -338,6 +338,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -354,6 +355,8 @@
     <Content Include="Resources\icono.ico" />
     <Content Include="Resources\iconoReproductor.ico" />
     <Content Include="Resources\letras.ico" />
+    <None Include="Resources\playlist.ico" />
+    <None Include="Resources\settings.ico" />
     <Content Include="Resources\spotifyico.ico" />
   </ItemGroup>
   <ItemGroup>

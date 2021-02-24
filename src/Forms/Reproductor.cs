@@ -116,6 +116,7 @@ namespace Cassiopeia.src.Forms
                 Song c = new Song("Pista " + (i + 1), (int)nucleo.PistasCD[i].Duracion.TotalMilliseconds, false);
                 Playlist.AgregarCancion(c);
             }
+            lrui.Refresh();
         }
         public void SpotifyEncendido()
         {
@@ -464,15 +465,10 @@ namespace Cassiopeia.src.Forms
             nucleo.SetVolumen(Volumen);
             dur = nucleo.Duracion();
             pos = TimeSpan.Zero;
-            if (!ModoCD)
-            {
-                buttoncrearLR.Show();
-            }
-            else
+            if (ModoCD)
             {
                 dur = nucleo.PistasCD[ListaReproduccionPuntero].Duracion;
                 Text = "CD - Pista " + (ListaReproduccionPuntero + 1);
-                buttoncrearLR.Hide();
             }
             labelDatosCancion.Text = nucleo.GetDatos();
             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
@@ -482,9 +478,8 @@ namespace Cassiopeia.src.Forms
             buttonTwit.Enabled = true;
             Reproduciendo = true;
             ConfigurarTimers(true);
-            
-
         }
+
         private bool FicheroLeible(string s)
         {
             string Ext = Path.GetExtension(s);
