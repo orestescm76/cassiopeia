@@ -20,13 +20,13 @@ namespace Cassiopeia
         private static readonly Log instance = new Log();
         public static Log Instance { get => instance; }
 
-        private Stopwatch totalChrono;
+        private Stopwatch timeSinceStart;
         private StreamWriter file;
         private VisorLog logView;
 
         private Log()
         {
-            totalChrono = Stopwatch.StartNew();
+            timeSinceStart = Stopwatch.StartNew();
             logView = new VisorLog();
 
             file = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false)
@@ -88,7 +88,7 @@ namespace Cassiopeia
 
         private void ProcessLogMessage(string message, MessageType messageType)
         {
-            string logMessage = totalChrono.Elapsed + " : ";
+            string logMessage = timeSinceStart.Elapsed + " : ";
 
             switch (messageType)
             {

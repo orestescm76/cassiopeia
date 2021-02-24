@@ -51,7 +51,7 @@ namespace Cassiopeia
 
         public override string ToString()
         {
-            if (!ReferenceEquals(AlbumFrom, null))
+            if (!(AlbumFrom is null))
                 return AlbumFrom.Artist + " - " + Title + " (" + AlbumFrom.Title + ")";
             else
                 return Title;
@@ -79,7 +79,7 @@ namespace Cassiopeia
         }
 
         //Tame Impala;The Less I Know The Better;Currents
-        public String GuardarPATH()
+        public String SavePath()
         {
             return AlbumFrom.Artist+";"+Title+";"+AlbumFrom.Title + Environment.NewLine+Path + Environment.NewLine;
         }

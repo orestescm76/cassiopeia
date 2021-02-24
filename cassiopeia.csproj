@@ -128,7 +128,7 @@
     <Compile Include="src\Classes\LongSong.cs" />
     <Compile Include="src\Classes\Collection.cs" />
     <Compile Include="src\Classes\Genre.cs" />
-    <Compile Include="src\Classes\LectorMetadatos.cs" />
+    <Compile Include="src\Classes\MetadataSong.cs" />
     <Compile Include="src\Classes\Playlist.cs" />
     <Compile Include="src\Classes\Log.cs" />
     <Compile Include="src\Classes\ReproductorNucleo.cs" />

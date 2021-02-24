@@ -460,14 +460,14 @@ namespace Cassiopeia
                 {
                     try
                     {
-                        LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                        if (LM.Evaluable() && (c.Title.ToLower() == LM.Titulo.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artista.ToLower()))
+                        MetadataSong LM = new MetadataSong(file.FullName);
+                        if (LM.Evaluable() && (c.Title.ToLower() == LM.Title.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower()))
                         {
                             c.Path = file.FullName;
                             Log.Instance.PrintMessage(c.Path + " leído correctamente", MessageType.Correct);
                             break;
                         }
-                        else if (LM.Evaluable() && string.Equals(c.Title, LM.Titulo) && string.Equals(LM.Artista, c.AlbumFrom.Artist))
+                        else if (LM.Evaluable() && string.Equals(c.Title, LM.Title) && string.Equals(LM.Artist, c.AlbumFrom.Artist))
                         {
                             c.Path = file.FullName;
                             Log.Instance.PrintMessage(c.Path + " leído correctamente", MessageType.Correct);

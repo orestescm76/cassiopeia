@@ -287,6 +287,7 @@ namespace Cassiopeia.src.Forms
             buttonAbrir.Text = Program.LocalTexts.GetString("abrir_cancion");
             notifyIconReproduciendo.Text = Program.LocalTexts.GetString("click_reproductor");
         }
+
         public void SetPATH(Song c) //probablemente deprecated pero configura los paths
         {
             directorioCanciones = new DirectoryInfo(c.AlbumFrom.SoundFilesPath);
@@ -296,8 +297,8 @@ namespace Cassiopeia.src.Forms
                     continue;
                 try
                 {
-                    LectorMetadatos LM = new LectorMetadatos(file.FullName);
-                    if (LM.Evaluable() && c.Title.ToLower() == LM.Titulo.ToLower() && c.AlbumFrom.Artist.ToLower() == LM.Artista.ToLower())
+                    MetadataSong LM = new MetadataSong(file.FullName);
+                    if (LM.Evaluable() && c.Title.ToLower() == LM.Title.ToLower() && c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower())
                     {
                         c.Path = file.FullName;
                         break;
@@ -319,6 +320,7 @@ namespace Cassiopeia.src.Forms
 
             }
         }
+
         public void ReproducirCancion(string path) //reproduce una cancion por path
         {
             pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
@@ -335,10 +337,10 @@ namespace Cassiopeia.src.Forms
             else if (File.Exists(dir.FullName + "\\cover.png"))
                 pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.png");
             //Si esto no fuera posible, hay que extraerla de la cancion.
-            LectorMetadatos Lector = new LectorMetadatos(path);
+            MetadataSong Lector = new MetadataSong(path);
             if (Lector.Cover != null)
                 pictureBoxCaratula.Image = Lector.Cover;
-            Text = Lector.GetSongTitle();
+            Text = Lector.GetSongID();
             nucleo.Apagar();
             try
             {
@@ -357,7 +359,7 @@ namespace Cassiopeia.src.Forms
             {
                 using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
                 {
-                    escritor.WriteLine(NumCancion + " - " + Lector.Artista + " - " + Lector.Titulo);
+                    escritor.WriteLine(NumCancion + " - " + Lector.Artist + " - " + Lector.Title);
                     NumCancion++;
                 }
             }
@@ -382,7 +384,7 @@ namespace Cassiopeia.src.Forms
             }
 
             CancionLocalReproduciendo = c;
-            LectorMetadatos LM = new LectorMetadatos(c.Path);
+            MetadataSong LM = new MetadataSong(c.Path);
             if (!(c.AlbumFrom is null) && c.AlbumFrom.CoverPath != null)
             {
                 if (c.AlbumFrom.CoverPath != "")
@@ -402,7 +404,7 @@ namespace Cassiopeia.src.Forms
                 if (LM.Cover != null)
                     pictureBoxCaratula.Image = LM.Cover;
             }
-            Text = LM.GetSongTitle();
+            Text = LM.GetSongID();
             nucleo.Apagar();
             try
             {

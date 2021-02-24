@@ -332,7 +332,7 @@ namespace Cassiopeia
                     {
                         if (!string.IsNullOrEmpty(cancion.Path))
                         {
-                            salida.Write(cancion.GuardarPATH());
+                            salida.Write(cancion.SavePath());
                         }
                     }
                 }

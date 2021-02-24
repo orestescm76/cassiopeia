@@ -825,12 +825,12 @@ namespace Cassiopeia
                         case ".mp3":
                         case ".ogg":
                         case ".flac":
-                            LectorMetadatos LM = new LectorMetadatos(filename.FullName);
+                            MetadataSong LM = new MetadataSong(filename.FullName);
                             if (a.NeedsMetadata())
                             {
-                                a.Title = LM.Album;
-                                a.Artist = LM.Artista;
-                                a.Year = (short)LM.Año;
+                                a.Title = LM.AlbumFrom;
+                                a.Artist = LM.Artist;
+                                a.Year = (short)LM.Year;
                                 if (!(LM.Cover is null) && !File.Exists("cover.jpg"))
                                 {
                                     Bitmap cover = new Bitmap(LM.Cover);
@@ -838,10 +838,10 @@ namespace Cassiopeia
                                     a.CoverPath = carpeta.FullName + "\\cover.jpg";
                                 }
                             }
-                            Song c = new Song(LM.Titulo, (int)LM.Duracion.TotalMilliseconds, false);
-                            if (LM.Pista != 0) //A music file with no track number? Can happen. Instead, do the normal process.
+                            Song c = new Song(LM.Title, (int)LM.Length.TotalMilliseconds, false);
+                            if (LM.TrackNumber != 0) //A music file with no track number? Can happen. Instead, do the normal process.
                             {
-                                tempStorage[LM.Pista - 1] = c;
+                                tempStorage[LM.TrackNumber - 1] = c;
                                 numSongs++;
                             }
                             else

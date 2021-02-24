@@ -74,11 +74,11 @@ namespace Cassiopeia.src.Forms
                 //Pick song data if it's mandatory
                 if(string.IsNullOrEmpty(Playlist.Canciones[i].Title))
                 {
-                    LectorMetadatos lectorMetadatos = new LectorMetadatos(Playlist.Canciones[i].Path);
-                    data[1] = lectorMetadatos.Artista;
-                    data[2] = lectorMetadatos.Titulo;
-                    data[3] = lectorMetadatos.Duracion.ToString(@"mm\:ss");
-                    Playlist.Canciones[i].Length = lectorMetadatos.Duracion;
+                    MetadataSong lectorMetadatos = new MetadataSong(Playlist.Canciones[i].Path);
+                    data[1] = lectorMetadatos.Artist;
+                    data[2] = lectorMetadatos.Title;
+                    data[3] = lectorMetadatos.Length.ToString(@"mm\:ss");
+                    Playlist.Canciones[i].Length = lectorMetadatos.Length;
                 }
                 else
                 {
