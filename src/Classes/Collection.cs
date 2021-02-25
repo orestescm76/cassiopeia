@@ -62,7 +62,7 @@ namespace Cassiopeia
             String[] busqueda = s.Split('_');
             foreach (CompactDisc cdd in CDS)
             {
-                if (cdd.Album.Artist == busqueda[0] && cdd.Album.Title == busqueda[1])
+                if (cdd.AlbumData.Artist == busqueda[0] && cdd.AlbumData.Title == busqueda[1])
                     cd = cdd;
             }
         }

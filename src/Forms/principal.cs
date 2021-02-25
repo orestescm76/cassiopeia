@@ -362,12 +362,12 @@ namespace Cassiopeia
                         CompactDisc cdaborrar = Program.Collection.GetCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
                         CompactDisc cdd = cdaborrar;
                         Program.Collection.DeleteCD(ref cdaborrar);
-                        cdd.Album.CanBeRemoved = true;
+                        cdd.AlbumData.CanBeRemoved = true;
 
                         foreach (CompactDisc cd in Program.Collection.CDS)
                         {
-                            if (cd.Album == cdd.Album)
-                                cd.Album.CanBeRemoved = false;
+                            if (cd.AlbumData == cdd.AlbumData)
+                                cd.AlbumData.CanBeRemoved = false;
                         }
                     }
                     for (int i = 0; i < cuantos; i++)

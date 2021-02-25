@@ -7,7 +7,7 @@ namespace Cassiopeia
     {
         Jewel, Digipack, MiniLP, NoStorage
     }
-    public class CompactDisc : AlbumFisico
+    public class CompactDisc : PhysicalAlbum
     {
         public String Id { get; set; }
         public Disc[] Discos { get; set; }
@@ -66,14 +66,14 @@ namespace Cassiopeia
         public String[] ToStringArray()
         {
             String[] d = new string[6];
-            Array.Copy(Album.ToStringArray(), d, 5);
+            Array.Copy(AlbumData.ToStringArray(), d, 5);
             d[5] = Id;
             return d;
         }
 
         public void InstallAlbum()
         {
-            Album = Program.Collection.GetAlbum(Artist + "_" + Title);
+            AlbumData = Program.Collection.GetAlbum(Artist + "_" + Title);
         }
     }
 }

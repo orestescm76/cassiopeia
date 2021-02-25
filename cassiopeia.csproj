@@ -121,7 +121,7 @@
     <Compile Include="src\CD\DriveLock.cs" />
     <Compile Include="src\CD\PistaCD.cs" />
     <Compile Include="src\Classes\AlbumData.cs" />
-    <Compile Include="src\Classes\AlbumFisico.cs" />
+    <Compile Include="src\Classes\PhysicalAlbum.cs" />
     <Compile Include="src\Classes\CompactDisc.cs" />
     <Compile Include="src\Classes\Disc.cs" />
     <Compile Include="src\Classes\Song.cs" />

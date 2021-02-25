@@ -14,34 +14,35 @@ namespace Cassiopeia
         P
     }
 
-    public class AlbumFisico
+    public class PhysicalAlbum
+
     {
         //no quiero guardarlo 2 veces, ni cargarlo 
-        [Newtonsoft.Json.JsonIgnore] public AlbumData Album { get; protected set; }
+        [Newtonsoft.Json.JsonIgnore] public AlbumData AlbumData { get; protected set; }
         public MediaCondition EstadoExterior { get; set; }
         public short Year {get;set;}
         public string Country { get; set; }
         public string Artist { get; set; }
         public string Title { get; set; }
 
-        public AlbumFisico()
+        public PhysicalAlbum()
         {
 
         }
 
-        public AlbumFisico(string s, MediaCondition estado, short y = 0, String p = null)
+        public PhysicalAlbum(string s, MediaCondition estado, short y = 0, String p = null)
         {
-            Album = Program.Collection.GetAlbum(s);
+            AlbumData = Program.Collection.GetAlbum(s);
             EstadoExterior = estado;
             Year = y;
             Country = p;
-            Artist = Album.Artist;
-            Title = Album.Title;
+            Artist = AlbumData.Artist;
+            Title = AlbumData.Title;
         }
 
-        public AlbumFisico(string s)
+        public PhysicalAlbum(string s)
         {
-            Album = Program.Collection.GetAlbum(s);
+            AlbumData = Program.Collection.GetAlbum(s);
         }
     }
 }

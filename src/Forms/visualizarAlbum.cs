@@ -57,21 +57,21 @@ namespace Cassiopeia
             InitializeComponent();
             CDaVisualizar = cd;
             buttonPATH.Hide();
-            albumToVisualize = cd.Album;
+            albumToVisualize = cd.AlbumData;
             numDisco = 1;
-            infoAlbum.Text = Program.LocalTexts.GetString("artista") + ": " + cd.Album.Artist + Environment.NewLine +
-                Program.LocalTexts.GetString("titulo") + ": " + cd.Album.Title + Environment.NewLine +
-                Program.LocalTexts.GetString("año") + ": " + cd.Album.Year + Environment.NewLine +
-                Program.LocalTexts.GetString("duracion") + ": " + cd.Album.Length.ToString() + Environment.NewLine +
-                Program.LocalTexts.GetString("genero") + ": " + cd.Album.Genre.Name + Environment.NewLine +
+            infoAlbum.Text = Program.LocalTexts.GetString("artista") + ": " + cd.AlbumData.Artist + Environment.NewLine +
+                Program.LocalTexts.GetString("titulo") + ": " + cd.AlbumData.Title + Environment.NewLine +
+                Program.LocalTexts.GetString("año") + ": " + cd.AlbumData.Year + Environment.NewLine +
+                Program.LocalTexts.GetString("duracion") + ": " + cd.AlbumData.Length.ToString() + Environment.NewLine +
+                Program.LocalTexts.GetString("genero") + ": " + cd.AlbumData.Genre.Name + Environment.NewLine +
                 Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(cd.SleeveType.ToString()) + Environment.NewLine +
                 Program.LocalTexts.GetString("añoPublicacion") + ": " + cd.Year + Environment.NewLine +
                 Program.LocalTexts.GetString("paisPublicacion") + ":" + cd.Country + Environment.NewLine +
                 Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine;
             labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(cd.Discos[0].MediaCondition.ToString()) + Environment.NewLine;
-            if (!string.IsNullOrEmpty(cd.Album.CoverPath))
+            if (!string.IsNullOrEmpty(cd.AlbumData.CoverPath))
             {
-                Image caratula = Image.FromFile(cd.Album.CoverPath);
+                Image caratula = Image.FromFile(cd.AlbumData.CoverPath);
                 vistaCaratula.Image = caratula;
                 vistaCaratula.SizeMode = PictureBoxSizeMode.StretchImage;
             }
@@ -351,7 +351,7 @@ namespace Cassiopeia
                 Reproductor.Instancia.CreatePlaylist(albumToVisualize.ToString());
                 foreach (Song cancion in albumToVisualize.Songs)
                 {
-                    Reproductor.Instancia.Playlist.AgregarCancion(cancion);
+                    Reproductor.Instancia.Playlist.AddSong(cancion);
                 }
                 Reproductor.Instancia.ReproducirLista();
             }

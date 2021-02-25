@@ -15,7 +15,7 @@ namespace Cassiopeia.src.Forms
             LoadView();
             listViewSongs.Size = Size;
             Pointer = 0;
-            Text = lr.Nombre;
+            Text = lr.Name;
             PutTexts();
             toolStripStatusLabelInfo.Width = statusStrip.Size.Width - 200;
             Icon = Properties.Resources.playlist;
@@ -40,25 +40,25 @@ namespace Cassiopeia.src.Forms
         }
         public void UpdateTime()
         {
-            if (Playlist.Duration.TotalMinutes < 60)
-                toolStripStatusLabelDuration.Text = Playlist.Duration.ToString(@"mm\:ss");
+            if (Playlist.Length.TotalMinutes < 60)
+                toolStripStatusLabelDuration.Text = Playlist.Length.ToString(@"mm\:ss");
             else
-                toolStripStatusLabelDuration.Text = Playlist.Duration.ToString(@"hh\:mm\:ss");
+                toolStripStatusLabelDuration.Text = Playlist.Length.ToString(@"hh\:mm\:ss");
         }
         private Song[] GetSelectedSongs()
         {
             Song[] selectedSongs = new Song[listViewSongs.SelectedItems.Count];
             for (int i = 0; i < listViewSongs.SelectedIndices.Count; i++)
             {
-                selectedSongs[i] = Playlist.GetCancion(listViewSongs.SelectedIndices[i]);
+                selectedSongs[i] = Playlist.GetSong(listViewSongs.SelectedIndices[i]);
             }
             return selectedSongs;
         }
         private void LoadView()
         {
             listViewSongs.Items.Clear();
-            ListViewItem[] items = new ListViewItem[Playlist.Canciones.Count];
-            for (int i = 0; i < Playlist.Canciones.Count; i++)
+            ListViewItem[] items = new ListViewItem[Playlist.Songs.Count];
+            for (int i = 0; i < Playlist.Songs.Count; i++)
             {
                 string[] data = new string[4];
                 data[0] = "";
@@ -67,24 +67,24 @@ namespace Cassiopeia.src.Forms
                 {
                     data[1] = "";
                     data[2] = "";
-                    data[3] = Playlist.Canciones[i].Length.ToString();
+                    data[3] = Playlist.Songs[i].Length.ToString();
                     items[i] = new ListViewItem(data);
                     continue; //don't check anything else
                 }
                 //Pick song data if it's mandatory
-                if(string.IsNullOrEmpty(Playlist.Canciones[i].Title))
+                if(string.IsNullOrEmpty(Playlist.Songs[i].Title))
                 {
-                    MetadataSong lectorMetadatos = new MetadataSong(Playlist.Canciones[i].Path);
+                    MetadataSong lectorMetadatos = new MetadataSong(Playlist.Songs[i].Path);
                     data[1] = lectorMetadatos.Artist;
                     data[2] = lectorMetadatos.Title;
                     data[3] = lectorMetadatos.Length.ToString(@"mm\:ss");
-                    Playlist.Canciones[i].Length = lectorMetadatos.Length;
+                    Playlist.Songs[i].Length = lectorMetadatos.Length;
                 }
                 else
                 {
-                    data[1] = Playlist.Canciones[i].AlbumFrom.Artist;
-                    data[2] = Playlist.Canciones[i].Title;
-                    data[3] = Playlist.Canciones[i].Length.ToString();
+                    data[1] = Playlist.Songs[i].AlbumFrom.Artist;
+                    data[2] = Playlist.Songs[i].Title;
+                    data[3] = Playlist.Songs[i].Length.ToString();
                 }
                 items[i] = new ListViewItem(data);
             }
@@ -124,7 +124,7 @@ namespace Cassiopeia.src.Forms
             saveFileDialog.Filter = ".plf|*.plf";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Playlist.Guardar(saveFileDialog.FileName);
+                Playlist.Save(saveFileDialog.FileName);
                 Log.Instance.PrintMessage("Guardado correctamente", MessageType.Correct);
             }
         }
@@ -148,7 +148,7 @@ namespace Cassiopeia.src.Forms
             Song[] selectedSongs = GetSelectedSongs();
             for (int i = 0; i < selectedSongs.Length; i++)
             {
-                Playlist.DeleteSong(selectedSongs[i]);
+                Playlist.RemoveSong(selectedSongs[i]);
                 listViewSongs.SelectedItems[i].Remove();
             }
             Log.Instance.PrintMessage("Borrado correcto", MessageType.Correct);
@@ -177,7 +177,7 @@ namespace Cassiopeia.src.Forms
             {
                 if(!string.IsNullOrEmpty(c.Path))
                 {
-                    Playlist.AgregarCancion(c);
+                    Playlist.AddSong(c);
                 }
             }
             else if ((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null) //El usuario arrastra desde el explorador.
@@ -186,7 +186,7 @@ namespace Cassiopeia.src.Forms
                 {
                     Song clr = new Song();
                     clr.Path = songPath;
-                    Playlist.AgregarCancion(clr);
+                    Playlist.AddSong(clr);
                 }
             }
             RefreshView();
@@ -219,8 +219,8 @@ namespace Cassiopeia.src.Forms
             WriteName WriteNameForm = new WriteName();
             DialogResult Result = WriteNameForm.ShowDialog();
             if (Result == DialogResult.OK)
-                Playlist.Nombre = WriteNameForm.PlaylistName;
-            Text = Playlist.Nombre;
+                Playlist.Name = WriteNameForm.PlaylistName;
+            Text = Playlist.Name;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -238,7 +238,7 @@ namespace Cassiopeia.src.Forms
             {
                 try
                 {
-                    Playlist.Cargar(openFileDialog.FileName);
+                    Playlist.Load(openFileDialog.FileName);
                     Log.Instance.PrintMessage("Abierto correctamente", MessageType.Correct);
                 }
                 catch (Exception)
@@ -261,7 +261,7 @@ namespace Cassiopeia.src.Forms
                 {
                     Song song = new Song();
                     song.Path = songFile;
-                    Playlist.AgregarCancion(song);
+                    Playlist.AddSong(song);
                 }
                 RefreshView();
             }

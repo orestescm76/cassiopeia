@@ -8,9 +8,9 @@ namespace Cassiopeia
 {
     public static class Utils
     {
-        static public String ConvertToRomanNumeral(int arabicNumeral)
+        static public string ConvertToRomanNumeral(int arabicNumeral)
         {
-            String romanNumeral = "";
+            string romanNumeral = "";
             int x = arabicNumeral;
 
             switch (x / 10)
@@ -99,5 +99,6 @@ namespace Cassiopeia
 
             return romanNumeral;
         }
+
     }
 }

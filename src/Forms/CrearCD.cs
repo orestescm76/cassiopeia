@@ -35,7 +35,7 @@ namespace Cassiopeia
         {
             InitializeComponent();
             NDisco = n;
-            album = cdd.Album;
+            album = cdd.AlbumData;
             cd = cdd;
             if(n > 1 && !edit)
             {

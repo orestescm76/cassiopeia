@@ -7,100 +7,137 @@ namespace Cassiopeia
 {
     public class Playlist
     {
-        public List<Song> Canciones { get; private set; }
-        public TimeSpan Duration { get => GetDuration(); }
+        public List<Song> Songs { get; private set; }
+        public TimeSpan Length { get => GetLength(); }
+        public string Name { get; set; }
 
-        private TimeSpan GetDuration()
+        private TimeSpan GetLength()
         {
             TimeSpan time = new TimeSpan();
-            foreach (Song song in Canciones)
+
+            foreach (Song song in Songs)
             {
                 time += song.Length;
             }
+
             return time;
         }
 
-        public Playlist(String n)
+        public Playlist(string name)
         {
-            Nombre = n;
-            Canciones = new List<Song>();
+            Name = name;
+            Songs = new List<Song>();
         }
-        public String Nombre { get; set; }
-        public void AgregarCancion(Song c)
+
+        public void AddSong(Song song)
         {
-            Canciones.Add(c);
+            Songs.Add(song);
         }
-        public Song GetCancion(int cual) //¡sobre 0!
+
+        public void SetSongAt(Song value, int index)
         {
-            return Canciones[cual];
+            if (index >= 0 && index < Songs.Count)
+                Songs[index] = value;
+            else
+                Log.Instance.PrintMessage("Trying to set a song in an unexistant position, in playlist " + Name + ", at index " + index, MessageType.Error);
         }
-        public bool Final(int i)
+
+        public Song GetSong(int index) //¡sobre 0!
         {
-            if (Canciones.Count == (i-1))
-                return true;
-            else return false;
+            if (index >= 0 && index < Songs.Count)
+                return Songs[index];
+            else
+                Log.Instance.PrintMessage("Trying to get an unexistant song from playlist " + Name + ", at index " + index, MessageType.Error);
+
+            return null;
         }
-        public bool Inicio(int i)
+
+        public void RemoveSong(Song song)
         {
-            if (i == 0 || i == -1)
-                return true;
-            else return false;
+            if (!Songs.Remove(song))
+            {
+                Log.Instance.PrintMessage("Trying to remove an unexistant song from playlist " + Name, MessageType.Error);
+            }
         }
-        private void Shuffle(List<Song> list)
+
+        public void RemoveSong(int index)
+        {
+            if (index >= 0 && index < Songs.Count)
+                Songs.RemoveAt(index);
+            else
+                Log.Instance.PrintMessage("Trying to remove an unexistant song from playlist " + Name, MessageType.Error);
+        }
+
+        public bool IsLastSong(int index)
+        {
+            return (index == Songs.Count - 1);
+        }
+
+        public bool IsFirstSong(int i)
+        {
+            return (i == 0 || i == -1);
+        }
+
+        public void Shuffle()
         {
             Random rng = new Random();
-            int n = list.Count;
+
+            int n = Songs.Count;
             while (n > 1)
             {
                 n--;
                 int k = rng.Next(n + 1);
-                Song valor = list[k];
-                list[k] = list[n];
-                list[n] = valor;
+                Song aux = Songs[k];
+                Songs[k] = Songs[n];
+                Songs[n] = aux;
             }
-        }
-        public void Mezclar()
-        {
-            Shuffle(Canciones);
         }
 
-        public Song this[int key]
+        public Song this[int index]
         {
-            get => Canciones[key];
-            set => Canciones[key] = value;
+            get => GetSong(index);
+
+            set => SetSongAt(value, index);
         }
-        public void Guardar(string name)
+
+        public void Save(string name)
         {
-            StreamWriter Writer = new StreamWriter(name);
-            Writer.WriteLine(Nombre);
-            foreach (var cancion in Canciones)
+            //@ToDo: check if playlist already exists and ask about overwriting
+            StreamWriter writer = new StreamWriter(name);
+            writer.WriteLine(Name);
+
+            foreach (var song in Songs)
             {
-                Writer.WriteLine(cancion.Path);
+                writer.WriteLine(song.Path);
             }
-            Writer.Flush();
+
+            writer.Flush();
         }
-        public void Cargar(string path)
+
+        public void Load(string path)
         {
             StreamReader reader = new StreamReader(path);
+
             try
             {
-                Nombre = reader.ReadLine();
+                Name = reader.ReadLine();
+
                 while (!reader.EndOfStream)
                 {
-                    Song c = new Song();
-                    c.Path = reader.ReadLine();
-                    Canciones.Add(c);
+                    Song song = new Song
+                    {
+                        Path = reader.ReadLine()
+                    };
+
+                    Songs.Add(song);
                 }
             }
             catch (Exception)
             {
-                Log.Instance.PrintMessage("Error abriendo el fichero " + path, MessageType.Error);
+                Log.Instance.PrintMessage("Error opening file " + path, MessageType.Error);
                 throw;
             }
         }
-        public void DeleteSong(Song song)
-        {
-            Canciones.Remove(song);
-        }
     }
+
 }

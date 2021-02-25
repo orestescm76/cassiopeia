@@ -283,7 +283,7 @@ namespace Cassiopeia
 
                     cd.InstallAlbum();
                     Collection.AddCD(ref cd);
-                    cd.Album.CanBeRemoved = false;
+                    cd.AlbumData.CanBeRemoved = false;
                 }
             }
         }

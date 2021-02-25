@@ -114,7 +114,7 @@ namespace Cassiopeia.src.Forms
             for (int i = 0; i < nucleo.PistasCD.Length; i++)
             {
                 Song c = new Song("Pista " + (i + 1), (int)nucleo.PistasCD[i].Duracion.TotalMilliseconds, false);
-                Playlist.AgregarCancion(c);
+                Playlist.AddSong(c);
             }
             lrui.Refresh();
         }
@@ -438,7 +438,7 @@ namespace Cassiopeia.src.Forms
                 CreatePlaylist(c.Title);
             foreach (Song song in c.Parts)
             {
-                Playlist.AgregarCancion(song);
+                Playlist.AddSong(song);
             }
             ReproducirLista();
         }
@@ -449,7 +449,7 @@ namespace Cassiopeia.src.Forms
             if (ModoCD)
                 nucleo.SaltarCancionCD(Pista);
             else
-                ReproducirCancion(Playlist.Canciones[Pista]);
+                ReproducirCancion(Playlist.Songs[Pista]);
             PrepararReproductor();
             ListaReproduccionPuntero = Pista;
             lrui.SetActiveSong(ListaReproduccionPuntero);
@@ -668,10 +668,10 @@ namespace Cassiopeia.src.Forms
                 {
                     ListaReproduccionPuntero++;
                     lrui.SetActiveSong(ListaReproduccionPuntero);
-                    if (!Playlist.Final(ListaReproduccionPuntero))
+                    if (!Playlist.IsLastSong(ListaReproduccionPuntero))
                     {
                         if (!ModoCD)
-                            ReproducirCancion(Playlist.GetCancion(ListaReproduccionPuntero));
+                            ReproducirCancion(Playlist.GetSong(ListaReproduccionPuntero));
                         else
                             ReproducirCancion(ListaReproduccionPuntero);
                     }
@@ -727,7 +727,7 @@ namespace Cassiopeia.src.Forms
 
                         if (Playlist == null)
                             Playlist = new Playlist("Selección");
-                        Playlist.AgregarCancion(c);
+                        Playlist.AddSong(c);
                         ReproducirLista();
                     }
                 }
@@ -901,7 +901,7 @@ namespace Cassiopeia.src.Forms
             {
                 if (Playlist != null)
                 {
-                    if (Playlist.Final(ListaReproduccionPuntero))
+                    if (Playlist.IsLastSong(ListaReproduccionPuntero))
                     {
                         nucleo.Detener();
                         buttonReproducirPausar.Text = GetTextButtonPlayer(EstadoReproductor.Detenido);
@@ -913,11 +913,11 @@ namespace Cassiopeia.src.Forms
                             if (!ShuffleState)
                                 ListaReproduccionPuntero++;
                             else
-                                ListaReproduccionPuntero = Random.Next(Playlist.Canciones.Count);
+                                ListaReproduccionPuntero = Random.Next(Playlist.Songs.Count);
 
                             lrui.SetActiveSong(ListaReproduccionPuntero);
                             if (!ModoCD)
-                                ReproducirCancion(Playlist.GetCancion(ListaReproduccionPuntero));
+                                ReproducirCancion(Playlist.GetSong(ListaReproduccionPuntero));
                             else
                                 ReproducirCancion(ListaReproduccionPuntero);
                         }
@@ -938,12 +938,12 @@ namespace Cassiopeia.src.Forms
                 _spotify.SkipPlaybackToPrevious();
             else
             {
-                if (Playlist != null && !Playlist.Inicio(ListaReproduccionPuntero))
+                if (Playlist != null && !Playlist.IsFirstSong(ListaReproduccionPuntero))
                 {
                     ListaReproduccionPuntero--;
                     lrui.SetActiveSong(ListaReproduccionPuntero);
                     if (!ModoCD)
-                        ReproducirCancion(Playlist.GetCancion(ListaReproduccionPuntero));
+                        ReproducirCancion(Playlist.GetSong(ListaReproduccionPuntero));
                     else
                         ReproducirCancion(ListaReproduccionPuntero);
                 }
@@ -1088,7 +1088,7 @@ namespace Cassiopeia.src.Forms
                     {
                         Song clr = new Song();
                         clr.Path = cancion;
-                        Playlist.AgregarCancion(clr);
+                        Playlist.AddSong(clr);
                     }
                     ReproducirLista();
                 }
@@ -1098,7 +1098,7 @@ namespace Cassiopeia.src.Forms
                     {
                         Song clr = new Song();
                         clr.Path = songfile;
-                        Playlist.AgregarCancion(clr);
+                        Playlist.AddSong(clr);
                     }
                 }
                 lrui.RefreshView();

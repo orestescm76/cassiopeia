@@ -52,7 +52,7 @@ namespace Cassiopeia
 
         public bool Evaluable()
         {
-            return (Artist != null) && (Title != null);
+            return !string.IsNullOrEmpty(Artist) && !string.IsNullOrEmpty(Title);
         }
 
         public string GetSongID()
