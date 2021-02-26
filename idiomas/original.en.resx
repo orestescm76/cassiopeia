@@ -704,4 +704,10 @@
   <data name="helpView" xml:space="preserve">
     <value>Sets the font in the tables view (albums, songs...)</value>
   </data>
+  <data name="errorLoadingAlbums1" xml:space="preserve">
+    <value>Error loading the data. Please check line </value>
+  </data>
+  <data name="errorLoadingAlbums2" xml:space="preserve">
+    <value>in the file </value>
+  </data>
 </root>

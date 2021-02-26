@@ -441,7 +441,7 @@
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
-    <value>Casiopea</value>
+    <value>Cassiopeia</value>
   </data>
   <data name="ver" xml:space="preserve">
     <value>Ver</value>
@@ -697,5 +697,11 @@
   </data>
   <data name="helpView" xml:space="preserve">
     <value>Configura la tipografía que se ve en las tablas</value>
+  </data>
+  <data name="errorLoadingAlbums1" xml:space="preserve">
+    <value>Error cargando los datos. Revise la línea </value>
+  </data>
+  <data name="errorLoadingAlbums2" xml:space="preserve">
+    <value>del fichero </value>
   </data>
 </root>

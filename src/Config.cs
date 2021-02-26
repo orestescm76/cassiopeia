@@ -64,9 +64,9 @@ namespace Cassiopeia
             guardador.AddResource("FontView", FontView.FontFamily.Name+ "," + (int)FontView.Size);
             guardador.Close();
         }
-        public static Image GetIconoBandera()
+        public static Image GetIconoBandera(string Lang)
         {
-            switch (Language)
+            switch (Lang)
             {
                 case "es":
                     return Properties.Resources.es;
@@ -76,6 +76,8 @@ namespace Cassiopeia
                     return Properties.Resources.en;
                 case "el":
                     return Properties.Resources.el;
+                case "it":
+                    return Properties.Resources.it;
             }
             return null;
         }

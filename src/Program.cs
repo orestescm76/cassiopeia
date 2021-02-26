@@ -155,7 +155,11 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Miliseconds);
             ReloadView();
         }
-
+        private static void SendErrorLoading(int line, string file)
+        {
+            Log.Instance.PrintMessage("Error cargando el álbum. Revise la línea " + line + " del fichero " + file, MessageType.Error);
+            MessageBox.Show(LocalTexts.GetString("errorLoadingAlbums1") + line + " "+ LocalTexts.GetString("errorLoadingAlbums2")+ file, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
         public static void LoadCSVAlbums(string fichero)
         {
             Log.Instance.PrintMessage("Cargando álbumes CSV almacenados en " + fichero, MessageType.Info, "cargarAlbumesLegacy(string)");
@@ -178,13 +182,12 @@ namespace Cassiopeia
                     string[] datos = linea.Split(';');
                     if (datos.Length != 8)
                     {
-                        Log.Instance.PrintMessage("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, MessageType.Error);
-                        MessageBox.Show("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        SendErrorLoading(lineaC, fichero);
                         Environment.Exit(-1);
                     }
                     short nC = 0;
                     int gen = FindGenre(datos[(int)CSV_Albums.Genre]);
-                    Genre g = Program.Genres[gen];
+                    Genre g = Genres[gen];
                     if (string.IsNullOrEmpty(datos[(int)CSV_Albums.Cover_PATH])) datos[(int)CSV_Albums.Cover_PATH] = string.Empty;
                     AlbumData a = null;
                     try
@@ -192,10 +195,9 @@ namespace Cassiopeia
                         nC = Convert.ToInt16(datos[(int)CSV_Albums.NumSongs]);
                         a = new AlbumData(g, datos[(int)CSV_Albums.Title], datos[(int)CSV_Albums.Artist], Convert.ToInt16(datos[(int)CSV_Albums.Year]), datos[(int)CSV_Albums.Cover_PATH]);
                     }
-                    catch (FormatException e)
+                    catch (FormatException)
                     {
-                        Log.Instance.PrintMessage("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, MessageType.Error);
-                        MessageBox.Show("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        SendErrorLoading(lineaC, fichero);
                         Environment.Exit(-1);
                     }
                     if (!string.IsNullOrEmpty(datos[(int)CSV_Albums.SpotifyID]))
@@ -242,10 +244,9 @@ namespace Cassiopeia
                                     a.AddSong(cl, i);
                                 }
                             }
-                            catch (FormatException e)
+                            catch (FormatException)
                             {
-                                Log.Instance.PrintMessage("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, MessageType.Error);
-                                MessageBox.Show("Error cargando el álbum. Revise la línea " + lineaC + " del fichero " + fichero, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                SendErrorLoading(lineaC, fichero);
                                 Environment.Exit(-1);
                             }
                         }

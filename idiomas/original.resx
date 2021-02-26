@@ -662,4 +662,10 @@
   <data name="helpView" xml:space="preserve">
     <value></value>
   </data>
+  <data name="errorLoadingAlbums1" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="errorLoadingAlbums2" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

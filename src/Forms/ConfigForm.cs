@@ -81,21 +81,8 @@ namespace Cassiopeia.src.Forms
                 pictureBoxesIdiomas[i].SizeMode = PictureBoxSizeMode.StretchImage;
                 CultureInfo nombreIdioma = new CultureInfo(Program.idiomas[i]);
                 radioButtonsIdiomas[i].Text = nombreIdioma.NativeName;
-                switch (Program.idiomas[i])
-                {
-                    case "es":
-                        pictureBoxesIdiomas[i].Image = Properties.Resources.es;
-                        break;
-                    case "ca":
-                        pictureBoxesIdiomas[i].Image = Properties.Resources.ca;
-                        break;
-                    case "en":
-                        pictureBoxesIdiomas[i].Image = Properties.Resources.en;
-                        break;
-                    case "el":
-                        pictureBoxesIdiomas[i].Image = Properties.Resources.el;
-                        break;
-                }
+                pictureBoxesIdiomas[i].Image = Config.GetIconoBandera(Program.idiomas[i]);
+
                 groupBoxRaiz.Controls.Add(radioButtonsIdiomas[i]);
                 groupBoxRaiz.Controls.Add(pictureBoxesIdiomas[i]);
                 y += 35;
@@ -215,7 +202,7 @@ namespace Cassiopeia.src.Forms
 
             btTextLyrics.Text = Program.LocalTexts.GetString("lyrics");
 
-            btTextView.Text = Program.LocalTexts.GetString("view");
+            btTextView.Text = Program.LocalTexts.GetString("configView");
 
             //Config internal tags
             btTextLyrics.Tag = "lyrics";
@@ -235,6 +222,7 @@ namespace Cassiopeia.src.Forms
                             Program.ChangeLanguage(Program.idiomas[i]);
                     }
                     PonerTextos();
+                    groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_idioma");
                     break;
                 case ActiveConfig.Clipboard:
                     Config.Clipboard = portapapelesConfig.Text;
@@ -253,10 +241,6 @@ namespace Cassiopeia.src.Forms
             }
         }
 
-        private void Limpiar()
-        {
-            labelSelect.Show();
-        }
         private void CargarPagina(string tag)
         {
             labelSelect.Hide();
