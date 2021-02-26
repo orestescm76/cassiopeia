@@ -35,7 +35,7 @@ namespace Cassiopeia
             ConsejoEsBonus.SetToolTip(checkBoxBonus, Program.LocalTexts.GetString("esBonusAyuda"));
             ponerTextos();
             crono.Stop();
-            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
         public agregarCancion(ref Song c) //editar
         {
@@ -74,7 +74,7 @@ namespace Cassiopeia
             np = 0;
             ponerTextos();
             crono.Stop();
-            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
         public agregarCancion(ref AlbumData a, int n, bool l) //crear canción larga
         {
@@ -94,7 +94,7 @@ namespace Cassiopeia
             esLarga.Hide();
             checkBoxBonus.Hide();
             crono.Stop();
-            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
 
         public agregarCancion(ref LongSong l, int n, ref AlbumData a) //crear parte de canción larga
@@ -114,7 +114,7 @@ namespace Cassiopeia
             checkBoxBonus.Hide();
             ponerTextos();
             crono.Stop();
-            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
 
         private void ponerTextos()

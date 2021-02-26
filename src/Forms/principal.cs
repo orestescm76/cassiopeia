@@ -57,7 +57,7 @@ namespace Cassiopeia
                 vincularToolStripMenuItem.Visible = false;
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
             vistaAlbumes.Font = Config.FontView;
-            Log.PrintMessage("Formulario principal creado", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.PrintMessage("Formulario principal creado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
         public void Refrescar() 
         {
@@ -115,7 +115,7 @@ namespace Cassiopeia
             }
 
             crono.Stop();
-            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
         private void PonerTextos()
         {
@@ -216,7 +216,7 @@ namespace Cassiopeia
             Program.Collection.ChangeList(ref nuevaLista);
             vistaAlbumes.Refresh();
             crono.Stop();
-            Log.PrintMessage("Ordenado", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.PrintMessage("Ordenado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -263,7 +263,7 @@ namespace Cassiopeia
                         visualizarAlbum vistazo = new visualizarAlbum(ref a);
                         vistazo.Show();
                         crono.Stop();
-                        Log.PrintMessage("Formulario creado y mostrado", MessageType.Correct, crono, TimeType.Miliseconds);
+                        Log.PrintMessage("Formulario creado y mostrado", MessageType.Correct, crono, TimeType.Milliseconds);
                     }
                     break;
                 case TipoVista.CD:
@@ -279,12 +279,12 @@ namespace Cassiopeia
                         visualizarAlbum visCD = new visualizarAlbum(ref cd);
                         visCD.Show();
                         crono.Stop();
-                        Log.PrintMessage("Formulario creado y mostrado", MessageType.Correct, crono, TimeType.Miliseconds);
+                        Log.PrintMessage("Formulario creado y mostrado", MessageType.Correct, crono, TimeType.Milliseconds);
                     }
                     break;
             }
             cronoTotal.Stop();
-            Log.PrintMessage("Operación realizada",MessageType.Correct, cronoTotal, TimeType.Miliseconds);
+            Log.PrintMessage("Operación realizada",MessageType.Correct, cronoTotal, TimeType.Milliseconds);
         }
 
         private void vistaAlbumes_KeyDown(object sender, KeyEventArgs e)
@@ -481,7 +481,7 @@ namespace Cassiopeia
                     break;
             }
             crono.Stop();
-            Log.PrintMessage("Generado", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.PrintMessage("Generado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
 
         private void buscarEnSpotifyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -867,7 +867,7 @@ namespace Cassiopeia
                 bC.Close();
                 Program.Collection.AddAlbum(ref a);
                 crono.Stop();
-                Log.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Miliseconds);
+                Log.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
                 Refrescar();
             }
         }

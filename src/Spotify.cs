@@ -56,12 +56,12 @@ namespace Cassiopeia
                 if(_spotify.AccessToken != null)
                 {
                     Program.HayInternet(true);
-                    Log.Instance.PrintMessage("Conectado sin errores", MessageType.Correct, crono, TimeType.Miliseconds);
+                    Log.Instance.PrintMessage("Conectado sin errores", MessageType.Correct, crono, TimeType.Milliseconds);
                 }
                 else
                 {
                     Program.HayInternet(false);
-                    Log.Instance.PrintMessage("Se ha conectado pero el token es nulo", MessageType.Error, crono, TimeType.Miliseconds);
+                    Log.Instance.PrintMessage("Se ha conectado pero el token es nulo", MessageType.Error, crono, TimeType.Milliseconds);
                 }
             }
             catch (NullReferenceException)
@@ -108,13 +108,13 @@ namespace Cassiopeia
                         cuentaVinculada = true;
                         Config.LinkedWithSpotify = true;
                         Program.ActivarReproduccionSpotify();
-                        Log.Instance.PrintMessage("Conectado sin errores como " + _spotify.GetPrivateProfile().DisplayName, MessageType.Correct, crono, TimeType.Miliseconds);
+                        Log.Instance.PrintMessage("Conectado sin errores como " + _spotify.GetPrivateProfile().DisplayName, MessageType.Correct, crono, TimeType.Milliseconds);
                     }
                     else
                     {
                         cuentaLista = false;
                         cuentaVinculada = false;
-                        Log.Instance.PrintMessage("Se ha conectado pero el token es nulo", MessageType.Error, crono, TimeType.Miliseconds);
+                        Log.Instance.PrintMessage("Se ha conectado pero el token es nulo", MessageType.Error, crono, TimeType.Milliseconds);
                         Config.LinkedWithSpotify = false;
                     }
                     CodigoRefresco = token.RefreshToken;
@@ -153,7 +153,7 @@ namespace Cassiopeia
             try
             {
                 List<SimpleAlbum> AlbumList = _spotify.SearchItems(query, SearchType.Album).Albums.Items;
-                Log.Instance.PrintMessage("Búsqueda en Spotify ha finalizado correctamente", MessageType.Correct, crono, TimeType.Miliseconds);
+                Log.Instance.PrintMessage("Búsqueda en Spotify ha finalizado correctamente", MessageType.Correct, crono, TimeType.Milliseconds);
                 return AlbumList;
             }
             catch (NullReferenceException e)
@@ -172,13 +172,13 @@ namespace Cassiopeia
             {
                 SimpleAlbum album = _spotify.SearchItems(a, SearchType.Album).Albums.Items[0];
                 crono.Stop();
-                Log.Instance.PrintMessage("Búsqueda en Spotify ha finalizado correctamente", MessageType.Correct, crono, TimeType.Miliseconds);
+                Log.Instance.PrintMessage("Búsqueda en Spotify ha finalizado correctamente", MessageType.Correct, crono, TimeType.Milliseconds);
 
                 return album;
             }
             catch (ArgumentOutOfRangeException)
             {
-                Log.Instance.PrintMessage("Busqueda en Spotify no ha encontrado nada", MessageType.Warning, crono, TimeType.Miliseconds);
+                Log.Instance.PrintMessage("Busqueda en Spotify no ha encontrado nada", MessageType.Warning, crono, TimeType.Milliseconds);
                 return null;
             }
 
@@ -200,7 +200,7 @@ namespace Cassiopeia
                 return false;
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Añadido",MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Añadido",MessageType.Correct, crono, TimeType.Milliseconds);
             Program.ReloadView();
             return true;
         }

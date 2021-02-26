@@ -450,6 +450,7 @@ namespace Cassiopeia
         private void buttonPATH_Click(object sender, EventArgs e)
         {
             Log.Instance.PrintMessage("Buscando canciones para " + albumToVisualize.ToString(), MessageType.Info);
+            Stopwatch crono = Stopwatch.StartNew();
             bool correcto = true;
             DirectoryInfo directorioCanciones = new DirectoryInfo(albumToVisualize.SoundFilesPath);
             foreach (FileInfo file in directorioCanciones.GetFiles())
@@ -457,29 +458,26 @@ namespace Cassiopeia
                 string extension = Path.GetExtension(file.FullName);
                 if (extension != ".ogg" && extension != ".mp3" && extension != ".flac")
                     continue;
+                MetadataSong LM = new MetadataSong(file.FullName);
                 foreach (Song c in albumToVisualize.Songs)
                 {
                     try
                     {
-                        MetadataSong LM = new MetadataSong(file.FullName);
-                        if (LM.Evaluable() && (c.Title.ToLower() == LM.Title.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower()))
+                        if(LM.Evaluable() && string.IsNullOrEmpty(c.Path))
                         {
-                            c.Path = file.FullName;
-                            Log.Instance.PrintMessage(c.Path + " leído correctamente", MessageType.Correct);
-                            break;
-                        }
-                        else if (LM.Evaluable() && string.Equals(c.Title, LM.Title) && string.Equals(LM.Artist, c.AlbumFrom.Artist))
-                        {
-                            c.Path = file.FullName;
-                            Log.Instance.PrintMessage(c.Path + " leído correctamente", MessageType.Correct);
-                            break;
+                            if ((c.Title.ToLower() == LM.Title.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower()))
+                            {
+                                c.Path = file.FullName;
+                                Log.Instance.PrintMessage(c.Title + " linked successfully!", MessageType.Correct);
+                                break;
+                            }
                         }
                         else
                         {
                             if (file.FullName.ToLower().Contains(c.Title.ToLower()))
                             {
                                 c.Path = file.FullName;
-                                Log.Instance.PrintMessage(c.Path + " leído correctamente", MessageType.Correct);
+                                Log.Instance.PrintMessage(c.Title + " linked successfully", MessageType.Correct);
                                 break;
                             }
                         }
@@ -491,20 +489,26 @@ namespace Cassiopeia
 
                 }
             }
+            crono.Stop();
+            
             if (correcto)
+            {
+                Log.Instance.PrintMessage("Finished without problems", MessageType.Correct, crono, TimeType.Milliseconds);
                 MessageBox.Show(Program.LocalTexts.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+                
             else
             {
                 foreach (Song cancion in albumToVisualize.Songs)
                 {
-                    if (cancion.Path == null) //No se ha encontrado
+                    if (string.IsNullOrEmpty(cancion.Path)) //No se ha encontrado
                     {
-                        Log.Instance.PrintMessage("No se encontró la canción para " + cancion.Title + ".", MessageType.Warning);
+                        Log.Instance.PrintMessage(cancion.Title + " couldn't be linked...", MessageType.Warning);
                     }
                 }
                 MessageBox.Show(Program.LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-
+            
             Program.SavePATHS();
         }
 

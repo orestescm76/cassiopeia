@@ -152,7 +152,7 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Milliseconds);
             ReloadView();
         }
         private static void SendErrorLoading(int line, string file)
@@ -266,7 +266,7 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Milliseconds);
             ReloadView();
         }
         public static void LoadCD(string fichero = "cd.json")
@@ -339,7 +339,7 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Guardados los PATHS", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Guardados los PATHS", MessageType.Correct, crono, TimeType.Milliseconds);
         }
         public static void SaveAlbums(string path, TipoGuardado tipoGuardado, bool json = false)
         {
@@ -420,7 +420,7 @@ namespace Cassiopeia
             }
             crono.Stop();
             fich.Refresh();
-            Log.Instance.PrintMessage(nameof(SaveAlbums) + "- Guardado", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage(nameof(SaveAlbums) + "- Guardado", MessageType.Correct, crono, TimeType.Milliseconds);
             crono.Stop();
         }
         private static void LoadLyrics()
@@ -447,7 +447,7 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Lyrics cargadas", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Lyrics cargadas", MessageType.Correct, crono, TimeType.Milliseconds);
         }
         private static void SaveLyrics()
         {
@@ -472,7 +472,7 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Guardados las letras", MessageType.Correct, crono, TimeType.Miliseconds);
+            Log.Instance.PrintMessage("Guardados las letras", MessageType.Correct, crono, TimeType.Milliseconds);
             FileInfo lyrics = new FileInfo("lyrics.txt");
             Log.Instance.PrintMessage("Tamaño del fichero: " + lyrics.Length/1024 + " kb", MessageType.Info);
         }

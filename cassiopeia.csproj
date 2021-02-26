@@ -262,6 +262,9 @@
     <EmbeddedResource Include="idiomas\original.es.resx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="idiomas\original.it.resx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="idiomas\original.ja.resx" />
     <EmbeddedResource Include="idiomas\original.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -349,6 +352,7 @@
     <Content Include="Resources\banderas\el.png" />
     <Content Include="Resources\banderas\en.png" />
     <Content Include="Resources\banderas\es.png" />
+    <None Include="Resources\banderas\it.png" />
     <Content Include="Resources\banderas\ja.png" />
     <Content Include="Resources\banner.png" />
     <Content Include="Resources\banner1.5.png" />
