@@ -121,14 +121,14 @@
     <Compile Include="src\CD\DriveLock.cs" />
     <Compile Include="src\CD\PistaCD.cs" />
     <Compile Include="src\Classes\AlbumData.cs" />
-    <Compile Include="src\Classes\AlbumFisico.cs" />
+    <Compile Include="src\Classes\PhysicalAlbum.cs" />
     <Compile Include="src\Classes\CompactDisc.cs" />
     <Compile Include="src\Classes\Disc.cs" />
     <Compile Include="src\Classes\Song.cs" />
     <Compile Include="src\Classes\LongSong.cs" />
     <Compile Include="src\Classes\Collection.cs" />
     <Compile Include="src\Classes\Genre.cs" />
-    <Compile Include="src\Classes\LectorMetadatos.cs" />
+    <Compile Include="src\Classes\MetadataSong.cs" />
     <Compile Include="src\Classes\Playlist.cs" />
     <Compile Include="src\Classes\Log.cs" />
     <Compile Include="src\Classes\ReproductorNucleo.cs" />

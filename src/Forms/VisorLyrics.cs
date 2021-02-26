@@ -19,7 +19,7 @@ namespace Cassiopeia.src.Forms
         {
             InitializeComponent();
             Icon = Properties.Resources.letras;
-            Tipografia = new Font(Config.LyricsFont, 9);
+            Tipografia = Config.FontLyrics;
             textBoxLyrics.Font = Tipografia;
             cancion = c;
             if (c.Lyrics == null)
@@ -123,12 +123,10 @@ namespace Cassiopeia.src.Forms
                 if (e.Delta > 0)
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size + 2);
                 else
-                {
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size - 2);
-                    if (tipografiaNew.Size <= 2)
-                        tipografiaNew = Tipografia; //no se cambia
-                }
             }
+            if (tipografiaNew.Size <= 2 || tipografiaNew.Size >= 75)
+                tipografiaNew = Tipografia; //no se cambia
             textBoxLyrics.Font = Tipografia = tipografiaNew;
             Text = cancion.ToString() + " (" + Tipografia.Size + ")";
         }

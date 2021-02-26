@@ -686,4 +686,16 @@
   <data name="colorsHighlight" xml:space="preserve">
     <value>Colores de resalte</value>
   </data>
+  <data name="lyrics" xml:space="preserve">
+    <value>Letras</value>
+  </data>
+  <data name="configView" xml:space="preserve">
+    <value>Visualización</value>
+  </data>
+  <data name="helpLyrics" xml:space="preserve">
+    <value>Configura la tipografía que se ve en el visor de letras</value>
+  </data>
+  <data name="helpView" xml:space="preserve">
+    <value>Configura la tipografía que se ve en las tablas</value>
+  </data>
 </root>

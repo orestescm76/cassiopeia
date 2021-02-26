@@ -49,6 +49,7 @@ namespace Cassiopeia
             }
             if (string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
                 buttonPATH.Enabled = false;
+            vistaCanciones.Font = Config.FontView;
             ponerTextos();
             cargarVista();
         }

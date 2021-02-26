@@ -56,9 +56,15 @@ namespace Cassiopeia
             if (Program.SpotifyActivado)
                 vincularToolStripMenuItem.Visible = false;
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
+            vistaAlbumes.Font = Config.FontView;
             Log.PrintMessage("Formulario principal creado", MessageType.Correct, crono, TimeType.Miliseconds);
         }
-        public void Refrescar() { PonerTextos(); CargarVista(); }
+        public void Refrescar() 
+        {
+            vistaAlbumes.Font = Config.FontView;
+            PonerTextos(); 
+            CargarVista(); 
+        }
         public void HayInternet(bool i)
         {
             buscarEnSpotifyToolStripMenuItem.Enabled = i;
@@ -142,7 +148,6 @@ namespace Cassiopeia
             reproductorToolStripMenuItem.Text = Program.LocalTexts.GetString("reproductor");
             abrirCDMenuItem.Text = Program.LocalTexts.GetString("abrirCD") + "...";
             verLyricsToolStripMenuItem.Text = Program.LocalTexts.GetString("verLyrics");
-            tipografiaLyricsToolStripMenuItem.Text = Program.LocalTexts.GetString("tipografíaLyrics");
             verLogToolStripMenuItem.Text = Program.LocalTexts.GetString("verLog");
             nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = Program.LocalTexts.GetString("nuevoAlbumDesdeCarpeta");
             configToolStripMenuItem.Text = Program.LocalTexts.GetString("configuracion");
@@ -772,16 +777,6 @@ namespace Cassiopeia
         {
             AbrirDisco AD = new AbrirDisco();
             AD.ShowDialog();
-        }
-
-        private void tipografiaLyricsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FontDialog fontDialog = new FontDialog();
-            Font fuente = null;
-            fontDialog.Font = new Font(Config.LyricsFont, 10);
-            fontDialog.ShowDialog();
-            fuente = fontDialog.Font;
-            Config.LyricsFont = fuente.FontFamily.Name;
         }
 
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)

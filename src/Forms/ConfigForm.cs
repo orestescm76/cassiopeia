@@ -9,7 +9,8 @@ namespace Cassiopeia.src.Forms
     {
         Language,
         Clipboard,
-        Colors
+        Colors,
+        TextFont
     }
     public partial class ConfigForm : Form
     {
@@ -23,6 +24,13 @@ namespace Cassiopeia.src.Forms
 
         ToolTip ttbtColorBonus;
         ToolTip ttbtColorLongSong;
+        
+        //For text config
+        Button btTextLyrics;
+        Button btTextView;
+
+        ToolTip ttbtTextLyrics;
+        ToolTip ttbtTextView;
 
         ActiveConfig config;
         public ConfigForm()
@@ -37,17 +45,20 @@ namespace Cassiopeia.src.Forms
             PonerTextos();
             labelSelect.Location = new Point(290 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
             Icon = Properties.Resources.settings;
+            treeViewConfiguracion.ExpandAll();
         }
         private void PonerTextos()
         {
             Text = Program.LocalTexts.GetString("configuracion");
-            treeViewConfiguracion.Nodes[0].Text = Program.LocalTexts.GetString("idioma");
             labelSelect.Text = Program.LocalTexts.GetString("seleccione_opcion");
             buttonAplicar.Text = Program.LocalTexts.GetString("aplicar");
             buttonOK.Text = Program.LocalTexts.GetString("aceptar");
             buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
+            treeViewConfiguracion.Nodes[0].Text = Program.LocalTexts.GetString("idioma");
             treeViewConfiguracion.Nodes[1].Text = Program.LocalTexts.GetString("cambiar_portapapeles");
-            treeViewConfiguracion.Nodes[2].Text = Program.LocalTexts.GetString("colorsHighlight");
+            treeViewConfiguracion.Nodes[2].Text = Program.LocalTexts.GetString("configView");
+            treeViewConfiguracion.Nodes[2].Nodes[0].Text = Program.LocalTexts.GetString("tipografíaLyrics");
+            treeViewConfiguracion.Nodes[2].Nodes[1].Text = Program.LocalTexts.GetString("colorsHighlight");
         }
         private void LoadLanguageConfig()
         {
@@ -138,6 +149,7 @@ namespace Cassiopeia.src.Forms
         private void LoadColorConfig()
         {
             config = ActiveConfig.Colors;
+            groupBoxRaiz.Text = Program.LocalTexts.GetString("colorsHighlight");
             //Create stuff
             btColorBonus = new Button();
             btColorLongSong = new Button();
@@ -173,6 +185,45 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Controls.Add(btColorLongSong);
         }
 
+        private void LoadTextConfig()
+        {
+            groupBoxRaiz.Text = Program.LocalTexts.GetString("tipografíaLyrics");
+            config = ActiveConfig.TextFont;
+            //Create stuff
+            btTextLyrics = new Button();
+            btTextView = new Button();
+            ttbtTextLyrics = new ToolTip();
+            ttbtTextView = new ToolTip();
+
+            ttbtTextView.SetToolTip(btTextView, Program.LocalTexts.GetString("helpView"));
+            ttbtTextLyrics.SetToolTip(btTextLyrics, Program.LocalTexts.GetString("helpLyrics"));
+            //Event config
+            btTextLyrics.Click += buttonText_Click;
+            btTextView.Click += buttonText_Click;
+
+            btTextLyrics.Size = new Size(220, 60);
+            btTextView.Size = btTextLyrics.Size;
+
+            int x = (groupBoxRaiz.Width / 2) - 110;
+            int y = groupBoxRaiz.Height / 2;
+
+            btTextLyrics.Location = new Point(x, y - 70);
+            btTextView.Location = new Point(x, y + 10);
+
+            btTextLyrics.Font = Config.FontLyrics;
+            btTextView.Font = Config.FontView;
+
+            btTextLyrics.Text = Program.LocalTexts.GetString("lyrics");
+
+            btTextView.Text = Program.LocalTexts.GetString("view");
+
+            //Config internal tags
+            btTextLyrics.Tag = "lyrics";
+            btTextView.Tag = "view";
+
+            groupBoxRaiz.Controls.Add(btTextLyrics);
+            groupBoxRaiz.Controls.Add(btTextView);
+        }
         private void Aplicar(ActiveConfig config)
         {
             switch (config)
@@ -191,6 +242,11 @@ namespace Cassiopeia.src.Forms
                 case ActiveConfig.Colors:
                     Config.ColorBonus = btColorBonus.BackColor;
                     Config.ColorLongSong = btColorLongSong.BackColor;
+                    break;
+                case ActiveConfig.TextFont:
+                    Config.FontView = btTextView.Font;
+                    Config.FontLyrics = btTextLyrics.Font;
+                    Program.ReloadView();
                     break;
                 default:
                     break;
@@ -217,9 +273,13 @@ namespace Cassiopeia.src.Forms
                 case "colors":
                     LoadColorConfig();
                     break;
+                case "text":
+                    LoadTextConfig();
+                    break;
                 default:
                     groupBoxRaiz.Controls.Add(labelSelect);
                     labelSelect.Show();
+                    groupBoxRaiz.Text = "";
                     break;
             }
         }
@@ -275,6 +335,17 @@ namespace Cassiopeia.src.Forms
             newColor = colorDialog.Color;
 
             btSender.BackColor = newColor;
+        }
+
+        private void buttonText_Click(object sender, EventArgs e)
+        {
+            Button btSender = (Button)sender;
+            
+            FontDialog fontDialog = new FontDialog();
+            fontDialog.Font = btSender.Font;
+            fontDialog.ShowDialog();
+
+            btSender.Font = fontDialog.Font;
         }
     }
 }

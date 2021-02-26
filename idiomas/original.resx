@@ -650,4 +650,16 @@
   <data name="colorsHighlight" xml:space="preserve">
     <value></value>
   </data>
+  <data name="lyrics" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="configView" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="helpLyrics" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="helpView" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

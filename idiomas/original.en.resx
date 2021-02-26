@@ -578,7 +578,7 @@
     <value>New album from folder</value>
   </data>
   <data name="errorVinculacion" xml:space="preserve">
-    <value>Vinculation has been canelled because it has exceeded the wait time.</value>
+    <value>Linking has been cancelled because it has exceeded the wait time.</value>
   </data>
   <data name="actualizacion1" xml:space="preserve">
     <value>A new version of Cassiopeia is available.</value>
@@ -690,5 +690,18 @@
   </data>
   <data name="colorsHighlight" xml:space="preserve">
     <value>Highlight colors</value>
+  </data>
+  <data name="lyrics" xml:space="preserve">
+    <value>Lyrics</value>
+  </data>
+  <data name="configView" xml:space="preserve">
+    <value>Viewing
+</value>
+  </data>
+  <data name="helpLyrics" xml:space="preserve">
+    <value>Sets the font in the Lyrics Viewer</value>
+  </data>
+  <data name="helpView" xml:space="preserve">
+    <value>Sets the font in the tables view (albums, songs...)</value>
   </data>
 </root>
