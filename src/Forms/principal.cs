@@ -59,11 +59,11 @@ namespace Cassiopeia
             vistaAlbumes.Font = Config.FontView;
             Log.PrintMessage("Formulario principal creado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
-        public void Refrescar() 
+        public void Refrescar()
         {
             vistaAlbumes.Font = Config.FontView;
-            PonerTextos(); 
-            CargarVista(); 
+            PonerTextos();
+            CargarVista();
         }
         public void HayInternet(bool i)
         {
@@ -130,7 +130,7 @@ namespace Cassiopeia
             vistaAlbumes.Columns[3].Text = Program.LocalTexts.GetString("duracion");
             vistaAlbumes.Columns[4].Text = Program.LocalTexts.GetString("genero");
             buscarEnSpotifyToolStripMenuItem.Text = Program.LocalTexts.GetString("buscar_Spotify");
-            guardarcomo.Text = Program.LocalTexts.GetString("guardar")+"...";
+            guardarcomo.Text = Program.LocalTexts.GetString("guardar") + "...";
             seleccionToolStripMenuItem.Text = Program.LocalTexts.GetString("seleccion");
             adminMenu.Text = Program.LocalTexts.GetString("admin");
             generarAlbumToolStripMenuItem.Text = Program.LocalTexts.GetString("generar_azar");
@@ -169,160 +169,7 @@ namespace Cassiopeia
                     break;
             }
         }
-        private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
-        {
-            Log.PrintMessage("Ordenando columnas", MessageType.Info);
-            Stopwatch crono = Stopwatch.StartNew();
-            if(e.Column == lvwColumnSorter.ColumnaAOrdenar) // Determine if clicked column is already the column that is being sorted.
-            {
-                if (lvwColumnSorter.Orden == SortOrder.Ascending)
-                    lvwColumnSorter.Orden = SortOrder.Descending;
-                else lvwColumnSorter.Orden = SortOrder.Ascending;
 
-            }
-            else if (e.Column != 2 && e.Column != 3)//si la columna es  la del año o la de la duracion, que lo ponga de mayor a menor.
-            {
-                lvwColumnSorter.ColumnaAOrdenar = e.Column;
-                lvwColumnSorter.Orden = SortOrder.Ascending;
-
-            }
-            else
-            {
-                lvwColumnSorter.ColumnaAOrdenar = e.Column; // Set the column number that is to be sorted; default to ascending.
-                lvwColumnSorter.Orden = SortOrder.Descending;
-            }
-            vistaAlbumes.Sort();
-            List<AlbumData> nuevaLista = new List<AlbumData>();
-            string[] s = null;
-            switch (TipoVista)
-            {
-                case TipoVista.Digital:
-                    s = new string[Program.Collection.Albums.Count];
-                    break;
-                case TipoVista.CD:
-                    s = new string[Program.Collection.CDS.Count];
-                    break;
-                case TipoVista.Vinilo:
-                    break;
-                default:
-                    break;
-            }
-            for (int i = 0; i < s.Length; i++)
-            {
-                s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "_" + vistaAlbumes.Items[i].SubItems[1].Text;
-                AlbumData a = Program.Collection.GetAlbum(s[i]);
-                nuevaLista.Add(a);
-            }
-            Program.Collection.ChangeList(ref nuevaLista);
-            vistaAlbumes.Refresh();
-            crono.Stop();
-            Log.PrintMessage("Ordenado", MessageType.Correct, crono, TimeType.Milliseconds);
-        }
-        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-        private void agregarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            agregarAlbum agregarAlbum = new agregarAlbum();
-            agregarAlbum.Show();
-            CargarVista();
-        }
-        private void guardarDiscos(string nombre, TipoGuardado tipoGuardado)
-        {
-            if (tipoGuardado == TipoGuardado.Digital)
-                Program.SaveAlbums(nombre, TipoGuardado.Digital);
-            else
-                Program.SaveAlbums(nombre, tipoGuardado, true);
-        }
-        private void salidaAplicacion(object sender, EventArgs e)
-        {
-            guardarDiscos("discos.csv", TipoGuardado.Digital);
-            guardarDiscos("cd.json", TipoGuardado.CD);
-            using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
-                salida.Write(Config.Language);
-            Log.PrintMessage("Apagando reproductor", MessageType.Info);
-            Reproductor.Instancia.Apagar();
-            Reproductor.Instancia.Dispose();
-        }
-
-        private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            Log.PrintMessage("Iniciada busqueda del álbum linealmente...", MessageType.Info);
-            Stopwatch cronoTotal = Stopwatch.StartNew();
-            switch(TipoVista)
-            {
-                case TipoVista.Digital:
-                    foreach (ListViewItem item in vistaAlbumes.SelectedItems)
-                    {
-                        Stopwatch crono = Stopwatch.StartNew();
-                        AlbumData a = Program.Collection.GetAlbum(item.Index);
-                        crono.Stop();
-                        Log.PrintMessage("Finalizado", MessageType.Correct, crono, TimeType.Microseconds);
-                        crono.Reset(); crono.Start();
-                        visualizarAlbum vistazo = new visualizarAlbum(ref a);
-                        vistazo.Show();
-                        crono.Stop();
-                        Log.PrintMessage("Formulario creado y mostrado", MessageType.Correct, crono, TimeType.Milliseconds);
-                    }
-                    break;
-                case TipoVista.CD:
-                    foreach (ListViewItem cdViewItem in vistaAlbumes.SelectedItems)
-                    {
-                        Stopwatch crono = Stopwatch.StartNew();
-                        string b = cdViewItem.SubItems[0].Text + '_' + cdViewItem.SubItems[1].Text;
-                        CompactDisc cd;
-                        Program.Collection.GetAlbum(b, out cd);
-                        crono.Stop();
-                        Log.PrintMessage("Finalizado", MessageType.Correct, crono, TimeType.Microseconds);
-                        crono.Reset(); crono.Start();
-                        visualizarAlbum visCD = new visualizarAlbum(ref cd);
-                        visCD.Show();
-                        crono.Stop();
-                        Log.PrintMessage("Formulario creado y mostrado", MessageType.Correct, crono, TimeType.Milliseconds);
-                    }
-                    break;
-            }
-            cronoTotal.Stop();
-            Log.PrintMessage("Operación realizada",MessageType.Correct, cronoTotal, TimeType.Milliseconds);
-        }
-
-        private void vistaAlbumes_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(vistaAlbumes.SelectedItems.Count == 1 && (e.KeyCode == Keys.C && e.Control))
-            {
-                string i;
-                i = CopyAlbumToClipboard(vistaAlbumes.SelectedIndices[0]);
-                Clipboard.SetText(i);
-                Log.Instance.PrintMessage("Copiado " + i + " al portapapeles", MessageType.Info);
-            }
-            if (e.Control && e.KeyCode == Keys.A)
-            {
-                foreach (ListViewItem item in vistaAlbumes.Items)
-                {
-                    item.Selected = true;
-                }
-            }
-            if(e.KeyCode == Keys.F5)
-            {
-                CargarVista();
-            }
-            if (e.KeyCode == Keys.Escape)
-            {
-                foreach (ListViewItem item in vistaAlbumes.Items)
-                {
-                    item.Selected = false;
-                }
-            }
-            if(e.KeyCode == Keys.Enter)
-            {
-                vistaAlbumes_MouseDoubleClick(null,null);
-            }
-            if(e.KeyCode == Keys.F11)
-            {
-                Reproductor.Instancia.Show();
-            }
-        }
         private void borrarAlbumesSeleccionados(TipoVista tipoVista)
         {
 
@@ -389,8 +236,167 @@ namespace Cassiopeia
             duracionSeleccionada.Text = Program.LocalTexts.GetString("dur_total") + ": 00:00:00";
             vistaAlbumes.Refresh();
             crono.Stop();
-            Console.WriteLine("Borrado completado en "+crono.ElapsedMilliseconds+"ms");
+            Console.WriteLine("Borrado completado en " + crono.ElapsedMilliseconds + "ms");
         }
+
+        private void guardarDiscos(string nombre, TipoGuardado tipoGuardado)
+        {
+            if (tipoGuardado == TipoGuardado.Digital)
+                Program.SaveAlbums(nombre, TipoGuardado.Digital);
+            else
+                Program.SaveAlbums(nombre, tipoGuardado, true);
+        }
+        private void salidaAplicacion(object sender, EventArgs e)
+        {
+            guardarDiscos("discos.csv", TipoGuardado.Digital);
+            guardarDiscos("cd.json", TipoGuardado.CD);
+            using (StreamWriter salida = new StreamWriter("idioma.cfg", false))
+                salida.Write(Config.Language);
+            Log.PrintMessage("Apagando reproductor", MessageType.Info);
+            Reproductor.Instancia.Apagar();
+            Reproductor.Instancia.Dispose();
+        }
+
+        #region Events
+        private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
+        {
+            Log.PrintMessage("Ordenando columnas", MessageType.Info);
+            Stopwatch crono = Stopwatch.StartNew();
+            if (e.Column == lvwColumnSorter.ColumnaAOrdenar) // Determine if clicked column is already the column that is being sorted.
+            {
+                if (lvwColumnSorter.Orden == SortOrder.Ascending)
+                    lvwColumnSorter.Orden = SortOrder.Descending;
+                else lvwColumnSorter.Orden = SortOrder.Ascending;
+
+            }
+            else if (e.Column != 2 && e.Column != 3)//si la columna es  la del año o la de la duracion, que lo ponga de mayor a menor.
+            {
+                lvwColumnSorter.ColumnaAOrdenar = e.Column;
+                lvwColumnSorter.Orden = SortOrder.Ascending;
+
+            }
+            else
+            {
+                lvwColumnSorter.ColumnaAOrdenar = e.Column; // Set the column number that is to be sorted; default to ascending.
+                lvwColumnSorter.Orden = SortOrder.Descending;
+            }
+            vistaAlbumes.Sort();
+            List<AlbumData> nuevaLista = new List<AlbumData>();
+            string[] s = null;
+            switch (TipoVista)
+            {
+                case TipoVista.Digital:
+                    s = new string[Program.Collection.Albums.Count];
+                    break;
+                case TipoVista.CD:
+                    s = new string[Program.Collection.CDS.Count];
+                    break;
+                case TipoVista.Vinilo:
+                    break;
+                default:
+                    break;
+            }
+            for (int i = 0; i < s.Length; i++)
+            {
+                s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "_" + vistaAlbumes.Items[i].SubItems[1].Text;
+                AlbumData a = Program.Collection.GetAlbum(s[i]);
+                nuevaLista.Add(a);
+            }
+            Program.Collection.ChangeList(ref nuevaLista);
+            vistaAlbumes.Refresh();
+            crono.Stop();
+            Log.PrintMessage("Ordenado", MessageType.Correct, crono, TimeType.Milliseconds);
+        }
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+        private void agregarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            agregarAlbum agregarAlbum = new agregarAlbum();
+            agregarAlbum.Show();
+            CargarVista();
+        }
+
+
+        private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Log.PrintMessage("Iniciada busqueda del álbum linealmente...", MessageType.Info);
+            Stopwatch cronoTotal = Stopwatch.StartNew();
+            switch (TipoVista)
+            {
+                case TipoVista.Digital:
+                    foreach (ListViewItem item in vistaAlbumes.SelectedItems)
+                    {
+                        Stopwatch crono = Stopwatch.StartNew();
+                        AlbumData a = Program.Collection.GetAlbum(item.Index);
+                        crono.Stop();
+                        Log.PrintMessage("Finalizado", MessageType.Correct, crono, TimeType.Microseconds);
+                        crono.Reset(); crono.Start();
+                        visualizarAlbum vistazo = new visualizarAlbum(ref a);
+                        vistazo.Show();
+                        crono.Stop();
+                        Log.PrintMessage("Formulario creado y mostrado", MessageType.Correct, crono, TimeType.Milliseconds);
+                    }
+                    break;
+                case TipoVista.CD:
+                    foreach (ListViewItem cdViewItem in vistaAlbumes.SelectedItems)
+                    {
+                        Stopwatch crono = Stopwatch.StartNew();
+                        string b = cdViewItem.SubItems[0].Text + '_' + cdViewItem.SubItems[1].Text;
+                        CompactDisc cd;
+                        Program.Collection.GetAlbum(b, out cd);
+                        crono.Stop();
+                        Log.PrintMessage("Finalizado", MessageType.Correct, crono, TimeType.Microseconds);
+                        crono.Reset(); crono.Start();
+                        visualizarAlbum visCD = new visualizarAlbum(ref cd);
+                        visCD.Show();
+                        crono.Stop();
+                        Log.PrintMessage("Formulario creado y mostrado", MessageType.Correct, crono, TimeType.Milliseconds);
+                    }
+                    break;
+            }
+            cronoTotal.Stop();
+            Log.PrintMessage("Operación realizada", MessageType.Correct, cronoTotal, TimeType.Milliseconds);
+        }
+
+        private void vistaAlbumes_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (vistaAlbumes.SelectedItems.Count == 1 && (e.KeyCode == Keys.C && e.Control))
+            {
+                string i;
+                i = CopyAlbumToClipboard(vistaAlbumes.SelectedIndices[0]);
+                Clipboard.SetText(i);
+                Log.Instance.PrintMessage("Copiado " + i + " al portapapeles", MessageType.Info);
+            }
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                foreach (ListViewItem item in vistaAlbumes.Items)
+                {
+                    item.Selected = true;
+                }
+            }
+            if (e.KeyCode == Keys.F5)
+            {
+                CargarVista();
+            }
+            if (e.KeyCode == Keys.Escape)
+            {
+                foreach (ListViewItem item in vistaAlbumes.Items)
+                {
+                    item.Selected = false;
+                }
+            }
+            if (e.KeyCode == Keys.Enter)
+            {
+                vistaAlbumes_MouseDoubleClick(null, null);
+            }
+            if (e.KeyCode == Keys.F11)
+            {
+                Reproductor.Instancia.Show();
+            }
+        }
+
         private void vistaAlbumes_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
         {
 
@@ -398,7 +404,7 @@ namespace Cassiopeia
 
         private void vistaAlbumes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(!borrando)
+            if (!borrando)
             {
                 TimeSpan seleccion = new TimeSpan();
                 foreach (ListViewItem album in vistaAlbumes.SelectedItems)
@@ -443,7 +449,7 @@ namespace Cassiopeia
             SaveFileDialog guardarComo = new SaveFileDialog();
             guardarComo.Filter = Program.LocalTexts.GetString("archivo") + ".csv(*.csv)|*.csv";
             guardarComo.InitialDirectory = Environment.CurrentDirectory;
-            if(guardarComo.ShowDialog()==DialogResult.OK)
+            if (guardarComo.ShowDialog() == DialogResult.OK)
             {
                 guardarDiscos(Path.GetFullPath(guardarComo.FileName), (TipoGuardado)TipoVista);
             }
@@ -453,7 +459,7 @@ namespace Cassiopeia
         {
             Log.PrintMessage("Generando álbum al azar", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
-            if(vistaAlbumes.Items.Count == 0)
+            if (vistaAlbumes.Items.Count == 0)
             {
                 crono.Stop();
                 Log.PrintMessage("Cancelado por no haber álbumes", MessageType.Warning);
@@ -517,7 +523,7 @@ namespace Cassiopeia
             string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "_" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
             AlbumData a = Program.Collection.GetAlbum(seleccion);
 
-            if(a.Length.TotalMinutes < 80)
+            if (a.Length.TotalMinutes < 80)
             {
                 CrearCD formCD = new CrearCD(ref a);
                 formCD.Show();
@@ -546,7 +552,7 @@ namespace Cassiopeia
 
         private void testToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if(!Program.ModoOscuro)
+            if (!Program.ModoOscuro)
             {
                 Program.ModoOscuro = true;
                 testToolStripMenuItem1.Checked = true;
@@ -559,7 +565,7 @@ namespace Cassiopeia
                 barraPrincipal.ForeColor = Color.White;
                 barraAbajo.BackColor = menuOscuro;
                 barraAbajo.ForeColor = Color.White;
-                foreach(ToolStripMenuItem menu in barraPrincipal.Items)
+                foreach (ToolStripMenuItem menu in barraPrincipal.Items)
                 {
                     foreach (ToolStripMenuItem item in menu.DropDownItems)
                     {
@@ -598,14 +604,14 @@ namespace Cassiopeia
                 e.DrawDefault = false;
                 using (Brush hBr = new SolidBrush(Color.FromArgb(30, 30, 30)))
                 {
-                    e.Graphics.FillRectangle(hBr,e.Bounds);
+                    e.Graphics.FillRectangle(hBr, e.Bounds);
                     e.Graphics.DrawLine(SystemPens.ControlLightLight, e.Bounds.X, e.Bounds.Y, e.Bounds.X, e.Bounds.Bottom);
                 }
                 using (Font f = new Font("Segoe UI", 9.5f, FontStyle.Regular))
                 {
                     TextRenderer.DrawText(e.Graphics, e.Header.Text, f, e.Bounds, Color.White, TextFormatFlags.Left);
                 }
-                
+
             }
             else
                 e.DrawDefault = true;
@@ -657,7 +663,7 @@ namespace Cassiopeia
         {
             Log.PrintMessage("Abriendo desde fichero", MessageType.Info);
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
-            openFileDialog1.Filter = Program.LocalTexts.GetString("archivo") + " .mdb (*.mdb)|*.mdb | "+Program.LocalTexts.GetString("archivo")+" .csv|*.csv";
+            openFileDialog1.Filter = Program.LocalTexts.GetString("archivo") + " .mdb (*.mdb)|*.mdb | " + Program.LocalTexts.GetString("archivo") + " .csv|*.csv";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
@@ -703,13 +709,13 @@ namespace Cassiopeia
                 while (!Program._spotify.cuentaLista)
                 {
                     //deadlock, sincrono
-                    if(espera.Elapsed.TotalSeconds >= 30)
+                    if (espera.Elapsed.TotalSeconds >= 30)
                     {
                         cancelado = true;
                         break;
                     }
                 }
-                if(cancelado)
+                if (cancelado)
                 {
                     Log.PrintMessage("Se ha cancelado la vinculación por tiempo de espera.", MessageType.Warning);
                     MessageBox.Show(Program.LocalTexts.GetString("errorVinculacion"));
@@ -730,7 +736,7 @@ namespace Cassiopeia
         {
             AlbumData a = Program.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works! no es O(1)
             Log.PrintMessage(a.ToString(), MessageType.Info);
-            if(string.IsNullOrEmpty(a.IdSpotify))
+            if (string.IsNullOrEmpty(a.IdSpotify))
             {
                 SpotifyAPI.Web.Models.SimpleAlbum album = Program._spotify.DevolverAlbum(a.GetSpotifySearchLabel());
                 if (object.ReferenceEquals(a, null) || object.ReferenceEquals(album, null))
@@ -852,7 +858,7 @@ namespace Cassiopeia
                     }
                     bC.Progreso();
                 }
-                if(numSongs != 0) //The counter has been updated and songs had a track number.
+                if (numSongs != 0) //The counter has been updated and songs had a track number.
                 {
                     //This list goes to the album.
                     List<Song> songList = new List<Song>();
@@ -894,5 +900,6 @@ namespace Cassiopeia
                     break;
             }
         }
+        #endregion
     }
 }

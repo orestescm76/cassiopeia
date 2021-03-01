@@ -73,6 +73,7 @@ namespace Cassiopeia.src.Forms
         {
             cancion.Lyrics = textBoxLyrics.Lines;
         }
+        #region Events
         private void buttonEditar_Click(object sender, EventArgs e)
         {
             if(!textBoxLyrics.ReadOnly)
@@ -130,5 +131,6 @@ namespace Cassiopeia.src.Forms
             textBoxLyrics.Font = Tipografia = tipografiaNew;
             Text = cancion.ToString() + " (" + Tipografia.Size + ")";
         }
+        #endregion
     }
 }

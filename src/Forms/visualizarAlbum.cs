@@ -261,6 +261,7 @@ namespace Cassiopeia
                 vistaCanciones.Items.AddRange(items);
             }
         }
+        #region Events
         private void ordenarColumnas(object sender, ColumnClickEventArgs e)
         {
             if (e.Column == lvwColumnSorter.ColumnaAOrdenar) // Determine if clicked column is already the column that is being sorted.
@@ -587,6 +588,6 @@ namespace Cassiopeia
             albumToVisualize.RemoveSong(longSong.Title);
             refrescarVista();
         }
-
+        #endregion
     }
 }

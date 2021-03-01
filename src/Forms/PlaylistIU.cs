@@ -167,7 +167,7 @@ namespace Cassiopeia.src.Forms
             SetActiveSong(Pointer);
         }
 
-        /* EVENTS */
+    #region Events
 
         private void PlaylistIU_DragEnter(object sender, DragEventArgs e)
         {
@@ -385,5 +385,6 @@ namespace Cassiopeia.src.Forms
         {
             toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoOpenFolder");
         }
+        #endregion
     }
 }
