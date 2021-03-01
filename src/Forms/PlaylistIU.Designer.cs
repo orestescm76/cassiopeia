@@ -49,6 +49,8 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelTracksSelected = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -101,17 +103,18 @@
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemPlay,
             this.toolStripSeparator,
-            this.toolStripMenuItemRemove});
+            this.toolStripMenuItemRemove,
+            this.toolStripSeparator1,
+            this.toolStripMenuItemOpenFolder});
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.contextMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.contextMenuStrip.Size = new System.Drawing.Size(115, 54);
-            this.contextMenuStrip.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip_Closing);
+            this.contextMenuStrip.Size = new System.Drawing.Size(196, 104);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // toolStripMenuItemPlay
             // 
             this.toolStripMenuItemPlay.Name = "toolStripMenuItemPlay";
-            this.toolStripMenuItemPlay.Size = new System.Drawing.Size(114, 22);
+            this.toolStripMenuItemPlay.Size = new System.Drawing.Size(195, 22);
             this.toolStripMenuItemPlay.Text = "play";
             this.toolStripMenuItemPlay.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
             this.toolStripMenuItemPlay.MouseEnter += new System.EventHandler(this.toolStripMenuItemPlay_MouseEnter);
@@ -119,12 +122,12 @@
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(111, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(192, 6);
             // 
             // toolStripMenuItemRemove
             // 
             this.toolStripMenuItemRemove.Name = "toolStripMenuItemRemove";
-            this.toolStripMenuItemRemove.Size = new System.Drawing.Size(114, 22);
+            this.toolStripMenuItemRemove.Size = new System.Drawing.Size(195, 22);
             this.toolStripMenuItemRemove.Text = "remove";
             this.toolStripMenuItemRemove.Click += new System.EventHandler(this.toolStripMenuItemRemove_Click);
             this.toolStripMenuItemRemove.MouseEnter += new System.EventHandler(this.toolStripMenuItemRemove_MouseEnter);
@@ -221,6 +224,19 @@
             this.toolStripStatusLabelTracksSelected.Size = new System.Drawing.Size(118, 19);
             this.toolStripStatusLabelTracksSelected.Text = "toolStripStatusLabel1";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(192, 6);
+            // 
+            // toolStripMenuItemOpenFolder
+            // 
+            this.toolStripMenuItemOpenFolder.Name = "toolStripMenuItemOpenFolder";
+            this.toolStripMenuItemOpenFolder.Size = new System.Drawing.Size(195, 22);
+            this.toolStripMenuItemOpenFolder.Text = "open containing folder";
+            this.toolStripMenuItemOpenFolder.Click += new System.EventHandler(this.toolStripMenuItemOpenFolder_Click);
+            this.toolStripMenuItemOpenFolder.MouseEnter += new System.EventHandler(this.toolStripMenuItemOpenFolder_MouseEnter);
+            // 
             // PlaylistIU
             // 
             this.AllowDrop = true;
@@ -271,5 +287,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRemove;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelTracksSelected;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpenFolder;
     }
 }

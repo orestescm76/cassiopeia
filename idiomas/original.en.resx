@@ -673,7 +673,7 @@
   <data name="infoReproducir" xml:space="preserve">
     <value>Plays the selected song</value>
   </data>
-  <data name="infoBorrar" xml:space="preserve">
+  <data name="infoDelete" xml:space="preserve">
     <value>Removes the selected songs from the playlist.</value>
   </data>
   <data name="bonus" xml:space="preserve">
@@ -709,5 +709,11 @@
   </data>
   <data name="errorLoadingAlbums2" xml:space="preserve">
     <value>in the file </value>
+  </data>
+  <data name="infoOpenFolder" xml:space="preserve">
+    <value>Opens the folder containing the selected item</value>
+  </data>
+  <data name="openFolder" xml:space="preserve">
+    <value>Open containing folder</value>
   </data>
 </root>

@@ -632,7 +632,7 @@
   <data name="infoReproducir" xml:space="preserve">
     <value></value>
   </data>
-  <data name="infoBorrar" xml:space="preserve">
+  <data name="infoDelete" xml:space="preserve">
     <value></value>
   </data>
   <data name="bonus" xml:space="preserve">
@@ -666,6 +666,12 @@
     <value></value>
   </data>
   <data name="errorLoadingAlbums2" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="infoOpenFolder" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="openFolder" xml:space="preserve">
     <value></value>
   </data>
 </root>

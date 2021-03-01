@@ -668,7 +668,7 @@
   <data name="infoReproducir" xml:space="preserve">
     <value>Reproduce la canción seleccionada</value>
   </data>
-  <data name="infoBorrar" xml:space="preserve">
+  <data name="infoDelete" xml:space="preserve">
     <value>Borra de la lista de reproducción las canciones seleccionadas</value>
   </data>
   <data name="bonus" xml:space="preserve">
@@ -703,5 +703,11 @@
   </data>
   <data name="errorLoadingAlbums2" xml:space="preserve">
     <value>del fichero </value>
+  </data>
+  <data name="infoOpenFolder" xml:space="preserve">
+    <value>Abre la carpeta contenida de la canción seleccionada</value>
+  </data>
+  <data name="openFolder" xml:space="preserve">
+    <value>Abrir carpeta contenedora</value>
   </data>
 </root>

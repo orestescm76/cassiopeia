@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
@@ -37,6 +39,7 @@ namespace Cassiopeia.src.Forms
             toolStripStatusLabelDuration.Text = "0:00";
             toolStripMenuItemPlay.Text = Program.LocalTexts.GetString("reproducir");
             toolStripMenuItemRemove.Text = Program.LocalTexts.GetString("suprimir");
+            toolStripMenuItemOpenFolder.Text = Program.LocalTexts.GetString("openFolder");
         }
         public void UpdateTime()
         {
@@ -163,6 +166,8 @@ namespace Cassiopeia.src.Forms
             Pointer = -1;
             SetActiveSong(Pointer);
         }
+
+        /* EVENTS */
 
         private void PlaylistIU_DragEnter(object sender, DragEventArgs e)
         {
@@ -340,9 +345,16 @@ namespace Cassiopeia.src.Forms
         private void contextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (listViewSongs.SelectedItems.Count != 1)
+            {
                 SetPlayVisibility(false);
+                toolStripMenuItemOpenFolder.Enabled = false;
+            }
+                
             else
+            {
                 SetPlayVisibility(true);
+                toolStripMenuItemOpenFolder.Enabled = true;
+            }
             if (listViewSongs.SelectedItems.Count == 0)
                 e.Cancel = true;
         }
@@ -354,12 +366,24 @@ namespace Cassiopeia.src.Forms
 
         private void toolStripMenuItemRemove_MouseEnter(object sender, EventArgs e)
         {
-            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoBorrar");
+            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoDelete");
         }
 
-        private void contextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        private void toolStripMenuItemOpenFolder_Click(object sender, EventArgs e)
         {
+            int indexSong = listViewSongs.SelectedItems[0].Index;
+            DirectoryInfo dir = new DirectoryInfo(Playlist.GetSong(indexSong).Path);
+            dir = dir.Parent;
+            Process explorer = new Process();
+            explorer.StartInfo.FileName = "explorer.exe";
+            explorer.StartInfo.UseShellExecute = true;
+            explorer.StartInfo.Arguments = dir.FullName;
+            explorer.Start();
+        }
 
+        private void toolStripMenuItemOpenFolder_MouseEnter(object sender, EventArgs e)
+        {
+            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoOpenFolder");
         }
     }
 }

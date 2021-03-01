@@ -414,7 +414,6 @@ namespace Cassiopeia.src.Forms
             catch (Exception)
             {
                 Log.PrintMessage("Cannot play", MessageType.Error);
-                MessageBox.Show(Program.LocalTexts.GetString("errorReproduccion"));
                 return;
             }
             if(GuardarHistorial)

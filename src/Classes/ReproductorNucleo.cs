@@ -68,6 +68,7 @@ namespace Cassiopeia
             {
                 Log.Instance.PrintMessage("Error de IO", MessageType.Error);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(Program.LocalTexts.GetString("errorReproduccion"));
                 _salida = null;
                 _sonido = null;
                 throw;
@@ -76,6 +77,7 @@ namespace Cassiopeia
             {
                 Log.Instance.PrintMessage("Hubo un problema...", MessageType.Error);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(ex.Message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _salida = null;
                 _sonido = null;
                 throw;
