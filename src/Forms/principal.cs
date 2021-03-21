@@ -1,4 +1,6 @@
-﻿using System;
+﻿#undef DEBUG
+
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -8,7 +10,6 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using Cassiopeia.src.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
-
 namespace Cassiopeia
 {
     public enum TipoVista
@@ -119,7 +120,11 @@ namespace Cassiopeia
         }
         private void PonerTextos()
         {
+#if DEBUG
             Text = Program.LocalTexts.GetString("titulo_ventana_principal") + " " + Program.Version + " Codename " + Program.CodeName;
+#else
+            Text = Program.LocalTexts.GetString("titulo_ventana_principal");
+#endif
             archivoMenuItem1.Text = Program.LocalTexts.GetString("archivo");
             agregarAlbumToolStripMenuItem.Text = Program.LocalTexts.GetString("agregar_album");
             abrirToolStripMenuItem.Text = Program.LocalTexts.GetString("abrir_registros");
@@ -257,7 +262,7 @@ namespace Cassiopeia
             Reproductor.Instancia.Dispose();
         }
 
-        #region Events
+#region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
         {
             Log.PrintMessage("Ordenando columnas", MessageType.Info);
@@ -900,6 +905,6 @@ namespace Cassiopeia
                     break;
             }
         }
-        #endregion
+#endregion
     }
 }

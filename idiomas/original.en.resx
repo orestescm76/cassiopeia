@@ -528,9 +528,6 @@
   <data name="avisoSpotify" xml:space="preserve">
     <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. The program will time 30 seconds before cancelling the vinculation. Do you wish to continue?</value>
   </data>
-  <data name="agradecimiento3" xml:space="preserve">
-    <value> * The programmers of NVorbis, CSCore and TagLib</value>
-  </data>
   <data name="abrirCD" xml:space="preserve">
     <value>Open audio CD...</value>
   </data>
@@ -715,5 +712,8 @@
   </data>
   <data name="openFolder" xml:space="preserve">
     <value>Open containing folder</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * The programmers of NVorbis, CSCore and TagLib</value>
   </data>
 </root>

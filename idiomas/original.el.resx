@@ -186,9 +186,6 @@
   <data name="agradecimiento2" xml:space="preserve">
     <value>* @esgmonologos στο Twitter για την εικόνα</value>
   </data>
-  <data name="agradecimiento3" xml:space="preserve">
-    <value> * Οι δημιουργοί NAudio, CSCore και TagLib</value>
-  </data>
   <data name="agradecimiento4" xml:space="preserve">
     <value>* Όλοι που με βοηθάνε</value>
   </data>
@@ -572,5 +569,8 @@
   </data>
   <data name="colorsHighlight" xml:space="preserve">
     <value>Χρώματα</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * Οι δημιουργοί NAudio, CSCore και TagLib</value>
   </data>
 </root>

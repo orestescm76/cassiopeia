@@ -27,6 +27,7 @@ namespace Cassiopeia
 
             switch (Config.Language)
             {
+                case "it":
                 case "ca":
                     acercadeTexto += Program.LocalTexts.GetString("agradecimientoTraduccion");
                     break;

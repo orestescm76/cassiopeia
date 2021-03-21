@@ -524,9 +524,6 @@
   <data name="reproductor" xml:space="preserve">
     <value>Reproductor</value>
   </data>
-  <data name="agradecimiento3" xml:space="preserve">
-    <value> * Los creadores de NVorbis, CSCore y TagLib</value>
-  </data>
   <data name="abrirCD" xml:space="preserve">
     <value>Abrir CD de audio</value>
   </data>
@@ -709,5 +706,8 @@
   </data>
   <data name="openFolder" xml:space="preserve">
     <value>Abrir carpeta contenedora</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * Los creadores de NVorbis, CSCore y TagLib</value>
   </data>
 </root>

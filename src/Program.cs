@@ -23,6 +23,7 @@ using System.Net;
 * Misc:
 *  Argumentos de lanzamiento en inglés
 */
+
 namespace Cassiopeia
 {
     static class Program
@@ -499,6 +500,7 @@ namespace Cassiopeia
                 verNueva = string.Empty;
                 return false;
             }
+            
             int indexVersion = contenido.IndexOf("tag_name");
             verNueva = contenido.Substring(indexVersion, 40);
             verNueva = verNueva.Split('\"')[2];

@@ -120,4 +120,593 @@
   <data name="titulo_ventana_principal" xml:space="preserve">
     <value>Cassiopeia</value>
   </data>
+  <data name="abrir_registros" xml:space="preserve">
+    <value>Apri i dati dal file</value>
+  </data>
+  <data name="acerca" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="addcaratula" xml:space="preserve">
+    <value>Aggiungi copertina</value>
+  </data>
+  <data name="admin" xml:space="preserve">
+    <value>Gestisci</value>
+  </data>
+  <data name="agradecimiento1" xml:space="preserve">
+    <value>* JohnnyCrazy su GitHub</value>
+  </data>
+  <data name="agradecimiento2" xml:space="preserve">
+    <value>* @esgmonologos su Twitter per l'icona</value>
+  </data>
+  <data name="agradecimiento4" xml:space="preserve">
+    <value>* Coloro che mi hanno aiutato nel testarequesto progetto</value>
+  </data>
+  <data name="abrir" xml:space="preserve">
+    <value>Apri</value>
+  </data>
+  <data name="abrir_cancion" xml:space="preserve">
+    <value>Apri canzone</value>
+  </data>
+  <data name="abrirCD" xml:space="preserve">
+    <value>Apri audio CD</value>
+  </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="actualizacion1" xml:space="preserve">
+    <value>E' disponibile una nuova versione di Cassiopeia</value>
+  </data>
+  <data name="actualizacion2" xml:space="preserve">
+    <value>Clicca su "Sì" per scaricarla</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * Programmatori di NVorbis, CSCore e TagLib</value>
+  </data>
+  <data name="agradecimientosA" xml:space="preserve">
+    <value>Grazie a:</value>
+  </data>
+  <data name="agradecimientoTraduccion" xml:space="preserve">
+    <value>Tradotto da: Lorenzo Atzeni</value>
+  </data>
+  <data name="agregar_album" xml:space="preserve">
+    <value>Nuovo album</value>
+  </data>
+  <data name="agregarBD" xml:space="preserve">
+    <value>Aggiungi al database</value>
+  </data>
+  <data name="album_agregado" xml:space="preserve">
+    <value>L'album è stato aggiunto senza problemi</value>
+  </data>
+  <data name="album_noagregado" xml:space="preserve">
+    <value>L'album non può essere aggiunto. Forse si tratta di un doppione?</value>
+  </data>
+  <data name="albumes" xml:space="preserve">
+    <value>Albums</value>
+  </data>
+  <data name="añadir" xml:space="preserve">
+    <value>Aggiungi</value>
+  </data>
+  <data name="añadir_cancion" xml:space="preserve">
+    <value>Aggiungi canzone</value>
+  </data>
+  <data name="año" xml:space="preserve">
+    <value>Anno</value>
+  </data>
+  <data name="añoPublicacion" xml:space="preserve">
+    <value>Anno di pubblicazione</value>
+  </data>
+  <data name="anterior" xml:space="preserve">
+    <value>Precedente</value>
+  </data>
+  <data name="aplicar" xml:space="preserve">
+    <value>Applica</value>
+  </data>
+  <data name="archivo" xml:space="preserve">
+    <value>Archivio</value>
+  </data>
+  <data name="artista" xml:space="preserve">
+    <value>Artista</value>
+  </data>
+  <data name="avisoSpotify" xml:space="preserve">
+    <value>Connetterai quest'applicazione con il tuo account Spotify. Questo ti permetterà di riprodurre le canzoni di Spotify direttamente su questa app. Per annullare l'accesso dovrai recarti alla pagina web di Spotify.Avrai 30 secondi prima che il programma cancelli il vincolo. Desideri continuare?</value>
+  </data>
+  <data name="ayuda_larga" xml:space="preserve">
+    <value>Configura il modulo per creare una canzone di più parti</value>
+  </data>
+  <data name="ayudaAñadir" xml:space="preserve">
+    <value>Seleziona l'album che desideri aggiungere e premi "Aggiungi"</value>
+  </data>
+  <data name="bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
+  <data name="borrar_seleccion" xml:space="preserve">
+    <value>Elimina elemento selezionato</value>
+  </data>
+  <data name="buscar" xml:space="preserve">
+    <value>Cerca</value>
+  </data>
+  <data name="buscar_Spotify" xml:space="preserve">
+    <value>Cerca su Spotify</value>
+  </data>
+  <data name="buscarDirectorio" xml:space="preserve">
+    <value>Cerca la cartella</value>
+  </data>
+  <data name="busqueda_Spotify" xml:space="preserve">
+    <value>Immetti la tua ricerca Spotify (20 risultati max)</value>
+  </data>
+  <data name="calcularPATHS" xml:space="preserve">
+    <value>Cerca canzoni</value>
+  </data>
+  <data name="cambiar_idioma" xml:space="preserve">
+    <value>Cambia lingua</value>
+  </data>
+  <data name="cambiar_portapapeles" xml:space="preserve">
+    <value>Configurazione appunti</value>
+  </data>
+  <data name="cambiarLocal" xml:space="preserve">
+    <value>Cambia con file locali</value>
+  </data>
+  <data name="cambiarNombrePL" xml:space="preserve">
+    <value>Cambia nome della playlist</value>
+  </data>
+  <data name="cambiarSpotify" xml:space="preserve">
+    <value>Cambia con Spotify</value>
+  </data>
+  <data name="cancelar" xml:space="preserve">
+    <value>Cancella</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>brani</value>
+  </data>
+  <data name="caratula" xml:space="preserve">
+    <value>Copertina</value>
+  </data>
+  <data name="cargarDiscosLegacy" xml:space="preserve">
+    <value>Carica un file preesistente</value>
+  </data>
+  <data name="cerrar" xml:space="preserve">
+    <value>Chiudi</value>
+  </data>
+  <data name="cerrarModoStream" xml:space="preserve">
+    <value>Clicca due volte per chiudere l'app</value>
+  </data>
+  <data name="click_reproductor" xml:space="preserve">
+    <value>Clicca qui per mostrare il riproduttore</value>
+  </data>
+  <data name="colorsHighlight" xml:space="preserve">
+    <value>Evidenzia colori</value>
+  </data>
+  <data name="compartirLocal1" xml:space="preserve">
+    <value>Sto ascoltando</value>
+  </data>
+  <data name="compartirLocal2" xml:space="preserve">
+    <value>da</value>
+  </data>
+  <data name="compartirLocal3" xml:space="preserve">
+    <value>con</value>
+  </data>
+  <data name="compartirTwitter1" xml:space="preserve">
+    <value>Che bella canzone:</value>
+  </data>
+  <data name="compartirTwitter2" xml:space="preserve">
+    <value>Twittato da</value>
+  </data>
+  <data name="conectadoComo" xml:space="preserve">
+    <value>Connesso come</value>
+  </data>
+  <data name="configuracion" xml:space="preserve">
+    <value>Impostazioni</value>
+  </data>
+  <data name="configView" xml:space="preserve">
+    <value>Visualizzazione</value>
+  </data>
+  <data name="consejoDeshacer" xml:space="preserve">
+    <value>Ripristina il testo alle condizioni originali</value>
+  </data>
+  <data name="contacto" xml:space="preserve">
+    <value>Contatti: @orestescm76 su Twitter, Telegram e GitHub</value>
+  </data>
+  <data name="copiar" xml:space="preserve">
+    <value>Copia negli appunti</value>
+  </data>
+  <data name="copiarImagen" xml:space="preserve">
+    <value>Copia la copertina dell'album negli appunti</value>
+  </data>
+  <data name="crearCD" xml:space="preserve">
+    <value>Crea un CD da questo album</value>
+  </data>
+  <data name="crearLR" xml:space="preserve">
+    <value>Crea una nuova playlist</value>
+  </data>
+  <data name="defusionarCancionPartes" xml:space="preserve">
+    <value>Disfa la canzone con più parti</value>
+  </data>
+  <data name="desarrolladoPor" xml:space="preserve">
+    <value>Sviluppato da</value>
+  </data>
+  <data name="deshacer" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
+  <data name="Digipack" xml:space="preserve">
+    <value>Digipack</value>
+  </data>
+  <data name="digital" xml:space="preserve">
+    <value>Digitale</value>
+  </data>
+  <data name="directorio" xml:space="preserve">
+    <value>Cartella contenente le canzoni</value>
+  </data>
+  <data name="dur_total" xml:space="preserve">
+    <value>Tempo totale</value>
+  </data>
+  <data name="duracion" xml:space="preserve">
+    <value>Durata</value>
+  </data>
+  <data name="editando" xml:space="preserve">
+    <value>Modifica in corso</value>
+  </data>
+  <data name="editar" xml:space="preserve">
+    <value>Modifica
+</value>
+  </data>
+  <data name="editar_anotaciones" xml:space="preserve">
+    <value>Modifica note</value>
+  </data>
+  <data name="error_defusion" xml:space="preserve">
+    <value>Non puoi dividere una canzone singola</value>
+  </data>
+  <data name="error_formato" xml:space="preserve">
+    <value>Errore durante l'operazione! Controlla il numero dei campi da compilare</value>
+  </data>
+  <data name="error_fusionsingular" xml:space="preserve">
+    <value>Non puoi creare una  canzone con più parti utilizzando un solo brano</value>
+  </data>
+  <data name="error_imagen" xml:space="preserve">
+    <value>Errore nel caricamento dell'immagine</value>
+  </data>
+  <data name="error_internet" xml:space="preserve">
+    <value>Nessuna connessione internet. La connessione a Spotify è stata interrotta</value>
+  </data>
+  <data name="error_noAlbumes" xml:space="preserve">
+    <value>Nessun album disponibile</value>
+  </data>
+  <data name="error_uri" xml:space="preserve">
+    <value>URI invalido, controllare la correttezza del formato:</value>
+  </data>
+  <data name="error_vacio2" xml:space="preserve">
+    <value>Errore, mancano dati in alcuni campi</value>
+  </data>
+  <data name="error_vacio1" xml:space="preserve">
+    <value>Errore, mancano dati in alcuni campi</value>
+  </data>
+  <data name="errorBorrado" xml:space="preserve">
+    <value>Quest'album fa riferimento ad una copia fisica, non puoi eliminarlo</value>
+  </data>
+  <data name="errorBusquedaSpotify" xml:space="preserve">
+    <value>Non posso procedere con la query. Assicurarsi di aver inserito il testo negli appositi spazi</value>
+  </data>
+  <data name="errorCD" xml:space="preserve">
+    <value>Il disco non può essere letto. Il dispositivo non è ancora pronto…</value>
+  </data>
+  <data name="errorLoadingAlbums1" xml:space="preserve">
+    <value>Errore durante il caricamento dei dati.</value>
+  </data>
+  <data name="errorLoadingAlbums2" xml:space="preserve">
+    <value>Nel file</value>
+  </data>
+  <data name="errorPortada" xml:space="preserve">
+    <value>Errore durante il download della copertina</value>
+  </data>
+  <data name="errorReproduccion" xml:space="preserve">
+    <value>Questo file non può essere riprodotto. Qualcosa è andato storto</value>
+  </data>
+  <data name="errorVinculacion" xml:space="preserve">
+    <value>Il collegamento è stato interrotto perché ci stava impiegando troppo tempo</value>
+  </data>
+  <data name="errrorLR" xml:space="preserve">
+    <value>Errore durante l'apertura del file. Controllare che non sia danneggiato</value>
+  </data>
+  <data name="esBonus" xml:space="preserve">
+    <value>Si tratta di una canzone bonus!</value>
+  </data>
+  <data name="esBonusAyuda" xml:space="preserve">
+    <value>Si tratta di una canzone non presente nell'album originale ed è stata aggiunta come contenuto extra!</value>
+  </data>
+  <data name="esLarga" xml:space="preserve">
+    <value>Possiede varie parti?</value>
+  </data>
+  <data name="estado_exterior" xml:space="preserve">
+    <value>Condizioni della confezione</value>
+  </data>
+  <data name="estado_medio" xml:space="preserve">
+    <value>Condizioni del prodotto</value>
+  </data>
+  <data name="F" xml:space="preserve">
+    <value>Discreto (D)</value>
+  </data>
+  <data name="formato" xml:space="preserve">
+    <value>Formato CD</value>
+  </data>
+  <data name="fusionarCancionPartes" xml:space="preserve">
+    <value>Incorpora come canzone con più parti</value>
+  </data>
+  <data name="G" xml:space="preserve">
+    <value>Buono (B)</value>
+  </data>
+  <data name="generar_azar" xml:space="preserve">
+    <value>Crea un album random</value>
+  </data>
+  <data name="genero" xml:space="preserve">
+    <value>Genere</value>
+  </data>
+  <data name="genero_jazz" xml:space="preserve">
+    <value>Jazz</value>
+  </data>
+  <data name="genero_folk" xml:space="preserve">
+    <value>Folk</value>
+  </data>
+  <data name="genero_blackmetal" xml:space="preserve">
+    <value>Black metal</value>
+  </data>
+  <data name="genero_blues" xml:space="preserve">
+    <value>Blues rock</value>
+  </data>
+  <data name="genero_chiptune" xml:space="preserve">
+    <value>Chiptune</value>
+  </data>
+  <data name="genero_clasica" xml:space="preserve">
+    <value>Musica classica</value>
+  </data>
+  <data name="genero_disco" xml:space="preserve">
+    <value>Musica disco</value>
+  </data>
+  <data name="genero_electronica" xml:space="preserve">
+    <value>Musica elettronica</value>
+  </data>
+  <data name="genero_flamenquito" xml:space="preserve">
+    <value>Flamenco</value>
+  </data>
+  <data name="genero_funk" xml:space="preserve">
+    <value>Funk</value>
+  </data>
+  <data name="genero_hardrock" xml:space="preserve">
+    <value>Hard rock</value>
+  </data>
+  <data name="genero_heavymetal" xml:space="preserve">
+    <value>Heavy Metal</value>
+  </data>
+  <data name="genero_indierock" xml:space="preserve">
+    <value>Indie Rock</value>
+  </data>
+  <data name="genero_jazz fusion" xml:space="preserve">
+    <value>Jazz Fusion</value>
+  </data>
+  <data name="genero_new wave" xml:space="preserve">
+    <value>New Wave</value>
+  </data>
+  <data name="genero_pop" xml:space="preserve">
+    <value>Pop</value>
+  </data>
+  <data name="genero_postpunk" xml:space="preserve">
+    <value>Post Punk</value>
+  </data>
+  <data name="genero_postrock" xml:space="preserve">
+    <value>Post-rock</value>
+  </data>
+  <data name="genero_progmetal" xml:space="preserve">
+    <value>Progressive metal</value>
+  </data>
+  <data name="genero_punk" xml:space="preserve">
+    <value>Punk</value>
+  </data>
+  <data name="genero_rockprog" xml:space="preserve">
+    <value>Rock progressivo</value>
+  </data>
+  <data name="genero_rockpsicodelico" xml:space="preserve">
+    <value>Rock psichedelico</value>
+  </data>
+  <data name="genero_rocksinfonico" xml:space="preserve">
+    <value>Rock sinfonico</value>
+  </data>
+  <data name="genero_ska" xml:space="preserve">
+    <value>Ska</value>
+  </data>
+  <data name="genero_stoner" xml:space="preserve">
+    <value>Stoner</value>
+  </data>
+  <data name="genero_vaporwave" xml:space="preserve">
+    <value>Vaporwave</value>
+  </data>
+  <data name="GPlus" xml:space="preserve">
+    <value>Molto buono (B+)</value>
+  </data>
+  <data name="guardar" xml:space="preserve">
+    <value>Salva con nome</value>
+  </data>
+  <data name="guardarBD" xml:space="preserve">
+    <value>Vuoi salvare i dati correnti?</value>
+  </data>
+  <data name="guardarPL" xml:space="preserve">
+    <value>Desideri salvare la playlist?</value>
+  </data>
+  <data name="hecho" xml:space="preserve">
+    <value>Fatto</value>
+  </data>
+  <data name="helpColorBonus" xml:space="preserve">
+    <value>Imposta i colori per indicare un brano bonus, non rilasciato insieme all'album originale</value>
+  </data>
+  <data name="helpColorLongSong" xml:space="preserve">
+    <value>Imposta i colori per indicare una canzone con più parti</value>
+  </data>
+  <data name="helpLyrics" xml:space="preserve">
+    <value>Imposta il carattere in Visualizza Testo</value>
+  </data>
+  <data name="helpView" xml:space="preserve">
+    <value>Imposta il carattere nelle tabelle (album, canzoni…)</value>
+  </data>
+  <data name="idioma" xml:space="preserve">
+    <value>Lingua</value>
+  </data>
+  <data name="infoDelete" xml:space="preserve">
+    <value>Rimuovi il brano selezionato dalla playlist</value>
+  </data>
+  <data name="infoOpenFolder" xml:space="preserve">
+    <value>Apri la cartella con l'elemento selezionato</value>
+  </data>
+  <data name="infoReproducir" xml:space="preserve">
+    <value>Riproduci il brano selezionato</value>
+  </data>
+  <data name="introduce_cancion" xml:space="preserve">
+    <value>Inserisci il titolo del brano</value>
+  </data>
+  <data name="introduce_uri" xml:space="preserve">
+    <value>oppure inserisci l'URL da Spotify</value>
+  </data>
+  <data name="Jewel" xml:space="preserve">
+    <value>Jewel Case</value>
+  </data>
+  <data name="limpiar" xml:space="preserve">
+    <value>Pulisci</value>
+  </data>
+  <data name="localizacion" xml:space="preserve">
+    <value>Ubicazione</value>
+  </data>
+  <data name="longSong" xml:space="preserve">
+    <value>Canzone lunga</value>
+  </data>
+  <data name="lyrics" xml:space="preserve">
+    <value>Testo</value>
+  </data>
+  <data name="M" xml:space="preserve">
+    <value>Condizioni perfette</value>
+  </data>
+  <data name="min:sec" xml:space="preserve">
+    <value>minuti:secondi</value>
+  </data>
+  <data name="MiniLP" xml:space="preserve">
+    <value>MiniLP Giapponese</value>
+  </data>
+  <data name="NMint" xml:space="preserve">
+    <value>Condizioni quasi perfette (QP)</value>
+  </data>
+  <data name="noPremium" xml:space="preserve">
+    <value>Questo account Spotify non è Premium. Non potrai usare Spotify tramite Cassiopeia</value>
+  </data>
+  <data name="NoStorage" xml:space="preserve">
+    <value>Solo CD, nessuna custodia</value>
+  </data>
+  <data name="nuevaBD" xml:space="preserve">
+    <value>Nuovo database</value>
+  </data>
+  <data name="nuevaPlaylist" xml:space="preserve">
+    <value>Nuova playlist</value>
+  </data>
+  <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
+    <value>Nuovo album da cartella</value>
+  </data>
+  <data name="numcanciones" xml:space="preserve">
+    <value>Numero delle canzoni</value>
+  </data>
+  <data name="openFolder" xml:space="preserve">
+    <value>Apri cartella contenente</value>
+  </data>
+  <data name="P" xml:space="preserve">
+    <value>Scarso (S)</value>
+  </data>
+  <data name="paisPublicacion" xml:space="preserve">
+    <value>Paese</value>
+  </data>
+  <data name="pathsCorrectos" xml:space="preserve">
+    <value>PATHS caricati correttamente</value>
+  </data>
+  <data name="pathsError" xml:space="preserve">
+    <value>Ci sono stati degli errori durante il caricamento dei PERCORSI. Controlla l'accesso per i dettagli</value>
+  </data>
+  <data name="playlistName" xml:space="preserve">
+    <value>Inserisci il nome della playlist</value>
+  </data>
+  <data name="portapapeles_vistaprevia" xml:space="preserve">
+    <value>Anteprima</value>
+  </data>
+  <data name="refrescar" xml:space="preserve">
+    <value>Ricarica</value>
+  </data>
+  <data name="reproduciendo" xml:space="preserve">
+    <value>Riproduzione in corso</value>
+  </data>
+  <data name="reproducir" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="reproducirSpotify" xml:space="preserve">
+    <value>Riproduci su Spotify</value>
+  </data>
+  <data name="reproductor" xml:space="preserve">
+    <value>Lettore</value>
+  </data>
+  <data name="resultado_busqueda" xml:space="preserve">
+    <value>Cerca risultati</value>
+  </data>
+  <data name="resultados" xml:space="preserve">
+    <value>Risultati</value>
+  </data>
+  <data name="salir" xml:space="preserve">
+    <value>Esci</value>
+  </data>
+  <data name="seHanEncontrado" xml:space="preserve">
+    <value>Ho trovato </value>
+  </data>
+  <data name="seleccion" xml:space="preserve">
+    <value>Selezione</value>
+  </data>
+  <data name="seleccione_opcion" xml:space="preserve">
+    <value>Seleziona un'opzione per continuare…</value>
+  </data>
+  <data name="setBonus" xml:space="preserve">
+    <value>Configura come canzone bonus</value>
+  </data>
+  <data name="setLarga" xml:space="preserve">
+    <value>Unisci come canzone con più parti</value>
+  </data>
+  <data name="siguiente" xml:space="preserve">
+    <value>Prossimo</value>
+  </data>
+  <data name="suprimir" xml:space="preserve">
+    <value>Rimuovi</value>
+  </data>
+  <data name="tipografíaLyrics" xml:space="preserve">
+    <value>Cambia il font del testo</value>
+  </data>
+  <data name="titulo" xml:space="preserve">
+    <value>Titolo dell'album</value>
+  </data>
+  <data name="twittearCancion" xml:space="preserve">
+    <value>Twitta</value>
+  </data>
+  <data name="uriSpotify" xml:space="preserve">
+    <value>URI Spotify</value>
+  </data>
+  <data name="ver" xml:space="preserve">
+    <value>Vista</value>
+  </data>
+  <data name="verLog" xml:space="preserve">
+    <value>Vedi l'accesso</value>
+  </data>
+  <data name="verLR" xml:space="preserve">
+    <value>Osserva la playlist</value>
+  </data>
+  <data name="visualizando" xml:space="preserve">
+    <value>Visualizzazione in corso</value>
+  </data>
+  <data name="vincular" xml:space="preserve">
+    <value>Collega al tuo account Spotify</value>
+  </data>
+  <data name="VGPlus" xml:space="preserve">
+    <value>Eccellente (E)</value>
+  </data>
+  <data name="VG" xml:space="preserve">
+    <value>Ottimo (O)</value>
+  </data>
+  <data name="verLyrics" xml:space="preserve">
+    <value>Osserva il testo</value>
+  </data>
 </root>
