@@ -36,7 +36,7 @@ namespace Cassiopeia
         public static Collection Collection;
         public static Genre[] Genres = new Genre[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-        public static readonly string Version = "v" + ver.ToString()+ "-beta";
+        public static readonly string Version = "v" + ver.ToString();
         public static string[] idiomas;
         public static Spotify _spotify;
         private static principal principal = null;
