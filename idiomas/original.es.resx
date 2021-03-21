@@ -143,7 +143,7 @@
     <value>Agradecimientos a:</value>
   </data>
   <data name="agregar_album" xml:space="preserve">
-    <value>Agregar álbum</value>
+    <value>Nuevo álbum</value>
   </data>
   <data name="albumes" xml:space="preserve">
     <value>Álbumes</value>
@@ -155,13 +155,13 @@
     <value>Artista</value>
   </data>
   <data name="avisoSpotify" xml:space="preserve">
-    <value>Se va a vincular esta aplicación con tu cuenta de Spotify. Esto permitirá la reproducción de canciones desde Spotify en esta aplicación. Si deseas retirar el acceso tienes que ir a tu perfil en la web de Spotify. ¿Desea continuar?</value>
+    <value>Se va a vincular esta aplicación con tu cuenta de Spotify. Esto permitirá la reproducción de canciones desde Spotify en esta aplicación. Si deseas retirar el acceso tienes que ir a tu perfil en la web de Spotify. El programa contará 30 segundos para realizar la vinculación antes de cancelarse. ¿Desea continuar?</value>
   </data>
   <data name="ayudaAñadir" xml:space="preserve">
     <value>Selecciona el álbum que quieres agregar y pulsa en "Añadir"</value>
   </data>
   <data name="ayuda_larga" xml:space="preserve">
-    <value>Configura el formulario para crear una cancion con varias partes.</value>
+    <value>Configura el formulario para crear una canción con varias partes.</value>
   </data>
   <data name="añadir" xml:space="preserve">
     <value>Añadir</value>
@@ -251,7 +251,7 @@
     <value>Error al intentar realizar la operación, algún campo está sin rellenar.</value>
   </data>
   <data name="error_vacio2" xml:space="preserve">
-    <value>No has puesto nada en el formulario, abortando...</value>
+    <value>No has puesto nada en el formulario.</value>
   </data>
   <data name="esBonus" xml:space="preserve">
     <value>Es una canción bonus</value>
@@ -315,9 +315,6 @@
   </data>
   <data name="genero_heavymetal" xml:space="preserve">
     <value>Heavy Metal</value>
-  </data>
-  <data name="genero_house" xml:space="preserve">
-    <value>House</value>
   </data>
   <data name="genero_indierock" xml:space="preserve">
     <value>Rock indie</value>
@@ -383,7 +380,7 @@
     <value>Introduce el título de la canción</value>
   </data>
   <data name="introduce_uri" xml:space="preserve">
-    <value>O introduce la URI</value>
+    <value>O introduce la URI de Spotify</value>
   </data>
   <data name="Jewel" xml:space="preserve">
     <value>Carcasa clásica de plástico</value>
@@ -434,7 +431,7 @@
     <value>Selección</value>
   </data>
   <data name="setBonus" xml:space="preserve">
-    <value>Configurar como canción bonus</value>
+    <value>Configurar como canción bonus y viceversa</value>
   </data>
   <data name="setLarga" xml:space="preserve">
     <value>Fusionar como canción por partes</value>
@@ -444,7 +441,7 @@
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
-    <value>Gestor de música</value>
+    <value>Cassiopeia</value>
   </data>
   <data name="ver" xml:space="preserve">
     <value>Ver</value>
@@ -527,28 +524,190 @@
   <data name="reproductor" xml:space="preserve">
     <value>Reproductor</value>
   </data>
-  <data name="agradecimiento3" xml:space="preserve">
-    <value> * Los creadores de NVorbis, CSCore y JAudio</value>
+  <data name="abrirCD" xml:space="preserve">
+    <value>Abrir CD de audio</value>
+  </data>
+  <data name="errorCD" xml:space="preserve">
+    <value>No se puede leer el CD. El dispositivo no está preparado...</value>
+  </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="anterior" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="cerrar" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="consejoDeshacer" xml:space="preserve">
+    <value>Restaura la letra que había antes de modificarla.</value>
+  </data>
+  <data name="deshacer" xml:space="preserve">
+    <value>Deshacer</value>
+  </data>
+  <data name="limpiar" xml:space="preserve">
+    <value>Limpiar</value>
+  </data>
+  <data name="siguiente" xml:space="preserve">
+    <value>Siguiente</value>
+  </data>
+  <data name="tipografíaLyrics" xml:space="preserve">
+    <value>Cambiar la fuente del visor de letras</value>
+  </data>
+  <data name="verLyrics" xml:space="preserve">
+    <value>Ver la letra</value>
+  </data>
+  <data name="localizacion" xml:space="preserve">
+    <value>Localización</value>
+  </data>
+  <data name="abrir_cancion" xml:space="preserve">
+    <value>Abrir canción</value>
+  </data>
+  <data name="verLog" xml:space="preserve">
+    <value>Ver log</value>
+  </data>
+  <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
+    <value>Nuevo álbum desde un directorio</value>
+  </data>
+  <data name="errorVinculacion" xml:space="preserve">
+    <value>Se ha cancelado la vinculación por tiempo de espera</value>
+  </data>
+  <data name="actualizacion1" xml:space="preserve">
+    <value>Está disponible una nueva versión de Cassiopeia.</value>
+  </data>
+  <data name="actualizacion2" xml:space="preserve">
+    <value>Haz click en "Sí" para descargarla.</value>
+  </data>
+  <data name="configuracion" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="idioma" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="seleccione_opcion" xml:space="preserve">
+    <value>Seleccione una opción para continuar...</value>
+  </data>
+  <data name="aplicar" xml:space="preserve">
+    <value>Aplicar</value>
   </data>
   <data name="fusionarCancionPartes" xml:space="preserve">
     <value>Fusionar en canción con partes</value>
   </data>
-  <data name="defusionarCancionPartes" xml:space="preserve">
-    <value>Deshacer canción con partes</value>
+  <data name="error_fusionsingular" xml:space="preserve">
+    <value>No puedes formar una canción con partes con una canción</value>
   </data>
   <data name="error_defusion" xml:space="preserve">
     <value>No puedes defusionar una canción normal.</value>
   </data>
-  <data name="error_fusionsingular" xml:space="preserve">
-    <value>No puedes formar una canción con partes con una canción</value>
+  <data name="defusionarCancionPartes" xml:space="preserve">
+    <value>Deshacer canción con partes</value>
   </data>
-  <data name="error_cancion" xml:space="preserve">
-    <value>No se encuentra el fichero para esta canción</value>
+  <data name="copiarImagen" xml:space="preserve">
+    <value>Copiar carátula al portapapeles</value>
   </data>
-  <data name="actualizacion1" xml:space="preserve">
-    <value>Está disponible una nueva versión del Gestor de Música.</value>
+  <data name="cambiar_portapapeles" xml:space="preserve">
+    <value>Configurar el portapapeles</value>
   </data>
-  <data name="actualizacion2" xml:space="preserve">
-    <value>Haz click en "Sí" para descargarla.</value>
+  <data name="portapapeles_vistaprevia" xml:space="preserve">
+    <value>Vista previa</value>
+  </data>
+  <data name="album_agregado" xml:space="preserve">
+    <value>Se ha agregado el álbum correctamente.</value>
+  </data>
+  <data name="album_noagregado" xml:space="preserve">
+    <value>No se ha agregado el álbum, puede que esté repetido.</value>
+  </data>
+  <data name="click_reproductor" xml:space="preserve">
+    <value>Haz click para mostrar el Reproductor</value>
+  </data>
+  <data name="nuevaPlaylist" xml:space="preserve">
+    <value>Nueva playlist</value>
+  </data>
+  <data name="reproduciendo" xml:space="preserve">
+    <value>Reproduciendo</value>
+  </data>
+  <data name="playlistName" xml:space="preserve">
+    <value>Escribe el nombre de la lista de reproducción</value>
+  </data>
+  <data name="errorBusquedaSpotify" xml:space="preserve">
+    <value>Error al procesar el formulario, comprueba que sólo haya texto en un campo.</value>
+  </data>
+  <data name="errorPortada" xml:space="preserve">
+    <value>Error descargando la portada.</value>
+  </data>
+  <data name="verLR" xml:space="preserve">
+    <value>Ver la lista de reproducción</value>
+  </data>
+  <data name="cambiarNombrePL" xml:space="preserve">
+    <value>Cambiar nombre</value>
+  </data>
+  <data name="errrorLR" xml:space="preserve">
+    <value>Error abriendo el fichero. Comprueba que esté correcto.</value>
+  </data>
+  <data name="abrir" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="pathsCorrectos" xml:space="preserve">
+    <value>Se han cargado los PATHS correctamente.</value>
+  </data>
+  <data name="pathsError" xml:space="preserve">
+    <value>Hubo un error cargando los PATHS. Comprueba el log.</value>
+  </data>
+  <data name="guardarPL" xml:space="preserve">
+    <value>¿Quiere guardar la lista de reproducción actual?</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>canciones</value>
+  </data>
+  <data name="suprimir" xml:space="preserve">
+    <value>Suprimir</value>
+  </data>
+  <data name="infoReproducir" xml:space="preserve">
+    <value>Reproduce la canción seleccionada</value>
+  </data>
+  <data name="infoDelete" xml:space="preserve">
+    <value>Borra de la lista de reproducción las canciones seleccionadas</value>
+  </data>
+  <data name="bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
+  <data name="longSong" xml:space="preserve">
+    <value>Canción larga</value>
+  </data>
+  <data name="helpColorLongSong" xml:space="preserve">
+    <value>Configura el color para resaltar que una canción contiene varias partes.</value>
+  </data>
+  <data name="helpColorBonus" xml:space="preserve">
+    <value>Configura el color para resaltar que una canción es bonus, es decir, que no estaba en el álbum original.</value>
+  </data>
+  <data name="colorsHighlight" xml:space="preserve">
+    <value>Colores de resalte</value>
+  </data>
+  <data name="lyrics" xml:space="preserve">
+    <value>Letras</value>
+  </data>
+  <data name="configView" xml:space="preserve">
+    <value>Visualización</value>
+  </data>
+  <data name="helpLyrics" xml:space="preserve">
+    <value>Configura la tipografía que se ve en el visor de letras</value>
+  </data>
+  <data name="helpView" xml:space="preserve">
+    <value>Configura la tipografía que se ve en las tablas</value>
+  </data>
+  <data name="errorLoadingAlbums1" xml:space="preserve">
+    <value>Error cargando los datos. Revise la línea </value>
+  </data>
+  <data name="errorLoadingAlbums2" xml:space="preserve">
+    <value>del fichero </value>
+  </data>
+  <data name="infoOpenFolder" xml:space="preserve">
+    <value>Abre la carpeta contenida de la canción seleccionada</value>
+  </data>
+  <data name="openFolder" xml:space="preserve">
+    <value>Abrir carpeta contenedora</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * Los creadores de NVorbis, CSCore y TagLib</value>
   </data>
 </root>

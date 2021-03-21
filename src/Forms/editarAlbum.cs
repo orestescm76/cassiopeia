@@ -1,22 +1,23 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
-namespace aplicacion_musica
+namespace Cassiopeia
 {
     public partial class editarAlbum : Form
     {
-        private Album albumAEditar;
-        private string[] generosTraducidos = new string[Programa.generos.Length-1];
-        public editarAlbum(ref Album a)
+        private AlbumData albumAEditar;
+        private string[] generosTraducidos = new string[Program.Genres.Length-1];
+        public editarAlbum(ref AlbumData a)
         {
             InitializeComponent();
             Console.WriteLine("Editando canción");
             albumAEditar = a;
-            textBoxArtista.Text = albumAEditar.artista;
-            textBoxAño.Text = albumAEditar.year.ToString();
-            textBoxTitulo.Text = albumAEditar.nombre;
-            labelRuta.Text = albumAEditar.caratula;
-            labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
+            textBoxArtista.Text = albumAEditar.Artist;
+            textBoxAño.Text = albumAEditar.Year.ToString();
+            textBoxTitulo.Text = albumAEditar.Title;
+            labelRuta.Text = albumAEditar.CoverPath;
+            labelDirectorioActual.Text = albumAEditar.SoundFilesPath;
             textBoxURISpotify.Text = albumAEditar.IdSpotify;
             vistaCanciones.View = View.List;
             ponerTextos();
@@ -25,41 +26,47 @@ namespace aplicacion_musica
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal.GetString("editando") + " " + albumAEditar.artista + " - " + albumAEditar.nombre;
-            labelArtista.Text = Programa.textosLocal.GetString("artista");
-            labelTitulo.Text = Programa.textosLocal.GetString("titulo");
-            labelAño.Text = Programa.textosLocal.GetString("año");
-            labelGeneros.Text = Programa.textosLocal.GetString("genero");
-            labelCaratula.Text = Programa.textosLocal.GetString("caratula");
-            labelDirectorio.Text = Programa.textosLocal.GetString("directorio");
-            labelURISpotify.Text = Programa.textosLocal.GetString("uriSpotify");
-            botonOkDoomer.Text = Programa.textosLocal.GetString("hecho");
-            botonCancelar.Text = Programa.textosLocal.GetString("cancelar");
-            botonCaratula.Text = Programa.textosLocal.GetString("buscar");
-            buttonAñadirCancion.Text = Programa.textosLocal.GetString("añadir_cancion");
-            buttonDirectorio.Text = Programa.textosLocal.GetString("buscarDirectorio");
-            labelDirectorioActual.Text = albumAEditar.DirectorioSonido;
+            Text = Program.LocalTexts.GetString("editando") + " " + albumAEditar.Artist + " - " + albumAEditar.Title;
+            labelArtista.Text = Program.LocalTexts.GetString("artista");
+            labelTitulo.Text = Program.LocalTexts.GetString("titulo");
+            labelAño.Text = Program.LocalTexts.GetString("año");
+            labelGeneros.Text = Program.LocalTexts.GetString("genero");
+            labelCaratula.Text = Program.LocalTexts.GetString("caratula");
+            labelDirectorio.Text = Program.LocalTexts.GetString("directorio");
+            labelURISpotify.Text = Program.LocalTexts.GetString("uriSpotify");
+            botonOkDoomer.Text = Program.LocalTexts.GetString("hecho");
+            botonCancelar.Text = Program.LocalTexts.GetString("cancelar");
+            botonCaratula.Text = Program.LocalTexts.GetString("buscar");
+            buttonAñadirCancion.Text = Program.LocalTexts.GetString("añadir_cancion");
+            buttonDirectorio.Text = Program.LocalTexts.GetString("buscarDirectorio");
+            labelDirectorioActual.Text = albumAEditar.SoundFilesPath;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
-                generosTraducidos[i] = Programa.generos[i].traducido;
+                generosTraducidos[i] = Program.Genres[i].Name;
             }
             Array.Sort(generosTraducidos);
             comboBoxGeneros.Items.AddRange(generosTraducidos);
             int index = 0;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
-                if (albumAEditar.genero.traducido == generosTraducidos[i])
+                if (albumAEditar.Genre.Name == generosTraducidos[i])
                     index = i;
             }
             comboBoxGeneros.SelectedIndex = index;
+            if(Config.Language == "el")
+            {
+                Font but = buttonAñadirCancion.Font;
+                Font neo = new Font(but.FontFamily, 7);
+                buttonAñadirCancion.Font = neo;
+            }
         }
         private void cargarVista()
         {
             vistaCanciones.Items.Clear();
-            ListViewItem[] items = new ListViewItem[albumAEditar.numCanciones];
+            ListViewItem[] items = new ListViewItem[albumAEditar.NumberOfSongs];
             for (int i = 0; i < items.Length; i++)
             {
-                items[i] = new ListViewItem(albumAEditar.canciones[i].titulo);
+                items[i] = new ListViewItem(albumAEditar.Songs[i].Title);
             }
             vistaCanciones.Items.AddRange(items);
         }
@@ -68,50 +75,50 @@ namespace aplicacion_musica
         {
             try//si está vacío pues guarda vacío
             {
-                Log.Instance.ImprimirMensaje("Intentando guardar", TipoMensaje.Info);
-                albumAEditar.artista = textBoxArtista.Text;
-                albumAEditar.nombre = textBoxTitulo.Text;
-                albumAEditar.year = Convert.ToInt16(textBoxAño.Text);
+                Log.Instance.PrintMessage("Intentando guardar", MessageType.Info);
+                albumAEditar.Artist = textBoxArtista.Text;
+                albumAEditar.Title = textBoxTitulo.Text;
+                albumAEditar.Year = Convert.ToInt16(textBoxAño.Text);
                 string gn = comboBoxGeneros.SelectedItem.ToString();
-                Genero g = Programa.generos[Programa.findGeneroTraducido(gn)];
-                albumAEditar.genero = g;
-                albumAEditar.caratula = labelRuta.Text;
+                Genre g = Program.Genres[Program.FindTranslatedGenre(gn)];
+                albumAEditar.Genre = g;
+                albumAEditar.CoverPath = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
-                albumAEditar.DirectorioSonido = labelDirectorioActual.Text;
+                albumAEditar.SoundFilesPath = labelDirectorioActual.Text;
                 string[] uriSpotify = textBoxURISpotify.Text.Split(':');
                 if(uriSpotify.Length == 3)
                     albumAEditar.IdSpotify = (uriSpotify[2]);
                 else
                     albumAEditar.IdSpotify = (textBoxURISpotify.Text);
-                foreach (Cancion c in albumAEditar.canciones)
+                foreach (Song c in albumAEditar.Songs)
                 {
-                    if(!c.Bonus)
-                        nuevaDuracion += c.duracion;
+                    if(!c.IsBonus)
+                        nuevaDuracion += c.Length;
                 }
-                albumAEditar.duracion = nuevaDuracion;
             }
             catch (NullReferenceException)
             {
-                Log.Instance.ImprimirMensaje("Algún campo está vacío", TipoMensaje.Advertencia);
-                MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
+                Log.Instance.PrintMessage("Algún campo está vacío", MessageType.Warning);
+                MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
             }
 
             catch (FormatException)
             {
-                Log.Instance.ImprimirMensaje("Formato incorrecto, no se guardará nada.", TipoMensaje.Advertencia);
-                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
+                Log.Instance.PrintMessage("Formato incorrecto, no se guardará nada.", MessageType.Warning);
+                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
                 //throw;
             }
             catch (IndexOutOfRangeException)
             {
-                Log.Instance.ImprimirMensaje("Formato incorrecto, no se guardará nada.", TipoMensaje.Advertencia);
-                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
+                Log.Instance.PrintMessage("Formato incorrecto, no se guardará nada.", MessageType.Warning);
+                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
             nuevo.Show();
-            Programa.refrescarVista();
+            Program.ReloadView();
             Close();
-            Log.Instance.ImprimirMensaje("Guardado sin problema", TipoMensaje.Correcto);
+            Program.ReloadView();
+            Log.Instance.PrintMessage("Guardado sin problema", MessageType.Correct);
         }
 
         private void botonCancelar_Click(object sender, EventArgs e)
@@ -124,8 +131,8 @@ namespace aplicacion_musica
         private void botonCaratula_Click(object sender, EventArgs e)
         {
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
-            abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            abrirImagen.Filter = Program.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.InitialDirectory = albumAEditar.SoundFilesPath ?? Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
                 string fichero = abrirImagen.FileName;
@@ -135,13 +142,13 @@ namespace aplicacion_musica
 
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e) //editar cancion
         {
-            Log.Instance.ImprimirMensaje("Editando canción", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Editando canción", MessageType.Info);
             String text = vistaCanciones.SelectedItems[0].Text;
-            Cancion cancionAEditar = albumAEditar.DevolverCancion(text);
+            Song cancionAEditar = albumAEditar.GetSong(text);
             agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
             cargarVista();
-            Log.Instance.ImprimirMensaje("Guardado correctamente", TipoMensaje.Correcto);
+            Log.Instance.PrintMessage("Guardado correctamente", MessageType.Correct);
         }
 
         private void buttonAñadirCancion_Click(object sender, EventArgs e)
@@ -166,8 +173,7 @@ namespace aplicacion_musica
                 int i = 0;
                 foreach (ListViewItem item in vistaCanciones.SelectedItems)
                 {
-                    Cancion cancionABorrar = albumAEditar.DevolverCancion(item.Text);
-                    albumAEditar.BorrarCancion(cancionABorrar);
+                    albumAEditar.RemoveSong(item.Text);
                     itemsborrar[i] = item;
                     i++;
                 }
@@ -181,11 +187,11 @@ namespace aplicacion_musica
         private void buttonDirectorio_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialogCarpetaAlbum = new FolderBrowserDialog();
-            dialogCarpetaAlbum.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+            dialogCarpetaAlbum.SelectedPath = Config.LastOpenedDirectory;
             DialogResult dr = dialogCarpetaAlbum.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                labelDirectorioActual.Text = dialogCarpetaAlbum.SelectedPath;
+                labelDirectorioActual.Text = Config.LastOpenedDirectory = dialogCarpetaAlbum.SelectedPath;
             }
         }
     }

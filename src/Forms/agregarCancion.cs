@@ -2,24 +2,24 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace aplicacion_musica
+namespace Cassiopeia
 {
     public partial class agregarCancion : Form
     {
-        public string t;
+        public string title;
         public int min, sec, np;
         private int cual;
-        Album album;
-        Cancion cancion;
-        CancionLarga cancionlarga;
+        AlbumData album;
+        Song cancion;
+        LongSong cancionlarga;
         bool editar;
         bool larga;
         bool bonus;
         ToolTip ConsejoEsLarga;
         ToolTip ConsejoEsBonus;
-        public agregarCancion(ref Album a, int n) //caso normal
+        public agregarCancion(ref AlbumData a, int n) //caso normal
         {
-            Log.Instance.ImprimirMensaje("Creando canción", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Creando canción", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             album = a;
@@ -30,16 +30,16 @@ namespace aplicacion_musica
             cancionlarga = null;
             np = 0;
             ConsejoEsLarga = new ToolTip();
-            ConsejoEsLarga.SetToolTip(esLarga, Programa.textosLocal.GetString("ayuda_larga"));
+            ConsejoEsLarga.SetToolTip(esLarga, Program.LocalTexts.GetString("ayuda_larga"));
             ConsejoEsBonus = new ToolTip();
-            ConsejoEsBonus.SetToolTip(checkBoxBonus, Programa.textosLocal.GetString("esBonusAyuda"));
+            ConsejoEsBonus.SetToolTip(checkBoxBonus, Program.LocalTexts.GetString("esBonusAyuda"));
             ponerTextos();
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
-        public agregarCancion(ref Cancion c) //editar
+        public agregarCancion(ref Song c) //editar
         {
-            Log.Instance.ImprimirMensaje("Editando canción", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Editando canción", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             cual = -1;
@@ -47,10 +47,19 @@ namespace aplicacion_musica
             cancion = c;
             editar = true;
             cancionlarga = null;
-            tituloTextBox.Text = c.titulo;
-            minTextBox.Text = c.duracion.Minutes.ToString();
-            secsTextBox.Text = c.duracion.Seconds.ToString();
-            if (c is CancionLarga)
+            if(c is LongSong)
+            {
+                minTextBox.Enabled = false;
+                secsTextBox.Enabled = false;
+                checkBoxBonus.Enabled = false;
+            }
+            tituloTextBox.Text = c.Title;
+            if (c.Length.TotalMinutes >= 60)
+                minTextBox.Text = ((int)c.Length.TotalMinutes).ToString();
+            else
+                minTextBox.Text = c.Length.Minutes.ToString();
+            secsTextBox.Text = c.Length.Seconds.ToString();
+            if (c is LongSong)
             {
                 minTextBox.Enabled = false;
                 secsTextBox.Enabled = false;
@@ -59,17 +68,17 @@ namespace aplicacion_musica
             labelNumPartes.Hide();
             textBoxNumPartes.Hide();
             ConsejoEsBonus = new ToolTip();
-            ConsejoEsBonus.SetToolTip(checkBoxBonus, Programa.textosLocal.GetString("esBonusAyuda"));
-            if (c.Bonus)
+            ConsejoEsBonus.SetToolTip(checkBoxBonus, Program.LocalTexts.GetString("esBonusAyuda"));
+            if (c.IsBonus)
                 checkBoxBonus.Checked = true;
             np = 0;
             ponerTextos();
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
-        public agregarCancion(ref Album a, int n, bool l) //crear canción larga
+        public agregarCancion(ref AlbumData a, int n, bool l) //crear canción larga
         {
-            Log.Instance.ImprimirMensaje("Creando canción con partes", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Creando canción con partes", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             larga = l;
@@ -85,11 +94,12 @@ namespace aplicacion_musica
             esLarga.Hide();
             checkBoxBonus.Hide();
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
-        public agregarCancion(ref CancionLarga l, int n, ref Album a) //crear parte de canción larga
+
+        public agregarCancion(ref LongSong l, int n, ref AlbumData a) //crear parte de canción larga
         {
-            Log.Instance.ImprimirMensaje("Creando parte de canción larga", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Creando parte de canción larga", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             cancionlarga = l;
@@ -104,76 +114,75 @@ namespace aplicacion_musica
             checkBoxBonus.Hide();
             ponerTextos();
             crono.Stop();
-            Log.Instance.ImprimirMensaje("Cargado", TipoMensaje.Correcto, crono);
+            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
+
         private void ponerTextos()
         {
             int cualdeVerdad = cual;
             if (cual == -2)
-                cualdeVerdad = album.numCanciones;
+                cualdeVerdad = album.NumberOfSongs;
+
             if(editar)
             {
-                Text = Programa.textosLocal.GetString("editando") + " " + cancion.titulo;
-                buttonOK.Text = Programa.textosLocal.GetString("hecho");
+                Text = Program.LocalTexts.GetString("editando") + " " + cancion.Title;
+                buttonOK.Text = Program.LocalTexts.GetString("hecho");
+            } else
+            {
+                Text = Program.LocalTexts.GetString("añadir_cancion") + " " + (cualdeVerdad+1);
+                buttonOK.Text = Program.LocalTexts.GetString("hecho");
             }
 
-            else
-            {
-                Text = Programa.textosLocal.GetString("añadir_cancion") + " " + (cualdeVerdad+1);
-                buttonOK.Text = Programa.textosLocal.GetString("hecho");
-            }
             if(cancionlarga != null)
             {
-                Text = Programa.textosLocal.GetString("añadir_cancion") + " " + cancionlarga.GetNumeroRomano(cual);
+                Text = Program.LocalTexts.GetString("añadir_cancion") + " " + Utils.ConvertToRomanNumeral(cual);
             }
-            buttonCancelar.Text = Programa.textosLocal.GetString("cancelar");
-            labelTituloCancion.Text = Programa.textosLocal.GetString("introduce_cancion");
-            labelMinutosSegundos.Text = Programa.textosLocal.GetString("min:sec");
-            esLarga.Text = Programa.textosLocal.GetString("esLarga");
-            labelNumPartes.Text = Programa.textosLocal.GetString("num_partes");
-            checkBoxBonus.Text = Programa.textosLocal.GetString("esBonus");
+
+            buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
+            labelTituloCancion.Text = Program.LocalTexts.GetString("introduce_cancion");
+            labelMinutosSegundos.Text = Program.LocalTexts.GetString("min:sec");
+            esLarga.Text = Program.LocalTexts.GetString("esLarga");
+            labelNumPartes.Text = Program.LocalTexts.GetString("num_partes");
+            checkBoxBonus.Text = Program.LocalTexts.GetString("esBonus");
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
             try
             {
                 if(!larga && cancionlarga == null) //caso normal
                 {
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
-                    t = tituloTextBox.Text;
+                    title = tituloTextBox.Text;
                     bonus = checkBoxBonus.Checked;
                     if (editar) //si edita
                     {
-                        cancion.titulo = t;
-                        cancion.duracion = new TimeSpan(0, min, sec);
-                        cancion.Bonus = bonus;
+                        cancion.Title = title;
+                        cancion.Length = new TimeSpan(0, min, sec);
+                        cancion.IsBonus = bonus;
                         DialogResult = DialogResult.OK;
                         Close();
                     }
                     else
                     {
-                        Cancion c = new Cancion(t, new TimeSpan(0, min, sec), ref album, bonus);
-                        if (cual != 0)
-                            album.agregarCancion(c, cual);
-                        else
-                            album.agregarCancion(c);
+                        Song c = new Song(title, new TimeSpan(0, min, sec), ref album, bonus);
+                        album.AddSong(c);
                         DialogResult = DialogResult.OK;
                         Close();
                     }
                 }
                 else if(larga && cancionlarga == null) //caso de que creemos una cancion larga, sin partes
                 {
-                    t = tituloTextBox.Text;
+                    title = tituloTextBox.Text;
                     min = sec = 0;
                     np = Convert.ToInt32(textBoxNumPartes.Text);
-                    CancionLarga cl = new CancionLarga(t, ref album);
-                    album.agregarCancion(cl, cual);
+                    LongSong longSong = new LongSong(title, album);
+
+                    album.AddSong(longSong);
                     for (int i = 0; i < np; i++)
                     {
-                        agregarCancion addParte = new agregarCancion(ref cl, i + 1, ref album);
+                        agregarCancion addParte = new agregarCancion(ref longSong, i + 1, ref album);
                         addParte.ShowDialog();
                         if (addParte.DialogResult == DialogResult.Cancel)
                             break;
@@ -183,31 +192,29 @@ namespace aplicacion_musica
                 }
                 else if(cancionlarga != null && larga == true)//parte de una cancion normal
                 {
-                    t = tituloTextBox.Text;
+                    title = tituloTextBox.Text;
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
                     TimeSpan dur = new TimeSpan(0, min, sec);
                     np = 0;
-                    Cancion p = new Cancion(t, dur, ref album);
-                    cancionlarga.addParte(ref p);
+                    Song p = new Song(title, dur, ref album);
+                    cancionlarga.AddPart(p);
                     DialogResult = DialogResult.OK;
-                    album.duracion += dur;
                 }
                 Dispose();
             }
             catch (NullReferenceException ex)
             {
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
 
-                MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
+                MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
 
             }
 
             catch (FormatException ex)
             {
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
-
-                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
                 //throw;
             }
 
@@ -219,15 +226,15 @@ namespace aplicacion_musica
             {
                 min = Convert.ToInt32(minTextBox.Text);
                 sec = Convert.ToInt32(secsTextBox.Text);
-                t = tituloTextBox.Text;
-                Cancion c = new Cancion(t, new TimeSpan(0, min, sec), ref album);
-                album.agregarCancion(c, cual);
-                Log.Instance.ImprimirMensaje(t + " añadido correctamente", TipoMensaje.Correcto);
+                title = tituloTextBox.Text;
+                Song c = new Song(title, new TimeSpan(0, min, sec), ref album);
+                album.AddSong(c, cual);
+                Log.Instance.PrintMessage(title + " añadido correctamente", MessageType.Correct);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK);
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
 
             }
             Close();
@@ -244,7 +251,7 @@ namespace aplicacion_musica
         private void button2_Click(object sender, EventArgs e)
         {
             DialogResult =  DialogResult.Cancel;
-            Log.Instance.ImprimirMensaje("Cancelado", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Cancelado", MessageType.Info);
             Close();
         }
 

@@ -126,4 +126,10 @@
   <data name="min:sec" xml:space="preserve">
     <value>分:秒</value>
   </data>
+  <data name="titulo_ventana_principal" xml:space="preserve">
+    <value>カシオペヤ座</value>
+  </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>ああ</value>
+  </data>
 </root>

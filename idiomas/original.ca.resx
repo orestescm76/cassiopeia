@@ -145,7 +145,7 @@
     <value>Traduït per Hyouran</value>
   </data>
   <data name="agregar_album" xml:space="preserve">
-    <value>Afegir àlbum</value>
+    <value>Nou àlbum</value>
   </data>
   <data name="albumes" xml:space="preserve">
     <value>Àlbums</value>
@@ -315,9 +315,6 @@
   <data name="genero_heavymetal" xml:space="preserve">
     <value>Heavy Metal</value>
   </data>
-  <data name="genero_house" xml:space="preserve">
-    <value>House</value>
-  </data>
   <data name="genero_indierock" xml:space="preserve">
     <value>Rock indie</value>
   </data>
@@ -437,7 +434,7 @@
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
-    <value>Gestor de música</value>
+    <value>Cassiopeia</value>
   </data>
   <data name="ver" xml:space="preserve">
     <value>Veure</value>
@@ -466,7 +463,55 @@
   <data name="reproductor" xml:space="preserve">
     <value>Reproductor</value>
   </data>
+  <data name="siguiente" xml:space="preserve">
+    <value>Següent</value>
+  </data>
+  <data name="compartirLocal3" xml:space="preserve">
+    <value>amb el</value>
+  </data>
+  <data name="compartirLocal2" xml:space="preserve">
+    <value>de</value>
+  </data>
+  <data name="uriSpotify" xml:space="preserve">
+    <value>URI de Spotify</value>
+  </data>
+  <data name="calcularPATHS" xml:space="preserve">
+    <value>Cerca cançons</value>
+  </data>
+  <data name="abrir_cancion" xml:space="preserve">
+    <value>Obrir cançó</value>
+  </data>
+  <data name="verLog" xml:space="preserve">
+    <value>Veure log</value>
+  </data>
+  <data name="idioma" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="aplicar" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="anterior" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="cerrar" xml:space="preserve">
+    <value>Tancar</value>
+  </data>
+  <data name="configuracion" xml:space="preserve">
+    <value>Configuració</value>
+  </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>Acceptar</value>
+  </data>
+  <data name="limpiar" xml:space="preserve">
+    <value>Esborrar</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>cançons</value>
+  </data>
+  <data name="bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
   <data name="agradecimiento3" xml:space="preserve">
-    <value> * Els creadors de NVorbis, CSCore y JAudio</value>
+    <value> * Els creadors de NVorbis, CSCore y TagLib</value>
   </data>
 </root>

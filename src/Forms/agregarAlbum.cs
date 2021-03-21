@@ -2,44 +2,41 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace aplicacion_musica
+namespace Cassiopeia
 {
     public partial class agregarAlbum : Form
     {
         private string caratula = "";
-        private String[] generosTraducidos = new string[Programa.generos.Length-1];
+        private String[] genresToSelect = new string[Program.Genres.Length-1];
         public agregarAlbum()
         {
-            Stopwatch crono = Stopwatch.StartNew();
             InitializeComponent();
             ponerTextos();
-            crono.Stop();
-            Log.Instance.ImprimirMensaje("Formulario creado", TipoMensaje.Info, crono);
-            Log.Instance.ImprimirMensaje("Creando álbum", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Creando álbum", MessageType.Info);
         }
         private void ponerTextos()
         {
-            Text = Programa.textosLocal.GetString("agregar_album");
-            labelArtista.Text = Programa.textosLocal.GetString("artista");
-            labelTitulo.Text = Programa.textosLocal.GetString("titulo");
-            labelAño.Text = Programa.textosLocal.GetString("año");
-            labelNumCanciones.Text = Programa.textosLocal.GetString("numcanciones");
-            labelGenero.Text = Programa.textosLocal.GetString("genero");
-            add.Text = Programa.textosLocal.GetString("añadir");
-            addCaratula.Text = Programa.textosLocal.GetString("addcaratula");
-            labelCaratula.Text = Programa.textosLocal.GetString("caratula");
-            for (int i = 0; i < Programa.generos.Length-1; i++)
+            Text = Program.LocalTexts.GetString("agregar_album");
+            labelArtista.Text = Program.LocalTexts.GetString("artista");
+            labelTitulo.Text = Program.LocalTexts.GetString("titulo");
+            labelAño.Text = Program.LocalTexts.GetString("año");
+            labelNumCanciones.Text = Program.LocalTexts.GetString("numcanciones");
+            labelGenero.Text = Program.LocalTexts.GetString("genero");
+            add.Text = Program.LocalTexts.GetString("añadir");
+            addCaratula.Text = Program.LocalTexts.GetString("addcaratula");
+            labelCaratula.Text = Program.LocalTexts.GetString("caratula");
+            for (int i = 0; i < Program.Genres.Length-1; i++)
             {
-                generosTraducidos[i] = Programa.generos[i].traducido;
+                genresToSelect[i] = Program.Genres[i].Name;
             }
-            Array.Sort(generosTraducidos);
-            comboBox1.Items.AddRange(generosTraducidos);
+            Array.Sort(genresToSelect);
+            comboBox1.Items.AddRange(genresToSelect);
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Log.Instance.ImprimirMensaje("Buscando carátula", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Buscando carátula", MessageType.Info);
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Programa.textosLocal.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.Filter = Program.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
@@ -47,7 +44,7 @@ namespace aplicacion_musica
                 caratula = fichero;
                 ruta.Text = fichero;
             }
-            Log.Instance.ImprimirMensaje("Imagen " + ruta + " cargada", TipoMensaje.Correcto);
+            Log.Instance.PrintMessage("Imagen " + ruta + " cargada", MessageType.Correct);
         }
 
         private void add_Click(object sender, EventArgs e)
@@ -63,13 +60,13 @@ namespace aplicacion_musica
                 string gent = comboBox1.SelectedItem.ToString();
                 year = Convert.ToInt16(yearTextBox.Text);
                 nC = Convert.ToInt16(numCancionesTextBox.Text);
-                Genero g = Programa.generos[Programa.findGeneroTraducido(gent)];
-                Album a = null;
+                Genre g = Program.Genres[Program.FindTranslatedGenre(gent)];
+                AlbumData a = null;
                 if(caratula == "")
-                    a = new Album(g, titulo, artista, year, nC, "");
+                    a = new AlbumData(g, titulo, artista, year, "");
                 else
-                    a = new Album(g, titulo, artista, year, nC, caratula);
-                Programa.miColeccion.agregarAlbum(ref a);
+                    a = new AlbumData(g, titulo, artista, year, caratula);
+                Program.Collection.AddAlbum(ref a);
                 DialogResult cancelar = DialogResult.OK;
                 for (int i = 0; i < nC; i++)
                 {
@@ -78,8 +75,8 @@ namespace aplicacion_musica
                     cancelar = agregarCancion.ShowDialog();
                     if (cancelar == DialogResult.Cancel)
                     {
-                        Log.Instance.ImprimirMensaje("Cancelado el proceso de añadir álbum", TipoMensaje.Advertencia);
-                        Programa.miColeccion.quitarAlbum(ref a);
+                        Log.Instance.PrintMessage("Cancelado el proceso de añadir álbum", MessageType.Warning);
+                        Program.Collection.RemoveAlbum(ref a);
                         Close();
                         cancelado = true;
                         break;
@@ -88,20 +85,20 @@ namespace aplicacion_musica
                         continue;
                 }
                 if(!cancelado)
-                    Log.Instance.ImprimirMensaje(artista + " - " + titulo + " agregado correctamente", TipoMensaje.Correcto);
-                Programa.refrescarVista();
+                    Log.Instance.PrintMessage(artista + " - " + titulo + " agregado correctamente", MessageType.Correct);
+                Program.ReloadView();
                 Close();
             }
             catch (NullReferenceException ex)
             {
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
-                MessageBox.Show(Programa.textosLocal.GetString("error_vacio1"));
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
             }
 
             catch (FormatException ex)
             {
-                Log.Instance.ImprimirMensaje(ex.Message, TipoMensaje.Error);
-                MessageBox.Show(Programa.textosLocal.GetString("error_formato"));
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
                 //throw;
             }
 

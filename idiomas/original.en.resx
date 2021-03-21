@@ -142,7 +142,7 @@
     <value>Thanks to:</value>
   </data>
   <data name="agregar_album" xml:space="preserve">
-    <value>Add album</value>
+    <value>New album</value>
   </data>
   <data name="albumes" xml:space="preserve">
     <value>Albums</value>
@@ -264,10 +264,10 @@
     <value>Does it have various parts?</value>
   </data>
   <data name="estado_exterior" xml:space="preserve">
-    <value>Sleeve status</value>
+    <value>Sleeve state</value>
   </data>
   <data name="estado_medio" xml:space="preserve">
-    <value>Record status</value>
+    <value>Record state</value>
   </data>
   <data name="F" xml:space="preserve">
     <value>Fair (F)</value>
@@ -316,9 +316,6 @@
   </data>
   <data name="genero_heavymetal" xml:space="preserve">
     <value>Heavy Metal</value>
-  </data>
-  <data name="genero_house" xml:space="preserve">
-    <value>House</value>
   </data>
   <data name="genero_indierock" xml:space="preserve">
     <value>Indie Rock</value>
@@ -384,7 +381,7 @@
     <value>Enter song title</value>
   </data>
   <data name="introduce_uri" xml:space="preserve">
-    <value>Or enter URI</value>
+    <value>Or enter Spotify URI</value>
   </data>
   <data name="Jewel" xml:space="preserve">
     <value>Jewel Case</value>
@@ -445,7 +442,7 @@
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
-    <value>Music manager</value>
+    <value>Cassiopeia</value>
   </data>
   <data name="ver" xml:space="preserve">
     <value>View</value>
@@ -481,7 +478,7 @@
     <value>Play in Spotify</value>
   </data>
   <data name="errorReproduccion" xml:space="preserve">
-    <value>The music file can't be played. Something happened.</value>
+    <value>The music file can't be played. Something happened</value>
   </data>
   <data name="buscarDirectorio" xml:space="preserve">
     <value>Search folder</value>
@@ -529,30 +526,194 @@
     <value>Player</value>
   </data>
   <data name="avisoSpotify" xml:space="preserve">
-    <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. Do you wish to continue?</value>
+    <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. The program will time 30 seconds before cancelling the vinculation. Do you wish to continue?</value>
   </data>
-  <data name="agradecimiento3" xml:space="preserve">
-    <value> * The programmers of NVorbis, CSCore y JAudio</value>
+  <data name="abrirCD" xml:space="preserve">
+    <value>Open audio CD...</value>
   </data>
-  <data name="fusionarCancionPartes" xml:space="preserve">
-    <value>Combine into one unique song</value>
+  <data name="errorCD" xml:space="preserve">
+    <value>The disc cannot be read. The device is not ready...</value>
+    <comment>No se puede leer el CD. El dispositivo no está preparado...</comment>
   </data>
-  <data name="defusionarCancionPartes" xml:space="preserve">
-    <value>Separate parts into songs</value>
+  <data name="limpiar" xml:space="preserve">
+    <value>Clean</value>
   </data>
-  <data name="error_defusion" xml:space="preserve">
-    <value>You just can't undo a normal song.</value>
+  <data name="localizacion" xml:space="preserve">
+    <value>Location</value>
   </data>
-  <data name="error_fusionsingular" xml:space="preserve">
-    <value>You just can't make a one-part song.</value>
+  <data name="siguiente" xml:space="preserve">
+    <value>Next</value>
   </data>
-  <data name="error_cancion" xml:space="preserve">
-    <value>I cannot find the music file for this song.</value>
+  <data name="tipografíaLyrics" xml:space="preserve">
+    <value>Change font of the Lyric Viewer</value>
+  </data>
+  <data name="verLyrics" xml:space="preserve">
+    <value>View lyrics</value>
+  </data>
+  <data name="deshacer" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="consejoDeshacer" xml:space="preserve">
+    <value>Restore the lyrics as it was before editing.</value>
+  </data>
+  <data name="cerrar" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="anterior" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="abrir_cancion" xml:space="preserve">
+    <value>Open song</value>
+  </data>
+  <data name="verLog" xml:space="preserve">
+    <value>View log</value>
+  </data>
+  <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
+    <value>New album from folder</value>
+  </data>
+  <data name="errorVinculacion" xml:space="preserve">
+    <value>Linking has been cancelled because it has exceeded the wait time.</value>
   </data>
   <data name="actualizacion1" xml:space="preserve">
-    <value>A new version of Music Manager is avaliable.</value>
+    <value>A new version of Cassiopeia is available.</value>
   </data>
   <data name="actualizacion2" xml:space="preserve">
     <value>Click on "Yes" to download it.</value>
+  </data>
+  <data name="configuracion" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="idioma" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="seleccione_opcion" xml:space="preserve">
+    <value>Select an option to continue...</value>
+  </data>
+  <data name="aplicar" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="fusionarCancionPartes" xml:space="preserve">
+    <value>Merge as a multipart song</value>
+  </data>
+  <data name="copiarImagen" xml:space="preserve">
+    <value>Copy album cover to clipboard</value>
+  </data>
+  <data name="cambiar_portapapeles" xml:space="preserve">
+    <value>Clipboard config</value>
+  </data>
+  <data name="portapapeles_vistaprevia" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="album_agregado" xml:space="preserve">
+    <value>Album has been added without problems.</value>
+  </data>
+  <data name="album_noagregado" xml:space="preserve">
+    <value>The album couldn't be added. Maybe is it repeated?</value>
+  </data>
+  <data name="click_reproductor" xml:space="preserve">
+    <value>Click here to show the Player</value>
+  </data>
+  <data name="nuevaPlaylist" xml:space="preserve">
+    <value>New playlist</value>
+  </data>
+  <data name="reproduciendo" xml:space="preserve">
+    <value>Playing</value>
+  </data>
+  <data name="playlistName" xml:space="preserve">
+    <value>Enter the playlist name...</value>
+  </data>
+  <data name="errorBusquedaSpotify" xml:space="preserve">
+    <value>Cannot process the query. Check if both textboxes have text.</value>
+  </data>
+  <data name="errorPortada" xml:space="preserve">
+    <value>Error downloading the cover.</value>
+  </data>
+  <data name="verLR" xml:space="preserve">
+    <value>View playlist.</value>
+  </data>
+  <data name="cambiarNombrePL" xml:space="preserve">
+    <value>Change playlist name</value>
+  </data>
+  <data name="errrorLR" xml:space="preserve">
+    <value>Error opening the file, check if it is good.</value>
+  </data>
+  <data name="abrir" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="defusionarCancionPartes" xml:space="preserve">
+    <value>Undo multipart song</value>
+  </data>
+  <data name="error_defusion" xml:space="preserve">
+    <value>You can't divide a single song.</value>
+  </data>
+  <data name="error_fusionsingular" xml:space="preserve">
+    <value>You can't form a multipart song with only one song.</value>
+  </data>
+  <data name="pathsCorrectos" xml:space="preserve">
+    <value>PATHS have been loaded correctly.</value>
+  </data>
+  <data name="pathsError" xml:space="preserve">
+    <value>Some errors happened during the load of the PATHS. Check log for details.</value>
+  </data>
+  <data name="guardarPL" xml:space="preserve">
+    <value>Do you want to save the playlist?</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>tracks</value>
+  </data>
+  <data name="suprimir" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="infoReproducir" xml:space="preserve">
+    <value>Plays the selected song</value>
+  </data>
+  <data name="infoDelete" xml:space="preserve">
+    <value>Removes the selected songs from the playlist.</value>
+  </data>
+  <data name="bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
+  <data name="longSong" xml:space="preserve">
+    <value>Long song</value>
+  </data>
+  <data name="helpColorLongSong" xml:space="preserve">
+    <value>Sets the color to highlight a song with multiple parts.</value>
+  </data>
+  <data name="helpColorBonus" xml:space="preserve">
+    <value>Sets the color to highlight a bonus song, which it didn't release along the original album.</value>
+  </data>
+  <data name="colorsHighlight" xml:space="preserve">
+    <value>Highlight colors</value>
+  </data>
+  <data name="lyrics" xml:space="preserve">
+    <value>Lyrics</value>
+  </data>
+  <data name="configView" xml:space="preserve">
+    <value>Viewing
+</value>
+  </data>
+  <data name="helpLyrics" xml:space="preserve">
+    <value>Sets the font in the Lyrics Viewer</value>
+  </data>
+  <data name="helpView" xml:space="preserve">
+    <value>Sets the font in the tables view (albums, songs...)</value>
+  </data>
+  <data name="errorLoadingAlbums1" xml:space="preserve">
+    <value>Error loading the data. Please check line </value>
+  </data>
+  <data name="errorLoadingAlbums2" xml:space="preserve">
+    <value>in the file </value>
+  </data>
+  <data name="infoOpenFolder" xml:space="preserve">
+    <value>Opens the folder containing the selected item</value>
+  </data>
+  <data name="openFolder" xml:space="preserve">
+    <value>Open containing folder</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * The programmers of NVorbis, CSCore and TagLib</value>
   </data>
 </root>
