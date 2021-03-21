@@ -133,13 +133,13 @@
     <value>Gestisci</value>
   </data>
   <data name="agradecimiento1" xml:space="preserve">
-    <value>* JohnnyCrazy su GitHub</value>
+    <value> * JohnnyCrazy su GitHub</value>
   </data>
   <data name="agradecimiento2" xml:space="preserve">
-    <value>* @esgmonologos su Twitter per l'icona</value>
+    <value> * @esgmonologos su Twitter per l'icona</value>
   </data>
   <data name="agradecimiento4" xml:space="preserve">
-    <value>* Coloro che mi hanno aiutato nel testarequesto progetto</value>
+    <value> * Coloro che mi hanno aiutato nel testare questo progetto</value>
   </data>
   <data name="abrir" xml:space="preserve">
     <value>Apri</value>
@@ -392,7 +392,7 @@
     <value>Errore durante il caricamento dei dati.</value>
   </data>
   <data name="errorLoadingAlbums2" xml:space="preserve">
-    <value>Nel file</value>
+    <value>nel file</value>
   </data>
   <data name="errorPortada" xml:space="preserve">
     <value>Errore durante il download della copertina</value>
