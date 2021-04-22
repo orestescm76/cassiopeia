@@ -41,9 +41,6 @@
     <Compile Update="src\Forms\editarAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\ListaReproduccionUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="src\Forms\PlaylistIU.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -51,9 +48,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\Reproductor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\resultadoSpotify.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\SearchSpotify.cs">
