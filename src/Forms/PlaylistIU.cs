@@ -137,10 +137,10 @@ namespace Cassiopeia.src.Forms
             SetActiveSong(listViewSongs.SelectedItems[0].Index);
             //Are we playing a CD?
             if (Reproductor.Instancia.ModoCD)
-                Reproductor.Instancia.ReproducirCancion(Pointer);
+                Reproductor.Instancia.PlaySong(Pointer);
 
             else
-                Reproductor.Instancia.ReproducirCancion(Playlist[Pointer]);
+                Reproductor.Instancia.PlaySong(Playlist[Pointer]);
             
             Reproductor.Instancia.ListaReproduccionPuntero = Pointer;
         }
