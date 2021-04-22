@@ -1,4 +1,4 @@
-﻿namespace aplicacion_musica.src.Forms
+﻿namespace Cassiopeia.src.Forms
 {
     partial class VisorLog
     {
@@ -28,18 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VisorLog));
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBoxLog
             // 
+            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLog.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxLog.Location = new System.Drawing.Point(12, 12);
+            this.textBoxLog.Location = new System.Drawing.Point(0, 0);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(608, 504);
+            this.textBoxLog.Size = new System.Drawing.Size(632, 528);
             this.textBoxLog.TabIndex = 0;
             // 
             // VisorLog
@@ -48,6 +50,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(632, 528);
             this.Controls.Add(this.textBoxLog);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "VisorLog";
             this.Text = "VisorLog";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VisorLog_FormClosing);

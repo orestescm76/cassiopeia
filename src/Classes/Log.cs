@@ -1,167 +1,125 @@
-﻿using aplicacion_musica.src.Forms;
+﻿using Cassiopeia.src.Forms;
 using System;
 using System.Diagnostics;
 using System.IO;
-namespace aplicacion_musica
+
+namespace Cassiopeia
 {
-    public enum TipoMensaje
+    public enum MessageType
     {
-        Info, Correcto, Advertencia, Error
+        Info, Correct, Warning, Error
     }
+
+    public enum TimeType
+    {
+        Milliseconds, Microseconds
+    }
+
     public class Log
     {
         private static readonly Log instance = new Log();
+        public static Log Instance { get => instance; }
 
-        private Stopwatch CronometroTotal;
-        private StreamWriter Fichero;
-        private VisorLog VisorLog;
+        private Stopwatch timeSinceStart;
+        private StreamWriter file;
+        private VisorLog logView;
+
         private Log()
         {
-            CronometroTotal = Stopwatch.StartNew();
-            Fichero = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false);
-            Fichero.AutoFlush = true;
-            VisorLog = new VisorLog();
-            Fichero.WriteLine("Gestor de música " + Programa.version);
-            Fichero.WriteLine("Versión de NET: " + Environment.Version);
-            Fichero.WriteLine("Log creado el " + DateTime.Now);
-        }
-        public static Log Instance {get {return instance;} }
-        public void ImprimirMensaje(string m, TipoMensaje tm)
-        {
-            switch (tm)
+            timeSinceStart = Stopwatch.StartNew();
+            logView = new VisorLog();
+
+            file = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false)
             {
-                case TipoMensaje.Info:
-                    Console.WriteLine(CronometroTotal.Elapsed + " : " + m);
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : " + m);
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : " + m);
+                AutoFlush = true
+            };
+
+            if (file != null)
+            {
+                file.WriteLine("Cassiopeia - Music Manager " + Program.Version);
+                file.WriteLine(".NET Version: " + Environment.Version);
+                file.WriteLine("Log created on " + DateTime.Now);
+            }
+        }
+
+        public void ShowLog()
+        {
+            logView.Show();
+        }
+
+        public void CloseLog()
+        {
+            file.Close();
+            logView.Dispose();
+        }
+
+        public void PrintMessage(string message, MessageType messageType)
+        {
+            ProcessLogMessage(message, messageType);
+        }
+
+        public void PrintMessage(string message, MessageType messageType, Stopwatch crono, TimeType timeType)
+        {
+            string timeStamp = "";
+
+            switch (timeType)
+            {
+                case TimeType.Milliseconds:
+                    timeStamp = crono.ElapsedTicks / 10000 + "ms";
                     break;
-                case TipoMensaje.Correcto:
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : " + m);
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : " + m);
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : " + m);
+
+                case TimeType.Microseconds:
+                    timeStamp = crono.ElapsedTicks / 10 + "μs";
                     break;
-                case TipoMensaje.Advertencia:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : <ADVERTENCIA> " + m);
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : <ADVERTENCIA> " + m);
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : <ADVERTENCIA> " + m);
-                    break;
-                case TipoMensaje.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : <ERROR> " + m);
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : <ERROR> " + m);
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : <ERROR> " + m);
-                    break;
+
                 default:
                     break;
             }
-            Console.ForegroundColor = ConsoleColor.White;
+
+            string messageToProcess = message + " (in " + timeStamp + ")";
+            ProcessLogMessage(messageToProcess, messageType);
         }
-        public void ImprimirMensaje(string m, TipoMensaje tm, Stopwatch crono)
+
+        public void PrintMessage(string message, MessageType messageType, string functionName)
         {
-            switch (tm)
+            string messageToProcess = "In function: " + functionName + " - " + message;
+            ProcessLogMessage(messageToProcess, messageType);            
+        }
+
+        private void ProcessLogMessage(string message, MessageType messageType)
+        {
+            string logMessage = timeSinceStart.Elapsed + " : ";
+
+            switch (messageType)
             {
-                case TipoMensaje.Info:
-                    Console.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
+                case MessageType.Info:
+                    logMessage += message;
                     break;
-                case TipoMensaje.Correcto:
+
+                case MessageType.Correct:
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
+                    logMessage += message;
                     break;
-                case TipoMensaje.Advertencia:
+
+                case MessageType.Warning:
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : <ADVERTENCIA> " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : <ADVERTENCIA> " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : <ADVERTENCIA> " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
+                    logMessage += "<ADVERTENCIA> " + message;
                     break;
-                case TipoMensaje.Error:
+
+                case MessageType.Error:
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : <ERROR> " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : <ERROR> " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : <ERROR> " + m + " en " + crono.ElapsedTicks / 10000 + "ms");
+                    logMessage += "<ERROR> " + message;
                     break;
+
                 default:
                     break;
             }
+
+            Console.WriteLine(logMessage);
+            file.WriteLine(logMessage);
+            logView.AddText(logMessage);
+
             Console.ForegroundColor = ConsoleColor.White;
-        }
-        public void ImprimirMensajeTiempoCorto(string m, TipoMensaje tm, Stopwatch crono)
-        {
-            switch (tm)
-            {
-                case TipoMensaje.Info:
-                    Console.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    break;
-                case TipoMensaje.Correcto:
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    break;
-                case TipoMensaje.Advertencia:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : <ADVERTENCIA> " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : <ADVERTENCIA> " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : <ADVERTENCIA> " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    break;
-                case TipoMensaje.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : <ERROR> " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : <ERROR> " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : <ERROR> " + m + " en " + crono.ElapsedTicks / 10 + "μs");
-                    break;
-                default:
-                    break;
-            }
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        public void ImprimirMensaje(string m, TipoMensaje tm, string funcion)
-        {
-            switch (tm)
-            {
-                case TipoMensaje.Info:
-                    Console.WriteLine(CronometroTotal.Elapsed + " : En " + funcion + " " + m);
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : En " + funcion + " " + m);
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : En " + funcion + " " + m);
-                    break;
-                case TipoMensaje.Correcto:
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : En " + funcion + " " + m);
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : En " + funcion + " " + m);
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : En " + funcion + " " + m);
-                    break;
-                case TipoMensaje.Advertencia:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : En " + funcion + " <ADVERTENCIA> " + m);
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : En " + funcion + " <ADVERTENCIA> " + m);
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : En " + funcion + " <ADVERTENCIA> " + m);
-                    break;
-                case TipoMensaje.Error:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(CronometroTotal.Elapsed + " : En " + funcion + " <ERROR> " + m);
-                    Fichero.WriteLine(CronometroTotal.Elapsed + " : En " + funcion + " <ERROR> " + m);
-                    VisorLog.AddText(CronometroTotal.Elapsed + " : En " + funcion + " <ERROR> " + m);
-                    break;
-                default:
-                    break;
-            }
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        public void MostrarLog()
-        {
-            VisorLog.Show();
-        }
-        public void CerrarLog()
-        {
-            Fichero.Close();
-            VisorLog.Apagar();
         }
     }
 }

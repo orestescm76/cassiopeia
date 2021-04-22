@@ -1,4 +1,4 @@
-﻿namespace aplicacion_musica
+﻿namespace Cassiopeia
 {
     partial class CrearCD
     {

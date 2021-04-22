@@ -4,11 +4,10 @@ using CSCore;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 using CSCore.Streams;
-using JAudioTags;
-using aplicacion_musica.CD;
+using Cassiopeia.CD;
 using System.Windows.Forms;
 
-namespace aplicacion_musica
+namespace Cassiopeia
 {
     public enum FormatoSonido
     {
@@ -22,12 +21,8 @@ namespace aplicacion_musica
         private ISoundOut _salida;
         public FormatoSonido FormatoSonido { get; private set; }
         private IWaveSource _sonido;
-        private CSCore.Tags.ID3.ID3v2QuickInfo tags;
-        private FLACFile _ficheroFLAC;
         private SingleBlockNotificationStream notificationStream;
         private NVorbisSource NVorbis;
-        private String artista;
-        private String titulo;
         private CDDrive Disquetera;
         public PistaCD[] PistasCD { private set; get; }
         long tamFich;
@@ -36,13 +31,9 @@ namespace aplicacion_musica
             switch (Path.GetExtension(cual))
             {
                 case ".mp3":
-                    CSCore.Tags.ID3.ID3v2 mp3tag = CSCore.Tags.ID3.ID3v2.FromFile(cual);
-                    tags = new CSCore.Tags.ID3.ID3v2QuickInfo(mp3tag);
                     FormatoSonido = FormatoSonido.MP3;
                     break;
                 case ".flac":
-                    _ficheroFLAC = new FLACFile(cual, true);
-                    CSCore.Codecs.FLAC.FlacFile ff = new CSCore.Codecs.FLAC.FlacFile(cual);
                     FormatoSonido = FormatoSonido.FLAC;
                     break;
                 case ".ogg":
@@ -53,10 +44,10 @@ namespace aplicacion_musica
             }
             try
             {
-                Log.Instance.ImprimirMensaje("Intentando cargar " + cual, TipoMensaje.Info);
+                Log.Instance.PrintMessage("Intentando cargar " + cual, MessageType.Info);
                 if (Path.GetExtension(cual) == ".ogg")
                 {
-                    FileStream stream = new FileStream(cual, FileMode.Open);
+                    FileStream stream = new FileStream(cual, FileMode.Open, FileAccess.Read);
                     NVorbis = new NVorbisSource(stream);
                     _sonido = NVorbis.ToWaveSource(16);
                 }
@@ -64,24 +55,31 @@ namespace aplicacion_musica
                 {
                     _sonido = CSCore.Codecs.CodecFactory.Instance.GetCodec(cual).ToSampleSource().ToStereo().ToWaveSource(16);
                     notificationStream = new SingleBlockNotificationStream(_sonido.ToSampleSource());
-                    //_salida.Initialize(notificationStream.ToWaveSource(16));
                     FileInfo info = new FileInfo(cual);
                     tamFich = info.Length;
                 }
                 
                 _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
-                _sonido.Position = 0;
+                //_sonido.Position = 0;
                 _salida.Initialize(_sonido);
-                Log.Instance.ImprimirMensaje("Cargado correctamente" + cual, TipoMensaje.Correcto);
+                Log.Instance.PrintMessage("Cargado correctamente" + cual, MessageType.Correct);
             }
-            catch (IOException)
+            catch (IOException ex)
             {
-                Log.Instance.ImprimirMensaje("No se puede reproducir el fichero porque está siendo utilizado por otro proceso", TipoMensaje.Error);
+                Log.Instance.PrintMessage("Error de IO", MessageType.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(Program.LocalTexts.GetString("errorReproduccion"));
+                _salida = null;
+                _sonido = null;
                 throw;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Log.Instance.ImprimirMensaje("No se encuentra el fichero", TipoMensaje.Advertencia);
+                Log.Instance.PrintMessage("Hubo un problema...", MessageType.Error);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(ex.Message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _salida = null;
+                _sonido = null;
                 throw;
             }
 
@@ -107,7 +105,17 @@ namespace aplicacion_musica
             else if (FormatoSonido == FormatoSonido.CDA)
                 return SectoresATimeSpan(_sonido.Length);
             else
-                return NVorbis.Duracion;
+            {
+                try
+                {
+                    return NVorbis.Length_Timespan;
+                }
+                catch (Exception)
+                {
+                }
+                return TimeSpan.Zero;
+            }
+                
         }
         public TimeSpan Posicion()
         {
@@ -136,55 +144,6 @@ namespace aplicacion_musica
             else return true;
         }
         public void Apagar() { Limpiar(); }
-        public String CancionReproduciendose()
-        {
-            switch (FormatoSonido)
-            {
-                case FormatoSonido.MP3:
-                    if (tags != null)
-                        return tags.LeadPerformers + " - " + tags.Title;
-                    else return null;
-                case FormatoSonido.FLAC:
-                    return _ficheroFLAC.ARTIST + " - " + _ficheroFLAC.TITLE;
-                case FormatoSonido.OGG:
-                    try
-                    {
-                        artista = NVorbis.GetArtista();
-                        titulo = NVorbis.GetTitulo();
-                        return artista + " - " + titulo;
-                    }
-                    catch (NullReferenceException)
-                    {
-                        Log.Instance.ImprimirMensaje("No hay metadatos", TipoMensaje.Advertencia);
-                        return null;
-                    }
-                default:
-                    return null;
-            }
-        }
-        public System.Drawing.Image GetCaratula()
-        {
-            switch (FormatoSonido)
-            {
-                case FormatoSonido.MP3:
-                    try
-                    {
-                        return tags.Image;
-                    }
-                    catch (ArgumentException)
-                    {
-
-                        return null;
-                    }
-
-                case FormatoSonido.FLAC:
-                    return null;
-                case FormatoSonido.OGG:
-                    return null;
-                default:
-                    return null;
-            }
-        }
         public String GetDatos()
         {
             switch (FormatoSonido)
@@ -203,19 +162,18 @@ namespace aplicacion_musica
         }
         public void SetVolumen(float v)
         {
-            _salida.Volume = v;
+            if(!(_salida is null))
+                _salida.Volume = v;
         }
         public void Detener() //detiene una canción
         {
             _salida.Stop();
             _sonido.SetPosition(TimeSpan.Zero);
         }
-        public TimeSpan SectoresATimeSpan(long sec)
+        public TimeSpan SectoresATimeSpan(long sector)
         {
-            TimeSpan dur;
-            double secs = sec / 75.0;
-            dur = TimeSpan.FromSeconds(secs);
-            return dur;
+            double secs = sector / 75.0;
+            return TimeSpan.FromSeconds(secs);
         }
         public long TimeSpanASectores(TimeSpan dur)
         {
@@ -224,7 +182,7 @@ namespace aplicacion_musica
         //Lee un cd de audio segun los ficheros CDA que genera Windows
         public PistaCD[] LeerCD(char Disco)
         {
-            Log.Instance.ImprimirMensaje("Leyendo CD", TipoMensaje.Info);
+            Log.Instance.PrintMessage("Leyendo CD", MessageType.Info);
             DirectoryInfo DiscoD = null;
             FileInfo[] Ficheros = null;
             try
@@ -234,8 +192,8 @@ namespace aplicacion_musica
             }
             catch (IOException)
             {
-                Log.Instance.ImprimirMensaje("No se puede leer el CD. El dispositivo no está preparado...", TipoMensaje.Error);
-                MessageBox.Show(Programa.textosLocal.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Instance.PrintMessage("No se puede leer el CD. El dispositivo no está preparado...", MessageType.Error);
+                MessageBox.Show(Program.LocalTexts.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
             PistaCD[] Pistas = new PistaCD[Ficheros.Length];
@@ -249,11 +207,12 @@ namespace aplicacion_musica
                     byte[] idR = br.ReadBytes(4);
                     byte[] id = new byte[4];
                     int c = 0;
+
                     for (int j = 3; j >= 0; j--)
                     {
-                        id[c] = idR[j];
-                        c++;
+                        id[c++] = idR[j];
                     }
+
                     ID = BitConverter.ToString(id);
                     ID = ID.Replace("-", "");
                     uint sectorInicial = br.ReadUInt32();
@@ -268,7 +227,7 @@ namespace aplicacion_musica
             Disquetera = CDDrive.Open(disp);
             if (Disquetera == null)
             {
-                Log.Instance.ImprimirMensaje("No se puede leer el CD. El dispositivo no está preparado...", TipoMensaje.Error);
+                Log.Instance.PrintMessage("No se puede leer el CD. El dispositivo no está preparado...", MessageType.Error);
                 throw new IOException();
             }
             FormatoSonido = FormatoSonido.CDA;
@@ -280,7 +239,7 @@ namespace aplicacion_musica
             _sonido = Disquetera.ReadTrack(Pistas[0]);
             _salida.Initialize(_sonido);
             _salida.Play();
-            Log.Instance.ImprimirMensaje("Se ha cargado correctamente el CD", TipoMensaje.Correcto);
+            Log.Instance.PrintMessage("Se ha cargado correctamente el CD", MessageType.Correct);
         }
         public void SaltarCancionCD(int cual) //sobre 0
         {

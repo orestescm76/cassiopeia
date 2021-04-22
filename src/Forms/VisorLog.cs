@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace aplicacion_musica.src.Forms
+namespace Cassiopeia.src.Forms
 {
     public partial class VisorLog : Form
     {
@@ -26,10 +26,6 @@ namespace aplicacion_musica.src.Forms
             else
                 e.Cancel = false;
             Hide();
-        }
-        public void Apagar()
-        {
-            Dispose();
         }
     }
 }

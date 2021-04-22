@@ -8,18 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace aplicacion_musica.src.Forms
+namespace Cassiopeia.src.Forms
 {
     public partial class VisorLyrics : Form
     {
-        private Cancion cancion;
+        private Song cancion;
         private ToolTip ConsejoDeshacer;
         private Font Tipografia;
-        public VisorLyrics(Cancion c)
+        public VisorLyrics(Song c)
         {
             InitializeComponent();
             Icon = Properties.Resources.letras;
-            Tipografia = new Font(Config.TipografiaLyrics, 9);
+            Tipografia = Config.FontLyrics;
             textBoxLyrics.Font = Tipografia;
             cancion = c;
             if (c.Lyrics == null)
@@ -29,16 +29,16 @@ namespace aplicacion_musica.src.Forms
             ConsejoDeshacer = new ToolTip();
             PonerTextos();
             textBoxLyrics.DeselectAll();
-            if(cancion.album == null)
+            if(cancion.AlbumFrom is null)
             {
                 buttonBack.Enabled = false;
                 buttonNext.Enabled = false;
             }
-            buttonBack.Enabled = !(cancion.Num == 1);
-            buttonNext.Enabled = (cancion.Num != cancion.album.canciones.Count);
+            buttonBack.Enabled = !(cancion.IndexInAlbum == 1);
+            buttonNext.Enabled = (cancion.IndexInAlbum != cancion.AlbumFrom.Songs.Count);
             textBoxLyrics.MouseWheel += new MouseEventHandler(textBoxLyrics_MouseWheel);
         }
-        private void CambiarCancion(Cancion c)
+        private void CambiarCancion(Song c)
         {
             cancion = c;
             Recargar();
@@ -50,40 +50,41 @@ namespace aplicacion_musica.src.Forms
             textBoxLyrics.Lines = cancion.Lyrics;
             Text = cancion.ToString();
             textBoxLyrics.DeselectAll();
-            if (cancion.album == null)
+            if (object.ReferenceEquals(cancion.AlbumFrom, null))
             {
                 buttonBack.Enabled = false;
                 buttonNext.Enabled = false;
             }
-            buttonBack.Enabled = !(cancion.Num == 1);
-            buttonNext.Enabled = (cancion.Num != cancion.album.canciones.Count);
+            buttonBack.Enabled = !(cancion.IndexInAlbum == 1);
+            buttonNext.Enabled = (cancion.IndexInAlbum != cancion.AlbumFrom.Songs.Count);
         }
         private void PonerTextos()
         {
-            buttonBuscar.Text = Programa.textosLocal.GetString("buscar");
-            buttonEditar.Text = Programa.textosLocal.GetString("editar");
-            buttonCerrar.Text = Programa.textosLocal.GetString("cerrar");
-            buttonLimpiar.Text = Programa.textosLocal.GetString("limpiar");
-            buttonDeshacer.Text = Programa.textosLocal.GetString("deshacer");
-            ConsejoDeshacer.SetToolTip(buttonDeshacer, Programa.textosLocal.GetString("consejoDeshacer"));
-            buttonBack.Text = Programa.textosLocal.GetString("anterior");
-            buttonNext.Text = Programa.textosLocal.GetString("siguiente");
+            buttonBuscar.Text = Program.LocalTexts.GetString("buscar");
+            buttonEditar.Text = Program.LocalTexts.GetString("editar");
+            buttonCerrar.Text = Program.LocalTexts.GetString("cerrar");
+            buttonLimpiar.Text = Program.LocalTexts.GetString("limpiar");
+            buttonDeshacer.Text = Program.LocalTexts.GetString("deshacer");
+            ConsejoDeshacer.SetToolTip(buttonDeshacer, Program.LocalTexts.GetString("consejoDeshacer"));
+            buttonBack.Text = Program.LocalTexts.GetString("anterior");
+            buttonNext.Text = Program.LocalTexts.GetString("siguiente");
         }
         private void Guardar()
         {
             cancion.Lyrics = textBoxLyrics.Lines;
         }
+        #region Events
         private void buttonEditar_Click(object sender, EventArgs e)
         {
             if(!textBoxLyrics.ReadOnly)
             {
                 textBoxLyrics.ReadOnly = true;
-                buttonEditar.Text = Programa.textosLocal.GetString("editar");
+                buttonEditar.Text = Program.LocalTexts.GetString("editar");
             }
             else
             {
                 textBoxLyrics.ReadOnly = false;
-                buttonEditar.Text = Programa.textosLocal.GetString("aceptar");
+                buttonEditar.Text = Program.LocalTexts.GetString("aceptar");
 
             }
         }
@@ -107,13 +108,13 @@ namespace aplicacion_musica.src.Forms
         private void buttonNext_Click(object sender, EventArgs e)
         {
             Guardar();
-            CambiarCancion(cancion.album.getCancion(cancion.Num));
+            CambiarCancion(cancion.AlbumFrom.GetSong(cancion.IndexInAlbum));
         }
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
             Guardar();
-            CambiarCancion(cancion.album.getCancion(cancion.Num-2));
+            CambiarCancion(cancion.AlbumFrom.GetSong(cancion.IndexInAlbum-2));
         }
         private void textBoxLyrics_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -123,14 +124,13 @@ namespace aplicacion_musica.src.Forms
                 if (e.Delta > 0)
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size + 2);
                 else
-                {
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size - 2);
-                    if (tipografiaNew.Size <= 2)
-                        tipografiaNew = Tipografia; //no se cambia
-                }
             }
+            if (tipografiaNew.Size <= 2 || tipografiaNew.Size >= 75)
+                tipografiaNew = Tipografia; //no se cambia
             textBoxLyrics.Font = Tipografia = tipografiaNew;
             Text = cancion.ToString() + " (" + Tipografia.Size + ")";
         }
+        #endregion
     }
 }

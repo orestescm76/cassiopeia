@@ -1,4 +1,4 @@
-﻿namespace aplicacion_musica.src.Forms
+﻿namespace Cassiopeia.src.Forms
 {
     partial class VisorLyrics
     {

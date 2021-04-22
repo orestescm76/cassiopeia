@@ -434,7 +434,7 @@
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
-    <value>Gestor de música</value>
+    <value>Cassiopeia</value>
   </data>
   <data name="ver" xml:space="preserve">
     <value>Veure</value>
@@ -463,9 +463,6 @@
   <data name="reproductor" xml:space="preserve">
     <value>Reproductor</value>
   </data>
-  <data name="agradecimiento3" xml:space="preserve">
-    <value> * Els creadors de NVorbis, CSCore y JAudio</value>
-  </data>
   <data name="siguiente" xml:space="preserve">
     <value>Següent</value>
   </data>
@@ -486,5 +483,35 @@
   </data>
   <data name="verLog" xml:space="preserve">
     <value>Veure log</value>
+  </data>
+  <data name="idioma" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="aplicar" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="anterior" xml:space="preserve">
+    <value>Anterior</value>
+  </data>
+  <data name="cerrar" xml:space="preserve">
+    <value>Tancar</value>
+  </data>
+  <data name="configuracion" xml:space="preserve">
+    <value>Configuració</value>
+  </data>
+  <data name="aceptar" xml:space="preserve">
+    <value>Acceptar</value>
+  </data>
+  <data name="limpiar" xml:space="preserve">
+    <value>Esborrar</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>cançons</value>
+  </data>
+  <data name="bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * Els creadors de NVorbis, CSCore y TagLib</value>
   </data>
 </root>

@@ -186,9 +186,6 @@
   <data name="agradecimiento2" xml:space="preserve">
     <value>* @esgmonologos στο Twitter για την εικόνα</value>
   </data>
-  <data name="agradecimiento3" xml:space="preserve">
-    <value>* Οι δημιουργοί NAudio, CSCore και JAudio </value>
-  </data>
   <data name="agradecimiento4" xml:space="preserve">
     <value>* Όλοι που με βοηθάνε</value>
   </data>
@@ -256,7 +253,7 @@
     <value>με</value>
   </data>
   <data name="compartirTwitter1" xml:space="preserve">
-    <value>Τι καλό τραγούδι</value>
+    <value>Τι καλό τραγούδι:</value>
   </data>
   <data name="contacto" xml:space="preserve">
     <value>Επικοινωνείτε με εμένα: @orestescm76 στο Twitter, GitHub και Telegram.</value>
@@ -403,7 +400,7 @@
     <value>Αλλαγή γραμματοσειράς της θεατής στίχων</value>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
-    <value>Διαχειριστής της μουσικής</value>
+    <value>Cassiopeia</value>
   </data>
   <data name="uriSpotify" xml:space="preserve">
     <value>URI του Spotify</value>
@@ -436,7 +433,7 @@
     <value>Σχεδόν νέο (NM-)</value>
   </data>
   <data name="ayuda_larga" xml:space="preserve">
-    <value>Ρύθμιση παράθυρου για δημιουργώντας ενός τραγουδιού με πολλών μερών</value>
+    <value>Ρύθμιση παράθυρου για δημιουργώντας ενός τραγουδιού με πολλών μερών.</value>
   </data>
   <data name="ayudaAñadir" xml:space="preserve">
     <value>Διαλέγετε το άλμπουμ ότι θέλετε να αθροίσετε και κλικ στο "Άθροιση"</value>
@@ -466,7 +463,7 @@
     <value>Αναπαραγωγή στο Spotify</value>
   </data>
   <data name="seHanEncontrado" xml:space="preserve">
-    <value>Bρίσκονται</value>
+    <value>Bρίσκονται </value>
   </data>
   <data name="resultados" xml:space="preserve">
     <value>αποτέλεσματα</value>
@@ -478,7 +475,7 @@
     <value>Δημιουργώντας CD από αυτό το άλμπουμ</value>
   </data>
   <data name="crearLR" xml:space="preserve">
-    <value>Δημιουργώντας λίστας αναπαραγωγής </value>
+    <value>Δημιουργώντας λίστας αναπαραγωγής</value>
   </data>
   <data name="cerrarModoStream" xml:space="preserve">
     <value>Διπλό κλικ εδώ για τελείωμα</value>
@@ -542,5 +539,173 @@
   </data>
   <data name="verLog" xml:space="preserve">
     <value>Προβολή καταγραφής</value>
+  </data>
+  <data name="configuracion" xml:space="preserve">
+    <value>Ρυθμίσεις</value>
+  </data>
+  <data name="idioma" xml:space="preserve">
+    <value>Γλώσσα</value>
+  </data>
+  <data name="aplicar" xml:space="preserve">
+    <value>Εφαρμογή</value>
+  </data>
+  <data name="verLR" xml:space="preserve">
+    <value>Προβολή λίστα αναπαραγωγής.</value>
+  </data>
+  <data name="cambiarNombrePL" xml:space="preserve">
+    <value>Αλλαγή τον όνομα</value>
+  </data>
+  <data name="abrir" xml:space="preserve">
+    <value>Άνοιγμα</value>
+  </data>
+  <data name="canciones" xml:space="preserve">
+    <value>τραγούδια</value>
+  </data>
+  <data name="suprimir" xml:space="preserve">
+    <value>Διαγραφή</value>
+  </data>
+  <data name="bonus" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
+  <data name="colorsHighlight" xml:space="preserve">
+    <value>Χρώματα</value>
+  </data>
+  <data name="agradecimiento3" xml:space="preserve">
+    <value> * Οι δημιουργοί NAudio, CSCore και TagLib</value>
+  </data>
+  <data name="actualizacion1" xml:space="preserve">
+    <value>Μια νέα έκδοση του Cassiopeia είναι διαθέσιμη.</value>
+  </data>
+  <data name="actualizacion2" xml:space="preserve">
+    <value>Κάντε κλικ στο "Ναι" για να το κατεβάσετε.</value>
+  </data>
+  <data name="album_agregado" xml:space="preserve">
+    <value>Το άλμπουμ προστέθηκε χωρίς προβλήματα.</value>
+  </data>
+  <data name="album_noagregado" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η προσθήκη του άλμπουμ. Ίσως επαναλαμβάνεται;</value>
+  </data>
+  <data name="cambiar_portapapeles" xml:space="preserve">
+    <value>Διαμόρφωση πρόχειρου</value>
+  </data>
+  <data name="click_reproductor" xml:space="preserve">
+    <value>Κάντε κλικ εδώ για να δείτε το πρόγραμμα αναπαραγωγής</value>
+  </data>
+  <data name="configView" xml:space="preserve">
+    <value>Προβολή</value>
+  </data>
+  <data name="consejoDeshacer" xml:space="preserve">
+    <value>Επαναφέρετε τους στίχους όπως ήταν</value>
+  </data>
+  <data name="copiarImagen" xml:space="preserve">
+    <value>Αντιγραφή εξωφύλλου άλμπουμ στο πρόχειρο</value>
+  </data>
+  <data name="defusionarCancionPartes" xml:space="preserve">
+    <value>Αναίρεση τραγουδιού πολλαπλών τμημάτων</value>
+  </data>
+  <data name="error_defusion" xml:space="preserve">
+    <value>Δεν μπορείτε να διαιρέσετε ένα τραγούδι.</value>
+  </data>
+  <data name="error_fusionsingular" xml:space="preserve">
+    <value>Δεν μπορείτε να δημιουργήσετε ένα τραγούδι πολλαπλών μερών με ένα μόνο τραγούδι.</value>
+  </data>
+  <data name="error_uri" xml:space="preserve">
+    <value>Μη έγκυρο URI, βεβαιωθείτε ότι έχει αυτήν τη μορφή:</value>
+  </data>
+  <data name="error_vacio1" xml:space="preserve">
+    <value>Σφάλμα, σε κάποιο πεδίο λείπουν δεδομένα</value>
+  </data>
+  <data name="error_vacio2" xml:space="preserve">
+    <value>Σφάλμα, σε κάποιο πεδίο λείπουν δεδομένα</value>
+  </data>
+  <data name="errorLoadingAlbums1" xml:space="preserve">
+    <value>Δεν είναι δυνατή η επεξεργασία του ερωτήματος. Ελέγξτε εάν και τα δύο κουτιά κειμένου έχουν κείμενο.</value>
+  </data>
+  <data name="errorLoadingAlbums2" xml:space="preserve">
+    <value>στο αρχείο </value>
+  </data>
+  <data name="errorPortada" xml:space="preserve">
+    <value>Σφάλμα κατά τη λήψη του εξωφύλλου.</value>
+  </data>
+  <data name="errorReproduccion" xml:space="preserve">
+    <value>Δεν είναι δυνατή η αναπαραγωγή του αρχείου μουσικής. Κάτι συνέβη</value>
+  </data>
+  <data name="errorVinculacion" xml:space="preserve">
+    <value>Η σύνδεση ακυρώθηκε επειδή έχει υπερβεί τον χρόνο αναμονής.</value>
+  </data>
+  <data name="errrorLR" xml:space="preserve">
+    <value>Σφάλμα κατά το άνοιγμα του αρχείου, ελέγξτε αν είναι καλό.</value>
+  </data>
+  <data name="esBonusAyuda" xml:space="preserve">
+    <value>Είναι ένα τραγούδι που δεν υπάρχει στο αρχικό άλμπουμ και έχει προστεθεί ως επιπλέον περιεχόμενο.</value>
+  </data>
+  <data name="esLarga" xml:space="preserve">
+    <value>Διαθέτει διάφορα μέρη;</value>
+  </data>
+  <data name="fusionarCancionPartes" xml:space="preserve">
+    <value>Συγχώνευση ως τραγούδι πολλαπλών τμημάτων</value>
+  </data>
+  <data name="generar_azar" xml:space="preserve">
+    <value>Δημιουργήστε ένα τυχαίο άλμπουμ</value>
+  </data>
+  <data name="seleccione_opcion" xml:space="preserve">
+    <value>Ορίστε μια επιλογή για να συνεχίσετε ...</value>
+  </data>
+  <data name="reproduciendo" xml:space="preserve">
+    <value>Αναπαραγωγή</value>
+  </data>
+  <data name="portapapeles_vistaprevia" xml:space="preserve">
+    <value>Προεπισκόπηση</value>
+  </data>
+  <data name="playlistName" xml:space="preserve">
+    <value>Εισαγάγετε το όνομα της λίστας αναπαραγωγής ...</value>
+  </data>
+  <data name="pathsError" xml:space="preserve">
+    <value>Παρουσιάστηκαν ορισμένα σφάλματα κατά τη φόρτωση του PATHS. Ελέγξτε το αρχείο καταγραφής για λεπτομέρειες.</value>
+  </data>
+  <data name="pathsCorrectos" xml:space="preserve">
+    <value>Οι PATHS έχουν φορτωθεί σωστά.</value>
+  </data>
+  <data name="openFolder" xml:space="preserve">
+    <value>Ανοίξτε το φάκελο που περιέχει</value>
+  </data>
+  <data name="nuevoAlbumDesdeCarpeta" xml:space="preserve">
+    <value>Νέο άλμπουμ από φάκελο</value>
+  </data>
+  <data name="nuevaPlaylist" xml:space="preserve">
+    <value>Νέα λίστα</value>
+  </data>
+  <data name="lyrics" xml:space="preserve">
+    <value>Στίχοι</value>
+  </data>
+  <data name="longSong" xml:space="preserve">
+    <value>Μεγάλο τραγούδι</value>
+  </data>
+  <data name="infoReproducir" xml:space="preserve">
+    <value>Αναπαράγει το επιλεγμένο τραγούδι</value>
+  </data>
+  <data name="infoOpenFolder" xml:space="preserve">
+    <value>Ανοίγει το φάκελο που περιέχει το επιλεγμένο στοιχείο</value>
+  </data>
+  <data name="infoDelete" xml:space="preserve">
+    <value>Καταργεί τα επιλεγμένα τραγούδια από τη λίστα αναπαραγωγής.</value>
+  </data>
+  <data name="helpView" xml:space="preserve">
+    <value>Ορίζει τη γραμματοσειρά στην προβολή πινάκων (άλμπουμ, τραγούδια ...)</value>
+  </data>
+  <data name="helpLyrics" xml:space="preserve">
+    <value>Ορίζει τη γραμματοσειρά στο πρόγραμμα προβολής στίχων</value>
+  </data>
+  <data name="helpColorLongSong" xml:space="preserve">
+    <value>Ορίζει το χρώμα για να επισημάνει ένα τραγούδι με πολλά μέρη.</value>
+  </data>
+  <data name="helpColorBonus" xml:space="preserve">
+    <value>Ορίζει το χρώμα για να επισημάνει ένα τραγούδι μπόνους, το οποίο δεν κυκλοφόρησε στο αρχικό άλμπουμ.</value>
+  </data>
+  <data name="guardarPL" xml:space="preserve">
+    <value>Θέλετε να αποθηκεύσετε τη λίστα αναπαραγωγής;</value>
+  </data>
+  <data name="errorBusquedaSpotify" xml:space="preserve">
+    <value>Δεν είναι δυνατή η επεξεργασία του ερωτήματος. Ελέγξτε εάν και τα δύο κουτιά κειμένου έχουν κείμενο.</value>
   </data>
 </root>

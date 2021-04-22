@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace aplicacion_musica
+namespace Cassiopeia
 {
     public class TiempoConverter: JsonConverter<TimeSpan>
     {
@@ -9,6 +9,7 @@ namespace aplicacion_musica
         {
             writer.WriteValue((int)value.TotalMilliseconds);
         }
+
         public override TimeSpan ReadJson(JsonReader reader, Type objectType, TimeSpan existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             int msTotales = Convert.ToInt32(reader.Value);

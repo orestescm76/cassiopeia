@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartArguments>-noUpdates</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PublishUrlHistory>publish\</PublishUrlHistory>
+    <InstallUrlHistory />
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>es-ES</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="src\Forms\AbrirDisco.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\acercaDe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\agregarAlbum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\agregarCancion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\Anotaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\BarraCarga.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\ConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\CrearCD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\editarAlbum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\PlaylistIU.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\principal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\Reproductor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\SearchSpotify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\SpotifyResults.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\VisorLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\VisorLyrics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\visualizarAlbum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\WriteName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

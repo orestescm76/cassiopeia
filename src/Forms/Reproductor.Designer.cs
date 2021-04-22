@@ -1,4 +1,4 @@
-﻿namespace aplicacion_musica
+﻿namespace Cassiopeia.src.Forms
 {
     partial class Reproductor
     {
@@ -51,11 +51,13 @@
             this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
             this.timerMetadatos = new System.Windows.Forms.Timer(this.components);
             this.buttonAgregar = new System.Windows.Forms.Button();
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyIconStream = new System.Windows.Forms.NotifyIcon(this.components);
             this.checkBoxFoobar = new System.Windows.Forms.CheckBox();
             this.timerFoobar = new System.Windows.Forms.Timer(this.components);
             this.buttonTwit = new System.Windows.Forms.Button();
             this.buttoncrearLR = new System.Windows.Forms.Button();
+            this.buttonDetener = new System.Windows.Forms.Button();
+            this.notifyIconReproduciendo = new System.Windows.Forms.NotifyIcon(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
@@ -79,12 +81,12 @@
             // 
             // buttonReproducirPausar
             // 
-            this.buttonReproducirPausar.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.buttonReproducirPausar.Font = new System.Drawing.Font("Webdings", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
             this.buttonReproducirPausar.Location = new System.Drawing.Point(157, 408);
             this.buttonReproducirPausar.Name = "buttonReproducirPausar";
             this.buttonReproducirPausar.Size = new System.Drawing.Size(43, 42);
             this.buttonReproducirPausar.TabIndex = 2;
-            this.buttonReproducirPausar.Text = "▶";
+            this.buttonReproducirPausar.Text = "4";
             this.buttonReproducirPausar.UseVisualStyleBackColor = true;
             this.buttonReproducirPausar.Click += new System.EventHandler(this.buttonReproducirPausar_Click);
             // 
@@ -106,15 +108,16 @@
             this.buttonAbrir.TabIndex = 3;
             this.buttonAbrir.Text = "abrir_cancion";
             this.buttonAbrir.UseVisualStyleBackColor = true;
+            this.buttonAbrir.Visible = false;
             this.buttonAbrir.Click += new System.EventHandler(this.buttonAbrir_Click);
             // 
             // labelPosicion
             // 
             this.labelPosicion.AutoSize = true;
-            this.labelPosicion.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPosicion.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelPosicion.Location = new System.Drawing.Point(8, 422);
             this.labelPosicion.Name = "labelPosicion";
-            this.labelPosicion.Size = new System.Drawing.Size(32, 17);
+            this.labelPosicion.Size = new System.Drawing.Size(40, 18);
             this.labelPosicion.TabIndex = 4;
             this.labelPosicion.Text = "0:00";
             this.labelPosicion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -122,10 +125,10 @@
             // labelDuracion
             // 
             this.labelDuracion.AutoSize = true;
-            this.labelDuracion.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDuracion.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDuracion.Location = new System.Drawing.Point(310, 422);
             this.labelDuracion.Name = "labelDuracion";
-            this.labelDuracion.Size = new System.Drawing.Size(43, 17);
+            this.labelDuracion.Size = new System.Drawing.Size(48, 18);
             this.labelDuracion.TabIndex = 5;
             this.labelDuracion.Text = "XX:XX";
             this.labelDuracion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -236,8 +239,8 @@
             // 
             // pictureBoxCaratula
             // 
-            this.pictureBoxCaratula.Image = global::aplicacion_musica.Properties.Resources.albumdesconocido;
-            this.pictureBoxCaratula.InitialImage = global::aplicacion_musica.Properties.Resources.albumdesconocido;
+            this.pictureBoxCaratula.Image = global::Cassiopeia.Properties.Resources.albumdesconocido;
+            this.pictureBoxCaratula.InitialImage = global::Cassiopeia.Properties.Resources.albumdesconocido;
             this.pictureBoxCaratula.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxCaratula.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBoxCaratula.Name = "pictureBoxCaratula";
@@ -262,12 +265,11 @@
             this.buttonAgregar.UseVisualStyleBackColor = true;
             this.buttonAgregar.Click += new System.EventHandler(this.buttonAgregar_Click);
             // 
-            // notifyIcon1
+            // notifyIconStream
             // 
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "notifyIcon1";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            this.notifyIconStream.Text = "notifyIcon1";
+            this.notifyIconStream.Visible = true;
+            this.notifyIconStream.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
             // checkBoxFoobar
             // 
@@ -310,12 +312,30 @@
             this.buttoncrearLR.UseVisualStyleBackColor = true;
             this.buttoncrearLR.Click += new System.EventHandler(this.buttonLR_Click);
             // 
+            // buttonDetener
+            // 
+            this.buttonDetener.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.buttonDetener.Location = new System.Drawing.Point(157, 456);
+            this.buttonDetener.Name = "buttonDetener";
+            this.buttonDetener.Size = new System.Drawing.Size(43, 42);
+            this.buttonDetener.TabIndex = 18;
+            this.buttonDetener.Text = "<";
+            this.buttonDetener.UseVisualStyleBackColor = true;
+            this.buttonDetener.Click += new System.EventHandler(this.buttonDetener_Click);
+            // 
+            // notifyIconReproduciendo
+            // 
+            this.notifyIconReproduciendo.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIconReproduciendo.Icon")));
+            this.notifyIconReproduciendo.Text = "notifyIconReproduciendo";
+            this.notifyIconReproduciendo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconReproduciendo_MouseClick);
+            // 
             // Reproductor
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(365, 615);
+            this.Controls.Add(this.buttonDetener);
             this.Controls.Add(this.buttoncrearLR);
             this.Controls.Add(this.buttonTwit);
             this.Controls.Add(this.checkBoxFoobar);
@@ -336,6 +356,7 @@
             this.Controls.Add(this.pictureBoxCaratula);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
+            this.MaximizeBox = false;
             this.Name = "Reproductor";
             this.Text = "x";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reproductor_FormClosing);
@@ -376,10 +397,12 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCorreoUsuario;
         private System.Windows.Forms.Timer timerMetadatos;
         private System.Windows.Forms.Button buttonAgregar;
-        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.NotifyIcon notifyIconStream;
         private System.Windows.Forms.CheckBox checkBoxFoobar;
         private System.Windows.Forms.Timer timerFoobar;
         private System.Windows.Forms.Button buttonTwit;
         private System.Windows.Forms.Button buttoncrearLR;
+        private System.Windows.Forms.Button buttonDetener;
+        private System.Windows.Forms.NotifyIcon notifyIconReproduciendo;
     }
 }
