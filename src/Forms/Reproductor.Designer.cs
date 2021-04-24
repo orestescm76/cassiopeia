@@ -114,10 +114,10 @@
             // labelPosicion
             // 
             this.labelPosicion.AutoSize = true;
-            this.labelPosicion.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPosicion.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelPosicion.Location = new System.Drawing.Point(8, 422);
             this.labelPosicion.Name = "labelPosicion";
-            this.labelPosicion.Size = new System.Drawing.Size(40, 18);
+            this.labelPosicion.Size = new System.Drawing.Size(31, 13);
             this.labelPosicion.TabIndex = 4;
             this.labelPosicion.Text = "0:00";
             this.labelPosicion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -125,10 +125,10 @@
             // labelDuracion
             // 
             this.labelDuracion.AutoSize = true;
-            this.labelDuracion.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDuracion.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDuracion.Location = new System.Drawing.Point(310, 422);
             this.labelDuracion.Name = "labelDuracion";
-            this.labelDuracion.Size = new System.Drawing.Size(48, 18);
+            this.labelDuracion.Size = new System.Drawing.Size(37, 13);
             this.labelDuracion.TabIndex = 5;
             this.labelDuracion.Text = "XX:XX";
             this.labelDuracion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

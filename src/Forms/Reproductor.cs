@@ -680,6 +680,14 @@ namespace Cassiopeia.src.Forms
             }
         }
 
+        private string GetSongTime(TimeSpan time)
+        {
+            if (time.TotalMinutes >= 60)
+                return time.ToString(@"hh\:mm\:ss");
+            else
+                return time.ToString(@"mm\:ss");
+        }
+
         #region Events
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -826,17 +834,17 @@ namespace Cassiopeia.src.Forms
                     */
                 }
             }
-            labelPosicion.Text = pos.ToString(@"mm\:ss");
+            labelPosicion.Text = GetSongTime(pos);
             if (pos > dur)
                 dur = pos;
             if(TiempoRestante)
             {
                 TimeSpan tRes = dur - pos;
-                labelDuracion.Text = "-" + tRes.ToString(@"mm\:ss");
+                labelDuracion.Text = "-" + GetSongTime(tRes);
             }
             else
             {
-                labelDuracion.Text = dur.ToString(@"mm\:ss");
+                labelDuracion.Text = GetSongTime(dur);
             }
             if(nucleo.ComprobarSonido())
             {

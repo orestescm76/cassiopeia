@@ -1,0 +1,6 @@
+1.6.0.80
+Small Fixes
+Added Delunado in the credits.
+1.6.0.81
+PlaylistUI - Fixed a small issue when songs over 60 minutes long weren't showing correctly.
+Player - Same as above.

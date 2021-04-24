@@ -57,6 +57,13 @@ namespace Cassiopeia.src.Forms
             }
             return selectedSongs;
         }
+        private string GetSongTime(TimeSpan time)
+        {
+            if (time.TotalMinutes >= 60)
+                return time.ToString(@"hh\:mm\:ss");
+            else
+                return time.ToString(@"mm\:ss");
+        }
         private void LoadView()
         {
             listViewSongs.Items.Clear();
@@ -80,14 +87,14 @@ namespace Cassiopeia.src.Forms
                     MetadataSong lectorMetadatos = new MetadataSong(Playlist.Songs[i].Path);
                     data[1] = lectorMetadatos.Artist;
                     data[2] = lectorMetadatos.Title;
-                    data[3] = lectorMetadatos.Length.ToString(@"mm\:ss");
+                    data[3] = GetSongTime(lectorMetadatos.Length);
                     Playlist.Songs[i].Length = lectorMetadatos.Length;
                 }
                 else
                 {
                     data[1] = Playlist.Songs[i].AlbumFrom.Artist;
                     data[2] = Playlist.Songs[i].Title;
-                    data[3] = Playlist.Songs[i].Length.ToString();
+                    data[3] = GetSongTime(Playlist.Songs[i].Length);
                 }
                 items[i] = new ListViewItem(data);
             }
@@ -149,11 +156,12 @@ namespace Cassiopeia.src.Forms
         {
             Log.Instance.PrintMessage("Borrando canciones de la playlist", MessageType.Info);
             Song[] selectedSongs = GetSelectedSongs();
+            listViewSongs.SelectedItems.Clear();
             for (int i = 0; i < selectedSongs.Length; i++)
             {
                 Playlist.RemoveSong(selectedSongs[i]);
-                listViewSongs.SelectedItems[i].Remove();
             }
+            RefreshView();
             Log.Instance.PrintMessage("Borrado correcto", MessageType.Correct);
         }
         private void SetPlayVisibility(bool value)
@@ -222,6 +230,7 @@ namespace Cassiopeia.src.Forms
         private void changeNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WriteName WriteNameForm = new WriteName();
+            WriteNameForm.StartPosition = FormStartPosition.CenterParent;
             DialogResult Result = WriteNameForm.ShowDialog();
             if (Result == DialogResult.OK)
                 Playlist.Name = WriteNameForm.PlaylistName;
@@ -384,6 +393,13 @@ namespace Cassiopeia.src.Forms
         private void toolStripMenuItemOpenFolder_MouseEnter(object sender, EventArgs e)
         {
             toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoOpenFolder");
+        }
+        private void listViewSongs_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Delete)
+            {
+                RemoveSongs();
+            }
         }
         #endregion
     }
