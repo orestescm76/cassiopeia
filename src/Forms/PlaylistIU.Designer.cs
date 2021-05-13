@@ -38,6 +38,8 @@
             this.toolStripMenuItemPlay = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,8 +51,6 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelTracksSelected = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItemOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -76,6 +76,7 @@
             this.listViewSongs.UseCompatibleStateImageBehavior = false;
             this.listViewSongs.View = System.Windows.Forms.View.Details;
             this.listViewSongs.SelectedIndexChanged += new System.EventHandler(this.listViewSongs_SelectedIndexChanged);
+            this.listViewSongs.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listViewSongs_KeyDown);
             this.listViewSongs.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listViewSongs_MouseDoubleClick);
             // 
             // columnPlaying
@@ -108,7 +109,7 @@
             this.toolStripMenuItemOpenFolder});
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.contextMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.contextMenuStrip.Size = new System.Drawing.Size(196, 104);
+            this.contextMenuStrip.Size = new System.Drawing.Size(196, 82);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // toolStripMenuItemPlay
@@ -131,6 +132,19 @@
             this.toolStripMenuItemRemove.Text = "remove";
             this.toolStripMenuItemRemove.Click += new System.EventHandler(this.toolStripMenuItemRemove_Click);
             this.toolStripMenuItemRemove.MouseEnter += new System.EventHandler(this.toolStripMenuItemRemove_MouseEnter);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(192, 6);
+            // 
+            // toolStripMenuItemOpenFolder
+            // 
+            this.toolStripMenuItemOpenFolder.Name = "toolStripMenuItemOpenFolder";
+            this.toolStripMenuItemOpenFolder.Size = new System.Drawing.Size(195, 22);
+            this.toolStripMenuItemOpenFolder.Text = "open containing folder";
+            this.toolStripMenuItemOpenFolder.Click += new System.EventHandler(this.toolStripMenuItemOpenFolder_Click);
+            this.toolStripMenuItemOpenFolder.MouseEnter += new System.EventHandler(this.toolStripMenuItemOpenFolder_MouseEnter);
             // 
             // menuStrip1
             // 
@@ -223,19 +237,6 @@
             this.toolStripStatusLabelTracksSelected.Name = "toolStripStatusLabelTracksSelected";
             this.toolStripStatusLabelTracksSelected.Size = new System.Drawing.Size(118, 19);
             this.toolStripStatusLabelTracksSelected.Text = "toolStripStatusLabel1";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(192, 6);
-            // 
-            // toolStripMenuItemOpenFolder
-            // 
-            this.toolStripMenuItemOpenFolder.Name = "toolStripMenuItemOpenFolder";
-            this.toolStripMenuItemOpenFolder.Size = new System.Drawing.Size(195, 22);
-            this.toolStripMenuItemOpenFolder.Text = "open containing folder";
-            this.toolStripMenuItemOpenFolder.Click += new System.EventHandler(this.toolStripMenuItemOpenFolder_Click);
-            this.toolStripMenuItemOpenFolder.MouseEnter += new System.EventHandler(this.toolStripMenuItemOpenFolder_MouseEnter);
             // 
             // PlaylistIU
             // 

@@ -431,11 +431,11 @@ namespace Cassiopeia
             if (cancionAReproducir is LongSong)
             {
                 LongSong cl = (LongSong)cancionAReproducir;
-                Reproductor.Instancia.ReproducirCancion(cl);
+                Reproductor.Instancia.PlaySong(cl);
             }
 
             else
-                Reproductor.Instancia.ReproducirCancion(cancionAReproducir);
+                Reproductor.Instancia.PlaySong(cancionAReproducir);
         }
 
         private void vistaCanciones_ItemDrag(object sender, ItemDragEventArgs e)
