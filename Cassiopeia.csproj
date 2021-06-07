@@ -1,11 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{49B665F7-98D5-41F7-B230-580319842E0B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
     <RootNamespace>Cassiopeia</RootNamespace>
     <AssemblyName>cassiopeia</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -29,26 +32,13 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -56,218 +46,44 @@
     <ApplicationIcon>Resources\icono.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
-      <HintPath>packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack">
-      <HintPath>packages\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
-      <HintPath>packages\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NVorbis, Version=0.10.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\NVorbis.0.10.3\lib\net45\NVorbis.dll</HintPath>
-    </Reference>
-    <Reference Include="SpotifyAPI.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SpotifyAPI.Web.5.0.0\lib\netstandard2.0\SpotifyAPI.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="SpotifyAPI.Web.Auth, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SpotifyAPI.Web.Auth.5.0.0\lib\netstandard2.0\SpotifyAPI.Web.Auth.dll</HintPath>
-    </Reference>
-    <Reference Include="Swan.Lite, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Unosquare.Swan.Lite.3.1.0\lib\net461\Swan.Lite.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="TagLibSharp, Version=2.2.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <HintPath>packages\TagLibSharp.2.2.0\lib\net45\TagLibSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Unosquare.Labs.EmbedIO, Version=2.9.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\EmbedIO.2.9.2\lib\netstandard2.0\Unosquare.Labs.EmbedIO.dll</HintPath>
-    </Reference>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <PackageReference Include="CSCore" Version="1.2.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NVorbis" Version="0.10.1" />
+    <PackageReference Include="SpotifyAPI.Web" Version="5.0.0" />
+    <PackageReference Include="SpotifyAPI.Web.Auth" Version="5.0.0" />
+    <PackageReference Include="TagLibSharp" Version="2.2.0" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\CD\CDDrive.cs" />
-    <Compile Include="src\CD\CDWave.cs" />
-    <Compile Include="src\CD\DriveLock.cs" />
-    <Compile Include="src\CD\PistaCD.cs" />
-    <Compile Include="src\Classes\AlbumData.cs" />
-    <Compile Include="src\Classes\PhysicalAlbum.cs" />
-    <Compile Include="src\Classes\CompactDisc.cs" />
-    <Compile Include="src\Classes\Disc.cs" />
-    <Compile Include="src\Classes\Song.cs" />
-    <Compile Include="src\Classes\LongSong.cs" />
-    <Compile Include="src\Classes\Collection.cs" />
-    <Compile Include="src\Classes\Genre.cs" />
-    <Compile Include="src\Classes\MetadataSong.cs" />
-    <Compile Include="src\Classes\Playlist.cs" />
-    <Compile Include="src\Classes\Log.cs" />
-    <Compile Include="src\Classes\ReproductorNucleo.cs" />
-    <Compile Include="src\Classes\Utils.cs" />
-    <Compile Include="src\Config.cs" />
-    <Compile Include="src\Forms\AbrirDisco.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\AbrirDisco.Designer.cs">
-      <DependentUpon>AbrirDisco.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\acercaDe.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\acercaDe.Designer.cs">
-      <DependentUpon>acercaDe.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\agregarAlbum.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\agregarAlbum.Designer.cs">
-      <DependentUpon>agregarAlbum.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\agregarCancion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\agregarCancion.Designer.cs">
-      <DependentUpon>agregarCancion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\Anotaciones.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\Anotaciones.Designer.cs">
-      <DependentUpon>Anotaciones.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\BarraCarga.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\BarraCarga.Designer.cs">
-      <DependentUpon>BarraCarga.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\SearchSpotify.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\SearchSpotify.Designer.cs">
-      <DependentUpon>SearchSpotify.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\ConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\ConfigForm.Designer.cs">
-      <DependentUpon>ConfigForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\CrearCD.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\CrearCD.Designer.cs">
-      <DependentUpon>CrearCD.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\editarAlbum.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\editarAlbum.Designer.cs">
-      <DependentUpon>editarAlbum.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\PlaylistIU.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\PlaylistIU.Designer.cs">
-      <DependentUpon>PlaylistIU.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\principal.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\principal.Designer.cs">
-      <DependentUpon>principal.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\Reproductor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\Reproductor.Designer.cs">
-      <DependentUpon>Reproductor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\SpotifyResults.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\SpotifyResults.Designer.cs">
-      <DependentUpon>SpotifyResults.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\VisorLog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\VisorLog.Designer.cs">
-      <DependentUpon>VisorLog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\VisorLyrics.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\VisorLyrics.Designer.cs">
-      <DependentUpon>VisorLyrics.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\visualizarAlbum.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\visualizarAlbum.Designer.cs">
-      <DependentUpon>visualizarAlbum.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\WriteName.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\WriteName.Designer.cs">
-      <DependentUpon>WriteName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Misc\ClaveAPI.cs" />
-    <Compile Include="src\Misc\ListViewItemComparer.cs" />
-    <Compile Include="src\Misc\NVorbisSource.cs" />
-    <Compile Include="src\Misc\Settings.cs" />
-    <Compile Include="src\Misc\TiempoConverter.cs" />
-    <Compile Include="src\Misc\WinAPI.cs" />
-    <Compile Include="src\Program.cs" />
-    <Compile Include="src\Spotify.cs" />
-    <EmbeddedResource Include="idiomas\original.ca.resx">
+    <EmbeddedResource Update="idiomas\original.ca.resx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="idiomas\original.el.resx">
+    <EmbeddedResource Update="idiomas\original.el.resx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="idiomas\original.en.resx">
+    <EmbeddedResource Update="idiomas\original.en.resx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="idiomas\original.es.resx">
+    <EmbeddedResource Update="idiomas\original.es.resx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="idiomas\original.it.resx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <EmbeddedResource Update="idiomas\original.it.resx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="idiomas\original.ja.resx" />
-    <EmbeddedResource Include="idiomas\original.resx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
@@ -379,7 +195,7 @@
   <Target Name="AfterBuild">
     <ItemGroup>
       <MoveToLibFolder Include="$(OutputPath)*.dll ; $(OutputPath)*.pdb ; $(OutputPath)*.xml" />
-    </ItemGroup>
+  </ItemGroup>
     <Move SourceFiles="@(MoveToLibFolder)" DestinationFolder="$(OutputPath)lib" OverwriteReadOnlyFiles="true" />
   </Target>
 </Project>

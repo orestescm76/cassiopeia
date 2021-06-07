@@ -160,6 +160,7 @@ namespace Cassiopeia.src.Forms
             for (int i = 0; i < selectedSongs.Length; i++)
             {
                 Playlist.RemoveSong(selectedSongs[i]);
+                listViewSongs.SelectedItems[i].Remove();
             }
             RefreshView();
             Log.Instance.PrintMessage("Borrado correcto", MessageType.Correct);

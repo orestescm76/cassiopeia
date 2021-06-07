@@ -9,8 +9,9 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Cassiopeia.src.Forms;
-using Microsoft.WindowsAPICodePack.Dialogs;
 namespace Cassiopeia
+
+namespace aplicacion_musica
 {
     public enum TipoVista
     {
@@ -803,24 +804,21 @@ namespace Cassiopeia
             Log.ShowLog();
         }
 
-        private void nuevoAlbumDesdeCarpetaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
             Log.PrintMessage("Creating an album from a directory.", MessageType.Info);
 
             AlbumData a = new AlbumData();
-            CommonOpenFileDialog browserDialog = new CommonOpenFileDialog();
-            browserDialog.InitialDirectory = Config.LastOpenedDirectory;
-            browserDialog.IsFolderPicker = true; //Selección de carpeta.
-            //FolderBrowserDialog browserDialog = new FolderBrowserDialog();
-            CommonFileDialogResult result = browserDialog.ShowDialog();
+            FolderBrowserDialog browserDialog = new FolderBrowserDialog();
+            DialogResult result = browserDialog.ShowDialog();
             //To avoid a random song order, i create an array to store the songs. 150 should be big enough.
             Song[] tempStorage = new Song[150];
             int numSongs = 0; //to keep track of how many songs i've addded.
-            if (result != CommonFileDialogResult.Cancel)
-            {
+            if (result != DialogResult.Cancel)
+            CommonFileDialogResult result = browserDialog.ShowDialog();
                 Stopwatch crono = Stopwatch.StartNew();
-                DirectoryInfo carpeta = new DirectoryInfo(browserDialog.FileName);
+                DirectoryInfo carpeta = new DirectoryInfo(browserDialog.SelectedPath);
                 Config.LastOpenedDirectory = carpeta.FullName;
+                DirectoryInfo carpeta = new DirectoryInfo(browserDialog.FileName);
+                Config.UltimoDirectorioAbierto = carpeta.FullName;
                 BarraCarga bC = new BarraCarga(carpeta.GetFiles().Length);
                 bC.Show();
                 foreach (var filename in carpeta.GetFiles())

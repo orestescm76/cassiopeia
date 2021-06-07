@@ -41,8 +41,8 @@ namespace Cassiopeia
             }
             else
             {
-                Language = Properties.Resources.Idioma;
-                LinkedWithSpotify = Convert.ToBoolean(Properties.Resources.VinculadoConSpotify);
+                Language = "es";
+                LinkedWithSpotify = false;
                 LastOpenedDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
                 Clipboard = "%artist% - %title% (%year%)";
                 ColorLongSong = Color.Salmon;

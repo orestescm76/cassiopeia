@@ -840,6 +840,7 @@ namespace Cassiopeia.src.Forms
             if(TiempoRestante)
             {
                 TimeSpan tRes = dur - pos;
+                labelDuracion.Text = "-" + tRes.ToString(@"mm\:ss");
                 labelDuracion.Text = "-" + GetSongTime(tRes);
             }
             else
@@ -937,6 +938,9 @@ namespace Cassiopeia.src.Forms
             PausaReproducir();
         }
 
+            PausaReproducir();
+        }
+
         private void labelDuracion_Click(object sender, EventArgs e)
         {
             if (TiempoRestante)
@@ -964,8 +968,7 @@ namespace Cassiopeia.src.Forms
                     nucleo.Saltar(TimeSpan.FromSeconds(trackBarPosicion.Value));
                 else
                     nucleo.SaltarCD((int)nucleo.TimeSpanASectores(TimeSpan.FromSeconds(trackBarPosicion.Value)));
-                trackBarPosicion.Value = value;
-            }
+                labelDuracion.Text = "-" + GetSongTime(tRes);
             else if (Spotify && EsPremium)
             {
                 _spotify.SeekPlayback(trackBarPosicion.Value * 1000);
@@ -1059,12 +1062,9 @@ namespace Cassiopeia.src.Forms
                     SaltarAtras();
                     break;
             }
+            PausaReproducir();
         }
 
-        private void timerMetadatos_Tick(object sender, EventArgs e)
-        {
-            labelDatosCancion.Text = nucleo.GetDatos();
-        }
 
         private void buttonSpotify_Click(object sender, EventArgs e)
         {
