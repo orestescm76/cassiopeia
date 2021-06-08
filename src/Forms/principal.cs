@@ -1,4 +1,4 @@
-﻿#undef DEBUG
+﻿#define DEBUG
 
 using System;
 using System.Drawing;
@@ -10,8 +10,6 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using Cassiopeia.src.Forms;
 namespace Cassiopeia
-
-namespace aplicacion_musica
 {
     public enum TipoVista
     {
@@ -263,7 +261,7 @@ namespace aplicacion_musica
             Reproductor.Instancia.Dispose();
         }
 
-#region Events
+        #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
         {
             Log.PrintMessage("Ordenando columnas", MessageType.Info);
@@ -804,6 +802,8 @@ namespace aplicacion_musica
             Log.ShowLog();
         }
 
+        private void nuevoAlbumDesdeCarpetaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             Log.PrintMessage("Creating an album from a directory.", MessageType.Info);
 
             AlbumData a = new AlbumData();
@@ -813,12 +813,10 @@ namespace aplicacion_musica
             Song[] tempStorage = new Song[150];
             int numSongs = 0; //to keep track of how many songs i've addded.
             if (result != DialogResult.Cancel)
-            CommonFileDialogResult result = browserDialog.ShowDialog();
+            {
                 Stopwatch crono = Stopwatch.StartNew();
                 DirectoryInfo carpeta = new DirectoryInfo(browserDialog.SelectedPath);
                 Config.LastOpenedDirectory = carpeta.FullName;
-                DirectoryInfo carpeta = new DirectoryInfo(browserDialog.FileName);
-                Config.UltimoDirectorioAbierto = carpeta.FullName;
                 BarraCarga bC = new BarraCarga(carpeta.GetFiles().Length);
                 bC.Show();
                 foreach (var filename in carpeta.GetFiles())
@@ -903,6 +901,6 @@ namespace aplicacion_musica
                     break;
             }
         }
-#endregion
+        #endregion
     }
 }

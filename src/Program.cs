@@ -11,17 +11,8 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Net;
 
-/* VERSION 1.6.xx CODENAME COCKROACH
-* Reproductor:
-*  Soporte CD Audio
-*  Rework del sistema de playlists
-* Gestor:
-*  Ahora se puede redimensonar la ventana principal
-*  Nuevo botón, abrir una disquetera para reproducir un CD
-*  Visor de lyrics
-*  Visor de log
-* Misc:
-*  Argumentos de lanzamiento en inglés
+/* VERSION 1.7.xx CODENAME STORM
+ * Traspaso a Net 5.
 */
 
 namespace Cassiopeia
@@ -36,12 +27,12 @@ namespace Cassiopeia
         public static Collection Collection;
         public static Genre[] Genres = new Genre[idGeneros.Length];
         private static Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-        public static readonly string Version = "v" + ver.ToString();
+        public static readonly string Version = "v" + Application.ProductVersion;
         public static string[] idiomas;
         public static Spotify _spotify;
         private static principal principal = null;
         public static bool ModoOscuro = false;
-        public static readonly string CodeName = "Cockroach";
+        public static readonly string CodeName = "Storm";
         public static bool SpotifyActivado = true;
         public static bool ModoReproductor = false;
         public static Thread tareaRefrescoToken;

@@ -47,7 +47,7 @@ namespace Cassiopeia
         private void cambiarBanner()
         {
             if (!bannerAntiguo)
-                pictureBoxBanner.Image = Properties.Resources.banner;
+                pictureBoxBanner.Image = Properties.Resources.banner1_6;
             else
                 pictureBoxBanner.Image = Properties.Resources.banner1_5;
         }

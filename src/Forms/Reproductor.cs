@@ -73,10 +73,10 @@ namespace Cassiopeia.src.Forms
                 buttonSpotify.Enabled = false;
             Icon = Resources.iconoReproductor;
             GuardarHistorial = false;
-            if(GuardarHistorial) //sin uso
+            if (GuardarHistorial) //sin uso
             {
                 DateTime now = DateTime.Now;
-                Historial = new FileInfo("Log Musical " + now.Day + "-"+ now.Month + "-"+ now.Year+"-"+ now.Hour + "."+ now.Minute + ".txt");
+                Historial = new FileInfo("Log Musical " + now.Day + "-" + now.Month + "-" + now.Year + "-" + now.Hour + "." + now.Minute + ".txt");
                 NumCancion = 1;
             }
             if (Program.ModoStream) //inicia el programa con solo la imperesión
@@ -247,7 +247,7 @@ namespace Cassiopeia.src.Forms
                 }
                 buttonTwit.Enabled = true;
                 buttoncrearLR.Hide();
-                
+
             }
             else
                 return;
@@ -302,7 +302,7 @@ namespace Cassiopeia.src.Forms
         }
         private void PonerTextos()
         {
-            if(!Reproduciendo)
+            if (!Reproduciendo)
                 Text = Program.LocalTexts.GetString("reproductor");
             buttonSpotify.Text = Program.LocalTexts.GetString("cambiarSpotify");
             notifyIconStream.Text = Program.LocalTexts.GetString("cerrarModoStream");
@@ -392,13 +392,13 @@ namespace Cassiopeia.src.Forms
             SetPlayerButtons(true);
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Detenido;
-            if(c.AlbumFrom is null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
+            if (c.AlbumFrom is null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
             {
                 DirectoryInfo dir = new DirectoryInfo(c.Path);
                 dir = dir.Parent;
-                if(File.Exists(dir.FullName + "\\folder.jpg"))
+                if (File.Exists(dir.FullName + "\\folder.jpg"))
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\folder.jpg");
-                else if(File.Exists(dir.FullName + "\\cover.jpg"))
+                else if (File.Exists(dir.FullName + "\\cover.jpg"))
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.jpg");
                 else if (File.Exists(dir.FullName + "\\cover.png"))
                     pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.png");
@@ -437,7 +437,7 @@ namespace Cassiopeia.src.Forms
                 Log.PrintMessage("Cannot play", MessageType.Error);
                 return;
             }
-            if(GuardarHistorial)
+            if (GuardarHistorial)
             {
                 using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
                 {
@@ -692,14 +692,14 @@ namespace Cassiopeia.src.Forms
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             PlaybackContext PC = (PlaybackContext)e.Result; //datos de spotify
-            if(PC != null && PC.Item != null) //si son válidos
+            if (PC != null && PC.Item != null) //si son válidos
             {
 
                 dur = new TimeSpan(0, 0, 0, 0, PC.Item.DurationMs);
                 trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                 pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
                 SpotifyID = PC.Item.Id;
-                if(!Program.ModoStream)
+                if (!Program.ModoStream)
                 {
                     trackBarPosicion.Value = (int)pos.TotalSeconds;
                     if (PC.Item.Id != cancionReproduciendo.Id || pictureBoxCaratula.Image == null)
@@ -754,7 +754,7 @@ namespace Cassiopeia.src.Forms
                     else
                         buttonAgregar.Enabled = true;
                 }
-                using(StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
+                using (StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
                 {
                     TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
                     salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
@@ -767,7 +767,7 @@ namespace Cassiopeia.src.Forms
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e) //tarea asíncrona que comprueba si el token ha caducado y espera a la tarea que lo refresque
         {
-            if(!Program._spotify.TokenExpirado())
+            if (!Program._spotify.TokenExpirado())
             {
                 PlaybackContext PC = _spotify.GetPlayback();
                 e.Result = PC;
@@ -775,7 +775,7 @@ namespace Cassiopeia.src.Forms
             else
             {
                 Log.PrintMessage("Token caducado!", MessageType.Warning);
-                while(Program._spotify.TokenExpirado())
+                while (Program._spotify.TokenExpirado())
                 {
                     Thread.Sleep(100);
                 }
@@ -799,7 +799,7 @@ namespace Cassiopeia.src.Forms
                     }
                 }
             }
-            Log.PrintMessage("Iniciando el Reproductor en modo local",MessageType.Info);
+            Log.PrintMessage("Iniciando el Reproductor en modo local", MessageType.Info);
             try
             {
                 foobar2kInstance = Process.GetProcessesByName("foobar2000")[0];
@@ -837,17 +837,16 @@ namespace Cassiopeia.src.Forms
             labelPosicion.Text = GetSongTime(pos);
             if (pos > dur)
                 dur = pos;
-            if(TiempoRestante)
+            if (TiempoRestante)
             {
                 TimeSpan tRes = dur - pos;
-                labelDuracion.Text = "-" + tRes.ToString(@"mm\:ss");
                 labelDuracion.Text = "-" + GetSongTime(tRes);
             }
             else
             {
                 labelDuracion.Text = GetSongTime(dur);
             }
-            if(nucleo.ComprobarSonido())
+            if (nucleo.ComprobarSonido())
             {
                 double val = pos.TotalMilliseconds / dur.TotalMilliseconds * trackBarPosicion.Maximum;
                 trackBarPosicion.Value = (int)val;
@@ -856,7 +855,7 @@ namespace Cassiopeia.src.Forms
             if (pos.Minutes == dur.Minutes && pos.Seconds == dur.Seconds)
             {
                 estadoReproductor = EstadoReproductor.Detenido;
-                if(Playlist != null)
+                if (Playlist != null)
                 {
                     ListaReproduccionPuntero++;
                     lrui.SetActiveSong(ListaReproduccionPuntero);
@@ -867,7 +866,7 @@ namespace Cassiopeia.src.Forms
                         else
                             PlaySong(ListaReproduccionPuntero);
                     }
-                        
+
                     else
                         nucleo.Detener();
                 }
@@ -879,7 +878,7 @@ namespace Cassiopeia.src.Forms
             if (!Program.ModoReproductor || !Program.ModoStream)
             {
                 Hide();
-                if(Reproduciendo)
+                if (Reproduciendo)
                     notifyIconReproduciendo.Visible = true;
                 if (e.CloseReason != CloseReason.ApplicationExitCall)
                     e.Cancel = true;
@@ -907,7 +906,7 @@ namespace Cassiopeia.src.Forms
                 nucleo.Apagar();
                 estadoReproductor = EstadoReproductor.Detenido;
                 songPath = openFileDialog1.FileName;
-               
+
                 this.fich = songPath;
 
                 try
@@ -938,9 +937,6 @@ namespace Cassiopeia.src.Forms
             PausaReproducir();
         }
 
-            PausaReproducir();
-        }
-
         private void labelDuracion_Click(object sender, EventArgs e)
         {
             if (TiempoRestante)
@@ -968,7 +964,8 @@ namespace Cassiopeia.src.Forms
                     nucleo.Saltar(TimeSpan.FromSeconds(trackBarPosicion.Value));
                 else
                     nucleo.SaltarCD((int)nucleo.TimeSpanASectores(TimeSpan.FromSeconds(trackBarPosicion.Value)));
-                labelDuracion.Text = "-" + GetSongTime(tRes);
+                trackBarPosicion.Value = value;
+            }
             else if (Spotify && EsPremium)
             {
                 _spotify.SeekPlayback(trackBarPosicion.Value * 1000);
@@ -1005,7 +1002,7 @@ namespace Cassiopeia.src.Forms
 
         private void timerSpotify_Tick(object sender, EventArgs e)
         {
-            if(!backgroundWorker.IsBusy)
+            if (!backgroundWorker.IsBusy)
                 backgroundWorker.RunWorkerAsync();
         }
 
@@ -1021,7 +1018,7 @@ namespace Cassiopeia.src.Forms
 
         private void checkBoxAleatorio_CheckedChanged(object sender, EventArgs e)
         {
-            if(EsPremium && Spotify)
+            if (EsPremium && Spotify)
                 _spotify.SetShuffle(checkBoxAleatorio.Checked);
             else
                 ShuffleState = checkBoxAleatorio.Checked;
@@ -1046,7 +1043,7 @@ namespace Cassiopeia.src.Forms
                 buttonSaltarAdelante_Click(null, null);
             if (e.Control && e.KeyData == Keys.Left)
                 buttonSaltarAtras_Click(null, null);
-            switch(e.KeyData)
+            switch (e.KeyData)
             {
                 case Keys.Space:
                 case Keys.MediaPlayPause:
@@ -1062,9 +1059,12 @@ namespace Cassiopeia.src.Forms
                     SaltarAtras();
                     break;
             }
-            PausaReproducir();
         }
 
+        private void timerMetadatos_Tick(object sender, EventArgs e)
+        {
+            labelDatosCancion.Text = nucleo.GetDatos();
+        }
 
         private void buttonSpotify_Click(object sender, EventArgs e)
         {
@@ -1077,7 +1077,7 @@ namespace Cassiopeia.src.Forms
         private void buttonAgregar_Click(object sender, EventArgs e)
         {
             bool res = Program._spotify.InsertarAlbumFromURI(cancionReproduciendo.Album.Id);
-            if(res) //Añadido correctamente...
+            if (res) //Añadido correctamente...
                 MessageBox.Show(Program.LocalTexts.GetString("album_agregado"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show(Program.LocalTexts.GetString("album_noagregado"), "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -1091,7 +1091,7 @@ namespace Cassiopeia.src.Forms
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBoxFoobar.Checked)
+            if (checkBoxFoobar.Checked)
             {
                 nucleo.Apagar();
                 timerCancion.Enabled = false;
@@ -1110,7 +1110,7 @@ namespace Cassiopeia.src.Forms
         private void timerFoobar_Tick(object sender, EventArgs e)
         {
             foobar2kInstance = Process.GetProcessById(foobar2kInstance.Id);
-            using (StreamWriter salida  = new StreamWriter("np.txt", false))
+            using (StreamWriter salida = new StreamWriter("np.txt", false))
             {
                 salida.WriteLine(foobar2kInstance.MainWindowTitle);
             }
@@ -1122,16 +1122,16 @@ namespace Cassiopeia.src.Forms
             string link = "https://twitter.com/intent/tweet?text=";
             if (Spotify && !string.IsNullOrEmpty(cancionReproduciendo.Id))
             {
-                    test = Program.LocalTexts.GetString("compartirTwitter1").Replace(" ", "%20") + "%20https://open.spotify.com/track/" + cancionReproduciendo.Id + "%0a" +
-                        Program.LocalTexts.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Program.Version + "%20" + Program.CodeName;
+                test = Program.LocalTexts.GetString("compartirTwitter1").Replace(" ", "%20") + "%20https://open.spotify.com/track/" + cancionReproduciendo.Id + "%0a" +
+                    Program.LocalTexts.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Program.Version + "%20" + Program.CodeName;
             }
-            else if(!ModoCD && Reproduciendo)
-                test = Program.LocalTexts.GetString("compartirLocal1").Replace(" ", "%20") + "%20" + 
-                    Title + "%20" + 
+            else if (!ModoCD && Reproduciendo)
+                test = Program.LocalTexts.GetString("compartirLocal1").Replace(" ", "%20") + "%20" +
+                    Title + "%20" +
                     Program.LocalTexts.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
                     Artist + "%20" +
-                    Program.LocalTexts.GetString("compartirLocal3").Replace(" ", "%20") + "%20" + 
-                    Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + 
+                    Program.LocalTexts.GetString("compartirLocal3").Replace(" ", "%20") + "%20" +
+                    Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
                     Program.Version + "%20" + Program.CodeName;
             else
                 test = "Escuchando un CD con " + Program.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
@@ -1144,7 +1144,7 @@ namespace Cassiopeia.src.Forms
             Log.PrintMessage("Detectado Drag & Drop", MessageType.Info);
             Song c = null;
             String[] canciones = null;
-            if((c = (Song)e.Data.GetData(typeof(Song))) != null)
+            if ((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
                 if (!string.IsNullOrEmpty(c.Path))
                 {
@@ -1152,10 +1152,10 @@ namespace Cassiopeia.src.Forms
                     PlaySong(c);
                 }
             }
-            else if((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null)
+            else if ((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null)
             {
-                Log.PrintMessage("Creando playlist con "+canciones.Length + " canciones.", MessageType.Info);
-                if(Playlist is null)
+                Log.PrintMessage("Creando playlist con " + canciones.Length + " canciones.", MessageType.Info);
+                if (Playlist is null)
                 {
                     CreatePlaylist(Program.LocalTexts.GetString("seleccion"));
                     foreach (string cancion in canciones)
@@ -1188,12 +1188,12 @@ namespace Cassiopeia.src.Forms
 
         private void buttonLR_Click(object sender, EventArgs e)
         {
-            if(Playlist is null) //If we don't have a playlist, create one. If we don't have the UI, create it.
+            if (Playlist is null) //If we don't have a playlist, create one. If we don't have the UI, create it.
             {
                 CreatePlaylist("");
                 if (lrui is null)
                     CreatePlaylistUI();
-                
+
                 lrui.Show();
             }
             else

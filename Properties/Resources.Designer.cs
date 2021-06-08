@@ -73,9 +73,9 @@ namespace Cassiopeia.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap banner {
+        internal static System.Drawing.Bitmap banner1_5 {
             get {
-                object obj = ResourceManager.GetObject("banner", resourceCulture);
+                object obj = ResourceManager.GetObject("banner1_5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,19 @@ namespace Cassiopeia.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap banner1_5 {
+        internal static System.Drawing.Bitmap banner1_6 {
             get {
-                object obj = ResourceManager.GetObject("banner1_5", resourceCulture);
+                object obj = ResourceManager.GetObject("banner1_6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap banner1_7 {
+            get {
+                object obj = ResourceManager.GetObject("banner1_7", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -151,20 +161,21 @@ namespace Cassiopeia.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a es.
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static string Idioma {
+        internal static System.Drawing.Bitmap it {
             get {
-                return ResourceManager.GetString("Idioma", resourceCulture);
+                object obj = ResourceManager.GetObject("it", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap it {
+        internal static System.Drawing.Bitmap ja {
             get {
-                object obj = ResourceManager.GetObject("it", resourceCulture);
+                object obj = ResourceManager.GetObject("ja", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -206,24 +217,6 @@ namespace Cassiopeia.Properties {
             get {
                 object obj = ResourceManager.GetObject("spotifyico", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a Segoe UI.
-        /// </summary>
-        internal static string TipografiaLyrics {
-            get {
-                return ResourceManager.GetString("TipografiaLyrics", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Busca una cadena traducida similar a False.
-        /// </summary>
-        internal static string VinculadoConSpotify {
-            get {
-                return ResourceManager.GetString("VinculadoConSpotify", resourceCulture);
             }
         }
     }

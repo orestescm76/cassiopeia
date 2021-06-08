@@ -37,8 +37,9 @@
             // labelAcercaDe
             // 
             this.labelAcercaDe.AutoSize = true;
-            this.labelAcercaDe.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAcercaDe.Location = new System.Drawing.Point(0, 166);
+            this.labelAcercaDe.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelAcercaDe.Location = new System.Drawing.Point(0, 192);
+            this.labelAcercaDe.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelAcercaDe.Name = "labelAcercaDe";
             this.labelAcercaDe.Size = new System.Drawing.Size(393, 189);
             this.labelAcercaDe.TabIndex = 0;
@@ -49,25 +50,27 @@
             // 
             this.pictureBoxBanner.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxBanner.ErrorImage = null;
-            this.pictureBoxBanner.Image = global::Cassiopeia.Properties.Resources.banner;
+            this.pictureBoxBanner.Image = global::Cassiopeia.Properties.Resources.banner1_7;
             this.pictureBoxBanner.InitialImage = null;
             this.pictureBoxBanner.Location = new System.Drawing.Point(0, -2);
+            this.pictureBoxBanner.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBoxBanner.Name = "pictureBoxBanner";
-            this.pictureBoxBanner.Size = new System.Drawing.Size(471, 165);
-            this.pictureBoxBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBoxBanner.Size = new System.Drawing.Size(549, 190);
+            this.pictureBoxBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxBanner.TabIndex = 1;
             this.pictureBoxBanner.TabStop = false;
             // 
             // acercaDe
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(469, 397);
+            this.ClientSize = new System.Drawing.Size(547, 458);
             this.Controls.Add(this.pictureBoxBanner);
             this.Controls.Add(this.labelAcercaDe);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "acercaDe";
