@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Número de compilación
 //      Revisión
 //
-[assembly: AssemblyVersion("1.7.0.2")]
+[assembly: AssemblyVersion("1.7.0.3")]
 [assembly: NeutralResourcesLanguage("es")]

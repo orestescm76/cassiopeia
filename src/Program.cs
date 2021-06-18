@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Threading;
-using System.IO;
+using System.Diagnostics;
 
 
 /* VERSION 1.7.xx CODENAME STORM
  * Traspaso a Net 5.
-*/
+ */
 
 namespace Cassiopeia
 {
     static class Program
     {
-        
-        
-        
         public static bool ModoOscuro = false;
-        
-       
-        
 
         [STAThread]
         static void Main(String[] args)
@@ -28,50 +21,33 @@ namespace Cassiopeia
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //Creación log.
-            Log Log = Log.Instance;
-
             /*LOADING PROCESS*/
             Log.Instance.PrintMessage("Starting...", MessageType.Info);
-            //Load configuration
-            Kernel.LoadConfig();
+
+           
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
             //Checking arguments
             Kernel.ParseArgs(args);
+            //First of all... check updates
+            Kernel.CheckForUpdates();
+            //Load configuration
+            Kernel.LoadConfig();
             //Loading languages
             Kernel.LoadLanguages();
-            //Check updates
-            Kernel.CheckForUpdates();
             //Create program
             Kernel.CreateProgram();
             //Init Spotify
             Kernel.InitSpotify();
-
-            if(!Kernel.MetadataStream)
-            {
-                Kernel.InitGenres();
-
-                if (Kernel.JSON)
-                    Kernel.LoadAlbums("discos.json");
-                else
-                {
-                    if (File.Exists("discos.csv"))
-                    {
-                        Kernel.LoadCSVAlbums("discos.csv");
-                        Kernel.LoadCD();
-                    }
-                    else
-                    {
-                        Log.PrintMessage("discos.csv does not exist, a new database will be created...", MessageType.Warning);
-                    }
-                }
-                if (File.Exists("paths.txt"))
-                    Kernel.LoadPATHS();
-                if (File.Exists("lyrics.txt"))
-                    Kernel.LoadLyrics();
-            }
+            //Create genres
+            Kernel.InitGenres();
+            //Load the files
+            Kernel.LoadFiles();
             //Create player Instance
             Kernel.InitPlayer();
-
+            //We're done!
+            stopwatch.Stop();
+            Log.Instance.PrintMessage("Application loaded!", MessageType.Correct, stopwatch, TimeType.Milliseconds);
             //ApplicationStart
             Kernel.StartApplication();
             //Program halts here untill Application.Exit is called.

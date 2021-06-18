@@ -277,6 +277,28 @@ namespace Cassiopeia
             Reproductor.Instancia = new src.Forms.Reproductor();
             Reproductor.Instancia.RefrescarTextos();
         }
+
+        public static void LoadFiles()
+        {
+            if (JSON)
+                LoadAlbums("discos.json");
+            else
+            {
+                if (File.Exists("discos.csv"))
+                {
+                    LoadCSVAlbums("discos.csv");
+                    LoadCD();
+                }
+                else
+                {
+                    Log.Instance.PrintMessage("discos.csv does not exist, a new database will be created...", MessageType.Warning);
+                }
+            }
+            if (File.Exists("paths.txt"))
+                LoadPATHS();
+            if (File.Exists("lyrics.txt"))
+                LoadLyrics();
+        }
         public static void StartApplication()
         {
             if (MetadataStream) //Start stream mode
