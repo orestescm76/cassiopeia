@@ -15,10 +15,10 @@ namespace Cassiopeia.src.Forms
         public SearchSpotify()
         {
             InitializeComponent();
-            Text = Program.LocalTexts.GetString("buscar_Spotify");
-            labelBusqueda.Text = Program.LocalTexts.GetString("busqueda_Spotify");
-            buttonOk.Text = Program.LocalTexts.GetString("buscar");
-            labelAlternativa.Text = Program.LocalTexts.GetString("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
+            Text = Kernel.LocalTexts.GetString("buscar_Spotify");
+            labelBusqueda.Text = Kernel.LocalTexts.GetString("busqueda_Spotify");
+            buttonOk.Text = Kernel.LocalTexts.GetString("buscar");
+            labelAlternativa.Text = Kernel.LocalTexts.GetString("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
             Icon = Properties.Resources.spotifyico;
         }
         private SearchType CheckQuery()
@@ -35,12 +35,12 @@ namespace Cassiopeia.src.Forms
             String[] uri = URI.Split(':');
             if (uri[1] != "album")
                 throw new ArgumentException();
-            Program._spotify.InsertarAlbumFromURI(uri[2]);
+            Kernel.Spotify.InsertarAlbumFromURI(uri[2]);
             Dispose();
         }
         private DialogResult SearchAlbum(string query) //Invokes the form for the results. DialogResult determines if the user has completed the action.
         {
-            List<SpotifyAPI.Web.Models.SimpleAlbum> AlbumList = Program._spotify.SearchAlbums(query);
+            List<SpotifyAPI.Web.Models.SimpleAlbum> AlbumList = Kernel.Spotify.SearchAlbums(query);
             if (!(AlbumList is null))
             {
                 SpotifyResults res = new SpotifyResults(ref AlbumList, false);
@@ -76,11 +76,11 @@ namespace Cassiopeia.src.Forms
                     }
                     catch (ArgumentException)
                     {
-                        MessageBox.Show(Program.LocalTexts.GetString("error_uri") + " (spotify:album:2dpdDyEGEsdnOUUePgkT6E)");
+                        MessageBox.Show(Kernel.LocalTexts.GetString("error_uri") + " (spotify:album:2dpdDyEGEsdnOUUePgkT6E)");
                     }
                     break;
                 case SearchType.Unknown:
-                    MessageBox.Show(Program.LocalTexts.GetString("error_vacio2"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio2"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 default:
                     break;

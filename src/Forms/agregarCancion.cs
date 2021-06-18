@@ -30,9 +30,9 @@ namespace Cassiopeia
             cancionlarga = null;
             np = 0;
             ConsejoEsLarga = new ToolTip();
-            ConsejoEsLarga.SetToolTip(esLarga, Program.LocalTexts.GetString("ayuda_larga"));
+            ConsejoEsLarga.SetToolTip(esLarga, Kernel.LocalTexts.GetString("ayuda_larga"));
             ConsejoEsBonus = new ToolTip();
-            ConsejoEsBonus.SetToolTip(checkBoxBonus, Program.LocalTexts.GetString("esBonusAyuda"));
+            ConsejoEsBonus.SetToolTip(checkBoxBonus, Kernel.LocalTexts.GetString("esBonusAyuda"));
             ponerTextos();
             crono.Stop();
             Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
@@ -68,7 +68,7 @@ namespace Cassiopeia
             labelNumPartes.Hide();
             textBoxNumPartes.Hide();
             ConsejoEsBonus = new ToolTip();
-            ConsejoEsBonus.SetToolTip(checkBoxBonus, Program.LocalTexts.GetString("esBonusAyuda"));
+            ConsejoEsBonus.SetToolTip(checkBoxBonus, Kernel.LocalTexts.GetString("esBonusAyuda"));
             if (c.IsBonus)
                 checkBoxBonus.Checked = true;
             np = 0;
@@ -125,25 +125,25 @@ namespace Cassiopeia
 
             if(editar)
             {
-                Text = Program.LocalTexts.GetString("editando") + " " + cancion.Title;
-                buttonOK.Text = Program.LocalTexts.GetString("hecho");
+                Text = Kernel.LocalTexts.GetString("editando") + " " + cancion.Title;
+                buttonOK.Text = Kernel.LocalTexts.GetString("hecho");
             } else
             {
-                Text = Program.LocalTexts.GetString("añadir_cancion") + " " + (cualdeVerdad+1);
-                buttonOK.Text = Program.LocalTexts.GetString("hecho");
+                Text = Kernel.LocalTexts.GetString("añadir_cancion") + " " + (cualdeVerdad+1);
+                buttonOK.Text = Kernel.LocalTexts.GetString("hecho");
             }
 
             if(cancionlarga != null)
             {
-                Text = Program.LocalTexts.GetString("añadir_cancion") + " " + Utils.ConvertToRomanNumeral(cual);
+                Text = Kernel.LocalTexts.GetString("añadir_cancion") + " " + Utils.ConvertToRomanNumeral(cual);
             }
 
-            buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
-            labelTituloCancion.Text = Program.LocalTexts.GetString("introduce_cancion");
-            labelMinutosSegundos.Text = Program.LocalTexts.GetString("min:sec");
-            esLarga.Text = Program.LocalTexts.GetString("esLarga");
-            labelNumPartes.Text = Program.LocalTexts.GetString("num_partes");
-            checkBoxBonus.Text = Program.LocalTexts.GetString("esBonus");
+            buttonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
+            labelTituloCancion.Text = Kernel.LocalTexts.GetString("introduce_cancion");
+            labelMinutosSegundos.Text = Kernel.LocalTexts.GetString("min:sec");
+            esLarga.Text = Kernel.LocalTexts.GetString("esLarga");
+            labelNumPartes.Text = Kernel.LocalTexts.GetString("num_partes");
+            checkBoxBonus.Text = Kernel.LocalTexts.GetString("esBonus");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -207,14 +207,14 @@ namespace Cassiopeia
             {
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
 
-                MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio1"));
 
             }
 
             catch (FormatException ex)
             {
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
                 //throw;
             }
 

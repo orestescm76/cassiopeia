@@ -26,23 +26,23 @@ namespace Cassiopeia
         public Spotify(bool v)
         {
             if(!v)
-                iniciar();
+                Start();
             else
-                iniciarModoStream();
+                StartStreamMode();
         }
         public void SpotifyVinculado()
         {
-            iniciarModoStream();
+            StartStreamMode();
         }
-        public bool TokenExpirado()
+        public bool IsTokenExpired()
         {
             return tokenActual.IsExpired();
         }
-        private async void iniciar()
+        private async void Start()
         {
             Log.Instance.PrintMessage("Intentando conectar con Spotify asíncronamente", MessageType.Info, "Spotify.iniciar()");
             Stopwatch crono = Stopwatch.StartNew();
-            Program.HayInternet(false);
+            Kernel.InternetAvaliable(false);
             try
             {
                 CredentialsAuth authMetadatos = new CredentialsAuth(clavePublica, clavePrivada);
@@ -55,34 +55,34 @@ namespace Cassiopeia
                 crono.Stop();
                 if(_spotify.AccessToken != null)
                 {
-                    Program.HayInternet(true);
+                    Kernel.InternetAvaliable(true);
                     Log.Instance.PrintMessage("Conectado sin errores", MessageType.Correct, crono, TimeType.Milliseconds);
                 }
                 else
                 {
-                    Program.HayInternet(false);
+                    Kernel.InternetAvaliable(false);
                     Log.Instance.PrintMessage("Se ha conectado pero el token es nulo", MessageType.Error, crono, TimeType.Milliseconds);
                 }
             }
             catch (NullReferenceException)
             {
-                Program.HayInternet(false);
+                Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage("No se ha podido conectar con Spotify", MessageType.Error);
-                System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("error_internet"));
+                System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
             catch (HttpRequestException)
             {
-                Program.HayInternet(false);
+                Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage("No se ha podido conectar con Spotify", MessageType.Error);
-                System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("error_internet"));
+                System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
         }
-        private void iniciarModoStream()
+        private void StartStreamMode()
         {
             try
             {
                 Log.Instance.PrintMessage("Intentando conectar cuenta de Spotify", MessageType.Info, "Spotify.iniciarModoStream()");
-                Program.HayInternet(true);
+                Kernel.InternetAvaliable(true);
                 Stopwatch crono = Stopwatch.StartNew();
                 auth = new AuthorizationCodeAuth(
                     clavePublica,
@@ -107,7 +107,7 @@ namespace Cassiopeia
                         cuentaLista = true;
                         cuentaVinculada = true;
                         Config.LinkedWithSpotify = true;
-                        Program.ActivarReproduccionSpotify();
+                        Kernel.ActivarReproduccionSpotify();
                         Log.Instance.PrintMessage("Conectado sin errores como " + _spotify.GetPrivateProfile().DisplayName, MessageType.Correct, crono, TimeType.Milliseconds);
                     }
                     else
@@ -118,26 +118,26 @@ namespace Cassiopeia
                         Config.LinkedWithSpotify = false;
                     }
                     CodigoRefresco = token.RefreshToken;
-                    Program.tareaRefrescoToken = new Thread(Program.RefreshSpotifyToken);
-                    Program.tareaRefrescoToken.Start();
+                    Kernel.ThreadRefreshToken = new Thread(Kernel.RefreshSpotifyToken);
+                    Kernel.ThreadRefreshToken.Start();
                 };
                 auth.Start();
                 auth.OpenBrowser();
             }
             catch (NullReferenceException)
             {
-                Program.HayInternet(false);
+                Kernel.InternetAvaliable(false);
                 Console.WriteLine("Algo fue mal");
-                System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("error_internet"));
+                System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
             catch (HttpRequestException)
             {
-                Program.HayInternet(false);
+                Kernel.InternetAvaliable(false);
                 Console.WriteLine("No tienes internet");
-                System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("error_internet"));
+                System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
         }
-        public void RefrescarToken()
+        public void RefreshToken()
         {
             Log.Instance.PrintMessage("Refrescando Token...",MessageType.Info);
             Token newToken = auth.RefreshToken(CodigoRefresco).Result;
@@ -201,7 +201,7 @@ namespace Cassiopeia
             }
             crono.Stop();
             Log.Instance.PrintMessage("Añadido",MessageType.Correct, crono, TimeType.Milliseconds);
-            Program.ReloadView();
+            Kernel.ReloadView();
             return true;
         }
         public void procesarAlbum(SimpleAlbum album)
@@ -223,13 +223,13 @@ namespace Cassiopeia
                 catch (System.Net.WebException)
                 {
                     Log.Instance.PrintMessage("Excepción capturada System.Net.WebException", MessageType.Warning);
-                    System.Windows.Forms.MessageBox.Show(Program.LocalTexts.GetString("errorPortada"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                     portada = "";
                 }
 
             }
             AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            if (Program.Collection.IsInCollection(a))
+            if (Kernel.Collection.IsInCollection(a))
             {
                 Log.Instance.PrintMessage("Intentando añadir duplicado, cancelando...", MessageType.Warning);
                 return;
@@ -246,7 +246,7 @@ namespace Cassiopeia
                     canciones[i].Length -= new TimeSpan(0, 0, 0, 0, canciones[i].Length.Milliseconds);
             }
             a.Songs = canciones;
-            Program.Collection.AddAlbum(ref a);
+            Kernel.Collection.AddAlbum(ref a);
         }
         public void procesarAlbum(FullAlbum album)
         {
@@ -272,7 +272,7 @@ namespace Cassiopeia
 
             }
             AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + portada); //creamos A
-            if (Program.Collection.IsInCollection(a))
+            if (Kernel.Collection.IsInCollection(a))
             {
                 Log.Instance.PrintMessage("Intentando añadir duplicado, cancelando...", MessageType.Warning);
                 throw new InvalidOperationException();
@@ -290,20 +290,20 @@ namespace Cassiopeia
             }
             a.Songs = canciones;
             a.CanBeRemoved = true;
-            Program.Collection.AddAlbum(ref a);
+            Kernel.Collection.AddAlbum(ref a);
         }
 
-        public void Reiniciar()
+        public void Restart()
         {
             Log.Instance.PrintMessage("Reiniciando Spotify", MessageType.Info);
         }
 
-        public ErrorResponse ReproducirAlbum(string uri)
+        public ErrorResponse PlayAlbum(string uri)
         {
             return _spotify.ResumePlayback(contextUri: "spotify:album:" + uri, offset: "", positionMs: 0);
         }
 
-        public ErrorResponse ReproducirCancion(string uri, int cual) //reproduce una cancion de un album
+        public ErrorResponse PlaySongFromAlbum(string uri, int cual) //reproduce una cancion de un album
         {
             FullAlbum album = _spotify.GetAlbum(uri);
             string uricancion = "";
@@ -331,7 +331,7 @@ namespace Cassiopeia
             }
             return string.Empty;
         }
-        public ErrorResponse ReproducirCancion(string uri, LongSong cl)
+        public ErrorResponse PlaySong(string uri, LongSong cl)
         {
             FullAlbum album = _spotify.GetAlbum(uri);
             List<string> uris = new List<string>();

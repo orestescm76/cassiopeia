@@ -7,7 +7,7 @@ namespace Cassiopeia
     public partial class editarAlbum : Form
     {
         private AlbumData albumAEditar;
-        private string[] generosTraducidos = new string[Program.Genres.Length-1];
+        private string[] generosTraducidos = new string[Kernel.Genres.Length-1];
         public editarAlbum(ref AlbumData a)
         {
             InitializeComponent();
@@ -26,23 +26,23 @@ namespace Cassiopeia
         }
         private void ponerTextos()
         {
-            Text = Program.LocalTexts.GetString("editando") + " " + albumAEditar.Artist + " - " + albumAEditar.Title;
-            labelArtista.Text = Program.LocalTexts.GetString("artista");
-            labelTitulo.Text = Program.LocalTexts.GetString("titulo");
-            labelAño.Text = Program.LocalTexts.GetString("año");
-            labelGeneros.Text = Program.LocalTexts.GetString("genero");
-            labelCaratula.Text = Program.LocalTexts.GetString("caratula");
-            labelDirectorio.Text = Program.LocalTexts.GetString("directorio");
-            labelURISpotify.Text = Program.LocalTexts.GetString("uriSpotify");
-            botonOkDoomer.Text = Program.LocalTexts.GetString("hecho");
-            botonCancelar.Text = Program.LocalTexts.GetString("cancelar");
-            botonCaratula.Text = Program.LocalTexts.GetString("buscar");
-            buttonAñadirCancion.Text = Program.LocalTexts.GetString("añadir_cancion");
-            buttonDirectorio.Text = Program.LocalTexts.GetString("buscarDirectorio");
+            Text = Kernel.LocalTexts.GetString("editando") + " " + albumAEditar.Artist + " - " + albumAEditar.Title;
+            labelArtista.Text = Kernel.LocalTexts.GetString("artista");
+            labelTitulo.Text = Kernel.LocalTexts.GetString("titulo");
+            labelAño.Text = Kernel.LocalTexts.GetString("año");
+            labelGeneros.Text = Kernel.LocalTexts.GetString("genero");
+            labelCaratula.Text = Kernel.LocalTexts.GetString("caratula");
+            labelDirectorio.Text = Kernel.LocalTexts.GetString("directorio");
+            labelURISpotify.Text = Kernel.LocalTexts.GetString("uriSpotify");
+            botonOkDoomer.Text = Kernel.LocalTexts.GetString("hecho");
+            botonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
+            botonCaratula.Text = Kernel.LocalTexts.GetString("buscar");
+            buttonAñadirCancion.Text = Kernel.LocalTexts.GetString("añadir_cancion");
+            buttonDirectorio.Text = Kernel.LocalTexts.GetString("buscarDirectorio");
             labelDirectorioActual.Text = albumAEditar.SoundFilesPath;
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
-                generosTraducidos[i] = Program.Genres[i].Name;
+                generosTraducidos[i] = Kernel.Genres[i].Name;
             }
             Array.Sort(generosTraducidos);
             comboBoxGeneros.Items.AddRange(generosTraducidos);
@@ -80,7 +80,7 @@ namespace Cassiopeia
                 albumAEditar.Title = textBoxTitulo.Text;
                 albumAEditar.Year = Convert.ToInt16(textBoxAño.Text);
                 string gn = comboBoxGeneros.SelectedItem.ToString();
-                Genre g = Program.Genres[Program.FindTranslatedGenre(gn)];
+                Genre g = Kernel.Genres[Kernel.FindTranslatedGenre(gn)];
                 albumAEditar.Genre = g;
                 albumAEditar.CoverPath = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
@@ -99,26 +99,26 @@ namespace Cassiopeia
             catch (NullReferenceException)
             {
                 Log.Instance.PrintMessage("Algún campo está vacío", MessageType.Warning);
-                MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio1"));
             }
 
             catch (FormatException)
             {
                 Log.Instance.PrintMessage("Formato incorrecto, no se guardará nada.", MessageType.Warning);
-                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
                 //throw;
             }
             catch (IndexOutOfRangeException)
             {
                 Log.Instance.PrintMessage("Formato incorrecto, no se guardará nada.", MessageType.Warning);
-                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
             nuevo.Show();
-            Program.ReloadView();
+            Kernel.ReloadView();
             Close();
-            Program.ReloadView();
-            Log.Instance.PrintMessage("Guardado sin problema", MessageType.Correct);
+            Kernel.ReloadView();
+            Log.Instance.PrintMessage("Saved correctly", MessageType.Correct);
         }
 
         private void botonCancelar_Click(object sender, EventArgs e)
@@ -131,7 +131,7 @@ namespace Cassiopeia
         private void botonCaratula_Click(object sender, EventArgs e)
         {
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Program.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.Filter = Kernel.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = albumAEditar.SoundFilesPath ?? Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {

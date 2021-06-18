@@ -1,12 +1,5 @@
-1.6.0.80
-Small Fixes
-Added Delunado in the credits.
-1.6.0.81
-PlaylistUI - Fixed a small issue when songs over 60 minutes long weren't showing correctly.
-Player - Same as above.
-1.6.0.82
-PlaylistUI - Fix for local songs and time not adding.
-PlaylistUI - Fixed the routine for deleting songs.
-PlaylistUI - Del key now deletes songs.
-1.6.0.83
-Updated NVorbis to 0.10.3
+1.7.0.0 - Ported to NET 5.
+
+1.7.0.1 - Reworked the application launch. New Kernel class to manage the core of the application.
+
+1.7.0.2 - Tweaked the application exit.

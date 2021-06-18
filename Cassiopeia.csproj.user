@@ -44,7 +44,7 @@
     <Compile Update="src\Forms\PlaylistIU.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\principal.cs">
+    <Compile Update="src\Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\Reproductor.cs">

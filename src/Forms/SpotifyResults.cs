@@ -17,16 +17,16 @@ namespace Cassiopeia.src.Forms
             InitializeComponent();
             EditarID = edit;
             AlbumAEditar = album;
-            Text = Program.LocalTexts.GetString("resultado_busqueda");
-            labelAyuda.Text = Program.LocalTexts.GetString("ayudaAñadir");
-            labelResultado.Text = Program.LocalTexts.GetString("seHanEncontrado") + l.Count + " " + Program.LocalTexts.GetString("resultados");
+            Text = Kernel.LocalTexts.GetString("resultado_busqueda");
+            labelAyuda.Text = Kernel.LocalTexts.GetString("ayudaAñadir");
+            labelResultado.Text = Kernel.LocalTexts.GetString("seHanEncontrado") + l.Count + " " + Kernel.LocalTexts.GetString("resultados");
             listaBusqueda = l;
-            listViewResultadoBusqueda.Columns[1].Text = Program.LocalTexts.GetString("artista");
-            listViewResultadoBusqueda.Columns[2].Text = Program.LocalTexts.GetString("titulo");
-            listViewResultadoBusqueda.Columns[3].Text = Program.LocalTexts.GetString("año");
-            listViewResultadoBusqueda.Columns[4].Text = Program.LocalTexts.GetString("numcanciones");
-            buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
-            buttonOK.Text = Program.LocalTexts.GetString("añadir");
+            listViewResultadoBusqueda.Columns[1].Text = Kernel.LocalTexts.GetString("artista");
+            listViewResultadoBusqueda.Columns[2].Text = Kernel.LocalTexts.GetString("titulo");
+            listViewResultadoBusqueda.Columns[3].Text = Kernel.LocalTexts.GetString("año");
+            listViewResultadoBusqueda.Columns[4].Text = Kernel.LocalTexts.GetString("numcanciones");
+            buttonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
+            buttonOK.Text = Kernel.LocalTexts.GetString("añadir");
             int n = 1;
             foreach(SimpleAlbum a in listaBusqueda)
             {
@@ -58,12 +58,12 @@ namespace Cassiopeia.src.Forms
                 for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
                 {
                     int cual = Convert.ToInt32(listViewResultadoBusqueda.SelectedItems[i].SubItems[0].Text);//la imagen tiene url
-                    Program._spotify.procesarAlbum(listaBusqueda[cual - 1]);
+                    Kernel.Spotify.procesarAlbum(listaBusqueda[cual - 1]);
                 }
                 DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
                 crono.Stop();
                 Console.WriteLine("Agregados " + listViewResultadoBusqueda.SelectedItems.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + "ms");
-                Program.ReloadView();
+                Kernel.ReloadView();
             }
             else
             {

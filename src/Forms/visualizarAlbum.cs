@@ -60,16 +60,16 @@ namespace Cassiopeia
             buttonPATH.Hide();
             albumToVisualize = cd.AlbumData;
             numDisco = 1;
-            infoAlbum.Text = Program.LocalTexts.GetString("artista") + ": " + cd.AlbumData.Artist + Environment.NewLine +
-                Program.LocalTexts.GetString("titulo") + ": " + cd.AlbumData.Title + Environment.NewLine +
-                Program.LocalTexts.GetString("año") + ": " + cd.AlbumData.Year + Environment.NewLine +
-                Program.LocalTexts.GetString("duracion") + ": " + cd.AlbumData.Length.ToString() + Environment.NewLine +
-                Program.LocalTexts.GetString("genero") + ": " + cd.AlbumData.Genre.Name + Environment.NewLine +
-                Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(cd.SleeveType.ToString()) + Environment.NewLine +
-                Program.LocalTexts.GetString("añoPublicacion") + ": " + cd.Year + Environment.NewLine +
-                Program.LocalTexts.GetString("paisPublicacion") + ":" + cd.Country + Environment.NewLine +
-                Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine;
-            labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(cd.Discos[0].MediaCondition.ToString()) + Environment.NewLine;
+            infoAlbum.Text = Kernel.LocalTexts.GetString("artista") + ": " + cd.AlbumData.Artist + Environment.NewLine +
+                Kernel.LocalTexts.GetString("titulo") + ": " + cd.AlbumData.Title + Environment.NewLine +
+                Kernel.LocalTexts.GetString("año") + ": " + cd.AlbumData.Year + Environment.NewLine +
+                Kernel.LocalTexts.GetString("duracion") + ": " + cd.AlbumData.Length.ToString() + Environment.NewLine +
+                Kernel.LocalTexts.GetString("genero") + ": " + cd.AlbumData.Genre.Name + Environment.NewLine +
+                Kernel.LocalTexts.GetString("formato") + ": " + Kernel.LocalTexts.GetString(cd.SleeveType.ToString()) + Environment.NewLine +
+                Kernel.LocalTexts.GetString("añoPublicacion") + ": " + cd.Year + Environment.NewLine +
+                Kernel.LocalTexts.GetString("paisPublicacion") + ":" + cd.Country + Environment.NewLine +
+                Kernel.LocalTexts.GetString("estado_exterior") + ": " + Kernel.LocalTexts.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine;
+            labelEstadoDisco.Text = Kernel.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Kernel.LocalTexts.GetString(cd.Discos[0].MediaCondition.ToString()) + Environment.NewLine;
             if (!string.IsNullOrEmpty(cd.AlbumData.CoverPath))
             {
                 Image caratula = Image.FromFile(cd.AlbumData.CoverPath);
@@ -88,31 +88,31 @@ namespace Cassiopeia
         }
         private void ponerTextos()
         {
-            Text = Program.LocalTexts.GetString("visualizando") + " " + albumToVisualize.Artist + " - " + albumToVisualize.Title;
+            Text = Kernel.LocalTexts.GetString("visualizando") + " " + albumToVisualize.Artist + " - " + albumToVisualize.Title;
             vistaCanciones.Columns[0].Text = "#";
-            vistaCanciones.Columns[1].Text = Program.LocalTexts.GetString("titulo");
-            vistaCanciones.Columns[2].Text = Program.LocalTexts.GetString("duracion");
-            okDoomerButton.Text = Program.LocalTexts.GetString("hecho");
-            editarButton.Text = Program.LocalTexts.GetString("editar");
-            duracionSeleccionada.Text = Program.LocalTexts.GetString("dur_total") + ": 00:00:00";
+            vistaCanciones.Columns[1].Text = Kernel.LocalTexts.GetString("titulo");
+            vistaCanciones.Columns[2].Text = Kernel.LocalTexts.GetString("duracion");
+            okDoomerButton.Text = Kernel.LocalTexts.GetString("hecho");
+            editarButton.Text = Kernel.LocalTexts.GetString("editar");
+            duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": 00:00:00";
             if (!(CDaVisualizar is null))
-                buttonAnotaciones.Text = Program.LocalTexts.GetString("editar_anotaciones");
+                buttonAnotaciones.Text = Kernel.LocalTexts.GetString("editar_anotaciones");
             else
-                buttonAnotaciones.Text = Program.LocalTexts.GetString("reproducir");
-            setBonusToolStripMenuItem.Text = Program.LocalTexts.GetString("setBonus");
-            reproducirToolStripMenuItem.Text = Program.LocalTexts.GetString("reproducir");
-            reproducirspotifyToolStripMenuItem.Text = Program.LocalTexts.GetString("reproducirSpotify");
-            buttonPATH.Text = Program.LocalTexts.GetString("calcularPATHS");
+                buttonAnotaciones.Text = Kernel.LocalTexts.GetString("reproducir");
+            setBonusToolStripMenuItem.Text = Kernel.LocalTexts.GetString("setBonus");
+            reproducirToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducir");
+            reproducirspotifyToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducirSpotify");
+            buttonPATH.Text = Kernel.LocalTexts.GetString("calcularPATHS");
             if (Config.Language == "el") //Greek needs a little adjustment on the UI
             {
                 Font but = buttonPATH.Font;
                 Font neo = new Font(but.FontFamily, 7);
                 buttonPATH.Font = neo;
             }
-            verLyricsToolStripMenuItem.Text = Program.LocalTexts.GetString("verLyrics");
-            fusionarToolStripMenuItem.Text = Program.LocalTexts.GetString("fusionarCancionPartes");
-            defusionarToolStripMenuItem.Text = Program.LocalTexts.GetString("defusionarCancionPartes");
-            copiarImagenStrip.Text = Program.LocalTexts.GetString("copiarImagen");
+            verLyricsToolStripMenuItem.Text = Kernel.LocalTexts.GetString("verLyrics");
+            fusionarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("fusionarCancionPartes");
+            defusionarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("defusionarCancionPartes");
+            copiarImagenStrip.Text = Kernel.LocalTexts.GetString("copiarImagen");
         }
         private void refrescarVista()
         {
@@ -142,7 +142,7 @@ namespace Cassiopeia
         private void cargarVista()
         {
             vistaCanciones.Items.Clear();
-            if (string.IsNullOrEmpty(albumToVisualize.IdSpotify) || Program._spotify is null || !Program._spotify.cuentaLista)
+            if (string.IsNullOrEmpty(albumToVisualize.IdSpotify) || Kernel.Spotify is null || !Kernel.Spotify.cuentaLista)
                 reproducirspotifyToolStripMenuItem.Enabled = false;
             if (string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
                 reproducirToolStripMenuItem.Enabled = false;
@@ -181,14 +181,14 @@ namespace Cassiopeia
                     i++;
                 }
                 if (durBonus.TotalMilliseconds != 0)
-                    infoAlbum.Text = Program.LocalTexts.GetString("artista") + ": " + albumToVisualize.Artist + Environment.NewLine +
-                        Program.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine +
-                        Program.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine +
-                        Program.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
-                        Program.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine +
-                        Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
-                        Program.LocalTexts.GetString("estado_medio") + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[0].MediaCondition.ToString()) + Environment.NewLine +
-                        Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
+                    infoAlbum.Text = Kernel.LocalTexts.GetString("artista") + ": " + albumToVisualize.Artist + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("estado_exterior") + ": " + Kernel.LocalTexts.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("estado_medio") + ": " + Kernel.LocalTexts.GetString(CDaVisualizar.Discos[0].MediaCondition.ToString()) + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("formato") + ": " + Kernel.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
             }
             else if (!(CDaVisualizar is null))
@@ -213,14 +213,14 @@ namespace Cassiopeia
                     i++;
                 }
                 if (durBonus.TotalMilliseconds != 0)
-                    infoAlbum.Text = Program.LocalTexts.GetString("artista") + ": " + albumToVisualize.Artist + Environment.NewLine +
-                        Program.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine +
-                        Program.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine +
-                        Program.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
-                        Program.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine +
-                        Program.LocalTexts.GetString("estado_exterior") + ": " + Program.LocalTexts.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
-                        Program.LocalTexts.GetString("estado_medio") + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[0].MediaCondition.ToString()) + Environment.NewLine +
-                        Program.LocalTexts.GetString("formato") + ": " + Program.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
+                    infoAlbum.Text = Kernel.LocalTexts.GetString("artista") + ": " + albumToVisualize.Artist + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("estado_exterior") + ": " + Kernel.LocalTexts.GetString(CDaVisualizar.EstadoExterior.ToString()) + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("estado_medio") + ": " + Kernel.LocalTexts.GetString(CDaVisualizar.Discos[0].MediaCondition.ToString()) + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("formato") + ": " + Kernel.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
 
             }
@@ -246,18 +246,18 @@ namespace Cassiopeia
                     i++;
                 }
                 if (durBonus.TotalMilliseconds != 0)
-                    infoAlbum.Text = Program.LocalTexts.GetString("artista") + ": " + albumToVisualize.Artist + Environment.NewLine +
-                        Program.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine +
-                        Program.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine +
-                        Program.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
-                        Program.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name;
+                    infoAlbum.Text = Kernel.LocalTexts.GetString("artista") + ": " + albumToVisualize.Artist + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name;
                 else
-                    infoAlbum.Text = Program.LocalTexts.GetString("artista") + ": " + albumToVisualize.Artist + Environment.NewLine +
-                        Program.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine +
-                        Program.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine +
-                        Program.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + Environment.NewLine +
-                        Program.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine +
-                        Program.LocalTexts.GetString("localizacion") + ": " + albumToVisualize.SoundFilesPath + Environment.NewLine;
+                    infoAlbum.Text = Kernel.LocalTexts.GetString("artista") + ": " + albumToVisualize.Artist + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine +
+                        Kernel.LocalTexts.GetString("localizacion") + ": " + albumToVisualize.SoundFilesPath + Environment.NewLine;
                 vistaCanciones.Items.AddRange(items);
             }
         }
@@ -321,7 +321,7 @@ namespace Cassiopeia
                     seleccion += can.Length;
                 }
             }
-            duracionSeleccionada.Text = Program.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
+            duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
         }
 
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -369,11 +369,11 @@ namespace Cassiopeia
                 {
                     case 1:
                         numDisco = 2;
-                        labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[numDisco - 1].MediaCondition.ToString()) + Environment.NewLine;
+                        labelEstadoDisco.Text = Kernel.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Kernel.LocalTexts.GetString(CDaVisualizar.Discos[numDisco - 1].MediaCondition.ToString()) + Environment.NewLine;
                         break;
                     case 2:
                         numDisco = 1;
-                        labelEstadoDisco.Text = Program.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Program.LocalTexts.GetString(CDaVisualizar.Discos[numDisco - 1].MediaCondition.ToString()) + Environment.NewLine;
+                        labelEstadoDisco.Text = Kernel.LocalTexts.GetString("estado_medio") + " " + numDisco + ": " + Kernel.LocalTexts.GetString(CDaVisualizar.Discos[numDisco - 1].MediaCondition.ToString()) + Environment.NewLine;
                         break;
                     default:
                         break;
@@ -419,7 +419,7 @@ namespace Cassiopeia
         {
             if (!string.IsNullOrEmpty(albumToVisualize.IdSpotify))
             {
-                SpotifyAPI.Web.Models.ErrorResponse err = Program._spotify.ReproducirCancion(albumToVisualize.IdSpotify, vistaCanciones.SelectedItems[0].Index);
+                SpotifyAPI.Web.Models.ErrorResponse err = Kernel.Spotify.PlaySongFromAlbum(albumToVisualize.IdSpotify, vistaCanciones.SelectedItems[0].Index);
                 if (err.Error != null && err.Error.Message != null)
                     MessageBox.Show(err.Error.Message);
             }
@@ -495,7 +495,7 @@ namespace Cassiopeia
             if (correcto)
             {
                 Log.Instance.PrintMessage("Finished without problems", MessageType.Correct, crono, TimeType.Milliseconds);
-                MessageBox.Show(Program.LocalTexts.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(Kernel.LocalTexts.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
                 
             else
@@ -507,10 +507,10 @@ namespace Cassiopeia
                         Log.Instance.PrintMessage(cancion.Title + " couldn't be linked...", MessageType.Warning);
                     }
                 }
-                MessageBox.Show(Program.LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(Kernel.LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             
-            Program.SavePATHS();
+            Kernel.SavePATHS();
         }
 
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -542,7 +542,7 @@ namespace Cassiopeia
         {
             if (vistaCanciones.SelectedItems.Count == 1)
             {
-                MessageBox.Show(Program.LocalTexts.GetString("error_fusionsingular"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_fusionsingular"));
                 return;
             }
             int num = vistaCanciones.SelectedItems[0].Index;
@@ -572,7 +572,7 @@ namespace Cassiopeia
             int num = item.Index;
             if (!(albumToVisualize.Songs[num] is LongSong))
             {
-                MessageBox.Show(Program.LocalTexts.GetString("error_defusion"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_defusion"));
                 return;
             }
 

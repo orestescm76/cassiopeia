@@ -60,14 +60,14 @@ namespace Cassiopeia.src.Forms
         }
         private void PonerTextos()
         {
-            buttonBuscar.Text = Program.LocalTexts.GetString("buscar");
-            buttonEditar.Text = Program.LocalTexts.GetString("editar");
-            buttonCerrar.Text = Program.LocalTexts.GetString("cerrar");
-            buttonLimpiar.Text = Program.LocalTexts.GetString("limpiar");
-            buttonDeshacer.Text = Program.LocalTexts.GetString("deshacer");
-            ConsejoDeshacer.SetToolTip(buttonDeshacer, Program.LocalTexts.GetString("consejoDeshacer"));
-            buttonBack.Text = Program.LocalTexts.GetString("anterior");
-            buttonNext.Text = Program.LocalTexts.GetString("siguiente");
+            buttonBuscar.Text = Kernel.LocalTexts.GetString("buscar");
+            buttonEditar.Text = Kernel.LocalTexts.GetString("editar");
+            buttonCerrar.Text = Kernel.LocalTexts.GetString("cerrar");
+            buttonLimpiar.Text = Kernel.LocalTexts.GetString("limpiar");
+            buttonDeshacer.Text = Kernel.LocalTexts.GetString("deshacer");
+            ConsejoDeshacer.SetToolTip(buttonDeshacer, Kernel.LocalTexts.GetString("consejoDeshacer"));
+            buttonBack.Text = Kernel.LocalTexts.GetString("anterior");
+            buttonNext.Text = Kernel.LocalTexts.GetString("siguiente");
         }
         private void Guardar()
         {
@@ -79,12 +79,12 @@ namespace Cassiopeia.src.Forms
             if(!textBoxLyrics.ReadOnly)
             {
                 textBoxLyrics.ReadOnly = true;
-                buttonEditar.Text = Program.LocalTexts.GetString("editar");
+                buttonEditar.Text = Kernel.LocalTexts.GetString("editar");
             }
             else
             {
                 textBoxLyrics.ReadOnly = false;
-                buttonEditar.Text = Program.LocalTexts.GetString("aceptar");
+                buttonEditar.Text = Kernel.LocalTexts.GetString("aceptar");
 
             }
         }

@@ -67,18 +67,18 @@ namespace Cassiopeia
         }
         private void PonerTextos()
         {
-            labelEstadoExterior.Text = Program.LocalTexts.GetString("estado_exterior");
-            labelEstadoMedio.Text = Program.LocalTexts.GetString("estado_medio");
-            labelFormato.Text = Program.LocalTexts.GetString("formato");
-            labelAñoPublicacion.Text = Program.LocalTexts.GetString("añoPublicacion");
-            labelPaisPublicacion.Text = Program.LocalTexts.GetString("paisPublicacion");
-            labelNumCanciones.Text = Program.LocalTexts.GetString("numcanciones");
+            labelEstadoExterior.Text = Kernel.LocalTexts.GetString("estado_exterior");
+            labelEstadoMedio.Text = Kernel.LocalTexts.GetString("estado_medio");
+            labelFormato.Text = Kernel.LocalTexts.GetString("formato");
+            labelAñoPublicacion.Text = Kernel.LocalTexts.GetString("añoPublicacion");
+            labelPaisPublicacion.Text = Kernel.LocalTexts.GetString("paisPublicacion");
+            labelNumCanciones.Text = Kernel.LocalTexts.GetString("numcanciones");
             String[] eeT = new string[7];
             String[] fT = new string[4];
             for (int i = 0; i < eeT.Length; i++)
-                eeT[i] = Program.LocalTexts.GetString(Enum.GetName(typeof(MediaCondition), i));
+                eeT[i] = Kernel.LocalTexts.GetString(Enum.GetName(typeof(MediaCondition), i));
             for (int i = 0; i < fT.Length; i++)
-                fT[i] = Program.LocalTexts.GetString(Enum.GetName(typeof(SleeveType), i));
+                fT[i] = Kernel.LocalTexts.GetString(Enum.GetName(typeof(SleeveType), i));
             comboBoxEstadoMedio.Items.AddRange(eeT);
             comboBoxEstadoExterior.Items.AddRange(eeT);
             comboBoxFormatoCD.Items.AddRange(fT);
@@ -104,7 +104,7 @@ namespace Cassiopeia
                 cd.Year = Convert.ToInt16(textBoxAño.Text);
                 cd.Country = textBoxPais.Text;
                 visualizarAlbum nuevo = new visualizarAlbum(ref cd);
-                Program.ReloadView();
+                Kernel.ReloadView();
                 nuevo.Show();
             }
             else if (NC != album.NumberOfSongs)
@@ -117,7 +117,7 @@ namespace Cassiopeia
                 else
                 {
                     CompactDisc cd = new CompactDisc(s, Convert.ToInt16(numericUpDownNumCanciones.Value), medio, exterior, formato, numDiscos);
-                    Program.Collection.AddCD(ref cd);
+                    Kernel.Collection.AddCD(ref cd);
                 }
             }
             else
@@ -132,7 +132,7 @@ namespace Cassiopeia
                 {
                      cd = new CompactDisc(s, album.NumberOfSongs, medio, exterior, formato, 0, textBoxPais.Text);
                 }
-                Program.Collection.AddCD(ref cd);
+                Kernel.Collection.AddCD(ref cd);
                 visualizarAlbum v = new visualizarAlbum(ref cd);
                 v.Show();
             }

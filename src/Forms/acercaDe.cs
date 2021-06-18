@@ -10,26 +10,26 @@ namespace Cassiopeia
         public acercaDe()
         {
             InitializeComponent();
-            Text = Program.LocalTexts.GetString("acerca") + " " + Program.LocalTexts.GetString("titulo_ventana_principal") + " " + Program.Version;
+            Text = Kernel.LocalTexts.GetString("acerca") + " " + Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version;
             PonerTextos();
         }
         private void PonerTextos()
         {
             labelAcercaDe.Text = "";
             labelAcercaDe.AutoSize = true;
-            string acercadeTexto = Program.Version + " Codename " + Program.CodeName;
+            string acercadeTexto = Kernel.Version + " Codename " + Kernel.CodeName;
             acercadeTexto += Environment.NewLine;
-            acercadeTexto += Program.LocalTexts.GetString("desarrolladoPor") + " Orestes Colomina Monsalve" + Environment.NewLine +
-                Program.LocalTexts.GetString("contacto") + Environment.NewLine + Environment.NewLine + Program.LocalTexts.GetString("agradecimientosA") + Environment.NewLine +
-                Program.LocalTexts.GetString("agradecimiento1") + Environment.NewLine + "https://github.com/JohnnyCrazy/SpotifyAPI-NET" + Environment.NewLine +
-                Program.LocalTexts.GetString("agradecimiento3") + Environment.NewLine +
-                Program.LocalTexts.GetString("agradecimiento4") + Environment.NewLine;
+            acercadeTexto += Kernel.LocalTexts.GetString("desarrolladoPor") + " Orestes Colomina Monsalve" + Environment.NewLine +
+                Kernel.LocalTexts.GetString("contacto") + Environment.NewLine + Environment.NewLine + Kernel.LocalTexts.GetString("agradecimientosA") + Environment.NewLine +
+                Kernel.LocalTexts.GetString("agradecimiento1") + Environment.NewLine + "https://github.com/JohnnyCrazy/SpotifyAPI-NET" + Environment.NewLine +
+                Kernel.LocalTexts.GetString("agradecimiento3") + Environment.NewLine +
+                Kernel.LocalTexts.GetString("agradecimiento4") + Environment.NewLine;
 
             switch (Config.Language)
             {
                 case "it":
                 case "ca":
-                    acercadeTexto += Program.LocalTexts.GetString("agradecimientoTraduccion");
+                    acercadeTexto += Kernel.LocalTexts.GetString("agradecimientoTraduccion");
                     break;
                 case "el":
                     labelAcercaDe.Location = new Point(2, 186);

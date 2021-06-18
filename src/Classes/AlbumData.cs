@@ -27,7 +27,7 @@ namespace Cassiopeia
         public AlbumData()
         {
             Songs = new List<Song>();
-            Genre = Program.Genres.Last();
+            Genre = Kernel.Genres.Last();
         }
 
         public AlbumData(Genre genre, string title = "", string artist = "", short year = 0, string coverPath = "")

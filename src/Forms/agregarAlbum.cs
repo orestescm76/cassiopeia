@@ -7,7 +7,7 @@ namespace Cassiopeia
     public partial class agregarAlbum : Form
     {
         private string caratula = "";
-        private String[] genresToSelect = new string[Program.Genres.Length-1];
+        private String[] genresToSelect = new string[Kernel.Genres.Length-1];
         public agregarAlbum()
         {
             InitializeComponent();
@@ -16,18 +16,18 @@ namespace Cassiopeia
         }
         private void ponerTextos()
         {
-            Text = Program.LocalTexts.GetString("agregar_album");
-            labelArtista.Text = Program.LocalTexts.GetString("artista");
-            labelTitulo.Text = Program.LocalTexts.GetString("titulo");
-            labelAño.Text = Program.LocalTexts.GetString("año");
-            labelNumCanciones.Text = Program.LocalTexts.GetString("numcanciones");
-            labelGenero.Text = Program.LocalTexts.GetString("genero");
-            add.Text = Program.LocalTexts.GetString("añadir");
-            addCaratula.Text = Program.LocalTexts.GetString("addcaratula");
-            labelCaratula.Text = Program.LocalTexts.GetString("caratula");
-            for (int i = 0; i < Program.Genres.Length-1; i++)
+            Text = Kernel.LocalTexts.GetString("agregar_album");
+            labelArtista.Text = Kernel.LocalTexts.GetString("artista");
+            labelTitulo.Text = Kernel.LocalTexts.GetString("titulo");
+            labelAño.Text = Kernel.LocalTexts.GetString("año");
+            labelNumCanciones.Text = Kernel.LocalTexts.GetString("numcanciones");
+            labelGenero.Text = Kernel.LocalTexts.GetString("genero");
+            add.Text = Kernel.LocalTexts.GetString("añadir");
+            addCaratula.Text = Kernel.LocalTexts.GetString("addcaratula");
+            labelCaratula.Text = Kernel.LocalTexts.GetString("caratula");
+            for (int i = 0; i < Kernel.Genres.Length-1; i++)
             {
-                genresToSelect[i] = Program.Genres[i].Name;
+                genresToSelect[i] = Kernel.Genres[i].Name;
             }
             Array.Sort(genresToSelect);
             comboBox1.Items.AddRange(genresToSelect);
@@ -36,7 +36,7 @@ namespace Cassiopeia
         {
             Log.Instance.PrintMessage("Buscando carátula", MessageType.Info);
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Program.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.Filter = Kernel.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
@@ -60,13 +60,13 @@ namespace Cassiopeia
                 string gent = comboBox1.SelectedItem.ToString();
                 year = Convert.ToInt16(yearTextBox.Text);
                 nC = Convert.ToInt16(numCancionesTextBox.Text);
-                Genre g = Program.Genres[Program.FindTranslatedGenre(gent)];
+                Genre g = Kernel.Genres[Kernel.FindTranslatedGenre(gent)];
                 AlbumData a = null;
                 if(caratula == "")
                     a = new AlbumData(g, titulo, artista, year, "");
                 else
                     a = new AlbumData(g, titulo, artista, year, caratula);
-                Program.Collection.AddAlbum(ref a);
+                Kernel.Collection.AddAlbum(ref a);
                 DialogResult cancelar = DialogResult.OK;
                 for (int i = 0; i < nC; i++)
                 {
@@ -76,7 +76,7 @@ namespace Cassiopeia
                     if (cancelar == DialogResult.Cancel)
                     {
                         Log.Instance.PrintMessage("Cancelado el proceso de añadir álbum", MessageType.Warning);
-                        Program.Collection.RemoveAlbum(ref a);
+                        Kernel.Collection.RemoveAlbum(ref a);
                         Close();
                         cancelado = true;
                         break;
@@ -86,19 +86,19 @@ namespace Cassiopeia
                 }
                 if(!cancelado)
                     Log.Instance.PrintMessage(artista + " - " + titulo + " agregado correctamente", MessageType.Correct);
-                Program.ReloadView();
+                Kernel.ReloadView();
                 Close();
             }
             catch (NullReferenceException ex)
             {
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(Program.LocalTexts.GetString("error_vacio1"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio1"));
             }
 
             catch (FormatException ex)
             {
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(Program.LocalTexts.GetString("error_formato"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
                 //throw;
             }
 

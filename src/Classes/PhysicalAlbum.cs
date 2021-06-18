@@ -32,7 +32,7 @@ namespace Cassiopeia
 
         public PhysicalAlbum(string s, MediaCondition estado, short y = 0, String p = null)
         {
-            AlbumData = Program.Collection.GetAlbum(s);
+            AlbumData = Kernel.Collection.GetAlbum(s);
             EstadoExterior = estado;
             Year = y;
             Country = p;
@@ -42,7 +42,7 @@ namespace Cassiopeia
 
         public PhysicalAlbum(string s)
         {
-            AlbumData = Program.Collection.GetAlbum(s);
+            AlbumData = Kernel.Collection.GetAlbum(s);
         }
     }
 }

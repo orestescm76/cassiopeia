@@ -68,7 +68,7 @@ namespace Cassiopeia
             {
                 Log.Instance.PrintMessage("Error de IO", MessageType.Error);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(Program.LocalTexts.GetString("errorReproduccion"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("errorReproduccion"));
                 _salida = null;
                 _sonido = null;
                 throw;
@@ -193,7 +193,7 @@ namespace Cassiopeia
             catch (IOException)
             {
                 Log.Instance.PrintMessage("No se puede leer el CD. El dispositivo no está preparado...", MessageType.Error);
-                MessageBox.Show(Program.LocalTexts.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Kernel.LocalTexts.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
             PistaCD[] Pistas = new PistaCD[Ficheros.Length];

@@ -49,29 +49,29 @@ namespace Cassiopeia.src.Forms
         }
         private void PonerTextos()
         {
-            Text = Program.LocalTexts.GetString("configuracion");
-            labelSelect.Text = Program.LocalTexts.GetString("seleccione_opcion");
-            buttonAplicar.Text = Program.LocalTexts.GetString("aplicar");
-            buttonOK.Text = Program.LocalTexts.GetString("aceptar");
-            buttonCancelar.Text = Program.LocalTexts.GetString("cancelar");
-            treeViewConfiguracion.Nodes[0].Text = Program.LocalTexts.GetString("idioma");
-            treeViewConfiguracion.Nodes[1].Text = Program.LocalTexts.GetString("cambiar_portapapeles");
-            treeViewConfiguracion.Nodes[2].Text = Program.LocalTexts.GetString("configView");
-            treeViewConfiguracion.Nodes[2].Nodes[0].Text = Program.LocalTexts.GetString("tipografíaLyrics");
-            treeViewConfiguracion.Nodes[2].Nodes[1].Text = Program.LocalTexts.GetString("colorsHighlight");
+            Text = Kernel.LocalTexts.GetString("configuracion");
+            labelSelect.Text = Kernel.LocalTexts.GetString("seleccione_opcion");
+            buttonAplicar.Text = Kernel.LocalTexts.GetString("aplicar");
+            buttonOK.Text = Kernel.LocalTexts.GetString("aceptar");
+            buttonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
+            treeViewConfiguracion.Nodes[0].Text = Kernel.LocalTexts.GetString("idioma");
+            treeViewConfiguracion.Nodes[1].Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
+            treeViewConfiguracion.Nodes[2].Text = Kernel.LocalTexts.GetString("configView");
+            treeViewConfiguracion.Nodes[2].Nodes[0].Text = Kernel.LocalTexts.GetString("tipografíaLyrics");
+            treeViewConfiguracion.Nodes[2].Nodes[1].Text = Kernel.LocalTexts.GetString("colorsHighlight");
         }
         private void LoadLanguageConfig()
         {
             config = ActiveConfig.Language;
-            radioButtonsIdiomas = new RadioButton[Program.NumIdiomas];
-            PictureBox[] pictureBoxesIdiomas = new PictureBox[Program.NumIdiomas];
-            groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_idioma");
+            radioButtonsIdiomas = new RadioButton[Kernel.NumLanguages];
+            PictureBox[] pictureBoxesIdiomas = new PictureBox[Kernel.NumLanguages];
+            groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_idioma");
             int y = 44;
-            for (int i = 0; i < Program.NumIdiomas; i++)
+            for (int i = 0; i < Kernel.NumLanguages; i++)
             {
                 radioButtonsIdiomas[i] = new RadioButton();
                 radioButtonsIdiomas[i].Location = new Point(44, y);
-                radioButtonsIdiomas[i].Text = Program.idiomas[i];
+                radioButtonsIdiomas[i].Text = Kernel.Languages[i];
                 if (radioButtonsIdiomas[i].Text == Config.Language)
                     radioButtonsIdiomas[i].Checked = true;
                 radioButtonsIdiomas[i].Font = new Font("Segoe UI", 9);
@@ -79,9 +79,9 @@ namespace Cassiopeia.src.Forms
                 pictureBoxesIdiomas[i].Location = new Point(6, y);
                 pictureBoxesIdiomas[i].Size = new Size(32, 32);
                 pictureBoxesIdiomas[i].SizeMode = PictureBoxSizeMode.StretchImage;
-                CultureInfo nombreIdioma = new CultureInfo(Program.idiomas[i]);
+                CultureInfo nombreIdioma = new CultureInfo(Kernel.Languages[i]);
                 radioButtonsIdiomas[i].Text = nombreIdioma.NativeName;
-                pictureBoxesIdiomas[i].Image = Config.GetIconoBandera(Program.idiomas[i]);
+                pictureBoxesIdiomas[i].Image = Config.GetIconoBandera(Kernel.Languages[i]);
 
                 groupBoxRaiz.Controls.Add(radioButtonsIdiomas[i]);
                 groupBoxRaiz.Controls.Add(pictureBoxesIdiomas[i]);
@@ -94,7 +94,7 @@ namespace Cassiopeia.src.Forms
         {
             config = ActiveConfig.Clipboard;
             vistaPreviaPortapapeles = new Label();
-            groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_portapapeles");
+            groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
             portapapelesConfig = new TextBox();
             portapapelesConfig.TextChanged += PortapapelesConfig_TextChanged;
             portapapelesConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
@@ -105,13 +105,13 @@ namespace Cassiopeia.src.Forms
             vistaPreviaPortapapeles.AutoSize = true;
             vistaPreviaPortapapeles.Font = portapapelesConfig.Font;
             string Preview = "";
-            if (Program.Collection.Albums.Count == 0)
+            if (Kernel.Collection.Albums.Count == 0)
                 Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
             else
             {
                 //Select a random album from the collection.
                 Random random = new Random();
-                AlbumData AlbumRef = Program.Collection.Albums[random.Next(Program.Collection.Albums.Count)];
+                AlbumData AlbumRef = Kernel.Collection.Albums[random.Next(Kernel.Collection.Albums.Count)];
                 AlbumCopyPreview = AlbumRef;
                 Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist);
             }
@@ -136,15 +136,15 @@ namespace Cassiopeia.src.Forms
         private void LoadColorConfig()
         {
             config = ActiveConfig.Colors;
-            groupBoxRaiz.Text = Program.LocalTexts.GetString("colorsHighlight");
+            groupBoxRaiz.Text = Kernel.LocalTexts.GetString("colorsHighlight");
             //Create stuff
             btColorBonus = new Button();
             btColorLongSong = new Button();
             ttbtColorBonus = new ToolTip();
             ttbtColorLongSong = new ToolTip();
 
-            ttbtColorLongSong.SetToolTip(btColorLongSong, Program.LocalTexts.GetString("helpColorLongSong"));
-            ttbtColorBonus.SetToolTip(btColorBonus, Program.LocalTexts.GetString("helpColorBonus"));
+            ttbtColorLongSong.SetToolTip(btColorLongSong, Kernel.LocalTexts.GetString("helpColorLongSong"));
+            ttbtColorBonus.SetToolTip(btColorBonus, Kernel.LocalTexts.GetString("helpColorBonus"));
             //Event config
             btColorBonus.Click += buttonColor_Click;
             btColorLongSong.Click += buttonColor_Click;
@@ -159,10 +159,10 @@ namespace Cassiopeia.src.Forms
             btColorLongSong.Location = new Point(x, y + 10);
 
             btColorBonus.BackColor = Config.ColorBonus;
-            btColorBonus.Text = Program.LocalTexts.GetString("bonus");
+            btColorBonus.Text = Kernel.LocalTexts.GetString("bonus");
 
             btColorLongSong.BackColor = Config.ColorLongSong;
-            btColorLongSong.Text = Program.LocalTexts.GetString("longSong");
+            btColorLongSong.Text = Kernel.LocalTexts.GetString("longSong");
 
             //Config internal tags
             btColorBonus.Tag = "bonus";
@@ -174,7 +174,7 @@ namespace Cassiopeia.src.Forms
 
         private void LoadTextConfig()
         {
-            groupBoxRaiz.Text = Program.LocalTexts.GetString("tipografíaLyrics");
+            groupBoxRaiz.Text = Kernel.LocalTexts.GetString("tipografíaLyrics");
             config = ActiveConfig.TextFont;
             //Create stuff
             btTextLyrics = new Button();
@@ -182,8 +182,8 @@ namespace Cassiopeia.src.Forms
             ttbtTextLyrics = new ToolTip();
             ttbtTextView = new ToolTip();
 
-            ttbtTextView.SetToolTip(btTextView, Program.LocalTexts.GetString("helpView"));
-            ttbtTextLyrics.SetToolTip(btTextLyrics, Program.LocalTexts.GetString("helpLyrics"));
+            ttbtTextView.SetToolTip(btTextView, Kernel.LocalTexts.GetString("helpView"));
+            ttbtTextLyrics.SetToolTip(btTextLyrics, Kernel.LocalTexts.GetString("helpLyrics"));
             //Event config
             btTextLyrics.Click += buttonText_Click;
             btTextView.Click += buttonText_Click;
@@ -200,9 +200,9 @@ namespace Cassiopeia.src.Forms
             btTextLyrics.Font = Config.FontLyrics;
             btTextView.Font = Config.FontView;
 
-            btTextLyrics.Text = Program.LocalTexts.GetString("lyrics");
+            btTextLyrics.Text = Kernel.LocalTexts.GetString("lyrics");
 
-            btTextView.Text = Program.LocalTexts.GetString("configView");
+            btTextView.Text = Kernel.LocalTexts.GetString("configView");
 
             //Config internal tags
             btTextLyrics.Tag = "lyrics";
@@ -219,10 +219,10 @@ namespace Cassiopeia.src.Forms
                     for (int i = 0; i < radioButtonsIdiomas.Length; i++)
                     {
                         if (radioButtonsIdiomas[i].Checked)
-                            Program.ChangeLanguage(Program.idiomas[i]);
+                            Kernel.ChangeLanguage(Kernel.Languages[i]);
                     }
                     PonerTextos();
-                    groupBoxRaiz.Text = Program.LocalTexts.GetString("cambiar_idioma");
+                    groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_idioma");
                     break;
                 case ActiveConfig.Clipboard:
                     Config.Clipboard = portapapelesConfig.Text;
@@ -234,7 +234,7 @@ namespace Cassiopeia.src.Forms
                 case ActiveConfig.TextFont:
                     Config.FontView = btTextView.Font;
                     Config.FontLyrics = btTextLyrics.Font;
-                    Program.ReloadView();
+                    Kernel.ReloadView();
                     break;
                 default:
                     break;

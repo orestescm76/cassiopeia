@@ -24,22 +24,22 @@ namespace Cassiopeia.src.Forms
         }
         private void PutTexts()
         {
-            fileToolStripMenuItem.Text = Program.LocalTexts.GetString("archivo");
-            newToolStripMenuItem.Text = Program.LocalTexts.GetString("nuevaPlaylist");
-            saveToolStripMenuItem.Text = Program.LocalTexts.GetString("guardar");
-            openToolStripMenuItem.Text = Program.LocalTexts.GetString("abrir");
-            addSongToolStripMenuItem.Text = Program.LocalTexts.GetString("añadir_cancion");
-            changeNameToolStripMenuItem.Text = Program.LocalTexts.GetString("cambiarNombrePL");
-            addSongToolStripMenuItem.Text = Program.LocalTexts.GetString("añadir_cancion");
-            listViewSongs.Columns[0].Text = Program.LocalTexts.GetString("reproduciendo");
-            listViewSongs.Columns[1].Text = Program.LocalTexts.GetString("artista");
-            listViewSongs.Columns[2].Text = Program.LocalTexts.GetString("titulo");
-            listViewSongs.Columns[3].Text = Program.LocalTexts.GetString("duracion");
-            toolStripStatusLabelTracksSelected.Text = "0 " + Program.LocalTexts.GetString("canciones");
+            fileToolStripMenuItem.Text = Kernel.LocalTexts.GetString("archivo");
+            newToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevaPlaylist");
+            saveToolStripMenuItem.Text = Kernel.LocalTexts.GetString("guardar");
+            openToolStripMenuItem.Text = Kernel.LocalTexts.GetString("abrir");
+            addSongToolStripMenuItem.Text = Kernel.LocalTexts.GetString("añadir_cancion");
+            changeNameToolStripMenuItem.Text = Kernel.LocalTexts.GetString("cambiarNombrePL");
+            addSongToolStripMenuItem.Text = Kernel.LocalTexts.GetString("añadir_cancion");
+            listViewSongs.Columns[0].Text = Kernel.LocalTexts.GetString("reproduciendo");
+            listViewSongs.Columns[1].Text = Kernel.LocalTexts.GetString("artista");
+            listViewSongs.Columns[2].Text = Kernel.LocalTexts.GetString("titulo");
+            listViewSongs.Columns[3].Text = Kernel.LocalTexts.GetString("duracion");
+            toolStripStatusLabelTracksSelected.Text = "0 " + Kernel.LocalTexts.GetString("canciones");
             toolStripStatusLabelDuration.Text = "0:00";
-            toolStripMenuItemPlay.Text = Program.LocalTexts.GetString("reproducir");
-            toolStripMenuItemRemove.Text = Program.LocalTexts.GetString("suprimir");
-            toolStripMenuItemOpenFolder.Text = Program.LocalTexts.GetString("openFolder");
+            toolStripMenuItemPlay.Text = Kernel.LocalTexts.GetString("reproducir");
+            toolStripMenuItemRemove.Text = Kernel.LocalTexts.GetString("suprimir");
+            toolStripMenuItemOpenFolder.Text = Kernel.LocalTexts.GetString("openFolder");
         }
         public void UpdateTime()
         {
@@ -258,7 +258,7 @@ namespace Cassiopeia.src.Forms
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show(Program.LocalTexts.GetString("errrorLR"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Kernel.LocalTexts.GetString("errrorLR"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             RefreshView();
@@ -286,7 +286,7 @@ namespace Cassiopeia.src.Forms
         {
             if (listViewSongs.SelectedItems.Count != 0)
             {
-                toolStripStatusLabelTracksSelected.Text = listViewSongs.SelectedItems.Count + " " + Program.LocalTexts.GetString("canciones");
+                toolStripStatusLabelTracksSelected.Text = listViewSongs.SelectedItems.Count + " " + Kernel.LocalTexts.GetString("canciones");
                 TimeSpan seleccion = new TimeSpan();
                 foreach (ListViewItem songItem in listViewSongs.SelectedItems)
                 {
@@ -301,14 +301,14 @@ namespace Cassiopeia.src.Forms
             else
             {
                 UpdateTime();
-                toolStripStatusLabelTracksSelected.Text = "0 " + Program.LocalTexts.GetString("canciones");
+                toolStripStatusLabelTracksSelected.Text = "0 " + Kernel.LocalTexts.GetString("canciones");
             }
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Creates a new playlist and sends it to the Player.
-            DialogResult result = MessageBox.Show(Program.LocalTexts.GetString("guardarPL"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(Kernel.LocalTexts.GetString("guardarPL"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             switch (result)
             {
                 case DialogResult.Yes:
@@ -321,7 +321,7 @@ namespace Cassiopeia.src.Forms
             }
             if(result != DialogResult.Yes) //for some reason, the user cancels at the save dialog...
             {
-                Reproductor.Instancia.CreatePlaylist(Program.LocalTexts.GetString("nuevaPlaylist"));
+                Reproductor.Instancia.CreatePlaylist(Kernel.LocalTexts.GetString("nuevaPlaylist"));
                 Pointer = 0;
                 RefreshView();
             }
@@ -371,12 +371,12 @@ namespace Cassiopeia.src.Forms
 
         private void toolStripMenuItemPlay_MouseEnter(object sender, EventArgs e)
         {
-            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoReproducir");
+            toolStripStatusLabelInfo.Text = Kernel.LocalTexts.GetString("infoReproducir");
         }
 
         private void toolStripMenuItemRemove_MouseEnter(object sender, EventArgs e)
         {
-            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoDelete");
+            toolStripStatusLabelInfo.Text = Kernel.LocalTexts.GetString("infoDelete");
         }
 
         private void toolStripMenuItemOpenFolder_Click(object sender, EventArgs e)
@@ -393,7 +393,7 @@ namespace Cassiopeia.src.Forms
 
         private void toolStripMenuItemOpenFolder_MouseEnter(object sender, EventArgs e)
         {
-            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoOpenFolder");
+            toolStripStatusLabelInfo.Text = Kernel.LocalTexts.GetString("infoOpenFolder");
         }
         private void listViewSongs_KeyDown(object sender, KeyEventArgs e)
         {

@@ -13,8 +13,8 @@ namespace Cassiopeia.src.Forms
         }
         private void PonerTextos()
         {
-            Text = Program.LocalTexts.GetString("abrirCD");
-            buttonPlay.Text = Program.LocalTexts.GetString("reproducir");
+            Text = Kernel.LocalTexts.GetString("abrirCD");
+            buttonPlay.Text = Kernel.LocalTexts.GetString("reproducir");
             buttonRip.Text = "Rip";
         }
         private void AbrirDisco_Load(object sender, EventArgs e)
