@@ -3,3 +3,7 @@
 1.7.0.1 - Reworked the application launch. New Kernel class to manage the core of the application.
 
 1.7.0.2 - Tweaked the application exit.
+
+1.7.0.3 - Some more tweaks.
+
+1.7.0.4 - Reworked the refesh token task.

@@ -24,9 +24,7 @@ namespace Cassiopeia
             /*LOADING PROCESS*/
             Log.Instance.PrintMessage("Starting...", MessageType.Info);
 
-           
-
-            Stopwatch stopwatch = Stopwatch.StartNew();
+            Stopwatch StartStopwatch = Stopwatch.StartNew();
             //Checking arguments
             Kernel.ParseArgs(args);
             //First of all... check updates
@@ -45,12 +43,14 @@ namespace Cassiopeia
             Kernel.LoadFiles();
             //Create player Instance
             Kernel.InitPlayer();
+
             //We're done!
-            stopwatch.Stop();
-            Log.Instance.PrintMessage("Application loaded!", MessageType.Correct, stopwatch, TimeType.Milliseconds);
+            StartStopwatch.Stop();
+            Log.Instance.PrintMessage("Application loaded!", MessageType.Correct, StartStopwatch, TimeType.Milliseconds);
+            
             //ApplicationStart
             Kernel.StartApplication();
-            //Program halts here untill Application.Exit is called.
+            //Program halts here until Application.Exit is called.
             Kernel.Quit();
         }
     }

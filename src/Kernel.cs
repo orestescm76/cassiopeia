@@ -5,9 +5,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Resources;
-using System.Threading;
 using System.Windows.Forms;
 using Cassiopeia.src.Forms;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Cassiopeia
 {
@@ -51,7 +52,8 @@ namespace Cassiopeia
 
         public static Genre[] Genres = new Genre[IDGenres.Length];
 
-        public static Thread ThreadRefreshToken;
+        public static Task TaskRefreshToken;
+        private static CancellationTokenSource RefreshTokenCancellation = new CancellationTokenSource();
 
         public static ResXResourceSet LocalTexts;
         public static MainForm MainForm;
@@ -69,18 +71,17 @@ namespace Cassiopeia
         public static int NumLanguages;
         public static readonly string Version = "v" + Application.ProductVersion;
 
-        public static void RefreshSpotifyToken()
+        public static void RefreshSpotifyToken(CancellationToken cancellationToken)
         {
             while (true)
             {
-                if (Thread.CurrentThread.ThreadState == System.Threading.ThreadState.WaitSleepJoin)
+                var cancelar = cancellationToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(15));
+                if (cancelar && cancellationToken.IsCancellationRequested)
                     return;
                 if (Spotify.IsTokenExpired())
                 {
                     Spotify.RefreshToken();
                 }
-
-                Thread.Sleep(TimeSpan.FromSeconds(15));
             }
         }
         public static void ChangeLanguage(String lang)
@@ -244,6 +245,7 @@ namespace Cassiopeia
                     SpotifyReady = true;
                     MainForm.DesactivarVinculacion();
                 }
+
             }
             else
             {
@@ -252,6 +254,15 @@ namespace Cassiopeia
                 Spotify = null;
                 MainForm.EnableInternet(false);
             }
+        }
+        public static void InitTask()
+        {
+            TaskRefreshToken = Task.Factory.StartNew(
+                () => { RefreshSpotifyToken(RefreshTokenCancellation.Token); },
+                RefreshTokenCancellation.Token,
+                TaskCreationOptions.LongRunning,
+                TaskScheduler.Default
+                );
         }
         public static void InitGenres()
         {
@@ -328,8 +339,15 @@ namespace Cassiopeia
 
         public static void Quit()
         {
-            if (Spotify is not null && ThreadRefreshToken is not null)
-                ThreadRefreshToken.Join();
+            RefreshTokenCancellation.Cancel();
+            try
+            {
+                TaskRefreshToken.Wait();
+            }
+            catch (Exception)
+            {
+                Log.Instance.PrintMessage("TaskRefreshToken is terminated", MessageType.Correct);
+            }
 
             SaveAlbums("discos.csv", SaveType.Digital);
             SaveAlbums("cd.json", SaveType.CD);

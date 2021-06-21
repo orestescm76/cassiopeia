@@ -47,6 +47,7 @@ namespace Cassiopeia
             {
                 CredentialsAuth authMetadatos = new CredentialsAuth(clavePublica, clavePrivada);
                 Token token = await authMetadatos.GetToken();
+                tokenActual = token;
                 _spotify = new SpotifyWebAPI()
                 {
                     TokenType = token.TokenType,
@@ -56,6 +57,7 @@ namespace Cassiopeia
                 if(_spotify.AccessToken != null)
                 {
                     Kernel.InternetAvaliable(true);
+                    Kernel.InitTask();
                     Log.Instance.PrintMessage("Conectado sin errores", MessageType.Correct, crono, TimeType.Milliseconds);
                 }
                 else
@@ -63,6 +65,7 @@ namespace Cassiopeia
                     Kernel.InternetAvaliable(false);
                     Log.Instance.PrintMessage("Se ha conectado pero el token es nulo", MessageType.Error, crono, TimeType.Milliseconds);
                 }
+
             }
             catch (NullReferenceException)
             {
@@ -118,8 +121,8 @@ namespace Cassiopeia
                         Config.LinkedWithSpotify = false;
                     }
                     CodigoRefresco = token.RefreshToken;
-                    Kernel.ThreadRefreshToken = new Thread(Kernel.RefreshSpotifyToken);
-                    Kernel.ThreadRefreshToken.Start();
+                    Kernel.InitTask();
+
                 };
                 auth.Start();
                 auth.OpenBrowser();
