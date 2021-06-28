@@ -27,12 +27,12 @@ namespace Cassiopeia
             Stopwatch StartStopwatch = Stopwatch.StartNew();
             //Checking arguments
             Kernel.ParseArgs(args);
-            //First of all... check updates
-            Kernel.CheckForUpdates();
             //Load configuration
             Kernel.LoadConfig();
-            //Loading languages
+            //Loading languages, else it will not load the textbox.
             Kernel.LoadLanguages();
+            //First of all... check updates
+            Kernel.CheckForUpdates();
             //Create program
             Kernel.CreateProgram();
             //Init Spotify

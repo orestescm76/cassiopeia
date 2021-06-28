@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Cassiopeia": {
+      "commandName": "Project"
+    },
+    "Debug": {
+      "commandName": "Executable"
+    }
+  }
+}
