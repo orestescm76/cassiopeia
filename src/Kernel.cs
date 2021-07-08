@@ -339,16 +339,18 @@ namespace Cassiopeia
 
         public static void Quit()
         {
-            RefreshTokenCancellation.Cancel();
-            try
+            if(TaskRefreshToken is not null)
             {
-                TaskRefreshToken.Wait();
+                RefreshTokenCancellation.Cancel();
+                try
+                {
+                    TaskRefreshToken.Wait();
+                }
+                catch (Exception)
+                {
+                    Log.Instance.PrintMessage("TaskRefreshToken is terminated", MessageType.Correct);
+                }
             }
-            catch (Exception)
-            {
-                Log.Instance.PrintMessage("TaskRefreshToken is terminated", MessageType.Correct);
-            }
-
             SaveAlbums("discos.csv", SaveType.Digital);
             SaveAlbums("cd.json", SaveType.CD);
             SavePATHS();
