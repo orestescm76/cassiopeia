@@ -47,7 +47,7 @@
             // 
             // artistaTextBox
             // 
-            this.artistaTextBox.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.artistaTextBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.artistaTextBox.Location = new System.Drawing.Point(195, 28);
             this.artistaTextBox.Name = "artistaTextBox";
             this.artistaTextBox.Size = new System.Drawing.Size(127, 25);
@@ -55,7 +55,7 @@
             // 
             // tituloTextBox
             // 
-            this.tituloTextBox.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tituloTextBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tituloTextBox.Location = new System.Drawing.Point(195, 55);
             this.tituloTextBox.Name = "tituloTextBox";
             this.tituloTextBox.Size = new System.Drawing.Size(127, 25);
@@ -63,7 +63,7 @@
             // 
             // yearTextBox
             // 
-            this.yearTextBox.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.yearTextBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.yearTextBox.Location = new System.Drawing.Point(195, 84);
             this.yearTextBox.Name = "yearTextBox";
             this.yearTextBox.Size = new System.Drawing.Size(127, 25);
@@ -71,7 +71,7 @@
             // 
             // numCancionesTextBox
             // 
-            this.numCancionesTextBox.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.numCancionesTextBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.numCancionesTextBox.Location = new System.Drawing.Point(195, 113);
             this.numCancionesTextBox.Name = "numCancionesTextBox";
             this.numCancionesTextBox.Size = new System.Drawing.Size(127, 25);
@@ -79,7 +79,7 @@
             // 
             // add
             // 
-            this.add.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.add.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.add.Location = new System.Drawing.Point(103, 234);
             this.add.Name = "add";
             this.add.Size = new System.Drawing.Size(121, 35);
@@ -91,7 +91,7 @@
             // labelArtista
             // 
             this.labelArtista.AutoSize = true;
-            this.labelArtista.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelArtista.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelArtista.Location = new System.Drawing.Point(12, 28);
             this.labelArtista.Name = "labelArtista";
             this.labelArtista.Size = new System.Drawing.Size(55, 19);
@@ -102,7 +102,7 @@
             // labelAño
             // 
             this.labelAño.AutoSize = true;
-            this.labelAño.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelAño.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelAño.Location = new System.Drawing.Point(12, 84);
             this.labelAño.Name = "labelAño";
             this.labelAño.Size = new System.Drawing.Size(40, 19);
@@ -113,7 +113,7 @@
             // labelTitulo
             // 
             this.labelTitulo.AutoSize = true;
-            this.labelTitulo.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelTitulo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelTitulo.Location = new System.Drawing.Point(12, 55);
             this.labelTitulo.Name = "labelTitulo";
             this.labelTitulo.Size = new System.Drawing.Size(49, 19);
@@ -124,7 +124,7 @@
             // labelNumCanciones
             // 
             this.labelNumCanciones.AutoSize = true;
-            this.labelNumCanciones.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelNumCanciones.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelNumCanciones.Location = new System.Drawing.Point(12, 113);
             this.labelNumCanciones.Name = "labelNumCanciones";
             this.labelNumCanciones.Size = new System.Drawing.Size(107, 19);
@@ -134,7 +134,7 @@
             // 
             // comboBox1
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(195, 139);
             this.comboBox1.Name = "comboBox1";
@@ -144,7 +144,7 @@
             // labelGenero
             // 
             this.labelGenero.AutoSize = true;
-            this.labelGenero.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelGenero.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelGenero.Location = new System.Drawing.Point(12, 139);
             this.labelGenero.Name = "labelGenero";
             this.labelGenero.Size = new System.Drawing.Size(60, 19);
@@ -155,7 +155,7 @@
             // labelCaratula
             // 
             this.labelCaratula.AutoSize = true;
-            this.labelCaratula.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelCaratula.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelCaratula.Location = new System.Drawing.Point(12, 170);
             this.labelCaratula.Name = "labelCaratula";
             this.labelCaratula.Size = new System.Drawing.Size(107, 19);
@@ -165,7 +165,7 @@
             // 
             // addCaratula
             // 
-            this.addCaratula.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.addCaratula.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addCaratula.Location = new System.Drawing.Point(195, 168);
             this.addCaratula.Name = "addCaratula";
             this.addCaratula.Size = new System.Drawing.Size(127, 24);
@@ -177,7 +177,7 @@
             // ruta
             // 
             this.ruta.AutoSize = true;
-            this.ruta.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ruta.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ruta.Location = new System.Drawing.Point(13, 200);
             this.ruta.Name = "ruta";
             this.ruta.Size = new System.Drawing.Size(0, 15);
@@ -202,7 +202,7 @@
             this.Controls.Add(this.yearTextBox);
             this.Controls.Add(this.tituloTextBox);
             this.Controls.Add(this.artistaTextBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "agregarAlbum";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

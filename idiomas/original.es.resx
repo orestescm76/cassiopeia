@@ -710,4 +710,7 @@
   <data name="agradecimiento3" xml:space="preserve">
     <value> * Los creadores de NVorbis, CSCore y TagLib</value>
   </data>
+  <data name="noDisqueteras" xml:space="preserve">
+    <value>No tienes disqueteras</value>
+  </data>
 </root>

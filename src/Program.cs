@@ -31,8 +31,6 @@ namespace Cassiopeia
             Kernel.LoadConfig();
             //Loading languages, else it will not load the textbox.
             Kernel.LoadLanguages();
-            //First of all... check updates
-            Kernel.CheckForUpdates();
             //Create program
             Kernel.CreateProgram();
             //Init Spotify
@@ -48,6 +46,8 @@ namespace Cassiopeia
             StartStopwatch.Stop();
             Log.Instance.PrintMessage("Application loaded!", MessageType.Correct, StartStopwatch, TimeType.Milliseconds);
             
+            //Before everything... check updates
+            Kernel.CheckForUpdates();
             //ApplicationStart
             Kernel.StartApplication();
             //Program halts here until Application.Exit is called.

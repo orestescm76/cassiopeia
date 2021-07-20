@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Console.WriteLine("Creando CD");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CrearCD));
             this.comboBoxEstadoExterior = new System.Windows.Forms.ComboBox();
             this.comboBoxEstadoMedio = new System.Windows.Forms.ComboBox();
@@ -49,24 +48,27 @@
             // comboBoxEstadoExterior
             // 
             this.comboBoxEstadoExterior.FormattingEnabled = true;
-            this.comboBoxEstadoExterior.Location = new System.Drawing.Point(120, 12);
+            this.comboBoxEstadoExterior.Location = new System.Drawing.Point(140, 14);
+            this.comboBoxEstadoExterior.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.comboBoxEstadoExterior.Name = "comboBoxEstadoExterior";
-            this.comboBoxEstadoExterior.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxEstadoExterior.Size = new System.Drawing.Size(140, 23);
             this.comboBoxEstadoExterior.TabIndex = 0;
             // 
             // comboBoxEstadoMedio
             // 
             this.comboBoxEstadoMedio.FormattingEnabled = true;
-            this.comboBoxEstadoMedio.Location = new System.Drawing.Point(120, 58);
+            this.comboBoxEstadoMedio.Location = new System.Drawing.Point(140, 64);
+            this.comboBoxEstadoMedio.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.comboBoxEstadoMedio.Name = "comboBoxEstadoMedio";
-            this.comboBoxEstadoMedio.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxEstadoMedio.Size = new System.Drawing.Size(140, 23);
             this.comboBoxEstadoMedio.TabIndex = 1;
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(96, 234);
+            this.buttonOK.Location = new System.Drawing.Point(100, 280);
+            this.buttonOK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.Size = new System.Drawing.Size(88, 27);
             this.buttonOK.TabIndex = 2;
             this.buttonOK.Text = "Ok";
             this.buttonOK.UseVisualStyleBackColor = true;
@@ -75,91 +77,101 @@
             // comboBoxFormatoCD
             // 
             this.comboBoxFormatoCD.FormattingEnabled = true;
-            this.comboBoxFormatoCD.Location = new System.Drawing.Point(120, 109);
+            this.comboBoxFormatoCD.Location = new System.Drawing.Point(140, 121);
+            this.comboBoxFormatoCD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.comboBoxFormatoCD.Name = "comboBoxFormatoCD";
-            this.comboBoxFormatoCD.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxFormatoCD.Size = new System.Drawing.Size(140, 23);
             this.comboBoxFormatoCD.TabIndex = 3;
             // 
             // labelEstadoExterior
             // 
             this.labelEstadoExterior.AutoSize = true;
-            this.labelEstadoExterior.Location = new System.Drawing.Point(12, 15);
+            this.labelEstadoExterior.Location = new System.Drawing.Point(13, 17);
+            this.labelEstadoExterior.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelEstadoExterior.Name = "labelEstadoExterior";
-            this.labelEstadoExterior.Size = new System.Drawing.Size(35, 13);
+            this.labelEstadoExterior.Size = new System.Drawing.Size(38, 15);
             this.labelEstadoExterior.TabIndex = 4;
             this.labelEstadoExterior.Text = "label1";
             // 
             // textBoxPais
             // 
-            this.textBoxPais.Location = new System.Drawing.Point(120, 145);
+            this.textBoxPais.Location = new System.Drawing.Point(140, 167);
+            this.textBoxPais.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxPais.Name = "textBoxPais";
-            this.textBoxPais.Size = new System.Drawing.Size(121, 20);
+            this.textBoxPais.Size = new System.Drawing.Size(140, 23);
             this.textBoxPais.TabIndex = 5;
             // 
             // labelEstadoMedio
             // 
             this.labelEstadoMedio.AutoSize = true;
-            this.labelEstadoMedio.Location = new System.Drawing.Point(12, 61);
+            this.labelEstadoMedio.Location = new System.Drawing.Point(13, 67);
+            this.labelEstadoMedio.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelEstadoMedio.Name = "labelEstadoMedio";
-            this.labelEstadoMedio.Size = new System.Drawing.Size(35, 13);
+            this.labelEstadoMedio.Size = new System.Drawing.Size(38, 15);
             this.labelEstadoMedio.TabIndex = 6;
             this.labelEstadoMedio.Text = "label2";
             // 
             // labelFormato
             // 
             this.labelFormato.AutoSize = true;
-            this.labelFormato.Location = new System.Drawing.Point(12, 112);
+            this.labelFormato.Location = new System.Drawing.Point(13, 124);
+            this.labelFormato.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelFormato.Name = "labelFormato";
-            this.labelFormato.Size = new System.Drawing.Size(35, 13);
+            this.labelFormato.Size = new System.Drawing.Size(38, 15);
             this.labelFormato.TabIndex = 7;
             this.labelFormato.Text = "label3";
             // 
             // labelPaisPublicacion
             // 
             this.labelPaisPublicacion.AutoSize = true;
-            this.labelPaisPublicacion.Location = new System.Drawing.Point(12, 148);
+            this.labelPaisPublicacion.Location = new System.Drawing.Point(14, 171);
+            this.labelPaisPublicacion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelPaisPublicacion.Name = "labelPaisPublicacion";
-            this.labelPaisPublicacion.Size = new System.Drawing.Size(26, 13);
+            this.labelPaisPublicacion.Size = new System.Drawing.Size(28, 15);
             this.labelPaisPublicacion.TabIndex = 8;
             this.labelPaisPublicacion.Text = "pais";
             // 
             // labelAñoPublicacion
             // 
             this.labelAñoPublicacion.AutoSize = true;
-            this.labelAñoPublicacion.Location = new System.Drawing.Point(12, 183);
+            this.labelAñoPublicacion.Location = new System.Drawing.Point(14, 211);
+            this.labelAñoPublicacion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelAñoPublicacion.Name = "labelAñoPublicacion";
-            this.labelAñoPublicacion.Size = new System.Drawing.Size(25, 13);
+            this.labelAñoPublicacion.Size = new System.Drawing.Size(27, 15);
             this.labelAñoPublicacion.TabIndex = 10;
             this.labelAñoPublicacion.Text = "año";
             // 
             // textBoxAño
             // 
-            this.textBoxAño.Location = new System.Drawing.Point(120, 180);
+            this.textBoxAño.Location = new System.Drawing.Point(140, 208);
+            this.textBoxAño.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxAño.Name = "textBoxAño";
-            this.textBoxAño.Size = new System.Drawing.Size(121, 20);
+            this.textBoxAño.Size = new System.Drawing.Size(140, 23);
             this.textBoxAño.TabIndex = 9;
             // 
             // labelNumCanciones
             // 
             this.labelNumCanciones.AutoSize = true;
-            this.labelNumCanciones.Location = new System.Drawing.Point(12, 216);
+            this.labelNumCanciones.Location = new System.Drawing.Point(13, 243);
+            this.labelNumCanciones.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelNumCanciones.Name = "labelNumCanciones";
-            this.labelNumCanciones.Size = new System.Drawing.Size(35, 13);
+            this.labelNumCanciones.Size = new System.Drawing.Size(38, 15);
             this.labelNumCanciones.TabIndex = 11;
             this.labelNumCanciones.Text = "label4";
             // 
             // numericUpDownNumCanciones
             // 
-            this.numericUpDownNumCanciones.Location = new System.Drawing.Point(120, 209);
+            this.numericUpDownNumCanciones.Location = new System.Drawing.Point(140, 241);
+            this.numericUpDownNumCanciones.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericUpDownNumCanciones.Name = "numericUpDownNumCanciones";
-            this.numericUpDownNumCanciones.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDownNumCanciones.Size = new System.Drawing.Size(140, 23);
             this.numericUpDownNumCanciones.TabIndex = 12;
             // 
             // CrearCD
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(253, 269);
+            this.ClientSize = new System.Drawing.Size(293, 319);
             this.Controls.Add(this.numericUpDownNumCanciones);
             this.Controls.Add(this.labelNumCanciones);
             this.Controls.Add(this.labelAñoPublicacion);
@@ -174,6 +186,7 @@
             this.Controls.Add(this.comboBoxEstadoMedio);
             this.Controls.Add(this.comboBoxEstadoExterior);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "CrearCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

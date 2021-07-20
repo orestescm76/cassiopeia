@@ -32,7 +32,7 @@ namespace Cassiopeia
             }
             catch (FileNotFoundException)
             {
-                Log.Instance.PrintMessage("No se encuentra la carátula", MessageType.Warning);
+                Log.Instance.PrintMessage("Cover path is invalid", MessageType.Warning);
                 vistaCaratula.Image = Properties.Resources.albumdesconocido;
             }
             lvwColumnSorter = new ListViewItemComparer();
@@ -411,7 +411,7 @@ namespace Cassiopeia
                 explorador.StartInfo.FileName = "explorer.exe";
                 explorador.StartInfo.Arguments = albumToVisualize.SoundFilesPath;
                 explorador.Start();
-                Log.Instance.PrintMessage("Abierto explorer con PID: " + explorador.Id, MessageType.Info);
+                Log.Instance.PrintMessage("Opened explorer.exe with PID: " + explorador.Id, MessageType.Info);
             }
         }
 
@@ -450,7 +450,7 @@ namespace Cassiopeia
         }
         private void buttonPATH_Click(object sender, EventArgs e)
         {
-            Log.Instance.PrintMessage("Buscando canciones para " + albumToVisualize.ToString(), MessageType.Info);
+            Log.Instance.PrintMessage("Searching songs for " + albumToVisualize.ToString(), MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             bool correcto = true;
             DirectoryInfo directorioCanciones = new DirectoryInfo(albumToVisualize.SoundFilesPath);

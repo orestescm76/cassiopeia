@@ -39,8 +39,7 @@ namespace Cassiopeia
         }
         public agregarCancion(ref Song c) //editar
         {
-            Log.Instance.PrintMessage("Editando canción", MessageType.Info);
-            Stopwatch crono = Stopwatch.StartNew();
+            Log.Instance.PrintMessage("Editing song " + c.Title, MessageType.Info); 
             InitializeComponent();
             cual = -1;
             esLarga.Hide();
@@ -73,13 +72,10 @@ namespace Cassiopeia
                 checkBoxBonus.Checked = true;
             np = 0;
             ponerTextos();
-            crono.Stop();
-            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
         public agregarCancion(ref AlbumData a, int n, bool l) //crear canción larga
         {
-            Log.Instance.PrintMessage("Creando canción con partes", MessageType.Info);
-            Stopwatch crono = Stopwatch.StartNew();
+            Log.Instance.PrintMessage("Creating multipart song", MessageType.Info);
             InitializeComponent();
             larga = l;
             album = a;
@@ -93,14 +89,11 @@ namespace Cassiopeia
             minTextBox.Hide();
             esLarga.Hide();
             checkBoxBonus.Hide();
-            crono.Stop();
-            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
 
         public agregarCancion(ref LongSong l, int n, ref AlbumData a) //crear parte de canción larga
         {
-            Log.Instance.PrintMessage("Creando parte de canción larga", MessageType.Info);
-            Stopwatch crono = Stopwatch.StartNew();
+            Log.Instance.PrintMessage("Creating part of a multipart song", MessageType.Info);
             InitializeComponent();
             cancionlarga = l;
             cual = n;
@@ -113,8 +106,6 @@ namespace Cassiopeia
             np = 0;
             checkBoxBonus.Hide();
             ponerTextos();
-            crono.Stop();
-            Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
 
         private void ponerTextos()
@@ -251,7 +242,7 @@ namespace Cassiopeia
         private void button2_Click(object sender, EventArgs e)
         {
             DialogResult =  DialogResult.Cancel;
-            Log.Instance.PrintMessage("Cancelado", MessageType.Info);
+            Log.Instance.PrintMessage("Cancelled", MessageType.Info);
             Close();
         }
 

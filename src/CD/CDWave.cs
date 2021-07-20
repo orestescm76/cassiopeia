@@ -150,7 +150,11 @@ namespace Cassiopeia.CD
             set
             {
                 if (value > (endSector - startSector) && value < 0)
+                {
+                    Log.Instance.PrintMessage("Value exceeds the total number of sectors", MessageType.Error);
                     throw new ArgumentOutOfRangeException();
+                }
+
                 else
                 {
                     currentSector = (uint)(startSector + value);

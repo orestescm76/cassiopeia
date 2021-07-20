@@ -716,4 +716,7 @@
   <data name="agradecimiento3" xml:space="preserve">
     <value> * The programmers of NVorbis, CSCore and TagLib</value>
   </data>
+  <data name="noDisqueteras" xml:space="preserve">
+    <value>You don't have any CD drives avaliable</value>
+  </data>
 </root>

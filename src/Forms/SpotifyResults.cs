@@ -52,8 +52,8 @@ namespace Cassiopeia.src.Forms
         {
             if(!EditarID)
             {
-                Log.Instance.PrintMessage("Intentando añadir " + listViewResultadoBusqueda.SelectedItems.Count +
-                    " álbumes", MessageType.Info);
+                Log.Instance.PrintMessage("Trying to add " + listViewResultadoBusqueda.SelectedItems.Count +
+                    " albums", MessageType.Info);
                 Stopwatch crono = Stopwatch.StartNew();
                 for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
                 {
@@ -62,7 +62,7 @@ namespace Cassiopeia.src.Forms
                 }
                 DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
                 crono.Stop();
-                Console.WriteLine("Agregados " + listViewResultadoBusqueda.SelectedItems.Count + " álbumes correctamente en " + crono.ElapsedMilliseconds + "ms");
+                Log.Instance.PrintMessage("Added " + listViewResultadoBusqueda.SelectedItems.Count + " albums", MessageType.Correct, crono, TimeType.Milliseconds);
                 Kernel.ReloadView();
             }
             else

@@ -29,6 +29,17 @@ namespace Cassiopeia
             album = a;
             NDisco = 1;
             numDiscos = nd;
+            //Get max number of songs for fist CD.
+            double len = 0;
+            int numSongs = 0;
+            for (int i = 0; i < a.Songs.Count; i++)
+            {
+                len += a.Songs[i].Length.TotalMinutes;
+                if (len > 80)
+                    break;
+                else numSongs++;
+            }
+            numericUpDownNumCanciones.Maximum = numSongs;
             PonerTextos();
         }
         public CrearCD(ref CompactDisc cdd, short n, bool edit = false)

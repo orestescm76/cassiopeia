@@ -11,7 +11,7 @@ namespace Cassiopeia
         public editarAlbum(ref AlbumData a)
         {
             InitializeComponent();
-            Console.WriteLine("Editando canción");
+            Log.Instance.PrintMessage("Editing album " + a.Artist + " - " + a.Title, MessageType.Info);
             albumAEditar = a;
             textBoxArtista.Text = albumAEditar.Artist;
             textBoxAño.Text = albumAEditar.Year.ToString();
@@ -75,7 +75,7 @@ namespace Cassiopeia
         {
             try//si está vacío pues guarda vacío
             {
-                Log.Instance.PrintMessage("Intentando guardar", MessageType.Info);
+                Log.Instance.PrintMessage("Trying to save", MessageType.Info);
                 albumAEditar.Artist = textBoxArtista.Text;
                 albumAEditar.Title = textBoxTitulo.Text;
                 albumAEditar.Year = Convert.ToInt16(textBoxAño.Text);
@@ -98,19 +98,19 @@ namespace Cassiopeia
             }
             catch (NullReferenceException)
             {
-                Log.Instance.PrintMessage("Algún campo está vacío", MessageType.Warning);
+                Log.Instance.PrintMessage("Can't save the edit", MessageType.Warning);
                 MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio1"));
             }
 
             catch (FormatException)
             {
-                Log.Instance.PrintMessage("Formato incorrecto, no se guardará nada.", MessageType.Warning);
+                Log.Instance.PrintMessage("Wrong input, won't change anything", MessageType.Warning);
                 MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
                 //throw;
             }
             catch (IndexOutOfRangeException)
             {
-                Log.Instance.PrintMessage("Formato incorrecto, no se guardará nada.", MessageType.Warning);
+                Log.Instance.PrintMessage("Wrong input, won't change anything", MessageType.Warning);
                 MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
             }
             visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
@@ -142,17 +142,18 @@ namespace Cassiopeia
 
         private void vistaCanciones_MouseDoubleClick(object sender, MouseEventArgs e) //editar cancion
         {
-            Log.Instance.PrintMessage("Editando canción", MessageType.Info);
+            Log.Instance.PrintMessage("Editing song", MessageType.Info);
             String text = vistaCanciones.SelectedItems[0].Text;
             Song cancionAEditar = albumAEditar.GetSong(text);
             agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
             editarCancion.ShowDialog();
             cargarVista();
-            Log.Instance.PrintMessage("Guardado correctamente", MessageType.Correct);
+            Log.Instance.PrintMessage("Saved!", MessageType.Correct);
         }
 
         private void buttonAñadirCancion_Click(object sender, EventArgs e)
         {
+            Log.Instance.PrintMessage("Trying to add a song", MessageType.Info);
             agregarCancion AC = new agregarCancion(ref albumAEditar, -2);
             AC.ShowDialog();
             borrarVista();

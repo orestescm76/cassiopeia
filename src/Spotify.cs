@@ -8,7 +8,7 @@ using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Models;
 using SpotifyAPI.Web.Enums;
 using System.Threading;
-
+//NEED TO UPDATE SPOTIFY API TO NEW VERSION!
 namespace Cassiopeia
 {
     class Spotify

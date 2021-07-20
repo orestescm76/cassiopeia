@@ -128,14 +128,14 @@ namespace Cassiopeia.src.Forms
         }
         private void SavePlaylist()
         {
-            Log.Instance.PrintMessage("Guardando playlist", MessageType.Info);
+            Log.Instance.PrintMessage("Saving playlist", MessageType.Info);
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
             saveFileDialog.Filter = ".plf|*.plf";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Playlist.Save(saveFileDialog.FileName);
-                Log.Instance.PrintMessage("Guardado correctamente", MessageType.Correct);
+                Log.Instance.PrintMessage("Saved", MessageType.Correct);
             }
         }
         //I don't care if the user has multiple songs selected, i play the first one.
@@ -154,7 +154,7 @@ namespace Cassiopeia.src.Forms
         //Gets the selected songs and removes them from the playlist
         private void RemoveSongs()
         {
-            Log.Instance.PrintMessage("Borrando canciones de la playlist", MessageType.Info);
+            Log.Instance.PrintMessage("Deleting songs off the playlist", MessageType.Info);
             Song[] selectedSongs = GetSelectedSongs();
             listViewSongs.SelectedItems.Clear();
             for (int i = 0; i < selectedSongs.Length; i++)
@@ -163,7 +163,7 @@ namespace Cassiopeia.src.Forms
                 listViewSongs.SelectedItems[i].Remove();
             }
             RefreshView();
-            Log.Instance.PrintMessage("Borrado correcto", MessageType.Correct);
+            Log.Instance.PrintMessage("Deleted succesfully!", MessageType.Correct);
         }
         private void SetPlayVisibility(bool value)
         {
@@ -185,12 +185,14 @@ namespace Cassiopeia.src.Forms
 
         private void PlaylistIU_DragDrop(object sender, DragEventArgs e)
         {
+            Log.Instance.PrintMessage("Detected Drag & Drop", MessageType.Info);
             Song c = null;
             string[] canciones = null;
             if((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
                 if(!string.IsNullOrEmpty(c.Path))
                 {
+                    Log.Instance.PrintMessage("Adding " + c.Path, MessageType.Info);
                     Playlist.AddSong(c);
                 }
             }
@@ -198,10 +200,15 @@ namespace Cassiopeia.src.Forms
             {
                 foreach (string songPath in canciones)
                 {
+                    Log.Instance.PrintMessage("Adding " + songPath, MessageType.Info);
                     Song clr = new Song();
                     clr.Path = songPath;
                     Playlist.AddSong(clr);
                 }
+            }
+            else
+            {
+                Log.Instance.PrintMessage("Can't process the data. Wrong input?", MessageType.Warning);
             }
             RefreshView();
             
@@ -245,7 +252,7 @@ namespace Cassiopeia.src.Forms
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Log.Instance.PrintMessage("Abriendo playlist", MessageType.Info);
+            Log.Instance.PrintMessage("Opening playlist", MessageType.Info);
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.CurrentDirectory;
             openFileDialog.Filter = ".plf|*.plf";
@@ -254,10 +261,11 @@ namespace Cassiopeia.src.Forms
                 try
                 {
                     Playlist.Load(openFileDialog.FileName);
-                    Log.Instance.PrintMessage("Abierto correctamente", MessageType.Correct);
+                    Log.Instance.PrintMessage("Opened", MessageType.Correct);
                 }
                 catch (Exception)
                 {
+                    Log.Instance.PrintMessage("Playlist file is invalid", MessageType.Error);
                     MessageBox.Show(Kernel.LocalTexts.GetString("errrorLR"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

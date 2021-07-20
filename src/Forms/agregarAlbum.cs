@@ -12,7 +12,7 @@ namespace Cassiopeia
         {
             InitializeComponent();
             ponerTextos();
-            Log.Instance.PrintMessage("Creando álbum", MessageType.Info);
+            Log.Instance.PrintMessage("Creating album manually", MessageType.Info);
         }
         private void ponerTextos()
         {
@@ -34,7 +34,7 @@ namespace Cassiopeia
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            Log.Instance.PrintMessage("Buscando carátula", MessageType.Info);
+            Log.Instance.PrintMessage("Looking for album cover", MessageType.Info);
             OpenFileDialog abrirImagen = new OpenFileDialog();
             abrirImagen.Filter = Kernel.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
@@ -44,7 +44,7 @@ namespace Cassiopeia
                 caratula = fichero;
                 ruta.Text = fichero;
             }
-            Log.Instance.PrintMessage("Imagen " + ruta + " cargada", MessageType.Correct);
+            Log.Instance.PrintMessage("Image " + ruta + " loaded", MessageType.Correct);
         }
 
         private void add_Click(object sender, EventArgs e)
@@ -75,7 +75,7 @@ namespace Cassiopeia
                     cancelar = agregarCancion.ShowDialog();
                     if (cancelar == DialogResult.Cancel)
                     {
-                        Log.Instance.PrintMessage("Cancelado el proceso de añadir álbum", MessageType.Warning);
+                        Log.Instance.PrintMessage("Process has been canceled", MessageType.Warning);
                         Kernel.Collection.RemoveAlbum(ref a);
                         Close();
                         cancelado = true;
@@ -85,7 +85,7 @@ namespace Cassiopeia
                         continue;
                 }
                 if(!cancelado)
-                    Log.Instance.PrintMessage(artista + " - " + titulo + " agregado correctamente", MessageType.Correct);
+                    Log.Instance.PrintMessage(artista + " - " + titulo + " added", MessageType.Correct);
                 Kernel.ReloadView();
                 Close();
             }

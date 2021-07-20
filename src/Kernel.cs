@@ -86,7 +86,7 @@ namespace Cassiopeia
         }
         public static void ChangeLanguage(String lang)
         {
-            Log.Instance.PrintMessage("Cambiando idioma al " + lang, MessageType.Info);
+            Log.Instance.PrintMessage("Changing language to " + lang, MessageType.Info);
             LocalTexts = new ResXResourceSet(@"./idiomas/" + "original." + lang + ".resx");
             Config.Language = lang;
             ReloadGenres();
@@ -202,8 +202,8 @@ namespace Cassiopeia
             }
             catch (WebException e)
             {
-                Log.Instance.PrintMessage("Hubo un problema intentando localizar la nueva versión...", MessageType.Error);
-                Log.Instance.PrintMessage("Respuesta del servidor: " + e.Response, MessageType.Info);
+                Log.Instance.PrintMessage("There was a problem when trying to fetch updates...", MessageType.Error);
+                Log.Instance.PrintMessage("Server response: " + e.Response, MessageType.Info);
                 verNueva = string.Empty;
                 return false;
             }
@@ -221,7 +221,7 @@ namespace Cassiopeia
             string newVersion;
             if (Kernel.GetUpdate(out newVersion) && Kernel.CheckUpdates)
             {
-                Log.Instance.PrintMessage("Está disponible la actualización " + newVersion, MessageType.Info);
+                Log.Instance.PrintMessage("A new update is avaliable: " + newVersion, MessageType.Info);
                 DialogResult act = MessageBox.Show(LocalTexts.GetString("actualizacion1") + Environment.NewLine + newVersion + Environment.NewLine + LocalTexts.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
                 if (act == DialogResult.Yes)
                     Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
@@ -250,7 +250,7 @@ namespace Cassiopeia
             else
             {
                 SpotifyReady = false;
-                Log.Instance.PrintMessage("Se ha iniciado la aplicación con el parámetro -noSpotify, no habrá integración con Spotify", MessageType.Info);
+                Log.Instance.PrintMessage("Cassiopeia has been launched with the -noSpotify option, there will not be any Spotify integration", MessageType.Info);
                 Spotify = null;
                 MainForm.EnableInternet(false);
             }
@@ -371,7 +371,7 @@ namespace Cassiopeia
         //Methods for loading and saving...
         public static void LoadAlbums(string fichero)
         {
-            Log.Instance.PrintMessage("Cargando álbumes almacenados en " + fichero, MessageType.Info, "cargarAlbumes(string)");
+            Log.Instance.PrintMessage("Loading albums stored at " + fichero, MessageType.Info, "cargarAlbumes(string)");
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamReader lector = new StreamReader(fichero))
             {
@@ -386,17 +386,17 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Milliseconds);
+            Log.Instance.PrintMessage("Loaded " + Collection.Albums.Count + " albums without problems", MessageType.Correct, crono, TimeType.Milliseconds);
             ReloadView();
         }
         private static void SendErrorLoading(int line, string file)
         {
-            Log.Instance.PrintMessage("Error cargando el álbum. Revise la línea " + line + " del fichero " + file, MessageType.Error);
+            Log.Instance.PrintMessage("The album data file has mistakes. Check line " + line + " of " + file, MessageType.Error);
             MessageBox.Show(LocalTexts.GetString("errorLoadingAlbums1") + line + " " + LocalTexts.GetString("errorLoadingAlbums2") + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         public static void LoadCSVAlbums(string fichero)
         {
-            Log.Instance.PrintMessage("Cargando álbumes CSV almacenados en " + fichero, MessageType.Info, "cargarAlbumesLegacy(string)");
+            Log.Instance.PrintMessage("Loading CSV albums stored at " + fichero, MessageType.Info, "cargarAlbumesLegacy(string)");
             Stopwatch crono = Stopwatch.StartNew();
             //cargando CSV a lo bestia
             int lineaC = 1;
@@ -488,7 +488,7 @@ namespace Cassiopeia
                     if (Collection.IsInCollection(a))
                     {
                         exito = false; //pues ya está repetido.
-                        Log.Instance.PrintMessage("Álbum repetido -> " + a.Artist + " - " + a.Title, MessageType.Warning);
+                        Log.Instance.PrintMessage("Repeated album -> " + a.Artist + " - " + a.Title, MessageType.Warning);
                     }
 
                     if (exito)
@@ -507,7 +507,7 @@ namespace Cassiopeia
         {
             if (!File.Exists(fichero))
                 return;
-
+            Log.Instance.PrintMessage("Loading CDS...",MessageType.Info);
             using (StreamReader lector = new StreamReader(fichero))
             {
                 string linea;
@@ -524,7 +524,7 @@ namespace Cassiopeia
         }
         public static void LoadPATHS()
         {
-            Log.Instance.PrintMessage("Cargando PATHS", MessageType.Info);
+            Log.Instance.PrintMessage("Loading PATHS", MessageType.Info);
             using (StreamReader entrada = new FileInfo("paths.txt").OpenText())
             {
                 string linea = null;
@@ -555,9 +555,10 @@ namespace Cassiopeia
         }
         public static void SavePATHS()
         {
-            Log.Instance.PrintMessage("Guardando PATHS", MessageType.Info);
+            Log.Instance.PrintMessage("Saving PATHS", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
-            using (StreamWriter salida = new FileInfo("paths.txt").CreateText())
+            FileInfo pathsInfo = new FileInfo("paths.txt");
+            using (StreamWriter salida = pathsInfo.CreateText())
             {
                 foreach (AlbumData album in Collection.Albums)
                 {
@@ -571,9 +572,12 @@ namespace Cassiopeia
                         }
                     }
                 }
+                salida.Flush();
+                pathsInfo.Refresh();
+                crono.Stop();
             }
-            crono.Stop();
-            Log.Instance.PrintMessage("Guardados los PATHS", MessageType.Correct, crono, TimeType.Milliseconds);
+            Log.Instance.PrintMessage("Saved songs PATH", MessageType.Correct, crono, TimeType.Milliseconds);
+            Log.Instance.PrintMessage("Filesize: " + pathsInfo.Length / 1024.0 + " kb", MessageType.Info);
         }
         public static void SaveAlbums(string path, SaveType tipoGuardado, bool json = false)
         {
@@ -587,8 +591,8 @@ namespace Cassiopeia
                     switch (tipoGuardado)
                     {
                         case SaveType.Digital:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Collection.Albums.Count + " discos)", MessageType.Info);
-                            Log.Instance.PrintMessage("Nombre del fichero: " + path, MessageType.Info);
+                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
+                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
                             foreach (AlbumData a in Collection.Albums)
                             {
                                 JsonSerializer s = new JsonSerializer();
@@ -597,8 +601,8 @@ namespace Cassiopeia
                             }
                             break;
                         case SaveType.CD:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Collection.CDS.Count + " cds)", MessageType.Info);
-                            Log.Instance.PrintMessage("Nombre del fichero: " + path, MessageType.Info);
+                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
+                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
                             foreach (CompactDisc compacto in Collection.CDS)
                             {
                                 salida.WriteLine(JsonConvert.SerializeObject(compacto));
@@ -607,7 +611,7 @@ namespace Cassiopeia
                         default:
                             break;
                     }
-
+                    salida.Flush();
                 }
             }
             else
@@ -617,8 +621,8 @@ namespace Cassiopeia
                     switch (tipoGuardado)
                     {
                         case SaveType.Digital:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Guardando la base de datos... (" + Collection.Albums.Count + " discos)", MessageType.Info);
-                            Log.Instance.PrintMessage("Nombre del fichero: " + path, MessageType.Info);
+                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
+                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
                             foreach (AlbumData a in Collection.Albums)
                             {
                                 if (!(a.Songs[0] == null)) //no puede ser un album con 0 canciones
@@ -649,17 +653,18 @@ namespace Cassiopeia
                         default:
                             break;
                     }
-
+                    salida.Flush();
                 }
             }
             crono.Stop();
             fich.Refresh();
-            Log.Instance.PrintMessage(nameof(SaveAlbums) + "- Guardado", MessageType.Correct, crono, TimeType.Milliseconds);
             crono.Stop();
+            Log.Instance.PrintMessage(nameof(SaveAlbums) + "- Saved", MessageType.Correct, crono, TimeType.Milliseconds);
+            Log.Instance.PrintMessage("Filesize: " + fich.Length / 1024.0 + " kb", MessageType.Info);
         }
         public static void LoadLyrics()
         {
-            Log.Instance.PrintMessage("Cargando lyrics", MessageType.Info);
+            Log.Instance.PrintMessage("Loading lyrics", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamReader entrada = new FileInfo("lyrics.txt").OpenText())
             {
@@ -681,13 +686,13 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Lyrics cargadas", MessageType.Correct, crono, TimeType.Milliseconds);
+            Log.Instance.PrintMessage("Lyrics loaded", MessageType.Correct, crono, TimeType.Milliseconds);
         }
         public static void SaveLyrics()
         {
-            Log.Instance.PrintMessage("Guardando lyrics", MessageType.Info);
+            Log.Instance.PrintMessage("Saving lyrics", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
-            using (StreamWriter salida = new FileInfo("lyrics.txt").CreateText())
+            using (StreamWriter salida = new FileInfo("lyrics.txt").CreateText()) //change?
             {
                 foreach (AlbumData album in Collection.Albums)
                 {
@@ -706,9 +711,9 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Guardados las letras", MessageType.Correct, crono, TimeType.Milliseconds);
+            Log.Instance.PrintMessage("Saved lyrics", MessageType.Correct, crono, TimeType.Milliseconds);
             FileInfo lyrics = new FileInfo("lyrics.txt");
-            Log.Instance.PrintMessage("Tamaño del fichero: " + lyrics.Length / 1024 + " kb", MessageType.Info);
+            Log.Instance.PrintMessage("Filesize: " + lyrics.Length / 1024.0 + " kb", MessageType.Info);
         }
     }
 }

@@ -10,14 +10,15 @@ using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
 using Cassiopeia.Properties;
+using System.Collections.Generic;
 
 namespace Cassiopeia.src.Forms
 {
     public enum EstadoReproductor
     {
-        Reproduciendo,
-        Pausado,
-        Detenido
+        Playing,
+        Paused,
+        Stop
     }
     public partial class Reproductor : Form
     {
@@ -61,7 +62,7 @@ namespace Cassiopeia.src.Forms
             InitializeComponent();
             SetPlayerButtons(false);
             timerCancion.Enabled = false;
-            estadoReproductor = EstadoReproductor.Detenido;
+            estadoReproductor = EstadoReproductor.Stop;
             trackBarPosicion.Enabled = false;
             DuracionSeleccionada = new ToolTip();
             VolumenSeleccionado = new ToolTip();
@@ -117,7 +118,7 @@ namespace Cassiopeia.src.Forms
             labelDuracion.Text = "XX:XX";
             labelPosicion.Text = "0:00";
             labelPorcentaje.Text = "0%";
-            Text = "";
+            Text = Kernel.LocalTexts.GetString("reproductor");
             labelDatosCancion.Text = "";
             notifyIconReproduciendo.Visible = false;
             if (!(lrui is null))
@@ -151,7 +152,7 @@ namespace Cassiopeia.src.Forms
         {
             _spotify = Kernel.Spotify._spotify;
             user = _spotify.GetPrivateProfile();
-            Log.PrintMessage("Iniciando el Reproductor en modo Spotify, con cuenta " + user.Email, MessageType.Info);
+            Log.PrintMessage("Starting player with Spotify mode, e-mail: " + user.Email, MessageType.Info);
             Spotify = true;
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
@@ -161,7 +162,7 @@ namespace Cassiopeia.src.Forms
             EsPremium = (user.Product == "premium") ? true : false;
             SpotifyListo = true;
             timerSpotify.Enabled = true;
-            toolStripStatusLabelCorreoUsuario.Text = "Conectado como " + user.DisplayName;
+            toolStripStatusLabelCorreoUsuario.Text = Kernel.LocalTexts.GetString("conectadoComo") + " " + user.DisplayName;
         }
         public void Apagar()
         {
@@ -175,12 +176,12 @@ namespace Cassiopeia.src.Forms
         }
         private void ApagarSpotify()
         {
-            Log.Instance.PrintMessage("Apagando Spotify", MessageType.Info);
+            Log.Instance.PrintMessage("Shutting down Spotify", MessageType.Info);
             backgroundWorker.CancelAsync();
             buttoncrearLR.Show();
             buttonSpotify.Text = Kernel.LocalTexts.GetString("cambiarSpotify");
             timerSpotify.Enabled = false;
-            estadoReproductor = EstadoReproductor.Detenido;
+            estadoReproductor = EstadoReproductor.Stop;
             Spotify = false;
             timerCancion.Enabled = false;
             timerMetadatos.Enabled = false;
@@ -203,7 +204,7 @@ namespace Cassiopeia.src.Forms
         }
         public void ActivarSpotify()
         {
-            Log.Instance.PrintMessage("Activando Spotify", MessageType.Info);
+            Log.Instance.PrintMessage("Changing to Spotify", MessageType.Info);
             try
             {
                 timerMetadatos.Enabled = false;
@@ -230,7 +231,7 @@ namespace Cassiopeia.src.Forms
                 }
                 catch (Exception)
                 {
-                    Log.PrintMessage("No hay fichero de np.jpg", MessageType.Warning);
+                    Log.PrintMessage("np.jpg does not exist", MessageType.Warning);
                 }
                 buttonAgregar.Show();
                 Icon = Properties.Resources.spotifyico;
@@ -266,12 +267,12 @@ namespace Cassiopeia.src.Forms
                 }
                 catch (System.Net.WebException)
                 {
-                    Log.PrintMessage("Error descargando la imagen", MessageType.Warning);
+                    Log.PrintMessage("Couldn't download the album cover", MessageType.Warning);
                     File.Delete("./covers/np.jpg");
                 }
                 catch (IOException)
                 {
-                    Log.PrintMessage("Error descargando la imagen, no es posible reemplazar el fichero...", MessageType.Error);
+                    Log.PrintMessage("Couldn't download the album cover, cannot replace...", MessageType.Error);
                 }
             }
         }
@@ -279,10 +280,10 @@ namespace Cassiopeia.src.Forms
         {
             switch (er)
             {
-                case EstadoReproductor.Reproduciendo: //return pause
+                case EstadoReproductor.Playing: //return pause
                     return ";";
-                case EstadoReproductor.Pausado: //return play
-                case EstadoReproductor.Detenido:
+                case EstadoReproductor.Paused: //return play
+                case EstadoReproductor.Stop:
                     return "4";
             }
             return "";
@@ -349,7 +350,7 @@ namespace Cassiopeia.src.Forms
             pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
             SetPlayerButtons(true);
             ConfigurarTimers(false);
-            estadoReproductor = EstadoReproductor.Detenido;
+            estadoReproductor = EstadoReproductor.Stop;
             DirectoryInfo dir = new DirectoryInfo(path);
             dir = dir.Parent;
             //Intento sacar la portada mediante un fichero primero.
@@ -371,9 +372,10 @@ namespace Cassiopeia.src.Forms
                 PrepararReproductor();
                 nucleo.Reproducir();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Log.PrintMessage("Hubo un problema", MessageType.Error);
+                Log.PrintMessage("A problem happened playing the song", MessageType.Error);
+                Log.PrintMessage(e.Message, MessageType.Error);
                 MessageBox.Show(Kernel.LocalTexts.GetString("errorReproduccion"));
                 return;
             }
@@ -391,7 +393,7 @@ namespace Cassiopeia.src.Forms
         {
             SetPlayerButtons(true);
             ConfigurarTimers(false);
-            estadoReproductor = EstadoReproductor.Detenido;
+            estadoReproductor = EstadoReproductor.Stop;
             if (c.AlbumFrom is null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
             {
                 DirectoryInfo dir = new DirectoryInfo(c.Path);
@@ -452,7 +454,7 @@ namespace Cassiopeia.src.Forms
         {
             SetPlayerButtons(true);
             ConfigurarTimers(false);
-            estadoReproductor = EstadoReproductor.Detenido;
+            estadoReproductor = EstadoReproductor.Stop;
 
             if (Playlist is null)
                 CreatePlaylist(c.Title);
@@ -465,7 +467,7 @@ namespace Cassiopeia.src.Forms
         public void PlaySong(int Pista)
         {
             ConfigurarTimers(false);
-            estadoReproductor = EstadoReproductor.Detenido;
+            estadoReproductor = EstadoReproductor.Stop;
             if (ModoCD)
                 nucleo.SaltarCancionCD(Pista);
             else
@@ -495,7 +497,7 @@ namespace Cassiopeia.src.Forms
             labelDatosCancion.Text = nucleo.GetDatos();
             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
             labelDuracion.Text = (int)dur.TotalMinutes + ":" + dur.Seconds;
-            estadoReproductor = EstadoReproductor.Reproduciendo;
+            estadoReproductor = EstadoReproductor.Playing;
             buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
             buttonTwit.Enabled = true;
             Reproduciendo = true;
@@ -593,7 +595,7 @@ namespace Cassiopeia.src.Forms
                     if (Playlist.IsLastSong(ListaReproduccionPuntero))
                     {
                         nucleo.Detener();
-                        buttonReproducirPausar.Text = GetTextButtonPlayer(EstadoReproductor.Detenido);
+                        buttonReproducirPausar.Text = GetTextButtonPlayer(EstadoReproductor.Stop);
                     }
                     else
                     {
@@ -626,7 +628,7 @@ namespace Cassiopeia.src.Forms
         {
             switch (estadoReproductor)
             {
-                case EstadoReproductor.Reproduciendo: //Si está reproduciendo pausa.
+                case EstadoReproductor.Playing: //Si está reproduciendo pausa.
                     if (!Spotify)
                         nucleo.Pausar();
                     else if (Spotify && EsPremium)
@@ -639,11 +641,11 @@ namespace Cassiopeia.src.Forms
                         }
                         break;
                     }
-                    estadoReproductor = EstadoReproductor.Pausado;
+                    estadoReproductor = EstadoReproductor.Paused;
                     buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                     break;
 
-                case EstadoReproductor.Pausado:
+                case EstadoReproductor.Paused:
                     if (!Spotify)
                         nucleo.Reproducir();
                     else if (Spotify && EsPremium)
@@ -656,10 +658,10 @@ namespace Cassiopeia.src.Forms
                         }
                         break;
                     }
-                    estadoReproductor = EstadoReproductor.Reproduciendo;
+                    estadoReproductor = EstadoReproductor.Playing;
                     buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                     break;
-                case EstadoReproductor.Detenido:
+                case EstadoReproductor.Stop:
                     if (!Spotify)
                         nucleo.Reproducir();
                     else if (Spotify && EsPremium)
@@ -672,7 +674,7 @@ namespace Cassiopeia.src.Forms
                         }
                         break;
                     }
-                    estadoReproductor = EstadoReproductor.Reproduciendo;
+                    estadoReproductor = EstadoReproductor.Playing;
                     buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                     break;
                 default:
@@ -724,7 +726,7 @@ namespace Cassiopeia.src.Forms
                         }
                         else
                         {
-                            Log.PrintMessage("Se ha detectado una canción local.", MessageType.Info);
+                            Log.PrintMessage("Local song detected.", MessageType.Info);
                             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                             pictureBoxCaratula.Image.Dispose();
                             pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
@@ -732,13 +734,13 @@ namespace Cassiopeia.src.Forms
                     }
                     if (PC.IsPlaying)
                     {
-                        estadoReproductor = EstadoReproductor.Reproduciendo;
+                        estadoReproductor = EstadoReproductor.Playing;
                         buttonReproducirPausar.Text = "❚❚";
                         timerCancion.Enabled = true;
                     }
                     else
                     {
-                        estadoReproductor = EstadoReproductor.Pausado;
+                        estadoReproductor = EstadoReproductor.Paused;
                         buttonReproducirPausar.Text = "▶";
                         timerCancion.Enabled = false;
                     }
@@ -799,23 +801,23 @@ namespace Cassiopeia.src.Forms
                     }
                 }
             }
-            Log.PrintMessage("Iniciando el Reproductor en modo local", MessageType.Info);
+            Log.PrintMessage("Starting player in local mode", MessageType.Info);
             try
             {
                 foobar2kInstance = Process.GetProcessesByName("foobar2000")[0];
-                Log.PrintMessage("Se ha encontrado foobar2000", MessageType.Correct);
+                Log.PrintMessage("foobar2000 has been found!", MessageType.Correct);
             }
             catch (IndexOutOfRangeException)
             {
 
-                Log.PrintMessage("No se ha encontrado foobar2000", MessageType.Info);
+                Log.PrintMessage("foobar2000 hasn't been found on the system", MessageType.Info);
                 foobar2kInstance = null;
                 checkBoxFoobar.Enabled = false;
             }
         }
         private void timerCancion_Tick(object sender, EventArgs e)
         {
-            if (estadoReproductor == EstadoReproductor.Detenido)
+            if (estadoReproductor == EstadoReproductor.Stop)
                 trackBarPosicion.Enabled = false;
             else
                 trackBarPosicion.Enabled = true;
@@ -854,7 +856,7 @@ namespace Cassiopeia.src.Forms
 
             if (pos.Minutes == dur.Minutes && pos.Seconds == dur.Seconds)
             {
-                estadoReproductor = EstadoReproductor.Detenido;
+                estadoReproductor = EstadoReproductor.Stop;
                 if (Playlist != null)
                 {
                     ListaReproduccionPuntero++;
@@ -904,7 +906,7 @@ namespace Cassiopeia.src.Forms
             if (r != DialogResult.Cancel)
             {
                 nucleo.Apagar();
-                estadoReproductor = EstadoReproductor.Detenido;
+                estadoReproductor = EstadoReproductor.Stop;
                 songPath = openFileDialog1.FileName;
 
                 this.fich = songPath;
@@ -924,7 +926,7 @@ namespace Cassiopeia.src.Forms
                 }
                 catch (Exception ex)
                 {
-                    Log.PrintMessage("Error intentando cargar la canción", MessageType.Error);
+                    Log.PrintMessage("Cannot load the song. " + songPath, MessageType.Error);
                     Log.PrintMessage(ex.Message, MessageType.Error);
                     nucleo.Apagar();
                     return;
@@ -1141,34 +1143,50 @@ namespace Cassiopeia.src.Forms
         }
         private void Reproductor_DragDrop(object sender, DragEventArgs e)
         {
-            Log.PrintMessage("Detectado Drag & Drop", MessageType.Info);
+            Log.PrintMessage("Drag & Drop detected", MessageType.Info);
             Song c = null;
             String[] canciones = null;
             if ((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
                 if (!string.IsNullOrEmpty(c.Path))
                 {
+                    Log.PrintMessage("Success processing the input: " + c.Path, MessageType.Correct);
                     ModoCD = false;
                     PlaySong(c);
                 }
             }
             else if ((canciones = (String[])e.Data.GetData(DataFormats.FileDrop)) != null)
             {
-                Log.PrintMessage("Creando playlist con " + canciones.Length + " canciones.", MessageType.Info);
+                Log.PrintMessage("Processing " + canciones.Length + " files", MessageType.Info);
+                List<string> input = new List<string>();
+                for (int i = 0; i < canciones.Length; i++)
+                {
+                    if (FicheroLeible(canciones[i]))
+                        input.Add(canciones[i]);
+                }
+                if(input.Count == 0)
+                {
+                    Log.Instance.PrintMessage("No valid songs are on the input, maybe wrong file extensions?", MessageType.Info);
+                    return;
+                }
+                Log.PrintMessage("Creating playlist with " + input.Count + " songs.", MessageType.Info);
                 if (Playlist is null)
                 {
                     CreatePlaylist(Kernel.LocalTexts.GetString("seleccion"));
-                    foreach (string cancion in canciones)
+                    foreach (string cancion in input)
                     {
-                        Song clr = new Song();
-                        clr.Path = cancion;
-                        Playlist.AddSong(clr);
+                        if(cancion is not null)
+                        {
+                            Song clr = new Song();
+                            clr.Path = cancion;
+                            Playlist.AddSong(clr);
+                        }
                     }
                     ReproducirLista();
                 }
                 else
                 {
-                    foreach (string songfile in canciones)
+                    foreach (string songfile in input)
                     {
                         Song clr = new Song();
                         clr.Path = songfile;
@@ -1178,7 +1196,7 @@ namespace Cassiopeia.src.Forms
                 lrui.RefreshView();
             }
             else
-                Log.PrintMessage("No se ha podido determinar la canción", MessageType.Warning);
+                Log.PrintMessage("Cannot process the data. Wrong input?", MessageType.Warning);
         }
 
         private void Reproductor_DragEnter(object sender, DragEventArgs e)

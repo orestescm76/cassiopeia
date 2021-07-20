@@ -20,7 +20,7 @@ namespace Cassiopeia.src.Forms
         private void AbrirDisco_Load(object sender, EventArgs e)
         {
             PonerTextos();
-            Log.Instance.PrintMessage("Detectando disqueteras", MessageType.Info);
+            Log.Instance.PrintMessage("Detecting CD Drives", MessageType.Info);
             DriveInfo[] Discos = DriveInfo.GetDrives();
             foreach (var d in Discos)
             {
@@ -31,13 +31,13 @@ namespace Cassiopeia.src.Forms
             }
             if (listViewDiscos.Items.Count == 0)
             {
-                Log.Instance.PrintMessage("No hay disqueteras", MessageType.Warning);
-                MessageBox.Show("No tienes disqueteras");
+                Log.Instance.PrintMessage("No CD Drives avaliable", MessageType.Warning);
+                MessageBox.Show(Kernel.LocalTexts.GetString("noDisqueteras"));
                 Close();
                 Dispose();
             }
             else
-                Log.Instance.PrintMessage("Se han detectado " + listViewDiscos.Items.Count + " disqueteras", MessageType.Correct);
+                Log.Instance.PrintMessage("Found " + listViewDiscos.Items.Count + " CD Drives", MessageType.Correct);
 
         }
 

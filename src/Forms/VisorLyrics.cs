@@ -72,6 +72,7 @@ namespace Cassiopeia.src.Forms
         private void Guardar()
         {
             cancion.Lyrics = textBoxLyrics.Lines;
+            Log.Instance.PrintMessage("Lyrics saved!", MessageType.Correct);
         }
         #region Events
         private void buttonEditar_Click(object sender, EventArgs e)
@@ -119,7 +120,7 @@ namespace Cassiopeia.src.Forms
         private void textBoxLyrics_MouseWheel(object sender, MouseEventArgs e)
         {
             Font tipografiaNew = Tipografia;
-            if(Control.ModifierKeys == Keys.Control)
+            if(ModifierKeys == Keys.Control)
             {
                 if (e.Delta > 0)
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size + 2);
@@ -130,6 +131,7 @@ namespace Cassiopeia.src.Forms
                 tipografiaNew = Tipografia; //no se cambia
             textBoxLyrics.Font = Tipografia = tipografiaNew;
             Text = cancion.ToString() + " (" + Tipografia.Size + ")";
+            Log.Instance.PrintMessage("Changed font size to " + tipografiaNew.Size, MessageType.Info);
         }
         #endregion
     }

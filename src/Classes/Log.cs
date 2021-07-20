@@ -98,12 +98,12 @@ namespace Cassiopeia
 
                 case MessageType.Correct:
                     Console.ForegroundColor = ConsoleColor.Green;
-                    logMessage += message;
+                    logMessage += "<OK> " + message;
                     break;
 
                 case MessageType.Warning:
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    logMessage += "<ADVERTENCIA> " + message;
+                    logMessage += "<WARNING> " + message;
                     break;
 
                 case MessageType.Error:

@@ -674,4 +674,7 @@
   <data name="agradecimiento3" xml:space="preserve">
     <value> * Los creadores de NVorbis, CSCore y JAudio</value>
   </data>
+  <data name="noDisqueteras" xml:space="preserve">
+    <value></value>
+  </data>
 </root>
