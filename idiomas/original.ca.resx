@@ -514,4 +514,7 @@
   <data name="agradecimiento3" xml:space="preserve">
     <value> * Els creadors de NVorbis, CSCore y TagLib</value>
   </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

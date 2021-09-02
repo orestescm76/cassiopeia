@@ -14,7 +14,6 @@ namespace Cassiopeia
 {
     static class Kernel
     {
-
         public static readonly string CodeName = "Storm";
         private enum CSV_Albums
         {
@@ -184,7 +183,7 @@ namespace Cassiopeia
             }
             NumLanguages = Languages.Length;
         }
-        static bool GetUpdate(out string verNueva)
+        static bool GetUpdate(out string newVer)
         {
             HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/cassiopeia/releases");
             string contenido = string.Empty;
@@ -204,22 +203,31 @@ namespace Cassiopeia
             {
                 Log.Instance.PrintMessage("There was a problem when trying to fetch updates...", MessageType.Error);
                 Log.Instance.PrintMessage("Server response: " + e.Response, MessageType.Info);
-                verNueva = string.Empty;
+                newVer = string.Empty;
                 return false;
             }
 
             int indexVersion = contenido.IndexOf("tag_name");
-            verNueva = contenido.Substring(indexVersion, 40);
-            verNueva = verNueva.Split('\"')[2];
-            if (verNueva != Version)
-                return true;
-            else
-                return false;
+            newVer = contenido.Substring(indexVersion, 40);
+            newVer = newVer.Split('\"')[2];
+            int newVerInt = 0, oldVerInt = 0;
+
+            string[] oldVerArr = Version.Split('.');
+            string[] newVerArr = newVer.Split('.');
+            oldVerArr[0] = oldVerArr[0].Remove(0, 1);
+            newVerArr[0] = newVerArr[0].Remove(0, 1);
+
+            for (int i = 0; i < oldVerArr.Length; i++)
+            {
+                if (Convert.ToInt32(newVerArr[i]) > Convert.ToInt32(oldVerArr[i]))
+                   return true; //if one of the versions is higher, clearly there is an update.
+            }
+            return false; //same version.
         }
         public static void CheckForUpdates()
         {
             string newVersion;
-            if (Kernel.GetUpdate(out newVersion) && Kernel.CheckUpdates)
+            if (GetUpdate(out newVersion))
             {
                 Log.Instance.PrintMessage("A new update is avaliable: " + newVersion, MessageType.Info);
                 DialogResult act = MessageBox.Show(LocalTexts.GetString("actualizacion1") + Environment.NewLine + newVersion + Environment.NewLine + LocalTexts.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
@@ -714,6 +722,10 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Saved lyrics", MessageType.Correct, crono, TimeType.Milliseconds);
             FileInfo lyrics = new FileInfo("lyrics.txt");
             Log.Instance.PrintMessage("Filesize: " + lyrics.Length / 1024.0 + " kb", MessageType.Info);
+        }
+        public static void ShowError(string msg)
+        {
+            MessageBox.Show(LocalTexts.GetString("error"), msg, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

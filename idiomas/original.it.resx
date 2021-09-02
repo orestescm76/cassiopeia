@@ -709,4 +709,7 @@
   <data name="verLyrics" xml:space="preserve">
     <value>Osserva il testo</value>
   </data>
+  <data name="error" xml:space="preserve">
+    <value>Errore</value>
+  </data>
 </root>

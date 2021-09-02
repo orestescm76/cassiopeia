@@ -677,4 +677,7 @@
   <data name="noDisqueteras" xml:space="preserve">
     <value></value>
   </data>
+  <data name="error" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

@@ -47,7 +47,8 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Application loaded!", MessageType.Correct, StartStopwatch, TimeType.Milliseconds);
             
             //Before everything... check updates
-            Kernel.CheckForUpdates();
+            if(Kernel.CheckUpdates)
+                Kernel.CheckForUpdates();
             //ApplicationStart
             Kernel.StartApplication();
             //Program halts here until Application.Exit is called.

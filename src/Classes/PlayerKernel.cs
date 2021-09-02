@@ -5,7 +5,6 @@ using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 using CSCore.Streams;
 using Cassiopeia.CD;
-using System.Windows.Forms;
 
 namespace Cassiopeia
 {
@@ -16,11 +15,11 @@ namespace Cassiopeia
         OGG,
         CDA
     }
-    class ReproductorNucleo
+    class PlayerKernel
     {
-        private ISoundOut _salida;
+        private ISoundOut _output;
         public FormatoSonido FormatoSonido { get; private set; }
-        private IWaveSource _sonido;
+        private IWaveSource _sound;
         private SingleBlockNotificationStream notificationStream;
         private NVorbisSource NVorbis;
         private CDDrive Disquetera;
@@ -49,61 +48,61 @@ namespace Cassiopeia
                 {
                     FileStream stream = new FileStream(cual, FileMode.Open, FileAccess.Read);
                     NVorbis = new NVorbisSource(stream);
-                    _sonido = NVorbis.ToWaveSource(16);
+                    _sound = NVorbis.ToWaveSource(16);
                 }
                 else
                 {
-                    _sonido = CSCore.Codecs.CodecFactory.Instance.GetCodec(cual).ToSampleSource().ToStereo().ToWaveSource(16);
-                    notificationStream = new SingleBlockNotificationStream(_sonido.ToSampleSource());
+                    _sound = CSCore.Codecs.CodecFactory.Instance.GetCodec(cual).ToSampleSource().ToStereo().ToWaveSource(16);
+                    notificationStream = new SingleBlockNotificationStream(_sound.ToSampleSource());
                     FileInfo info = new FileInfo(cual);
                     tamFich = info.Length;
                 }
                 
-                _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
+                _output = new WasapiOut(false, AudioClientShareMode.Shared, 100);
                 //_sonido.Position = 0;
-                _salida.Initialize(_sonido);
+                _output.Initialize(_sound);
                 Log.Instance.PrintMessage("Cargado correctamente" + cual, MessageType.Correct);
             }
             catch (IOException ex)
             {
                 Log.Instance.PrintMessage("Error de IO", MessageType.Error);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(Kernel.LocalTexts.GetString("errorReproduccion"));
-                _salida = null;
-                _sonido = null;
+                Kernel.ShowError(Kernel.LocalTexts.GetString("errorReproduccion"));
+                _output = null;
+                _sound = null;
                 throw;
             }
             catch (Exception ex)
             {
                 Log.Instance.PrintMessage("Hubo un problema...", MessageType.Error);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(ex.Message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                _salida = null;
-                _sonido = null;
+                Kernel.ShowError(ex.Message);
+                _output = null;
+                _sound = null;
                 throw;
             }
 
         }
         public void Reproducir()
         {
-            if (_salida != null)
-                _salida.Play();
+            if (_output != null)
+                _output.Play();
         }
         public void Pausar()
         {
-            if (_salida != null)
-                _salida.Pause();
+            if (_output != null)
+                _output.Pause();
         }
         public void Saltar(TimeSpan a)
         {
-            _salida.WaveSource.SetPosition(a);
+            _output.WaveSource.SetPosition(a);
         }
         public TimeSpan Duracion()
         {
             if (FormatoSonido != FormatoSonido.OGG)
-                return _sonido.GetLength();
+                return _sound.GetLength();
             else if (FormatoSonido == FormatoSonido.CDA)
-                return SectoresATimeSpan(_sonido.Length);
+                return SectoresATimeSpan(_sound.Length);
             else
             {
                 try
@@ -120,26 +119,26 @@ namespace Cassiopeia
         public TimeSpan Posicion()
         {
             if (FormatoSonido != FormatoSonido.CDA)
-                return _sonido.GetPosition();
+                return _sound.GetPosition();
             else
-                return SectoresATimeSpan(_sonido.Position);
+                return SectoresATimeSpan(_sound.Position);
         }
         private void Limpiar()
         {
-            if (_salida != null)
+            if (_output != null)
             {
-                _salida.Dispose();
-                _salida = null;
+                _output.Dispose();
+                _output = null;
             }
-            if (_sonido != null)
+            if (_sound != null)
             {
-                _sonido.Dispose();
-                _sonido = null;
+                _sound.Dispose();
+                _sound = null;
             }
         }
         public bool ComprobarSonido()
         {
-            if (_sonido == null || _salida == null)
+            if (_sound == null || _output == null)
                 return false;
             else return true;
         }
@@ -149,11 +148,11 @@ namespace Cassiopeia
             switch (FormatoSonido)
             {
                 case FormatoSonido.OGG:
-                    return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + NVorbis.Bitrate / 1024 + "kbps";
+                    return _sound.WaveFormat.SampleRate / 1000 + "kHz - " + NVorbis.Bitrate / 1024 + "kbps";
                 case FormatoSonido.MP3:
                 case FormatoSonido.FLAC:
-                    int kbps = (int)((tamFich / _sonido.GetLength().TotalSeconds) / 128);
-                    return _sonido.WaveFormat.SampleRate / 1000 + "kHz - " + kbps + "kbps medio";
+                    int kbps = (int)((tamFich / _sound.GetLength().TotalSeconds) / 128);
+                    return _sound.WaveFormat.SampleRate / 1000 + "kHz - " + kbps + "kbps medio";
                 case FormatoSonido.CDA:
                     return "44.1 kHz - 16 bits. CD-A. / 176000 bytes/s";
                 default:
@@ -162,13 +161,13 @@ namespace Cassiopeia
         }
         public void SetVolumen(float v)
         {
-            if(!(_salida is null))
-                _salida.Volume = v;
+            if(!(_output is null))
+                _output.Volume = v;
         }
         public void Detener() //detiene una canción
         {
-            _salida.Stop();
-            _sonido.SetPosition(TimeSpan.Zero);
+            _output.Stop();
+            _sound.SetPosition(TimeSpan.Zero);
         }
         public TimeSpan SectoresATimeSpan(long sector)
         {
@@ -192,8 +191,8 @@ namespace Cassiopeia
             }
             catch (IOException)
             {
-                Log.Instance.PrintMessage("No se puede leer el CD. El dispositivo no está preparado...", MessageType.Error);
-                MessageBox.Show(Kernel.LocalTexts.GetString("errorCD"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Log.Instance.PrintMessage("Cannot read the CD Drive. Is the device ready?", MessageType.Error);
+                Kernel.ShowError(Kernel.LocalTexts.GetString("errorCD"));
                 return null;
             }
             PistaCD[] Pistas = new PistaCD[Ficheros.Length];
@@ -227,7 +226,7 @@ namespace Cassiopeia
             Disquetera = CDDrive.Open(disp);
             if (Disquetera == null)
             {
-                Log.Instance.PrintMessage("No se puede leer el CD. El dispositivo no está preparado...", MessageType.Error);
+                Log.Instance.PrintMessage("Cannot read the CD Drive, the device is not ready.", MessageType.Error);
                 throw new IOException();
             }
             FormatoSonido = FormatoSonido.CDA;
@@ -235,22 +234,22 @@ namespace Cassiopeia
             if (Pistas == null)
                 return;
             PistasCD = Pistas;
-            _salida = new WasapiOut(false, AudioClientShareMode.Shared, 100);
-            _sonido = Disquetera.ReadTrack(Pistas[0]);
-            _salida.Initialize(_sonido);
-            _salida.Play();
-            Log.Instance.PrintMessage("Se ha cargado correctamente el CD", MessageType.Correct);
+            _output = new WasapiOut(false, AudioClientShareMode.Shared, 100);
+            _sound = Disquetera.ReadTrack(Pistas[0]);
+            _output.Initialize(_sound);
+            _output.Play();
+            Log.Instance.PrintMessage("CD has loaded correctly", MessageType.Correct);
         }
         public void SaltarCancionCD(int cual) //sobre 0
         {
-            _salida.Stop();
-            _sonido = Disquetera.ReadTrack(PistasCD[cual]);
-            _salida.Initialize(_sonido);
-            _salida.Play();
+            _output.Stop();
+            _sound = Disquetera.ReadTrack(PistasCD[cual]);
+            _output.Initialize(_sound);
+            _output.Play();
         }
         public void SaltarCD(int sector)
         {
-            _sonido.Position = sector;
+            _sound.Position = sector;
         }
     }
 }

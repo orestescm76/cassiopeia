@@ -708,4 +708,7 @@
   <data name="errorBusquedaSpotify" xml:space="preserve">
     <value>Δεν είναι δυνατή η επεξεργασία του ερωτήματος. Ελέγξτε εάν και τα δύο κουτιά κειμένου έχουν κείμενο.</value>
   </data>
+  <data name="error" xml:space="preserve">
+    <value>Σφάλμα</value>
+  </data>
 </root>

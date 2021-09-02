@@ -719,4 +719,7 @@
   <data name="noDisqueteras" xml:space="preserve">
     <value>You don't have any CD drives avaliable</value>
   </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
 </root>

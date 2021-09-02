@@ -22,12 +22,18 @@ namespace Cassiopeia.src.Forms
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            PlaylistName = textBoxName.Lines[0];
-            DialogResult = DialogResult.OK;
-            if (string.IsNullOrEmpty(PlaylistName))
+            if (textBoxName.Lines.Length != 0)
+            {
+                PlaylistName = textBoxName.Lines[0];
+                DialogResult = DialogResult.OK;
+                if (string.IsNullOrEmpty(PlaylistName))
+                    DialogResult = DialogResult.Cancel;
+            }
+            else
                 DialogResult = DialogResult.Cancel;
             Close();
             Dispose();
+
         }
     }
 }

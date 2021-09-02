@@ -23,7 +23,7 @@ namespace Cassiopeia.src.Forms
     public partial class Reproductor : Form
     {
         public Playlist Playlist { get; set; }
-        private readonly ReproductorNucleo nucleo = new ReproductorNucleo();
+        private readonly PlayerKernel nucleo = new PlayerKernel();
         private readonly ObservableCollection<MMDevice> _devices = new ObservableCollection<MMDevice>();
         private string fich;
         public EstadoReproductor estadoReproductor;
