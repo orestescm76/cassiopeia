@@ -21,6 +21,8 @@ namespace Cassiopeia
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Log.InitLog();
+            MessageBox.Show("Log creado");
             /*LOADING PROCESS*/
             Log.Instance.PrintMessage("Starting...", MessageType.Info);
 

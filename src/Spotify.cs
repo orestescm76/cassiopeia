@@ -16,8 +16,8 @@ namespace Cassiopeia
         public SpotifyWebAPI _spotify;
         private AuthorizationCodeAuth auth;
         private readonly char[] CaracteresProhibidosWindows = { '\\', '/', '|', '?', '*', '"', ':', '>', '<' };
-        private readonly String clavePublica = "f49317757dd64bb190576aec028f4efc";
-        private readonly String clavePrivada = ClaveAPI.Spotify;
+        private readonly String ClavePublica = "f49317757dd64bb190576aec028f4efc";
+        private readonly String ClavePrivada = ClaveAPI.Spotify;
         public bool cuentaLista = false;
         public bool cuentaVinculada = false;
         private string CodigoRefresco;
@@ -45,7 +45,7 @@ namespace Cassiopeia
             Kernel.InternetAvaliable(false);
             try
             {
-                CredentialsAuth authMetadatos = new CredentialsAuth(clavePublica, clavePrivada);
+                CredentialsAuth authMetadatos = new CredentialsAuth(ClavePublica, ClavePrivada);
                 Token token = await authMetadatos.GetToken();
                 tokenActual = token;
                 _spotify = new SpotifyWebAPI()
@@ -88,8 +88,8 @@ namespace Cassiopeia
                 Kernel.InternetAvaliable(true);
                 Stopwatch crono = Stopwatch.StartNew();
                 auth = new AuthorizationCodeAuth(
-                    clavePublica,
-                    clavePrivada,
+                    ClavePublica,
+                    ClavePrivada,
                     "http://localhost:4002/",
                     "http://localhost:4002/",
                     Scope.UserReadEmail | Scope.UserReadPrivate | Scope.Streaming | Scope.UserReadPlaybackState

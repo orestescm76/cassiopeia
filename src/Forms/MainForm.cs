@@ -47,7 +47,7 @@ namespace Cassiopeia
             vistaAlbumes.DrawItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.OwnerDraw = true;
-            if (Kernel.SpotifyEnabled)
+            if (Config.LinkedWithSpotify)
                 vincularToolStripMenuItem.Visible = false;
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
             vistaAlbumes.Font = Config.FontView;

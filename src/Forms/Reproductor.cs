@@ -56,7 +56,13 @@ namespace Cassiopeia.src.Forms
         bool ShuffleState = false;
         Random Random { get; }
         public bool ModoCD { get; private set; }
-        public static Reproductor Instancia { get; set; }
+        private static Reproductor instance = null;
+        public static Reproductor Instancia { get => instance; }
+        public static void Init()
+        {
+            instance = new Reproductor();
+        }
+
         public Reproductor()
         {
             InitializeComponent();

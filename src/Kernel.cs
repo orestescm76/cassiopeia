@@ -68,7 +68,7 @@ namespace Cassiopeia
         public static string[] Languages;
         public static Spotify Spotify;
         public static int NumLanguages;
-        public static readonly string Version = "v" + Application.ProductVersion;
+        public static readonly string Version = "v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public static void RefreshSpotifyToken(CancellationToken cancellationToken)
         {
@@ -90,7 +90,7 @@ namespace Cassiopeia
             Config.Language = lang;
             ReloadGenres();
             ReloadView();
-            src.Forms.Reproductor.Instancia.RefrescarTextos();
+            Reproductor.Instancia.RefrescarTextos();
         }
 
         public static int FindGenre(string g)
@@ -293,7 +293,7 @@ namespace Cassiopeia
 
         public static void InitPlayer()
         {
-            Reproductor.Instancia = new src.Forms.Reproductor();
+            Reproductor.Init();
             Reproductor.Instancia.RefrescarTextos();
         }
 
