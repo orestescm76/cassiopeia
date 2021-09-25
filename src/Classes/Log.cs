@@ -29,25 +29,15 @@ namespace Cassiopeia
         private Log()
         {
             timeSinceStart = Stopwatch.StartNew();
-            try
+            logView = new VisorLog();
+            file = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false);
+            file.AutoFlush = true;
+            if (file != null)
             {
-                logView = new VisorLog();
-                System.Windows.Forms.MessageBox.Show("VisorLog Creado");
-                file = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false);
-                file.AutoFlush = true;
-                if (file != null)
-                {
-                    file.WriteLine("Cassiopeia - Music Manager " + Kernel.Version);
-                    file.WriteLine(".NET Version: " + Environment.Version);
-                    file.WriteLine("Log created on " + DateTime.Now);
-                }
+                file.WriteLine("Cassiopeia - Music Manager " + Kernel.Version);
+                file.WriteLine(".NET Version: " + Environment.Version);
+                file.WriteLine("Log created on " + DateTime.Now);
             }
-            catch (Exception e)
-            {
-                System.Windows.Forms.MessageBox.Show(e.Message + Environment.NewLine + e.InnerException);
-                throw;
-            }
-
         }
 
         public void ShowLog()

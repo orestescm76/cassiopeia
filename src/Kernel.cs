@@ -70,6 +70,7 @@ namespace Cassiopeia
         public static int NumLanguages;
         public static readonly string Version = "v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
+
         public static void RefreshSpotifyToken(CancellationToken cancellationToken)
         {
             while (true)
@@ -726,6 +727,10 @@ namespace Cassiopeia
         public static void ShowError(string msg)
         {
             MessageBox.Show(LocalTexts.GetString("error"), msg, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public static void BringMainFormFront()
+        {
+            MainForm.Activate();
         }
     }
 }

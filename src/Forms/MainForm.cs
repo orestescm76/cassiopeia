@@ -25,10 +25,10 @@ namespace Cassiopeia
         public static string BusquedaSpotify;
         private ListViewItemComparer lvwColumnSorter;
         public ViewType TipoVista;
-        Log Log;
+        private delegate void SafeCallBringFront();
+        Log Log = Log.Instance;
         public MainForm()
         {
-            Log = Log.Instance;
             InitializeComponent();
             BusquedaSpotify = "";
             borrando = false;

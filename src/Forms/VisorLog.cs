@@ -5,6 +5,7 @@ namespace Cassiopeia.src.Forms
 {
     public partial class VisorLog : Form
     {
+        private delegate void SafeCallAddText(string msg);
         public VisorLog()
         {
             InitializeComponent();
@@ -16,7 +17,14 @@ namespace Cassiopeia.src.Forms
         }
         public void AddText(String mensaje)
         {
-            textBoxLog.AppendText(mensaje+Environment.NewLine);
+            //Visual Studio complains that sometime this call is unsafe...
+            if(textBoxLog.InvokeRequired)
+            {
+                var call = new SafeCallAddText(AddText);
+                textBoxLog.Invoke(call, new object[] {mensaje});
+            }
+            else
+                textBoxLog.AppendText(mensaje+Environment.NewLine);
         }
 
         private void VisorLog_FormClosing(object sender, FormClosingEventArgs e)

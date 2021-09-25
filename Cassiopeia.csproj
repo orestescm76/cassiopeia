@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
+      <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 
@@ -10,11 +11,20 @@
     <AssemblyName>cassiopeia</AssemblyName>
     <SignAssembly>false</SignAssembly>
     <ApplicationIcon>Resources\icono.ico</ApplicationIcon>
+    <Authors>orestescm76</Authors>
+    <MinimumPlatformVersion>7.0</MinimumPlatformVersion>
+    <StartupObject>Cassiopeia.Program</StartupObject>
+    <Version>1.7.0.11</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <Nullable>disable</Nullable>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DefineConstants />
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,6 +32,7 @@
     <DefineConstants>DEBUG</DefineConstants>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors />
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">
@@ -31,8 +42,8 @@
     <PackageReference Include="CSCore" Version="1.2.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NVorbis" Version="0.10.3" />
-    <PackageReference Include="SpotifyAPI.Web" Version="5.0.0" />
-    <PackageReference Include="SpotifyAPI.Web.Auth" Version="5.0.0" />
+    <PackageReference Include="SpotifyAPI.Web" Version="5.1.1" />
+    <PackageReference Include="SpotifyAPI.Web.Auth" Version="5.1.1" />
     <PackageReference Include="TagLibSharp" Version="2.2.0" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -65,5 +76,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+    </None>
   </ItemGroup>
 </Project>
