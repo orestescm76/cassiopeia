@@ -44,11 +44,6 @@ namespace Cassiopeia
             PrintMessage(".NET Version: " + Environment.Version,MessageType.Info);
             PrintMessage("OS version: "+Environment.OSVersion.ToString(),MessageType.Info);
             PrintMessage("Log created on " + DateTime.Now,MessageType.Info);
-            {
-                System.Windows.Forms.MessageBox.Show(e.Message + Environment.NewLine + e.InnerException);
-                throw;
-            }
-
         }
         public void ShowLog()
         {
