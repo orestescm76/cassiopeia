@@ -6,7 +6,7 @@
     },
     "Debug": {
       "commandName": "Project",
-      "commandLineArgs": "-noUpdates"
+      "commandLineArgs": "-noUpdates -console"
     }
   }
 }

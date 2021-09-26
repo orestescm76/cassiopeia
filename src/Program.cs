@@ -20,15 +20,18 @@ namespace Cassiopeia
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+            Kernel.ParseArgs(args);
+            int console;
+            if (Kernel.Console)
+                console = Kernel.AllocConsole();
             Log.InitLog();
-            MessageBox.Show("Log creado");
             /*LOADING PROCESS*/
             Log.Instance.PrintMessage("Starting...", MessageType.Info);
 
             Stopwatch StartStopwatch = Stopwatch.StartNew();
             //Checking arguments
-            Kernel.ParseArgs(args);
+
+
             //Load configuration
             Kernel.LoadConfig();
             //Loading languages, else it will not load the textbox.

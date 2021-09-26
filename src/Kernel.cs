@@ -57,7 +57,12 @@ namespace Cassiopeia
         public static ResXResourceSet LocalTexts;
         public static MainForm MainForm;
         public static Collection Collection;
+#if DEBUG
+        public static bool CheckUpdates = false;
+#else
         public static bool CheckUpdates = true;
+#endif
+        public static bool Console = false;
         public static bool SpotifyEnabled = true;
         public static bool StartPlayer = false;
         public static bool MetadataStream = false;
@@ -144,6 +149,10 @@ namespace Cassiopeia
             {
                 switch (Arg)
                 {
+                    case "-consola":
+                    case "-console":
+                        Console = true;
+                        break;
                     case "-noSpotify":
                         SpotifyEnabled = false;
                         break;
@@ -372,8 +381,10 @@ namespace Cassiopeia
 
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");
-
+            if (Console)
+                FreeConsole();
             Log.Instance.CloseLog();
+            Environment.Exit(0);
         }
 
         //Methods for loading and saving...
@@ -402,13 +413,13 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("The album data file has mistakes. Check line " + line + " of " + file, MessageType.Error);
             MessageBox.Show(LocalTexts.GetString("errorLoadingAlbums1") + line + " " + LocalTexts.GetString("errorLoadingAlbums2") + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        public static void LoadCSVAlbums(string fichero)
+        public static void LoadCSVAlbums(string file)
         {
-            Log.Instance.PrintMessage("Loading CSV albums stored at " + fichero, MessageType.Info, "cargarAlbumesLegacy(string)");
+            Log.Instance.PrintMessage("Loading CSV albums stored at " + file, MessageType.Info, "cargarAlbumesLegacy(string)");
             Stopwatch crono = Stopwatch.StartNew();
             //cargando CSV a lo bestia
             int lineaC = 1;
-            using (StreamReader lector = new StreamReader(fichero))
+            using (StreamReader lector = new StreamReader(file))
             {
                 string linea;
                 while (!lector.EndOfStream)
@@ -424,7 +435,7 @@ namespace Cassiopeia
                     string[] datos = linea.Split(';');
                     if (datos.Length != 8)
                     {
-                        SendErrorLoading(lineaC, fichero);
+                        SendErrorLoading(lineaC, file);
                         Environment.Exit(-1);
                     }
                     short nC = 0;
@@ -439,7 +450,7 @@ namespace Cassiopeia
                     }
                     catch (FormatException)
                     {
-                        SendErrorLoading(lineaC, fichero);
+                        SendErrorLoading(lineaC, file);
                         Environment.Exit(-1);
                     }
                     if (!string.IsNullOrEmpty(datos[(int)CSV_Albums.SpotifyID]))
@@ -488,7 +499,7 @@ namespace Cassiopeia
                             }
                             catch (FormatException)
                             {
-                                SendErrorLoading(lineaC, fichero);
+                                SendErrorLoading(lineaC, file);
                                 Environment.Exit(-1);
                             }
                         }
@@ -633,7 +644,7 @@ namespace Cassiopeia
                             Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
                             foreach (AlbumData a in Collection.Albums)
                             {
-                                if (!(a.Songs[0] == null)) //no puede ser un album con 0 canciones
+                                if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
                                 {
                                     salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + a.CoverPath + ";" + a.IdSpotify + ";" + a.SoundFilesPath);
                                     for (int i = 0; i < a.NumberOfSongs; i++)
@@ -726,6 +737,16 @@ namespace Cassiopeia
         public static void ShowError(string msg)
         {
             MessageBox.Show(LocalTexts.GetString("error"), msg, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public static int AllocConsole()
+        {
+            return WinAPI.AllocConsole();
+        }
+        private static int FreeConsole()
+        {
+            System.Console.WriteLine("Cassiopeia has finished, please press enter to exit...");
+            System.Console.ReadLine();
+            return WinAPI.FreeConsole();
         }
     }
 }

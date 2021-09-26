@@ -18,3 +18,5 @@
 
 1.7.0.14 - [FIX] Linking with Spotify option was not showing.
 Tweaked the startup, now I can release working single .exe files.
+
+1.7.0.15 - Console makes a return. (Windows only)
