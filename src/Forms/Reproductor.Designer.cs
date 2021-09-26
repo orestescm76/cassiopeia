@@ -81,7 +81,7 @@
             // 
             // buttonReproducirPausar
             // 
-            this.buttonReproducirPausar.Font = new System.Drawing.Font("Webdings", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.buttonReproducirPausar.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonReproducirPausar.Location = new System.Drawing.Point(157, 408);
             this.buttonReproducirPausar.Name = "buttonReproducirPausar";
             this.buttonReproducirPausar.Size = new System.Drawing.Size(43, 42);
@@ -101,7 +101,7 @@
             // 
             // buttonAbrir
             // 
-            this.buttonAbrir.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAbrir.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonAbrir.Location = new System.Drawing.Point(0, 498);
             this.buttonAbrir.Name = "buttonAbrir";
             this.buttonAbrir.Size = new System.Drawing.Size(102, 23);
@@ -114,7 +114,7 @@
             // labelPosicion
             // 
             this.labelPosicion.AutoSize = true;
-            this.labelPosicion.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPosicion.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelPosicion.Location = new System.Drawing.Point(8, 422);
             this.labelPosicion.Name = "labelPosicion";
             this.labelPosicion.Size = new System.Drawing.Size(31, 13);
@@ -125,7 +125,7 @@
             // labelDuracion
             // 
             this.labelDuracion.AutoSize = true;
-            this.labelDuracion.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDuracion.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelDuracion.Location = new System.Drawing.Point(310, 422);
             this.labelDuracion.Name = "labelDuracion";
             this.labelDuracion.Size = new System.Drawing.Size(37, 13);
@@ -190,7 +190,7 @@
             this.labelVolumen.AutoSize = true;
             this.labelVolumen.Location = new System.Drawing.Point(332, 525);
             this.labelVolumen.Name = "labelVolumen";
-            this.labelVolumen.Size = new System.Drawing.Size(33, 13);
+            this.labelVolumen.Size = new System.Drawing.Size(35, 15);
             this.labelVolumen.TabIndex = 9;
             this.labelVolumen.Text = "100%";
             // 
@@ -199,14 +199,14 @@
             this.labelPorcentaje.AutoSize = true;
             this.labelPorcentaje.Location = new System.Drawing.Point(8, 454);
             this.labelPorcentaje.Name = "labelPorcentaje";
-            this.labelPorcentaje.Size = new System.Drawing.Size(21, 13);
+            this.labelPorcentaje.Size = new System.Drawing.Size(23, 15);
             this.labelPorcentaje.TabIndex = 10;
             this.labelPorcentaje.Text = "0%";
             // 
             // checkBoxAleatorio
             // 
             this.checkBoxAleatorio.AutoSize = true;
-            this.checkBoxAleatorio.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxAleatorio.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxAleatorio.Location = new System.Drawing.Point(11, 470);
             this.checkBoxAleatorio.Name = "checkBoxAleatorio";
             this.checkBoxAleatorio.Size = new System.Drawing.Size(51, 25);
@@ -217,7 +217,7 @@
             // 
             // buttonSaltarAdelante
             // 
-            this.buttonSaltarAdelante.Font = new System.Drawing.Font("Webdings", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.buttonSaltarAdelante.Font = new System.Drawing.Font("Webdings", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonSaltarAdelante.Location = new System.Drawing.Point(256, 408);
             this.buttonSaltarAdelante.Name = "buttonSaltarAdelante";
             this.buttonSaltarAdelante.Size = new System.Drawing.Size(43, 42);
@@ -228,7 +228,7 @@
             // 
             // buttonSaltarAtras
             // 
-            this.buttonSaltarAtras.Font = new System.Drawing.Font("Webdings", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.buttonSaltarAtras.Font = new System.Drawing.Font("Webdings", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonSaltarAtras.Location = new System.Drawing.Point(59, 408);
             this.buttonSaltarAtras.Name = "buttonSaltarAtras";
             this.buttonSaltarAtras.Size = new System.Drawing.Size(43, 42);
@@ -274,7 +274,7 @@
             // checkBoxFoobar
             // 
             this.checkBoxFoobar.AutoSize = true;
-            this.checkBoxFoobar.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxFoobar.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxFoobar.Location = new System.Drawing.Point(290, 462);
             this.checkBoxFoobar.Name = "checkBoxFoobar";
             this.checkBoxFoobar.Size = new System.Drawing.Size(75, 25);
@@ -314,7 +314,7 @@
             // 
             // buttonDetener
             // 
-            this.buttonDetener.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.buttonDetener.Font = new System.Drawing.Font("Webdings", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonDetener.Location = new System.Drawing.Point(157, 456);
             this.buttonDetener.Name = "buttonDetener";
             this.buttonDetener.Size = new System.Drawing.Size(43, 42);

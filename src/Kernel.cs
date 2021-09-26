@@ -75,6 +75,7 @@ namespace Cassiopeia
         public static int NumLanguages;
         public static readonly string Version = "v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
+
         public static void RefreshSpotifyToken(CancellationToken cancellationToken)
         {
             while (true)
@@ -747,6 +748,10 @@ namespace Cassiopeia
             System.Console.WriteLine("Cassiopeia has finished, please press enter to exit...");
             System.Console.ReadLine();
             return WinAPI.FreeConsole();
+        }
+        public static void BringMainFormFront()
+        {
+            MainForm.Activate();
         }
     }
 }

@@ -32,6 +32,7 @@ namespace Cassiopeia
             logView = new VisorLog();
             file = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false);
             file.AutoFlush = true;
+            logView = new VisorLog();
             if (file != null)
             {
                 PrintInfo();
@@ -43,6 +44,11 @@ namespace Cassiopeia
             PrintMessage(".NET Version: " + Environment.Version,MessageType.Info);
             PrintMessage("OS version: "+Environment.OSVersion.ToString(),MessageType.Info);
             PrintMessage("Log created on " + DateTime.Now,MessageType.Info);
+            {
+                System.Windows.Forms.MessageBox.Show(e.Message + Environment.NewLine + e.InnerException);
+                throw;
+            }
+
         }
         public void ShowLog()
         {

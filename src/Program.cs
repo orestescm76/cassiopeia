@@ -24,6 +24,9 @@ namespace Cassiopeia
             int console;
             if (Kernel.Console)
                 console = Kernel.AllocConsole();
+#if DEBUG
+            System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
+#endif
             Log.InitLog();
             /*LOADING PROCESS*/
             Log.Instance.PrintMessage("Starting...", MessageType.Info);
@@ -50,10 +53,12 @@ namespace Cassiopeia
             //We're done!
             StartStopwatch.Stop();
             Log.Instance.PrintMessage("Application loaded!", MessageType.Correct, StartStopwatch, TimeType.Milliseconds);
-            
+
             //Before everything... check updates
+#if !DEBUG
             if(Kernel.CheckUpdates)
                 Kernel.CheckForUpdates();
+#endif
             //ApplicationStart
             Kernel.StartApplication();
             //Program halts here until Application.Exit is called.

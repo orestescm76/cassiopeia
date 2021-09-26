@@ -84,7 +84,7 @@ namespace Cassiopeia
         {
             try
             {
-                Log.Instance.PrintMessage("Intentando conectar cuenta de Spotify", MessageType.Info, "Spotify.iniciarModoStream()");
+                Log.Instance.PrintMessage("Intentando conectar cuenta de Spotify", MessageType.Info, "Spotify.StartStreamMode()");
                 Kernel.InternetAvaliable(true);
                 Stopwatch crono = Stopwatch.StartNew();
                 auth = new AuthorizationCodeAuth(
@@ -111,6 +111,7 @@ namespace Cassiopeia
                         cuentaVinculada = true;
                         Config.LinkedWithSpotify = true;
                         Kernel.ActivarReproduccionSpotify();
+                        Kernel.BringMainFormFront();
                         Log.Instance.PrintMessage("Conectado sin errores como " + _spotify.GetPrivateProfile().DisplayName, MessageType.Correct, crono, TimeType.Milliseconds);
                     }
                     else
