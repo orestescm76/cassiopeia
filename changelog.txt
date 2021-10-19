@@ -25,3 +25,7 @@ Tweaked the startup, now I can release working single .exe files.
 1.7.0.16 - [FIX] When linked, after starting the app was out of focus.
 Button should look correctly on Spotfy sync mode.
 Twit button on the player is fixed. (Although there is a known issue with songs containing ')
+
+1.7.0.17 - Console returns.
+
+2.0.190.0 - New version numbering.
