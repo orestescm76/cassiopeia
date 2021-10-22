@@ -73,7 +73,7 @@ namespace Cassiopeia
         public static string[] Languages;
         public static Spotify Spotify;
         public static int NumLanguages;
-        public static readonly string Version = "v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static readonly string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
 
         public static void RefreshSpotifyToken(CancellationToken cancellationToken)
