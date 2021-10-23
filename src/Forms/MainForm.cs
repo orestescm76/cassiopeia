@@ -70,7 +70,7 @@ namespace Cassiopeia
         }
         public void ActivarReproduccionSpotify()
         {
-            spotifyToolStripMenuItem.Enabled = true;
+            playSpotifyAlbumToolStripMenuItem.Enabled = true;
         }
         private void CargarVista()
         {
@@ -142,7 +142,7 @@ namespace Cassiopeia
             copiarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("copiar");
             digitalToolStripMenuItem.Text = Kernel.LocalTexts.GetString("digital");
             vincularToolStripMenuItem.Text = Kernel.LocalTexts.GetString("vincular");
-            spotifyToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducirSpotify");
+            playSpotifyAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducirSpotify");
             reproductorToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproductor");
             abrirCDMenuItem.Text = Kernel.LocalTexts.GetString("abrirCD") + "...";
             verLyricsToolStripMenuItem.Text = Kernel.LocalTexts.GetString("verLyrics");
@@ -687,51 +687,52 @@ namespace Cassiopeia
                     MessageBox.Show(Kernel.LocalTexts.GetString("errorVinculacion"));
                     return;
                 }
-                if (!Kernel.Spotify.UserIsPremium())
+                try
                 {
-                    Log.PrintMessage("User is not premium", MessageType.Warning);
-                    MessageBox.Show(Kernel.LocalTexts.GetString("noPremium"));
+                    if (!Kernel.Spotify.UserIsPremium())
+                    {
+                        Log.PrintMessage("User is not premium", MessageType.Warning);
+                        MessageBox.Show(Kernel.LocalTexts.GetString("noPremium"));
+                    }
+                    else
+                        Log.PrintMessage("User is premium", MessageType.Info);
+                    vincularToolStripMenuItem.Visible = false;
+                    Reproductor.Instancia.SpotifyEncendido();
                 }
-                else
-                    Log.PrintMessage("User is premium", MessageType.Info);
-                vincularToolStripMenuItem.Visible = false;
-                Reproductor.Instancia.SpotifyEncendido();
+                catch (Exception)
+                {
+                    vincularToolStripMenuItem.Visible = true;
+                    throw;
+                }
             }
-            else return;
         }
-        private void spotifyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void playSpotifyAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works! no es O(1)
-            Log.PrintMessage(a.ToString(), MessageType.Info);
+            Log.PrintMessage("Trying to play "+a.ToString(), MessageType.Info);
             if (string.IsNullOrEmpty(a.IdSpotify))
             {
-                SpotifyAPI.Web.SimpleAlbum album = Kernel.Spotify.ReturnAlbum(a.GetSpotifySearchLabel());
-                if (album is null)
+                try
                 {
-                    Log.PrintMessage("Album was null..., spotifyToolStripMenuItem_Click()", MessageType.Error);
-                }
-                else
-                {
+                    Log.PrintMessage("Fetching Spotify URI", MessageType.Info);
+                    SpotifyAPI.Web.SimpleAlbum album = Kernel.Spotify.ReturnAlbum(a.GetSpotifySearchLabel());
                     Kernel.Spotify.PlayAlbum(album.Id);
-                    //if (err is not null && err.Error is not null)
-                    //{
-                    //    Log.PrintMessage(err.Error.Message, MessageType.Error, "spotifyToolStripMenuItem_Click()");
-                    //    MessageBox.Show(err.Error.Message);
-                    //}
-                    //else
-                    //    Log.PrintMessage("Playing OK", MessageType.Correct);
+                }
+                catch (SpotifyAPI.Web.APIException ex)
+                {
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
                 }
             }
             else
             {
-                Kernel.Spotify.PlayAlbum(a.IdSpotify);
-                //if (err != null && err.Error != null)
-                //{
-                //    Log.PrintMessage(err.Error.Message, MessageType.Error, "spotifyToolStripMenuItem_Click()");
-                //    MessageBox.Show(err.Error.Message);
-                //}
-                //else
-                //    Log.PrintMessage("Playing OK", MessageType.Correct);
+                try
+                {
+                    Kernel.Spotify.PlayAlbum(a.IdSpotify);
+                }
+                catch (SpotifyAPI.Web.APIException ex)
+                {
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
+                }
             }
         }
 

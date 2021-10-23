@@ -21,6 +21,7 @@ namespace Cassiopeia
         public bool AccountLinked = false;
         private AuthorizationCodeTokenResponse Token;
         private AuthorizationCodeRefreshResponse TokenRefresh;
+        private SpotifyAPI.Web.DeviceResponse Device;
 
         public Spotify(bool v)
         {
@@ -55,22 +56,16 @@ namespace Cassiopeia
                 {
                     Kernel.InternetAvaliable(true);
                     Kernel.InitTask();
-                    Log.Instance.PrintMessage("Conectado sin errores", MessageType.Correct, crono, TimeType.Milliseconds);
+                    Log.Instance.PrintMessage("Connected!", MessageType.Correct, crono, TimeType.Milliseconds);
                 }
-                else
+                else //yo  creoque esto nunca se ejecuta...
                 {
                     Kernel.InternetAvaliable(false);
-                    Log.Instance.PrintMessage("Se ha conectado pero el token es nulo", MessageType.Error, crono, TimeType.Milliseconds);
+                    Log.Instance.PrintMessage("Token is null", MessageType.Error, crono, TimeType.Milliseconds);
                 }
 
             }
-            catch (NullReferenceException)
-            {
-                Kernel.InternetAvaliable(false);
-                Log.Instance.PrintMessage("No se ha podido conectar con Spotify", MessageType.Error);
-                System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
-            }
-            catch (HttpRequestException)
+            catch (APIException e)
             {
                 Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage("No se ha podido conectar con Spotify", MessageType.Error);
@@ -88,7 +83,7 @@ namespace Cassiopeia
                 var server = new EmbedIOAuthServer(new Uri("http://localhost:4002/"), 4002);
                 server.AuthorizationCodeReceived += async (sender, response) =>
                 {
-                    await server.Stop();
+                    server.Stop();
                     Token = await new OAuthClient(SpotifyConfig).RequestToken(new AuthorizationCodeTokenRequest(PublicKey, PrivateKey, response.Code, server.BaseUri));
                     SpotifyClient = new SpotifyClient(SpotifyConfig.WithToken(Token.AccessToken));
 
@@ -109,16 +104,10 @@ namespace Cassiopeia
                 };
                 BrowserUtil.Open(login.ToUri());
             }
-            catch (NullReferenceException)
+            catch (APIException e)
             {
                 Kernel.InternetAvaliable(false);
-                Console.WriteLine("Algo fue mal");
-                System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
-            }
-            catch (HttpRequestException)
-            {
-                Kernel.InternetAvaliable(false);
-                Console.WriteLine("No tienes internet");
+                Log.Instance.PrintMessage(e.Message, MessageType.Error);
                 System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
         }
@@ -132,14 +121,16 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Token refreshed!", MessageType.Correct);
         }
         //Returns a list of albums based on a query.
-        public List<SimpleAlbum> SearchAlbums(string query)
+        public List<SimpleAlbum> SearchAlbums(string query, int limit)
         {
             Log.Instance.PrintMessage("Album search started", MessageType.Info, "Spotify.SearchAlbums(string)");
             Stopwatch crono = Stopwatch.StartNew();
             try
             {
-                SearchRequest request = new SearchRequest(SearchRequest.Types.Album, query);
-                request.Limit = 50;
+                SearchRequest request = new SearchRequest(SearchRequest.Types.Album, query)
+                {
+                    Limit = limit
+                };
                 List<SimpleAlbum> AlbumList = SpotifyClient.Search.Item(request).Result.Albums.Items;
                 Log.Instance.PrintMessage("Album search completed", MessageType.Correct, crono, TimeType.Milliseconds);
                 return AlbumList;
@@ -149,9 +140,8 @@ namespace Cassiopeia
                 Log.Instance.PrintMessage("Cannot search albums...", MessageType.Error);
                 Log.Instance.PrintMessage(e.InnerException.Message, MessageType.Error);
                 crono.Stop();
+                throw e;
             }
-            //If the search fails, return null.
-            return null;
         }
         public SimpleAlbum ReturnAlbum(string a)
         {
@@ -159,16 +149,16 @@ namespace Cassiopeia
             Stopwatch crono = Stopwatch.StartNew();
             try
             {
-                SimpleAlbum album = SearchAlbums(a).First();
+                SimpleAlbum album = SearchAlbums(a,1).First();
                 crono.Stop();
                 Log.Instance.PrintMessage("Búsqueda en Spotify ha finalizado correctamente", MessageType.Correct, crono, TimeType.Milliseconds);
 
                 return album;
             }
-            catch (ArgumentOutOfRangeException)
+            catch (APIException e)
             {
-                Log.Instance.PrintMessage("Busqueda en Spotify no ha encontrado nada", MessageType.Warning, crono, TimeType.Milliseconds);
-                return null;
+                Log.Instance.PrintMessage("Spotify search failed", MessageType.Warning, crono, TimeType.Milliseconds);
+                throw e;
             }
 
         }
@@ -246,55 +236,123 @@ namespace Cassiopeia
         }
         public bool UserIsPremium()
         {
-            return SpotifyClient.UserProfile.Current().Result.Product == "premium" ? true : false;
+            try
+            {
+                return SpotifyClient.UserProfile.Current().Result.Product == "premium" ? true : false;
+            }
+            catch (APIException ex)
+            {
+                Log.Instance.PrintMessage("Couldn't retrieve user type", MessageType.Warning);
+                Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
+                throw ex;
+            }
         }
         public void PlayAlbum(string uri)
         {
-            PlayerResumePlaybackRequest request = new PlayerResumePlaybackRequest()
+            try
             {
-                ContextUri = "spotify:album:" + uri, PositionMs = 0
-            };
-            SpotifyClient.Player.ResumePlayback(request);
-            //return _spotify.ResumePlayback(contextUri: "spotify:album:" + uri, offset: "", positionMs: 0);
+                Device = SpotifyClient.Player.GetAvailableDevices().Result;
+                PlayerResumePlaybackRequest request = new PlayerResumePlaybackRequest()
+                {
+                    ContextUri = "spotify:album:" + uri,
+                    PositionMs = 0,
+                    DeviceId = Device.Devices.First().Id
+                };
+                SpotifyClient.Player.ResumePlayback(request);
+            }
+            catch (APIException e)
+            {
+
+                throw e;
+            }
         }
 
         public void PlaySongFromAlbum(string uri, int cual) //reproduce una cancion de un album
         {
-//            FullAlbum album = _spotify.GetAlbum(uri);
-//            string uricancion = "";
-//            if (cual != 0)
-//            {
-//                for (int i = 0; i <= cual; i++)
-//                    uricancion = album.Tracks.Items[i].Id;
-//            }
-//            else
-//                uricancion = album.Tracks.Items.First().Id;
-//;            string temp = uricancion;
-//            uricancion = "";
-//            uricancion += "spotify:track:" + temp;
-//            List<string> uris = new List<string>();
-//            uris.Add(uricancion);
-//            return _spotify.ResumePlayback(uris: uris, offset: "", positionMs: 0);
+            try
+            {
+                FullAlbum album = SpotifyClient.Albums.Get(uri).Result;
+                string uricancion = "";
+                if (cual != 0)
+                {
+                    for (int i = 1; i <= cual; i++)
+                        uricancion = album.Tracks.Items[i].Id;
+                }
+                else
+                    uricancion = album.Tracks.Items.First().Id;
+                PlaySong(uricancion);
+            }
+            catch (APIException ex)
+            {
+                throw ex;
+            }
+
         }
-        public string DevolverCancionDelAlbum(string uri, string cancion)
+
+        public void PlaySong(string uri)
         {
-            //FullAlbum album = _spotify.GetAlbum(uri);
-            //foreach (SimpleTrack track in album.Tracks.Items)
-            //{
-            //    if (track.Name == cancion)
-            //        return track.Id;
-            //}
-            return string.Empty;
+            try
+            {
+                Device = SpotifyClient.Player.GetAvailableDevices().Result;
+                List<string> temp = new List<string>();
+                temp.Add("spotify:track:"+uri);
+                PlayerResumePlaybackRequest request = new PlayerResumePlaybackRequest()
+                {
+                    Uris = temp,
+                    PositionMs = 0,
+                    DeviceId = Device.Devices.First().Id
+                };
+                SpotifyClient.Player.ResumePlayback(request);
+            }
+            catch (APIException e)
+            {
+                throw e;
+            }
+        }
+        public void PlaySong(List<string> uris)
+        {
+            try
+            {
+                Device = SpotifyClient.Player.GetAvailableDevices().Result;
+                PlayerResumePlaybackRequest request = new PlayerResumePlaybackRequest()
+                {
+                    Uris = uris,
+                    PositionMs = 0,
+                    DeviceId = Device.Devices.First().Id
+                };
+                SpotifyClient.Player.ResumePlayback(request);
+            }
+            catch (APIException e)
+            {
+                throw e;
+            }
         }
         public void PlaySong(string uri, LongSong cl)
         {
-            //FullAlbum album = _spotify.GetAlbum(uri);
-            //List<string> uris = new List<string>();
-            //foreach(Song parte in cl.Parts)
-            //{
-            //    uris.Add("spotify:track:"+DevolverCancionDelAlbum(uri, parte.Title));
-            //}
-            //return _spotify.ResumePlayback(uris: uris, offset: "", positionMs: 0);
+            try
+            {
+                FullAlbum album = SpotifyClient.Albums.Get(uri).Result;
+                List<string> uris = new List<string>();
+                foreach (Song parte in cl.Parts)
+                {
+                    uris.Add("spotify:track:" + ReturnSongFromAlbum(album, parte.Title));
+                }
+                PlaySong(uris);
+            }
+            catch (APIException ex)
+            {
+                throw ex;
+            }
+
+        }
+        public string ReturnSongFromAlbum(FullAlbum album, string cancion)
+        {
+            foreach (SimpleTrack track in album.Tracks.Items)
+            {
+                if (track.Name == cancion)
+                    return track.Id;
+            }
+            return string.Empty;
         }
     }
 }

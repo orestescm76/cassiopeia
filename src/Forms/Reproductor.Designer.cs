@@ -102,7 +102,7 @@
             // buttonAbrir
             // 
             this.buttonAbrir.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonAbrir.Location = new System.Drawing.Point(0, 498);
+            this.buttonAbrir.Location = new System.Drawing.Point(0, 515);
             this.buttonAbrir.Name = "buttonAbrir";
             this.buttonAbrir.Size = new System.Drawing.Size(102, 23);
             this.buttonAbrir.TabIndex = 3;
@@ -171,9 +171,9 @@
             // 
             // buttonSpotify
             // 
-            this.buttonSpotify.Location = new System.Drawing.Point(0, 556);
+            this.buttonSpotify.Location = new System.Drawing.Point(0, 544);
             this.buttonSpotify.Name = "buttonSpotify";
-            this.buttonSpotify.Size = new System.Drawing.Size(102, 34);
+            this.buttonSpotify.Size = new System.Drawing.Size(102, 46);
             this.buttonSpotify.TabIndex = 8;
             this.buttonSpotify.TabStop = false;
             this.buttonSpotify.Text = "cambiar a Spotify";
@@ -256,9 +256,9 @@
             // 
             // buttonAgregar
             // 
-            this.buttonAgregar.Location = new System.Drawing.Point(108, 556);
+            this.buttonAgregar.Location = new System.Drawing.Point(108, 544);
             this.buttonAgregar.Name = "buttonAgregar";
-            this.buttonAgregar.Size = new System.Drawing.Size(115, 34);
+            this.buttonAgregar.Size = new System.Drawing.Size(115, 46);
             this.buttonAgregar.TabIndex = 14;
             this.buttonAgregar.TabStop = false;
             this.buttonAgregar.Text = "Agregar a la BBDD";
@@ -293,7 +293,7 @@
             // buttonTwit
             // 
             this.buttonTwit.AllowDrop = true;
-            this.buttonTwit.Location = new System.Drawing.Point(0, 527);
+            this.buttonTwit.Location = new System.Drawing.Point(114, 515);
             this.buttonTwit.Name = "buttonTwit";
             this.buttonTwit.Size = new System.Drawing.Size(102, 23);
             this.buttonTwit.TabIndex = 16;
@@ -304,9 +304,9 @@
             // buttoncrearLR
             // 
             this.buttoncrearLR.AllowDrop = true;
-            this.buttoncrearLR.Location = new System.Drawing.Point(229, 556);
+            this.buttoncrearLR.Location = new System.Drawing.Point(229, 544);
             this.buttoncrearLR.Name = "buttoncrearLR";
-            this.buttoncrearLR.Size = new System.Drawing.Size(129, 34);
+            this.buttoncrearLR.Size = new System.Drawing.Size(129, 46);
             this.buttoncrearLR.TabIndex = 17;
             this.buttoncrearLR.Text = "crear LR";
             this.buttoncrearLR.UseVisualStyleBackColor = true;

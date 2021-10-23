@@ -41,17 +41,22 @@ namespace Cassiopeia.src.Forms
         }
         private DialogResult SearchAlbum(string query) //Invokes the form for the results. DialogResult determines if the user has completed the action.
         {
-
-            List<SpotifyAPI.Web.SimpleAlbum> AlbumList = Kernel.Spotify.SearchAlbums(query);
-            if (AlbumList is not null)
+            try
             {
+                List<SpotifyAPI.Web.SimpleAlbum> AlbumList = Kernel.Spotify.SearchAlbums(query, 20);
                 SpotifyResults res = new SpotifyResults(ref AlbumList, false);
                 res.ShowDialog();
                 if (res.DialogResult == DialogResult.Cancel)
                     return DialogResult.Cancel;
                 else return DialogResult.OK;
+
             }
-            else return DialogResult.Cancel;
+            catch (SpotifyAPI.Web.APIException ex)
+            {
+                Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
+                return DialogResult.Cancel;
+            }
+
         }
         private void buttonOk_Click(object sender, EventArgs e)
         {

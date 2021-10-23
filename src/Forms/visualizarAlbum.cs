@@ -417,12 +417,32 @@ namespace Cassiopeia
 
         private void reproducirspotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (!string.IsNullOrEmpty(albumToVisualize.IdSpotify))
-            //{
-            //    SpotifyAPI.Web.Models.ErrorResponse err = Kernel.Spotify.PlaySongFromAlbum(albumToVisualize.IdSpotify, vistaCanciones.SelectedItems[0].Index);
-            //    if (err.Error != null && err.Error.Message != null)
-            //        MessageBox.Show(err.Error.Message);
-            //}
+            Song selected = albumToVisualize.GetSong(vistaCanciones.SelectedIndices[0]);
+            if(selected is not LongSong)
+            {
+                try
+                {
+                    Kernel.Spotify.PlaySongFromAlbum(albumToVisualize.IdSpotify, vistaCanciones.SelectedItems[0].Index);
+                }
+                catch (SpotifyAPI.Web.APIException ex)
+                {
+                    Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                try
+                {
+                    LongSong ls = (LongSong)selected;
+                    Kernel.Spotify.PlaySong(albumToVisualize.IdSpotify, ls);
+                }
+                catch (SpotifyAPI.Web.APIException ex)
+                {
+                    Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
+                    MessageBox.Show(ex.Message);
+                }
+            }
 
         }
         private void reproducirToolStripMenuItem_Click(object sender, EventArgs e)
