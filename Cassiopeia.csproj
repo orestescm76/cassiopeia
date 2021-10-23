@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net5.0-windows10.0.19041.0</TargetFramework>
       <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -16,8 +16,9 @@
     <StartupObject>Cassiopeia.Program</StartupObject>
     <Version>1.7.0.11</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <Nullable>disable</Nullable>
+	  <Deterministic>False</Deterministic>
     <DebugType>full</DebugType>
   </PropertyGroup>
 
@@ -41,9 +42,9 @@
     </None>
     <PackageReference Include="CSCore" Version="1.2.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NVorbis" Version="0.10.3" />
-    <PackageReference Include="SpotifyAPI.Web" Version="5.1.1" />
-    <PackageReference Include="SpotifyAPI.Web.Auth" Version="5.1.1" />
+    <PackageReference Include="NVorbis" Version="0.10.4" />
+    <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
+    <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.2.2" />
     <PackageReference Include="TagLibSharp" Version="2.2.0" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

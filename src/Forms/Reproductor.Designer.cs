@@ -168,6 +168,7 @@
             this.trackBarVolumen.ValueChanged += new System.EventHandler(this.trackBarVolumen_ValueChanged);
             this.trackBarVolumen.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarVolumen_MouseDown);
             this.trackBarVolumen.MouseHover += new System.EventHandler(this.trackBarVolumen_MouseHover);
+            this.trackBarVolumen.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarVolumen_MouseUp);
             // 
             // buttonSpotify
             // 
@@ -182,7 +183,7 @@
             // 
             // timerSpotify
             // 
-            this.timerSpotify.Interval = 250;
+            this.timerSpotify.Interval = 300;
             this.timerSpotify.Tick += new System.EventHandler(this.timerSpotify_Tick);
             // 
             // labelVolumen

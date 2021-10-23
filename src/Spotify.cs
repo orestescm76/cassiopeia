@@ -6,7 +6,6 @@ using System.Net.Http;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System.Threading.Tasks;
-//NEED TO UPDATE SPOTIFY API TO NEW VERSION!
 namespace Cassiopeia
 {
     class Spotify
@@ -21,7 +20,7 @@ namespace Cassiopeia
         public bool AccountLinked = false;
         private AuthorizationCodeTokenResponse Token;
         private AuthorizationCodeRefreshResponse TokenRefresh;
-        private SpotifyAPI.Web.DeviceResponse Device;
+        public DeviceResponse Device;
 
         public Spotify(bool v)
         {
