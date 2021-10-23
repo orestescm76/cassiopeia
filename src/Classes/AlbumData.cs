@@ -62,21 +62,21 @@ namespace Cassiopeia
             CanBeRemoved = true;
         }
         //---COMPARISON---
-        public override bool Equals(Object other)
-        {
-            AlbumData albumData = other as AlbumData;
-            return ID == albumData.ID;
-        }
+        //public override bool Equals(Object other)
+        //{
+        //    AlbumData albumData = other as AlbumData;
+        //    return ID == albumData.ID;
+        //}
 
-        public static bool operator ==(AlbumData leftAlbumData, AlbumData rightAlbumData)
-        {
-            return leftAlbumData.ID == rightAlbumData.ID;
-        }
+        //public static bool operator ==(AlbumData leftAlbumData, AlbumData rightAlbumData)
+        //{
+        //    return leftAlbumData.ID == rightAlbumData.ID;
+        //}
 
-        public static bool operator !=(AlbumData leftAlbumData, AlbumData rightAlbumData)
-        {
-            return !(leftAlbumData == rightAlbumData);
-        }
+        //public static bool operator !=(AlbumData leftAlbumData, AlbumData rightAlbumData)
+        //{
+        //    return !(leftAlbumData == rightAlbumData);
+        //}
 
         //---SONGS MANAGEMENT---
         public void AddSong(Song song)

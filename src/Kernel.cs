@@ -76,16 +76,17 @@ namespace Cassiopeia
         public static readonly string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
 
-        public static void RefreshSpotifyToken(CancellationToken cancellationToken)
+        public async static Task RefreshSpotifyToken(CancellationToken cancellationToken)
         {
             while (true)
             {
+                Log.Instance.PrintMessage("Task RefreshSpotifyToken", MessageType.Info);
                 var cancelar = cancellationToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(15));
                 if (cancelar && cancellationToken.IsCancellationRequested)
                     return;
                 if (Spotify.IsTokenExpired())
                 {
-                    Spotify.RefreshToken();
+                    await Spotify.RefreshTokenAsync();
                 }
             }
         }

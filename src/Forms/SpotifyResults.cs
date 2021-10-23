@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-using SpotifyAPI.Web.Models;
+using SpotifyAPI.Web;
 
 namespace Cassiopeia.src.Forms
 {
@@ -58,7 +58,7 @@ namespace Cassiopeia.src.Forms
                 for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
                 {
                     int cual = Convert.ToInt32(listViewResultadoBusqueda.SelectedItems[i].SubItems[0].Text);//la imagen tiene url
-                    Kernel.Spotify.procesarAlbum(listaBusqueda[cual - 1]);
+                    Kernel.Spotify.ProcessAlbum(listaBusqueda[cual - 1]);
                 }
                 DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
                 crono.Stop();

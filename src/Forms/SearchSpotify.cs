@@ -35,13 +35,15 @@ namespace Cassiopeia.src.Forms
             String[] uri = URI.Split(':');
             if (uri[1] != "album")
                 throw new ArgumentException();
-            Kernel.Spotify.InsertarAlbumFromURI(uri[2]);
+            Kernel.Spotify.InsertAlbumFromURI(uri[2]);
+            Close();
             Dispose();
         }
         private DialogResult SearchAlbum(string query) //Invokes the form for the results. DialogResult determines if the user has completed the action.
         {
-            List<SpotifyAPI.Web.Models.SimpleAlbum> AlbumList = Kernel.Spotify.SearchAlbums(query);
-            if (!(AlbumList is null))
+
+            List<SpotifyAPI.Web.SimpleAlbum> AlbumList = Kernel.Spotify.SearchAlbums(query);
+            if (AlbumList is not null)
             {
                 SpotifyResults res = new SpotifyResults(ref AlbumList, false);
                 res.ShowDialog();

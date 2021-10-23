@@ -142,7 +142,7 @@ namespace Cassiopeia
         private void cargarVista()
         {
             vistaCanciones.Items.Clear();
-            if (string.IsNullOrEmpty(albumToVisualize.IdSpotify) || Kernel.Spotify is null || !Kernel.Spotify.cuentaLista)
+            if (string.IsNullOrEmpty(albumToVisualize.IdSpotify) || Kernel.Spotify is null || !Kernel.Spotify.AccountReady)
                 reproducirspotifyToolStripMenuItem.Enabled = false;
             if (string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
                 reproducirToolStripMenuItem.Enabled = false;
@@ -417,12 +417,12 @@ namespace Cassiopeia
 
         private void reproducirspotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(albumToVisualize.IdSpotify))
-            {
-                SpotifyAPI.Web.Models.ErrorResponse err = Kernel.Spotify.PlaySongFromAlbum(albumToVisualize.IdSpotify, vistaCanciones.SelectedItems[0].Index);
-                if (err.Error != null && err.Error.Message != null)
-                    MessageBox.Show(err.Error.Message);
-            }
+            //if (!string.IsNullOrEmpty(albumToVisualize.IdSpotify))
+            //{
+            //    SpotifyAPI.Web.Models.ErrorResponse err = Kernel.Spotify.PlaySongFromAlbum(albumToVisualize.IdSpotify, vistaCanciones.SelectedItems[0].Index);
+            //    if (err.Error != null && err.Error.Message != null)
+            //        MessageBox.Show(err.Error.Message);
+            //}
 
         }
         private void reproducirToolStripMenuItem_Click(object sender, EventArgs e)
