@@ -265,14 +265,6 @@ namespace Cassiopeia.src.Forms
                         throw ex;
                     }
                 }
-                try
-                {
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
-                }
-                catch (Exception)
-                {
-                    Log.PrintMessage("np.jpg does not exist", MessageType.Warning);
-                }
                 buttonAgregar.Show();
                 Icon = Properties.Resources.spotifyico;
                 timerSpotify.Enabled = true;
@@ -304,7 +296,11 @@ namespace Cassiopeia.src.Forms
                 {
                     Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
                     if (File.Exists("./covers/np.jpg") && pictureBoxCaratula.Image != null)
+                    {
                         pictureBoxCaratula.Image.Dispose();
+                        File.Delete("./covers/np.jpg");
+                    }
+                        
                     cliente.DownloadFileAsync(new Uri(album.Images[1].Url), Environment.CurrentDirectory + "/covers/np.jpg");
                     cliente.DownloadFileCompleted += (s, e) =>
                      {
