@@ -25,3 +25,14 @@ Tweaked the startup, now I can release working single .exe files.
 1.7.0.16 - [FIX] When linked, after starting the app was out of focus.
 Button should look correctly on Spotfy sync mode.
 Twit button on the player is fixed. (Although there is a known issue with songs containing ')
+
+1.7.0.17 - Console returns.
+
+2.0.190.0 - New version numbering.
+
+2.0.196.0 - Small port to 6.0 Spotify API. Search and playing albums work.
+
+2.0.199.0 - More work to port the API, this time on the Player. Readonly but sync works.
+		  - Fixed bug where album cover keeps downloading 100% of the time, this had an effect on CPU and network usage.
+
+2.0.202.0 - Tweaked the method to download covers. Now it's asynchrnonus

@@ -70,7 +70,7 @@ namespace Cassiopeia
         }
         public void ActivarReproduccionSpotify()
         {
-            spotifyToolStripMenuItem.Enabled = true;
+            playSpotifyAlbumToolStripMenuItem.Enabled = true;
         }
         private void CargarVista()
         {
@@ -114,7 +114,7 @@ namespace Cassiopeia
         private void PonerTextos()
         {
 #if DEBUG
-            Text = Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version + " Codename " + Kernel.CodeName;
+            Text = Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version + " Codename " + Kernel.CodeName + " DEBUG";
 #else
             Text = Kernel.LocalTexts.GetString("titulo_ventana_principal");
 #endif
@@ -142,7 +142,7 @@ namespace Cassiopeia
             copiarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("copiar");
             digitalToolStripMenuItem.Text = Kernel.LocalTexts.GetString("digital");
             vincularToolStripMenuItem.Text = Kernel.LocalTexts.GetString("vincular");
-            spotifyToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducirSpotify");
+            playSpotifyAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducirSpotify");
             reproductorToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproductor");
             abrirCDMenuItem.Text = Kernel.LocalTexts.GetString("abrirCD") + "...";
             verLyricsToolStripMenuItem.Text = Kernel.LocalTexts.GetString("verLyrics");
@@ -670,9 +670,9 @@ namespace Cassiopeia
             if (eleccion == DialogResult.Yes)
             {
                 Stopwatch espera = Stopwatch.StartNew();
-                Kernel.Spotify.Restart();
-                Kernel.Spotify.SpotifyVinculado();
-                while (!Kernel.Spotify.cuentaLista)
+                Log.Instance.PrintMessage("Reiniciando Spotify", MessageType.Info);
+                Kernel.Spotify.LinkSpotify();
+                while (!Kernel.Spotify.AccountReady)
                 {
                     //deadlock, sincrono
                     if (espera.Elapsed.TotalSeconds >= 30)
@@ -687,50 +687,52 @@ namespace Cassiopeia
                     MessageBox.Show(Kernel.LocalTexts.GetString("errorVinculacion"));
                     return;
                 }
-                if (Kernel.Spotify._spotify.GetPrivateProfile().Product != "premium")
+                try
                 {
-                    Log.PrintMessage("El usuario no tiene premium, no podrá usar spotify desde el Gestor", MessageType.Warning);
-                    MessageBox.Show(Kernel.LocalTexts.GetString("noPremium"));
-                    spotifyToolStripMenuItem.Enabled = false;
-                    vincularToolStripMenuItem.Enabled = false;
-                }
-                Reproductor.Instancia.SpotifyEncendido();
-            }
-            else return;
-        }
-        private void spotifyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works! no es O(1)
-            Log.PrintMessage(a.ToString(), MessageType.Info);
-            if (string.IsNullOrEmpty(a.IdSpotify))
-            {
-                SpotifyAPI.Web.Models.SimpleAlbum album = Kernel.Spotify.DevolverAlbum(a.GetSpotifySearchLabel());
-                if (object.ReferenceEquals(a, null) || object.ReferenceEquals(album, null))
-                {
-                    Log.PrintMessage("Album was null..., spotifyToolStripMenuItem_Click()", MessageType.Error);
-                }
-                else
-                {
-                    SpotifyAPI.Web.Models.ErrorResponse err = Kernel.Spotify.PlayAlbum(album.Id);
-                    if (err is not null && err.Error is not null)
+                    if (!Kernel.Spotify.UserIsPremium())
                     {
-                        Log.PrintMessage(err.Error.Message, MessageType.Error, "spotifyToolStripMenuItem_Click()");
-                        MessageBox.Show(err.Error.Message);
+                        Log.PrintMessage("User is not premium", MessageType.Warning);
+                        MessageBox.Show(Kernel.LocalTexts.GetString("noPremium"));
                     }
                     else
-                        Log.PrintMessage("Playing OK", MessageType.Correct);
+                        Log.PrintMessage("User is premium", MessageType.Info);
+                    vincularToolStripMenuItem.Visible = false;
+                    Reproductor.Instancia.SpotifyEncendido();
+                }
+                catch (Exception)
+                {
+                    vincularToolStripMenuItem.Visible = true;
+                    throw;
+                }
+            }
+        }
+        private void playSpotifyAlbumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works! no es O(1)
+            Log.PrintMessage("Trying to play "+a.ToString(), MessageType.Info);
+            if (string.IsNullOrEmpty(a.IdSpotify))
+            {
+                try
+                {
+                    Log.PrintMessage("Fetching Spotify URI", MessageType.Info);
+                    SpotifyAPI.Web.SimpleAlbum album = Kernel.Spotify.ReturnAlbum(a.GetSpotifySearchLabel());
+                    Kernel.Spotify.PlayAlbum(album.Id);
+                }
+                catch (SpotifyAPI.Web.APIException ex)
+                {
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
                 }
             }
             else
             {
-                SpotifyAPI.Web.Models.ErrorResponse err = Kernel.Spotify.PlayAlbum(a.IdSpotify);
-                if (err != null && err.Error != null)
+                try
                 {
-                    Log.PrintMessage(err.Error.Message, MessageType.Error, "spotifyToolStripMenuItem_Click()");
-                    MessageBox.Show(err.Error.Message);
+                    Kernel.Spotify.PlayAlbum(a.IdSpotify);
                 }
-                else
-                    Log.PrintMessage("Playing OK", MessageType.Correct);
+                catch (SpotifyAPI.Web.APIException ex)
+                {
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
+                }
             }
         }
 

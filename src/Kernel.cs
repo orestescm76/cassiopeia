@@ -1,4 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿/*
+ * CASSIOPEIA 2.0.196.0
+ * NET 5 PORT
+ * SPOTIFYAPI 6 PORT (WIP)
+ * CODENAME STORM
+ * MADE BY ORESTESCM76
+ */
+
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -58,11 +66,12 @@ namespace Cassiopeia
         public static MainForm MainForm;
         public static Collection Collection;
 #if DEBUG
+        public static bool Console = true;
         public static bool CheckUpdates = false;
 #else
+        public static bool Console = false;
         public static bool CheckUpdates = true;
 #endif
-        public static bool Console = false;
         public static bool SpotifyEnabled = true;
         public static bool StartPlayer = false;
         public static bool MetadataStream = false;
@@ -76,16 +85,17 @@ namespace Cassiopeia
         public static readonly string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
 
-        public static void RefreshSpotifyToken(CancellationToken cancellationToken)
+        public async static Task RefreshSpotifyToken(CancellationToken cancellationToken)
         {
             while (true)
             {
+                Log.Instance.PrintMessage("Task RefreshSpotifyToken", MessageType.Info);
                 var cancelar = cancellationToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(15));
                 if (cancelar && cancellationToken.IsCancellationRequested)
                     return;
                 if (Spotify.IsTokenExpired())
                 {
-                    Spotify.RefreshToken();
+                    await Spotify.RefreshTokenAsync();
                 }
             }
         }

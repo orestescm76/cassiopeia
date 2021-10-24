@@ -12,7 +12,6 @@ namespace Cassiopeia
         {
             string romanNumeral = "";
             int x = arabicNumeral;
-
             switch (x / 10)
             {
                 case 1:

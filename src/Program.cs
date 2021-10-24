@@ -2,11 +2,6 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 
-
-/* VERSION 1.7.xx CODENAME STORM
- * Traspaso a Net 5.
- */
-
 namespace Cassiopeia
 {
     static class Program
