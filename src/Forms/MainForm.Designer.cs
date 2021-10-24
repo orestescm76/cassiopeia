@@ -96,7 +96,7 @@
             this.testToolStripMenuItem});
             this.barraPrincipal.Location = new System.Drawing.Point(0, 0);
             this.barraPrincipal.Name = "barraPrincipal";
-            this.barraPrincipal.Size = new System.Drawing.Size(842, 24);
+            this.barraPrincipal.Size = new System.Drawing.Size(922, 24);
             this.barraPrincipal.TabIndex = 0;
             this.barraPrincipal.Text = "menuStrip2";
             // 
@@ -356,9 +356,6 @@
             // vistaAlbumes
             // 
             this.vistaAlbumes.AllowColumnReorder = true;
-            this.vistaAlbumes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.vistaAlbumes.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.vistaAlbumes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.vistaAlbumes.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -369,16 +366,16 @@
             this.genero,
             this.columnID});
             this.vistaAlbumes.Cursor = System.Windows.Forms.Cursors.Default;
+            this.vistaAlbumes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vistaAlbumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.vistaAlbumes.ForeColor = System.Drawing.SystemColors.WindowText;
             this.vistaAlbumes.FullRowSelect = true;
             this.vistaAlbumes.HideSelection = false;
             this.vistaAlbumes.Location = new System.Drawing.Point(0, 24);
-            this.vistaAlbumes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 12);
-            this.vistaAlbumes.MinimumSize = new System.Drawing.Size(842, 512);
+            this.vistaAlbumes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 22);
             this.vistaAlbumes.Name = "vistaAlbumes";
             this.vistaAlbumes.ShowGroups = false;
-            this.vistaAlbumes.Size = new System.Drawing.Size(842, 512);
+            this.vistaAlbumes.Size = new System.Drawing.Size(922, 557);
             this.vistaAlbumes.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.vistaAlbumes.TabIndex = 1;
             this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
@@ -420,9 +417,9 @@
             this.barraAbajo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.duracionSeleccionada,
             this.toolStripStatusLabelViewInfo});
-            this.barraAbajo.Location = new System.Drawing.Point(0, 536);
+            this.barraAbajo.Location = new System.Drawing.Point(0, 559);
             this.barraAbajo.Name = "barraAbajo";
-            this.barraAbajo.Size = new System.Drawing.Size(842, 22);
+            this.barraAbajo.Size = new System.Drawing.Size(922, 22);
             this.barraAbajo.TabIndex = 4;
             this.barraAbajo.Text = "statusStrip1";
             // 
@@ -446,20 +443,20 @@
             this.playSpotifyAlbumToolStripMenuItem,
             this.verLyricsToolStripMenuItem});
             this.clickDerechoMenuContexto.Name = "contextMenuStrip1";
-            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(181, 114);
+            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(120, 92);
             this.clickDerechoMenuContexto.Opening += new System.ComponentModel.CancelEventHandler(this.clickDerechoMenuContexto_Opening);
             // 
             // crearCDToolStripMenuItem
             // 
             this.crearCDToolStripMenuItem.Name = "crearCDToolStripMenuItem";
-            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.crearCDToolStripMenuItem.Text = "cd";
             this.crearCDToolStripMenuItem.Click += new System.EventHandler(this.crearCDToolStripMenuItem_Click);
             // 
             // copiarToolStripMenuItem
             // 
             this.copiarToolStripMenuItem.Name = "copiarToolStripMenuItem";
-            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.copiarToolStripMenuItem.Text = "copiar";
             this.copiarToolStripMenuItem.Click += new System.EventHandler(this.copiarToolStripMenuItem_Click);
             // 
@@ -467,14 +464,14 @@
             // 
             this.playSpotifyAlbumToolStripMenuItem.Enabled = false;
             this.playSpotifyAlbumToolStripMenuItem.Name = "playSpotifyAlbumToolStripMenuItem";
-            this.playSpotifyAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.playSpotifyAlbumToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.playSpotifyAlbumToolStripMenuItem.Text = "Spotify";
             this.playSpotifyAlbumToolStripMenuItem.Click += new System.EventHandler(this.playSpotifyAlbumToolStripMenuItem_Click);
             // 
             // verLyricsToolStripMenuItem
             // 
             this.verLyricsToolStripMenuItem.Name = "verLyricsToolStripMenuItem";
-            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
             // 
@@ -492,8 +489,7 @@
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(842, 558);
+            this.ClientSize = new System.Drawing.Size(922, 581);
             this.ContextMenuStrip = this.clickDerechoMenuContexto;
             this.Controls.Add(this.barraAbajo);
             this.Controls.Add(this.vistaAlbumes);
@@ -501,10 +497,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.barraPrincipal;
-            this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(858, 597);
+            this.MinimumSize = new System.Drawing.Size(771, 283);
             this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Gestor de álbumes 0";
             this.barraPrincipal.ResumeLayout(false);
             this.barraPrincipal.PerformLayout();

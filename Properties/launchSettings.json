@@ -2,6 +2,7 @@
   "profiles": {
     "Cassiopeia": {
       "commandName": "Project",
+      "commandLineArgs": "-noSpotify",
       "authenticationMode": "None"
     },
     "Debug": {
