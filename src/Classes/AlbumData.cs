@@ -5,6 +5,14 @@ using Newtonsoft.Json;
 
 namespace Cassiopeia
 {
+    enum AlbumType
+    {
+        Studio,
+        Live,
+        Compilation,
+        EP,
+        Single
+    }
     public class AlbumData
     {
         public String Title { get; set; }
@@ -21,7 +29,8 @@ namespace Cassiopeia
         public String SoundFilesPath { get; set; }
 
         [JsonIgnore] public int NumberOfSongs { get { return Songs.Count; } }
-        [JsonIgnore] public TimeSpan Length { get => GetLength(); }
+        [JsonIgnore] public TimeSpan Length { get => GetLength(false); }
+        [JsonIgnore] public TimeSpan BonusLength { get => GetLength(true); }
         [JsonIgnore] public bool CanBeRemoved { get; set; }
 
         public AlbumData()
@@ -119,17 +128,20 @@ namespace Cassiopeia
         }
 
         //---DATA---
-        private TimeSpan GetLength()
+        private TimeSpan GetLength(bool bonus)
         {
             TimeSpan length = new TimeSpan();
-
+            TimeSpan lengthBonus = new TimeSpan();
             foreach (Song song in Songs)
             {
-                if (!song.IsBonus)
+                if (!song.IsBonus) //If this song is bonus don't add it
                     length += song.Length;
+                else
+                    lengthBonus += song.Length; //If we want the total bonus song length we would add it here
             }
-
-            return length;
+            if(!bonus)
+                return length;
+            return lengthBonus;
         }
 
         public override string ToString()

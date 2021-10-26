@@ -747,7 +747,7 @@ namespace Cassiopeia
         }
         public static void ShowError(string msg)
         {
-            MessageBox.Show(LocalTexts.GetString("error"), msg, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(msg, LocalTexts.GetString("error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         public static int AllocConsole()
         {
