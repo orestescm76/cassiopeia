@@ -488,24 +488,24 @@ namespace Cassiopeia
         {
             string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "_" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
             AlbumData a = Kernel.Collection.GetAlbum(seleccion);
-
-            if (a.Length.TotalMinutes < 80)
-            {
-                CrearCD formCD = new CrearCD(ref a);
-                formCD.Show();
-            }
-            else
-            {
-                short numDiscos = (short)Math.Ceiling((a.Length.TotalMinutes / 80));
-                CrearCD fCD = new CrearCD(ref a, numDiscos);
-                fCD.ShowDialog();
-                for (short i = 2; i <= numDiscos; i++)
-                {
-                    CompactDisc temp = Kernel.Collection.CDS.Last();
-                    CrearCD formCD = new CrearCD(ref temp, i);
-                    formCD.ShowDialog();
-                }
-            }
+            CreateCD formCD = new CreateCD(ref a);
+            formCD.Show();
+            //if (a.Length.TotalMinutes < 80)
+            //{
+                
+            //}
+            //else
+            //{
+            //    short numDiscos = (short)Math.Ceiling((a.Length.TotalMinutes / 80));
+            //    CrearCD fCD = new CrearCD(ref a, numDiscos);
+            //    fCD.ShowDialog();
+            //    for (short i = 2; i <= numDiscos; i++)
+            //    {
+            //        CompactDisc temp = Kernel.Collection.CDS.Last();
+            //        CrearCD formCD = new CrearCD(ref temp, i);
+            //        formCD.ShowDialog();
+            //    }
+            //}
         }
         private void colorToolStripMenuItem_Click(object sender, EventArgs e)
         {

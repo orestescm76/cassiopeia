@@ -329,7 +329,7 @@ namespace Cassiopeia
             }
             else
             {
-                CrearCD editor = new CrearCD(ref CDaVisualizar, numDisco, true);
+                CreateCD editor = new CreateCD(ref CDaVisualizar, numDisco, true);
                 editor.ShowDialog();
             }
             Close();
@@ -339,7 +339,7 @@ namespace Cassiopeia
             TimeSpan seleccion = new TimeSpan();
             foreach (ListViewItem cancion in vistaCanciones.SelectedItems)
             {
-                if (!(CDaVisualizar is null) && CDaVisualizar.Discos.Length > 1)
+                if (!(CDaVisualizar is null) && CDaVisualizar.Discos.Count > 1)
                 {
                     Song can = albumToVisualize.GetSong(cancion.SubItems[1].Text);
                     seleccion += can.Length;
@@ -391,7 +391,7 @@ namespace Cassiopeia
 
         private void labelEstadoDisco_Click(object sender, EventArgs e)
         {
-            if (CDaVisualizar.Discos.Length == 1)
+            if (CDaVisualizar.Discos.Count == 1)
                 return;
             else
             {

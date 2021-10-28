@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_LastSelectedProfileId>B:\Programación\C#\Cassiopeia\Properties\PublishProfiles\Debug Builds.pubxml</_LastSelectedProfileId>
-    <ActiveDebugProfile>Debug</ActiveDebugProfile>
+    <_LastSelectedProfileId>S:\Programacion\C#\cassiopeia\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+    <ActiveDebugProfile>Cassiopeia</ActiveDebugProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
