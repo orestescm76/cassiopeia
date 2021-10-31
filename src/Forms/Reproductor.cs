@@ -298,14 +298,15 @@ namespace Cassiopeia.src.Forms
                     if (File.Exists("./covers/np.jpg") && pictureBoxCaratula.Image != null)
                     {
                         pictureBoxCaratula.Image.Dispose();
+                        pictureBoxCaratula.Image = null;
                         File.Delete("./covers/np.jpg");
                     }
                         
                     cliente.DownloadFileAsync(new Uri(album.Images[1].Url), Environment.CurrentDirectory + "/covers/np.jpg");
                     cliente.DownloadFileCompleted += (s, e) =>
-                     {
-                         pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
-                     };
+                    {
+                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                    };
                 }
                 catch (System.Net.WebException ex)
                 {
@@ -773,7 +774,7 @@ namespace Cassiopeia.src.Forms
                     //update trackbar
                     trackBarPosicion.Value = (int)pos.TotalSeconds;
                     //if we don't have an image or we have the same one
-                    if (SpotifyID != PreviousSpotifyID || pictureBoxCaratula.Image == null)
+                    if (SpotifyID != PreviousSpotifyID || pictureBoxCaratula.Image is null)
                     {
                         //Update shuffle state not too often, when changin songs
                         if (PC.ShuffleState)
@@ -806,6 +807,7 @@ namespace Cassiopeia.src.Forms
                             Log.PrintMessage("Local song detected.", MessageType.Info);
                             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                             pictureBoxCaratula.Image.Dispose();
+                            pictureBoxCaratula.Image = null;
                             pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
                         }
                     }
@@ -843,6 +845,7 @@ namespace Cassiopeia.src.Forms
             else
             {
                 pictureBoxCaratula.Image = Resources.albumdesconocido;
+                Text = "No Spotify context";
             }
         }
 
@@ -850,8 +853,17 @@ namespace Cassiopeia.src.Forms
         {
             if (!Kernel.Spotify.IsTokenExpired())
             {
-                CurrentlyPlayingContext PC = SpotifyClient.Player.GetCurrentPlayback().Result;
-                e.Result = PC;
+                try
+                {
+                    CurrentlyPlayingContext PC = SpotifyClient.Player.GetCurrentPlayback().Result;
+                    e.Result = PC;
+                }
+                catch (APIException ex) //There is a problem
+                {
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
+                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
             }
             else
             {

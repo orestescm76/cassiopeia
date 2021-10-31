@@ -164,6 +164,11 @@
             // 
             this.numericUpDownNumCanciones.Location = new System.Drawing.Point(140, 230);
             this.numericUpDownNumCanciones.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.numericUpDownNumCanciones.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.numericUpDownNumCanciones.Name = "numericUpDownNumCanciones";
             this.numericUpDownNumCanciones.Size = new System.Drawing.Size(140, 23);
             this.numericUpDownNumCanciones.TabIndex = 12;
@@ -178,7 +183,7 @@
             this.labelCDDuration.TabIndex = 13;
             this.labelCDDuration.Text = "00:00:00";
             // 
-            // CrearCD
+            // CreateCD
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -201,7 +206,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
-            this.Name = "CrearCD";
+            this.Name = "CreateCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CrearCD";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumCanciones)).EndInit();

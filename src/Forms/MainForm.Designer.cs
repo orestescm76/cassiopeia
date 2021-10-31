@@ -78,7 +78,6 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playSpotifyAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.process1 = new System.Diagnostics.Process();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -366,16 +365,14 @@
             this.genero,
             this.columnID});
             this.vistaAlbumes.Cursor = System.Windows.Forms.Cursors.Default;
-            this.vistaAlbumes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vistaAlbumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.vistaAlbumes.ForeColor = System.Drawing.SystemColors.WindowText;
             this.vistaAlbumes.FullRowSelect = true;
             this.vistaAlbumes.HideSelection = false;
             this.vistaAlbumes.Location = new System.Drawing.Point(0, 24);
-            this.vistaAlbumes.Margin = new System.Windows.Forms.Padding(3, 3, 3, 22);
             this.vistaAlbumes.Name = "vistaAlbumes";
             this.vistaAlbumes.ShowGroups = false;
-            this.vistaAlbumes.Size = new System.Drawing.Size(922, 557);
+            this.vistaAlbumes.Size = new System.Drawing.Size(922, 532);
             this.vistaAlbumes.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.vistaAlbumes.TabIndex = 1;
             this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
@@ -386,6 +383,7 @@
             this.vistaAlbumes.SelectedIndexChanged += new System.EventHandler(this.vistaAlbumes_SelectedIndexChanged);
             this.vistaAlbumes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vistaAlbumes_KeyDown);
             this.vistaAlbumes.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaAlbumes_MouseDoubleClick);
+            this.vistaAlbumes.Resize += new System.EventHandler(this.vistaAlbumes_Resize);
             // 
             // artista
             // 
@@ -475,17 +473,6 @@
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
             // 
-            // process1
-            // 
-            this.process1.StartInfo.Domain = "";
-            this.process1.StartInfo.LoadUserProfile = false;
-            this.process1.StartInfo.Password = null;
-            this.process1.StartInfo.StandardErrorEncoding = null;
-            this.process1.StartInfo.StandardInputEncoding = null;
-            this.process1.StartInfo.StandardOutputEncoding = null;
-            this.process1.StartInfo.UserName = "";
-            this.process1.SynchronizingObject = this;
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -502,6 +489,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Gestor de álbumes 0";
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.barraPrincipal.ResumeLayout(false);
             this.barraPrincipal.PerformLayout();
             this.barraAbajo.ResumeLayout(false);
@@ -550,7 +538,6 @@
         private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem vincularToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem playSpotifyAlbumToolStripMenuItem;
-        private System.Diagnostics.Process process1;
         private System.Windows.Forms.ToolStripMenuItem guardarCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproductorToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

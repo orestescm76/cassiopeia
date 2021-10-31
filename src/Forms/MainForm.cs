@@ -27,6 +27,7 @@ namespace Cassiopeia
         public ViewType TipoVista;
         private delegate void SafeCallBringFront();
         Log Log = Log.Instance;
+        Size margins;
         public MainForm()
         {
             InitializeComponent();
@@ -41,7 +42,6 @@ namespace Cassiopeia
             PonerTextos();
             vistaAlbumes.FullRowSelect = true;
             duracionSeleccionada.AutoSize = true;
-            barraAbajo.Visible = true;
             barraAbajo.Font = new Font("Segoe UI", 10);
             duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": 00:00:00";
             vistaAlbumes.DrawItem += (sender, e) => { e.DrawDefault = true; };
@@ -51,6 +51,8 @@ namespace Cassiopeia
                 vincularToolStripMenuItem.Visible = false;
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
             vistaAlbumes.Font = Config.FontView;
+            
+            margins = this.Size - vistaAlbumes.Size;
             Log.PrintMessage("Main form created", MessageType.Correct);
         }
         public void Refrescar()
@@ -866,5 +868,15 @@ namespace Cassiopeia
             }
         }
         #endregion
+
+        private void vistaAlbumes_Resize(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            vistaAlbumes.Size = Size - margins;
+        }
     }
 }

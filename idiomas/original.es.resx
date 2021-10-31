@@ -716,4 +716,7 @@
   <data name="error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="creando" xml:space="preserve">
+    <value>Creando</value>
+  </data>
 </root>

@@ -380,7 +380,7 @@ namespace Cassiopeia
                 }
             }
             SaveAlbums("discos.csv", SaveType.Digital);
-            SaveAlbums("cd.json", SaveType.CD);
+            SaveAlbums("cd.json", SaveType.CD, true);
             SavePATHS();
             SaveLyrics();
 
@@ -631,7 +631,7 @@ namespace Cassiopeia
                             }
                             break;
                         case SaveType.CD:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
+                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the CD data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
                             Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
                             foreach (CompactDisc compacto in Collection.CDS)
                             {
@@ -686,7 +686,6 @@ namespace Cassiopeia
                     salida.Flush();
                 }
             }
-            crono.Stop();
             fich.Refresh();
             crono.Stop();
             Log.Instance.PrintMessage(nameof(SaveAlbums) + "- Saved", MessageType.Correct, crono, TimeType.Milliseconds);

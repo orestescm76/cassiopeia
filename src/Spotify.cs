@@ -21,6 +21,7 @@ namespace Cassiopeia
         private AuthorizationCodeTokenResponse Token;
         private AuthorizationCodeRefreshResponse TokenRefresh;
         public DeviceResponse Device;
+        string TokenRefreshCode;
 
         public Spotify(bool v)
         {
@@ -92,7 +93,8 @@ namespace Cassiopeia
                     Kernel.ActivarReproduccionSpotify();
                     Kernel.InternetAvaliable(true);
                     Kernel.BringMainFormFront();
-                    Log.Instance.PrintMessage("Conectado sin errores como " + SpotifyClient.UserProfile.Current().Result.Email, MessageType.Correct, crono, TimeType.Milliseconds);
+                    TokenRefreshCode = Token.RefreshToken;
+                    Log.Instance.PrintMessage("Connected as " + SpotifyClient.UserProfile.Current().Result.Email, MessageType.Correct, crono, TimeType.Milliseconds);
                     Kernel.InitTask();
                     crono.Stop();
                 };
@@ -114,9 +116,9 @@ namespace Cassiopeia
         public async Task RefreshTokenAsync()
         {
             Log.Instance.PrintMessage("Refreshing Token...", MessageType.Info);
-            TokenRefresh = await new OAuthClient(SpotifyConfig).RequestToken(new AuthorizationCodeRefreshRequest(PublicKey, PrivateKey, Token.RefreshToken));
+            TokenRefresh = await new OAuthClient(SpotifyConfig).RequestToken(new AuthorizationCodeRefreshRequest(PublicKey, PrivateKey, TokenRefreshCode));
             SpotifyClient = new SpotifyClient(SpotifyConfig.WithToken(TokenRefresh.AccessToken));
-            Token = null;
+            TokenRefreshCode = TokenRefresh.RefreshToken;
             Log.Instance.PrintMessage("Token refreshed!", MessageType.Correct);
         }
         //Returns a list of albums based on a query.

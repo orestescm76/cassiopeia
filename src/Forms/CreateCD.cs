@@ -33,6 +33,7 @@ namespace Cassiopeia
             this.numDisc = numDisc;
             album = cdd.AlbumData;
             editingCD = cdd;
+            creatingCD = cdd;
             //If we're NOT editing
             if(numDisc > 1 && !edit)
             {
@@ -45,12 +46,11 @@ namespace Cassiopeia
                 labelPaisPublicacion.Hide();
                 textBoxPais.Hide();
                 textBoxAño.Hide();
-                numericUpDownNumCanciones.Maximum = album.NumberOfSongs - cdd.Discos[0].NumberOfSongs;
-                numericUpDownNumCanciones.Value = numericUpDownNumCanciones.Maximum;
             }
             else if(edit)
             {
                 Log.Instance.PrintMessage("Editando CD", MessageType.Info);
+                creatingCD = null;
                 this.edit = true;
                 comboBoxFormatoCD.SelectedItem = cdd.SleeveType;
                 comboBoxEstadoMedio.SelectedItem = cdd.Discos[numDisc-1].MediaCondition;
@@ -59,10 +59,15 @@ namespace Cassiopeia
                 textBoxAño.Text = editingCD.Year.ToString();
                 textBoxPais.Text = editingCD.Country;
             }
+            SetMaxLength();
             PutTexts();
         }
         private void PutTexts()
         {
+            if(creatingCD is not null || numDisc == 1)
+                Text = Kernel.LocalTexts.GetString("creando") + " CD " + numDisc;
+            else
+                Text = Kernel.LocalTexts.GetString("editando") + " CD " + numDisc;
             labelEstadoExterior.Text = Kernel.LocalTexts.GetString("estado_exterior");
             labelEstadoMedio.Text = Kernel.LocalTexts.GetString("estado_medio");
             labelFormato.Text = Kernel.LocalTexts.GetString("formato");
@@ -84,9 +89,11 @@ namespace Cassiopeia
         }
         private void SetMaxLength()
         {
-            //Get max number of songs for fist CD.
+            //Get max number of songs for first CD.
             int numSongs = 0;
-            for (int i = 0; i < album.Songs.Count; i++)
+            if (creatingCD is not null)
+                numSongs = editingCD.TotalSongs;
+            for (int i = numSongs; i < album.Songs.Count; i++)
             {
                 maxLength += album.Songs[i].Length;
                 if (maxLength.TotalMinutes > 79.5)
@@ -94,10 +101,19 @@ namespace Cassiopeia
                     maxLength -= album.Songs[i].Length;
                     break;
                 }
-                    numSongs++;
+                numSongs++;
             }
-            numericUpDownNumCanciones.Maximum = numSongs;
-            numericUpDownNumCanciones.Value = numSongs;
+            if(creatingCD is not null)
+            {
+                numericUpDownNumCanciones.Maximum = numSongs-editingCD.TotalSongs;
+                numericUpDownNumCanciones.Value = numSongs- editingCD.TotalSongs;
+            }
+            else
+            {
+                numericUpDownNumCanciones.Maximum = numSongs;
+                numericUpDownNumCanciones.Value = numSongs;
+            }
+
         }
         private void CreateNewCD(int numberSongs)
         {
@@ -177,7 +193,7 @@ namespace Cassiopeia
         private void AnotherCD()
         {
             //Another CD?
-            DialogResult res = MessageBox.Show("Another CD", "", MessageBoxButtons.YesNo);
+            DialogResult res = MessageBox.Show("Another CD" + Environment.NewLine + "Quedan " + (album.Songs.Count - creatingCD.TotalSongs) + " canciones", "", MessageBoxButtons.YesNo);
             if (res == DialogResult.No)
             {
                 visualizarAlbum v = new visualizarAlbum(ref creatingCD);
@@ -190,14 +206,18 @@ namespace Cassiopeia
             {
                 CreateCD newCD = new CreateCD(ref creatingCD, numDisc + 1);
                 //We're done here
-                Dispose();
                 newCD.ShowDialog();
+                Dispose();
             }
         }
         private void numericUpDownNumCanciones_ValueChanged(object sender, EventArgs e)
         {
             TimeSpan len = TimeSpan.Zero;
-            for (int i = 0; i < numericUpDownNumCanciones.Value; i++)
+            int numSongs = 0;
+            if (creatingCD is not null)
+                numSongs = creatingCD.TotalSongs;
+
+            for (int i = numSongs; i < numericUpDownNumCanciones.Value+numSongs; i++)
             {
                 len += album.Songs[i].Length;
             }
