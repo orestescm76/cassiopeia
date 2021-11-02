@@ -5,7 +5,7 @@
       "commandLineArgs": "-noSpotify",
       "authenticationMode": "None"
     },
-    "Debug": {
+    "SpotifyDebug": {
       "commandName": "Project",
       "commandLineArgs": "-noUpdates -console"
     }

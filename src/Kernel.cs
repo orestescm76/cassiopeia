@@ -32,7 +32,8 @@ namespace Cassiopeia
             Genre,
             Cover_PATH,
             SpotifyID,
-            SongFiles_DIR
+            SongFiles_DIR,
+            Type
         }
         private enum CSV_Songs
         {
@@ -444,7 +445,11 @@ namespace Cassiopeia
 
                     if (linea == null) continue; //si no hay nada tu sigue, que hemos llegado al final del fichero, después del nulo porque siempre al terminar un disco pongo línea nueva.
                     string[] datos = linea.Split(';');
-                    if (datos.Length != 8)
+                    if (datos.Length == 8) //need to convert
+                    {
+                        Log.Instance.PrintMessage("Adding Studio type to album", MessageType.Info);
+                    }
+                    else if (datos.Length != 9)
                     {
                         SendErrorLoading(lineaC, file);
                         Environment.Exit(-1);
@@ -458,11 +463,16 @@ namespace Cassiopeia
                     {
                         nC = Convert.ToInt16(datos[(int)CSV_Albums.NumSongs]);
                         a = new AlbumData(g, datos[(int)CSV_Albums.Title], datos[(int)CSV_Albums.Artist], Convert.ToInt16(datos[(int)CSV_Albums.Year]), datos[(int)CSV_Albums.Cover_PATH]);
+                        a.Type = (AlbumType)Convert.ToInt32(datos[(int)CSV_Albums.Type]);
                     }
                     catch (FormatException)
                     {
                         SendErrorLoading(lineaC, file);
                         Environment.Exit(-1);
+                    }
+                    catch(IndexOutOfRangeException)
+                    {
+                        a.Type = AlbumType.Studio;
                     }
                     if (!string.IsNullOrEmpty(datos[(int)CSV_Albums.SpotifyID]))
                         a.IdSpotify = datos[(int)CSV_Albums.SpotifyID];
@@ -657,7 +667,7 @@ namespace Cassiopeia
                             {
                                 if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
                                 {
-                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + a.CoverPath + ";" + a.IdSpotify + ";" + a.SoundFilesPath);
+                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + a.CoverPath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
                                     for (int i = 0; i < a.NumberOfSongs; i++)
                                     {
                                         if (a.Songs[i] is LongSong longSong)

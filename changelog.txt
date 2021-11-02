@@ -36,3 +36,9 @@ Twit button on the player is fixed. (Although there is a known issue with songs 
 		  - Fixed bug where album cover keeps downloading 100% of the time, this had an effect on CPU and network usage.
 
 2.0.202.0 - Tweaked the method to download covers. Now it's asynchrnonus
+
+2.0.203.20 - Main form is fully resizable. (WIP)
+
+2.0.210.70 - Create CD reimplemented. New logic and support for any number of CDs.
+		   - Now refreshing the token works.
+		   - Main form is fully resizable and the status bar does not hide the list.

@@ -230,6 +230,7 @@ namespace Cassiopeia.src.Forms
             checkBoxFoobar.Visible = true;
             SetPlayerButtons(false);
             buttonDetener.Enabled = true;
+            //fix error delete
             File.Delete("./covers/np.jpg");
             buttonAgregar.Hide();
         }

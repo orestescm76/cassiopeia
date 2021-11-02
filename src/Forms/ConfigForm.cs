@@ -16,7 +16,8 @@ namespace Cassiopeia.src.Forms
     {
         RadioButton[] radioButtonsIdiomas;
         TextBox portapapelesConfig;
-        Label vistaPreviaPortapapeles;
+        Label labelClipboardPreview;
+        Label labelClipboardHelp;
         AlbumData AlbumCopyPreview = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973); //Only used if the collection is empty.
 
         Button btColorBonus;
@@ -93,7 +94,8 @@ namespace Cassiopeia.src.Forms
         private void LoadClipboardConfig()
         {
             config = ActiveConfig.Clipboard;
-            vistaPreviaPortapapeles = new Label();
+            labelClipboardPreview = new Label();
+            labelClipboardHelp = new Label();
             groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
             portapapelesConfig = new TextBox();
             portapapelesConfig.TextChanged += PortapapelesConfig_TextChanged;
@@ -101,9 +103,21 @@ namespace Cassiopeia.src.Forms
             Size size = portapapelesConfig.Size; size.Width = 500; portapapelesConfig.Size = size;
             portapapelesConfig.Font = new Font("Segoe UI", 9);
             portapapelesConfig.Text = Config.Clipboard;
-            vistaPreviaPortapapeles.Location = new Point(portapapelesConfig.Location.X, portapapelesConfig.Location.Y + 30);
-            vistaPreviaPortapapeles.AutoSize = true;
-            vistaPreviaPortapapeles.Font = portapapelesConfig.Font;
+            labelClipboardPreview.Location = new Point(portapapelesConfig.Location.X, portapapelesConfig.Location.Y + 30);
+            labelClipboardPreview.AutoSize = true;
+            labelClipboardPreview.Font = portapapelesConfig.Font;
+            labelClipboardHelp.Font = portapapelesConfig.Font;
+            labelClipboardHelp.AutoSize = true;
+            labelClipboardHelp.Location = new Point(labelClipboardPreview.Location.X, labelClipboardPreview.Location.Y + 50);
+            labelClipboardHelp.Text = @"%artist% - Album artist
+%title% - Album title
+%year% - Album release year
+%genre% - Album genre
+%length_min% - Album duration in minutes
+%length_seconds% - Album length in seconds, formatted as an integer
+%length% - Length of the album, formatted as [HH:]MM:SS. 
+%totaltracks% - Total number of tracks
+%path% - Path of local files, if avaliable";
             string Preview = "";
             if (Kernel.Collection.Albums.Count == 0)
                 Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
@@ -115,22 +129,11 @@ namespace Cassiopeia.src.Forms
                 AlbumCopyPreview = AlbumRef;
                 Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist);
             }
-            try
-            {
-                Preview = Preview.Replace("%artist%", AlbumCopyPreview.Artist);
-                Preview = Preview.Replace("%title%", AlbumCopyPreview.Title);
-                Preview = Preview.Replace("%year%", AlbumCopyPreview.Year.ToString());
-                Preview = Preview.Replace("%genre%", AlbumCopyPreview.Genre.Name);
-                Preview = Preview.Replace("%length%", AlbumCopyPreview.Length.ToString());
-                Preview = Preview.Replace("%length_seconds%", ((int)AlbumCopyPreview.Length.TotalSeconds).ToString());
-                vistaPreviaPortapapeles.Text = Preview;
-            }
-            catch (NullReferenceException)
-            {
-                vistaPreviaPortapapeles.Text = Preview;
-            }
+            portapapelesConfig.Text = Config.Clipboard;
+            PortapapelesConfig_TextChanged(null, null);
             groupBoxRaiz.Controls.Add(portapapelesConfig);
-            groupBoxRaiz.Controls.Add(vistaPreviaPortapapeles);
+            groupBoxRaiz.Controls.Add(labelClipboardPreview);
+            groupBoxRaiz.Controls.Add(labelClipboardHelp);
         }
 
         private void LoadColorConfig()
@@ -279,11 +282,14 @@ namespace Cassiopeia.src.Forms
                 Preview = Preview.Replace("%genre%", AlbumCopyPreview.Genre.Name);
                 Preview = Preview.Replace("%length%", AlbumCopyPreview.Length.ToString());
                 Preview = Preview.Replace("%length_seconds%", ((int)AlbumCopyPreview.Length.TotalSeconds).ToString());
-                vistaPreviaPortapapeles.Text = Preview;
+                Preview = Preview.Replace("%length_min%", AlbumCopyPreview.Length.TotalMinutes.ToString());
+                Preview = Preview.Replace("%totaltracks%", AlbumCopyPreview.NumberOfSongs.ToString());
+                Preview = Preview.Replace("%path%", AlbumCopyPreview.SoundFilesPath);
+                labelClipboardPreview.Text = Preview;
             }
             catch (NullReferenceException)
             {
-                vistaPreviaPortapapeles.Text = Preview;
+                labelClipboardPreview.Text = Preview;
             }
         }
         //Events

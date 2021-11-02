@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Cassiopeia
 {
-    enum AlbumType
+    public enum AlbumType
     {
         Studio,
         Live,
@@ -27,6 +27,7 @@ namespace Cassiopeia
 
         public String CoverPath { get; set; }
         public String SoundFilesPath { get; set; }
+        public AlbumType Type { get; set; }
 
         [JsonIgnore] public int NumberOfSongs { get { return Songs.Count; } }
         [JsonIgnore] public TimeSpan Length { get => GetLength(false); }
@@ -172,6 +173,10 @@ namespace Cassiopeia
                 clipboardText = clipboardText.Replace("%genre%", Genre.Name);
                 clipboardText = clipboardText.Replace("%length%", Length.ToString());
                 clipboardText = clipboardText.Replace("%length_seconds%", ((int)Length.TotalSeconds).ToString());
+                clipboardText = clipboardText.Replace("%length_seconds%", ((int)Length.TotalSeconds).ToString());
+                clipboardText = clipboardText.Replace("%length_min%", Length.TotalMinutes.ToString());
+                clipboardText = clipboardText.Replace("%totaltracks%", NumberOfSongs.ToString());
+                clipboardText = clipboardText.Replace("%path%", SoundFilesPath);
                 return clipboardText;
             }
             catch (NullReferenceException)

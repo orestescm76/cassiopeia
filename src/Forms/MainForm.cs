@@ -13,7 +13,8 @@ namespace Cassiopeia
     {
         Digital,
         CD,
-        Vinilo,
+        Vinyl,
+        Cassette_Tape
     }
     public enum SaveType
     {
@@ -59,7 +60,7 @@ namespace Cassiopeia
         {
             vistaAlbumes.Font = Config.FontView;
             PonerTextos();
-            CargarVista();
+            LoadView();
         }
         public void EnableInternet(bool i)
         {
@@ -74,7 +75,7 @@ namespace Cassiopeia
         {
             playSpotifyAlbumToolStripMenuItem.Enabled = true;
         }
-        private void CargarVista()
+        private void LoadView()
         {
             Log.Instance.PrintMessage("Loading view" + TipoVista, MessageType.Info);
             vistaAlbumes.Items.Clear();
@@ -104,7 +105,7 @@ namespace Cassiopeia
                     }
                     vistaAlbumes.Items.AddRange(cds);
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
@@ -163,7 +164,7 @@ namespace Cassiopeia
                 case ViewType.CD:
                     toolStripStatusLabelViewInfo.Text = "CD";
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
@@ -227,7 +228,7 @@ namespace Cassiopeia
                         vistaAlbumes.Items.Remove(itemsABorrar[i]);
                     }
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
@@ -279,7 +280,7 @@ namespace Cassiopeia
                 case ViewType.CD:
                     s = new string[Kernel.Collection.CDS.Count];
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
@@ -301,7 +302,7 @@ namespace Cassiopeia
         {
             agregarAlbum agregarAlbum = new agregarAlbum();
             agregarAlbum.Show();
-            CargarVista();
+            LoadView();
         }
 
 
@@ -350,7 +351,7 @@ namespace Cassiopeia
             }
             if (e.KeyCode == Keys.F5)
             {
-                CargarVista();
+                LoadView();
             }
             if (e.KeyCode == Keys.Escape)
             {
@@ -451,7 +452,7 @@ namespace Cassiopeia
                     visualizarAlbum vistazocd = new visualizarAlbum(ref cd);
                     vistazocd.Show();
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
@@ -492,22 +493,6 @@ namespace Cassiopeia
             AlbumData a = Kernel.Collection.GetAlbum(seleccion);
             CreateCD formCD = new CreateCD(ref a);
             formCD.Show();
-            //if (a.Length.TotalMinutes < 80)
-            //{
-                
-            //}
-            //else
-            //{
-            //    short numDiscos = (short)Math.Ceiling((a.Length.TotalMinutes / 80));
-            //    CrearCD fCD = new CrearCD(ref a, numDiscos);
-            //    fCD.ShowDialog();
-            //    for (short i = 2; i <= numDiscos; i++)
-            //    {
-            //        CompactDisc temp = Kernel.Collection.CDS.Last();
-            //        CrearCD formCD = new CrearCD(ref temp, i);
-            //        formCD.ShowDialog();
-            //    }
-            //}
         }
         private void colorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -601,7 +586,7 @@ namespace Cassiopeia
                     break;
                 case ViewType.CD:
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
@@ -614,7 +599,7 @@ namespace Cassiopeia
         private void cdToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TipoVista = ViewType.CD;
-            CargarVista();
+            LoadView();
             digitalToolStripMenuItem.Checked = false;
             UpdateViewInfo();
         }
@@ -623,7 +608,7 @@ namespace Cassiopeia
         {
             TipoVista = ViewType.Digital;
             cdToolStripMenuItem.Checked = false;
-            CargarVista();
+            LoadView();
             UpdateViewInfo();
         }
 
@@ -637,7 +622,7 @@ namespace Cassiopeia
                 string fichero = openFileDialog1.FileName;
                 Kernel.LoadCSVAlbums(fichero);
             }
-            CargarVista();
+            LoadView();
         }
 
         private void digitalToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -662,7 +647,7 @@ namespace Cassiopeia
                 string fichero = openFileDialog1.FileName;
                 Kernel.LoadCD(fichero);
             }
-            CargarVista();
+            LoadView();
         }
 
         private void vincularToolStripMenuItem_Click(object sender, EventArgs e)
@@ -677,7 +662,7 @@ namespace Cassiopeia
                 while (!Kernel.Spotify.AccountReady)
                 {
                     //deadlock, sincrono
-                    if (espera.Elapsed.TotalSeconds >= 30)
+                    if (espera.Elapsed.TotalSeconds >= 20)
                     {
                         cancelado = true;
                         break;
@@ -687,6 +672,7 @@ namespace Cassiopeia
                 {
                     Log.PrintMessage("Se ha cancelado la vinculación por tiempo de espera.", MessageType.Warning);
                     MessageBox.Show(Kernel.LocalTexts.GetString("errorVinculacion"));
+                    Kernel.InternetAvaliable(true);
                     return;
                 }
                 try
@@ -701,9 +687,11 @@ namespace Cassiopeia
                     vincularToolStripMenuItem.Visible = false;
                     Reproductor.Instancia.SpotifyEncendido();
                 }
-                catch (Exception)
+                catch(SpotifyAPI.Web.APIException ex)
                 {
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
                     vincularToolStripMenuItem.Visible = true;
+                    Kernel.InternetAvaliable(false);
                     throw;
                 }
             }
@@ -861,22 +849,16 @@ namespace Cassiopeia
                 case ViewType.CD:
                     clickDerechoMenuContexto.Items[0].Visible = false;
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
             }
         }
-        #endregion
-
-        private void vistaAlbumes_Resize(object sender, EventArgs e)
-        {
-            
-        }
-
         private void MainForm_Resize(object sender, EventArgs e)
         {
             vistaAlbumes.Size = Size - margins;
         }
+        #endregion
     }
 }

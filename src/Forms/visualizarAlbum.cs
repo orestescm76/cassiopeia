@@ -17,12 +17,13 @@ namespace Cassiopeia
             Year = 2,
             Length = 3,
             Genre = 4,
-            Location = 5,
-            Format = 5,
-            PublishYear = 6,
-            PublishCountry = 7,
-            CoverWear = 8,
-            MediaWear = 9
+            Type = 5,
+            Location = 6,
+            Format = 6,
+            PublishYear = 7,
+            PublishCountry = 8,
+            CoverWear = 9,
+            MediaWear = 10
         }
         private AlbumData albumToVisualize;
         private byte numDisco;
@@ -244,10 +245,32 @@ namespace Cassiopeia
             else
                 labelData[(int)AlbumInfo.Length] = Kernel.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + Environment.NewLine;
 
+            labelData[(int)AlbumInfo.Type] = Kernel.LocalTexts.GetString("tipoAlbum") + ": ";
+            switch (albumToVisualize.Type)
+            {
+                case AlbumType.Studio:
+                    labelData[(int)AlbumInfo.Type] += Kernel.LocalTexts.GetString("estudio") + Environment.NewLine;
+                    break;
+                case AlbumType.Live:
+                    labelData[(int)AlbumInfo.Type] += Kernel.LocalTexts.GetString("live") + Environment.NewLine;
+                    break;
+                case AlbumType.Compilation:
+                    labelData[(int)AlbumInfo.Type] += Kernel.LocalTexts.GetString("compilacion") + Environment.NewLine;
+                    break;
+                case AlbumType.EP:
+                    labelData[(int)AlbumInfo.Type] += "EP" + Environment.NewLine;
+                    break;
+                case AlbumType.Single:
+                    labelData[(int)AlbumInfo.Type] += Kernel.LocalTexts.GetString("sencillo") + Environment.NewLine;
+                    break;
+                default:
+                    break;
+            }
             labelData[(int)AlbumInfo.Genre] = Kernel.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine;
-            
             if (CDaVisualizar is null)
                 labelData[(int)AlbumInfo.Location] = Kernel.LocalTexts.GetString("localizacion") + ": " + albumToVisualize.SoundFilesPath + Environment.NewLine;
+            if (string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
+                labelData[(int)AlbumInfo.Location] = "";
             else
             {
                 labelData[(int)AlbumInfo.Format] = Kernel.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
