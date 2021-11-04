@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
 {
-    public partial class VisorLyrics : Form
+    public partial class LyricsViewer : Form
     {
         private Song cancion;
         private ToolTip ConsejoDeshacer;
         private Font Tipografia;
-        public VisorLyrics(Song c)
+        public LyricsViewer(Song c)
         {
             InitializeComponent();
             Icon = Properties.Resources.letras;

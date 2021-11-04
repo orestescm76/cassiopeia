@@ -73,7 +73,7 @@ namespace Cassiopeia.src.Forms
                 string[] data = new string[4];
                 data[0] = "";
                 //We can be playing a CD!
-                if(Reproductor.Instancia.ModoCD)
+                if(Player.Instancia.ModoCD)
                 {
                     data[1] = "";
                     data[2] = "";
@@ -143,13 +143,13 @@ namespace Cassiopeia.src.Forms
         {
             SetActiveSong(listViewSongs.SelectedItems[0].Index);
             //Are we playing a CD?
-            if (Reproductor.Instancia.ModoCD)
-                Reproductor.Instancia.PlaySong(Pointer);
+            if (Player.Instancia.ModoCD)
+                Player.Instancia.PlaySong(Pointer);
 
             else
-                Reproductor.Instancia.PlaySong(Playlist[Pointer]);
+                Player.Instancia.PlaySong(Playlist[Pointer]);
             
-            Reproductor.Instancia.ListaReproduccionPuntero = Pointer;
+            Player.Instancia.ListaReproduccionPuntero = Pointer;
         }
         //Gets the selected songs and removes them from the playlist
         private void RemoveSongs()
@@ -212,7 +212,7 @@ namespace Cassiopeia.src.Forms
             }
             RefreshView();
             
-            Reproductor.Instancia.ActivarPorLista();
+            Player.Instancia.ActivarPorLista();
         }
 
         private void listViewSongs_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -329,7 +329,7 @@ namespace Cassiopeia.src.Forms
             }
             if(result != DialogResult.Yes) //for some reason, the user cancels at the save dialog...
             {
-                Reproductor.Instancia.CreatePlaylist(Kernel.LocalTexts.GetString("nuevaPlaylist"));
+                Player.Instancia.CreatePlaylist(Kernel.LocalTexts.GetString("nuevaPlaylist"));
                 Pointer = 0;
                 RefreshView();
             }

@@ -1,6 +1,6 @@
 ﻿namespace Cassiopeia
 {
-    partial class visualizarAlbum
+    partial class AlbumViewer
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(visualizarAlbum));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlbumViewer));
             this.vistaCaratula = new System.Windows.Forms.PictureBox();
             this.clickDerechoCover = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copiarImagenStrip = new System.Windows.Forms.ToolStripMenuItem();

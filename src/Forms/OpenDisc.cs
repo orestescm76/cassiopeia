@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
 {
-    public partial class AbrirDisco : Form
+    public partial class OpenDisc : Form
     {
-        public AbrirDisco()
+        public OpenDisc()
         {
             InitializeComponent();
         }
@@ -45,7 +45,7 @@ namespace Cassiopeia.src.Forms
         {
             if(listViewDiscos.SelectedItems.Count == 1)
             {
-                Reproductor.Instancia.PlayCD(listViewDiscos.SelectedItems[0].Text[0]);
+                Player.Instancia.PlayCD(listViewDiscos.SelectedItems[0].Text[0]);
                 Close();
                 Dispose();
             }

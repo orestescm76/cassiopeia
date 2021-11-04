@@ -734,4 +734,7 @@
   <data name="sencillo" xml:space="preserve">
     <value>Sencillo</value>
   </data>
+  <data name="EP" xml:space="preserve">
+    <value>EP (Reproducción extendida)</value>
+  </data>
 </root>

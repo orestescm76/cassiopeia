@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Cassiopeia
 {
-    public partial class agregarCancion : Form
+    public partial class CreateSong : Form
     {
         public string title;
         public int min, sec, np;
@@ -17,7 +17,7 @@ namespace Cassiopeia
         bool bonus;
         ToolTip ConsejoEsLarga;
         ToolTip ConsejoEsBonus;
-        public agregarCancion(ref AlbumData a, int n) //caso normal
+        public CreateSong(ref AlbumData a, int n) //caso normal
         {
             Log.Instance.PrintMessage("Creando canción", MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
@@ -37,7 +37,7 @@ namespace Cassiopeia
             crono.Stop();
             Log.Instance.PrintMessage("Cargado", MessageType.Correct, crono, TimeType.Milliseconds);
         }
-        public agregarCancion(ref Song c) //editar
+        public CreateSong(ref Song c) //editar
         {
             Log.Instance.PrintMessage("Editing song " + c.Title, MessageType.Info); 
             InitializeComponent();
@@ -73,7 +73,7 @@ namespace Cassiopeia
             np = 0;
             ponerTextos();
         }
-        public agregarCancion(ref AlbumData a, int n, bool l) //crear canción larga
+        public CreateSong(ref AlbumData a, int n, bool l) //crear canción larga
         {
             Log.Instance.PrintMessage("Creating multipart song", MessageType.Info);
             InitializeComponent();
@@ -91,7 +91,7 @@ namespace Cassiopeia
             checkBoxBonus.Hide();
         }
 
-        public agregarCancion(ref LongSong l, int n, ref AlbumData a) //crear parte de canción larga
+        public CreateSong(ref LongSong l, int n, ref AlbumData a) //crear parte de canción larga
         {
             Log.Instance.PrintMessage("Creating part of a multipart song", MessageType.Info);
             InitializeComponent();
@@ -173,7 +173,7 @@ namespace Cassiopeia
                     album.AddSong(longSong);
                     for (int i = 0; i < np; i++)
                     {
-                        agregarCancion addParte = new agregarCancion(ref longSong, i + 1, ref album);
+                        CreateSong addParte = new CreateSong(ref longSong, i + 1, ref album);
                         addParte.ShowDialog();
                         if (addParte.DialogResult == DialogResult.Cancel)
                             break;
@@ -248,7 +248,7 @@ namespace Cassiopeia
 
         private void esLarga_Click(object sender, EventArgs e)
         {
-            agregarCancion larga = new agregarCancion(ref album, cual, true);
+            CreateSong larga = new CreateSong(ref album, cual, true);
             DialogResult = DialogResult.OK;
             larga.ShowDialog();
         }

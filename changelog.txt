@@ -42,3 +42,9 @@ Twit button on the player is fixed. (Although there is a known issue with songs 
 2.0.210.70 - Create CD reimplemented. New logic and support for any number of CDs.
 		   - Now refreshing the token works.
 		   - Main form is fully resizable and the status bar does not hide the list.
+
+2.0.212.20 - Clipboard config now has a little help so you know what to type.
+		   - Now an album can have many types, EP, Live, so you can have a detailed collection. (filters!)
+		   - Old databases migrate without problems.
+		   - Reduced waiting time for linking Spotify from 30 seconds to 20.
+

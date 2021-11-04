@@ -737,4 +737,7 @@
   <data name="sencillo" xml:space="preserve">
     <value>Single</value>
   </data>
+  <data name="EP" xml:space="preserve">
+    <value>EP (Extended play)</value>
+  </data>
 </root>

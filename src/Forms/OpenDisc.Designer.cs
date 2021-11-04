@@ -1,6 +1,6 @@
 ﻿namespace Cassiopeia.src.Forms
 {
-    partial class AbrirDisco
+    partial class OpenDisc
     {
         /// <summary>
         /// Required designer variable.

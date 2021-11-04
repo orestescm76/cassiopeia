@@ -8,7 +8,7 @@ using Cassiopeia.src.Forms;
 
 namespace Cassiopeia
 {
-    public partial class visualizarAlbum : Form
+    public partial class AlbumViewer : Form
     {
         private enum AlbumInfo
         {
@@ -31,7 +31,7 @@ namespace Cassiopeia
         private ListViewItemComparer lvwColumnSorter;
         private string[] labelData;
         private int margin = 578-448;
-        public visualizarAlbum(ref AlbumData a)
+        public AlbumViewer(ref AlbumData a)
         {
             InitializeComponent();
             numDisco = 0;
@@ -50,7 +50,7 @@ namespace Cassiopeia
             SetTexts();
             LoadView();
         }
-        public visualizarAlbum(ref CompactDisc cd)
+        public AlbumViewer(ref CompactDisc cd)
         {
             InitializeComponent();
             CDaVisualizar = cd;
@@ -322,7 +322,7 @@ namespace Cassiopeia
         {
             if (CDaVisualizar is null)
             {
-                editarAlbum editor = new editarAlbum(ref albumToVisualize);
+                EditAlbum editor = new EditAlbum(ref albumToVisualize);
                 editor.Show();
             }
             else
@@ -378,12 +378,12 @@ namespace Cassiopeia
             }
             else
             {
-                Reproductor.Instancia.CreatePlaylist(albumToVisualize.ToString());
+                Player.Instancia.CreatePlaylist(albumToVisualize.ToString());
                 foreach (Song cancion in albumToVisualize.Songs)
                 {
-                    Reproductor.Instancia.Playlist.AddSong(cancion);
+                    Player.Instancia.Playlist.AddSong(cancion);
                 }
-                Reproductor.Instancia.ReproducirLista();
+                Player.Instancia.ReproducirLista();
             }
         }
 
@@ -479,11 +479,11 @@ namespace Cassiopeia
             if (cancionAReproducir is LongSong)
             {
                 LongSong cl = (LongSong)cancionAReproducir;
-                Reproductor.Instancia.PlaySong(cl);
+                Player.Instancia.PlaySong(cl);
             }
 
             else
-                Reproductor.Instancia.PlaySong(cancionAReproducir);
+                Player.Instancia.PlaySong(cancionAReproducir);
         }
 
         private void vistaCanciones_ItemDrag(object sender, ItemDragEventArgs e)
@@ -564,7 +564,7 @@ namespace Cassiopeia
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Song cancion = albumToVisualize.GetSong(vistaCanciones.SelectedItems[0].Index);
-            VisorLyrics VL = new VisorLyrics(cancion);
+            LyricsViewer VL = new LyricsViewer(cancion);
             VL.Show();
         }
 

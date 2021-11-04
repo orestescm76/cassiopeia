@@ -300,7 +300,7 @@ namespace Cassiopeia
         }
         private void agregarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            agregarAlbum agregarAlbum = new agregarAlbum();
+            CreateAlbum agregarAlbum = new CreateAlbum();
             agregarAlbum.Show();
             LoadView();
         }
@@ -315,7 +315,7 @@ namespace Cassiopeia
                     foreach (ListViewItem item in vistaAlbumes.SelectedItems)
                     {
                         AlbumData a = Kernel.Collection.GetAlbum(item.Index);
-                        visualizarAlbum vistazo = new visualizarAlbum(ref a);
+                        AlbumViewer vistazo = new AlbumViewer(ref a);
                         vistazo.Show();
                     }
                     break;
@@ -325,7 +325,7 @@ namespace Cassiopeia
                         string b = cdViewItem.SubItems[0].Text + '_' + cdViewItem.SubItems[1].Text;
                         CompactDisc cd;
                         Kernel.Collection.GetAlbum(b, out cd);
-                        visualizarAlbum visCD = new visualizarAlbum(ref cd);
+                        AlbumViewer visCD = new AlbumViewer(ref cd);
                         visCD.Show();
                     }
                     break;
@@ -366,7 +366,7 @@ namespace Cassiopeia
             }
             if (e.KeyCode == Keys.F11)
             {
-                Reproductor.Instancia.Show();
+                Player.Instancia.Show();
             }
         }
 
@@ -397,7 +397,7 @@ namespace Cassiopeia
                 if (a.Length > Kernel.Collection.Albums[i].Length)
                     a = Kernel.Collection.Albums[i];
             }
-            visualizarAlbum v = new visualizarAlbum(ref a);
+            AlbumViewer v = new AlbumViewer(ref a);
             v.ShowDialog();
         }
 
@@ -409,7 +409,7 @@ namespace Cassiopeia
                 if (a.Length < Kernel.Collection.Albums[i].Length)
                     a = Kernel.Collection.Albums[i];
             }
-            visualizarAlbum v = new visualizarAlbum(ref a);
+            AlbumViewer v = new AlbumViewer(ref a);
             v.ShowDialog();
         }
 
@@ -443,13 +443,13 @@ namespace Cassiopeia
                 case ViewType.Digital:
                     int ganador = generador.Next(0, Kernel.Collection.Albums.Count);
                     AlbumData a = Kernel.Collection.Albums[ganador];
-                    visualizarAlbum vistazo = new visualizarAlbum(ref a);
+                    AlbumViewer vistazo = new AlbumViewer(ref a);
                     vistazo.Show();
                     break;
                 case ViewType.CD:
                     int ganadorCD = generador.Next(0, Kernel.Collection.CDS.Count);
                     CompactDisc cd = Kernel.Collection.CDS[ganadorCD];
-                    visualizarAlbum vistazocd = new visualizarAlbum(ref cd);
+                    AlbumViewer vistazocd = new AlbumViewer(ref cd);
                     vistazocd.Show();
                     break;
                 case ViewType.Vinyl:
@@ -467,7 +467,7 @@ namespace Cassiopeia
 
         private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            acercaDe form = new acercaDe();
+            About form = new About();
             form.Show();
         }
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -685,7 +685,7 @@ namespace Cassiopeia
                     else
                         Log.PrintMessage("User is premium", MessageType.Info);
                     vincularToolStripMenuItem.Visible = false;
-                    Reproductor.Instancia.SpotifyEncendido();
+                    Player.Instancia.SpotifyEncendido();
                 }
                 catch(SpotifyAPI.Web.APIException ex)
                 {
@@ -734,12 +734,12 @@ namespace Cassiopeia
 
         private void reproductorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Reproductor.Instancia.Show();
+            Player.Instancia.Show();
         }
 
         private void abrirCDMenuItem_Click(object sender, EventArgs e)
         {
-            AbrirDisco AD = new AbrirDisco();
+            OpenDisc AD = new OpenDisc();
             AD.ShowDialog();
         }
 
@@ -747,7 +747,7 @@ namespace Cassiopeia
         {
             AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]);
             Song cancion = a.GetSong(0);
-            VisorLyrics VL = new VisorLyrics(cancion);
+            LyricsViewer VL = new LyricsViewer(cancion);
             VL.Show();
         }
 

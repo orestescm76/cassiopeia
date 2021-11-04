@@ -3,10 +3,10 @@ using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
 {
-    public partial class VisorLog : Form
+    public partial class LogViewer : Form
     {
         private delegate void SafeCallAddText(string msg);
-        public VisorLog()
+        public LogViewer()
         {
             InitializeComponent();
         }

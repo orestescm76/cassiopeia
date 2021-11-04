@@ -155,7 +155,7 @@ namespace Cassiopeia
                 editingCD.Discos[numDisc - 1].NumberOfSongs=(short)numericUpDownNumCanciones.Value;
                 editingCD.Year = Convert.ToInt16(textBoxAño.Text);
                 editingCD.Country = textBoxPais.Text;
-                visualizarAlbum nuevo = new visualizarAlbum(ref editingCD);
+                AlbumViewer nuevo = new AlbumViewer(ref editingCD);
                 Kernel.ReloadView();
                 nuevo.Show();
                 Close();
@@ -196,7 +196,7 @@ namespace Cassiopeia
             DialogResult res = MessageBox.Show("Another CD" + Environment.NewLine + "Quedan " + (album.Songs.Count - creatingCD.TotalSongs) + " canciones", "", MessageBoxButtons.YesNo);
             if (res == DialogResult.No)
             {
-                visualizarAlbum v = new visualizarAlbum(ref creatingCD);
+                AlbumViewer v = new AlbumViewer(ref creatingCD);
                 v.Show();
                 Close();
                 Dispose();

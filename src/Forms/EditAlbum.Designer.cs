@@ -1,6 +1,6 @@
 ﻿namespace Cassiopeia
 {
-    partial class editarAlbum
+    partial class EditAlbum
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(editarAlbum));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditAlbum));
             this.labelArtista = new System.Windows.Forms.Label();
             this.labelTitulo = new System.Windows.Forms.Label();
             this.labelAño = new System.Windows.Forms.Label();
@@ -49,72 +49,74 @@
             this.buttonDirectorio = new System.Windows.Forms.Button();
             this.labelDirectorioActual = new System.Windows.Forms.Label();
             this.textBoxURISpotify = new System.Windows.Forms.TextBox();
+            this.comboBoxAlbumType = new System.Windows.Forms.ComboBox();
+            this.labelAlbumType = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelArtista
             // 
             this.labelArtista.AutoSize = true;
-            this.labelArtista.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelArtista.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelArtista.Location = new System.Drawing.Point(14, 22);
             this.labelArtista.Name = "labelArtista";
-            this.labelArtista.Size = new System.Drawing.Size(43, 17);
+            this.labelArtista.Size = new System.Drawing.Size(37, 17);
             this.labelArtista.TabIndex = 0;
-            this.labelArtista.Text = "label1";
+            this.labelArtista.Text = "artist";
             // 
             // labelTitulo
             // 
             this.labelTitulo.AutoSize = true;
-            this.labelTitulo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitulo.Location = new System.Drawing.Point(14, 74);
+            this.labelTitulo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTitulo.Location = new System.Drawing.Point(14, 55);
             this.labelTitulo.Name = "labelTitulo";
-            this.labelTitulo.Size = new System.Drawing.Size(43, 17);
+            this.labelTitulo.Size = new System.Drawing.Size(37, 17);
             this.labelTitulo.TabIndex = 1;
-            this.labelTitulo.Text = "label2";
+            this.labelTitulo.Text = "titulo";
             // 
             // labelAño
             // 
             this.labelAño.AutoSize = true;
-            this.labelAño.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAño.Location = new System.Drawing.Point(14, 130);
+            this.labelAño.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelAño.Location = new System.Drawing.Point(14, 88);
             this.labelAño.Name = "labelAño";
-            this.labelAño.Size = new System.Drawing.Size(43, 17);
+            this.labelAño.Size = new System.Drawing.Size(33, 17);
             this.labelAño.TabIndex = 2;
-            this.labelAño.Text = "label3";
+            this.labelAño.Text = "year";
             // 
             // labelGeneros
             // 
             this.labelGeneros.AutoSize = true;
-            this.labelGeneros.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGeneros.Location = new System.Drawing.Point(14, 174);
+            this.labelGeneros.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelGeneros.Location = new System.Drawing.Point(14, 121);
             this.labelGeneros.Name = "labelGeneros";
-            this.labelGeneros.Size = new System.Drawing.Size(43, 17);
+            this.labelGeneros.Size = new System.Drawing.Size(42, 17);
             this.labelGeneros.TabIndex = 3;
-            this.labelGeneros.Text = "label4";
+            this.labelGeneros.Text = "genre";
             // 
             // labelCaratula
             // 
             this.labelCaratula.AutoSize = true;
-            this.labelCaratula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCaratula.Location = new System.Drawing.Point(12, 232);
+            this.labelCaratula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelCaratula.Location = new System.Drawing.Point(14, 265);
             this.labelCaratula.Name = "labelCaratula";
-            this.labelCaratula.Size = new System.Drawing.Size(43, 17);
+            this.labelCaratula.Size = new System.Drawing.Size(40, 17);
             this.labelCaratula.TabIndex = 4;
-            this.labelCaratula.Text = "label5";
+            this.labelCaratula.Text = "cover";
             // 
             // labelRuta
             // 
             this.labelRuta.AutoSize = true;
-            this.labelRuta.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRuta.Location = new System.Drawing.Point(12, 274);
+            this.labelRuta.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelRuta.Location = new System.Drawing.Point(16, 306);
             this.labelRuta.Name = "labelRuta";
-            this.labelRuta.Size = new System.Drawing.Size(49, 15);
+            this.labelRuta.Size = new System.Drawing.Size(210, 15);
             this.labelRuta.TabIndex = 5;
-            this.labelRuta.Text = "label6";
+            this.labelRuta.Text = "C:\\Users\\foo\\Pictures\\bar.jpg";
             // 
             // botonOkDoomer
             // 
-            this.botonOkDoomer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonOkDoomer.Location = new System.Drawing.Point(217, 550);
+            this.botonOkDoomer.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.botonOkDoomer.Location = new System.Drawing.Point(215, 465);
             this.botonOkDoomer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonOkDoomer.Name = "botonOkDoomer";
             this.botonOkDoomer.Size = new System.Drawing.Size(109, 30);
@@ -125,8 +127,8 @@
             // 
             // botonCancelar
             // 
-            this.botonCancelar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonCancelar.Location = new System.Drawing.Point(421, 550);
+            this.botonCancelar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.botonCancelar.Location = new System.Drawing.Point(416, 464);
             this.botonCancelar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonCancelar.Name = "botonCancelar";
             this.botonCancelar.Size = new System.Drawing.Size(111, 30);
@@ -137,19 +139,19 @@
             // 
             // botonCaratula
             // 
-            this.botonCaratula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonCaratula.Location = new System.Drawing.Point(302, 225);
+            this.botonCaratula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.botonCaratula.Location = new System.Drawing.Point(302, 258);
             this.botonCaratula.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonCaratula.Name = "botonCaratula";
-            this.botonCaratula.Size = new System.Drawing.Size(225, 30);
+            this.botonCaratula.Size = new System.Drawing.Size(223, 30);
             this.botonCaratula.TabIndex = 4;
-            this.botonCaratula.Text = "button3";
+            this.botonCaratula.Text = "check";
             this.botonCaratula.UseVisualStyleBackColor = true;
             this.botonCaratula.Click += new System.EventHandler(this.botonCaratula_Click);
             // 
             // textBoxArtista
             // 
-            this.textBoxArtista.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxArtista.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBoxArtista.Location = new System.Drawing.Point(303, 19);
             this.textBoxArtista.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxArtista.Name = "textBoxArtista";
@@ -158,8 +160,8 @@
             // 
             // textBoxTitulo
             // 
-            this.textBoxTitulo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxTitulo.Location = new System.Drawing.Point(303, 71);
+            this.textBoxTitulo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBoxTitulo.Location = new System.Drawing.Point(303, 52);
             this.textBoxTitulo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxTitulo.Name = "textBoxTitulo";
             this.textBoxTitulo.Size = new System.Drawing.Size(224, 25);
@@ -167,8 +169,8 @@
             // 
             // textBoxAño
             // 
-            this.textBoxAño.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxAño.Location = new System.Drawing.Point(303, 122);
+            this.textBoxAño.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBoxAño.Location = new System.Drawing.Point(303, 85);
             this.textBoxAño.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxAño.Name = "textBoxAño";
             this.textBoxAño.Size = new System.Drawing.Size(224, 25);
@@ -176,9 +178,9 @@
             // 
             // comboBoxGeneros
             // 
-            this.comboBoxGeneros.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxGeneros.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.comboBoxGeneros.FormattingEnabled = true;
-            this.comboBoxGeneros.Location = new System.Drawing.Point(303, 174);
+            this.comboBoxGeneros.Location = new System.Drawing.Point(302, 118);
             this.comboBoxGeneros.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.comboBoxGeneros.Name = "comboBoxGeneros";
             this.comboBoxGeneros.Size = new System.Drawing.Size(224, 25);
@@ -186,9 +188,9 @@
             // 
             // vistaCanciones
             // 
-            this.vistaCanciones.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vistaCanciones.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.vistaCanciones.HideSelection = false;
-            this.vistaCanciones.Location = new System.Drawing.Point(16, 422);
+            this.vistaCanciones.Location = new System.Drawing.Point(11, 338);
             this.vistaCanciones.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.vistaCanciones.Name = "vistaCanciones";
             this.vistaCanciones.Size = new System.Drawing.Size(514, 109);
@@ -199,7 +201,7 @@
             // 
             // buttonAñadirCancion
             // 
-            this.buttonAñadirCancion.Location = new System.Drawing.Point(16, 550);
+            this.buttonAñadirCancion.Location = new System.Drawing.Point(11, 464);
             this.buttonAñadirCancion.Name = "buttonAñadirCancion";
             this.buttonAñadirCancion.Size = new System.Drawing.Size(113, 31);
             this.buttonAñadirCancion.TabIndex = 10;
@@ -210,8 +212,8 @@
             // labelURISpotify
             // 
             this.labelURISpotify.AutoSize = true;
-            this.labelURISpotify.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelURISpotify.Location = new System.Drawing.Point(12, 309);
+            this.labelURISpotify.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelURISpotify.Location = new System.Drawing.Point(14, 154);
             this.labelURISpotify.Name = "labelURISpotify";
             this.labelURISpotify.Size = new System.Drawing.Size(63, 17);
             this.labelURISpotify.TabIndex = 11;
@@ -220,8 +222,8 @@
             // labelDirectorio
             // 
             this.labelDirectorio.AutoSize = true;
-            this.labelDirectorio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDirectorio.Location = new System.Drawing.Point(14, 358);
+            this.labelDirectorio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelDirectorio.Location = new System.Drawing.Point(12, 228);
             this.labelDirectorio.Name = "labelDirectorio";
             this.labelDirectorio.Size = new System.Drawing.Size(65, 17);
             this.labelDirectorio.TabIndex = 12;
@@ -229,7 +231,7 @@
             // 
             // buttonDirectorio
             // 
-            this.buttonDirectorio.Location = new System.Drawing.Point(302, 351);
+            this.buttonDirectorio.Location = new System.Drawing.Point(302, 221);
             this.buttonDirectorio.Name = "buttonDirectorio";
             this.buttonDirectorio.Size = new System.Drawing.Size(224, 30);
             this.buttonDirectorio.TabIndex = 13;
@@ -240,7 +242,7 @@
             // labelDirectorioActual
             // 
             this.labelDirectorioActual.AutoSize = true;
-            this.labelDirectorioActual.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDirectorioActual.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelDirectorioActual.Location = new System.Drawing.Point(14, 394);
             this.labelDirectorioActual.Name = "labelDirectorioActual";
             this.labelDirectorioActual.Size = new System.Drawing.Size(0, 15);
@@ -248,18 +250,40 @@
             // 
             // textBoxURISpotify
             // 
-            this.textBoxURISpotify.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxURISpotify.Location = new System.Drawing.Point(302, 301);
+            this.textBoxURISpotify.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBoxURISpotify.Location = new System.Drawing.Point(302, 151);
             this.textBoxURISpotify.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBoxURISpotify.Name = "textBoxURISpotify";
             this.textBoxURISpotify.Size = new System.Drawing.Size(224, 25);
             this.textBoxURISpotify.TabIndex = 15;
             // 
+            // comboBoxAlbumType
+            // 
+            this.comboBoxAlbumType.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.comboBoxAlbumType.FormattingEnabled = true;
+            this.comboBoxAlbumType.Location = new System.Drawing.Point(302, 184);
+            this.comboBoxAlbumType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.comboBoxAlbumType.Name = "comboBoxAlbumType";
+            this.comboBoxAlbumType.Size = new System.Drawing.Size(224, 25);
+            this.comboBoxAlbumType.TabIndex = 16;
+            // 
+            // labelAlbumType
+            // 
+            this.labelAlbumType.AutoSize = true;
+            this.labelAlbumType.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelAlbumType.Location = new System.Drawing.Point(14, 187);
+            this.labelAlbumType.Name = "labelAlbumType";
+            this.labelAlbumType.Size = new System.Drawing.Size(33, 17);
+            this.labelAlbumType.TabIndex = 17;
+            this.labelAlbumType.Text = "type";
+            // 
             // editarAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(542, 588);
+            this.ClientSize = new System.Drawing.Size(542, 503);
+            this.Controls.Add(this.comboBoxAlbumType);
+            this.Controls.Add(this.labelAlbumType);
             this.Controls.Add(this.textBoxURISpotify);
             this.Controls.Add(this.labelDirectorioActual);
             this.Controls.Add(this.buttonDirectorio);
@@ -280,7 +304,7 @@
             this.Controls.Add(this.labelAño);
             this.Controls.Add(this.labelTitulo);
             this.Controls.Add(this.labelArtista);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -314,5 +338,7 @@
         private System.Windows.Forms.Button buttonDirectorio;
         private System.Windows.Forms.Label labelDirectorioActual;
         private System.Windows.Forms.TextBox textBoxURISpotify;
+        private System.Windows.Forms.ComboBox comboBoxAlbumType;
+        private System.Windows.Forms.Label labelAlbumType;
     }
 }

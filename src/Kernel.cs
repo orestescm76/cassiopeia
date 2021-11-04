@@ -107,7 +107,7 @@ namespace Cassiopeia
             Config.Language = lang;
             ReloadGenres();
             ReloadView();
-            Reproductor.Instancia.RefrescarTextos();
+            Player.Instancia.RefrescarTextos();
         }
 
         public static int FindGenre(string g)
@@ -314,8 +314,8 @@ namespace Cassiopeia
 
         public static void InitPlayer()
         {
-            Reproductor.Init();
-            Reproductor.Instancia.RefrescarTextos();
+            Player.Init();
+            Player.Instancia.RefrescarTextos();
         }
 
         public static void LoadFiles()
@@ -356,7 +356,7 @@ namespace Cassiopeia
                     Application.Run(MainForm);
                     break;
                 case StartType.PlayerOnly:
-                    Application.Run(Reproductor.Instancia);
+                    Application.Run(Player.Instancia);
                     break;
                 case StartType.MetadataStream:
                     Application.Run();
@@ -388,8 +388,8 @@ namespace Cassiopeia
             Config.GuardarConfiguracion();
 
             Log.Instance.PrintMessage("Shutting down Player", MessageType.Info);
-            Reproductor.Instancia.Apagar();
-            Reproductor.Instancia.Dispose();
+            Player.Instancia.Apagar();
+            Player.Instancia.Dispose();
 
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");

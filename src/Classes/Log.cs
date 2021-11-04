@@ -21,7 +21,7 @@ namespace Cassiopeia
 
         private Stopwatch timeSinceStart;
         private StreamWriter file;
-        private VisorLog logView;
+        private LogViewer logView;
         public static void InitLog()
         {
             Instance = new Log();
@@ -29,10 +29,10 @@ namespace Cassiopeia
         private Log()
         {
             timeSinceStart = Stopwatch.StartNew();
-            logView = new VisorLog();
+            logView = new LogViewer();
             file = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false);
             file.AutoFlush = true;
-            logView = new VisorLog();
+            logView = new LogViewer();
             if (file != null)
             {
                 PrintInfo();

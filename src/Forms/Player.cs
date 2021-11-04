@@ -19,7 +19,7 @@ namespace Cassiopeia.src.Forms
         Paused,
         Stop
     }
-    public partial class Reproductor : Form
+    public partial class Player : Form
     {
         public Playlist Playlist { get; set; }
         private readonly PlayerKernel nucleo = new PlayerKernel();
@@ -57,14 +57,14 @@ namespace Cassiopeia.src.Forms
         bool VolumeHold = false, PositonHold = false, ShuffleHold = false;
         Random Random { get; }
         public bool ModoCD { get; private set; }
-        private static Reproductor instance = null;
-        public static Reproductor Instancia { get => instance; }
+        private static Player instance = null;
+        public static Player Instancia { get => instance; }
         public static void Init()
         {
-            instance = new Reproductor();
+            instance = new Player();
         }
 
-        public Reproductor()
+        public Player()
         {
             InitializeComponent();
             SetPlayerButtons(false);

@@ -1,6 +1,6 @@
 ﻿namespace Cassiopeia
 {
-    partial class acercaDe
+    partial class About
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(acercaDe));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.labelAcercaDe = new System.Windows.Forms.Label();
             this.pictureBoxBanner = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBanner)).BeginInit();

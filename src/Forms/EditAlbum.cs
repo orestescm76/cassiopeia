@@ -4,11 +4,10 @@ using System.Windows.Forms;
 
 namespace Cassiopeia
 {
-    public partial class editarAlbum : Form
+    public partial class EditAlbum : Form
     {
         private AlbumData albumAEditar;
-        private string[] generosTraducidos = new string[Kernel.Genres.Length-1];
-        public editarAlbum(ref AlbumData a)
+        public EditAlbum(ref AlbumData a)
         {
             InitializeComponent();
             Log.Instance.PrintMessage("Editing album " + a.Artist + " - " + a.Title, MessageType.Info);
@@ -34,12 +33,14 @@ namespace Cassiopeia
             labelCaratula.Text = Kernel.LocalTexts.GetString("caratula");
             labelDirectorio.Text = Kernel.LocalTexts.GetString("directorio");
             labelURISpotify.Text = Kernel.LocalTexts.GetString("uriSpotify");
+            labelAlbumType.Text = Kernel.LocalTexts.GetString("tipoAlbum");
             botonOkDoomer.Text = Kernel.LocalTexts.GetString("hecho");
             botonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
             botonCaratula.Text = Kernel.LocalTexts.GetString("buscar");
             buttonAñadirCancion.Text = Kernel.LocalTexts.GetString("añadir_cancion");
             buttonDirectorio.Text = Kernel.LocalTexts.GetString("buscarDirectorio");
             labelDirectorioActual.Text = albumAEditar.SoundFilesPath;
+            string[] generosTraducidos = new string[Kernel.Genres.Length - 1];
             for (int i = 0; i < generosTraducidos.Length; i++)
             {
                 generosTraducidos[i] = Kernel.Genres[i].Name;
@@ -53,7 +54,17 @@ namespace Cassiopeia
                     index = i;
             }
             comboBoxGeneros.SelectedIndex = index;
-            if(Config.Language == "el")
+
+            string[] types = new string[5];
+            types[(int)AlbumType.Studio] = Kernel.LocalTexts.GetString("estudio");
+            types[(int)AlbumType.Live] = Kernel.LocalTexts.GetString("live");
+            types[(int)AlbumType.Compilation] = Kernel.LocalTexts.GetString("compilacion");
+            types[(int)AlbumType.EP] = Kernel.LocalTexts.GetString("EP");
+            types[(int)AlbumType.Single] = Kernel.LocalTexts.GetString("sencillo");
+            comboBoxAlbumType.Items.AddRange(types);
+            comboBoxAlbumType.SelectedIndex = (int)albumAEditar.Type;
+
+            if (Config.Language == "el")
             {
                 Font but = buttonAñadirCancion.Font;
                 Font neo = new Font(but.FontFamily, 7);
@@ -82,6 +93,7 @@ namespace Cassiopeia
                 string gn = comboBoxGeneros.SelectedItem.ToString();
                 Genre g = Kernel.Genres[Kernel.FindTranslatedGenre(gn)];
                 albumAEditar.Genre = g;
+                albumAEditar.Type = (AlbumType)comboBoxAlbumType.SelectedIndex;
                 albumAEditar.CoverPath = labelRuta.Text;
                 TimeSpan nuevaDuracion = new TimeSpan();
                 albumAEditar.SoundFilesPath = labelDirectorioActual.Text;
@@ -113,7 +125,7 @@ namespace Cassiopeia
                 Log.Instance.PrintMessage("Wrong input, won't change anything", MessageType.Warning);
                 MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
             }
-            visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
+            AlbumViewer nuevo = new AlbumViewer(ref albumAEditar);
             nuevo.Show();
             Kernel.ReloadView();
             Close();
@@ -123,7 +135,7 @@ namespace Cassiopeia
 
         private void botonCancelar_Click(object sender, EventArgs e)
         {
-            visualizarAlbum nuevo = new visualizarAlbum(ref albumAEditar);
+            AlbumViewer nuevo = new AlbumViewer(ref albumAEditar);
             nuevo.Show();
             Close();
         }
@@ -145,7 +157,7 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Editing song", MessageType.Info);
             String text = vistaCanciones.SelectedItems[0].Text;
             Song cancionAEditar = albumAEditar.GetSong(text);
-            agregarCancion editarCancion = new agregarCancion(ref cancionAEditar);
+            CreateSong editarCancion = new CreateSong(ref cancionAEditar);
             editarCancion.ShowDialog();
             cargarVista();
             Log.Instance.PrintMessage("Saved!", MessageType.Correct);
@@ -154,7 +166,7 @@ namespace Cassiopeia
         private void buttonAñadirCancion_Click(object sender, EventArgs e)
         {
             Log.Instance.PrintMessage("Trying to add a song", MessageType.Info);
-            agregarCancion AC = new agregarCancion(ref albumAEditar, -2);
+            CreateSong AC = new CreateSong(ref albumAEditar, -2);
             AC.ShowDialog();
             borrarVista();
             cargarVista();

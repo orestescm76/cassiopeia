@@ -4,10 +4,10 @@ using System.Windows.Forms;
 
 namespace Cassiopeia
 {
-    public partial class acercaDe : Form
+    public partial class About : Form
     {
         private bool bannerAntiguo = false;
-        public acercaDe()
+        public About()
         {
             InitializeComponent();
             Text = Kernel.LocalTexts.GetString("acerca") + " " + Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version;
