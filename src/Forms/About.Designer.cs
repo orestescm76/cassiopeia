@@ -31,7 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
             this.labelAcercaDe = new System.Windows.Forms.Label();
             this.pictureBoxBanner = new System.Windows.Forms.PictureBox();
+            this.labelBTC = new System.Windows.Forms.Label();
+            this.pictureBoxBTC = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBanner)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBTC)).BeginInit();
             this.SuspendLayout();
             // 
             // labelAcercaDe
@@ -60,11 +63,34 @@
             this.pictureBoxBanner.TabIndex = 1;
             this.pictureBoxBanner.TabStop = false;
             // 
-            // acercaDe
+            // labelBTC
+            // 
+            this.labelBTC.AutoSize = true;
+            this.labelBTC.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelBTC.Location = new System.Drawing.Point(111, 415);
+            this.labelBTC.Name = "labelBTC";
+            this.labelBTC.Size = new System.Drawing.Size(358, 25);
+            this.labelBTC.TabIndex = 2;
+            this.labelBTC.Text = "19xFr3GVwEThYsekRvoN8xaTuipNxKUrSv";
+            // 
+            // pictureBoxBTC
+            // 
+            this.pictureBoxBTC.Image = global::Cassiopeia.Properties.Resources.btc;
+            this.pictureBoxBTC.InitialImage = global::Cassiopeia.Properties.Resources.btc;
+            this.pictureBoxBTC.Location = new System.Drawing.Point(28, 399);
+            this.pictureBoxBTC.Name = "pictureBoxBTC";
+            this.pictureBoxBTC.Size = new System.Drawing.Size(59, 56);
+            this.pictureBoxBTC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxBTC.TabIndex = 3;
+            this.pictureBoxBTC.TabStop = false;
+            // 
+            // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(547, 458);
+            this.ClientSize = new System.Drawing.Size(547, 467);
+            this.Controls.Add(this.pictureBoxBTC);
+            this.Controls.Add(this.labelBTC);
             this.Controls.Add(this.pictureBoxBanner);
             this.Controls.Add(this.labelAcercaDe);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -73,12 +99,13 @@
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "acercaDe";
+            this.Name = "About";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "acercaDe";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.acercaDe_KeyDown);
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.acercaDe_PreviewKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBanner)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBTC)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -88,5 +115,7 @@
 
         private System.Windows.Forms.Label labelAcercaDe;
         private System.Windows.Forms.PictureBox pictureBoxBanner;
+        private System.Windows.Forms.Label labelBTC;
+        private System.Windows.Forms.PictureBox pictureBoxBTC;
     }
 }
