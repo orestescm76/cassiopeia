@@ -235,14 +235,15 @@ namespace Cassiopeia
 
             string[] oldVerArr = Version.Split('.');
             string[] newVerArr = newVer.Split('.');
-            oldVerArr[0] = oldVerArr[0].Remove(0, 1);
-            newVerArr[0] = newVerArr[0].Remove(0, 1);
+            if (newVerArr[0].Length == 2)
+                newVerArr[0] = newVerArr[0].Remove(0, 1);
+            if (Convert.ToInt32(newVerArr[0]) > Convert.ToInt32(oldVerArr[0])) //2>1?
+                return true;
+            else if (Convert.ToInt32(newVerArr[2]) > Convert.ToInt32(oldVerArr[2])) //214 > 200?
+                return true;
+            else if (Convert.ToInt32(newVerArr[3]) > Convert.ToInt32(oldVerArr[3])) //2.0.x.20 > 2.0.x.10
+                return true;
 
-            for (int i = 0; i < oldVerArr.Length; i++)
-            {
-                if (Convert.ToInt32(newVerArr[i]) > Convert.ToInt32(oldVerArr[i]))
-                   return true; //if one of the versions is higher, clearly there is an update.
-            }
             return false; //same version.
         }
         public static void CheckForUpdates()
@@ -354,6 +355,7 @@ namespace Cassiopeia
             {
                 case StartType.Normal:
                     Application.Run(MainForm);
+                    Log.Instance.PrintMessage("Running main form", MessageType.Info);
                     break;
                 case StartType.PlayerOnly:
                     Application.Run(Player.Instancia);
