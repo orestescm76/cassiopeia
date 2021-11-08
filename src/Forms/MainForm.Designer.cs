@@ -365,7 +365,7 @@
             this.genero,
             this.columnID});
             this.vistaAlbumes.Cursor = System.Windows.Forms.Cursors.Default;
-            this.vistaAlbumes.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.vistaAlbumes.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.vistaAlbumes.ForeColor = System.Drawing.SystemColors.WindowText;
             this.vistaAlbumes.FullRowSelect = true;
             this.vistaAlbumes.HideSelection = false;
