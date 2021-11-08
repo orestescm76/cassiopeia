@@ -8,16 +8,16 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="src\Forms\AbrirDisco.cs">
+    <Compile Update="src\Forms\OpenDisc.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\acercaDe.cs">
+    <Compile Update="src\Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\agregarAlbum.cs">
+    <Compile Update="src\Forms\CreateAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\agregarCancion.cs">
+    <Compile Update="src\Forms\CreateSong.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\Anotaciones.cs">
@@ -32,7 +32,7 @@
     <Compile Update="src\Forms\CreateCD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\editarAlbum.cs">
+    <Compile Update="src\Forms\EditAlbum.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\MainForm.cs">
@@ -41,7 +41,7 @@
     <Compile Update="src\Forms\PlaylistIU.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\Reproductor.cs">
+    <Compile Update="src\Forms\Player.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\SearchSpotify.cs">
@@ -50,13 +50,13 @@
     <Compile Update="src\Forms\SpotifyResults.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\VisorLog.cs">
+    <Compile Update="src\Forms\LogViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\VisorLyrics.cs">
+    <Compile Update="src\Forms\LyricsViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\visualizarAlbum.cs">
+    <Compile Update="src\Forms\AlbumViewer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\WriteName.cs">

@@ -24,13 +24,15 @@ namespace Cassiopeia
         public string Country { get; set; }
         public string Artist { get; set; }
         public string Title { get; set; }
+        public string[] Anotaciones { get; set; }
+        public string Id { get; set; }
 
         public PhysicalAlbum()
         {
 
         }
 
-        public PhysicalAlbum(string s, MediaCondition estado, short y = 0, String p = null)
+        public PhysicalAlbum(string s, MediaCondition estado, short y = 0, string p = null)
         {
             AlbumData = Kernel.Collection.GetAlbum(s);
             EstadoExterior = estado;
@@ -43,6 +45,10 @@ namespace Cassiopeia
         public PhysicalAlbum(string s)
         {
             AlbumData = Kernel.Collection.GetAlbum(s);
+        }
+        public void InstallAlbum()
+        {
+            AlbumData = Kernel.Collection.GetAlbum(Artist + "_" + Title);
         }
     }
 }
