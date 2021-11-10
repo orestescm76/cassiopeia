@@ -32,7 +32,6 @@ namespace Cassiopeia.src.Forms
         TimeSpan dur;
         TimeSpan pos;
         bool SpotifySync;
-        SpotifyClient SpotifyClient;
         FullTrack cancionReproduciendo;
         private BackgroundWorker backgroundWorker;
         public int ListaReproduccionPuntero { get; set; }
@@ -166,10 +165,9 @@ namespace Cassiopeia.src.Forms
         }
         private void PrepararSpotify()
         {
-            SpotifyClient = Kernel.Spotify.SpotifyClient;
             try
             {
-                user = SpotifyClient.UserProfile.Current().Result;
+                user = Kernel.Spotify.SpotifyClient.UserProfile.Current().Result;
                 Log.PrintMessage("Starting player with Spotify mode, e-mail: " + user.Email, MessageType.Info);
                 EsPremium = Kernel.Spotify.UserIsPremium();
             }
@@ -230,7 +228,6 @@ namespace Cassiopeia.src.Forms
             checkBoxFoobar.Visible = true;
             SetPlayerButtons(false);
             buttonDetener.Enabled = true;
-            //fix error delete
             File.Delete("./covers/np.jpg");
             buttonAgregar.Hide();
         }
@@ -297,16 +294,18 @@ namespace Cassiopeia.src.Forms
                 {
                     Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
                     if (File.Exists("./covers/np.jpg") && pictureBoxCaratula.Image != null)
-                    {
-                        pictureBoxCaratula.Image.Dispose();
-                        pictureBoxCaratula.Image = null;
+                    { 
                         File.Delete("./covers/np.jpg");
                     }
                         
                     cliente.DownloadFileAsync(new Uri(album.Images[1].Url), Environment.CurrentDirectory + "/covers/np.jpg");
                     cliente.DownloadFileCompleted += (s, e) =>
                     {
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                        //Doing this will allow me to replace album cover and not locking the file
+                        System.Drawing.Image cover;
+                        using (var temp = new Bitmap("./covers/np.jpg"))
+                            cover = new Bitmap(temp);
+                        pictureBoxCaratula.Image = cover;
                     };
                 }
                 catch (System.Net.WebException ex)
@@ -624,7 +623,7 @@ namespace Cassiopeia.src.Forms
         private void SaltarAtras()
         {
             if (SpotifySync && EsPremium)
-                SpotifyClient.Player.SkipPrevious();
+                Kernel.Spotify.SpotifyClient.Player.SkipPrevious();
             else
             {
                 if (Playlist != null && !Playlist.IsFirstSong(ListaReproduccionPuntero))
@@ -642,7 +641,7 @@ namespace Cassiopeia.src.Forms
         private void SaltarAdelante()
         {
             if (EsPremium && SpotifySync)
-                SpotifyClient.Player.SkipNext();
+                Kernel.Spotify.SpotifyClient.Player.SkipNext();
             else
             {
                 if (Playlist != null)
@@ -691,7 +690,7 @@ namespace Cassiopeia.src.Forms
                     {
                         try
                         {
-                            SpotifyClient.Player.PausePlayback();
+                            Kernel.Spotify.SpotifyClient.Player.PausePlayback();
                         }
                         catch (APIException ex)
                         {
@@ -710,7 +709,7 @@ namespace Cassiopeia.src.Forms
                     {
                         try
                         {
-                            SpotifyClient.Player.ResumePlayback();
+                            Kernel.Spotify.SpotifyClient.Player.ResumePlayback();
                         }
                         catch (APIException ex)
                         {
@@ -728,7 +727,7 @@ namespace Cassiopeia.src.Forms
                     {
                         try
                         {
-                            SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest()
+                            Kernel.Spotify.SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest()
                             {
                                 DeviceId = Kernel.Spotify.Device.Devices[0].Id
                             });
@@ -775,7 +774,7 @@ namespace Cassiopeia.src.Forms
                     //update trackbar
                     trackBarPosicion.Value = (int)pos.TotalSeconds;
                     //if we don't have an image or we have the same one
-                    if (SpotifyID != PreviousSpotifyID || pictureBoxCaratula.Image is null)
+                    if (SpotifyID != PreviousSpotifyID || !File.Exists("./covers/np.jpg"))
                     {
                         //Update shuffle state not too often, when changin songs
                         if (PC.ShuffleState)
@@ -790,26 +789,26 @@ namespace Cassiopeia.src.Forms
                         //    escritor.WriteLine(NumCancion + " - " + PC.Item.Artists[0].Name + " - " + PC.Item.Name);
                         //    NumCancion++;
                         //}
-                        if (!string.IsNullOrEmpty(SpotifyID) || !File.Exists("./covers/np.jpg"))
+                        //Check if local song
+                        if (!string.IsNullOrEmpty(SpotifyID))
                         {
                             try
                             {
                                 DownloadCoverAndSet(cancionReproduciendo.Album, true);
                                 
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                                 pictureBoxCaratula.Image = Resources.albumdesconocido;
+                                Log.Instance.PrintMessage("Couldn't set the new cover!" + ex.Message, MessageType.Warning);
                             }
-
                         }
                         else
                         {
                             Log.PrintMessage("Local song detected.", MessageType.Info);
                             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                             pictureBoxCaratula.Image.Dispose();
-                            pictureBoxCaratula.Image = null;
-                            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+                            pictureBoxCaratula.Image = Resources.albumdesconocido;
                         }
                     }
                     if (PC.IsPlaying)
@@ -845,8 +844,8 @@ namespace Cassiopeia.src.Forms
             }
             else
             {
-                pictureBoxCaratula.Image = Resources.albumdesconocido;
                 Text = "No Spotify context";
+                //reset the player but once.
             }
         }
 
@@ -856,7 +855,7 @@ namespace Cassiopeia.src.Forms
             {
                 try
                 {
-                    CurrentlyPlayingContext PC = SpotifyClient.Player.GetCurrentPlayback().Result;
+                    CurrentlyPlayingContext PC = Kernel.Spotify.SpotifyClient.Player.GetCurrentPlayback().Result;
                     e.Result = PC;
                 }
                 catch (APIException ex) //There is a problem
@@ -871,7 +870,7 @@ namespace Cassiopeia.src.Forms
                 Log.PrintMessage("Token expired!", MessageType.Warning);
                 while (Kernel.Spotify.IsTokenExpired())
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(50);
                 }
             }
         }
@@ -1062,7 +1061,7 @@ namespace Cassiopeia.src.Forms
             }
             else if (SpotifySync && EsPremium)
             {
-                SpotifyClient.Player.SeekTo(new PlayerSeekToRequest(trackBarPosicion.Value * 1000));
+                Kernel.Spotify.SpotifyClient.Player.SeekTo(new PlayerSeekToRequest(trackBarPosicion.Value * 1000));
                 timerSpotify.Enabled = true;
             }
             else
@@ -1118,7 +1117,7 @@ namespace Cassiopeia.src.Forms
             ShuffleState = checkBoxAleatorio.Checked;
             if (EsPremium && SpotifySync)
             {
-                SpotifyClient.Player.SetShuffle(new PlayerShuffleRequest(ShuffleState));
+                Kernel.Spotify.SpotifyClient.Player.SetShuffle(new PlayerShuffleRequest(ShuffleState));
             }
                 
         }
@@ -1337,7 +1336,7 @@ namespace Cassiopeia.src.Forms
         private void trackBarVolumen_MouseUp(object sender, MouseEventArgs e)
         {
             if (EsPremium && SpotifySync)
-                SpotifyClient.Player.SetVolume(new PlayerVolumeRequest(trackBarVolumen.Value));
+                Kernel.Spotify.SpotifyClient.Player.SetVolume(new PlayerVolumeRequest(trackBarVolumen.Value));
             VolumeHold = false;
         }
 

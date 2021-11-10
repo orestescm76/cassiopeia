@@ -85,7 +85,7 @@ namespace Cassiopeia
                 {
                     server.Stop();
                     Token = await new OAuthClient(SpotifyConfig).RequestToken(new AuthorizationCodeTokenRequest(PublicKey, PrivateKey, response.Code, server.BaseUri));
-                    SpotifyClient = new SpotifyClient(SpotifyConfig.WithToken(Token.AccessToken));
+                    SpotifyClient = new SpotifyClient(Token.AccessToken);
 
                     AccountReady = true;
                     AccountLinked = true;
@@ -116,8 +116,9 @@ namespace Cassiopeia
         public async Task RefreshTokenAsync()
         {
             Log.Instance.PrintMessage("Refreshing Token...", MessageType.Info);
-            TokenRefresh = await new OAuthClient(SpotifyConfig).RequestToken(new AuthorizationCodeRefreshRequest(PublicKey, PrivateKey, TokenRefreshCode));
-            SpotifyClient = new SpotifyClient(SpotifyConfig.WithToken(TokenRefresh.AccessToken));
+            Token = null;
+            TokenRefresh = await new OAuthClient().RequestToken(new AuthorizationCodeRefreshRequest(PublicKey, PrivateKey, TokenRefreshCode));
+            SpotifyClient = new SpotifyClient(TokenRefresh.AccessToken);
             TokenRefreshCode = TokenRefresh.RefreshToken;
             Log.Instance.PrintMessage("Token refreshed!", MessageType.Correct);
         }

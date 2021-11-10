@@ -90,7 +90,6 @@ namespace Cassiopeia
         {
             while (true)
             {
-                Log.Instance.PrintMessage("Task RefreshSpotifyToken", MessageType.Info);
                 var cancelar = cancellationToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(15));
                 if (cancelar && cancellationToken.IsCancellationRequested)
                     return;
