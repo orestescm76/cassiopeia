@@ -55,7 +55,8 @@ namespace Cassiopeia
                 comboBoxFormatoCD.SelectedItem = cdd.SleeveType;
                 comboBoxEstadoMedio.SelectedItem = cdd.Discos[numDisc-1].MediaCondition;
                 comboBoxEstadoExterior.SelectedItem = cdd.EstadoExterior;
-                numericUpDownNumCanciones.Value = cdd.Discos[numDisc-1].NumberOfSongs;
+                numericUpDownNumCanciones.Maximum = cdd.Discos[numDisc - 1].NumberOfSongs;
+                numericUpDownNumCanciones.Value = cdd.Discos[numDisc - 1].NumberOfSongs;
                 textBoxAño.Text = editingCD.Year.ToString();
                 textBoxPais.Text = editingCD.Country;
             }

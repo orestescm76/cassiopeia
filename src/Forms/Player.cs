@@ -167,7 +167,7 @@ namespace Cassiopeia.src.Forms
         {
             try
             {
-                user = Kernel.Spotify.SpotifyClient.UserProfile.Current().Result;
+                user = Kernel.Spotify.GetPrivateUser();
                 Log.PrintMessage("Starting player with Spotify mode, e-mail: " + user.Email, MessageType.Info);
                 EsPremium = Kernel.Spotify.UserIsPremium();
             }
@@ -623,7 +623,7 @@ namespace Cassiopeia.src.Forms
         private void SaltarAtras()
         {
             if (SpotifySync && EsPremium)
-                Kernel.Spotify.SpotifyClient.Player.SkipPrevious();
+                Kernel.Spotify.SkipPrevious();
             else
             {
                 if (Playlist != null && !Playlist.IsFirstSong(ListaReproduccionPuntero))
@@ -641,7 +641,7 @@ namespace Cassiopeia.src.Forms
         private void SaltarAdelante()
         {
             if (EsPremium && SpotifySync)
-                Kernel.Spotify.SpotifyClient.Player.SkipNext();
+                Kernel.Spotify.SkipNext();
             else
             {
                 if (Playlist != null)
@@ -690,11 +690,10 @@ namespace Cassiopeia.src.Forms
                     {
                         try
                         {
-                            Kernel.Spotify.SpotifyClient.Player.PausePlayback();
+                            Kernel.Spotify.PlayResume();
                         }
                         catch (APIException ex)
                         {
-                            Log.PrintMessage(ex.Message, MessageType.Error);
                             MessageBox.Show(ex.Message);
                         }
                     }
@@ -709,11 +708,10 @@ namespace Cassiopeia.src.Forms
                     {
                         try
                         {
-                            Kernel.Spotify.SpotifyClient.Player.ResumePlayback();
+                            Kernel.Spotify.PlayResume();
                         }
                         catch (APIException ex)
                         {
-                            Log.PrintMessage(ex.Message, MessageType.Error);
                             MessageBox.Show(ex.Message);
                         }
                     }
@@ -727,14 +725,10 @@ namespace Cassiopeia.src.Forms
                     {
                         try
                         {
-                            Kernel.Spotify.SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest()
-                            {
-                                DeviceId = Kernel.Spotify.Device.Devices[0].Id
-                            });
+                            Kernel.Spotify.PlayResume();
                         }
                         catch (APIException ex)
                         {
-                            Log.PrintMessage(ex.Message, MessageType.Error);
                             MessageBox.Show(ex.Message);
                         }
                     }
@@ -855,7 +849,7 @@ namespace Cassiopeia.src.Forms
             {
                 try
                 {
-                    CurrentlyPlayingContext PC = Kernel.Spotify.SpotifyClient.Player.GetCurrentPlayback().Result;
+                    CurrentlyPlayingContext PC = Kernel.Spotify.GetPlayingContext();
                     e.Result = PC;
                 }
                 catch (APIException ex) //There is a problem
@@ -1061,7 +1055,8 @@ namespace Cassiopeia.src.Forms
             }
             else if (SpotifySync && EsPremium)
             {
-                Kernel.Spotify.SpotifyClient.Player.SeekTo(new PlayerSeekToRequest(trackBarPosicion.Value * 1000));
+                long pos = trackBarPosicion.Value * 1000;
+                Kernel.Spotify.SeekTo(pos);
                 timerSpotify.Enabled = true;
             }
             else
@@ -1117,7 +1112,7 @@ namespace Cassiopeia.src.Forms
             ShuffleState = checkBoxAleatorio.Checked;
             if (EsPremium && SpotifySync)
             {
-                Kernel.Spotify.SpotifyClient.Player.SetShuffle(new PlayerShuffleRequest(ShuffleState));
+                Kernel.Spotify.SetShuffle(ShuffleState);
             }
                 
         }
@@ -1335,8 +1330,9 @@ namespace Cassiopeia.src.Forms
 
         private void trackBarVolumen_MouseUp(object sender, MouseEventArgs e)
         {
+            int vol = trackBarVolumen.Value;
             if (EsPremium && SpotifySync)
-                Kernel.Spotify.SpotifyClient.Player.SetVolume(new PlayerVolumeRequest(trackBarVolumen.Value));
+                Kernel.Spotify.SetVolume(vol);
             VolumeHold = false;
         }
 

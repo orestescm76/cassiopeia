@@ -10,7 +10,7 @@ namespace Cassiopeia
 {
     class Spotify
     {
-        public SpotifyClient SpotifyClient;
+        private SpotifyClient SpotifyClient;
         private SpotifyClientConfig SpotifyConfig;
         private readonly char[] WindowsForbiddenChars = { '\\', '/', '|', '?', '*', '"', ':', '>', '<' };
         //should change this..
@@ -356,5 +356,58 @@ namespace Cassiopeia
             }
             return string.Empty;
         }
+        #region Spotify Commands
+        public void SetVolume(int vol)
+        {
+            SpotifyClient.Player.SetVolume(new PlayerVolumeRequest(vol));
+        }
+
+        public void SetShuffle(bool state)
+        {
+            SpotifyClient.Player.SetShuffle(new PlayerShuffleRequest(state));
+        }
+
+        public void SeekTo(long pos)
+        {
+            SpotifyClient.Player.SeekTo(new PlayerSeekToRequest(pos));
+        }
+        public CurrentlyPlayingContext GetPlayingContext()
+        {
+            return SpotifyClient.Player.GetCurrentPlayback().Result;
+        }
+        //Plays or resumes playback on the first device
+        public void PlayResume()
+        {
+            try
+            {
+                Device = SpotifyClient.Player.GetAvailableDevices().Result;
+                SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest()
+                {
+                    DeviceId = Kernel.Spotify.Device.Devices[0].Id
+                });
+            }
+            catch (APIException ex)
+            {
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                throw ex;
+            }
+            catch (NullReferenceException)
+            {
+                Log.Instance.PrintMessage("No playback devices found!", MessageType.Warning);
+            }
+        }
+        public void SkipNext()
+        {
+            SpotifyClient.Player.SkipNext();
+        }
+        public void SkipPrevious()
+        {
+            SpotifyClient.Player.SkipPrevious();
+        }
+        public PrivateUser GetPrivateUser()
+        {
+            return SpotifyClient.UserProfile.Current().Result;
+        }
+        #endregion
     }
 }
