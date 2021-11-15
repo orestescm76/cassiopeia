@@ -394,10 +394,13 @@ namespace Cassiopeia
 
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");
+
+            Log.Instance.CloseLog();
+            
             if (Console)
                 FreeConsole();
-            Log.Instance.CloseLog();
-            Environment.Exit(0);
+
+            Application.Exit();
         }
 
         //Methods for loading and saving...
@@ -761,12 +764,11 @@ namespace Cassiopeia
         }
         public static int AllocConsole()
         {
+            
             return WinAPI.AllocConsole();
         }
         private static int FreeConsole()
         {
-            System.Console.WriteLine("Cassiopeia has finished, please press enter to exit...");
-            System.Console.ReadLine();
             return WinAPI.FreeConsole();
         }
         public static void BringMainFormFront()

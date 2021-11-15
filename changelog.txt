@@ -54,3 +54,4 @@ Twit button on the player is fixed. (Although there is a known issue with songs 
 
 2.0.215.0  - History. Have a text file where you can store your listening history.
 		   - Fix for playing mark in playlist ui. (still something is not fixed)
+		   - Added Ctrl C to console. Now console doesn't ask you to press enter to exit.

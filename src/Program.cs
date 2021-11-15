@@ -18,7 +18,10 @@ namespace Cassiopeia
             Kernel.ParseArgs(args);
             int console;
             if (Kernel.Console)
+            {
                 console = Kernel.AllocConsole();
+                Console.CancelKeyPress += (sender, args) => Kernel.Quit();
+            }
 #if DEBUG
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
 #endif
@@ -28,7 +31,6 @@ namespace Cassiopeia
 
             Stopwatch StartStopwatch = Stopwatch.StartNew();
             //Checking arguments
-
 
             //Load configuration
             Kernel.LoadConfig();
