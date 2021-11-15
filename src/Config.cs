@@ -13,7 +13,8 @@ namespace Cassiopeia
         public static bool LinkedWithSpotify;
         public static string LastOpenedDirectory;
         public static string Clipboard; //String que almacena cómo se guarda un álbum al portapapeles.
-        public static string Historial;
+        public static string History;
+        public static bool HistoryEnabled;
         public static Color ColorBonus;
         public static Color ColorLongSong;
         public static Font FontLyrics;
@@ -28,9 +29,10 @@ namespace Cassiopeia
                 cargador = new ResXResourceSet("config.cfg");
                 Language = cargador.GetString("Language");
                 LastOpenedDirectory = cargador.GetString("LastOpenedDirectory");
-                LinkedWithSpotify = Convert.ToBoolean(cargador.GetString("LinkedWithSpotify"));
+                LinkedWithSpotify = (bool)cargador.GetObject("LinkedWithSpotify");
                 Clipboard = cargador.GetString("Clipboard");
-                Historial = cargador.GetString("Historial");
+                History = cargador.GetString("History");
+                HistoryEnabled = (bool)cargador.GetObject("HistoryEnabled");
                 //Load the colors
                 ColorLongSong = Color.FromArgb(int.Parse(cargador.GetString("ColorLongSong"), NumberStyles.HexNumber));
                 ColorBonus = Color.FromArgb(int.Parse(cargador.GetString("ColorBonus"), NumberStyles.HexNumber));
@@ -47,7 +49,8 @@ namespace Cassiopeia
                 LinkedWithSpotify = false;
                 LastOpenedDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
                 Clipboard = "%artist% - %title% (%year%)";
-                Historial = "#%track_num%. %artist% - %title%";
+                History = "#%track_num%. %artist% - %title%";
+                HistoryEnabled = true;
                 ColorLongSong = Color.Salmon;
                 ColorBonus = Color.SkyBlue;
                 FontLyrics = new Font("Segoe UI", 10);
@@ -58,10 +61,11 @@ namespace Cassiopeia
         public static void GuardarConfiguracion()
         {
             guardador.AddResource("Language", Language);
-            guardador.AddResource("LinkedWithSpotify", LinkedWithSpotify.ToString());
+            guardador.AddResource("LinkedWithSpotify", LinkedWithSpotify);
             guardador.AddResource("LastOpenedDirectory", LastOpenedDirectory);
             guardador.AddResource("Clipboard", Clipboard);
-            guardador.AddResource("Historial", Historial);
+            guardador.AddResource("History", History);
+            guardador.AddResource("HistoryEnabled", HistoryEnabled);
             guardador.AddResource("ColorBonus", ColorBonus.ToArgb().ToString("X"));
             guardador.AddResource("ColorLongSong", ColorLongSong.ToArgb().ToString("X"));
             guardador.AddResource("FontLyrics", FontLyrics.FontFamily.Name+","+ (int)FontLyrics.Size);

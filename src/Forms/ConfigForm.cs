@@ -9,7 +9,7 @@ namespace Cassiopeia.src.Forms
     {
         Language,
         Clipboard,
-        Historial,
+        History,
         Colors,
         TextFont
     }
@@ -21,10 +21,10 @@ namespace Cassiopeia.src.Forms
         Label labelStringConfigPreview;
         Label labelStringConfigHelp;
 
-        CheckBox checkBoxHistorialConfig;
+        CheckBox checkBoxHistoryConfig;
 
         AlbumData AlbumCopyPreview = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973); //Only used if the collection is empty.
-        Song SongPreview = new Song("A National Acrobat", 375, false);
+        Song SongPreview = new Song("A National Acrobat", 375000, false);
 
         Button btColorBonus;
         Button btColorLongSong;
@@ -146,7 +146,7 @@ namespace Cassiopeia.src.Forms
 
         private void LoadHistorialConfig()
         {
-            ActiveConfig = ActiveConfig.Historial;
+            ActiveConfig = ActiveConfig.History;
             labelStringConfigPreview = new Label();
             labelStringConfigHelp = new Label();
             //groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
@@ -155,44 +155,37 @@ namespace Cassiopeia.src.Forms
             stringConfig.TextChanged += StringConfig_TextChanged;
             stringConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
 
-            checkBoxHistorialConfig = new CheckBox();
-            checkBoxHistorialConfig.Click += checkBoxHistorialConfig_Click;
-            
+            checkBoxHistoryConfig = new CheckBox();
+            checkBoxHistoryConfig.Click += checkBoxHistorialConfig_Click;
+            checkBoxHistoryConfig.Location = new Point(44, stringConfig.Location.Y - 25);
+            checkBoxHistoryConfig.Checked = Config.HistoryEnabled;
+            checkBoxHistoryConfig.Text = "Enable historial";
+            checkBoxHistoryConfig.AutoSize = true;
+            checkBoxHistoryConfig.Font = new Font("Segoe UI", 9);
 
             Size size = stringConfig.Size; size.Width = 500; stringConfig.Size = size;
             stringConfig.Font = new Font("Segoe UI", 9);
-            stringConfig.Text = Config.Clipboard;
+            stringConfig.Text = Config.History;
             labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
             labelStringConfigPreview.AutoSize = true;
             labelStringConfigPreview.Font = stringConfig.Font;
             labelStringConfigHelp.Font = stringConfig.Font;
             labelStringConfigHelp.AutoSize = true;
             labelStringConfigHelp.Location = new Point(labelStringConfigPreview.Location.X, labelStringConfigPreview.Location.Y + 50);
-            labelStringConfigHelp.Text = @"%artist% - Album artist
-%title% - Album title
+            labelStringConfigHelp.Text = @"%artist% - Song artist
+%title% - Song title
 %year% - Album release year
-%genre% - Album genre
-%length_min% - Album duration in minutes
-%length_seconds% - Album length in seconds, formatted as an integer
-%length% - Length of the album, formatted as [HH:]MM:SS. 
-%totaltracks% - Total number of tracks
-%path% - Path of local files, if avaliable";
-            string Preview = Config.Historial;
-            //if (Kernel.Collection.Albums.Count == 0)
-            //    Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
-            //else
-            //{
-            //    //Select a random album from the collection.
-            //    Random random = new Random();
-            //    AlbumData AlbumRef = Kernel.Collection.Albums[random.Next(Kernel.Collection.Albums.Count)];
-            //    AlbumCopyPreview = AlbumRef;
-            //    Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist);
-            //}
-            stringConfig.Text = Config.Clipboard;
+%length_min% - Song duration in minutes
+%length_seconds% - Song length in seconds, formatted as an integer
+%length% - Length of the song, formatted as [HH:]MM:SS. 
+%path% - Path of the song, if avaliable";
+            string Preview = Config.History;
             StringConfig_TextChanged(null, null);
             groupBoxRaiz.Controls.Add(stringConfig);
             groupBoxRaiz.Controls.Add(labelStringConfigPreview);
             groupBoxRaiz.Controls.Add(labelStringConfigHelp);
+
+            groupBoxRaiz.Controls.Add(checkBoxHistoryConfig);
         }
 
         private void LoadColorConfig()
@@ -289,6 +282,10 @@ namespace Cassiopeia.src.Forms
                 case ActiveConfig.Clipboard:
                     Config.Clipboard = stringConfig.Text;
                     break;
+                case ActiveConfig.History:
+                    Config.History = stringConfig.Text;
+                    Config.HistoryEnabled = checkBoxHistoryConfig.Checked;
+                    break;
                 case ActiveConfig.Colors:
                     Config.ColorBonus = btColorBonus.BackColor;
                     Config.ColorLongSong = btColorLongSong.BackColor;
@@ -352,7 +349,7 @@ namespace Cassiopeia.src.Forms
                         Preview = Preview.Replace("%path%", AlbumCopyPreview.SoundFilesPath);
                         labelStringConfigPreview.Text = Preview;
                         break;
-                    case ActiveConfig.Historial:
+                    case ActiveConfig.History:
                         Preview = Preview.Replace("%track_num%", "1");
                         Preview = Preview.Replace("%artist%", SongPreview.AlbumFrom.Artist);
                         Preview = Preview.Replace("%title%", SongPreview.Title);
@@ -367,21 +364,13 @@ namespace Cassiopeia.src.Forms
             catch (Exception)
             {
                 labelStringConfigPreview.Text = Preview;
-
             }
             finally
             {
                 labelStringConfigPreview.Text = Preview;
-
-
             }
         }
         //Events
-        private void groupBoxIdioma_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void treeViewConfiguracion_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             CargarPagina(e.Node.Tag.ToString());

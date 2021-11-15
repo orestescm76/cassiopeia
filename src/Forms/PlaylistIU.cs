@@ -113,10 +113,13 @@ namespace Cassiopeia.src.Forms
         {
             if(punt != -1)
             {
+                //Get the last one and set playing tick
+                int aux = Pointer;
                 listViewSongs.Items[punt].SubItems[0].Text = Playing;
                 Pointer = punt;
-                listViewSongs.Items[Pointer].SubItems[0].Text = "";
-                
+                //If we changed song, clean it
+                if(aux != Pointer)
+                    listViewSongs.Items[aux].SubItems[0].Text = "";
             }
             else
             {
