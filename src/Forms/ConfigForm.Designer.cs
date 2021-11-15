@@ -30,11 +30,12 @@
         {
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("idioma");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("portapapeles");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("text");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("colors");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("view", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("historial");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("text");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("colors");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("view", new System.Windows.Forms.TreeNode[] {
+            treeNode4,
+            treeNode5});
             this.treeViewConfiguracion = new System.Windows.Forms.TreeView();
             this.buttonAplicar = new System.Windows.Forms.Button();
             this.buttonCancelar = new System.Windows.Forms.Button();
@@ -46,7 +47,8 @@
             // 
             // treeViewConfiguracion
             // 
-            this.treeViewConfiguracion.Location = new System.Drawing.Point(12, 12);
+            this.treeViewConfiguracion.Location = new System.Drawing.Point(14, 14);
+            this.treeViewConfiguracion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.treeViewConfiguracion.Name = "treeViewConfiguracion";
             treeNode1.Name = "language";
             treeNode1.Tag = "language";
@@ -54,28 +56,34 @@
             treeNode2.Name = "clipboard";
             treeNode2.Tag = "clipboard";
             treeNode2.Text = "portapapeles";
-            treeNode3.Name = "text";
-            treeNode3.Tag = "text";
-            treeNode3.Text = "text";
-            treeNode4.Name = "colors";
-            treeNode4.Tag = "colors";
-            treeNode4.Text = "colors";
-            treeNode5.Name = "visual";
-            treeNode5.Tag = "view";
-            treeNode5.Text = "view";
+            treeNode3.Name = "historial";
+            treeNode3.Tag = "historial";
+            treeNode3.Text = "historial";
+            treeNode4.Name = "text";
+            treeNode4.Tag = "text";
+            treeNode4.Text = "text";
+            treeNode5.Name = "colors";
+            treeNode5.Tag = "colors";
+            treeNode5.Text = "colors";
+            treeNode6.Name = "visual";
+            treeNode6.Tag = "view";
+            treeNode6.Text = "view";
             this.treeViewConfiguracion.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
-            treeNode5});
-            this.treeViewConfiguracion.Size = new System.Drawing.Size(246, 549);
+            treeNode3,
+            treeNode6});
+            this.treeViewConfiguracion.Size = new System.Drawing.Size(286, 633);
             this.treeViewConfiguracion.TabIndex = 0;
+            this.treeViewConfiguracion.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewConfiguracion_AfterSelect);
             this.treeViewConfiguracion.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewConfiguracion_NodeMouseClick);
             // 
             // buttonAplicar
             // 
-            this.buttonAplicar.Location = new System.Drawing.Point(780, 538);
+            this.buttonAplicar.Location = new System.Drawing.Point(910, 621);
+            this.buttonAplicar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonAplicar.Name = "buttonAplicar";
-            this.buttonAplicar.Size = new System.Drawing.Size(75, 23);
+            this.buttonAplicar.Size = new System.Drawing.Size(88, 27);
             this.buttonAplicar.TabIndex = 2;
             this.buttonAplicar.Text = "aplicar";
             this.buttonAplicar.UseVisualStyleBackColor = true;
@@ -84,18 +92,20 @@
             // buttonCancelar
             // 
             this.buttonCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancelar.Location = new System.Drawing.Point(699, 538);
+            this.buttonCancelar.Location = new System.Drawing.Point(816, 621);
+            this.buttonCancelar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCancelar.Name = "buttonCancelar";
-            this.buttonCancelar.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancelar.Size = new System.Drawing.Size(88, 27);
             this.buttonCancelar.TabIndex = 3;
             this.buttonCancelar.Text = "cancelar";
             this.buttonCancelar.UseVisualStyleBackColor = true;
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(618, 538);
+            this.buttonOK.Location = new System.Drawing.Point(721, 621);
+            this.buttonOK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.Size = new System.Drawing.Size(88, 27);
             this.buttonOK.TabIndex = 4;
             this.buttonOK.Text = "ok";
             this.buttonOK.UseVisualStyleBackColor = true;
@@ -105,18 +115,21 @@
             // 
             this.groupBoxRaiz.Controls.Add(this.labelSelect);
             this.groupBoxRaiz.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.groupBoxRaiz.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBoxRaiz.Location = new System.Drawing.Point(264, 12);
+            this.groupBoxRaiz.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBoxRaiz.Location = new System.Drawing.Point(308, 14);
+            this.groupBoxRaiz.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxRaiz.Name = "groupBoxRaiz";
+            this.groupBoxRaiz.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxRaiz.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBoxRaiz.Size = new System.Drawing.Size(591, 520);
+            this.groupBoxRaiz.Size = new System.Drawing.Size(690, 600);
             this.groupBoxRaiz.TabIndex = 5;
             this.groupBoxRaiz.TabStop = false;
             // 
             // labelSelect
             // 
             this.labelSelect.AutoSize = true;
-            this.labelSelect.Location = new System.Drawing.Point(290, 240);
+            this.labelSelect.Location = new System.Drawing.Point(338, 277);
+            this.labelSelect.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSelect.Name = "labelSelect";
             this.labelSelect.Size = new System.Drawing.Size(94, 21);
             this.labelSelect.TabIndex = 0;
@@ -126,16 +139,17 @@
             // ConfigForm
             // 
             this.AcceptButton = this.buttonOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancelar;
-            this.ClientSize = new System.Drawing.Size(867, 573);
+            this.ClientSize = new System.Drawing.Size(1011, 661);
             this.Controls.Add(this.groupBoxRaiz);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.buttonAplicar);
             this.Controls.Add(this.treeViewConfiguracion);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "ConfigForm";
             this.Text = "Config";

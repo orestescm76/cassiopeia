@@ -13,6 +13,7 @@ namespace Cassiopeia
         public static bool LinkedWithSpotify;
         public static string LastOpenedDirectory;
         public static string Clipboard; //String que almacena cómo se guarda un álbum al portapapeles.
+        public static string Historial;
         public static Color ColorBonus;
         public static Color ColorLongSong;
         public static Font FontLyrics;
@@ -29,6 +30,7 @@ namespace Cassiopeia
                 LastOpenedDirectory = cargador.GetString("LastOpenedDirectory");
                 LinkedWithSpotify = Convert.ToBoolean(cargador.GetString("LinkedWithSpotify"));
                 Clipboard = cargador.GetString("Clipboard");
+                Historial = cargador.GetString("Historial");
                 //Load the colors
                 ColorLongSong = Color.FromArgb(int.Parse(cargador.GetString("ColorLongSong"), NumberStyles.HexNumber));
                 ColorBonus = Color.FromArgb(int.Parse(cargador.GetString("ColorBonus"), NumberStyles.HexNumber));
@@ -45,6 +47,7 @@ namespace Cassiopeia
                 LinkedWithSpotify = false;
                 LastOpenedDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
                 Clipboard = "%artist% - %title% (%year%)";
+                Historial = "#%track_num%. %artist% - %title%";
                 ColorLongSong = Color.Salmon;
                 ColorBonus = Color.SkyBlue;
                 FontLyrics = new Font("Segoe UI", 10);
@@ -58,6 +61,7 @@ namespace Cassiopeia
             guardador.AddResource("LinkedWithSpotify", LinkedWithSpotify.ToString());
             guardador.AddResource("LastOpenedDirectory", LastOpenedDirectory);
             guardador.AddResource("Clipboard", Clipboard);
+            guardador.AddResource("Historial", Historial);
             guardador.AddResource("ColorBonus", ColorBonus.ToArgb().ToString("X"));
             guardador.AddResource("ColorLongSong", ColorLongSong.ToArgb().ToString("X"));
             guardador.AddResource("FontLyrics", FontLyrics.FontFamily.Name+","+ (int)FontLyrics.Size);

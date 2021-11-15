@@ -48,3 +48,6 @@ Twit button on the player is fixed. (Although there is a known issue with songs 
 		   - Old databases migrate without problems.
 		   - Reduced waiting time for linking Spotify from 30 seconds to 20.
 
+2.0.214.60 - Finally fixed the Spotify token refresh!
+		   - Some refactoring on Spotify API code...
+

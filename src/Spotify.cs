@@ -369,6 +369,7 @@ namespace Cassiopeia
 
         public void SeekTo(long pos)
         {
+            //BROKEN - LIBRARY'S FAULT
             SpotifyClient.Player.SeekTo(new PlayerSeekToRequest(pos));
         }
         public CurrentlyPlayingContext GetPlayingContext()

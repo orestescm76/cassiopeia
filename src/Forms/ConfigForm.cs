@@ -9,16 +9,22 @@ namespace Cassiopeia.src.Forms
     {
         Language,
         Clipboard,
+        Historial,
         Colors,
         TextFont
     }
     public partial class ConfigForm : Form
     {
         RadioButton[] radioButtonsIdiomas;
-        TextBox portapapelesConfig;
-        Label labelClipboardPreview;
-        Label labelClipboardHelp;
+        //Common to clipboard and historial config..
+        TextBox stringConfig;
+        Label labelStringConfigPreview;
+        Label labelStringConfigHelp;
+
+        CheckBox checkBoxHistorialConfig;
+
         AlbumData AlbumCopyPreview = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973); //Only used if the collection is empty.
+        Song SongPreview = new Song("A National Acrobat", 375, false);
 
         Button btColorBonus;
         Button btColorLongSong;
@@ -33,7 +39,7 @@ namespace Cassiopeia.src.Forms
         ToolTip ttbtTextLyrics;
         ToolTip ttbtTextView;
 
-        ActiveConfig config;
+        ActiveConfig ActiveConfig;
         public ConfigForm()
         {
             InitializeComponent();
@@ -47,6 +53,7 @@ namespace Cassiopeia.src.Forms
             labelSelect.Location = new Point(290 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
             Icon = Properties.Resources.settings;
             treeViewConfiguracion.ExpandAll();
+            SongPreview.SetAlbum(AlbumCopyPreview);
         }
         private void PonerTextos()
         {
@@ -57,13 +64,14 @@ namespace Cassiopeia.src.Forms
             buttonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
             treeViewConfiguracion.Nodes[0].Text = Kernel.LocalTexts.GetString("idioma");
             treeViewConfiguracion.Nodes[1].Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
-            treeViewConfiguracion.Nodes[2].Text = Kernel.LocalTexts.GetString("configView");
-            treeViewConfiguracion.Nodes[2].Nodes[0].Text = Kernel.LocalTexts.GetString("tipografíaLyrics");
-            treeViewConfiguracion.Nodes[2].Nodes[1].Text = Kernel.LocalTexts.GetString("colorsHighlight");
+            treeViewConfiguracion.Nodes[2].Text = "HISTORIAL";
+            treeViewConfiguracion.Nodes[3].Text = Kernel.LocalTexts.GetString("configView");
+            treeViewConfiguracion.Nodes[3].Nodes[0].Text = Kernel.LocalTexts.GetString("tipografíaLyrics");
+            treeViewConfiguracion.Nodes[3].Nodes[1].Text = Kernel.LocalTexts.GetString("colorsHighlight");
         }
         private void LoadLanguageConfig()
         {
-            config = ActiveConfig.Language;
+            ActiveConfig = ActiveConfig.Language;
             radioButtonsIdiomas = new RadioButton[Kernel.NumLanguages];
             PictureBox[] pictureBoxesIdiomas = new PictureBox[Kernel.NumLanguages];
             groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_idioma");
@@ -93,23 +101,23 @@ namespace Cassiopeia.src.Forms
         }
         private void LoadClipboardConfig()
         {
-            config = ActiveConfig.Clipboard;
-            labelClipboardPreview = new Label();
-            labelClipboardHelp = new Label();
+            ActiveConfig = ActiveConfig.Clipboard;
+            labelStringConfigPreview = new Label();
+            labelStringConfigHelp = new Label();
             groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
-            portapapelesConfig = new TextBox();
-            portapapelesConfig.TextChanged += PortapapelesConfig_TextChanged;
-            portapapelesConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
-            Size size = portapapelesConfig.Size; size.Width = 500; portapapelesConfig.Size = size;
-            portapapelesConfig.Font = new Font("Segoe UI", 9);
-            portapapelesConfig.Text = Config.Clipboard;
-            labelClipboardPreview.Location = new Point(portapapelesConfig.Location.X, portapapelesConfig.Location.Y + 30);
-            labelClipboardPreview.AutoSize = true;
-            labelClipboardPreview.Font = portapapelesConfig.Font;
-            labelClipboardHelp.Font = portapapelesConfig.Font;
-            labelClipboardHelp.AutoSize = true;
-            labelClipboardHelp.Location = new Point(labelClipboardPreview.Location.X, labelClipboardPreview.Location.Y + 50);
-            labelClipboardHelp.Text = @"%artist% - Album artist
+            stringConfig = new TextBox();
+            stringConfig.TextChanged += StringConfig_TextChanged;
+            stringConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
+            Size size = stringConfig.Size; size.Width = 500; stringConfig.Size = size;
+            stringConfig.Font = new Font("Segoe UI", 9);
+            stringConfig.Text = Config.Clipboard;
+            labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
+            labelStringConfigPreview.AutoSize = true;
+            labelStringConfigPreview.Font = stringConfig.Font;
+            labelStringConfigHelp.Font = stringConfig.Font;
+            labelStringConfigHelp.AutoSize = true;
+            labelStringConfigHelp.Location = new Point(labelStringConfigPreview.Location.X, labelStringConfigPreview.Location.Y + 50);
+            labelStringConfigHelp.Text = @"%artist% - Album artist
 %title% - Album title
 %year% - Album release year
 %genre% - Album genre
@@ -129,16 +137,67 @@ namespace Cassiopeia.src.Forms
                 AlbumCopyPreview = AlbumRef;
                 Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist);
             }
-            portapapelesConfig.Text = Config.Clipboard;
-            PortapapelesConfig_TextChanged(null, null);
-            groupBoxRaiz.Controls.Add(portapapelesConfig);
-            groupBoxRaiz.Controls.Add(labelClipboardPreview);
-            groupBoxRaiz.Controls.Add(labelClipboardHelp);
+            stringConfig.Text = Config.Clipboard;
+            StringConfig_TextChanged(null, null);
+            groupBoxRaiz.Controls.Add(stringConfig);
+            groupBoxRaiz.Controls.Add(labelStringConfigPreview);
+            groupBoxRaiz.Controls.Add(labelStringConfigHelp);
+        }
+
+        private void LoadHistorialConfig()
+        {
+            ActiveConfig = ActiveConfig.Historial;
+            labelStringConfigPreview = new Label();
+            labelStringConfigHelp = new Label();
+            //groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
+            groupBoxRaiz.Text = "historial";
+            stringConfig = new TextBox();
+            stringConfig.TextChanged += StringConfig_TextChanged;
+            stringConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
+
+            checkBoxHistorialConfig = new CheckBox();
+            checkBoxHistorialConfig.Click += checkBoxHistorialConfig_Click;
+            
+
+            Size size = stringConfig.Size; size.Width = 500; stringConfig.Size = size;
+            stringConfig.Font = new Font("Segoe UI", 9);
+            stringConfig.Text = Config.Clipboard;
+            labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
+            labelStringConfigPreview.AutoSize = true;
+            labelStringConfigPreview.Font = stringConfig.Font;
+            labelStringConfigHelp.Font = stringConfig.Font;
+            labelStringConfigHelp.AutoSize = true;
+            labelStringConfigHelp.Location = new Point(labelStringConfigPreview.Location.X, labelStringConfigPreview.Location.Y + 50);
+            labelStringConfigHelp.Text = @"%artist% - Album artist
+%title% - Album title
+%year% - Album release year
+%genre% - Album genre
+%length_min% - Album duration in minutes
+%length_seconds% - Album length in seconds, formatted as an integer
+%length% - Length of the album, formatted as [HH:]MM:SS. 
+%totaltracks% - Total number of tracks
+%path% - Path of local files, if avaliable";
+            string Preview = Config.Historial;
+            //if (Kernel.Collection.Albums.Count == 0)
+            //    Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
+            //else
+            //{
+            //    //Select a random album from the collection.
+            //    Random random = new Random();
+            //    AlbumData AlbumRef = Kernel.Collection.Albums[random.Next(Kernel.Collection.Albums.Count)];
+            //    AlbumCopyPreview = AlbumRef;
+            //    Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist);
+            //}
+            stringConfig.Text = Config.Clipboard;
+            StringConfig_TextChanged(null, null);
+            groupBoxRaiz.Controls.Add(stringConfig);
+            groupBoxRaiz.Controls.Add(labelStringConfigPreview);
+            groupBoxRaiz.Controls.Add(labelStringConfigHelp);
         }
 
         private void LoadColorConfig()
         {
-            config = ActiveConfig.Colors;
+            ActiveConfig = ActiveConfig.Colors;
             groupBoxRaiz.Text = Kernel.LocalTexts.GetString("colorsHighlight");
             //Create stuff
             btColorBonus = new Button();
@@ -178,7 +237,7 @@ namespace Cassiopeia.src.Forms
         private void LoadTextConfig()
         {
             groupBoxRaiz.Text = Kernel.LocalTexts.GetString("tipografíaLyrics");
-            config = ActiveConfig.TextFont;
+            ActiveConfig = ActiveConfig.TextFont;
             //Create stuff
             btTextLyrics = new Button();
             btTextView = new Button();
@@ -228,7 +287,7 @@ namespace Cassiopeia.src.Forms
                     groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_idioma");
                     break;
                 case ActiveConfig.Clipboard:
-                    Config.Clipboard = portapapelesConfig.Text;
+                    Config.Clipboard = stringConfig.Text;
                     break;
                 case ActiveConfig.Colors:
                     Config.ColorBonus = btColorBonus.BackColor;
@@ -263,6 +322,9 @@ namespace Cassiopeia.src.Forms
                 case "text":
                     LoadTextConfig();
                     break;
+                case "historial":
+                    LoadHistorialConfig();
+                    break;
                 default:
                     groupBoxRaiz.Controls.Add(labelSelect);
                     labelSelect.Show();
@@ -271,25 +333,47 @@ namespace Cassiopeia.src.Forms
             }
         }
 
-        private void PortapapelesConfig_TextChanged(object sender, EventArgs e)
+        private void StringConfig_TextChanged(object sender, EventArgs e)
         {
-            string Preview = portapapelesConfig.Text.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
+            string Preview = stringConfig.Text;
             try
             {
-                Preview = Preview.Replace("%artist%", AlbumCopyPreview.Artist);
-                Preview = Preview.Replace("%title%", AlbumCopyPreview.Title);
-                Preview = Preview.Replace("%year%", AlbumCopyPreview.Year.ToString());
-                Preview = Preview.Replace("%genre%", AlbumCopyPreview.Genre.Name);
-                Preview = Preview.Replace("%length%", AlbumCopyPreview.Length.ToString());
-                Preview = Preview.Replace("%length_seconds%", ((int)AlbumCopyPreview.Length.TotalSeconds).ToString());
-                Preview = Preview.Replace("%length_min%", AlbumCopyPreview.Length.TotalMinutes.ToString());
-                Preview = Preview.Replace("%totaltracks%", AlbumCopyPreview.NumberOfSongs.ToString());
-                Preview = Preview.Replace("%path%", AlbumCopyPreview.SoundFilesPath);
-                labelClipboardPreview.Text = Preview;
+                switch (ActiveConfig)
+                {
+                    case ActiveConfig.Clipboard:
+                        Preview = Preview.Replace("%artist%", AlbumCopyPreview.Artist);
+                        Preview = Preview.Replace("%title%", AlbumCopyPreview.Title);
+                        Preview = Preview.Replace("%year%", AlbumCopyPreview.Year.ToString());
+                        Preview = Preview.Replace("%genre%", AlbumCopyPreview.Genre.Name);
+                        Preview = Preview.Replace("%length%", AlbumCopyPreview.Length.ToString());
+                        Preview = Preview.Replace("%length_seconds%", ((int)AlbumCopyPreview.Length.TotalSeconds).ToString());
+                        Preview = Preview.Replace("%length_min%", AlbumCopyPreview.Length.TotalMinutes.ToString());
+                        Preview = Preview.Replace("%totaltracks%", AlbumCopyPreview.NumberOfSongs.ToString());
+                        Preview = Preview.Replace("%path%", AlbumCopyPreview.SoundFilesPath);
+                        labelStringConfigPreview.Text = Preview;
+                        break;
+                    case ActiveConfig.Historial:
+                        Preview = Preview.Replace("%track_num%", "1");
+                        Preview = Preview.Replace("%artist%", SongPreview.AlbumFrom.Artist);
+                        Preview = Preview.Replace("%title%", SongPreview.Title);
+                        Preview = Preview.Replace("%length%", SongPreview.Length.ToString());
+                        Preview = Preview.Replace("%date%", DateTime.Now.Date.ToString("d"));
+                        Preview = Preview.Replace("%time%", DateTime.Now.ToString("HH:mm"));
+                        break;
+                    default:
+                        break;
+                }
             }
-            catch (NullReferenceException)
+            catch (Exception)
             {
-                labelClipboardPreview.Text = Preview;
+                labelStringConfigPreview.Text = Preview;
+
+            }
+            finally
+            {
+                labelStringConfigPreview.Text = Preview;
+
+
             }
         }
         //Events
@@ -305,12 +389,12 @@ namespace Cassiopeia.src.Forms
 
         private void buttonAplicar_Click(object sender, EventArgs e)
         {
-            Aplicar(config);
+            Aplicar(ActiveConfig);
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            Aplicar(config);
+            Aplicar(ActiveConfig);
             Close();
         }
         private void buttonColor_Click(object sender, EventArgs e)
@@ -336,6 +420,15 @@ namespace Cassiopeia.src.Forms
             fontDialog.ShowDialog();
 
             btSender.Font = fontDialog.Font;
+        }
+
+        private void checkBoxHistorialConfig_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void treeViewConfiguracion_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
         }
     }
 }
