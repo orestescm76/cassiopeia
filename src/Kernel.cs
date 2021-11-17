@@ -775,5 +775,9 @@ namespace Cassiopeia
         {
             MainForm.Activate();
         }
+        public static void Warn(string reason)
+        {
+            MessageBox.Show(reason, "Warn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
     }
 }

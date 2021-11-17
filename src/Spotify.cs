@@ -22,10 +22,11 @@ namespace Cassiopeia
         private AuthorizationCodeRefreshResponse TokenRefresh;
         public DeviceResponse Device;
         string TokenRefreshCode;
+        private PrivateUser User;
 
-        public Spotify(bool v)
+        public Spotify(bool linked)
         {
-            if(!v)
+            if (!linked)
                 Start();
             else
                 StartStreamMode();
@@ -45,6 +46,7 @@ namespace Cassiopeia
         private void Start()
         {
             Log.Instance.PrintMessage("Trying to connect to Spotify...", MessageType.Info, "Spotify.Start()");
+            User = null;
             Stopwatch crono = Stopwatch.StartNew();
             Kernel.InternetAvaliable(false);
             try
@@ -83,13 +85,16 @@ namespace Cassiopeia
                 var server = new EmbedIOAuthServer(new Uri("http://localhost:4002/"), 4002);
                 server.AuthorizationCodeReceived += async (sender, response) =>
                 {
-                    server.Stop();
+                    await server.Stop();
                     Token = await new OAuthClient(SpotifyConfig).RequestToken(new AuthorizationCodeTokenRequest(PublicKey, PrivateKey, response.Code, server.BaseUri));
                     SpotifyClient = new SpotifyClient(Token.AccessToken);
 
                     AccountReady = true;
                     AccountLinked = true;
+                    
                     Config.LinkedWithSpotify = true;
+                    User = SpotifyClient.UserProfile.Current().Result;
+                    Cassiopeia.src.Forms.Player.Instancia.SpotifyEncendido();
                     Kernel.ActivarReproduccionSpotify();
                     Kernel.InternetAvaliable(true);
                     Kernel.BringMainFormFront();
@@ -97,11 +102,13 @@ namespace Cassiopeia
                     Log.Instance.PrintMessage("Connected as " + SpotifyClient.UserProfile.Current().Result.Email, MessageType.Correct, crono, TimeType.Milliseconds);
                     Kernel.InitTask();
                     crono.Stop();
+                    //DEBUG CALL
+                    //GetUserAlbums();
                 };
                 server.Start();
                 var login = new LoginRequest(server.BaseUri, PublicKey, LoginRequest.ResponseType.Code)
                 {
-                    Scope = new[] { Scopes.UserReadEmail, Scopes.UserReadPrivate, Scopes.Streaming, Scopes.PlaylistReadPrivate, Scopes.UserReadPlaybackState }
+                    Scope = new[] { Scopes.UserReadEmail, Scopes.UserReadPrivate, Scopes.Streaming, Scopes.PlaylistReadPrivate, Scopes.UserReadPlaybackState, Scopes.UserLibraryRead }
                 };
                 BrowserUtil.Open(login.ToUri());
             }
@@ -355,6 +362,53 @@ namespace Cassiopeia
                     return track.Id;
             }
             return string.Empty;
+        }
+
+        public async void GetUserAlbums()
+        {
+            if (User is not null)
+            {
+                List<FullAlbum> albums = new List<FullAlbum>();
+                try
+                {
+                    //Get albums
+                    var savedAlbums = await SpotifyClient.Library.GetAlbums();
+                    int point = 0;
+                    int limit = (int)savedAlbums.Total;
+                    if (limit > 100)
+                    {
+                        Kernel.Warn("Careful");
+                    }
+                    do
+                    {
+                        //Add the albums
+                        foreach (var a in savedAlbums.Items)
+                        {
+                            albums.Add(a.Album);
+                        }
+                        point += 20;
+                        LibraryAlbumsRequest request = new LibraryAlbumsRequest()
+                        {
+                            Offset = point
+                        };
+                        savedAlbums = SpotifyClient.Library.GetAlbums(request).Result;
+
+                    } while (point < limit);
+                    foreach (var a in albums)
+                    {
+                        Log.Instance.PrintMessage("Processing " + a.Name, MessageType.Info);
+                        if (a is not null)
+                            ProcessAlbum(a);
+                    }
+                    Kernel.ReloadView();
+                }
+                catch (APIException)
+                {
+                    Log.Instance.PrintMessage("Failed to save user's library", MessageType.Error);
+                }
+
+            }
+
         }
         #region Spotify Commands
         public void SetVolume(int vol)

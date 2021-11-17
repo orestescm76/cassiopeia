@@ -77,7 +77,7 @@ namespace Cassiopeia.src.Forms
             trackBarVolumen.Value = 100;
             duracionView = new ToolTip();
             buttonAgregar.Hide();
-            if (!Kernel.SpotifyReady)
+            if (!Kernel.Spotify.AccountReady)
                 buttonSpotify.Enabled = false;
             Icon = Resources.iconoReproductor;
             if (Config.HistoryEnabled)
