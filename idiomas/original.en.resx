@@ -740,4 +740,10 @@
   <data name="EP" xml:space="preserve">
     <value>EP (Extended play)</value>
   </data>
+  <data name="importSpotify" xml:space="preserve">
+    <value>Import album colection</value>
+  </data>
+  <data name="importSpotifyWarning" xml:space="preserve">
+    <value>There are a lot of albums. If you choose to download the album covers, that could take a couple of minutes. Download them?</value>
+  </data>
 </root>

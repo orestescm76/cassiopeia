@@ -77,13 +77,13 @@ namespace Cassiopeia.src.Forms
             trackBarVolumen.Value = 100;
             duracionView = new ToolTip();
             buttonAgregar.Hide();
-            if (!Kernel.Spotify.AccountReady)
+            if (Kernel.Spotify is not null && !Kernel.Spotify.AccountReady)
                 buttonSpotify.Enabled = false;
             Icon = Resources.iconoReproductor;
             if (Config.HistoryEnabled)
             {
                 DateTime now = DateTime.Now;
-                History = new FileInfo("Musical log " + now.Day + "-" + now.Month + "-" + now.Year + "-" + now.Hour + "." + now.Minute + ".txt");
+                History = new FileInfo("Musical log " + now.Day + "-" + now.Month + "-" + now.Year + ".txt");
                 SongCount = 1;
             }
             if (Kernel.MetadataStream) //inicia el programa con solo la imperesión

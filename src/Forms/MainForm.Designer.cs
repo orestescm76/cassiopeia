@@ -41,9 +41,6 @@
             this.digitalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirCDMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cargarDiscosLegacyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.buscarEnSpotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vincularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.guardarcomo = new System.Windows.Forms.ToolStripMenuItem();
             this.guardarCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,6 +75,10 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playSpotifyAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.spotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchSpotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.linkSpotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importSpotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -89,6 +90,7 @@
             this.archivoMenuItem1,
             this.adminMenu,
             this.verToolStripMenuItem,
+            this.spotifyStripMenuItem,
             this.seleccionToolStripMenuItem,
             this.reproductorToolStripMenuItem,
             this.acercaDeToolStripMenuItem,
@@ -109,9 +111,6 @@
             this.abrirToolStripMenuItem,
             this.abrirCDMenuItem,
             this.cargarDiscosLegacyToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.buscarEnSpotifyToolStripMenuItem,
-            this.vincularToolStripMenuItem,
             this.toolStripSeparator3,
             this.guardarcomo,
             this.guardarCSVToolStripMenuItem,
@@ -188,25 +187,6 @@
             this.cargarDiscosLegacyToolStripMenuItem.Text = "cargarDiscosLegacy";
             this.cargarDiscosLegacyToolStripMenuItem.Click += new System.EventHandler(this.cargarDiscosLegacyToolStripMenuItem_Click);
             // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(286, 6);
-            // 
-            // buscarEnSpotifyToolStripMenuItem
-            // 
-            this.buscarEnSpotifyToolStripMenuItem.Name = "buscarEnSpotifyToolStripMenuItem";
-            this.buscarEnSpotifyToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
-            this.buscarEnSpotifyToolStripMenuItem.Text = "Buscar en Spotify";
-            this.buscarEnSpotifyToolStripMenuItem.Click += new System.EventHandler(this.buscarEnSpotifyToolStripMenuItem_Click);
-            // 
-            // vincularToolStripMenuItem
-            // 
-            this.vincularToolStripMenuItem.Name = "vincularToolStripMenuItem";
-            this.vincularToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
-            this.vincularToolStripMenuItem.Text = "vincular";
-            this.vincularToolStripMenuItem.Click += new System.EventHandler(this.vincularToolStripMenuItem_Click);
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -254,21 +234,21 @@
             // generarAlbumToolStripMenuItem
             // 
             this.generarAlbumToolStripMenuItem.Name = "generarAlbumToolStripMenuItem";
-            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.generarAlbumToolStripMenuItem.Text = "generarAlbum";
             this.generarAlbumToolStripMenuItem.Click += new System.EventHandler(this.generarAlbumToolStripMenuItem_Click);
             // 
             // verLogToolStripMenuItem
             // 
             this.verLogToolStripMenuItem.Name = "verLogToolStripMenuItem";
-            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.verLogToolStripMenuItem.Text = "verLog";
             this.verLogToolStripMenuItem.Click += new System.EventHandler(this.verLogToolStripMenuItem_Click);
             // 
             // configToolStripMenuItem
             // 
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
-            this.configToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.configToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.configToolStripMenuItem.Text = "config";
             this.configToolStripMenuItem.Click += new System.EventHandler(this.configToolStripMenuItem_Click);
             // 
@@ -288,7 +268,7 @@
             this.digitalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.digitalToolStripMenuItem.Name = "digitalToolStripMenuItem";
             this.digitalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.digitalToolStripMenuItem.Text = "digital";
             this.digitalToolStripMenuItem.Click += new System.EventHandler(this.digitalToolStripMenuItem_Click);
             // 
@@ -297,7 +277,7 @@
             this.cdToolStripMenuItem.CheckOnClick = true;
             this.cdToolStripMenuItem.Name = "cdToolStripMenuItem";
             this.cdToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.cdToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.cdToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cdToolStripMenuItem.Text = "CD";
             this.cdToolStripMenuItem.Click += new System.EventHandler(this.cdToolStripMenuItem_Click);
             // 
@@ -344,7 +324,7 @@
             // 
             this.testToolStripMenuItem1.CheckOnClick = true;
             this.testToolStripMenuItem1.Name = "testToolStripMenuItem1";
-            this.testToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
+            this.testToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.testToolStripMenuItem1.Text = "testOscuro";
             this.testToolStripMenuItem1.Click += new System.EventHandler(this.testToolStripMenuItem1_Click);
             // 
@@ -472,6 +452,37 @@
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
             // 
+            // spotifyStripMenuItem
+            // 
+            this.spotifyStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.searchSpotifyStripMenuItem,
+            this.linkSpotifyStripMenuItem,
+            this.importSpotifyStripMenuItem});
+            this.spotifyStripMenuItem.Name = "spotifyStripMenuItem";
+            this.spotifyStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.spotifyStripMenuItem.Text = "Spotify";
+            // 
+            // searchSpotifyStripMenuItem
+            // 
+            this.searchSpotifyStripMenuItem.Name = "searchSpotifyStripMenuItem";
+            this.searchSpotifyStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.searchSpotifyStripMenuItem.Text = "searchSpotifyStripMenuItem";
+            this.searchSpotifyStripMenuItem.Click += new System.EventHandler(this.searchSpotifyStripMenuItem_Click);
+            // 
+            // linkSpotifyStripMenuItem
+            // 
+            this.linkSpotifyStripMenuItem.Name = "linkSpotifyStripMenuItem";
+            this.linkSpotifyStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.linkSpotifyStripMenuItem.Text = "linkSpotifyStripMenuItem";
+            this.linkSpotifyStripMenuItem.Click += new System.EventHandler(this.linkSpotifyStripMenuItem_Click);
+            // 
+            // importSpotifyStripMenuItem
+            // 
+            this.importSpotifyStripMenuItem.Name = "importSpotifyStripMenuItem";
+            this.importSpotifyStripMenuItem.Size = new System.Drawing.Size(226, 22);
+            this.importSpotifyStripMenuItem.Text = "importSpotifyStripMenuItem";
+            this.importSpotifyStripMenuItem.Click += new System.EventHandler(this.importSpotifyStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -508,7 +519,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem abrirToolStripMenuItem;
         private System.Windows.Forms.ListView vistaAlbumes;
-        private System.Windows.Forms.ToolStripMenuItem buscarEnSpotifyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem adminMenu;
         private System.Windows.Forms.ToolStripMenuItem generarAlbumToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem seleccionToolStripMenuItem;
@@ -535,13 +545,11 @@
         private System.Windows.Forms.ToolStripMenuItem cargarDiscosLegacyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CargarCDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem vincularToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem playSpotifyAlbumToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem guardarCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproductorToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem abrirCDMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem verLyricsToolStripMenuItem;
@@ -549,5 +557,9 @@
         private System.Windows.Forms.ToolStripMenuItem nuevoAlbumDesdeCarpetaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelViewInfo;
+        private System.Windows.Forms.ToolStripMenuItem spotifyStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem searchSpotifyStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem linkSpotifyStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importSpotifyStripMenuItem;
     }
 }

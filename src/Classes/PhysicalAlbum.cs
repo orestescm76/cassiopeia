@@ -48,7 +48,7 @@ namespace Cassiopeia
         }
         public void InstallAlbum()
         {
-            AlbumData = Kernel.Collection.GetAlbum(Artist + "_" + Title);
+            AlbumData = Kernel.Collection.GetAlbum(Artist + "/**/" + Title);
         }
     }
 }

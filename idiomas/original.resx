@@ -701,4 +701,10 @@
   <data name="EP" xml:space="preserve">
     <value></value>
   </data>
+  <data name="importSpotify" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="importSpotifyWarning" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

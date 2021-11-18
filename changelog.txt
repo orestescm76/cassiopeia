@@ -1,6 +1,9 @@
 CHANGELOG
 
-2.0.216.0  - Added the ability to import a Spotify album collection.
+2.0.216.0  - Added the ability to import a Spotify album collection. It's quite slow.
+		   - If an album has a colon in the title, it's removed
+		   - Moved the Spotify options to another drop down list
+		   -
 
 2.0.215.0  - History. Have a text file where you can store your listening history.
 		   - Fix for playing mark in playlist ui. (still something is not fixed)

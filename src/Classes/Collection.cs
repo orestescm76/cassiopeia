@@ -34,15 +34,15 @@ namespace Cassiopeia
         {
             foreach(AlbumData album in Albums)
             {
-                if (album.Equals(referenceAlbum))
+                if (album == referenceAlbum)
                     return true;
             }
             return false;
         }
 
-        public AlbumData GetAlbum(string s) //s is equal to Black Sabbath_Paranoid
+        public AlbumData GetAlbum(string s) //s is equal to Black Sabbath/**/Paranoid
         {
-            String[] busqueda = s.Split('_');
+            String[] busqueda = s.Split("/**/");
 
             foreach (AlbumData album in Albums)
             {
@@ -59,7 +59,7 @@ namespace Cassiopeia
         public void GetAlbum(string s, out CompactDisc cd)
         {
             cd = null;
-            String[] busqueda = s.Split('_');
+            String[] busqueda = s.Split("/**/");
             foreach (CompactDisc cdd in CDS)
             {
                 if (cdd.AlbumData.Artist == busqueda[0] && cdd.AlbumData.Title == busqueda[1])

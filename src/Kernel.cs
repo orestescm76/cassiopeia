@@ -272,7 +272,7 @@ namespace Cassiopeia
                 {
                     Spotify = new Spotify(true);
                     SpotifyReady = true;
-                    MainForm.DesactivarVinculacion();
+                    MainForm.RemoveLink();
                 }
 
             }
@@ -775,9 +775,9 @@ namespace Cassiopeia
         {
             MainForm.Activate();
         }
-        public static void Warn(string reason)
+        public static DialogResult Warn(string reason)
         {
-            MessageBox.Show(reason, "Warn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return MessageBox.Show(reason, "Warn", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
         }
     }
 }

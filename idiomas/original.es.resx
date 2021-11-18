@@ -737,4 +737,10 @@
   <data name="EP" xml:space="preserve">
     <value>EP (Reproducción extendida)</value>
   </data>
+  <data name="importSpotify" xml:space="preserve">
+    <value>Importar colección de albums</value>
+  </data>
+  <data name="importSpotifyWarning" xml:space="preserve">
+    <value>Hay muchos discos. Si descarga las portadas, podría tardar un par de minutos. ¿Desea descargar las portadas?</value>
+  </data>
 </root>

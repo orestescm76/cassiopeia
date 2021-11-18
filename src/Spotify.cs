@@ -6,6 +6,8 @@ using System.Net.Http;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 namespace Cassiopeia
 {
     class Spotify
@@ -175,11 +177,12 @@ namespace Cassiopeia
         {
             Log.Instance.PrintMessage("Inserting album with URI " + uri, MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
+            bool res;
             //FullAlbum sa = SpotifyClient.GetAlbum(uri);
             try
             {
                 FullAlbum album = SpotifyClient.Albums.Get(uri).Result;
-                ProcessAlbum(album);
+                res = ProcessAlbum(album);
 
             }
             catch (APIException e)
@@ -192,43 +195,49 @@ namespace Cassiopeia
             crono.Stop();
             Log.Instance.PrintMessage("Añadido", MessageType.Correct, crono, TimeType.Milliseconds);
             Kernel.ReloadView();
-            return true;
+            return res;
         }
-        public void ProcessAlbum(FullAlbum album)
+        public bool ProcessAlbum(FullAlbum album, bool downloadCover = true)
         {
             String[] parseFecha = album.ReleaseDate.Split('-');
             string cover = album.Name + "_" + album.Artists[0].Name + ".jpg";
+            //Remove Windows forbidden characters so we can save the album cover.
             foreach (char ch in WindowsForbiddenChars)
             {
                 if (cover.Contains(ch.ToString()))
                     cover = cover.Replace(ch.ToString(), string.Empty);
             }
-            using (System.Net.WebClient webClient = new System.Net.WebClient())
+            if (downloadCover)
             {
-                try
+                using (System.Net.WebClient webClient = new System.Net.WebClient())
                 {
-                    System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
-                    webClient.DownloadFile(new Uri(album.Images[0].Url), Environment.CurrentDirectory + "/covers/" + cover);
-                }
-                catch (System.Net.WebException e)
-                {
-                    Log.Instance.PrintMessage("Exception captured System.Net.WebException", MessageType.Warning);
-                    System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                    cover = "";
+                    try
+                    {
+                        System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
+                        webClient.DownloadFile(new Uri(album.Images[0].Url), Environment.CurrentDirectory + "/covers/" + cover);
+                    }
+                    catch (System.Net.WebException e)
+                    {
+                        Log.Instance.PrintMessage("Exception captured System.Net.WebException", MessageType.Warning);
+                        System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                        cover = "";
+                    }
                 }
             }
-            AlbumData a = new AlbumData(album.Name, album.Artists[0].Name, Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + cover); //creamos A
+            else
+                cover = "";
+            AlbumData a = new AlbumData(album.Name.Replace(";",""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]));//, Environment.CurrentDirectory + "/covers/" + cover); //creamos A
             if (Kernel.Collection.IsInCollection(a))
             {
                 Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
-                return;
+                return false;
             }
             a.IdSpotify = album.Id;
             List<Song> songs = new List<Song>(a.NumberOfSongs);
             List<SimpleTrack> albumSongs = album.Tracks.Items;
             for (int i = 0; i < albumSongs.Count; i++)
             {
-                songs.Add(new Song(albumSongs[i].Name, new TimeSpan(0, 0, 0, 0, albumSongs[i].DurationMs), ref a));
+                songs.Add(new Song(albumSongs[i].Name.Replace(";",""), new TimeSpan(0, 0, 0, 0, albumSongs[i].DurationMs), ref a));
                 if (songs[i].Length.Milliseconds > 500)
                     songs[i].Length += new TimeSpan(0, 0, 0, 0, 1000 - songs[i].Length.Milliseconds);
                 else
@@ -237,6 +246,7 @@ namespace Cassiopeia
             a.Songs = songs;
             a.CanBeRemoved = true;
             Kernel.Collection.AddAlbum(ref a);
+            return true;
         }
         public void ProcessAlbum(SimpleAlbum album)
         {
@@ -375,16 +385,27 @@ namespace Cassiopeia
                     var savedAlbums = await SpotifyClient.Library.GetAlbums();
                     int point = 0;
                     int limit = (int)savedAlbums.Total;
+                    bool covers = true;
                     if (limit > 100)
                     {
-                        Kernel.Warn("Careful");
+                        DialogResult dr = Kernel.Warn(Kernel.LocalTexts.GetString("importSpotifyWarning"));
+                        if (dr == DialogResult.Cancel)
+                            return;
+                        if (dr == DialogResult.No)
+                            covers = false;
                     }
+                    Cassiopeia.src.Forms.LoadBar loadBar = new src.Forms.LoadBar(limit, "Downloading albums");
+                    Log.Instance.PrintMessage("Downloading and adding albums", MessageType.Info);
+                    Stopwatch crono = Stopwatch.StartNew();
+                    loadBar.Show();
                     do
                     {
                         //Add the albums
                         foreach (var a in savedAlbums.Items)
                         {
-                            albums.Add(a.Album);
+                            if(a is not null)
+                                ProcessAlbum(a.Album, covers);
+                            loadBar.Progreso();
                         }
                         point += 20;
                         LibraryAlbumsRequest request = new LibraryAlbumsRequest()
@@ -392,14 +413,11 @@ namespace Cassiopeia
                             Offset = point
                         };
                         savedAlbums = SpotifyClient.Library.GetAlbums(request).Result;
-
                     } while (point < limit);
-                    foreach (var a in albums)
-                    {
-                        Log.Instance.PrintMessage("Processing " + a.Name, MessageType.Info);
-                        if (a is not null)
-                            ProcessAlbum(a);
-                    }
+                    crono.Stop();
+                    loadBar.Dispose();
+                    Log.Instance.PrintMessage("Done!", MessageType.Correct, crono, TimeType.Milliseconds);
+                    albums.Clear();
                     Kernel.ReloadView();
                 }
                 catch (APIException)
@@ -423,7 +441,6 @@ namespace Cassiopeia
 
         public void SeekTo(long pos)
         {
-            //BROKEN - LIBRARY'S FAULT
             SpotifyClient.Player.SeekTo(new PlayerSeekToRequest(pos));
         }
         public CurrentlyPlayingContext GetPlayingContext()
