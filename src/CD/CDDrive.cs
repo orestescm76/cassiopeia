@@ -34,7 +34,7 @@ namespace Cassiopeia.CD
                 IntPtr.Zero);
             if(handle.IsInvalid)
             {
-                Console.WriteLine("No se puede abrir el CD");
+                Log.Instance.PrintMessage("Couldn't read the CD drive. Handle is invalid", MessageType.Error);
                 return null;
             }
             return new CDDrive(handle);

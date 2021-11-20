@@ -1,6 +1,6 @@
 ﻿namespace Cassiopeia.src.Forms
 {
-    partial class VisorLog
+    partial class LogViewer
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VisorLog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogViewer));
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 

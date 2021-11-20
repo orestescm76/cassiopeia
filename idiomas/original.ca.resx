@@ -517,4 +517,7 @@
   <data name="error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="compartirLocal1" xml:space="preserve">
+    <value>Estic escoltant</value>
+  </data>
 </root>

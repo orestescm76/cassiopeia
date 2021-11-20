@@ -1,6 +1,6 @@
 ﻿namespace Cassiopeia
 {
-    partial class visualizarAlbum
+    partial class AlbumViewer
     {
         /// <summary>
         /// Required designer variable.
@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(visualizarAlbum));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlbumViewer));
             this.vistaCaratula = new System.Windows.Forms.PictureBox();
             this.clickDerechoCover = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copiarImagenStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.vistaCanciones = new System.Windows.Forms.ListView();
-            this.num = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.titulo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.duracion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.num = new System.Windows.Forms.ColumnHeader();
+            this.titulo = new System.Windows.Forms.ColumnHeader();
+            this.duracion = new System.Windows.Forms.ColumnHeader();
             this.clickDerechoConfig = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setBonusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reproducirspotifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,7 +44,7 @@
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.defusionarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.infoAlbum = new System.Windows.Forms.Label();
+            this.labelInfoAlbum = new System.Windows.Forms.Label();
             this.okDoomerButton = new System.Windows.Forms.Button();
             this.editarButton = new System.Windows.Forms.Button();
             this.barraAbajo = new System.Windows.Forms.StatusStrip();
@@ -62,9 +62,10 @@
             // 
             this.vistaCaratula.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.vistaCaratula.ContextMenuStrip = this.clickDerechoCover;
-            this.vistaCaratula.Location = new System.Drawing.Point(442, 8);
+            this.vistaCaratula.Location = new System.Drawing.Point(516, 9);
+            this.vistaCaratula.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.vistaCaratula.Name = "vistaCaratula";
-            this.vistaCaratula.Size = new System.Drawing.Size(385, 385);
+            this.vistaCaratula.Size = new System.Drawing.Size(448, 448);
             this.vistaCaratula.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.vistaCaratula.TabIndex = 0;
             this.vistaCaratula.TabStop = false;
@@ -91,13 +92,15 @@
             this.titulo,
             this.duracion});
             this.vistaCanciones.ContextMenuStrip = this.clickDerechoConfig;
-            this.vistaCanciones.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.vistaCanciones.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.vistaCanciones.FullRowSelect = true;
             this.vistaCanciones.HideSelection = false;
-            this.vistaCanciones.Location = new System.Drawing.Point(12, 207);
+            this.vistaCanciones.Location = new System.Drawing.Point(13, 238);
+            this.vistaCanciones.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.vistaCanciones.Name = "vistaCanciones";
-            this.vistaCanciones.Size = new System.Drawing.Size(424, 186);
+            this.vistaCanciones.Size = new System.Drawing.Size(494, 214);
             this.vistaCanciones.TabIndex = 1;
+            this.vistaCanciones.TabStop = false;
             this.vistaCanciones.UseCompatibleStateImageBehavior = false;
             this.vistaCanciones.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ordenarColumnas);
             this.vistaCanciones.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.vistaCanciones_ItemDrag);
@@ -171,26 +174,28 @@
             this.defusionarToolStripMenuItem.Text = "defusionar";
             this.defusionarToolStripMenuItem.Click += new System.EventHandler(this.defusionarToolStripMenuItem_Click);
             // 
-            // infoAlbum
+            // labelInfoAlbum
             // 
-            this.infoAlbum.AutoSize = true;
-            this.infoAlbum.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.infoAlbum.Location = new System.Drawing.Point(8, 8);
-            this.infoAlbum.Margin = new System.Windows.Forms.Padding(5);
-            this.infoAlbum.Name = "infoAlbum";
-            this.infoAlbum.Size = new System.Drawing.Size(191, 171);
-            this.infoAlbum.TabIndex = 2;
-            this.infoAlbum.Text = "Artista: test\r\nTitulo: test\r\nAño: 2020\r\nDuración: 01:02:03 (00:04:05)\r\nGénero: Re" +
+            this.labelInfoAlbum.AutoSize = true;
+            this.labelInfoAlbum.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelInfoAlbum.Location = new System.Drawing.Point(9, 9);
+            this.labelInfoAlbum.Margin = new System.Windows.Forms.Padding(6);
+            this.labelInfoAlbum.Name = "labelInfoAlbum";
+            this.labelInfoAlbum.Size = new System.Drawing.Size(191, 171);
+            this.labelInfoAlbum.TabIndex = 2;
+            this.labelInfoAlbum.Text = "Artista: test\r\nTitulo: test\r\nAño: 2020\r\nDuración: 01:02:03 (00:04:05)\r\nGénero: Re" +
     "lleno\r\nFormato: Jewel Case\r\nAño publicación: 2020\r\nPaís: Unión Europea\r\nEstado e" +
     "xterior: M (Nuevo)\r\n";
-            this.infoAlbum.Click += new System.EventHandler(this.infoAlbum_Click);
+            this.labelInfoAlbum.Click += new System.EventHandler(this.infoAlbum_Click);
             // 
             // okDoomerButton
             // 
-            this.okDoomerButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.okDoomerButton.Location = new System.Drawing.Point(341, 403);
+            this.okDoomerButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.okDoomerButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.okDoomerButton.Location = new System.Drawing.Point(398, 469);
+            this.okDoomerButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.okDoomerButton.Name = "okDoomerButton";
-            this.okDoomerButton.Size = new System.Drawing.Size(177, 31);
+            this.okDoomerButton.Size = new System.Drawing.Size(206, 36);
             this.okDoomerButton.TabIndex = 3;
             this.okDoomerButton.Text = "button1";
             this.okDoomerButton.UseVisualStyleBackColor = true;
@@ -198,10 +203,12 @@
             // 
             // editarButton
             // 
-            this.editarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.editarButton.Location = new System.Drawing.Point(732, 403);
+            this.editarButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.editarButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.editarButton.Location = new System.Drawing.Point(854, 469);
+            this.editarButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.editarButton.Name = "editarButton";
-            this.editarButton.Size = new System.Drawing.Size(95, 31);
+            this.editarButton.Size = new System.Drawing.Size(111, 36);
             this.editarButton.TabIndex = 3;
             this.editarButton.Text = "editar";
             this.editarButton.UseVisualStyleBackColor = true;
@@ -211,9 +218,10 @@
             // 
             this.barraAbajo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.duracionSeleccionada});
-            this.barraAbajo.Location = new System.Drawing.Point(0, 442);
+            this.barraAbajo.Location = new System.Drawing.Point(0, 517);
             this.barraAbajo.Name = "barraAbajo";
-            this.barraAbajo.Size = new System.Drawing.Size(833, 22);
+            this.barraAbajo.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.barraAbajo.Size = new System.Drawing.Size(972, 22);
             this.barraAbajo.TabIndex = 4;
             this.barraAbajo.Text = "statusStrip1";
             // 
@@ -225,9 +233,11 @@
             // 
             // buttonAnotaciones
             // 
-            this.buttonAnotaciones.Location = new System.Drawing.Point(12, 403);
+            this.buttonAnotaciones.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonAnotaciones.Location = new System.Drawing.Point(14, 469);
+            this.buttonAnotaciones.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonAnotaciones.Name = "buttonAnotaciones";
-            this.buttonAnotaciones.Size = new System.Drawing.Size(129, 31);
+            this.buttonAnotaciones.Size = new System.Drawing.Size(150, 36);
             this.buttonAnotaciones.TabIndex = 5;
             this.buttonAnotaciones.Text = "button1";
             this.buttonAnotaciones.UseVisualStyleBackColor = true;
@@ -235,10 +245,11 @@
             // 
             // labelEstadoDisco
             // 
+            this.labelEstadoDisco.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelEstadoDisco.AutoSize = true;
-            this.labelEstadoDisco.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.labelEstadoDisco.Location = new System.Drawing.Point(8, 180);
-            this.labelEstadoDisco.Margin = new System.Windows.Forms.Padding(5);
+            this.labelEstadoDisco.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelEstadoDisco.Location = new System.Drawing.Point(9, 210);
+            this.labelEstadoDisco.Margin = new System.Windows.Forms.Padding(6);
             this.labelEstadoDisco.Name = "labelEstadoDisco";
             this.labelEstadoDisco.Size = new System.Drawing.Size(223, 19);
             this.labelEstadoDisco.TabIndex = 6;
@@ -247,9 +258,11 @@
             // 
             // buttonPATH
             // 
-            this.buttonPATH.Location = new System.Drawing.Point(147, 403);
+            this.buttonPATH.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonPATH.Location = new System.Drawing.Point(172, 469);
+            this.buttonPATH.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonPATH.Name = "buttonPATH";
-            this.buttonPATH.Size = new System.Drawing.Size(131, 31);
+            this.buttonPATH.Size = new System.Drawing.Size(153, 36);
             this.buttonPATH.TabIndex = 7;
             this.buttonPATH.Text = "calcularPATHS";
             this.buttonPATH.UseVisualStyleBackColor = true;
@@ -258,9 +271,9 @@
             // visualizarAlbum
             // 
             this.AcceptButton = this.okDoomerButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(833, 464);
+            this.ClientSize = new System.Drawing.Size(972, 539);
             this.Controls.Add(this.buttonPATH);
             this.Controls.Add(this.vistaCaratula);
             this.Controls.Add(this.labelEstadoDisco);
@@ -269,15 +282,17 @@
             this.Controls.Add(this.editarButton);
             this.Controls.Add(this.okDoomerButton);
             this.Controls.Add(this.vistaCanciones);
-            this.Controls.Add(this.infoAlbum);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Controls.Add(this.labelInfoAlbum);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(988, 578);
             this.Name = "visualizarAlbum";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "visualizarAlbum";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.visualizarAlbum_KeyDown);
+            this.Resize += new System.EventHandler(this.visualizarAlbum_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.vistaCaratula)).EndInit();
             this.clickDerechoCover.ResumeLayout(false);
             this.clickDerechoConfig.ResumeLayout(false);
@@ -292,7 +307,7 @@
 
         private System.Windows.Forms.PictureBox vistaCaratula;
         private System.Windows.Forms.ListView vistaCanciones;
-        private System.Windows.Forms.Label infoAlbum;
+        private System.Windows.Forms.Label labelInfoAlbum;
         private System.Windows.Forms.Button okDoomerButton;
         private System.Windows.Forms.Button editarButton;
         private System.Windows.Forms.ColumnHeader num;

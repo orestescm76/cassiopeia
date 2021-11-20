@@ -1,6 +1,6 @@
 ﻿namespace Cassiopeia.src.Forms
 {
-    partial class VisorLyrics
+    partial class LyricsViewer
     {
         /// <summary>
         /// Required designer variable.

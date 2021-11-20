@@ -680,4 +680,31 @@
   <data name="error" xml:space="preserve">
     <value></value>
   </data>
+  <data name="creando" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="tipoAlbum" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="estudio" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="live" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="compilacion" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="sencillo" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EP" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="importSpotify" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="importSpotifyWarning" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

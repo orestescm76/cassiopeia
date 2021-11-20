@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using CSCore.CoreAudioAPI;
 using System.Drawing;
 using SpotifyAPI.Web;
-using SpotifyAPI.Web.Models;
 using System.IO;
 using System.ComponentModel;
 using System.Threading;
@@ -20,7 +19,7 @@ namespace Cassiopeia.src.Forms
         Paused,
         Stop
     }
-    public partial class Reproductor : Form
+    public partial class Player : Form
     {
         public Playlist Playlist { get; set; }
         private readonly PlayerKernel nucleo = new PlayerKernel();
@@ -33,37 +32,39 @@ namespace Cassiopeia.src.Forms
         TimeSpan dur;
         TimeSpan pos;
         bool SpotifySync;
-        SpotifyWebAPI _spotify;
-        FullTrack cancionReproduciendo;
+        FullTrack SpotifyPlayingSong;
         private BackgroundWorker backgroundWorker;
         public int ListaReproduccionPuntero { get; set; }
         bool SpotifyListo = false;
         bool EsPremium = false;
         DirectoryInfo directorioCanciones;
-        PrivateProfile user;
+        PrivateUser user;
         private Log Log = Log.Instance;
         private float Volumen;
         private PlaylistIU lrui;
         private ToolTip duracionView;
-        private bool GuardarHistorial;
-        private FileInfo Historial;
-        private uint NumCancion;
+        private FileInfo History;
         string Artist, Title = null;
         private bool foobar2000 = true;
         Process foobar2kInstance = null;
         string SpotifyID = null;
         bool Reproduciendo = false;
         bool ShuffleState = false;
+        string PreviousSpotifyID = "";
+        bool VolumeHold = false, PositonHold = false, ShuffleHold = false;
+        private uint SongCount = 1;
+        private Song NowPlaying;
+        private AlbumData NowPlayingAlbum;
         Random Random { get; }
         public bool ModoCD { get; private set; }
-        private static Reproductor instance = null;
-        public static Reproductor Instancia { get => instance; }
+        private static Player instance = null;
+        public static Player Instancia { get => instance; }
         public static void Init()
         {
-            instance = new Reproductor();
+            instance = new Player();
         }
 
-        public Reproductor()
+        public Player()
         {
             InitializeComponent();
             SetPlayerButtons(false);
@@ -76,24 +77,32 @@ namespace Cassiopeia.src.Forms
             trackBarVolumen.Value = 100;
             duracionView = new ToolTip();
             buttonAgregar.Hide();
-            if (!Kernel.SpotifyEnabled)
+            if (Kernel.Spotify is not null && !Kernel.Spotify.AccountReady)
                 buttonSpotify.Enabled = false;
             Icon = Resources.iconoReproductor;
-            GuardarHistorial = false;
-            if (GuardarHistorial) //sin uso
+            if (Config.HistoryEnabled)
             {
                 DateTime now = DateTime.Now;
-                Historial = new FileInfo("Log Musical " + now.Day + "-" + now.Month + "-" + now.Year + "-" + now.Hour + "." + now.Minute + ".txt");
-                NumCancion = 1;
+                History = new FileInfo("Musical log " + now.Day + "-" + now.Month + "-" + now.Year + ".txt");
+                SongCount = 1;
             }
             if (Kernel.MetadataStream) //inicia el programa con solo la imperesión
             {
                 notifyIconStream.Visible = true;
-                while (!Kernel.Spotify.cuentaLista)
+                while (!Kernel.Spotify.AccountReady)
                 {
                     Thread.Sleep(100);
                 }
-                ActivarSpotify();
+                try
+                {
+                    ActivarSpotify();
+                }
+                catch (APIException ex)
+                {
+                    Log.Instance.PrintMessage("Could not load Spotify!", MessageType.Error);
+                    MessageBox.Show(ex.Message);
+                }
+
             }
 
             else notifyIconStream.Visible = false;
@@ -124,7 +133,7 @@ namespace Cassiopeia.src.Forms
             labelDuracion.Text = "XX:XX";
             labelPosicion.Text = "0:00";
             labelPorcentaje.Text = "0%";
-            Text = Kernel.LocalTexts.GetString("reproductor");
+            SetWindowTitle(Kernel.LocalTexts.GetString("reproductor"));
             labelDatosCancion.Text = "";
             notifyIconReproduciendo.Visible = false;
             if (!(lrui is null))
@@ -141,7 +150,7 @@ namespace Cassiopeia.src.Forms
                 return;
             ModoCD = true;
             PrepararReproductor();
-            Text = "CD - Pista 1";
+            SetWindowTitle("CD - Pista 1");
             CreatePlaylist("CD-A");
             for (int i = 0; i < nucleo.PistasCD.Length; i++)
             {
@@ -156,16 +165,28 @@ namespace Cassiopeia.src.Forms
         }
         private void PrepararSpotify()
         {
-            _spotify = Kernel.Spotify._spotify;
-            user = _spotify.GetPrivateProfile();
-            Log.PrintMessage("Starting player with Spotify mode, e-mail: " + user.Email, MessageType.Info);
+            try
+            {
+                user = Kernel.Spotify.GetPrivateUser();
+                Log.PrintMessage("Starting player with Spotify mode, e-mail: " + user.Email, MessageType.Info);
+                EsPremium = Kernel.Spotify.UserIsPremium();
+            }
+            catch (APIException ex)
+            {
+                SpotifyListo = false;
+                timerSpotify.Enabled = false;
+                Log.PrintMessage(ex.Message, MessageType.Error);
+                throw ex;
+            }
+
             SpotifySync = true;
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
             backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
             backgroundWorker.WorkerSupportsCancellation = true;
-            cancionReproduciendo = new FullTrack();
-            EsPremium = (user.Product == "premium") ? true : false;
+            SpotifyPlayingSong = new FullTrack();
+            PreviousSpotifyID = SpotifyPlayingSong.Id;
+
             SpotifyListo = true;
             timerSpotify.Enabled = true;
             toolStripStatusLabelCorreoUsuario.Text = Kernel.LocalTexts.GetString("conectadoComo") + " " + user.DisplayName;
@@ -194,18 +215,20 @@ namespace Cassiopeia.src.Forms
             pictureBoxCaratula.Image = Resources.albumdesconocido;
             buttonAbrir.Enabled = true;
             trackBarPosicion.Value = 0;
+            trackBarPosicion.Maximum = 0;
             dur = new TimeSpan(0);
             pos = new TimeSpan(0);
-            labelDuracion.Text = "-";
             labelPosicion.Text = "0:00";
+            labelDuracion.Text = "XX:XX";
             Volumen = 1.0f;
-            Text = "";
+            SetWindowTitle("");
             toolStripStatusLabelCorreoUsuario.Text = "";
             labelDatosCancion.Text = "";
             Icon = Resources.iconoReproductor;
             checkBoxFoobar.Visible = true;
             SetPlayerButtons(false);
             buttonDetener.Enabled = true;
+            File.Delete("./covers/np.jpg");
             buttonAgregar.Hide();
         }
         public void ActivarSpotify()
@@ -219,25 +242,26 @@ namespace Cassiopeia.src.Forms
                 nucleo.Apagar();
                 SetPlayerButtons(false);
                 buttonDetener.Enabled = false;
+                
             }
             catch (Exception)
             {
                 SetPlayerButtons(true);
                 buttonDetener.Enabled = true;
             }
-            if (Kernel.Spotify.cuentaVinculada)
+            if (Kernel.Spotify.AccountLinked)
             {
                 if (!SpotifyListo || Kernel.MetadataStream)
                 {
-                    PrepararSpotify();
-                }
-                try
-                {
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
-                }
-                catch (Exception)
-                {
-                    Log.PrintMessage("np.jpg does not exist", MessageType.Warning);
+                    try
+                    {
+                        PrepararSpotify();
+                    }
+                    catch (APIException ex)
+                    {
+
+                        throw ex;
+                    }
                 }
                 buttonAgregar.Show();
                 Icon = Properties.Resources.spotifyico;
@@ -260,20 +284,44 @@ namespace Cassiopeia.src.Forms
                 return;
 
         }
-        private void DescargarPortada(SimpleAlbum album)
+        private void DownloadCoverAndSet(SimpleAlbum album, bool firstTry)
         {
+            if (album is null)
+                return;
             using (System.Net.WebClient cliente = new System.Net.WebClient())
             {
                 try
                 {
                     Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
                     if (File.Exists("./covers/np.jpg") && pictureBoxCaratula.Image != null)
-                        pictureBoxCaratula.Image.Dispose();
-                    cliente.DownloadFile(new Uri(album.Images[1].Url), Environment.CurrentDirectory + "/covers/np.jpg");
+                    { 
+                        File.Delete("./covers/np.jpg");
+                    }
+                        
+                    cliente.DownloadFileAsync(new Uri(album.Images[1].Url), Environment.CurrentDirectory + "/covers/np.jpg");
+                    cliente.DownloadFileCompleted += (s, e) =>
+                    {
+                        //Doing this will allow me to replace album cover and not locking the file
+                        System.Drawing.Image cover;
+                        using (var temp = new Bitmap("./covers/np.jpg"))
+                            cover = new Bitmap(temp);
+                        pictureBoxCaratula.Image = cover;
+                    };
                 }
-                catch (System.Net.WebException)
+                catch (System.Net.WebException ex)
                 {
-                    Log.PrintMessage("Couldn't download the album cover", MessageType.Warning);
+                    if(firstTry)
+                    {
+                        Log.PrintMessage("Couldn't download the album cover, retrying...", MessageType.Warning);
+                        DownloadCoverAndSet(album, false);
+                    }
+                    else
+                    {
+                        Log.PrintMessage("Second try failed.", MessageType.Error);
+                        Log.PrintMessage(ex.Status.ToString(), MessageType.Warning);
+
+                    }
+                    pictureBoxCaratula.Image = Resources.albumdesconocido;
                     File.Delete("./covers/np.jpg");
                 }
                 catch (IOException)
@@ -310,7 +358,7 @@ namespace Cassiopeia.src.Forms
         private void PonerTextos()
         {
             if (!Reproduciendo)
-                Text = Kernel.LocalTexts.GetString("reproductor");
+                SetWindowTitle(Kernel.LocalTexts.GetString("reproductor"));
             buttonSpotify.Text = Kernel.LocalTexts.GetString("cambiarSpotify");
             notifyIconStream.Text = Kernel.LocalTexts.GetString("cerrarModoStream");
             buttoncrearLR.Text = Kernel.LocalTexts.GetString("crearLR");
@@ -338,7 +386,7 @@ namespace Cassiopeia.src.Forms
                         if (file.FullName.ToLower().Contains(c.Title.ToLower()))
                         {
                             c.Path = file.FullName;
-                            Text = c.ToString();
+                            SetWindowTitle(c.ToString());
                             break;
                         }
                     }
@@ -353,8 +401,8 @@ namespace Cassiopeia.src.Forms
 
         public void PlaySong(string path) //reproduce una cancion por path
         {
-            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
             SetPlayerButtons(true);
+            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Stop;
             DirectoryInfo dir = new DirectoryInfo(path);
@@ -370,7 +418,7 @@ namespace Cassiopeia.src.Forms
             MetadataSong Lector = new MetadataSong(path);
             if (Lector.Cover != null)
                 pictureBoxCaratula.Image = Lector.Cover;
-            Text = Lector.GetSongID();
+            SetWindowTitle(Lector.GetSongID());
             nucleo.Apagar();
             try
             {
@@ -386,75 +434,73 @@ namespace Cassiopeia.src.Forms
                 return;
             }
 
-            if (GuardarHistorial)
+            if (Config.HistoryEnabled)
             {
-                using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
+                using (StreamWriter escritor = new StreamWriter(History.FullName, true))
                 {
-                    escritor.WriteLine(NumCancion + " - " + Lector.Artist + " - " + Lector.Title);
-                    NumCancion++;
+                    AlbumData album = new AlbumData(Kernel.Genres[^1], "", Lector.Artist, (short)Lector.Year);
+                    Song song = new Song(Lector.Title, Lector.Length, ref album);
+                    NowPlaying = song;
+                    NowPlayingAlbum = album;
+                    escritor.WriteLine(Utils.GetHistoryString(song, SongCount));
+                    SongCount++;
                 }
             }
         }
         public void PlaySong(Song c) //reproduce una cancion
         {
+            if (c.AlbumFrom is null) //Puede darse el caso de que sea una canción local suelta, usamos el otro método.
+            {
+                PlaySong(c.Path);
+                return;
+            }
             SetPlayerButtons(true);
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Stop;
-            if (c.AlbumFrom is null) //Puede darse el caso de que sea una canción local suelta, intentamos poner la carátula primero por fichero.
-            {
-                DirectoryInfo dir = new DirectoryInfo(c.Path);
-                dir = dir.Parent;
-                if (File.Exists(dir.FullName + "\\folder.jpg"))
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\folder.jpg");
-                else if (File.Exists(dir.FullName + "\\cover.jpg"))
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.jpg");
-                else if (File.Exists(dir.FullName + "\\cover.png"))
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(dir.FullName + "\\cover.png");
+            pictureBoxCaratula.Image.Dispose();
+            pictureBoxCaratula.Image = null;
 
-            }
             MetadataSong LM = new MetadataSong(c.Path);
             ConfigSong(LM.Artist, LM.Title);
-            if (!(c.AlbumFrom is null) && c.AlbumFrom.CoverPath != null)
-            {
-                if (c.AlbumFrom.CoverPath != "")
-                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.CoverPath);
-                else
-                {
-                    if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\cover.jpg"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\cover.jpg");
-                    else if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\cover.png"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\cover.png");
-                    else if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\folder.jpg"))
-                        pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\folder.jpg");
-                }
-            }
+
+            if (string.IsNullOrEmpty(c.AlbumFrom.CoverPath))
+                pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.CoverPath);
             else
             {
-                if (LM.Cover != null)
-                    pictureBoxCaratula.Image = LM.Cover;
+                if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\cover.jpg"))
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\cover.jpg");
+                else if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\cover.png"))
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\cover.png");
+                else if (File.Exists(c.AlbumFrom.SoundFilesPath + "\\folder.jpg"))
+                    pictureBoxCaratula.Image = System.Drawing.Image.FromFile(c.AlbumFrom.SoundFilesPath + "\\folder.jpg");
             }
-            Text = LM.GetSongID();
+            if (LM.Cover != null && pictureBoxCaratula.Image is null)
+                pictureBoxCaratula.Image = LM.Cover;
+
+            SetWindowTitle(LM.GetSongID());
             nucleo.Apagar();
             try
             {
                 nucleo.CargarCancion(c.Path);
+                PrepararReproductor();
                 nucleo.Reproducir();
+
+                NowPlaying = c;
+                NowPlayingAlbum = c.AlbumFrom;
             }
             catch (Exception)
             {
                 Log.PrintMessage("Cannot play", MessageType.Error);
                 return;
             }
-            if (GuardarHistorial)
+            if (Config.HistoryEnabled)
             {
-                using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
+                using (StreamWriter escritor = new StreamWriter(History.FullName, true))
                 {
-                    escritor.WriteLine(NumCancion + " - " + c.AlbumFrom.Artist + " - " + c.Title);
-                    NumCancion++;
+                    escritor.WriteLine(Utils.GetHistoryString(c, SongCount));
+                    SongCount++;
                 }
             }
-            PrepararReproductor();
-
         }
         public void PlaySong(LongSong c)
         {
@@ -498,7 +544,7 @@ namespace Cassiopeia.src.Forms
             if (ModoCD)
             {
                 dur = nucleo.PistasCD[ListaReproduccionPuntero].Duracion;
-                Text = "CD - Pista " + (ListaReproduccionPuntero + 1);
+                SetWindowTitle("CD - Pista " + (ListaReproduccionPuntero + 1));
             }
             labelDatosCancion.Text = nucleo.GetDatos();
             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
@@ -575,7 +621,7 @@ namespace Cassiopeia.src.Forms
         private void SaltarAtras()
         {
             if (SpotifySync && EsPremium)
-                _spotify.SkipPlaybackToPrevious();
+                Kernel.Spotify.SkipPrevious();
             else
             {
                 if (Playlist != null && !Playlist.IsFirstSong(ListaReproduccionPuntero))
@@ -593,7 +639,7 @@ namespace Cassiopeia.src.Forms
         private void SaltarAdelante()
         {
             if (EsPremium && SpotifySync)
-                _spotify.SkipPlaybackToNext();
+                Kernel.Spotify.SkipNext();
             else
             {
                 if (Playlist != null)
@@ -620,7 +666,8 @@ namespace Cassiopeia.src.Forms
                         }
                         catch (Exception)
                         {
-                            MessageBox.Show("No puedes");
+                            Log.PrintMessage("Out of bounds!", MessageType.Error);
+                            MessageBox.Show("Out of bounds!", "Player error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
 
@@ -639,13 +686,14 @@ namespace Cassiopeia.src.Forms
                         nucleo.Pausar();
                     else if (SpotifySync && EsPremium)
                     {
-                        ErrorResponse err = _spotify.PausePlayback();
-                        if (err.Error != null && err.Error.Message != null)
+                        try
                         {
-                            Log.PrintMessage(err.Error.Message, MessageType.Error);
-                            MessageBox.Show(err.Error.Message);
+                            Kernel.Spotify.PlayResume();
                         }
-                        break;
+                        catch (APIException ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
                     }
                     estadoReproductor = EstadoReproductor.Paused;
                     buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
@@ -656,13 +704,14 @@ namespace Cassiopeia.src.Forms
                         nucleo.Reproducir();
                     else if (SpotifySync && EsPremium)
                     {
-                        ErrorResponse err = _spotify.ResumePlayback("", "", null, "", 0);
-                        if (err.Error != null && err.Error.Message != null)
+                        try
                         {
-                            Log.PrintMessage(err.Error.Message, MessageType.Error);
-                            MessageBox.Show(err.Error.Message);
+                            Kernel.Spotify.PlayResume();
                         }
-                        break;
+                        catch (APIException ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
                     }
                     estadoReproductor = EstadoReproductor.Playing;
                     buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
@@ -672,13 +721,14 @@ namespace Cassiopeia.src.Forms
                         nucleo.Reproducir();
                     else if (SpotifySync && EsPremium)
                     {
-                        ErrorResponse err = _spotify.ResumePlayback("", "", null, "", 0);
-                        if (err.Error != null && err.Error.Message != null)
+                        try
                         {
-                            Log.PrintMessage(err.Error.Message, MessageType.Error);
-                            MessageBox.Show(err.Error.Message);
+                            Kernel.Spotify.PlayResume();
                         }
-                        break;
+                        catch (APIException ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
                     }
                     estadoReproductor = EstadoReproductor.Playing;
                     buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
@@ -699,43 +749,64 @@ namespace Cassiopeia.src.Forms
         #region Events
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            PlaybackContext PC = (PlaybackContext)e.Result; //datos de spotify
+            CurrentlyPlayingContext PC = (CurrentlyPlayingContext)e.Result; //datos de spotify
+
             if (PC != null && PC.Item != null) //si son válidos
             {
-
-                dur = new TimeSpan(0, 0, 0, 0, PC.Item.DurationMs);
-                trackBarPosicion.Maximum = (int)dur.TotalSeconds;
+                if (PC.Item.Type == ItemType.Track)
+                {
+                    SpotifyPlayingSong = (FullTrack)PC.Item;
+                    dur = new TimeSpan(0, 0, 0, 0, SpotifyPlayingSong.DurationMs);
+                    SpotifyID = SpotifyPlayingSong.Id;
+                    trackBarPosicion.Maximum = (int)dur.TotalSeconds;
+                }
+                else SpotifyPlayingSong = null;
                 pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
-                SpotifyID = PC.Item.Id;
                 if (!Kernel.MetadataStream)
                 {
+                    //update trackbar
                     trackBarPosicion.Value = (int)pos.TotalSeconds;
-                    if (PC.Item.Id != cancionReproduciendo.Id || pictureBoxCaratula.Image == null)
+                    //if we don't have an image or we have the same one
+                    if (SpotifyID != PreviousSpotifyID || !File.Exists("./covers/np.jpg"))
                     {
-                        //using (StreamWriter escritor = new StreamWriter(Historial.FullName, true))
-                        //{
-                        //    escritor.WriteLine(NumCancion + " - " + PC.Item.Artists[0].Name + " - " + PC.Item.Name);
-                        //    NumCancion++;
-                        //}
-                        if (!string.IsNullOrEmpty(PC.Item.Id))
+                        //Update shuffle state not too often, when changin songs
+                        if (PC.ShuffleState)
+                            checkBoxAleatorio.Checked = true;
+                        else
+                            checkBoxAleatorio.Checked = false;
+
+                        PreviousSpotifyID = SpotifyID;
+                        if(Config.HistoryEnabled)
+                        {
+                            using (StreamWriter escritor = new StreamWriter(History.FullName, true))
+                            {
+                                if (SpotifyPlayingSong is not null)
+                                {
+                                    escritor.WriteLine(Utils.GetHistoryString(SpotifyPlayingSong, SongCount));
+                                    SongCount++;
+                                }
+                            }
+                        }
+                        //Check if local song
+                        if (!string.IsNullOrEmpty(SpotifyID))
                         {
                             try
                             {
-                                DescargarPortada(PC.Item.Album);
-                                pictureBoxCaratula.Image = System.Drawing.Image.FromFile("./covers/np.jpg");
+                                DownloadCoverAndSet(SpotifyPlayingSong.Album, true);
+                                
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+                                pictureBoxCaratula.Image = Resources.albumdesconocido;
+                                Log.Instance.PrintMessage("Couldn't set the new cover!" + ex.Message, MessageType.Warning);
                             }
-
                         }
                         else
                         {
                             Log.PrintMessage("Local song detected.", MessageType.Info);
                             trackBarPosicion.Maximum = (int)dur.TotalSeconds;
                             pictureBoxCaratula.Image.Dispose();
-                            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+                            pictureBoxCaratula.Image = Resources.albumdesconocido;
                         }
                     }
                     if (PC.IsPlaying)
@@ -750,26 +821,29 @@ namespace Cassiopeia.src.Forms
                         buttonReproducirPausar.Text = GetTextButtonPlayer(estadoReproductor);
                         timerCancion.Enabled = false;
                     }
-                    if (PC.ShuffleState)
-                        checkBoxAleatorio.Checked = true;
-                    else
-                        checkBoxAleatorio.Checked = false;
-                    cancionReproduciendo = PC.Item;
-                    Text = PC.Item.Artists[0].Name + " - " + cancionReproduciendo.Name;
-                    trackBarVolumen.Value = PC.Device.VolumePercent;
-                    if (string.IsNullOrEmpty(PC.Item.Id))
+
+                    SpotifyPlayingSong = (FullTrack)PC.Item;
+                    SetWindowTitle(SpotifyPlayingSong.Artists[0].Name + " - " + SpotifyPlayingSong.Name);
+                    if(!VolumeHold)
+                        trackBarVolumen.Value = (int)PC.Device.VolumePercent;
+                    if (string.IsNullOrEmpty(SpotifyPlayingSong.Id))
                         buttonAgregar.Enabled = false;
                     else
                         buttonAgregar.Enabled = true;
                 }
-                using (StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
-                {
-                    TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
-                    salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
-                    salida.Write(np.ToString(@"mm\:ss") + " / ");
-                    salida.Write(dur.ToString(@"mm\:ss"));
-                }
+                //using (StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
+                //{
+                //    TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
+                //    salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
+                //    salida.Write(np.ToString(@"mm\:ss") + " / ");
+                //    salida.Write(dur.ToString(@"mm\:ss"));
+                //}
 
+            }
+            else
+            {
+                SetWindowTitle("No Spotify context");
+                //reset the player but once.
             }
         }
 
@@ -777,15 +851,24 @@ namespace Cassiopeia.src.Forms
         {
             if (!Kernel.Spotify.IsTokenExpired())
             {
-                PlaybackContext PC = _spotify.GetPlayback();
-                e.Result = PC;
+                try
+                {
+                    CurrentlyPlayingContext PC = Kernel.Spotify.GetPlayingContext();
+                    e.Result = PC;
+                }
+                catch (APIException ex) //There is a problem
+                {
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
+                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
             }
             else
             {
                 Log.PrintMessage("Token expired!", MessageType.Warning);
                 while (Kernel.Spotify.IsTokenExpired())
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(50);
                 }
             }
         }
@@ -830,17 +913,17 @@ namespace Cassiopeia.src.Forms
             if (!SpotifySync && timerCancion.Enabled && nucleo.ComprobarSonido())
             {
                 pos = nucleo.Posicion();
-                using (StreamWriter salida = new StreamWriter("np.txt"))
-                {
-                    /*
-                    if (CancionLocalReproduciendo == null)
-                        salida.WriteLine(Text);
-                    else
-                        salida.WriteLine(CancionLocalReproduciendo.ToString());
-                    salida.Write(pos.ToString(@"mm\:ss") + " / ");
-                    salida.Write(dur.ToString(@"mm\:ss"));
-                    */
-                }
+                //using (StreamWriter salida = new StreamWriter("np.txt"))
+                //{
+                //    /*
+                //    if (CancionLocalReproduciendo == null)
+                //        salida.WriteLine(Text);
+                //    else
+                //        salida.WriteLine(CancionLocalReproduciendo.ToString());
+                //    salida.Write(pos.ToString(@"mm\:ss") + " / ");
+                //    salida.Write(dur.ToString(@"mm\:ss"));
+                //    */
+                //}
             }
             labelPosicion.Text = GetSongTime(pos);
             if (pos > dur)
@@ -976,7 +1059,8 @@ namespace Cassiopeia.src.Forms
             }
             else if (SpotifySync && EsPremium)
             {
-                _spotify.SeekPlayback(trackBarPosicion.Value * 1000);
+                long pos = trackBarPosicion.Value * 1000;
+                Kernel.Spotify.SeekTo(pos);
                 timerSpotify.Enabled = true;
             }
             else
@@ -994,12 +1078,11 @@ namespace Cassiopeia.src.Forms
             Volumen = (float)trackBarVolumen.Value / 100;
             if (!SpotifySync && (nucleo.ComprobarSonido()))
                 nucleo.SetVolumen(Volumen);
-            else if (EsPremium && SpotifySync)
-                _spotify.SetVolume(trackBarVolumen.Value);
         }
 
         private void trackBarVolumen_MouseDown(object sender, MouseEventArgs e)
         {
+            VolumeHold = true;
             Volumen = (float)trackBarVolumen.Value / 100;
         }
 
@@ -1026,12 +1109,17 @@ namespace Cassiopeia.src.Forms
 
         private void checkBoxAleatorio_CheckedChanged(object sender, EventArgs e)
         {
-            if (EsPremium && SpotifySync)
-                _spotify.SetShuffle(checkBoxAleatorio.Checked);
-            else
-                ShuffleState = checkBoxAleatorio.Checked;
+            SetShuffle();
         }
-
+        private void SetShuffle()
+        {
+            ShuffleState = checkBoxAleatorio.Checked;
+            if (EsPremium && SpotifySync)
+            {
+                Kernel.Spotify.SetShuffle(ShuffleState);
+            }
+                
+        }
         private void buttonSaltarAdelante_Click(object sender, EventArgs e)
         {
             SaltarAdelante();
@@ -1061,10 +1149,12 @@ namespace Cassiopeia.src.Forms
                     Detener();
                     break;
                 case Keys.MediaNextTrack:
-                    SaltarAdelante();
+                    if(!SpotifySync)
+                        SaltarAdelante();
                     break;
                 case Keys.MediaPreviousTrack:
-                    SaltarAtras();
+                    if (!SpotifySync)
+                        SaltarAtras();
                     break;
             }
         }
@@ -1076,15 +1166,24 @@ namespace Cassiopeia.src.Forms
 
         private void buttonSpotify_Click(object sender, EventArgs e)
         {
-            if (SpotifySync)
-                ApagarSpotify();
-            else
-                ActivarSpotify();
+            try
+            {
+                if (SpotifySync)
+                    ApagarSpotify();
+                else
+                    ActivarSpotify();
+            }
+            catch (APIException ex)
+            {
+                Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
+                return;
+            }
+
         }
 
         private void buttonAgregar_Click(object sender, EventArgs e)
         {
-            bool res = Kernel.Spotify.InsertarAlbumFromURI(cancionReproduciendo.Album.Id);
+            bool res = Kernel.Spotify.InsertAlbumFromURI(SpotifyPlayingSong.Album.Id);
             if (res) //Añadido correctamente...
                 MessageBox.Show(Kernel.LocalTexts.GetString("album_agregado"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
@@ -1129,16 +1228,16 @@ namespace Cassiopeia.src.Forms
             Log.Instance.PrintMessage("Writing a twit...", MessageType.Info);
             string test;
             string link = "https://twitter.com/intent/tweet?text=";
-            if (SpotifySync && !string.IsNullOrEmpty(cancionReproduciendo.Id))
+            if (SpotifySync && !string.IsNullOrEmpty(SpotifyPlayingSong.Id))
             {
-                test = Kernel.LocalTexts.GetString("compartirTwitter1").Replace(" ", "%20") + "%20https://open.spotify.com/track/" + cancionReproduciendo.Id + "%0a" +
+                test = Kernel.LocalTexts.GetString("compartirTwitter1").Replace(" ", "%20") + "%20https://open.spotify.com/track/" + SpotifyPlayingSong.Id + "%0a" +
                     Kernel.LocalTexts.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Kernel.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Kernel.Version + "%20" + Kernel.CodeName;
             }
             else if (!ModoCD && Reproduciendo)
                 test = Kernel.LocalTexts.GetString("compartirLocal1").Replace(" ", "%20") + "%20" +
-                    Title + "%20" +
+                    NowPlaying.Title.Replace(" ", "%20") + "%20" +
                     Kernel.LocalTexts.GetString("compartirLocal2").Replace(" ", "%20") + "%20" +
-                    Artist + "%20" +
+                    NowPlayingAlbum.Artist.Replace(" ", "%20") + "%20" +
                     Kernel.LocalTexts.GetString("compartirLocal3").Replace(" ", "%20") + "%20" +
                     Kernel.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
                     Kernel.Version + "%20" + Kernel.CodeName;
@@ -1199,8 +1298,8 @@ namespace Cassiopeia.src.Forms
                         clr.Path = songfile;
                         Playlist.AddSong(clr);
                     }
+                    lrui.RefreshView();
                 }
-                lrui.RefreshView();
             }
             else
                 Log.PrintMessage("Cannot process the data. Wrong input?", MessageType.Warning);
@@ -1231,6 +1330,14 @@ namespace Cassiopeia.src.Forms
         private void buttonDetener_Click(object sender, EventArgs e)
         {
             Detener();
+        }
+
+        private void trackBarVolumen_MouseUp(object sender, MouseEventArgs e)
+        {
+            int vol = trackBarVolumen.Value;
+            if (EsPremium && SpotifySync)
+                Kernel.Spotify.SetVolume(vol);
+            VolumeHold = false;
         }
 
         private void notifyIconReproduciendo_MouseClick(object sender, MouseEventArgs e)

@@ -1,4 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿/*
+ * CASSIOPEIA 2.0.196.0
+ * NET 5 PORT
+ * SPOTIFYAPI 6 PORT (WIP)
+ * CODENAME STORM
+ * MADE BY ORESTESCM76
+ */
+
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,7 +32,8 @@ namespace Cassiopeia
             Genre,
             Cover_PATH,
             SpotifyID,
-            SongFiles_DIR
+            SongFiles_DIR,
+            Type
         }
         private enum CSV_Songs
         {
@@ -58,11 +67,12 @@ namespace Cassiopeia
         public static MainForm MainForm;
         public static Collection Collection;
 #if DEBUG
+        public static bool Console = true;
         public static bool CheckUpdates = false;
 #else
+        public static bool Console = false;
         public static bool CheckUpdates = true;
 #endif
-        public static bool Console = false;
         public static bool SpotifyEnabled = true;
         public static bool StartPlayer = false;
         public static bool MetadataStream = false;
@@ -73,10 +83,10 @@ namespace Cassiopeia
         public static string[] Languages;
         public static Spotify Spotify;
         public static int NumLanguages;
-        public static readonly string Version = "v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static readonly string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
 
-        public static void RefreshSpotifyToken(CancellationToken cancellationToken)
+        public async static Task RefreshSpotifyToken(CancellationToken cancellationToken)
         {
             while (true)
             {
@@ -85,7 +95,7 @@ namespace Cassiopeia
                     return;
                 if (Spotify.IsTokenExpired())
                 {
-                    Spotify.RefreshToken();
+                    await Spotify.RefreshTokenAsync();
                 }
             }
         }
@@ -96,7 +106,7 @@ namespace Cassiopeia
             Config.Language = lang;
             ReloadGenres();
             ReloadView();
-            Reproductor.Instancia.RefrescarTextos();
+            Player.Instancia.RefrescarTextos();
         }
 
         public static int FindGenre(string g)
@@ -224,14 +234,15 @@ namespace Cassiopeia
 
             string[] oldVerArr = Version.Split('.');
             string[] newVerArr = newVer.Split('.');
-            oldVerArr[0] = oldVerArr[0].Remove(0, 1);
-            newVerArr[0] = newVerArr[0].Remove(0, 1);
+            if (newVerArr[0].Length == 2)
+                newVerArr[0] = newVerArr[0].Remove(0, 1);
+            if (Convert.ToInt32(newVerArr[0]) > Convert.ToInt32(oldVerArr[0])) //2>1?
+                return true;
+            else if (Convert.ToInt32(newVerArr[2]) > Convert.ToInt32(oldVerArr[2])) //214 > 200?
+                return true;
+            else if (Convert.ToInt32(newVerArr[3]) > Convert.ToInt32(oldVerArr[3])) //2.0.x.20 > 2.0.x.10
+                return true;
 
-            for (int i = 0; i < oldVerArr.Length; i++)
-            {
-                if (Convert.ToInt32(newVerArr[i]) > Convert.ToInt32(oldVerArr[i]))
-                   return true; //if one of the versions is higher, clearly there is an update.
-            }
             return false; //same version.
         }
         public static void CheckForUpdates()
@@ -261,7 +272,7 @@ namespace Cassiopeia
                 {
                     Spotify = new Spotify(true);
                     SpotifyReady = true;
-                    MainForm.DesactivarVinculacion();
+                    MainForm.RemoveLink();
                 }
 
             }
@@ -303,8 +314,8 @@ namespace Cassiopeia
 
         public static void InitPlayer()
         {
-            Reproductor.Init();
-            Reproductor.Instancia.RefrescarTextos();
+            Player.Init();
+            Player.Instancia.RefrescarTextos();
         }
 
         public static void LoadFiles()
@@ -343,9 +354,10 @@ namespace Cassiopeia
             {
                 case StartType.Normal:
                     Application.Run(MainForm);
+                    Log.Instance.PrintMessage("Running main form", MessageType.Info);
                     break;
                 case StartType.PlayerOnly:
-                    Application.Run(Reproductor.Instancia);
+                    Application.Run(Player.Instancia);
                     break;
                 case StartType.MetadataStream:
                     Application.Run();
@@ -370,22 +382,25 @@ namespace Cassiopeia
                 }
             }
             SaveAlbums("discos.csv", SaveType.Digital);
-            SaveAlbums("cd.json", SaveType.CD);
+            SaveAlbums("cd.json", SaveType.CD, true);
             SavePATHS();
             SaveLyrics();
 
             Config.GuardarConfiguracion();
 
             Log.Instance.PrintMessage("Shutting down Player", MessageType.Info);
-            Reproductor.Instancia.Apagar();
-            Reproductor.Instancia.Dispose();
+            Player.Instancia.Apagar();
+            Player.Instancia.Dispose();
 
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");
+
+            Log.Instance.CloseLog();
+            
             if (Console)
                 FreeConsole();
-            Log.Instance.CloseLog();
-            Environment.Exit(0);
+
+            Application.Exit();
         }
 
         //Methods for loading and saving...
@@ -434,7 +449,11 @@ namespace Cassiopeia
 
                     if (linea == null) continue; //si no hay nada tu sigue, que hemos llegado al final del fichero, después del nulo porque siempre al terminar un disco pongo línea nueva.
                     string[] datos = linea.Split(';');
-                    if (datos.Length != 8)
+                    if (datos.Length == 8) //need to convert
+                    {
+                        Log.Instance.PrintMessage("Adding Studio type to album", MessageType.Info);
+                    }
+                    else if (datos.Length != 9)
                     {
                         SendErrorLoading(lineaC, file);
                         Environment.Exit(-1);
@@ -448,11 +467,16 @@ namespace Cassiopeia
                     {
                         nC = Convert.ToInt16(datos[(int)CSV_Albums.NumSongs]);
                         a = new AlbumData(g, datos[(int)CSV_Albums.Title], datos[(int)CSV_Albums.Artist], Convert.ToInt16(datos[(int)CSV_Albums.Year]), datos[(int)CSV_Albums.Cover_PATH]);
+                        a.Type = (AlbumType)Convert.ToInt32(datos[(int)CSV_Albums.Type]);
                     }
                     catch (FormatException)
                     {
                         SendErrorLoading(lineaC, file);
                         Environment.Exit(-1);
+                    }
+                    catch(IndexOutOfRangeException)
+                    {
+                        a.Type = AlbumType.Studio;
                     }
                     if (!string.IsNullOrEmpty(datos[(int)CSV_Albums.SpotifyID]))
                         a.IdSpotify = datos[(int)CSV_Albums.SpotifyID];
@@ -621,7 +645,7 @@ namespace Cassiopeia
                             }
                             break;
                         case SaveType.CD:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
+                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the CD data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
                             Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
                             foreach (CompactDisc compacto in Collection.CDS)
                             {
@@ -647,7 +671,7 @@ namespace Cassiopeia
                             {
                                 if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
                                 {
-                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + a.CoverPath + ";" + a.IdSpotify + ";" + a.SoundFilesPath);
+                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + a.CoverPath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
                                     for (int i = 0; i < a.NumberOfSongs; i++)
                                     {
                                         if (a.Songs[i] is LongSong longSong)
@@ -676,7 +700,6 @@ namespace Cassiopeia
                     salida.Flush();
                 }
             }
-            crono.Stop();
             fich.Refresh();
             crono.Stop();
             Log.Instance.PrintMessage(nameof(SaveAlbums) + "- Saved", MessageType.Correct, crono, TimeType.Milliseconds);
@@ -737,21 +760,24 @@ namespace Cassiopeia
         }
         public static void ShowError(string msg)
         {
-            MessageBox.Show(LocalTexts.GetString("error"), msg, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(msg, LocalTexts.GetString("error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         public static int AllocConsole()
         {
+            
             return WinAPI.AllocConsole();
         }
         private static int FreeConsole()
         {
-            System.Console.WriteLine("Cassiopeia has finished, please press enter to exit...");
-            System.Console.ReadLine();
             return WinAPI.FreeConsole();
         }
         public static void BringMainFormFront()
         {
             MainForm.Activate();
+        }
+        public static DialogResult Warn(string reason)
+        {
+            return MessageBox.Show(reason, "Warn", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
         }
     }
 }

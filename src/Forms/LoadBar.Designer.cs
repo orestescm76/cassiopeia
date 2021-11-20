@@ -1,6 +1,6 @@
 ﻿namespace Cassiopeia.src.Forms
 {
-    partial class BarraCarga
+    partial class LoadBar
     {
         /// <summary>
         /// Required designer variable.

@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Cassiopeia.src.Forms;
+using Cassiopeia.src.Classes;
+
 namespace Cassiopeia
 {
     public enum ViewType
     {
         Digital,
         CD,
-        Vinilo,
+        Vinyl,
+        Cassette_Tape
     }
     public enum SaveType
     {
@@ -27,6 +29,7 @@ namespace Cassiopeia
         public ViewType TipoVista;
         private delegate void SafeCallBringFront();
         Log Log = Log.Instance;
+        Size margins;
         public MainForm()
         {
             InitializeComponent();
@@ -41,38 +44,41 @@ namespace Cassiopeia
             PonerTextos();
             vistaAlbumes.FullRowSelect = true;
             duracionSeleccionada.AutoSize = true;
-            barraAbajo.Visible = true;
             barraAbajo.Font = new Font("Segoe UI", 10);
             duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": 00:00:00";
             vistaAlbumes.DrawItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
             vistaAlbumes.OwnerDraw = true;
             if (Config.LinkedWithSpotify)
-                vincularToolStripMenuItem.Visible = false;
+                linkSpotifyStripMenuItem.Visible = false;
+            else
+                importSpotifyStripMenuItem.Enabled = false;
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
             vistaAlbumes.Font = Config.FontView;
+            
+            margins = this.Size - vistaAlbumes.Size;
+
             Log.PrintMessage("Main form created", MessageType.Correct);
         }
         public void Refrescar()
         {
             vistaAlbumes.Font = Config.FontView;
             PonerTextos();
-            CargarVista();
+            LoadView();
         }
         public void EnableInternet(bool i)
         {
-            buscarEnSpotifyToolStripMenuItem.Enabled = i;
-            vincularToolStripMenuItem.Enabled = i;
+            spotifyStripMenuItem.Enabled = i;
         }
-        public void DesactivarVinculacion()
+        public void RemoveLink()
         {
-            vincularToolStripMenuItem.Visible = false;
+            linkSpotifyStripMenuItem.Visible = false;
         }
         public void ActivarReproduccionSpotify()
         {
-            spotifyToolStripMenuItem.Enabled = true;
+            playSpotifyAlbumToolStripMenuItem.Enabled = true;
         }
-        private void CargarVista()
+        private void LoadView()
         {
             Log.Instance.PrintMessage("Loading view" + TipoVista, MessageType.Info);
             vistaAlbumes.Items.Clear();
@@ -91,18 +97,18 @@ namespace Cassiopeia
                     vistaAlbumes.Items.AddRange(items);
                     break;
                 case ViewType.CD:
-                    ListViewItem[] cds = new ListViewItem[Kernel.Collection.CDS.Count];
-                    vistaAlbumes.Columns[5].Width = 0;
+                    src.Classes.ListViewPhysicalAlbum[] cds = new src.Classes.ListViewPhysicalAlbum[Kernel.Collection.CDS.Count];
                     int j = 0;
                     foreach (CompactDisc cd in Kernel.Collection.CDS)
                     {
                         String[] datos = cd.ToStringArray();
-                        cds[j] = new ListViewItem(datos);
+                        cds[j] = new src.Classes.ListViewPhysicalAlbum(datos);
+                        cds[j].ID = cd.Id;
                         j++;
                     }
                     vistaAlbumes.Items.AddRange(cds);
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
@@ -114,7 +120,7 @@ namespace Cassiopeia
         private void PonerTextos()
         {
 #if DEBUG
-            Text = Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version + " Codename " + Kernel.CodeName;
+            Text = Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version + " Codename " + Kernel.CodeName + " DEBUG";
 #else
             Text = Kernel.LocalTexts.GetString("titulo_ventana_principal");
 #endif
@@ -127,7 +133,7 @@ namespace Cassiopeia
             vistaAlbumes.Columns[2].Text = Kernel.LocalTexts.GetString("año");
             vistaAlbumes.Columns[3].Text = Kernel.LocalTexts.GetString("duracion");
             vistaAlbumes.Columns[4].Text = Kernel.LocalTexts.GetString("genero");
-            buscarEnSpotifyToolStripMenuItem.Text = Kernel.LocalTexts.GetString("buscar_Spotify");
+            searchSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("buscar_Spotify");
             guardarcomo.Text = Kernel.LocalTexts.GetString("guardar") + "...";
             seleccionToolStripMenuItem.Text = Kernel.LocalTexts.GetString("seleccion");
             adminMenu.Text = Kernel.LocalTexts.GetString("admin");
@@ -141,14 +147,15 @@ namespace Cassiopeia
             digitalToolStripMenuItem.Text = Kernel.LocalTexts.GetString("digital");
             copiarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("copiar");
             digitalToolStripMenuItem.Text = Kernel.LocalTexts.GetString("digital");
-            vincularToolStripMenuItem.Text = Kernel.LocalTexts.GetString("vincular");
-            spotifyToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducirSpotify");
+            linkSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("vincular");
+            playSpotifyAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducirSpotify");
             reproductorToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproductor");
             abrirCDMenuItem.Text = Kernel.LocalTexts.GetString("abrirCD") + "...";
             verLyricsToolStripMenuItem.Text = Kernel.LocalTexts.GetString("verLyrics");
             verLogToolStripMenuItem.Text = Kernel.LocalTexts.GetString("verLog");
             nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevoAlbumDesdeCarpeta");
             configToolStripMenuItem.Text = Kernel.LocalTexts.GetString("configuracion");
+            importSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("importSpotify");
             UpdateViewInfo();
         }
         private void UpdateViewInfo()
@@ -161,78 +168,87 @@ namespace Cassiopeia
                 case ViewType.CD:
                     toolStripStatusLabelViewInfo.Text = "CD";
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
             }
         }
 
-        private void borrarAlbumesSeleccionados(ViewType tipoVista)
+        private void DeleteSelectedAlbums(ViewType tipoVista)
         {
 
             Stopwatch crono = Stopwatch.StartNew();
             borrando = true;
             int cuantos = vistaAlbumes.SelectedItems.Count;
-            ListViewItem[] itemsABorrar = new ListViewItem[cuantos];
             switch (tipoVista)
             {
                 case ViewType.Digital:
                     Console.WriteLine("Deleting " + vistaAlbumes.SelectedItems.Count + " albums");
-                    for (int i = 0; i < cuantos; i++)
+                    try
                     {
-                        itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
-                    }
-                    for (int i = 0; i < vistaAlbumes.SelectedIndices.Count; i++)
-                    {
-                        try
+                        while (vistaAlbumes.SelectedIndices.Count != 0)
                         {
-                            AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[i]);
+                            int i = vistaAlbumes.SelectedIndices[0];
+                            AlbumData a = Kernel.Collection.GetAlbum(i);
                             Kernel.Collection.RemoveAlbum(ref a);
-                            for (int j = 0; j < cuantos; j++)
-                            {
-                                vistaAlbumes.Items.Remove(itemsABorrar[j]);
-                            }
+                            vistaAlbumes.Items.Remove(vistaAlbumes.Items[i]);
                         }
-                        catch (InvalidOperationException)
-                        {
-                            MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado"));
-                            continue;
-                        }
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado") + Environment.NewLine + ex.Message);
                     }
                     break;
                 case ViewType.CD:
                     Console.WriteLine("Deleting " + vistaAlbumes.SelectedItems.Count + " CD");
-                    for (int i = 0; i < cuantos; i++)
+                    try
                     {
-                        itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
-                    }
-                    for (int i = 0; i < cuantos; i++)
-                    {
-                        CompactDisc cdaborrar = Kernel.Collection.GetCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
-                        CompactDisc cdd = cdaborrar;
-                        Kernel.Collection.DeleteCD(ref cdaborrar);
-                        cdd.AlbumData.CanBeRemoved = true;
-
-                        foreach (CompactDisc cd in Kernel.Collection.CDS)
+                        while (vistaAlbumes.SelectedIndices.Count != 0)
                         {
-                            if (cd.AlbumData == cdd.AlbumData)
-                                cd.AlbumData.CanBeRemoved = false;
+                            ListViewPhysicalAlbum item = (ListViewPhysicalAlbum)vistaAlbumes.Items[vistaAlbumes.SelectedIndices[0]];
+                            int i = vistaAlbumes.SelectedIndices[0];
+                            CompactDisc cd = Kernel.Collection.GetCDById(item.ID);
+                            Kernel.Collection.DeleteCD(cd.Id);
+                            vistaAlbumes.Items.Remove(vistaAlbumes.Items[i]);
                         }
                     }
-                    for (int i = 0; i < cuantos; i++)
+                    catch (InvalidOperationException ex)
                     {
-                        vistaAlbumes.Items.Remove(itemsABorrar[i]);
+                        MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado") + Environment.NewLine + ex.Message);
                     }
+
+
+                    //for (int i = 0; i < cuantos; i++)
+                    //{
+                    //    //itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
+                    //}
+                    //for (int i = 0; i < cuantos; i++)
+                    //{
+                    //    CompactDisc cdaborrar = Kernel.Collection.GetCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
+                    //    CompactDisc cdd = cdaborrar;
+                    //    Kernel.Collection.DeleteCD(ref cdaborrar);
+                    //    cdd.AlbumData.CanBeRemoved = true;
+
+                    //    foreach (CompactDisc cd in Kernel.Collection.CDS)
+                    //    {
+                    //        if (cd.AlbumData == cdd.AlbumData)
+                    //            cd.AlbumData.CanBeRemoved = false;
+                    //    }
+                    //}
+                    //for (int i = 0; i < cuantos; i++)
+                    //{
+                    //    //vistaAlbumes.Items.Remove(itemsABorrar[i]);
+                    //}
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
             }
             borrando = false;
             duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": 00:00:00";
-            vistaAlbumes.Refresh();
+            LoadView();
             crono.Stop();
             Log.Instance.PrintMessage("Deletion completed.", MessageType.Correct, crono, TimeType.Milliseconds);
         }
@@ -277,14 +293,14 @@ namespace Cassiopeia
                 case ViewType.CD:
                     s = new string[Kernel.Collection.CDS.Count];
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
             }
             for (int i = 0; i < s.Length; i++)
             {
-                s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "_" + vistaAlbumes.Items[i].SubItems[1].Text;
+                s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "/**/" + vistaAlbumes.Items[i].SubItems[1].Text;
                 AlbumData a = Kernel.Collection.GetAlbum(s[i]);
                 nuevaLista.Add(a);
             }
@@ -297,9 +313,9 @@ namespace Cassiopeia
         }
         private void agregarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            agregarAlbum agregarAlbum = new agregarAlbum();
+            CreateAlbum agregarAlbum = new CreateAlbum();
             agregarAlbum.Show();
-            CargarVista();
+            LoadView();
         }
 
 
@@ -312,17 +328,17 @@ namespace Cassiopeia
                     foreach (ListViewItem item in vistaAlbumes.SelectedItems)
                     {
                         AlbumData a = Kernel.Collection.GetAlbum(item.Index);
-                        visualizarAlbum vistazo = new visualizarAlbum(ref a);
+                        AlbumViewer vistazo = new AlbumViewer(ref a);
                         vistazo.Show();
                     }
                     break;
                 case ViewType.CD:
                     foreach (ListViewItem cdViewItem in vistaAlbumes.SelectedItems)
                     {
-                        string b = cdViewItem.SubItems[0].Text + '_' + cdViewItem.SubItems[1].Text;
+                        string b = cdViewItem.SubItems[0].Text + "/**/" + cdViewItem.SubItems[1].Text;
                         CompactDisc cd;
                         Kernel.Collection.GetAlbum(b, out cd);
-                        visualizarAlbum visCD = new visualizarAlbum(ref cd);
+                        AlbumViewer visCD = new AlbumViewer(ref cd);
                         visCD.Show();
                     }
                     break;
@@ -348,7 +364,7 @@ namespace Cassiopeia
             }
             if (e.KeyCode == Keys.F5)
             {
-                CargarVista();
+                LoadView();
             }
             if (e.KeyCode == Keys.Escape)
             {
@@ -363,7 +379,7 @@ namespace Cassiopeia
             }
             if (e.KeyCode == Keys.F11)
             {
-                Reproductor.Instancia.Show();
+                Player.Instancia.Show();
             }
         }
 
@@ -379,40 +395,16 @@ namespace Cassiopeia
                 TimeSpan seleccion = new TimeSpan();
                 foreach (ListViewItem album in vistaAlbumes.SelectedItems)
                 {
-                    String a = album.SubItems[0].Text + "_" + album.SubItems[1].Text;
+                    String a = album.SubItems[0].Text + "/**/" + album.SubItems[1].Text;
                     AlbumData ad = Kernel.Collection.GetAlbum(a);
                     seleccion += ad.Length;
                 }
                 duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
             }
         }
-        private void masCortoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlbumData a = Kernel.Collection.Albums.First();
-            for (int i = 1; i < Kernel.Collection.Albums.Count; i++)
-            {
-                if (a.Length > Kernel.Collection.Albums[i].Length)
-                    a = Kernel.Collection.Albums[i];
-            }
-            visualizarAlbum v = new visualizarAlbum(ref a);
-            v.ShowDialog();
-        }
-
-        private void masLargoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlbumData a = Kernel.Collection.Albums.First();
-            for (int i = 1; i < Kernel.Collection.Albums.Count; i++)
-            {
-                if (a.Length < Kernel.Collection.Albums[i].Length)
-                    a = Kernel.Collection.Albums[i];
-            }
-            visualizarAlbum v = new visualizarAlbum(ref a);
-            v.ShowDialog();
-        }
-
         private void borrarseleccionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            borrarAlbumesSeleccionados(TipoVista);
+            DeleteSelectedAlbums(TipoVista);
         }
         private void guardarcomo_Click(object sender, EventArgs e)
         {
@@ -440,31 +432,25 @@ namespace Cassiopeia
                 case ViewType.Digital:
                     int ganador = generador.Next(0, Kernel.Collection.Albums.Count);
                     AlbumData a = Kernel.Collection.Albums[ganador];
-                    visualizarAlbum vistazo = new visualizarAlbum(ref a);
+                    AlbumViewer vistazo = new AlbumViewer(ref a);
                     vistazo.Show();
                     break;
                 case ViewType.CD:
                     int ganadorCD = generador.Next(0, Kernel.Collection.CDS.Count);
                     CompactDisc cd = Kernel.Collection.CDS[ganadorCD];
-                    visualizarAlbum vistazocd = new visualizarAlbum(ref cd);
+                    AlbumViewer vistazocd = new AlbumViewer(ref cd);
                     vistazocd.Show();
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
             }
         }
 
-        private void buscarEnSpotifyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SearchSpotify busquedaSpotifyForm = new SearchSpotify();
-            busquedaSpotifyForm.ShowDialog();
-        }
-
         private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            acercaDe form = new acercaDe();
+            About form = new About();
             form.Show();
         }
         private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -486,26 +472,10 @@ namespace Cassiopeia
         }
         private void crearCDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "_" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
             AlbumData a = Kernel.Collection.GetAlbum(seleccion);
-
-            if (a.Length.TotalMinutes < 80)
-            {
-                CrearCD formCD = new CrearCD(ref a);
-                formCD.Show();
-            }
-            else
-            {
-                short numDiscos = (short)Math.Ceiling((a.Length.TotalMinutes / 80));
-                CrearCD fCD = new CrearCD(ref a, numDiscos);
-                fCD.ShowDialog();
-                for (short i = 2; i <= numDiscos; i++)
-                {
-                    CompactDisc temp = Kernel.Collection.CDS.Last();
-                    CrearCD formCD = new CrearCD(ref temp, i);
-                    formCD.ShowDialog();
-                }
-            }
+            CreateCD formCD = new CreateCD(ref a);
+            formCD.Show();
         }
         private void colorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -599,7 +569,7 @@ namespace Cassiopeia
                     break;
                 case ViewType.CD:
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
@@ -612,7 +582,7 @@ namespace Cassiopeia
         private void cdToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TipoVista = ViewType.CD;
-            CargarVista();
+            LoadView();
             digitalToolStripMenuItem.Checked = false;
             UpdateViewInfo();
         }
@@ -621,7 +591,7 @@ namespace Cassiopeia
         {
             TipoVista = ViewType.Digital;
             cdToolStripMenuItem.Checked = false;
-            CargarVista();
+            LoadView();
             UpdateViewInfo();
         }
 
@@ -635,7 +605,7 @@ namespace Cassiopeia
                 string fichero = openFileDialog1.FileName;
                 Kernel.LoadCSVAlbums(fichero);
             }
-            CargarVista();
+            LoadView();
         }
 
         private void digitalToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -660,77 +630,40 @@ namespace Cassiopeia
                 string fichero = openFileDialog1.FileName;
                 Kernel.LoadCD(fichero);
             }
-            CargarVista();
+            LoadView();
         }
 
         private void vincularToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            bool cancelado = false;
-            DialogResult eleccion = MessageBox.Show(Kernel.LocalTexts.GetString("avisoSpotify"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            if (eleccion == DialogResult.Yes)
-            {
-                Stopwatch espera = Stopwatch.StartNew();
-                Kernel.Spotify.Restart();
-                Kernel.Spotify.SpotifyVinculado();
-                while (!Kernel.Spotify.cuentaLista)
-                {
-                    //deadlock, sincrono
-                    if (espera.Elapsed.TotalSeconds >= 30)
-                    {
-                        cancelado = true;
-                        break;
-                    }
-                }
-                if (cancelado)
-                {
-                    Log.PrintMessage("Se ha cancelado la vinculación por tiempo de espera.", MessageType.Warning);
-                    MessageBox.Show(Kernel.LocalTexts.GetString("errorVinculacion"));
-                    return;
-                }
-                if (Kernel.Spotify._spotify.GetPrivateProfile().Product != "premium")
-                {
-                    Log.PrintMessage("El usuario no tiene premium, no podrá usar spotify desde el Gestor", MessageType.Warning);
-                    MessageBox.Show(Kernel.LocalTexts.GetString("noPremium"));
-                    spotifyToolStripMenuItem.Enabled = false;
-                    vincularToolStripMenuItem.Enabled = false;
-                }
-                Reproductor.Instancia.SpotifyEncendido();
-            }
-            else return;
+
         }
-        private void spotifyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void playSpotifyAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]); //it fucking works! no es O(1)
-            Log.PrintMessage(a.ToString(), MessageType.Info);
+            Log.PrintMessage("Trying to play "+a.ToString(), MessageType.Info);
             if (string.IsNullOrEmpty(a.IdSpotify))
             {
-                SpotifyAPI.Web.Models.SimpleAlbum album = Kernel.Spotify.DevolverAlbum(a.GetSpotifySearchLabel());
-                if (object.ReferenceEquals(a, null) || object.ReferenceEquals(album, null))
+                try
                 {
-                    Log.PrintMessage("Album was null..., spotifyToolStripMenuItem_Click()", MessageType.Error);
+                    Log.PrintMessage("Fetching Spotify URI", MessageType.Info);
+                    SpotifyAPI.Web.SimpleAlbum album = Kernel.Spotify.ReturnAlbum(a.GetSpotifySearchLabel());
+                    Kernel.Spotify.PlayAlbum(album.Id);
                 }
-                else
+                catch (SpotifyAPI.Web.APIException ex)
                 {
-                    SpotifyAPI.Web.Models.ErrorResponse err = Kernel.Spotify.PlayAlbum(album.Id);
-                    if (err is not null && err.Error is not null)
-                    {
-                        Log.PrintMessage(err.Error.Message, MessageType.Error, "spotifyToolStripMenuItem_Click()");
-                        MessageBox.Show(err.Error.Message);
-                    }
-                    else
-                        Log.PrintMessage("Playing OK", MessageType.Correct);
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
                 }
             }
             else
             {
-                SpotifyAPI.Web.Models.ErrorResponse err = Kernel.Spotify.PlayAlbum(a.IdSpotify);
-                if (err != null && err.Error != null)
+                try
                 {
-                    Log.PrintMessage(err.Error.Message, MessageType.Error, "spotifyToolStripMenuItem_Click()");
-                    MessageBox.Show(err.Error.Message);
+                    Kernel.Spotify.PlayAlbum(a.IdSpotify);
                 }
-                else
-                    Log.PrintMessage("Playing OK", MessageType.Correct);
+                catch (SpotifyAPI.Web.APIException ex)
+                {
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
+                }
             }
         }
 
@@ -742,12 +675,12 @@ namespace Cassiopeia
 
         private void reproductorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Reproductor.Instancia.Show();
+            Player.Instancia.Show();
         }
 
         private void abrirCDMenuItem_Click(object sender, EventArgs e)
         {
-            AbrirDisco AD = new AbrirDisco();
+            OpenDisc AD = new OpenDisc();
             AD.ShowDialog();
         }
 
@@ -755,7 +688,7 @@ namespace Cassiopeia
         {
             AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]);
             Song cancion = a.GetSong(0);
-            VisorLyrics VL = new VisorLyrics(cancion);
+            LyricsViewer VL = new LyricsViewer(cancion);
             VL.Show();
         }
 
@@ -779,8 +712,6 @@ namespace Cassiopeia
                 Stopwatch crono = Stopwatch.StartNew();
                 DirectoryInfo carpeta = new DirectoryInfo(browserDialog.SelectedPath);
                 Config.LastOpenedDirectory = carpeta.FullName;
-                BarraCarga bC = new BarraCarga(carpeta.GetFiles().Length);
-                bC.Show();
                 foreach (var filename in carpeta.GetFiles())
                 {
 
@@ -819,7 +750,6 @@ namespace Cassiopeia
                                 a.CoverPath = filename.FullName;
                             break;
                     }
-                    bC.Progreso();
                 }
                 if (numSongs != 0) //The counter has been updated and songs had a track number.
                 {
@@ -833,7 +763,6 @@ namespace Cassiopeia
                     a.Songs = songList;
                 }
                 a.SoundFilesPath = carpeta.FullName;
-                bC.Close();
                 Kernel.Collection.AddAlbum(ref a);
                 crono.Stop();
                 Log.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
@@ -857,11 +786,75 @@ namespace Cassiopeia
                 case ViewType.CD:
                     clickDerechoMenuContexto.Items[0].Visible = false;
                     break;
-                case ViewType.Vinilo:
+                case ViewType.Vinyl:
                     break;
                 default:
                     break;
             }
+        }
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            vistaAlbumes.Size = Size - margins;
+        }
+
+        private void searchSpotifyStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SearchSpotify busquedaSpotifyForm = new SearchSpotify();
+            busquedaSpotifyForm.ShowDialog();
+        }
+
+        private void linkSpotifyStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool cancelado = false;
+            DialogResult eleccion = MessageBox.Show(Kernel.LocalTexts.GetString("avisoSpotify"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (eleccion == DialogResult.Yes)
+            {
+                Stopwatch espera = Stopwatch.StartNew();
+                Log.Instance.PrintMessage("Reiniciando Spotify", MessageType.Info);
+                Kernel.Spotify.LinkSpotify();
+                while (!Kernel.Spotify.AccountReady)
+                {
+                    //deadlock, sincrono
+                    if (espera.Elapsed.TotalSeconds >= 20)
+                    {
+                        cancelado = true;
+                        break;
+                    }
+                }
+                if (cancelado)
+                {
+                    Log.PrintMessage("Se ha cancelado la vinculación por tiempo de espera.", MessageType.Warning);
+                    MessageBox.Show(Kernel.LocalTexts.GetString("errorVinculacion"));
+                    Kernel.InternetAvaliable(true);
+                    return;
+                }
+                try
+                {
+                    if (!Kernel.Spotify.UserIsPremium())
+                    {
+                        Log.PrintMessage("User is not premium", MessageType.Warning);
+                        MessageBox.Show(Kernel.LocalTexts.GetString("noPremium"));
+                    }
+                    else
+                        Log.PrintMessage("User is premium", MessageType.Info);
+                    linkSpotifyStripMenuItem.Visible = false;
+                    importSpotifyStripMenuItem.Enabled = true;
+                    Player.Instancia.SpotifyEncendido();
+                }
+                catch (SpotifyAPI.Web.APIException ex)
+                {
+                    Log.PrintMessage(ex.Message, MessageType.Warning);
+                    linkSpotifyStripMenuItem.Visible = true;
+                    
+                    Kernel.InternetAvaliable(false);
+                    throw;
+                }
+            }
+        }
+
+        private void importSpotifyStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Kernel.Spotify.GetUserAlbums();
         }
         #endregion
     }

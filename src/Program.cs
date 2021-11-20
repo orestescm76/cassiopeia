@@ -2,11 +2,6 @@
 using System.Windows.Forms;
 using System.Diagnostics;
 
-
-/* VERSION 1.7.xx CODENAME STORM
- * Traspaso a Net 5.
- */
-
 namespace Cassiopeia
 {
     static class Program
@@ -23,7 +18,10 @@ namespace Cassiopeia
             Kernel.ParseArgs(args);
             int console;
             if (Kernel.Console)
+            {
                 console = Kernel.AllocConsole();
+                Console.CancelKeyPress += (sender, args) => Kernel.Quit();
+            }
 #if DEBUG
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
 #endif
@@ -33,7 +31,6 @@ namespace Cassiopeia
 
             Stopwatch StartStopwatch = Stopwatch.StartNew();
             //Checking arguments
-
 
             //Load configuration
             Kernel.LoadConfig();

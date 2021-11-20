@@ -56,7 +56,10 @@ namespace Cassiopeia
             else
                 return Title;
         }
-
+        /// <summary>
+        /// Returns the song but in array
+        /// </summary>
+        /// <returns>{title, duration}</returns>
         public String[] ToStringArray()
         {
             String[] datos;

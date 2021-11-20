@@ -1,37 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Cassiopeia
 {
-    public enum SleeveType
+    public class VinylAlbum : PhysicalAlbum
     {
-        Jewel, Digipack, MiniLP, NoStorage
-    }
-    public class CompactDisc : PhysicalAlbum
-    {
-
-        public List<Disc> Discos { get; set; }
-
-        public SleeveType SleeveType { get; set; }
+        public List<VinylDisc> discList;
         public int TotalSongs => getNumSongs();
-
-        public CompactDisc() : base()
+        public VinylAlbum(string s, int ncFront, int ncBack, MediaCondition e, MediaCondition ee, short y, string p) : base(s, ee, y, p)
         {
-
-        }
-
-        public CompactDisc(string s, int nc, MediaCondition e, MediaCondition ee, SleeveType f, short y, string p): base(s, ee, y, p)
-        {
-            SleeveType = f;
-            Discos = new List<Disc>(1);
-            Discos.Add(new Disc(nc, e));
+            discList = new List<VinylDisc>(1);
+            discList.Add(new VinylDisc(ncFront, ncBack, 'A', ee));
             Id = Convert.ToBase64String(Guid.NewGuid().ToByteArray()); //porque puede ser que tenga dos copias del mismo álbum
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
 
-        public String[] ToStringArray()
+        public string[] ToStringArray()
         {
             String[] d = new string[6];
             Array.Copy(AlbumData.ToStringArray(), d, 5);
@@ -42,7 +27,7 @@ namespace Cassiopeia
         private int getNumSongs()
         {
             int sum = 0;
-            foreach (var disc in Discos)
+            foreach (var disc in discList)
             {
                 sum += disc.NumberOfSongs;
             }

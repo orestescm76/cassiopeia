@@ -722,4 +722,28 @@
   <data name="error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="tipoAlbum" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="estudio" xml:space="preserve">
+    <value>Studio</value>
+  </data>
+  <data name="live" xml:space="preserve">
+    <value>Live album</value>
+  </data>
+  <data name="compilacion" xml:space="preserve">
+    <value>Compilation</value>
+  </data>
+  <data name="sencillo" xml:space="preserve">
+    <value>Single</value>
+  </data>
+  <data name="EP" xml:space="preserve">
+    <value>EP (Extended play)</value>
+  </data>
+  <data name="importSpotify" xml:space="preserve">
+    <value>Import album colection</value>
+  </data>
+  <data name="importSpotifyWarning" xml:space="preserve">
+    <value>There are a lot of albums. If you choose to download the album covers, that could take a couple of minutes. Download them?</value>
+  </data>
 </root>

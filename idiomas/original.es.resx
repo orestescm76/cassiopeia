@@ -716,4 +716,31 @@
   <data name="error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="creando" xml:space="preserve">
+    <value>Creando</value>
+  </data>
+  <data name="tipoAlbum" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="estudio" xml:space="preserve">
+    <value>Estudio</value>
+  </data>
+  <data name="live" xml:space="preserve">
+    <value>En directo</value>
+  </data>
+  <data name="compilacion" xml:space="preserve">
+    <value>Compilación</value>
+  </data>
+  <data name="sencillo" xml:space="preserve">
+    <value>Sencillo</value>
+  </data>
+  <data name="EP" xml:space="preserve">
+    <value>EP (Reproducción extendida)</value>
+  </data>
+  <data name="importSpotify" xml:space="preserve">
+    <value>Importar colección de albums</value>
+  </data>
+  <data name="importSpotifyWarning" xml:space="preserve">
+    <value>Hay muchos discos. Si descarga las portadas, podría tardar un par de minutos. ¿Desea descargar las portadas?</value>
+  </data>
 </root>

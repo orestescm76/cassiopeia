@@ -1,6 +1,6 @@
 ﻿namespace Cassiopeia
 {
-    partial class agregarCancion
+    partial class CreateSong
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(agregarCancion));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateSong));
             this.tituloTextBox = new System.Windows.Forms.TextBox();
             this.secsTextBox = new System.Windows.Forms.TextBox();
             this.minTextBox = new System.Windows.Forms.TextBox();
