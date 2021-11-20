@@ -18,7 +18,7 @@ namespace Cassiopeia
             if (album.CanBeRemoved)
                 Albums.Remove(album);
             else
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(album.Artist + " - " + album.Title);
         }
         public List<AlbumData> SearchAlbum(string title)
         {
@@ -96,6 +96,7 @@ namespace Cassiopeia
                 if(item.Id == id)
                 {
                     CDS.Remove(item);
+                    ReleaseLock(item.AlbumData);
                     return;
                 }
             }
@@ -103,6 +104,17 @@ namespace Cassiopeia
         public void DeleteCD(ref CompactDisc cd)
         {
             CDS.Remove(cd);
+        }
+        private void ReleaseLock(AlbumData a)
+        {
+            //First release the lock
+            a.CanBeRemoved = true;
+            foreach (var cd in CDS)
+            {
+                //If one copy refers that album, we cannot remove
+                if (cd.AlbumData == a)
+                    a.CanBeRemoved = false;
+            }
         }
     }
 }

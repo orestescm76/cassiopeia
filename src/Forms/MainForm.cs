@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Cassiopeia.src.Forms;
+using Cassiopeia.src.Classes;
+
 namespace Cassiopeia
 {
     public enum ViewType
@@ -96,13 +97,13 @@ namespace Cassiopeia
                     vistaAlbumes.Items.AddRange(items);
                     break;
                 case ViewType.CD:
-                    ListViewItem[] cds = new ListViewItem[Kernel.Collection.CDS.Count];
-                    vistaAlbumes.Columns[5].Width = 0;
+                    src.Classes.ListViewPhysicalAlbum[] cds = new src.Classes.ListViewPhysicalAlbum[Kernel.Collection.CDS.Count];
                     int j = 0;
                     foreach (CompactDisc cd in Kernel.Collection.CDS)
                     {
                         String[] datos = cd.ToStringArray();
-                        cds[j] = new ListViewItem(datos);
+                        cds[j] = new src.Classes.ListViewPhysicalAlbum(datos);
+                        cds[j].ID = cd.Id;
                         j++;
                     }
                     vistaAlbumes.Items.AddRange(cds);
@@ -174,62 +175,71 @@ namespace Cassiopeia
             }
         }
 
-        private void borrarAlbumesSeleccionados(ViewType tipoVista)
+        private void DeleteSelectedAlbums(ViewType tipoVista)
         {
 
             Stopwatch crono = Stopwatch.StartNew();
             borrando = true;
             int cuantos = vistaAlbumes.SelectedItems.Count;
-            ListViewItem[] itemsABorrar = new ListViewItem[cuantos];
             switch (tipoVista)
             {
                 case ViewType.Digital:
                     Console.WriteLine("Deleting " + vistaAlbumes.SelectedItems.Count + " albums");
-                    for (int i = 0; i < cuantos; i++)
+                    try
                     {
-                        itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
-                    }
-                    for (int i = 0; i < vistaAlbumes.SelectedIndices.Count; i++)
-                    {
-                        try
+                        while (vistaAlbumes.SelectedIndices.Count != 0)
                         {
-                            AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[i]);
+                            int i = vistaAlbumes.SelectedIndices[0];
+                            AlbumData a = Kernel.Collection.GetAlbum(i);
                             Kernel.Collection.RemoveAlbum(ref a);
-                            for (int j = 0; j < cuantos; j++)
-                            {
-                                vistaAlbumes.Items.Remove(itemsABorrar[j]);
-                            }
+                            vistaAlbumes.Items.Remove(vistaAlbumes.Items[i]);
                         }
-                        catch (InvalidOperationException)
-                        {
-                            MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado"));
-                            continue;
-                        }
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado") + Environment.NewLine + ex.Message);
                     }
                     break;
                 case ViewType.CD:
                     Console.WriteLine("Deleting " + vistaAlbumes.SelectedItems.Count + " CD");
-                    for (int i = 0; i < cuantos; i++)
+                    try
                     {
-                        itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
-                    }
-                    for (int i = 0; i < cuantos; i++)
-                    {
-                        CompactDisc cdaborrar = Kernel.Collection.GetCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
-                        CompactDisc cdd = cdaborrar;
-                        Kernel.Collection.DeleteCD(ref cdaborrar);
-                        cdd.AlbumData.CanBeRemoved = true;
-
-                        foreach (CompactDisc cd in Kernel.Collection.CDS)
+                        while (vistaAlbumes.SelectedIndices.Count != 0)
                         {
-                            if (cd.AlbumData == cdd.AlbumData)
-                                cd.AlbumData.CanBeRemoved = false;
+                            ListViewPhysicalAlbum item = (ListViewPhysicalAlbum)vistaAlbumes.Items[vistaAlbumes.SelectedIndices[0]];
+                            int i = vistaAlbumes.SelectedIndices[0];
+                            CompactDisc cd = Kernel.Collection.GetCDById(item.ID);
+                            Kernel.Collection.DeleteCD(cd.Id);
+                            vistaAlbumes.Items.Remove(vistaAlbumes.Items[i]);
                         }
                     }
-                    for (int i = 0; i < cuantos; i++)
+                    catch (InvalidOperationException ex)
                     {
-                        vistaAlbumes.Items.Remove(itemsABorrar[i]);
+                        MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado") + Environment.NewLine + ex.Message);
                     }
+
+
+                    //for (int i = 0; i < cuantos; i++)
+                    //{
+                    //    //itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
+                    //}
+                    //for (int i = 0; i < cuantos; i++)
+                    //{
+                    //    CompactDisc cdaborrar = Kernel.Collection.GetCDById(vistaAlbumes.SelectedItems[i].SubItems[5].Text);
+                    //    CompactDisc cdd = cdaborrar;
+                    //    Kernel.Collection.DeleteCD(ref cdaborrar);
+                    //    cdd.AlbumData.CanBeRemoved = true;
+
+                    //    foreach (CompactDisc cd in Kernel.Collection.CDS)
+                    //    {
+                    //        if (cd.AlbumData == cdd.AlbumData)
+                    //            cd.AlbumData.CanBeRemoved = false;
+                    //    }
+                    //}
+                    //for (int i = 0; i < cuantos; i++)
+                    //{
+                    //    //vistaAlbumes.Items.Remove(itemsABorrar[i]);
+                    //}
                     break;
                 case ViewType.Vinyl:
                     break;
@@ -238,7 +248,7 @@ namespace Cassiopeia
             }
             borrando = false;
             duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": 00:00:00";
-            vistaAlbumes.Refresh();
+            LoadView();
             crono.Stop();
             Log.Instance.PrintMessage("Deletion completed.", MessageType.Correct, crono, TimeType.Milliseconds);
         }
@@ -392,33 +402,9 @@ namespace Cassiopeia
                 duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
             }
         }
-        private void masCortoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlbumData a = Kernel.Collection.Albums.First();
-            for (int i = 1; i < Kernel.Collection.Albums.Count; i++)
-            {
-                if (a.Length > Kernel.Collection.Albums[i].Length)
-                    a = Kernel.Collection.Albums[i];
-            }
-            AlbumViewer v = new AlbumViewer(ref a);
-            v.ShowDialog();
-        }
-
-        private void masLargoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AlbumData a = Kernel.Collection.Albums.First();
-            for (int i = 1; i < Kernel.Collection.Albums.Count; i++)
-            {
-                if (a.Length < Kernel.Collection.Albums[i].Length)
-                    a = Kernel.Collection.Albums[i];
-            }
-            AlbumViewer v = new AlbumViewer(ref a);
-            v.ShowDialog();
-        }
-
         private void borrarseleccionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            borrarAlbumesSeleccionados(TipoVista);
+            DeleteSelectedAlbums(TipoVista);
         }
         private void guardarcomo_Click(object sender, EventArgs e)
         {
