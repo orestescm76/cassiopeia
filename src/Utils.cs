@@ -1,5 +1,6 @@
 ﻿using System;
 using SpotifyAPI.Web;
+using Cassiopeia.src.Classes;
 
 namespace Cassiopeia
 {
@@ -153,6 +154,28 @@ namespace Cassiopeia
                 return result;
             }
             return result;
+        }
+        public static AlbumData GetRandomAlbum()
+        {
+            if (Kernel.Collection.Albums.Count == 0)
+                return null;
+            else
+            {
+                //Select a random album from the collection.
+                Random random = new Random();
+                AlbumData randomAlbum = Kernel.Collection.Albums[random.Next(Kernel.Collection.Albums.Count)];
+                return randomAlbum;
+            }
+        }
+        public static Song GetRandomSong()
+        {
+            return null;
+        }
+        public static Song GetRandomSong(AlbumData from)
+        {
+            Random random = new Random();
+            int index = random.Next(from.Songs.Count);
+            return from.Songs[index];
         }
     }
 }

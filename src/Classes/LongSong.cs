@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public class LongSong : Song
     {

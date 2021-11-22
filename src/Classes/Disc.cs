@@ -1,4 +1,4 @@
-﻿namespace Cassiopeia
+﻿namespace Cassiopeia.src.Classes
 {
     public class Disc
     {

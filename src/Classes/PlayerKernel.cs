@@ -6,7 +6,7 @@ using CSCore.SoundOut;
 using CSCore.Streams;
 using Cassiopeia.CD;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public enum FormatoSonido
     {

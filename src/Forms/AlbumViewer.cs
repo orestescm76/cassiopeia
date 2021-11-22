@@ -4,9 +4,9 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
-using Cassiopeia.src.Forms;
+using Cassiopeia.src.Classes;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Forms
 {
     public partial class AlbumViewer : Form
     {

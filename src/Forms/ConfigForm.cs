@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {
@@ -39,6 +40,7 @@ namespace Cassiopeia.src.Forms
         ToolTip ttbtTextLyrics;
         ToolTip ttbtTextView;
 
+        Random random = new Random();
         ActiveConfig ActiveConfig;
         public ConfigForm()
         {
@@ -50,7 +52,7 @@ namespace Cassiopeia.src.Forms
             labelSelect.Show();
             
             PonerTextos();
-            labelSelect.Location = new Point(290 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
+            labelSelect.Location = new Point(groupBoxRaiz.Size.Width/2 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
             Icon = Properties.Resources.settings;
             treeViewConfiguracion.ExpandAll();
             SongPreview.SetAlbum(AlbumCopyPreview);
@@ -107,8 +109,8 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
             stringConfig = new TextBox();
             stringConfig.TextChanged += StringConfig_TextChanged;
-            stringConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
-            Size size = stringConfig.Size; size.Width = 500; stringConfig.Size = size;
+            stringConfig.Location = new Point(35, 75);
+            Size size = stringConfig.Size; size.Width = 420; stringConfig.Size = size;
             stringConfig.Font = new Font("Segoe UI", 9);
             stringConfig.Text = Config.Clipboard;
             labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
@@ -127,16 +129,11 @@ namespace Cassiopeia.src.Forms
 %totaltracks% - Total number of tracks
 %path% - Path of local files, if avaliable";
             string Preview = "";
-            if (Kernel.Collection.Albums.Count == 0)
-                Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist); //Es seguro.
-            else
-            {
-                //Select a random album from the collection.
-                Random random = new Random();
-                AlbumData AlbumRef = Kernel.Collection.Albums[random.Next(Kernel.Collection.Albums.Count)];
-                AlbumCopyPreview = AlbumRef;
+            AlbumData album = Utils.GetRandomAlbum();
+            if (album is null)
                 Preview = Config.Clipboard.Replace("%artist%", AlbumCopyPreview.Artist);
-            }
+            else
+                AlbumCopyPreview = album;
             stringConfig.Text = Config.Clipboard;
             StringConfig_TextChanged(null, null);
             groupBoxRaiz.Controls.Add(stringConfig);
@@ -153,7 +150,7 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Text = "historial";
             stringConfig = new TextBox();
             stringConfig.TextChanged += StringConfig_TextChanged;
-            stringConfig.Location = new Point(44, groupBoxRaiz.Size.Height / 2);
+            stringConfig.Location = new Point(35, 75);
 
             checkBoxHistoryConfig = new CheckBox();
             checkBoxHistoryConfig.Click += checkBoxHistorialConfig_Click;
@@ -163,7 +160,8 @@ namespace Cassiopeia.src.Forms
             checkBoxHistoryConfig.AutoSize = true;
             checkBoxHistoryConfig.Font = new Font("Segoe UI", 9);
 
-            Size size = stringConfig.Size; size.Width = 500; stringConfig.Size = size;
+            Size size = stringConfig.Size; 
+            size.Width = 420; stringConfig.Size = size;
             stringConfig.Font = new Font("Segoe UI", 9);
             stringConfig.Text = Config.History;
             labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
@@ -179,7 +177,13 @@ namespace Cassiopeia.src.Forms
 %length_seconds% - Song length in seconds, formatted as an integer
 %length% - Length of the song, formatted as [HH:]MM:SS. 
 %path% - Path of the song, if avaliable";
+
             string Preview = Config.History;
+
+            AlbumData album = Utils.GetRandomAlbum();
+            if (album is not null)
+                SongPreview = Utils.GetRandomSong(album);
+
             StringConfig_TextChanged(null, null);
             groupBoxRaiz.Controls.Add(stringConfig);
             groupBoxRaiz.Controls.Add(labelStringConfigPreview);
@@ -350,7 +354,8 @@ namespace Cassiopeia.src.Forms
                         labelStringConfigPreview.Text = Preview;
                         break;
                     case ActiveConfig.History:
-                        Preview = Preview.Replace("%track_num%", "1");
+                        int num = random.Next(1, 101);
+                        Preview = Preview.Replace("%track_num%", num.ToString());
                         Preview = Preview.Replace("%artist%", SongPreview.AlbumFrom.Artist);
                         Preview = Preview.Replace("%title%", SongPreview.Title);
                         Preview = Preview.Replace("%length%", SongPreview.Length.ToString());
@@ -418,6 +423,11 @@ namespace Cassiopeia.src.Forms
         private void treeViewConfiguracion_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
+        }
+
+        private void groupBoxRaiz_Resize(object sender, EventArgs e)
+        {
+            labelSelect.Location = new Point(groupBoxRaiz.Size.Width / 2 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
         }
     }
 }

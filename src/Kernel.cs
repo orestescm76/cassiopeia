@@ -1,7 +1,7 @@
 ﻿/*
- * CASSIOPEIA 2.0.196.0
- * NET 5 PORT
- * SPOTIFYAPI 6 PORT (WIP)
+ * CASSIOPEIA 2.0.220.0
+ * NET 5 PORT - OK
+ * SPOTIFYAPI 6 PORT - OK
  * CODENAME STORM
  * MADE BY ORESTESCM76
  */
@@ -17,10 +17,11 @@ using System.Windows.Forms;
 using Cassiopeia.src.Forms;
 using System.Threading.Tasks;
 using System.Threading;
+using Cassiopeia.src.Classes;
 
 namespace Cassiopeia
 {
-    static class Kernel
+    public static class Kernel
     {
         public static readonly string CodeName = "Storm";
         private enum CSV_Albums
@@ -353,8 +354,13 @@ namespace Cassiopeia
             switch (start)
             {
                 case StartType.Normal:
-                    Application.Run(MainForm);
+                    //Log.Instance.PrintMessage("Searching", MessageType.Info);
+                    //Stopwatch crono = Stopwatch.StartNew();
+                    //Song s = searchSong("the boys are back");
+                    //Log.Instance.PrintMessage("ok", MessageType.Info, crono, TimeType.Milliseconds);
                     Log.Instance.PrintMessage("Running main form", MessageType.Info);
+                    Application.Run(MainForm);
+
                     break;
                 case StartType.PlayerOnly:
                     Application.Run(Player.Instancia);
@@ -778,6 +784,18 @@ namespace Cassiopeia
         public static DialogResult Warn(string reason)
         {
             return MessageBox.Show(reason, "Warn", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+        }
+        public static Song searchSong(string keyword)
+        {
+            foreach (AlbumData album in Collection.Albums)
+            {
+                foreach (Song song in album.Songs)
+                {
+                    if (song.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+                        return song;
+                }
+            }
+            return null;
         }
     }
 }

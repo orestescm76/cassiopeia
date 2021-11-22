@@ -1,4 +1,4 @@
-﻿namespace Cassiopeia
+﻿namespace Cassiopeia.src.Forms
 {
     partial class MainForm
     {
@@ -51,8 +51,10 @@
             this.verLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.digitalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vierCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchSpotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.linkSpotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,6 +80,7 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playSpotifyAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -96,7 +99,7 @@
             this.testToolStripMenuItem});
             this.barraPrincipal.Location = new System.Drawing.Point(0, 0);
             this.barraPrincipal.Name = "barraPrincipal";
-            this.barraPrincipal.Size = new System.Drawing.Size(922, 24);
+            this.barraPrincipal.Size = new System.Drawing.Size(1092, 24);
             this.barraPrincipal.TabIndex = 0;
             this.barraPrincipal.Text = "menuStrip2";
             // 
@@ -122,7 +125,7 @@
             // nuevoToolStripMenuItem
             // 
             this.nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            this.nuevoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.nuevoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
             | System.Windows.Forms.Keys.N)));
             this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
             this.nuevoToolStripMenuItem.Text = "nuevo";
@@ -254,11 +257,20 @@
             // verToolStripMenuItem
             // 
             this.verToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.digitalToolStripMenuItem,
-            this.cdToolStripMenuItem});
+            this.viewModeToolStripMenuItem,
+            this.panelToolStripMenuItem});
             this.verToolStripMenuItem.Name = "verToolStripMenuItem";
             this.verToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.verToolStripMenuItem.Text = "ver";
+            // 
+            // viewModeToolStripMenuItem
+            // 
+            this.viewModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.digitalToolStripMenuItem,
+            this.vierCDToolStripMenuItem});
+            this.viewModeToolStripMenuItem.Name = "viewModeToolStripMenuItem";
+            this.viewModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewModeToolStripMenuItem.Text = "ViewMode";
             // 
             // digitalToolStripMenuItem
             // 
@@ -267,18 +279,30 @@
             this.digitalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.digitalToolStripMenuItem.Name = "digitalToolStripMenuItem";
             this.digitalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.digitalToolStripMenuItem.Tag = "digital";
             this.digitalToolStripMenuItem.Text = "digital";
             this.digitalToolStripMenuItem.Click += new System.EventHandler(this.digitalToolStripMenuItem_Click);
             // 
-            // cdToolStripMenuItem
+            // vierCDToolStripMenuItem
             // 
-            this.cdToolStripMenuItem.CheckOnClick = true;
-            this.cdToolStripMenuItem.Name = "cdToolStripMenuItem";
-            this.cdToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.cdToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-            this.cdToolStripMenuItem.Text = "CD";
-            this.cdToolStripMenuItem.Click += new System.EventHandler(this.cdToolStripMenuItem_Click);
+            this.vierCDToolStripMenuItem.CheckOnClick = true;
+            this.vierCDToolStripMenuItem.Name = "vierCDToolStripMenuItem";
+            this.vierCDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.vierCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vierCDToolStripMenuItem.Tag = "cd";
+            this.vierCDToolStripMenuItem.Text = "CD";
+            this.vierCDToolStripMenuItem.Click += new System.EventHandler(this.viewCDToolStripMenuItem_Click);
+            // 
+            // panelToolStripMenuItem
+            // 
+            this.panelToolStripMenuItem.Checked = true;
+            this.panelToolStripMenuItem.CheckOnClick = true;
+            this.panelToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.panelToolStripMenuItem.Name = "panelToolStripMenuItem";
+            this.panelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.panelToolStripMenuItem.Text = "showPanel";
+            this.panelToolStripMenuItem.Click += new System.EventHandler(this.panelToolStripMenuItem_Click);
             // 
             // spotifyStripMenuItem
             // 
@@ -378,10 +402,10 @@
             this.vistaAlbumes.ForeColor = System.Drawing.SystemColors.WindowText;
             this.vistaAlbumes.FullRowSelect = true;
             this.vistaAlbumes.HideSelection = false;
-            this.vistaAlbumes.Location = new System.Drawing.Point(0, 24);
+            this.vistaAlbumes.Location = new System.Drawing.Point(0, 27);
             this.vistaAlbumes.Name = "vistaAlbumes";
             this.vistaAlbumes.ShowGroups = false;
-            this.vistaAlbumes.Size = new System.Drawing.Size(922, 532);
+            this.vistaAlbumes.Size = new System.Drawing.Size(860, 429);
             this.vistaAlbumes.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.vistaAlbumes.TabIndex = 1;
             this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
@@ -418,9 +442,9 @@
             this.barraAbajo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.duracionSeleccionada,
             this.toolStripStatusLabelViewInfo});
-            this.barraAbajo.Location = new System.Drawing.Point(0, 559);
+            this.barraAbajo.Location = new System.Drawing.Point(0, 459);
             this.barraAbajo.Name = "barraAbajo";
-            this.barraAbajo.Size = new System.Drawing.Size(922, 22);
+            this.barraAbajo.Size = new System.Drawing.Size(1092, 22);
             this.barraAbajo.TabIndex = 4;
             this.barraAbajo.Text = "statusStrip1";
             // 
@@ -476,11 +500,20 @@
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Location = new System.Drawing.Point(866, 27);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(221, 429);
+            this.panel1.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(922, 581);
+            this.ClientSize = new System.Drawing.Size(1092, 481);
             this.ContextMenuStrip = this.clickDerechoMenuContexto;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.barraAbajo);
             this.Controls.Add(this.vistaAlbumes);
             this.Controls.Add(this.barraPrincipal);
@@ -532,8 +565,6 @@
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem copiarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem verToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cdToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cargarDiscosLegacyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CargarCDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem1;
@@ -553,5 +584,10 @@
         private System.Windows.Forms.ToolStripMenuItem searchSpotifyStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem linkSpotifyStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importSpotifyStripMenuItem;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem panelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vierCDToolStripMenuItem;
     }
 }

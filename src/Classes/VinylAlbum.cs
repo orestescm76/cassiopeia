@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public class VinylAlbum : PhysicalAlbum
     {
         public List<VinylDisc> discList;
         public int TotalSongs => getNumSongs();
-        public VinylAlbum(string s, int ncFront, int ncBack, MediaCondition e, MediaCondition ee, short y, string p) : base(s, ee, y, p)
+        public VinylAlbum(AlbumData a, string s, int ncFront, int ncBack, MediaCondition e, MediaCondition ee, short y, string p) : base(a, s, ee, y, p)
         {
             discList = new List<VinylDisc>(1);
             discList.Add(new VinylDisc(ncFront, ncBack, 'A', ee));

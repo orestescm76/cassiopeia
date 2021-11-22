@@ -68,7 +68,7 @@ namespace Cassiopeia
             switch (timeType)
             {
                 case TimeType.Milliseconds:
-                    timeStamp = crono.ElapsedTicks / 10000 + "ms";
+                    timeStamp = crono.ElapsedTicks / 10000.0 + "ms";
                     break;
 
                 case TimeType.Microseconds:

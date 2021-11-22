@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
-    class Collection
+    public class Collection
     {
         public List<AlbumData> Albums { get; private set; }
         public List<CompactDisc> CDS { get; private set; }

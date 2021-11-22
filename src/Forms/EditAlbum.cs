@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Cassiopeia.src.Classes;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Forms
 {
     public partial class EditAlbum : Form
     {

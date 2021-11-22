@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using Cassiopeia.src.Classes;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Forms
 {
     public partial class CreateCD : Form
     {
@@ -126,7 +127,7 @@ namespace Cassiopeia
             //Creating CD
             try
             {
-                creatingCD = new CompactDisc(s, numberSongs, medio, exterior, formato, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
+                creatingCD = new CompactDisc(album, s, numberSongs, medio, exterior, formato, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
 
             }
             catch (Exception)

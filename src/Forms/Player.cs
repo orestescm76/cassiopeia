@@ -10,6 +10,7 @@ using System.Threading;
 using System.Diagnostics;
 using Cassiopeia.Properties;
 using System.Collections.Generic;
+using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {

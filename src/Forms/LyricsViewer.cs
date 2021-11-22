@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {

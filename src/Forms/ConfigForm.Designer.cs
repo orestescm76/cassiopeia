@@ -47,7 +47,9 @@
             // 
             // treeViewConfiguracion
             // 
-            this.treeViewConfiguracion.Location = new System.Drawing.Point(14, 14);
+            this.treeViewConfiguracion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.treeViewConfiguracion.Location = new System.Drawing.Point(14, 12);
             this.treeViewConfiguracion.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.treeViewConfiguracion.Name = "treeViewConfiguracion";
             treeNode1.Name = "language";
@@ -73,14 +75,15 @@
             treeNode2,
             treeNode3,
             treeNode6});
-            this.treeViewConfiguracion.Size = new System.Drawing.Size(286, 633);
+            this.treeViewConfiguracion.Size = new System.Drawing.Size(220, 353);
             this.treeViewConfiguracion.TabIndex = 0;
             this.treeViewConfiguracion.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewConfiguracion_AfterSelect);
             this.treeViewConfiguracion.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewConfiguracion_NodeMouseClick);
             // 
             // buttonAplicar
             // 
-            this.buttonAplicar.Location = new System.Drawing.Point(910, 621);
+            this.buttonAplicar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAplicar.Location = new System.Drawing.Point(627, 371);
             this.buttonAplicar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonAplicar.Name = "buttonAplicar";
             this.buttonAplicar.Size = new System.Drawing.Size(88, 27);
@@ -91,8 +94,9 @@
             // 
             // buttonCancelar
             // 
+            this.buttonCancelar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancelar.Location = new System.Drawing.Point(816, 621);
+            this.buttonCancelar.Location = new System.Drawing.Point(531, 371);
             this.buttonCancelar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCancelar.Name = "buttonCancelar";
             this.buttonCancelar.Size = new System.Drawing.Size(88, 27);
@@ -102,7 +106,8 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(721, 621);
+            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOK.Location = new System.Drawing.Point(435, 371);
             this.buttonOK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(88, 27);
@@ -113,22 +118,27 @@
             // 
             // groupBoxRaiz
             // 
+            this.groupBoxRaiz.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxRaiz.AutoSize = true;
             this.groupBoxRaiz.Controls.Add(this.labelSelect);
             this.groupBoxRaiz.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.groupBoxRaiz.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.groupBoxRaiz.Location = new System.Drawing.Point(308, 14);
+            this.groupBoxRaiz.Location = new System.Drawing.Point(242, 12);
             this.groupBoxRaiz.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxRaiz.Name = "groupBoxRaiz";
             this.groupBoxRaiz.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxRaiz.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBoxRaiz.Size = new System.Drawing.Size(690, 600);
+            this.groupBoxRaiz.Size = new System.Drawing.Size(473, 353);
             this.groupBoxRaiz.TabIndex = 5;
             this.groupBoxRaiz.TabStop = false;
+            this.groupBoxRaiz.Resize += new System.EventHandler(this.groupBoxRaiz_Resize);
             // 
             // labelSelect
             // 
             this.labelSelect.AutoSize = true;
-            this.labelSelect.Location = new System.Drawing.Point(338, 277);
+            this.labelSelect.Location = new System.Drawing.Point(187, 124);
             this.labelSelect.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelSelect.Name = "labelSelect";
             this.labelSelect.Size = new System.Drawing.Size(94, 21);
@@ -142,21 +152,21 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancelar;
-            this.ClientSize = new System.Drawing.Size(1011, 661);
+            this.ClientSize = new System.Drawing.Size(728, 406);
             this.Controls.Add(this.groupBoxRaiz);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.buttonAplicar);
             this.Controls.Add(this.treeViewConfiguracion);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(744, 445);
             this.Name = "ConfigForm";
             this.Text = "Config";
             this.Load += new System.EventHandler(this.ConfigForm_Load);
             this.groupBoxRaiz.ResumeLayout(false);
             this.groupBoxRaiz.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

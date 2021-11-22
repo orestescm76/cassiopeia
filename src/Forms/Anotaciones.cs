@@ -1,8 +1,8 @@
 ﻿using System;
-using Newtonsoft.Json;
+using Cassiopeia.src.Classes;
 using System.Windows.Forms;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Forms
 {
     public partial class Anotaciones : Form
     {

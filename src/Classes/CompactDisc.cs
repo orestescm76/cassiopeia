@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public enum SleeveType
     {
@@ -21,7 +21,7 @@ namespace Cassiopeia
 
         }
 
-        public CompactDisc(string s, int nc, MediaCondition e, MediaCondition ee, SleeveType f, short y, string p): base(s, ee, y, p)
+        public CompactDisc(AlbumData album, string s, int nc, MediaCondition e, MediaCondition ee, SleeveType f, short y, string p): base(album, s, ee, y, p)
         {
             SleeveType = f;
             Discos = new List<Disc>(1);

@@ -1,4 +1,4 @@
-﻿namespace Cassiopeia
+﻿namespace Cassiopeia.src.Forms
 {
     partial class AlbumViewer
     {

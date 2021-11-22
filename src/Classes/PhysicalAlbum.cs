@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public enum MediaCondition
     {
@@ -15,7 +15,6 @@ namespace Cassiopeia
     }
 
     public class PhysicalAlbum
-
     {
         //no quiero guardarlo 2 veces, ni cargarlo 
         [Newtonsoft.Json.JsonIgnore] public AlbumData AlbumData { get; protected set; }
@@ -32,9 +31,9 @@ namespace Cassiopeia
 
         }
 
-        public PhysicalAlbum(string s, MediaCondition estado, short y = 0, string p = null)
+        public PhysicalAlbum(AlbumData a, string s, MediaCondition estado, short y = 0, string p = null)
         {
-            AlbumData = Kernel.Collection.GetAlbum(s);
+            AlbumData = a;
             EstadoExterior = estado;
             Year = y;
             Country = p;

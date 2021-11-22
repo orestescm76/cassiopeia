@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {

@@ -5,10 +5,9 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections.Generic;
-using Cassiopeia.src.Forms;
 using Cassiopeia.src.Classes;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Forms
 {
     public enum ViewType
     {
@@ -146,7 +145,6 @@ namespace Cassiopeia
             verToolStripMenuItem.Text = Kernel.LocalTexts.GetString("ver");
             digitalToolStripMenuItem.Text = Kernel.LocalTexts.GetString("digital");
             copiarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("copiar");
-            digitalToolStripMenuItem.Text = Kernel.LocalTexts.GetString("digital");
             linkSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("vincular");
             playSpotifyAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducirSpotify");
             reproductorToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproductor");
@@ -579,7 +577,7 @@ namespace Cassiopeia
             Log.PrintMessage("Copied " + i + " to the clipboard", MessageType.Info);
         }
 
-        private void cdToolStripMenuItem_Click(object sender, EventArgs e)
+        private void viewCDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TipoVista = ViewType.CD;
             LoadView();
@@ -590,7 +588,7 @@ namespace Cassiopeia
         private void digitalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TipoVista = ViewType.Digital;
-            cdToolStripMenuItem.Checked = false;
+            vierCDToolStripMenuItem.Checked = false;
             LoadView();
             UpdateViewInfo();
         }
@@ -857,5 +855,20 @@ namespace Cassiopeia
             Kernel.Spotify.GetUserAlbums();
         }
         #endregion
+
+        private void panelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //The user clicked when it was checked.
+            if (!panelToolStripMenuItem.Checked)
+            {
+                panel1.Hide();
+                vistaAlbumes.Size = new Size(vistaAlbumes.Width + panel1.Width, vistaAlbumes.Size.Height);
+            }
+            else
+            {
+                panel1.Show();
+                vistaAlbumes.Size = new Size(vistaAlbumes.Width - panel1.Width, vistaAlbumes.Size.Height);
+            }
+        }
     }
 }

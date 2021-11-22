@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
-using System.Net.Http;
+using Cassiopeia.src.Classes;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Cassiopeia
 {
-    class Spotify
+    public class Spotify
     {
         private SpotifyClient SpotifyClient;
         private SpotifyClientConfig SpotifyConfig;
@@ -178,7 +178,6 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Inserting album with URI " + uri, MessageType.Info);
             Stopwatch crono = Stopwatch.StartNew();
             bool res;
-            //FullAlbum sa = SpotifyClient.GetAlbum(uri);
             try
             {
                 FullAlbum album = SpotifyClient.Albums.Get(uri).Result;
@@ -193,7 +192,7 @@ namespace Cassiopeia
                 return false;
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Añadido", MessageType.Correct, crono, TimeType.Milliseconds);
+            Log.Instance.PrintMessage("Added", MessageType.Correct, crono, TimeType.Milliseconds);
             Kernel.ReloadView();
             return res;
         }
@@ -219,14 +218,14 @@ namespace Cassiopeia
                     catch (System.Net.WebException e)
                     {
                         Log.Instance.PrintMessage("Exception captured System.Net.WebException", MessageType.Warning);
-                        System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                        MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         cover = "";
                     }
                 }
             }
             else
                 cover = "";
-            AlbumData a = new AlbumData(album.Name.Replace(";",""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]));//, Environment.CurrentDirectory + "/covers/" + cover); //creamos A
+            AlbumData a = new AlbumData(album.Name.Replace(";",""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + cover); //creamos A
             if (Kernel.Collection.IsInCollection(a))
             {
                 Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);

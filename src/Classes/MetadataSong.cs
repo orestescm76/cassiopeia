@@ -3,7 +3,7 @@ using System.IO;
 using System.Drawing;
 using File = TagLib.File;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public class MetadataSong
     {

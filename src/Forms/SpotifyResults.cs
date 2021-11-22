@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using SpotifyAPI.Web;
+using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {
