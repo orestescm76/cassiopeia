@@ -142,7 +142,7 @@ namespace Cassiopeia.src.Forms
         {
             try
             {
-                if(!larga && cancionlarga == null) //caso normal
+                if(!larga && cancionlarga is null) //caso normal
                 {
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
@@ -164,7 +164,7 @@ namespace Cassiopeia.src.Forms
                         Close();
                     }
                 }
-                else if(larga && cancionlarga == null) //caso de que creemos una cancion larga, sin partes
+                else if(larga && cancionlarga is null) //caso de que creemos una cancion larga, sin partes
                 {
                     title = tituloTextBox.Text;
                     min = sec = 0;
@@ -182,7 +182,7 @@ namespace Cassiopeia.src.Forms
                             DialogResult = DialogResult.OK;
                     }
                 }
-                else if(cancionlarga != null && larga == true)//parte de una cancion normal
+                else if(cancionlarga is not null && larga == true)//parte de una cancion normal
                 {
                     title = tituloTextBox.Text;
                     min = Convert.ToInt32(minTextBox.Text);

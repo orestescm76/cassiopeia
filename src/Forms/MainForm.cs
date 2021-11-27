@@ -29,6 +29,7 @@ namespace Cassiopeia.src.Forms
         private delegate void SafeCallBringFront();
         Log Log = Log.Instance;
         Size margins;
+        AlbumData selectedAlbum = null;
         public MainForm()
         {
             InitializeComponent();
@@ -94,6 +95,9 @@ namespace Cassiopeia.src.Forms
                         i++;
                     }
                     vistaAlbumes.Items.AddRange(items);
+                    labelGeneralInfo.Text = "Num albums: " + Kernel.Collection.Albums.Count + Environment.NewLine +
+                    "Total duration: " + Kernel.Collection.GetTotalTime(Kernel.Collection.Albums);
+                    labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
                     break;
                 case ViewType.CD:
                     src.Classes.ListViewPhysicalAlbum[] cds = new src.Classes.ListViewPhysicalAlbum[Kernel.Collection.CDS.Count];
@@ -106,6 +110,9 @@ namespace Cassiopeia.src.Forms
                         j++;
                     }
                     vistaAlbumes.Items.AddRange(cds);
+                    labelGeneralInfo.Text = "Num CDS: " + Kernel.Collection.CDS.Count + Environment.NewLine +
+                    "Total duration: " + Kernel.Collection.GetTotalTime(Kernel.Collection.CDS);
+                    labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
                     break;
                 case ViewType.Vinyl:
                     break;
@@ -154,6 +161,8 @@ namespace Cassiopeia.src.Forms
             nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevoAlbumDesdeCarpeta");
             configToolStripMenuItem.Text = Kernel.LocalTexts.GetString("configuracion");
             importSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("importSpotify");
+            sidebarCopyImageToolStripMenuItem.Text = Kernel.LocalTexts.GetString("copiarImagen");
+            showSidebarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("showPanel");
             UpdateViewInfo();
         }
         private void UpdateViewInfo()
@@ -258,6 +267,58 @@ namespace Cassiopeia.src.Forms
             else
                 Kernel.SaveAlbums(nombre, tipoGuardado, true);
         }
+        private void UpdateSidebar(AlbumData a)
+        {
+            if(a is not null)
+            {
+                if (pictureBoxSidebarCover.Image != Properties.Resources.albumdesconocido)
+                    pictureBoxSidebarCover.Image = null;
+                pictureBoxSidebarCover.Image = Image.FromFile(a.CoverPath);
+                ////Doing this will allow me to replace album cover and not locking the file
+                //Image cover;
+                //using (var temp = new Bitmap(a.CoverPath))
+                //    cover = new Bitmap(temp);
+                //pictureBoxSidebarCover.Image = cover;
+                labelInfoAlbum.Location = new Point(0, labelInfoAlbum.Location.Y);
+                labelInfoAlbum.Text = a.Artist + Environment.NewLine +
+                                      a.Title + "(" + a.Year + ")" + Environment.NewLine +
+                                       a.Length + Environment.NewLine;    
+            }
+            else
+            {
+                labelInfoAlbum.Text = "";
+                pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
+            }
+            labelInfoAlbum.Location = new Point((panelSidebar.Width - labelInfoAlbum.Width) / 2, pictureBoxSidebarCover.Height + 20);
+            pictureBoxSidebarCover.Location = new Point((panelSidebar.Width - pictureBoxSidebarCover.Width) / 2, 3);
+        }
+        private void UpdateSidebar(CompactDisc cd)
+        {
+            if (cd is not null)
+            {
+                if (pictureBoxSidebarCover.Image != Properties.Resources.albumdesconocido)
+                    pictureBoxSidebarCover.Image = null;
+                pictureBoxSidebarCover.Image = Image.FromFile(cd.Album.CoverPath);
+                ////Doing this will allow me to replace album cover and not locking the file
+                //Image cover;
+                //using (var temp = new Bitmap(a.CoverPath))
+                //    cover = new Bitmap(temp);
+                //pictureBoxSidebarCover.Image = cover;
+                labelInfoAlbum.Location = new Point(0, labelInfoAlbum.Location.Y);
+                labelInfoAlbum.Text = cd.Album.Artist + Environment.NewLine +
+                                      cd.Album.Title + "(" + cd.Album.Year + ")" + Environment.NewLine +
+                                       cd.Length + Environment.NewLine+
+                                       Kernel.LocalTexts.GetString("estado_exterior") + ": " + Kernel.LocalTexts.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine+
+                                        "Number of discs: " + cd.Discos.Count;
+            }
+            else
+            {
+                labelInfoAlbum.Text = "";
+                pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
+            }
+            labelInfoAlbum.Location = new Point((panelSidebar.Width - labelInfoAlbum.Width) / 2, pictureBoxSidebarCover.Height + 20);
+            pictureBoxSidebarCover.Location = new Point((panelSidebar.Width - pictureBoxSidebarCover.Width) / 2, 3);
+        }
 
         #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
@@ -281,7 +342,7 @@ namespace Cassiopeia.src.Forms
                 lvwColumnSorter.Orden = SortOrder.Descending;
             }
             vistaAlbumes.Sort();
-            List<AlbumData> nuevaLista = new List<AlbumData>();
+            LinkedList<AlbumData> nuevaLista = new LinkedList<AlbumData>();
             string[] s = null;
             switch (TipoVista)
             {
@@ -300,7 +361,7 @@ namespace Cassiopeia.src.Forms
             {
                 s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "/**/" + vistaAlbumes.Items[i].SubItems[1].Text;
                 AlbumData a = Kernel.Collection.GetAlbum(s[i]);
-                nuevaLista.Add(a);
+                nuevaLista.AddLast(a);
             }
             Kernel.Collection.ChangeList(ref nuevaLista);
             vistaAlbumes.Refresh();
@@ -388,8 +449,22 @@ namespace Cassiopeia.src.Forms
 
         private void vistaAlbumes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            selectedAlbum = null;
             if (!borrando)
             {
+                if (vistaAlbumes.SelectedIndices.Count >= 1)
+                {
+                    selectedAlbum = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]);
+                    if(vistaAlbumes.SelectedItems[0] is ListViewPhysicalAlbum)
+                    {
+                        ListViewPhysicalAlbum listViewPhysicalAlbum = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
+                        UpdateSidebar(Kernel.Collection.GetCDById(listViewPhysicalAlbum.ID));
+                    }
+                    else
+                        UpdateSidebar(selectedAlbum);
+                }
+                else
+                    UpdateSidebar(selectedAlbum);
                 TimeSpan seleccion = new TimeSpan();
                 foreach (ListViewItem album in vistaAlbumes.SelectedItems)
                 {
@@ -429,9 +504,9 @@ namespace Cassiopeia.src.Forms
             {
                 case ViewType.Digital:
                     int ganador = generador.Next(0, Kernel.Collection.Albums.Count);
-                    AlbumData a = Kernel.Collection.Albums[ganador];
-                    AlbumViewer vistazo = new AlbumViewer(ref a);
-                    vistazo.Show();
+                    //AlbumData a = Kernel.Collection.Albums[ganador];
+                    //AlbumViewer vistazo = new AlbumViewer(ref a);
+                    //vistazo.Show();
                     break;
                 case ViewType.CD:
                     int ganadorCD = generador.Next(0, Kernel.Collection.CDS.Count);
@@ -793,6 +868,8 @@ namespace Cassiopeia.src.Forms
         private void MainForm_Resize(object sender, EventArgs e)
         {
             vistaAlbumes.Size = Size - margins;
+            if(!panelSidebar.Visible)
+                vistaAlbumes.Width = Width;
         }
 
         private void searchSpotifyStripMenuItem_Click(object sender, EventArgs e)
@@ -854,21 +931,42 @@ namespace Cassiopeia.src.Forms
         {
             Kernel.Spotify.GetUserAlbums();
         }
-        #endregion
-
         private void panelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //The user clicked when it was checked.
-            if (!panelToolStripMenuItem.Checked)
+            if (!showSidebarToolStripMenuItem.Checked)
             {
-                panel1.Hide();
-                vistaAlbumes.Size = new Size(vistaAlbumes.Width + panel1.Width, vistaAlbumes.Size.Height);
+                panelSidebar.Visible = false;
+                Width = Width - panelSidebar.Width;
+                vistaAlbumes.Width = Width;
+                //Size = new Size(Width - panel1.Width, Size.Height);
             }
             else
             {
-                panel1.Show();
-                vistaAlbumes.Size = new Size(vistaAlbumes.Width - panel1.Width, vistaAlbumes.Size.Height);
+                panelSidebar.Visible = true;
+                Width += panelSidebar.Width;
+                //Size = new Size(Width + panel1.Width, Size.Height);
             }
+        }
+
+        private void vistaAlbumes_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        private void copiarImagenStrip_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetImage(pictureBoxSidebarCover.Image);
+            Log.Instance.PrintMessage("Sent cover to clipboard. Size: "+ pictureBoxSidebarCover.Image.Size, MessageType.Correct);
+        }
+
+        private void contextMenuSidebarCover_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            sidebarCopyImageToolStripMenuItem.Enabled = true;
+            if (selectedAlbum is null)
+                sidebarCopyImageToolStripMenuItem.Enabled = false;
+
         }
     }
 }

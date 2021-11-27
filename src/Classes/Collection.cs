@@ -5,14 +5,14 @@ namespace Cassiopeia.src.Classes
 {
     public class Collection
     {
-        public List<AlbumData> Albums { get; private set; }
+        public LinkedList<AlbumData> Albums { get; private set; }
         public List<CompactDisc> CDS { get; private set; }
         public Collection()
         {
-            Albums = new List<AlbumData>();
+            Albums = new LinkedList<AlbumData>();
             CDS = new List<CompactDisc>();
         }
-        public void AddAlbum(ref AlbumData album) { Albums.Add(album); }
+        public void AddAlbum(ref AlbumData album) { Albums.AddFirst(album); }
         public void RemoveAlbum(ref AlbumData album) 
         {
             if (album.CanBeRemoved)
@@ -54,7 +54,13 @@ namespace Cassiopeia.src.Classes
         }
         public AlbumData GetAlbum(int index)
         {
-            return Albums[index];
+            LinkedListNode<AlbumData> it = Albums.First;
+            for (int i = 0; i < index; i++)
+            {
+                it = it.Next;
+            }
+            return it.Value;
+            //return Albums[index];
         }
         public void GetAlbum(string s, out CompactDisc cd)
         {
@@ -62,11 +68,11 @@ namespace Cassiopeia.src.Classes
             String[] busqueda = s.Split("/**/");
             foreach (CompactDisc cdd in CDS)
             {
-                if (cdd.AlbumData.Artist == busqueda[0] && cdd.AlbumData.Title == busqueda[1])
+                if (cdd.Album.Artist == busqueda[0] && cdd.Album.Title == busqueda[1])
                     cd = cdd;
             }
         }
-        public void ChangeList(ref List<AlbumData> n)
+        public void ChangeList(ref LinkedList<AlbumData> n)
         {
             Albums = n;
         }
@@ -96,7 +102,7 @@ namespace Cassiopeia.src.Classes
                 if(item.Id == id)
                 {
                     CDS.Remove(item);
-                    ReleaseLock(item.AlbumData);
+                    ReleaseLock(item.Album);
                     return;
                 }
             }
@@ -112,9 +118,27 @@ namespace Cassiopeia.src.Classes
             foreach (var cd in CDS)
             {
                 //If one copy refers that album, we cannot remove
-                if (cd.AlbumData == a)
+                if (cd.Album == a)
                     a.CanBeRemoved = false;
             }
+        }
+        public TimeSpan GetTotalTime(LinkedList<AlbumData> albums)
+        {
+            TimeSpan time = new TimeSpan();
+            foreach (AlbumData album in albums)
+            {
+                time += album.Length;
+            }
+            return time;
+        }
+        public TimeSpan GetTotalTime(List<CompactDisc> CDS)
+        {
+            TimeSpan time = new TimeSpan();
+            foreach (CompactDisc cd in CDS)
+            {
+                time += cd.Length;
+            }
+            return time;
         }
     }
 }

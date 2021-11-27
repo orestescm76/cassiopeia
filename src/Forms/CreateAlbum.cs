@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Diagnostics;
 using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
@@ -23,7 +22,7 @@ namespace Cassiopeia.src.Forms
             labelAño.Text = Kernel.LocalTexts.GetString("año");
             labelNumCanciones.Text = Kernel.LocalTexts.GetString("numcanciones");
             labelGenero.Text = Kernel.LocalTexts.GetString("genero");
-            buttonAdd.Text = Kernel.LocalTexts.GetString("añadir");
+            buttonAddAlbum.Text = Kernel.LocalTexts.GetString("añadir");
             addCaratula.Text = Kernel.LocalTexts.GetString("addcaratula");
             labelCaratula.Text = Kernel.LocalTexts.GetString("caratula");
             labelAlbumType.Text = Kernel.LocalTexts.GetString("tipoAlbum");
@@ -43,7 +42,7 @@ namespace Cassiopeia.src.Forms
             comboBoxAlbumType.Items.AddRange(types);
             comboBoxAlbumType.SelectedIndex = 0;
         }
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void buttonAddCover_Click(object sender, EventArgs e)
         {
             Log.Instance.PrintMessage("Looking for album cover", MessageType.Info);
             OpenFileDialog abrirImagen = new OpenFileDialog();
@@ -57,10 +56,60 @@ namespace Cassiopeia.src.Forms
             }
             Log.Instance.PrintMessage("Image " + ruta + " loaded", MessageType.Correct);
         }
-
-        private void add_Click(object sender, EventArgs e)
+        private void buttonAddAlbum_Click(object sender, EventArgs e)
         {
+            string title, artist;
+            bool cancelado = false;
+            short year, nC;
+            try
+            {
+                title = tituloTextBox.Text;
+                artist = artistaTextBox.Text;
+                int gn = comboBoxGenres.SelectedIndex;
+                string gent = comboBoxGenres.SelectedItem.ToString();
+                year = Convert.ToInt16(yearTextBox.Text);
+                nC = Convert.ToInt16(numCancionesTextBox.Text);
+                Genre g = Kernel.Genres[Kernel.FindTranslatedGenre(gent)];
+                AlbumData a = null;
+                if (caratula == "")
+                    a = new AlbumData(g, title, artist, year, "");
+                else
+                    a = new AlbumData(g, title, artist, year, caratula);
+                Kernel.Collection.AddAlbum(ref a);
+                DialogResult cancelar = DialogResult.OK;
+                for (int i = 0; i < nC; i++)
+                {
+                    CreateSong agregarCancion = new CreateSong(ref a, i);
+                    Hide();
+                    cancelar = agregarCancion.ShowDialog();
+                    if (cancelar == DialogResult.Cancel)
+                    {
+                        Log.Instance.PrintMessage("Canceled", MessageType.Warning);
+                        Kernel.Collection.RemoveAlbum(ref a);
+                        Close();
+                        cancelado = true;
+                        break;
+                    }
+                    else if (cancelar == DialogResult.None)
+                        continue;
+                }
+                if (!cancelado)
+                    Log.Instance.PrintMessage(artist + " - " + title + " added OK", MessageType.Correct);
+                Kernel.ReloadView();
+                Close();
+            }
+            catch (NullReferenceException ex)
+            {
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio1"));
+            }
 
+            catch (FormatException ex)
+            {
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
+                //throw;
+            }
         }
     }
 }

@@ -743,4 +743,7 @@
   <data name="importSpotifyWarning" xml:space="preserve">
     <value>Hay muchos discos. Si descarga las portadas, podría tardar un par de minutos. ¿Desea descargar las portadas?</value>
   </data>
+  <data name="showPanel" xml:space="preserve">
+    <value>Mostrar panel lateral</value>
+  </data>
 </root>

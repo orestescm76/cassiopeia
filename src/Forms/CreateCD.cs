@@ -32,7 +32,7 @@ namespace Cassiopeia.src.Forms
         {
             InitializeComponent();
             this.numDisc = numDisc;
-            album = cdd.AlbumData;
+            album = cdd.Album;
             editingCD = cdd;
             creatingCD = cdd;
             //If we're NOT editing
@@ -122,12 +122,11 @@ namespace Cassiopeia.src.Forms
             MediaCondition exterior = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoExterior.SelectedIndex.ToString());
             MediaCondition medio = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoMedio.SelectedIndex.ToString());
             SleeveType formato = (SleeveType)Enum.Parse(typeof(SleeveType), comboBoxFormatoCD.SelectedIndex.ToString());
-            string s = album.Artist + "_" + album.Title;
 
             //Creating CD
             try
             {
-                creatingCD = new CompactDisc(album, s, numberSongs, medio, exterior, formato, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
+                creatingCD = new CompactDisc(album, numberSongs, medio, exterior, formato, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
 
             }
             catch (Exception)

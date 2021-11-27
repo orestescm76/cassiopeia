@@ -12,7 +12,7 @@ namespace Cassiopeia
 
     public enum TimeType
     {
-        Milliseconds, Microseconds
+        Milliseconds, Microseconds, Seconds
     }
 
     public class Log
@@ -67,6 +67,10 @@ namespace Cassiopeia
 
             switch (timeType)
             {
+                case TimeType.Seconds:
+                    timeStamp = crono.ElapsedMilliseconds / 1000.0 + "s";
+                    break;
+
                 case TimeType.Milliseconds:
                     timeStamp = crono.ElapsedTicks / 10000.0 + "ms";
                     break;

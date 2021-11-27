@@ -163,7 +163,8 @@ namespace Cassiopeia
             {
                 //Select a random album from the collection.
                 Random random = new Random();
-                AlbumData randomAlbum = Kernel.Collection.Albums[random.Next(Kernel.Collection.Albums.Count)];
+                //AlbumData randomAlbum = Kernel.Collection.Albums[random.Next(Kernel.Collection.Albums.Count)];
+                AlbumData randomAlbum = Kernel.Collection.GetAlbum(random.Next(Kernel.Collection.Albums.Count));
                 return randomAlbum;
             }
         }

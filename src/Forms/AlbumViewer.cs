@@ -55,14 +55,14 @@ namespace Cassiopeia.src.Forms
             InitializeComponent();
             CDaVisualizar = cd;
             buttonPATH.Hide();
-            albumToVisualize = cd.AlbumData;
+            albumToVisualize = cd.Album;
             SetViewAlbumCover();
             numDisco = 1;
-            labelInfoAlbum.Text = Kernel.LocalTexts.GetString("artista") + ": " + cd.AlbumData.Artist + Environment.NewLine +
-                Kernel.LocalTexts.GetString("titulo") + ": " + cd.AlbumData.Title + Environment.NewLine +
-                Kernel.LocalTexts.GetString("año") + ": " + cd.AlbumData.Year + Environment.NewLine +
-                Kernel.LocalTexts.GetString("duracion") + ": " + cd.AlbumData.Length.ToString() + Environment.NewLine +
-                Kernel.LocalTexts.GetString("genero") + ": " + cd.AlbumData.Genre.Name + Environment.NewLine +
+            labelInfoAlbum.Text = Kernel.LocalTexts.GetString("artista") + ": " + cd.Album.Artist + Environment.NewLine +
+                Kernel.LocalTexts.GetString("titulo") + ": " + cd.Album.Title + Environment.NewLine +
+                Kernel.LocalTexts.GetString("año") + ": " + cd.Album.Year + Environment.NewLine +
+                Kernel.LocalTexts.GetString("duracion") + ": " + cd.Album.Length.ToString() + Environment.NewLine +
+                Kernel.LocalTexts.GetString("genero") + ": " + cd.Album.Genre.Name + Environment.NewLine +
                 Kernel.LocalTexts.GetString("formato") + ": " + Kernel.LocalTexts.GetString(cd.SleeveType.ToString()) + Environment.NewLine +
                 Kernel.LocalTexts.GetString("añoPublicacion") + ": " + cd.Year + Environment.NewLine +
                 Kernel.LocalTexts.GetString("paisPublicacion") + ":" + cd.Country + Environment.NewLine +

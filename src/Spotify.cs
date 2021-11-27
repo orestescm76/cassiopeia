@@ -14,7 +14,7 @@ namespace Cassiopeia
     {
         private SpotifyClient SpotifyClient;
         private SpotifyClientConfig SpotifyConfig;
-        private readonly char[] WindowsForbiddenChars = { '\\', '/', '|', '?', '*', '"', ':', '>', '<' };
+        private readonly char[] ForbiddenChars = { '\\', '/', '|', '?', '*', '"', ':', '>', '<', ';' };
         //should change this..
         private readonly String PublicKey = "f49317757dd64bb190576aec028f4efc";
         private readonly String PrivateKey = ClaveAPI.Spotify;
@@ -101,11 +101,9 @@ namespace Cassiopeia
                     Kernel.InternetAvaliable(true);
                     Kernel.BringMainFormFront();
                     TokenRefreshCode = Token.RefreshToken;
-                    Log.Instance.PrintMessage("Connected as " + SpotifyClient.UserProfile.Current().Result.Email, MessageType.Correct, crono, TimeType.Milliseconds);
+                    Log.Instance.PrintMessage("Connected as " + SpotifyClient.UserProfile.Current().Result.Email, MessageType.Correct, crono, TimeType.Seconds);
                     Kernel.InitTask();
                     crono.Stop();
-                    //DEBUG CALL
-                    //GetUserAlbums();
                 };
                 server.Start();
                 var login = new LoginRequest(server.BaseUri, PublicKey, LoginRequest.ResponseType.Code)
@@ -200,8 +198,17 @@ namespace Cassiopeia
         {
             String[] parseFecha = album.ReleaseDate.Split('-');
             string cover = album.Name + "_" + album.Artists[0].Name + ".jpg";
+
+            AlbumData a = new AlbumData(album.Name.Replace(";",""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + cover); //creamos A
+            if (Kernel.Collection.IsInCollection(a))
+            {
+                Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
+                Log.Instance.PrintMessage(a.ToString(), MessageType.Info);
+                return false;
+            }
+
             //Remove Windows forbidden characters so we can save the album cover.
-            foreach (char ch in WindowsForbiddenChars)
+            foreach (char ch in ForbiddenChars)
             {
                 if (cover.Contains(ch.ToString()))
                     cover = cover.Replace(ch.ToString(), string.Empty);
@@ -224,13 +231,8 @@ namespace Cassiopeia
                 }
             }
             else
-                cover = "";
-            AlbumData a = new AlbumData(album.Name.Replace(";",""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + cover); //creamos A
-            if (Kernel.Collection.IsInCollection(a))
-            {
-                Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
-                return false;
-            }
+                a.CoverPath = "";
+
             a.IdSpotify = album.Id;
             List<Song> songs = new List<Song>(a.NumberOfSongs);
             List<SimpleTrack> albumSongs = album.Tracks.Items;
@@ -415,7 +417,7 @@ namespace Cassiopeia
                     } while (point < limit);
                     crono.Stop();
                     loadBar.Dispose();
-                    Log.Instance.PrintMessage("Done!", MessageType.Correct, crono, TimeType.Milliseconds);
+                    Log.Instance.PrintMessage("Done!", MessageType.Correct, crono, TimeType.Seconds);
                     albums.Clear();
                     Kernel.ReloadView();
                 }

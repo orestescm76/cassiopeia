@@ -33,7 +33,7 @@
             this.tituloTextBox = new System.Windows.Forms.TextBox();
             this.yearTextBox = new System.Windows.Forms.TextBox();
             this.numCancionesTextBox = new System.Windows.Forms.TextBox();
-            this.buttonAdd = new System.Windows.Forms.Button();
+            this.buttonAddAlbum = new System.Windows.Forms.Button();
             this.labelArtista = new System.Windows.Forms.Label();
             this.labelAño = new System.Windows.Forms.Label();
             this.labelTitulo = new System.Windows.Forms.Label();
@@ -79,16 +79,16 @@
             this.numCancionesTextBox.Size = new System.Drawing.Size(174, 25);
             this.numCancionesTextBox.TabIndex = 3;
             // 
-            // buttonAdd
+            // buttonAddAlbum
             // 
-            this.buttonAdd.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.buttonAdd.Location = new System.Drawing.Point(129, 278);
-            this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(121, 35);
-            this.buttonAdd.TabIndex = 4;
-            this.buttonAdd.Text = "añadir9";
-            this.buttonAdd.UseVisualStyleBackColor = true;
-            this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
+            this.buttonAddAlbum.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonAddAlbum.Location = new System.Drawing.Point(129, 278);
+            this.buttonAddAlbum.Name = "buttonAddAlbum";
+            this.buttonAddAlbum.Size = new System.Drawing.Size(121, 35);
+            this.buttonAddAlbum.TabIndex = 4;
+            this.buttonAddAlbum.Text = "añadir9";
+            this.buttonAddAlbum.UseVisualStyleBackColor = true;
+            this.buttonAddAlbum.Click += new System.EventHandler(this.buttonAddAlbum_Click);
             // 
             // labelArtista
             // 
@@ -174,7 +174,7 @@
             this.addCaratula.TabIndex = 12;
             this.addCaratula.Text = "añadirCaratula";
             this.addCaratula.UseVisualStyleBackColor = true;
-            this.addCaratula.Click += new System.EventHandler(this.buttonAdd_Click);
+            this.addCaratula.Click += new System.EventHandler(this.buttonAddCover_Click);
             // 
             // ruta
             // 
@@ -206,9 +206,9 @@
             this.comboBoxAlbumType.Size = new System.Drawing.Size(174, 25);
             this.comboBoxAlbumType.TabIndex = 14;
             // 
-            // agregarAlbum
+            // CreateAlbum
             // 
-            this.AcceptButton = this.buttonAdd;
+            this.AcceptButton = this.buttonAddAlbum;
             this.ClientSize = new System.Drawing.Size(381, 325);
             this.Controls.Add(this.labelAlbumType);
             this.Controls.Add(this.comboBoxAlbumType);
@@ -221,14 +221,14 @@
             this.Controls.Add(this.labelTitulo);
             this.Controls.Add(this.labelAño);
             this.Controls.Add(this.labelArtista);
-            this.Controls.Add(this.buttonAdd);
+            this.Controls.Add(this.buttonAddAlbum);
             this.Controls.Add(this.numCancionesTextBox);
             this.Controls.Add(this.yearTextBox);
             this.Controls.Add(this.tituloTextBox);
             this.Controls.Add(this.artistaTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "agregarAlbum";
+            this.Name = "CreateAlbum";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "agregarAlbum4";
             this.ResumeLayout(false);
@@ -242,7 +242,7 @@
         private System.Windows.Forms.TextBox tituloTextBox;
         private System.Windows.Forms.TextBox yearTextBox;
         private System.Windows.Forms.TextBox numCancionesTextBox;
-        private System.Windows.Forms.Button buttonAdd;
+        private System.Windows.Forms.Button buttonAddAlbum;
         private System.Windows.Forms.Label labelArtista;
         private System.Windows.Forms.Label labelAño;
         private System.Windows.Forms.Label labelTitulo;

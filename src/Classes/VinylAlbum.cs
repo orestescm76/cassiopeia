@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+/*
 namespace Cassiopeia.src.Classes
 {
     public class VinylAlbum : PhysicalAlbum
@@ -35,3 +35,4 @@ namespace Cassiopeia.src.Classes
         }
     }
 }
+*/

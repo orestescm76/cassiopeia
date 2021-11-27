@@ -1,4 +1,5 @@
-﻿namespace Cassiopeia.src.Forms
+﻿/*
+namespace Cassiopeia.src.Forms
 {
     partial class CreateVinyl
     {
@@ -252,3 +253,4 @@
         private System.Windows.Forms.Label label1;
     }
 }
+*/

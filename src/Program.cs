@@ -36,14 +36,15 @@ namespace Cassiopeia
             Kernel.LoadConfig();
             //Loading languages, else it will not load the textbox.
             Kernel.LoadLanguages();
-            //Create program
-            Kernel.CreateProgram();
-            //Init Spotify
-            Kernel.InitSpotify();
             //Create genres
             Kernel.InitGenres();
+
+            //Create program
+            Kernel.CreateProgram();
             //Load the files
             Kernel.LoadFiles();
+            //Init Spotify
+            Kernel.InitSpotify();
             //Create player Instance
             Kernel.InitPlayer();
 

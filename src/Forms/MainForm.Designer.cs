@@ -54,7 +54,7 @@
             this.viewModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.digitalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vierCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showSidebarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchSpotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.linkSpotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,10 +80,18 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playSpotifyAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelSidebar = new System.Windows.Forms.Panel();
+            this.labelGeneralInfo = new System.Windows.Forms.Label();
+            this.labelInfoAlbum = new System.Windows.Forms.Label();
+            this.pictureBoxSidebarCover = new System.Windows.Forms.PictureBox();
+            this.contextMenuSidebarCover = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.sidebarCopyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
+            this.panelSidebar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSidebarCover)).BeginInit();
+            this.contextMenuSidebarCover.SuspendLayout();
             this.SuspendLayout();
             // 
             // barraPrincipal
@@ -99,7 +107,7 @@
             this.testToolStripMenuItem});
             this.barraPrincipal.Location = new System.Drawing.Point(0, 0);
             this.barraPrincipal.Name = "barraPrincipal";
-            this.barraPrincipal.Size = new System.Drawing.Size(1092, 24);
+            this.barraPrincipal.Size = new System.Drawing.Size(1131, 24);
             this.barraPrincipal.TabIndex = 0;
             this.barraPrincipal.Text = "menuStrip2";
             // 
@@ -125,7 +133,7 @@
             // nuevoToolStripMenuItem
             // 
             this.nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
-            this.nuevoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+            this.nuevoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.N)));
             this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
             this.nuevoToolStripMenuItem.Text = "nuevo";
@@ -258,7 +266,7 @@
             // 
             this.verToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewModeToolStripMenuItem,
-            this.panelToolStripMenuItem});
+            this.showSidebarToolStripMenuItem});
             this.verToolStripMenuItem.Name = "verToolStripMenuItem";
             this.verToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.verToolStripMenuItem.Text = "ver";
@@ -279,7 +287,7 @@
             this.digitalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.digitalToolStripMenuItem.Name = "digitalToolStripMenuItem";
             this.digitalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.digitalToolStripMenuItem.Tag = "digital";
             this.digitalToolStripMenuItem.Text = "digital";
             this.digitalToolStripMenuItem.Click += new System.EventHandler(this.digitalToolStripMenuItem_Click);
@@ -289,20 +297,20 @@
             this.vierCDToolStripMenuItem.CheckOnClick = true;
             this.vierCDToolStripMenuItem.Name = "vierCDToolStripMenuItem";
             this.vierCDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.vierCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vierCDToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.vierCDToolStripMenuItem.Tag = "cd";
             this.vierCDToolStripMenuItem.Text = "CD";
             this.vierCDToolStripMenuItem.Click += new System.EventHandler(this.viewCDToolStripMenuItem_Click);
             // 
-            // panelToolStripMenuItem
+            // showSidebarToolStripMenuItem
             // 
-            this.panelToolStripMenuItem.Checked = true;
-            this.panelToolStripMenuItem.CheckOnClick = true;
-            this.panelToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.panelToolStripMenuItem.Name = "panelToolStripMenuItem";
-            this.panelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.panelToolStripMenuItem.Text = "showPanel";
-            this.panelToolStripMenuItem.Click += new System.EventHandler(this.panelToolStripMenuItem_Click);
+            this.showSidebarToolStripMenuItem.Checked = true;
+            this.showSidebarToolStripMenuItem.CheckOnClick = true;
+            this.showSidebarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showSidebarToolStripMenuItem.Name = "showSidebarToolStripMenuItem";
+            this.showSidebarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showSidebarToolStripMenuItem.Text = "showPanel";
+            this.showSidebarToolStripMenuItem.Click += new System.EventHandler(this.panelToolStripMenuItem_Click);
             // 
             // spotifyStripMenuItem
             // 
@@ -405,7 +413,7 @@
             this.vistaAlbumes.Location = new System.Drawing.Point(0, 27);
             this.vistaAlbumes.Name = "vistaAlbumes";
             this.vistaAlbumes.ShowGroups = false;
-            this.vistaAlbumes.Size = new System.Drawing.Size(860, 429);
+            this.vistaAlbumes.Size = new System.Drawing.Size(824, 429);
             this.vistaAlbumes.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.vistaAlbumes.TabIndex = 1;
             this.vistaAlbumes.UseCompatibleStateImageBehavior = false;
@@ -414,6 +422,7 @@
             this.vistaAlbumes.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.vistaAlbumes_DrawColumnHeader);
             this.vistaAlbumes.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.vistaAlbumes_ItemMouseHover);
             this.vistaAlbumes.SelectedIndexChanged += new System.EventHandler(this.vistaAlbumes_SelectedIndexChanged);
+            this.vistaAlbumes.Click += new System.EventHandler(this.vistaAlbumes_Click);
             this.vistaAlbumes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vistaAlbumes_KeyDown);
             this.vistaAlbumes.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaAlbumes_MouseDoubleClick);
             // 
@@ -444,7 +453,7 @@
             this.toolStripStatusLabelViewInfo});
             this.barraAbajo.Location = new System.Drawing.Point(0, 459);
             this.barraAbajo.Name = "barraAbajo";
-            this.barraAbajo.Size = new System.Drawing.Size(1092, 22);
+            this.barraAbajo.Size = new System.Drawing.Size(1131, 22);
             this.barraAbajo.TabIndex = 4;
             this.barraAbajo.Text = "statusStrip1";
             // 
@@ -500,20 +509,73 @@
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
             // 
-            // panel1
+            // panelSidebar
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Location = new System.Drawing.Point(866, 27);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(221, 429);
-            this.panel1.TabIndex = 5;
+            this.panelSidebar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSidebar.AutoSize = true;
+            this.panelSidebar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelSidebar.Controls.Add(this.labelGeneralInfo);
+            this.panelSidebar.Controls.Add(this.labelInfoAlbum);
+            this.panelSidebar.Controls.Add(this.pictureBoxSidebarCover);
+            this.panelSidebar.Location = new System.Drawing.Point(830, 27);
+            this.panelSidebar.Name = "panelSidebar";
+            this.panelSidebar.Size = new System.Drawing.Size(292, 429);
+            this.panelSidebar.TabIndex = 5;
+            // 
+            // labelGeneralInfo
+            // 
+            this.labelGeneralInfo.AllowDrop = true;
+            this.labelGeneralInfo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.labelGeneralInfo.AutoSize = true;
+            this.labelGeneralInfo.Location = new System.Drawing.Point(18, 382);
+            this.labelGeneralInfo.Name = "labelGeneralInfo";
+            this.labelGeneralInfo.Size = new System.Drawing.Size(38, 15);
+            this.labelGeneralInfo.TabIndex = 2;
+            this.labelGeneralInfo.Text = "label1";
+            // 
+            // labelInfoAlbum
+            // 
+            this.labelInfoAlbum.AutoSize = true;
+            this.labelInfoAlbum.Location = new System.Drawing.Point(18, 256);
+            this.labelInfoAlbum.Name = "labelInfoAlbum";
+            this.labelInfoAlbum.Size = new System.Drawing.Size(0, 15);
+            this.labelInfoAlbum.TabIndex = 1;
+            this.labelInfoAlbum.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBoxSidebarCover
+            // 
+            this.pictureBoxSidebarCover.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBoxSidebarCover.ContextMenuStrip = this.contextMenuSidebarCover;
+            this.pictureBoxSidebarCover.Image = global::Cassiopeia.Properties.Resources.albumdesconocido;
+            this.pictureBoxSidebarCover.Location = new System.Drawing.Point(30, 3);
+            this.pictureBoxSidebarCover.Name = "pictureBoxSidebarCover";
+            this.pictureBoxSidebarCover.Size = new System.Drawing.Size(235, 235);
+            this.pictureBoxSidebarCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxSidebarCover.TabIndex = 0;
+            this.pictureBoxSidebarCover.TabStop = false;
+            // 
+            // contextMenuSidebarCover
+            // 
+            this.contextMenuSidebarCover.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sidebarCopyImageToolStripMenuItem});
+            this.contextMenuSidebarCover.Name = "clickDerechoAlbum";
+            this.contextMenuSidebarCover.Size = new System.Drawing.Size(172, 26);
+            this.contextMenuSidebarCover.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuSidebarCover_Opening);
+            // 
+            // sidebarCopyImageToolStripMenuItem
+            // 
+            this.sidebarCopyImageToolStripMenuItem.Name = "sidebarCopyImageToolStripMenuItem";
+            this.sidebarCopyImageToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.sidebarCopyImageToolStripMenuItem.Text = "copiarImagenStrip";
+            this.sidebarCopyImageToolStripMenuItem.Click += new System.EventHandler(this.copiarImagenStrip_Click);
             // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1092, 481);
+            this.ClientSize = new System.Drawing.Size(1131, 481);
             this.ContextMenuStrip = this.clickDerechoMenuContexto;
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelSidebar);
             this.Controls.Add(this.barraAbajo);
             this.Controls.Add(this.vistaAlbumes);
             this.Controls.Add(this.barraPrincipal);
@@ -531,6 +593,10 @@
             this.barraAbajo.ResumeLayout(false);
             this.barraAbajo.PerformLayout();
             this.clickDerechoMenuContexto.ResumeLayout(false);
+            this.panelSidebar.ResumeLayout(false);
+            this.panelSidebar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSidebarCover)).EndInit();
+            this.contextMenuSidebarCover.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -584,10 +650,15 @@
         private System.Windows.Forms.ToolStripMenuItem searchSpotifyStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem linkSpotifyStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importSpotifyStripMenuItem;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ToolStripMenuItem panelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showSidebarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vierCDToolStripMenuItem;
+        private System.Windows.Forms.Panel panelSidebar;
+        private System.Windows.Forms.PictureBox pictureBoxSidebarCover;
+        private System.Windows.Forms.Label labelInfoAlbum;
+        private System.Windows.Forms.Label labelGeneralInfo;
+        private System.Windows.Forms.ContextMenuStrip contextMenuSidebarCover;
+        private System.Windows.Forms.ToolStripMenuItem sidebarCopyImageToolStripMenuItem;
     }
 }

@@ -354,10 +354,10 @@ namespace Cassiopeia
             switch (start)
             {
                 case StartType.Normal:
-                    //Log.Instance.PrintMessage("Searching", MessageType.Info);
-                    //Stopwatch crono = Stopwatch.StartNew();
-                    //Song s = searchSong("the boys are back");
-                    //Log.Instance.PrintMessage("ok", MessageType.Info, crono, TimeType.Milliseconds);
+                    Log.Instance.PrintMessage("Searching", MessageType.Info);
+                    Stopwatch crono = Stopwatch.StartNew();
+                    Song s = searchSong("the boys are back");
+                    Log.Instance.PrintMessage("ok", MessageType.Info, crono, TimeType.Milliseconds);
                     Log.Instance.PrintMessage("Running main form", MessageType.Info);
                     Application.Run(MainForm);
 
@@ -568,7 +568,7 @@ namespace Cassiopeia
 
                     cd.InstallAlbum();
                     Collection.AddCD(ref cd);
-                    cd.AlbumData.CanBeRemoved = false;
+                    cd.Album.CanBeRemoved = false;
                 }
             }
         }

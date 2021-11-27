@@ -746,4 +746,7 @@
   <data name="importSpotifyWarning" xml:space="preserve">
     <value>There are a lot of albums. If you choose to download the album covers, that could take a couple of minutes. Download them?</value>
   </data>
+  <data name="showPanel" xml:space="preserve">
+    <value>Show sidebar</value>
+  </data>
 </root>
