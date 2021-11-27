@@ -1,8 +1,11 @@
 CHANGELOG
-2.0.220.0  - Added a lateral panel in the main view.
+2.0.220.0  - Added a sidebar in the main view.
+		   - Contains the album cover, total albums, duration and some stats for selected album.
 		   - Config form is resizable and smaller.
 		   - Namespace refactor
-		   - Lateral panel in the main form
+		   - Changed data structure to a linked list
+		   - Fixed the manual add album
+		   - Proof of concept for a future search function.
 
 2.0.216.10 - Added the ability to import a Spotify album collection. It's quite slow.
 		   - If an album has a semicolon in the title, it's removed
