@@ -277,7 +277,7 @@
             this.digitalToolStripMenuItem,
             this.vierCDToolStripMenuItem});
             this.viewModeToolStripMenuItem.Name = "viewModeToolStripMenuItem";
-            this.viewModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewModeToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.viewModeToolStripMenuItem.Text = "ViewMode";
             // 
             // digitalToolStripMenuItem
@@ -308,7 +308,7 @@
             this.showSidebarToolStripMenuItem.CheckOnClick = true;
             this.showSidebarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showSidebarToolStripMenuItem.Name = "showSidebarToolStripMenuItem";
-            this.showSidebarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showSidebarToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.showSidebarToolStripMenuItem.Text = "showPanel";
             this.showSidebarToolStripMenuItem.Click += new System.EventHandler(this.panelToolStripMenuItem_Click);
             // 
@@ -514,6 +514,7 @@
             this.panelSidebar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSidebar.AutoSize = true;
+            this.panelSidebar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelSidebar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelSidebar.Controls.Add(this.labelGeneralInfo);
             this.panelSidebar.Controls.Add(this.labelInfoAlbum);
@@ -522,11 +523,13 @@
             this.panelSidebar.Name = "panelSidebar";
             this.panelSidebar.Size = new System.Drawing.Size(292, 429);
             this.panelSidebar.TabIndex = 5;
+            this.panelSidebar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelSidebar_Paint);
             // 
             // labelGeneralInfo
             // 
             this.labelGeneralInfo.AllowDrop = true;
-            this.labelGeneralInfo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.labelGeneralInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelGeneralInfo.AutoSize = true;
             this.labelGeneralInfo.Location = new System.Drawing.Point(18, 382);
             this.labelGeneralInfo.Name = "labelGeneralInfo";
@@ -582,7 +585,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.barraPrincipal;
-            this.MinimumSize = new System.Drawing.Size(771, 283);
+            this.MinimumSize = new System.Drawing.Size(771, 440);
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

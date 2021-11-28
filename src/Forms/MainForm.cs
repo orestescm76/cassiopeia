@@ -56,7 +56,7 @@ namespace Cassiopeia.src.Forms
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
             vistaAlbumes.Font = Config.FontView;
             
-            margins = this.Size - vistaAlbumes.Size;
+            margins = Size - vistaAlbumes.Size;
 
             Log.PrintMessage("Main form created", MessageType.Correct);
         }
@@ -870,6 +870,10 @@ namespace Cassiopeia.src.Forms
             vistaAlbumes.Size = Size - margins;
             if(!panelSidebar.Visible)
                 vistaAlbumes.Width = Width;
+            else
+            {
+                panelSidebar.Height = Size.Height - barraAbajo.Height - barraPrincipal.Height-45;
+            }
         }
 
         private void searchSpotifyStripMenuItem_Click(object sender, EventArgs e)
@@ -966,6 +970,11 @@ namespace Cassiopeia.src.Forms
             sidebarCopyImageToolStripMenuItem.Enabled = true;
             if (selectedAlbum is null)
                 sidebarCopyImageToolStripMenuItem.Enabled = false;
+
+        }
+
+        private void panelSidebar_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }
