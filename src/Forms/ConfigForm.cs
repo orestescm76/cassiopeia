@@ -112,7 +112,7 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
             stringConfig = new TextBox();
             stringConfig.TextChanged += StringConfig_TextChanged;
-            stringConfig.Location = new Point(35, 75);
+            stringConfig.Location = new Point(35, groupBoxRaiz.Height/4);
             Size size = stringConfig.Size; size.Width = 420; stringConfig.Size = size;
             stringConfig.Font = new Font("Segoe UI", 9);
             stringConfig.Text = Config.Clipboard;
@@ -142,6 +142,7 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Controls.Add(stringConfig);
             groupBoxRaiz.Controls.Add(labelStringConfigPreview);
             groupBoxRaiz.Controls.Add(labelStringConfigHelp);
+            SetLeftAnchor();
         }
 
         private void LoadHistorialConfig()
@@ -153,7 +154,7 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Text = "historial";
             stringConfig = new TextBox();
             stringConfig.TextChanged += StringConfig_TextChanged;
-            stringConfig.Location = new Point(35, 75);
+            stringConfig.Location = new Point(35, groupBoxRaiz.Height / 4);
 
             checkBoxHistoryConfigCheckBox = new CheckBox();
             checkBoxHistoryConfigCheckBox.Click += checkBoxHistorialConfig_Click;
@@ -193,18 +194,30 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Controls.Add(labelStringConfigHelp);
 
             groupBoxRaiz.Controls.Add(checkBoxHistoryConfigCheckBox);
+            SetLeftAnchor();
+
         }
 
         private void LoadStreamConfig()
         {
             ActiveConfig = ActiveConfig.Stream;
+
             labelStringConfigPreview = new Label();
-            labelStringConfigHelp = new Label();
+            labelStringConfigPreview.AutoSize = true;
+
             //groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
             groupBoxRaiz.Text = "stream";
             stringConfig = new TextBox();
             stringConfig.TextChanged += StringConfig_TextChanged;
-            stringConfig.Location = new Point(35, 75);
+            stringConfig.Location = new Point(35, groupBoxRaiz.Height / 4);
+            Size size = stringConfig.Size;
+            size.Width = 420; stringConfig.Size = size;
+            stringConfig.Font = new Font("Segoe UI", 9);
+            stringConfig.Text = Config.StreamString;
+            
+
+            labelStringConfigPreview.Font = stringConfig.Font;
+            labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
 
             streamEnabledConfigCheckBox = new CheckBox();
             streamEnabledConfigCheckBox.Location = new Point(44, stringConfig.Location.Y - 25);
@@ -212,14 +225,12 @@ namespace Cassiopeia.src.Forms
             streamEnabledConfigCheckBox.Text = "Enable stream logging";
             streamEnabledConfigCheckBox.AutoSize = true;
             streamEnabledConfigCheckBox.Font = new Font("Segoe UI", 9);
+            
 
-            Size size = stringConfig.Size;
-            size.Width = 420; stringConfig.Size = size;
-            stringConfig.Font = new Font("Segoe UI", 9);
-            stringConfig.Text = Config.StreamString;
-            labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
-            labelStringConfigPreview.AutoSize = true;
-            labelStringConfigPreview.Font = stringConfig.Font;
+
+
+            labelStringConfigHelp = new Label();
+            
             labelStringConfigHelp.Font = stringConfig.Font;
             labelStringConfigHelp.AutoSize = true;
             labelStringConfigHelp.Location = new Point(labelStringConfigPreview.Location.X, labelStringConfigPreview.Location.Y + 50);
@@ -241,11 +252,12 @@ namespace Cassiopeia.src.Forms
                 SongPreview = Utils.GetRandomSong(album);
 
             StringConfig_TextChanged(null, null);
+
             groupBoxRaiz.Controls.Add(stringConfig);
             groupBoxRaiz.Controls.Add(labelStringConfigPreview);
             groupBoxRaiz.Controls.Add(labelStringConfigHelp);
-
             groupBoxRaiz.Controls.Add(streamEnabledConfigCheckBox);
+            SetLeftAnchor();
         }
 
         private void LoadColorConfig()
@@ -283,8 +295,16 @@ namespace Cassiopeia.src.Forms
             btColorBonus.Tag = "bonus";
             btColorLongSong.Tag = "longsong";
 
+            btColorBonus.AutoSize = false;
+            btColorLongSong.AutoSize = false;
+            btColorBonus.Anchor = AnchorStyles.None;
+            btColorLongSong.Anchor = AnchorStyles.None;
+
             groupBoxRaiz.Controls.Add(btColorBonus);
             groupBoxRaiz.Controls.Add(btColorLongSong);
+            SetLeftAnchor();
+            
+
         }
 
         private void LoadTextConfig()
@@ -322,9 +342,13 @@ namespace Cassiopeia.src.Forms
             //Config internal tags
             btTextLyrics.Tag = "lyrics";
             btTextView.Tag = "view";
+            btTextLyrics.Anchor = AnchorStyles.None;
+            btTextView.Anchor = AnchorStyles.None;
 
             groupBoxRaiz.Controls.Add(btTextLyrics);
             groupBoxRaiz.Controls.Add(btTextView);
+            SetLeftAnchor();
+
         }
         private void Aplicar(ActiveConfig config)
         {
@@ -396,7 +420,13 @@ namespace Cassiopeia.src.Forms
                     break;
             }
         }
-
+        private void SetLeftAnchor()
+        {
+            foreach (Control item in groupBoxRaiz.Controls)
+            {
+                item.Anchor =  AnchorStyles.Left;
+            }
+        }
         private void StringConfig_TextChanged(object sender, EventArgs e)
         {
             string Preview = stringConfig.Text;
