@@ -155,6 +155,57 @@ namespace Cassiopeia
             }
             return result;
         }
+        //using (StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
+        //{
+        //    TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
+        //    salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
+        //    salida.Write(np.ToString(@"mm\:ss") + " / ");
+        //    salida.Write(dur.ToString(@"mm\:ss"));
+        //}
+        public static string GetStreamString(Song s, uint songnum, TimeSpan pos)
+        {
+            string result = Config.StreamString;
+            try
+            {
+                result = result.Replace("%track_num%", songnum.ToString());
+                result = result.Replace("%artist%", s.AlbumFrom.Artist);
+                result = result.Replace("%title%", s.Title);
+                result = result.Replace("%length%", s.Length.ToString(@"mm\:ss"));
+                result = result.Replace("%pos%", pos.ToString(@"mm\:ss"));
+                result = result.Replace("%date%", DateTime.Now.Date.ToString("d"));
+                result = result.Replace("%time%", DateTime.Now.ToString("HH:mm"));
+                result = result.Replace("%year%", s.AlbumFrom.Year.ToString());
+                result = result.Replace("%album%", s.AlbumFrom.Title);
+                result = result.Replace("\\n", Environment.NewLine);
+            }
+            catch (NullReferenceException)
+            {
+                return result;
+            }
+            return result;
+        }
+        public static string GetStreamString(FullTrack s, uint songnum, TimeSpan pos)
+        {
+            string result = Config.StreamString;
+            try
+            {
+                result = result.Replace("%track_num%", songnum.ToString());
+                result = result.Replace("%artist%", s.Artists[0].Name);
+                result = result.Replace("%title%", s.Name);
+                result = result.Replace("%length%", TimeSpan.FromMilliseconds(s.DurationMs).ToString(@"mm\:ss"));
+                result = result.Replace("%pos%", pos.ToString(@"mm\:ss"));
+                result = result.Replace("%date%", DateTime.Now.Date.ToString("d"));
+                result = result.Replace("%time%", DateTime.Now.ToString("HH:mm"));
+                result = result.Replace("%year%", s.Album.ReleaseDate);
+                result = result.Replace("%album%", s.Album.Name);
+                result = result.Replace("\\n", Environment.NewLine);
+            }
+            catch (Exception)
+            {
+                return result;
+            }
+            return result;
+        }
         public static AlbumData GetRandomAlbum()
         {
             if (Kernel.Collection.Albums.Count == 0)

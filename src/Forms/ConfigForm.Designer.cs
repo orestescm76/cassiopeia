@@ -31,11 +31,12 @@
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("idioma");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("portapapeles");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("historial");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("text");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("colors");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("view", new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode5});
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("stream");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("text");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("colors");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("view", new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6});
             this.treeViewConfiguracion = new System.Windows.Forms.TreeView();
             this.buttonAplicar = new System.Windows.Forms.Button();
             this.buttonCancelar = new System.Windows.Forms.Button();
@@ -61,20 +62,24 @@
             treeNode3.Name = "historial";
             treeNode3.Tag = "historial";
             treeNode3.Text = "historial";
-            treeNode4.Name = "text";
-            treeNode4.Tag = "text";
-            treeNode4.Text = "text";
-            treeNode5.Name = "colors";
-            treeNode5.Tag = "colors";
-            treeNode5.Text = "colors";
-            treeNode6.Name = "visual";
-            treeNode6.Tag = "view";
-            treeNode6.Text = "view";
+            treeNode4.Name = "stream";
+            treeNode4.Tag = "stream";
+            treeNode4.Text = "stream";
+            treeNode5.Name = "text";
+            treeNode5.Tag = "text";
+            treeNode5.Text = "text";
+            treeNode6.Name = "colors";
+            treeNode6.Tag = "colors";
+            treeNode6.Text = "colors";
+            treeNode7.Name = "visual";
+            treeNode7.Tag = "view";
+            treeNode7.Text = "view";
             this.treeViewConfiguracion.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
-            treeNode6});
+            treeNode4,
+            treeNode7});
             this.treeViewConfiguracion.Size = new System.Drawing.Size(220, 353);
             this.treeViewConfiguracion.TabIndex = 0;
             this.treeViewConfiguracion.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewConfiguracion_AfterSelect);

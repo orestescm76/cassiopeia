@@ -55,9 +55,24 @@ namespace Cassiopeia.src.Forms
                 importSpotifyStripMenuItem.Enabled = false;
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
             vistaAlbumes.Font = Config.FontView;
-            
             margins = Size - vistaAlbumes.Size;
+            //From designer. Default has sidebar enabled.
 
+            Size = Config.MainFormSize;
+            vistaAlbumes.Size = Size - margins;
+            panelSidebar.Height = vistaAlbumes.Height;
+            //If sidebar is enabled
+            if (Config.MainFormViewSidebar)
+            {
+                showSidebarToolStripMenuItem.Checked = true;
+                panelSidebar.Visible = true;
+            }
+            else
+            {
+                showSidebarToolStripMenuItem.Checked = false;
+                panelSidebar.Visible = false;
+                vistaAlbumes.Width += panelSidebar.Width;
+            }
             Log.PrintMessage("Main form created", MessageType.Correct);
         }
         public void Refrescar()
@@ -319,7 +334,18 @@ namespace Cassiopeia.src.Forms
             labelInfoAlbum.Location = new Point((panelSidebar.Width - labelInfoAlbum.Width) / 2, pictureBoxSidebarCover.Height + 20);
             pictureBoxSidebarCover.Location = new Point((panelSidebar.Width - pictureBoxSidebarCover.Width) / 2, 3);
         }
-
+        private void ShowSidebar()
+        {
+            panelSidebar.Visible = true;
+            Width += panelSidebar.Width;
+            Config.MainFormViewSidebar = true;
+        }
+        private void HideSidebar()
+        {
+            panelSidebar.Visible = false;
+            Width -= panelSidebar.Width-20;
+            Config.MainFormViewSidebar = false;
+        }
         #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -869,10 +895,10 @@ namespace Cassiopeia.src.Forms
         {
             vistaAlbumes.Size = Size - margins;
             if(!panelSidebar.Visible)
-                vistaAlbumes.Width = Width;
+                vistaAlbumes.Width = Width-20;
             else
             {
-                panelSidebar.Height = Size.Height - barraAbajo.Height - barraPrincipal.Height-45;
+                panelSidebar.Height = vistaAlbumes.Height;
             }
         }
 
@@ -940,29 +966,19 @@ namespace Cassiopeia.src.Forms
             //The user clicked when it was checked.
             if (!showSidebarToolStripMenuItem.Checked)
             {
-                panelSidebar.Visible = false;
-                Width = Width - panelSidebar.Width;
-                vistaAlbumes.Width = Width;
-                //Size = new Size(Width - panel1.Width, Size.Height);
+                //HIDE
+                HideSidebar();
             }
             else
             {
-                panelSidebar.Visible = true;
-                Width += panelSidebar.Width;
-                //Size = new Size(Width + panel1.Width, Size.Height);
+                //SHOW
+                ShowSidebar();
             }
         }
-
-        private void vistaAlbumes_Click(object sender, EventArgs e)
-        {
-
-        }
-        #endregion
-
         private void copiarImagenStrip_Click(object sender, EventArgs e)
         {
             Clipboard.SetImage(pictureBoxSidebarCover.Image);
-            Log.Instance.PrintMessage("Sent cover to clipboard. Size: "+ pictureBoxSidebarCover.Image.Size, MessageType.Correct);
+            Log.Instance.PrintMessage("Sent cover to clipboard. Size: " + pictureBoxSidebarCover.Image.Size, MessageType.Correct);
         }
 
         private void contextMenuSidebarCover_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -972,6 +988,13 @@ namespace Cassiopeia.src.Forms
                 sidebarCopyImageToolStripMenuItem.Enabled = false;
 
         }
+        private void vistaAlbumes_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+
 
         private void panelSidebar_Paint(object sender, PaintEventArgs e)
         {

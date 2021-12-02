@@ -12,7 +12,8 @@ namespace Cassiopeia.src.Forms
         Clipboard,
         History,
         Colors,
-        TextFont
+        TextFont,
+        Stream
     }
     public partial class ConfigForm : Form
     {
@@ -22,7 +23,8 @@ namespace Cassiopeia.src.Forms
         Label labelStringConfigPreview;
         Label labelStringConfigHelp;
 
-        CheckBox checkBoxHistoryConfig;
+        CheckBox checkBoxHistoryConfigCheckBox;
+        CheckBox streamEnabledConfigCheckBox;
 
         AlbumData AlbumCopyPreview = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973); //Only used if the collection is empty.
         Song SongPreview = new Song("A National Acrobat", 375000, false);
@@ -67,9 +69,10 @@ namespace Cassiopeia.src.Forms
             treeViewConfiguracion.Nodes[0].Text = Kernel.LocalTexts.GetString("idioma");
             treeViewConfiguracion.Nodes[1].Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
             treeViewConfiguracion.Nodes[2].Text = "HISTORIAL";
-            treeViewConfiguracion.Nodes[3].Text = Kernel.LocalTexts.GetString("configView");
-            treeViewConfiguracion.Nodes[3].Nodes[0].Text = Kernel.LocalTexts.GetString("tipografíaLyrics");
-            treeViewConfiguracion.Nodes[3].Nodes[1].Text = Kernel.LocalTexts.GetString("colorsHighlight");
+            treeViewConfiguracion.Nodes[3].Text = "STREAM";
+            treeViewConfiguracion.Nodes[4].Text = Kernel.LocalTexts.GetString("configView");
+            treeViewConfiguracion.Nodes[4].Nodes[0].Text = Kernel.LocalTexts.GetString("tipografíaLyrics");
+            treeViewConfiguracion.Nodes[4].Nodes[1].Text = Kernel.LocalTexts.GetString("colorsHighlight");
         }
         private void LoadLanguageConfig()
         {
@@ -152,13 +155,13 @@ namespace Cassiopeia.src.Forms
             stringConfig.TextChanged += StringConfig_TextChanged;
             stringConfig.Location = new Point(35, 75);
 
-            checkBoxHistoryConfig = new CheckBox();
-            checkBoxHistoryConfig.Click += checkBoxHistorialConfig_Click;
-            checkBoxHistoryConfig.Location = new Point(44, stringConfig.Location.Y - 25);
-            checkBoxHistoryConfig.Checked = Config.HistoryEnabled;
-            checkBoxHistoryConfig.Text = "Enable historial";
-            checkBoxHistoryConfig.AutoSize = true;
-            checkBoxHistoryConfig.Font = new Font("Segoe UI", 9);
+            checkBoxHistoryConfigCheckBox = new CheckBox();
+            checkBoxHistoryConfigCheckBox.Click += checkBoxHistorialConfig_Click;
+            checkBoxHistoryConfigCheckBox.Location = new Point(44, stringConfig.Location.Y - 25);
+            checkBoxHistoryConfigCheckBox.Checked = Config.HistoryEnabled;
+            checkBoxHistoryConfigCheckBox.Text = "Enable historial";
+            checkBoxHistoryConfigCheckBox.AutoSize = true;
+            checkBoxHistoryConfigCheckBox.Font = new Font("Segoe UI", 9);
 
             Size size = stringConfig.Size; 
             size.Width = 420; stringConfig.Size = size;
@@ -189,7 +192,60 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Controls.Add(labelStringConfigPreview);
             groupBoxRaiz.Controls.Add(labelStringConfigHelp);
 
-            groupBoxRaiz.Controls.Add(checkBoxHistoryConfig);
+            groupBoxRaiz.Controls.Add(checkBoxHistoryConfigCheckBox);
+        }
+
+        private void LoadStreamConfig()
+        {
+            ActiveConfig = ActiveConfig.Stream;
+            labelStringConfigPreview = new Label();
+            labelStringConfigHelp = new Label();
+            //groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
+            groupBoxRaiz.Text = "stream";
+            stringConfig = new TextBox();
+            stringConfig.TextChanged += StringConfig_TextChanged;
+            stringConfig.Location = new Point(35, 75);
+
+            streamEnabledConfigCheckBox = new CheckBox();
+            streamEnabledConfigCheckBox.Location = new Point(44, stringConfig.Location.Y - 25);
+            streamEnabledConfigCheckBox.Checked = Config.StreamEnabled;
+            streamEnabledConfigCheckBox.Text = "Enable stream logging";
+            streamEnabledConfigCheckBox.AutoSize = true;
+            streamEnabledConfigCheckBox.Font = new Font("Segoe UI", 9);
+
+            Size size = stringConfig.Size;
+            size.Width = 420; stringConfig.Size = size;
+            stringConfig.Font = new Font("Segoe UI", 9);
+            stringConfig.Text = Config.StreamString;
+            labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
+            labelStringConfigPreview.AutoSize = true;
+            labelStringConfigPreview.Font = stringConfig.Font;
+            labelStringConfigHelp.Font = stringConfig.Font;
+            labelStringConfigHelp.AutoSize = true;
+            labelStringConfigHelp.Location = new Point(labelStringConfigPreview.Location.X, labelStringConfigPreview.Location.Y + 50);
+            labelStringConfigHelp.Text = @"%artist% - Song artist
+%title% - Song title
+%year% - Album release year
+%album% - Album name
+%track_num% - Number of listened song
+%length% - Length of the song, formatted as [HH:]MM:SS.
+%pos% - Position, formatted as MM:SS
+%time% - Local time, formatted as HH:MM
+%date% - Today's date
+\n - Sends a new line";
+
+            string Preview = Config.History;
+
+            AlbumData album = Utils.GetRandomAlbum();
+            if (album is not null)
+                SongPreview = Utils.GetRandomSong(album);
+
+            StringConfig_TextChanged(null, null);
+            groupBoxRaiz.Controls.Add(stringConfig);
+            groupBoxRaiz.Controls.Add(labelStringConfigPreview);
+            groupBoxRaiz.Controls.Add(labelStringConfigHelp);
+
+            groupBoxRaiz.Controls.Add(streamEnabledConfigCheckBox);
         }
 
         private void LoadColorConfig()
@@ -288,7 +344,7 @@ namespace Cassiopeia.src.Forms
                     break;
                 case ActiveConfig.History:
                     Config.History = stringConfig.Text;
-                    Config.HistoryEnabled = checkBoxHistoryConfig.Checked;
+                    Config.HistoryEnabled = checkBoxHistoryConfigCheckBox.Checked;
                     break;
                 case ActiveConfig.Colors:
                     Config.ColorBonus = btColorBonus.BackColor;
@@ -298,6 +354,10 @@ namespace Cassiopeia.src.Forms
                     Config.FontView = btTextView.Font;
                     Config.FontLyrics = btTextLyrics.Font;
                     Kernel.ReloadView();
+                    break;
+                case ActiveConfig.Stream:
+                    Config.StreamEnabled = streamEnabledConfigCheckBox.Checked;
+                    Config.StreamString = stringConfig.Text;
                     break;
                 default:
                     break;
@@ -326,6 +386,9 @@ namespace Cassiopeia.src.Forms
                 case "historial":
                     LoadHistorialConfig();
                     break;
+                case "stream":
+                    LoadStreamConfig();
+                    break;
                 default:
                     groupBoxRaiz.Controls.Add(labelSelect);
                     labelSelect.Show();
@@ -337,6 +400,7 @@ namespace Cassiopeia.src.Forms
         private void StringConfig_TextChanged(object sender, EventArgs e)
         {
             string Preview = stringConfig.Text;
+            int num = random.Next(1, 101);
             try
             {
                 switch (ActiveConfig)
@@ -354,13 +418,24 @@ namespace Cassiopeia.src.Forms
                         labelStringConfigPreview.Text = Preview;
                         break;
                     case ActiveConfig.History:
-                        int num = random.Next(1, 101);
                         Preview = Preview.Replace("%track_num%", num.ToString());
                         Preview = Preview.Replace("%artist%", SongPreview.AlbumFrom.Artist);
                         Preview = Preview.Replace("%title%", SongPreview.Title);
                         Preview = Preview.Replace("%length%", SongPreview.Length.ToString());
                         Preview = Preview.Replace("%date%", DateTime.Now.Date.ToString("d"));
                         Preview = Preview.Replace("%time%", DateTime.Now.ToString("HH:mm"));
+                        break;
+                    case ActiveConfig.Stream:
+                        Preview = Preview.Replace("%track_num%", num.ToString());
+                        Preview = Preview.Replace("%artist%", SongPreview.AlbumFrom.Artist);
+                        Preview = Preview.Replace("%album%", SongPreview.AlbumFrom.Title);
+                        Preview = Preview.Replace("%title%", SongPreview.Title);
+                        Preview = Preview.Replace("%length%", SongPreview.Length.ToString(@"mm\:ss"));
+                        Preview = Preview.Replace("%pos%", TimeSpan.FromSeconds(45).ToString(@"mm\:ss"));
+                        Preview = Preview.Replace("%date%", DateTime.Now.Date.ToString("d"));
+                        Preview = Preview.Replace("%time%", DateTime.Now.ToString("HH:mm"));
+                        Preview = Preview.Replace("%year%", SongPreview.AlbumFrom.Year.ToString());
+                        Preview = Preview.Replace("\\n", Environment.NewLine);
                         break;
                     default:
                         break;

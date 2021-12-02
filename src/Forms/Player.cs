@@ -53,7 +53,7 @@ namespace Cassiopeia.src.Forms
         bool ShuffleState = false;
         string PreviousSpotifyID = "";
         bool VolumeHold = false, PositonHold = false, ShuffleHold = false;
-        private uint SongCount = 1;
+        private uint SongCount = 0;
         private Song NowPlaying;
         private AlbumData NowPlayingAlbum;
         Random Random { get; }
@@ -838,14 +838,15 @@ namespace Cassiopeia.src.Forms
                     else
                         buttonAgregar.Enabled = true;
                 }
-                //using (StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
-                //{
-                //    TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
-                //    salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
-                //    salida.Write(np.ToString(@"mm\:ss") + " / ");
-                //    salida.Write(dur.ToString(@"mm\:ss"));
-                //}
-
+                if(Config.StreamEnabled)
+                {
+                    using (StreamWriter salida = new StreamWriter("np.txt"))
+                    {
+                        
+                        TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
+                        salida.WriteLine(Utils.GetStreamString(SpotifyPlayingSong, SongCount, pos));
+                    }
+                }
             }
             else
             {

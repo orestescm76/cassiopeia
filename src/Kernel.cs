@@ -392,6 +392,8 @@ namespace Cassiopeia
             SavePATHS();
             SaveLyrics();
 
+            Config.MainFormSize = MainForm.Size;
+
             Config.GuardarConfiguracion();
 
             Log.Instance.PrintMessage("Shutting down Player", MessageType.Info);
