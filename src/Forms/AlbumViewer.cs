@@ -89,6 +89,8 @@ namespace Cassiopeia.src.Forms
                     vistaCaratula.Image = Image.FromFile(albumToVisualize.CoverPath);
                     vistaCaratula.SizeMode = PictureBoxSizeMode.StretchImage;
                 }
+                else
+                    vistaCaratula.Image = Properties.Resources.albumdesconocido;
             }
             catch (FileNotFoundException)
             {

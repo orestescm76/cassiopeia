@@ -65,7 +65,7 @@ namespace Cassiopeia
         private static CancellationTokenSource RefreshTokenCancellation = new CancellationTokenSource();
 
         public static ResXResourceSet LocalTexts;
-        public static MainForm MainForm;
+        private static MainForm MainForm;
         public static Collection Collection;
 #if DEBUG
         public static bool Console = true;

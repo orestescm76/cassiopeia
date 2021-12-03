@@ -288,7 +288,10 @@ namespace Cassiopeia.src.Forms
             {
                 if (pictureBoxSidebarCover.Image != Properties.Resources.albumdesconocido)
                     pictureBoxSidebarCover.Image = null;
-                pictureBoxSidebarCover.Image = Image.FromFile(a.CoverPath);
+                if (!string.IsNullOrEmpty(a.CoverPath))
+                    pictureBoxSidebarCover.Image = Image.FromFile(a.CoverPath);
+                else
+                    pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
                 ////Doing this will allow me to replace album cover and not locking the file
                 //Image cover;
                 //using (var temp = new Bitmap(a.CoverPath))
@@ -313,7 +316,10 @@ namespace Cassiopeia.src.Forms
             {
                 if (pictureBoxSidebarCover.Image != Properties.Resources.albumdesconocido)
                     pictureBoxSidebarCover.Image = null;
-                pictureBoxSidebarCover.Image = Image.FromFile(cd.Album.CoverPath);
+                if(!string.IsNullOrEmpty(cd.Album.CoverPath))
+                    pictureBoxSidebarCover.Image = Image.FromFile(cd.Album.CoverPath);
+                else
+                    pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
                 ////Doing this will allow me to replace album cover and not locking the file
                 //Image cover;
                 //using (var temp = new Bitmap(a.CoverPath))

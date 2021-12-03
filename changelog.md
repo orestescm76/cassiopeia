@@ -1,5 +1,5 @@
 # Cassiopeia Changelog
-#### 2.0.222.10
+#### 2.0.222.20
 - Now the program saves the size and sidebar view seting.
 - Added the option to customize the string stream for sending the now playing song to a file. It's useful for streamers.
 - Now when you resize the config form, the internal controls move according to the resize.

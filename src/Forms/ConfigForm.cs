@@ -302,9 +302,6 @@ namespace Cassiopeia.src.Forms
 
             groupBoxRaiz.Controls.Add(btColorBonus);
             groupBoxRaiz.Controls.Add(btColorLongSong);
-            SetLeftAnchor();
-            
-
         }
 
         private void LoadTextConfig()
@@ -347,8 +344,6 @@ namespace Cassiopeia.src.Forms
 
             groupBoxRaiz.Controls.Add(btTextLyrics);
             groupBoxRaiz.Controls.Add(btTextView);
-            SetLeftAnchor();
-
         }
         private void Aplicar(ActiveConfig config)
         {
@@ -461,7 +456,7 @@ namespace Cassiopeia.src.Forms
                         Preview = Preview.Replace("%album%", SongPreview.AlbumFrom.Title);
                         Preview = Preview.Replace("%title%", SongPreview.Title);
                         Preview = Preview.Replace("%length%", SongPreview.Length.ToString(@"mm\:ss"));
-                        Preview = Preview.Replace("%pos%", TimeSpan.FromSeconds(45).ToString(@"mm\:ss"));
+                        Preview = Preview.Replace("%pos%", TimeSpan.FromSeconds(random.Next((int)SongPreview.Length.TotalSeconds)).ToString(@"mm\:ss"));
                         Preview = Preview.Replace("%date%", DateTime.Now.Date.ToString("d"));
                         Preview = Preview.Replace("%time%", DateTime.Now.ToString("HH:mm"));
                         Preview = Preview.Replace("%year%", SongPreview.AlbumFrom.Year.ToString());
