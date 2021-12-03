@@ -96,7 +96,6 @@ namespace Cassiopeia
                     
                     Config.LinkedWithSpotify = true;
                     User = SpotifyClient.UserProfile.Current().Result;
-                    Cassiopeia.src.Forms.Player.Instancia.SpotifyEncendido();
                     Kernel.ActivarReproduccionSpotify();
                     Kernel.InternetAvaliable(true);
                     Kernel.BringMainFormFront();
@@ -444,6 +443,10 @@ namespace Cassiopeia
         {
             SpotifyClient.Player.SeekTo(new PlayerSeekToRequest(pos));
         }
+        public Task<CurrentlyPlayingContext> GetPlayingContextAsync()
+        {
+            return SpotifyClient.Player.GetCurrentPlayback();
+        }
         public CurrentlyPlayingContext GetPlayingContext()
         {
             return SpotifyClient.Player.GetCurrentPlayback().Result;
@@ -453,11 +456,8 @@ namespace Cassiopeia
         {
             try
             {
-                Device = SpotifyClient.Player.GetAvailableDevices().Result;
-                SpotifyClient.Player.ResumePlayback(new PlayerResumePlaybackRequest()
-                {
-                    DeviceId = Kernel.Spotify.Device.Devices[0].Id
-                });
+                //Device = SpotifyClient.Player.GetAvailableDevices().Result;
+                SpotifyClient.Player.ResumePlayback();
             }
             catch (APIException ex)
             {

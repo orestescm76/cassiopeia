@@ -183,7 +183,7 @@
             // 
             // timerSpotify
             // 
-            this.timerSpotify.Interval = 300;
+            this.timerSpotify.Interval = 150;
             this.timerSpotify.Tick += new System.EventHandler(this.timerSpotify_Tick);
             // 
             // labelVolumen
@@ -330,7 +330,7 @@
             this.notifyIconReproduciendo.Text = "notifyIconReproduciendo";
             this.notifyIconReproduciendo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconReproduciendo_MouseClick);
             // 
-            // Reproductor
+            // Player
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -358,7 +358,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.Name = "Reproductor";
+            this.Name = "Player";
             this.Text = "x";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reproductor_FormClosing);
             this.Load += new System.EventHandler(this.Reproductor_Load);

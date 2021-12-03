@@ -62,8 +62,9 @@ namespace Cassiopeia
         public static Genre[] Genres = new Genre[IDGenres.Length];
 
         public static Task TaskRefreshToken;
+        private static Task TaskMetadataStream;
         private static CancellationTokenSource RefreshTokenCancellation = new CancellationTokenSource();
-
+        private static CancellationTokenSource CancellationToken = new CancellationTokenSource();
         public static ResXResourceSet LocalTexts;
         private static MainForm MainForm;
         public static Collection Collection;
@@ -85,7 +86,10 @@ namespace Cassiopeia
         public static Spotify Spotify;
         public static int NumLanguages;
         public static readonly string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        private static NotifyIcon notifyIconMetadataStream;
 
+        private static uint NumSong = 0;
+        private static string SongID = "";
 
         public async static Task RefreshSpotifyToken(CancellationToken cancellationToken)
         {
@@ -98,6 +102,49 @@ namespace Cassiopeia
                 {
                     await Spotify.RefreshTokenAsync();
                 }
+            }
+        }
+        public async static void MetadataStreamTask()
+        {
+            while (true)
+            {
+                if(!Spotify.IsTokenExpired())
+                {
+                    //Get context
+                    SpotifyAPI.Web.CurrentlyPlayingContext PC = null;
+
+                    try
+                    {
+                        PC = await Spotify.GetPlayingContextAsync();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    //Write to the file
+                    if (PC is not null)
+                    {
+                        SpotifyAPI.Web.FullTrack track = (SpotifyAPI.Web.FullTrack)PC.Item;
+                        if (track.Id != SongID)
+                        {
+                            NumSong++;
+                            SongID = track.Id;
+                        }
+                        try
+                        {
+                            using (StreamWriter salida = new StreamWriter("np.txt"))
+                            {
+                                TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
+                                salida.WriteLine(Utils.GetStreamString(track, NumSong, pos));
+                            }
+                        }
+                        catch (IOException)
+                        {
+                            Log.Instance.PrintMessage("Warn", MessageType.Warning);
+                        }
+
+                    }
+                }
+                Thread.Sleep(1000);
             }
         }
         public static void ChangeLanguage(String lang)
@@ -138,12 +185,14 @@ namespace Cassiopeia
 
         public static void InternetAvaliable(bool i)
         {
-            MainForm.EnableInternet(i);
+            if(!MetadataStream)
+                MainForm.EnableInternet(i);
         }
 
         public static void ActivarReproduccionSpotify()
         {
-            MainForm.ActivarReproduccionSpotify();
+            if (!MetadataStream)
+                MainForm.ActivarReproduccionSpotify();
         }
 
         public static void ReloadView()
@@ -273,7 +322,7 @@ namespace Cassiopeia
                 {
                     Spotify = new Spotify(true);
                     SpotifyReady = true;
-                    MainForm.RemoveLink();
+                    //MainForm.RemoveLink();
                 }
 
             }
@@ -359,6 +408,8 @@ namespace Cassiopeia
                     Song s = searchSong("the boys are back");
                     Log.Instance.PrintMessage("ok", MessageType.Info, crono, TimeType.Milliseconds);
                     Log.Instance.PrintMessage("Running main form", MessageType.Info);
+                    if(Spotify.AccountReady)
+                        MainForm.RemoveLink();
                     Application.Run(MainForm);
 
                     break;
@@ -366,6 +417,7 @@ namespace Cassiopeia
                     Application.Run(Player.Instancia);
                     break;
                 case StartType.MetadataStream:
+                    InitMetadataStream();
                     Application.Run();
                     break;
                 default:
@@ -387,28 +439,29 @@ namespace Cassiopeia
                     Log.Instance.PrintMessage("TaskRefreshToken is terminated", MessageType.Correct);
                 }
             }
-            SaveAlbums("discos.csv", SaveType.Digital);
-            SaveAlbums("cd.json", SaveType.CD, true);
-            SavePATHS();
-            SaveLyrics();
+            if(!MetadataStream)
+            {
+                SaveAlbums("discos.csv", SaveType.Digital);
+                SaveAlbums("cd.json", SaveType.CD, true);
+                SavePATHS();
+                SaveLyrics();
 
-            Config.MainFormSize = MainForm.Size;
+                Config.MainFormSize = MainForm.Size;
 
-            Config.GuardarConfiguracion();
+                Config.GuardarConfiguracion();
 
-            Log.Instance.PrintMessage("Shutting down Player", MessageType.Info);
-            Player.Instancia.Apagar();
-            Player.Instancia.Dispose();
+                Log.Instance.PrintMessage("Shutting down Player", MessageType.Info);
+                Player.Instancia.Apagar();
+                Player.Instancia.Dispose();
 
-            if (File.Exists("./covers/np.jpg"))
-                File.Delete("./covers/np.jpg");
+                if (File.Exists("./covers/np.jpg"))
+                    File.Delete("./covers/np.jpg");
 
+            }
             Log.Instance.CloseLog();
-            
+
             if (Console)
                 FreeConsole();
-
-            Application.Exit();
         }
 
         //Methods for loading and saving...
@@ -781,7 +834,8 @@ namespace Cassiopeia
         }
         public static void BringMainFormFront()
         {
-            MainForm.Activate();
+            if (!MetadataStream)
+                MainForm.Activate();
         }
         public static DialogResult Warn(string reason)
         {
@@ -798,6 +852,26 @@ namespace Cassiopeia
                 }
             }
             return null;
+        }
+        private static void InitMetadataStream()
+        {
+            Log.Instance.PrintMessage("Starting stream mode...", MessageType.Info);
+            notifyIconMetadataStream = new NotifyIcon();
+            notifyIconMetadataStream.Text = LocalTexts.GetString("cerrarModoStream");
+            notifyIconMetadataStream.Icon = Properties.Resources.spotifyico;
+            notifyIconMetadataStream.DoubleClick += NotifyIconMetadataStream_DoubleClick;
+            notifyIconMetadataStream.Visible = true;
+            while (!Spotify.AccountReady)
+            {
+                Thread.Sleep(100);
+            }
+            Log.Instance.PrintMessage("Starting task...", MessageType.Info);
+            MetadataStreamTask();
+        }
+
+        private static void NotifyIconMetadataStream_DoubleClick(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

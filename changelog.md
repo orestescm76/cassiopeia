@@ -1,8 +1,13 @@
 # Cassiopeia Changelog
+#### 2.0.224.0
+- Added a "low" latency mode and a "high" latency when syncing Spotify if the Player is visible to minimize CPU and network usage. (and API calls.)
+- Reworked the metadata stream mode.
+
 #### 2.0.222.20
 - Now the program saves the size and sidebar view seting.
 - Added the option to customize the string stream for sending the now playing song to a file. It's useful for streamers.
 - Now when you resize the config form, the internal controls move according to the resize.
+
 #### 2.0.220.10 - DEBUG RELEASE
 - Added a sidebar in the main view.
 - Contains the album cover, total albums, duration and some stats for selected album.
@@ -69,15 +74,17 @@
 - Ported to NET 5.
 
 
-1.6.0.82 - PlaylistUI - Fix for local songs and time not adding.
-		 - PlaylistUI - Fixed the routine for deleting songs.
-		 - PlaylistUI - Del key now deletes songs.
-		 - PlaylistUI - Fixed a small issue when songs over 60 minutes long weren't showing correctly.
-         - Player - Same as above.
-		 - Small Fixes
-		 - Added Delunado in the credits.
+#### 1.6.0.82 
+- PlaylistUI - Fix for local songs and time not adding.
+- PlaylistUI - Fixed the routine for deleting songs.
+- PlaylistUI - Del key now deletes songs.
+- PlaylistUI - Fixed a small issue when songs over 60 minutes long weren't showing correctly.
+- Player - Same as above.
+- Small Fixes
+- Added Delunado in the credits.
 
-1.6.0.79 - Main:
+#### 1.6.0.79
+- Main:
     -Greek and Italian translations (Thanks Lorenzo!)
     -Main window can be resized.
     -New window, Lyrics Viewer. You can manage lyrics from the songs you have stored.
@@ -87,39 +94,39 @@
     -Reworked the Spotify search.
     -Now you can see whether you're viewing the Digital or CD collection
 
-		- Player:
+- Player:
     -Support for CD Audio
     -New playlist system from scratch
     -A lot of bugfixes and improvements.
 
-		- Misc:
+- Misc:
     -English parameters.
-
-		- Known issues.
+- Known issues.
     -The Player can't play certain OGG files. This is from a bug in the library.
     -Twit button on the Player is broken.
     -CD creation can be a little janky.
     -Missing information in the clipboard config
 
-1.5.2.87 - arreglado el borrado (gracias Jaime!)
-         - perfilado el formulario de editar álbum.
-		 - arreglado el bug del reproductor y el slider de la posicion
-		 - arreglado el bug de la salida doble
-		 - arreglado el indexado de las canciones
-		 - shortkeys para el volumen. ctrl + arriba o + para subir. ctrl + abajo o - para bajar
-         - arreglados los atajos de teclado para saltar cancion
-         - quitado el foobar, era un experimento
-         - retoques en el reproductor, debería ser mucho más estable.
-         - arreglado el error de que el reproductor se salía y guardaba 2 veces
-		 - arreglado status bar spotify fix
-         - si apagas spotify se pausa. fix
-         - titulo cuando vuelves a local y duraciones reiniciadas fix
-         - mejoras en el log (duh)
-         - refresco cuando editas un álbum fix
-         - cuando reproduces una cancion larga en Spotify se te agregan todas las partes a la cola fix
-         - arreglado el "falso" bloqueo de los discos al intentar borrarlos fix
-         - arreglado el crash al twittear una canción local sin registrar en la base de datos fix
-         - cuando apagas el modo spotify, se deshabilita el botón de "twit" fix
-         - cuando iniciabas en modo reproductor no se cerraba fix
-		 - drag & drop de ficheros al reproductor
-         - Ctrl + O para abrir ficheros (disabled)
+#### 1.5.2.87
+- arreglado el borrado (gracias Jaime!)
+- perfilado el formulario de editar álbum.
+- arreglado el bug del reproductor y el slider de la posicion
+- arreglado el bug de la salida doble
+- arreglado el indexado de las canciones
+- shortkeys para el volumen. ctrl + arriba o + para subir. ctrl + abajo o - para bajar
+- arreglados los atajos de teclado para saltar cancion
+- quitado el foobar, era un experimento
+- retoques en el reproductor, debería ser mucho más estable.
+- arreglado el error de que el reproductor se salía y guardaba 2 veces
+- arreglado status bar spotify fix
+- si apagas spotify se pausa. fix
+- titulo cuando vuelves a local y duraciones reiniciadas fix
+- mejoras en el log (duh)
+- refresco cuando editas un álbum fix
+- cuando reproduces una cancion larga en Spotify se te agregan todas las partes a la cola fix
+- arreglado el "falso" bloqueo de los discos al intentar borrarlos fix
+- arreglado el crash al twittear una canción local sin registrar en la base de datos fix
+- cuando apagas el modo spotify, se deshabilita el botón de "twit" fix
+- cuando iniciabas en modo reproductor no se cerraba fix
+- drag & drop de ficheros al reproductor
+- Ctrl + O para abrir ficheros (disabled)

@@ -68,6 +68,9 @@ namespace Cassiopeia.src.Forms
         public Player()
         {
             InitializeComponent();
+
+            Activated += (object sender, EventArgs e) => { timerSpotify.Interval = 150; };
+            Deactivate += (object sender, EventArgs e) => { timerSpotify.Interval = 1000; };
             SetPlayerButtons(false);
             timerCancion.Enabled = false;
             estadoReproductor = EstadoReproductor.Stop;
@@ -117,6 +120,12 @@ namespace Cassiopeia.src.Forms
             ModoCD = false;
             Random = new Random();
         }
+
+        private void Player_Activated(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void ConfigurarTimers(bool val) //Configura los timers cancion y metadatos.
         {
             timerCancion.Enabled = val;
@@ -1334,7 +1343,6 @@ namespace Cassiopeia.src.Forms
                 lrui.Show();
             }
         }
-
         private void buttonDetener_Click(object sender, EventArgs e)
         {
             Detener();

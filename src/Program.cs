@@ -36,18 +36,19 @@ namespace Cassiopeia
             Kernel.LoadConfig();
             //Loading languages, else it will not load the textbox.
             Kernel.LoadLanguages();
-            //Create genres
-            Kernel.InitGenres();
-
-            //Create program
-            Kernel.CreateProgram();
-            //Load the files
-            Kernel.LoadFiles();
             //Init Spotify
             Kernel.InitSpotify();
-            //Create player Instance
-            Kernel.InitPlayer();
-
+            if (!Kernel.MetadataStream)
+            {
+                //Create genres
+                Kernel.InitGenres();
+                //Create program
+                Kernel.CreateProgram();
+                //Load the files
+                Kernel.LoadFiles();
+                //Create player Instance
+                Kernel.InitPlayer();
+            }
             //We're done!
             StartStopwatch.Stop();
             Log.Instance.PrintMessage("Application loaded!", MessageType.Correct, StartStopwatch, TimeType.Milliseconds);
