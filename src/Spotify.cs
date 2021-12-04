@@ -7,6 +7,8 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Cassiopeia
 {
@@ -25,7 +27,7 @@ namespace Cassiopeia
         public DeviceResponse Device;
         string TokenRefreshCode;
         private PrivateUser User;
-
+        private static string AuthPath = "spotifyLogin.json";
         public Spotify(bool linked)
         {
             if (!linked)
@@ -59,7 +61,7 @@ namespace Cassiopeia
                 if(SpotifyConfig is not null) //??
                 {
                     Kernel.InternetAvaliable(true);
-                    Kernel.InitTask();
+                    Kernel.InitSpotifyRefreshTokenTask();
                     Log.Instance.PrintMessage("Connected!", MessageType.Correct, crono, TimeType.Milliseconds);
                 }
                 else //yo  creoque esto nunca se ejecuta...
@@ -76,40 +78,49 @@ namespace Cassiopeia
                 System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
         }
-        private void StartStreamMode()
+        private async void StartStreamMode()
         {
             try
             {
                 Log.Instance.PrintMessage("Trying to connect Spotify account", MessageType.Info, "Spotify.StartStreamMode()");
                 Kernel.InternetAvaliable(false);
                 Stopwatch crono = Stopwatch.StartNew();
-                SpotifyConfig = SpotifyClientConfig.CreateDefault();
-                var server = new EmbedIOAuthServer(new Uri("http://localhost:4002/"), 4002);
-                server.AuthorizationCodeReceived += async (sender, response) =>
+                if (!File.Exists(AuthPath))
                 {
-                    await server.Stop();
-                    Token = await new OAuthClient(SpotifyConfig).RequestToken(new AuthorizationCodeTokenRequest(PublicKey, PrivateKey, response.Code, server.BaseUri));
-                    SpotifyClient = new SpotifyClient(Token.AccessToken);
+                    var (verifier, challenge) = PKCEUtil.GenerateCodes();
+                    var server = new EmbedIOAuthServer(new Uri("http://localhost:4002/callback"), 4002);
+                    await server.Start();
+                    server.AuthorizationCodeReceived += async (sender, response) =>
+                    {
+                        await server.Stop();
+                        PKCETokenResponse token = await new OAuthClient().RequestToken(new PKCETokenRequest(PublicKey, response.Code, server.BaseUri, verifier));
+                        await File.WriteAllTextAsync(AuthPath, JsonConvert.SerializeObject(token));
+                        await StartLoginSpotify(crono);
+                        //Token = await new OAuthClient(SpotifyConfig).RequestToken(new AuthorizationCodeTokenRequest(PublicKey, PrivateKey, response.Code, server.BaseUri));
+                        //SpotifyClient = new SpotifyClient(Token.AccessToken);
 
-                    AccountReady = true;
-                    AccountLinked = true;
-                    
-                    Config.LinkedWithSpotify = true;
-                    User = SpotifyClient.UserProfile.Current().Result;
-                    Kernel.ActivarReproduccionSpotify();
-                    Kernel.InternetAvaliable(true);
-                    Kernel.BringMainFormFront();
-                    TokenRefreshCode = Token.RefreshToken;
-                    Log.Instance.PrintMessage("Connected as " + SpotifyClient.UserProfile.Current().Result.Email, MessageType.Correct, crono, TimeType.Seconds);
-                    Kernel.InitTask();
-                    crono.Stop();
-                };
-                server.Start();
-                var login = new LoginRequest(server.BaseUri, PublicKey, LoginRequest.ResponseType.Code)
-                {
-                    Scope = new[] { Scopes.UserReadEmail, Scopes.UserReadPrivate, Scopes.Streaming, Scopes.PlaylistReadPrivate, Scopes.UserReadPlaybackState, Scopes.UserLibraryRead }
-                };
-                BrowserUtil.Open(login.ToUri());
+
+
+                        //Config.LinkedWithSpotify = true;
+                        //User = SpotifyClient.UserProfile.Current().Result;
+                        //Kernel.ActivarReproduccionSpotify();
+                        //Kernel.InternetAvaliable(true);
+                        //Kernel.BringMainFormFront();
+                        //TokenRefreshCode = Token.RefreshToken;
+                        //Log.Instance.PrintMessage("Connected as " + SpotifyClient.UserProfile.Current().Result.Email, MessageType.Correct, crono, TimeType.Seconds);
+                        //Kernel.InitSpotifyRefreshTokenTask();
+                        server.Dispose();
+                    };
+                    var login = new LoginRequest(server.BaseUri, PublicKey, LoginRequest.ResponseType.Code)
+                    {
+                        CodeChallenge = challenge,
+                        CodeChallengeMethod = "S256",
+                        Scope = new List<string> { Scopes.UserReadEmail, Scopes.UserReadPrivate, Scopes.Streaming, Scopes.PlaylistReadPrivate, Scopes.UserReadPlaybackState, Scopes.UserLibraryRead }
+                    };
+                    BrowserUtil.Open(login.ToUri());
+                }
+                else
+                    await StartLoginSpotify(crono);
             }
             catch (APIException e)
             {
@@ -118,7 +129,25 @@ namespace Cassiopeia
                 System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
         }
-
+        private async Task StartLoginSpotify(Stopwatch crono)
+        {
+            Log.Instance.PrintMessage("Logging to Spotify", MessageType.Info);
+            var json = await File.ReadAllTextAsync(AuthPath);
+            var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
+            var auth = new PKCEAuthenticator(PublicKey, token!);
+            auth.TokenRefreshed += (sender, token) => File.WriteAllText(AuthPath, JsonConvert.SerializeObject(token));
+            SpotifyConfig = SpotifyClientConfig.CreateDefault().WithAuthenticator(auth);
+            SpotifyClient = new SpotifyClient(SpotifyConfig);
+            User = SpotifyClient.UserProfile.Current().Result;
+            Log.Instance.PrintMessage("Connected as " + User.Email, MessageType.Correct, crono, TimeType.Seconds);
+            Config.LinkedWithSpotify = true;
+            Kernel.ActivarReproduccionSpotify();
+            Kernel.InternetAvaliable(true);
+            Kernel.BringMainFormFront();
+            AccountReady = true;
+            AccountLinked = true;
+            crono.Stop();
+        }
         public async Task RefreshTokenAsync()
         {
             Log.Instance.PrintMessage("Refreshing Token...", MessageType.Info);

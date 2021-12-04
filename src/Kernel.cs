@@ -108,7 +108,7 @@ namespace Cassiopeia
         {
             while (true)
             {
-                if(!Spotify.IsTokenExpired())
+                if (!Spotify.IsTokenExpired())
                 {
                     //Get context
                     SpotifyAPI.Web.CurrentlyPlayingContext PC = null;
@@ -121,7 +121,7 @@ namespace Cassiopeia
                     {
                     }
                     //Write to the file
-                    if (PC is not null)
+                    if (PC is not null && PC.Item is not null)
                     {
                         SpotifyAPI.Web.FullTrack track = (SpotifyAPI.Web.FullTrack)PC.Item;
                         if (track.Id != SongID)
@@ -137,14 +137,16 @@ namespace Cassiopeia
                                 salida.WriteLine(Utils.GetStreamString(track, NumSong, pos));
                             }
                         }
-                        catch (IOException)
+                        catch (Exception ex)
                         {
-                            Log.Instance.PrintMessage("Warn", MessageType.Warning);
+                            Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
                         }
 
                     }
+                    Thread.Sleep(850);
                 }
-                Thread.Sleep(1000);
+                else
+                    Thread.Sleep(50);
             }
         }
         public static void ChangeLanguage(String lang)
@@ -311,6 +313,8 @@ namespace Cassiopeia
             Collection = new Collection();
             SpotifyReady = false;
             MainForm = new MainForm();
+            if(!SpotifyEnabled)
+                MainForm.EnableInternet(false);
         }
         public static void InitSpotify()
         {
@@ -331,11 +335,12 @@ namespace Cassiopeia
                 SpotifyReady = false;
                 Log.Instance.PrintMessage("Cassiopeia has been launched with the -noSpotify option, there will not be any Spotify integration", MessageType.Info);
                 Spotify = null;
-                MainForm.EnableInternet(false);
+                
             }
         }
-        public static void InitTask()
+        public static void InitSpotifyRefreshTokenTask()
         {
+            Log.Instance.PrintMessage("Starting refresh token...",MessageType.Info);
             TaskRefreshToken = Task.Factory.StartNew(
                 () => { RefreshSpotifyToken(RefreshTokenCancellation.Token); },
                 RefreshTokenCancellation.Token,
@@ -408,7 +413,7 @@ namespace Cassiopeia
                     Song s = searchSong("the boys are back");
                     Log.Instance.PrintMessage("ok", MessageType.Info, crono, TimeType.Milliseconds);
                     Log.Instance.PrintMessage("Running main form", MessageType.Info);
-                    if(Spotify.AccountReady)
+                    if(Spotify is not null && Spotify.AccountReady)
                         MainForm.RemoveLink();
                     Application.Run(MainForm);
 

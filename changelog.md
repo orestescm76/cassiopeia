@@ -1,4 +1,7 @@
 # Cassiopeia Changelog
+#### 2.0.225.0
+- Reworked the login to Spotify, using PKCE
+
 #### 2.0.224.0
 - Added a "low" latency mode and a "high" latency when syncing Spotify if the Player is visible to minimize CPU and network usage. (and API calls.)
 - Reworked the metadata stream mode.
