@@ -88,65 +88,49 @@ namespace Cassiopeia
         public static readonly string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         private static NotifyIcon notifyIconMetadataStream;
 
-        private static uint NumSong = 0;
+        public static uint SongCount = 0;
         private static string SongID = "";
+        public static FileInfo HistorialFileInfo;
+        public static FileInfo StreamFileInfo;
 
-        public async static Task RefreshSpotifyToken(CancellationToken cancellationToken)
-        {
-            while (true)
-            {
-                var cancelar = cancellationToken.WaitHandle.WaitOne(TimeSpan.FromSeconds(15));
-                if (cancelar && cancellationToken.IsCancellationRequested)
-                    return;
-                if (Spotify.IsTokenExpired())
-                {
-                    await Spotify.RefreshTokenAsync();
-                }
-            }
-        }
         public async static void MetadataStreamTask()
         {
             while (true)
             {
-                if (!Spotify.IsTokenExpired())
+                //Get context
+                SpotifyAPI.Web.CurrentlyPlayingContext PC = await Spotify.GetPlayingContextAsync();
+                //Write to the file, but check if it is null, if it is, we had a problem
+                if (PC is not null && PC.Item is not null)
                 {
-                    //Get context
-                    SpotifyAPI.Web.CurrentlyPlayingContext PC = null;
-
+                    SpotifyAPI.Web.FullTrack track = (SpotifyAPI.Web.FullTrack)PC.Item;
+                    if (track.Id != SongID)
+                    {
+                        SongCount++;
+                        SongID = track.Id;
+                    }
                     try
                     {
-                        PC = await Spotify.GetPlayingContextAsync();
-                    }
-                    catch (Exception)
-                    {
-                    }
-                    //Write to the file
-                    if (PC is not null && PC.Item is not null)
-                    {
-                        SpotifyAPI.Web.FullTrack track = (SpotifyAPI.Web.FullTrack)PC.Item;
-                        if (track.Id != SongID)
+                        using (StreamWriter salida = new StreamWriter("np.txt"))
                         {
-                            NumSong++;
-                            SongID = track.Id;
+                            TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
+                            salida.WriteLine(Utils.GetStreamString(track, SongCount, pos));
                         }
-                        try
+                        if (Config.HistoryEnabled)
                         {
-                            using (StreamWriter salida = new StreamWriter("np.txt"))
+                            using (StreamWriter streamWriter = new StreamWriter(HistorialFileInfo.FullName))
                             {
-                                TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
-                                salida.WriteLine(Utils.GetStreamString(track, NumSong, pos));
+                                streamWriter.WriteLine(Utils.GetHistoryString(track, SongCount));
+                                SongCount++;
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
-                        }
-
                     }
-                    Thread.Sleep(850);
+                    catch (Exception ex)
+                    {
+                        Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
+                    }
+
                 }
-                else
-                    Thread.Sleep(50);
+                Thread.Sleep(1000);
             }
         }
         public static void ChangeLanguage(String lang)
@@ -315,6 +299,9 @@ namespace Cassiopeia
             MainForm = new MainForm();
             if(!SpotifyEnabled)
                 MainForm.EnableInternet(false);
+            DateTime now = DateTime.Now;
+            HistorialFileInfo = new FileInfo("Musical log " + now.Day + "-" + now.Month + "-" + now.Year + ".txt");
+            StreamFileInfo = new FileInfo("np.txt");
         }
         public static void InitSpotify()
         {
@@ -326,7 +313,6 @@ namespace Cassiopeia
                 {
                     Spotify = new Spotify(true);
                     SpotifyReady = true;
-                    //MainForm.RemoveLink();
                 }
 
             }
@@ -337,16 +323,6 @@ namespace Cassiopeia
                 Spotify = null;
                 
             }
-        }
-        public static void InitSpotifyRefreshTokenTask()
-        {
-            Log.Instance.PrintMessage("Starting refresh token...",MessageType.Info);
-            TaskRefreshToken = Task.Factory.StartNew(
-                () => { RefreshSpotifyToken(RefreshTokenCancellation.Token); },
-                RefreshTokenCancellation.Token,
-                TaskCreationOptions.LongRunning,
-                TaskScheduler.Default
-                );
         }
         public static void InitGenres()
         {

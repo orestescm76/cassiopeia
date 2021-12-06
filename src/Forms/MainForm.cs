@@ -914,7 +914,7 @@ namespace Cassiopeia.src.Forms
             busquedaSpotifyForm.ShowDialog();
         }
 
-        private void linkSpotifyStripMenuItem_Click(object sender, EventArgs e)
+        private async void linkSpotifyStripMenuItem_Click(object sender, EventArgs e)
         {
             bool cancelado = false;
             DialogResult eleccion = MessageBox.Show(Kernel.LocalTexts.GetString("avisoSpotify"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
@@ -922,15 +922,15 @@ namespace Cassiopeia.src.Forms
             {
                 Stopwatch espera = Stopwatch.StartNew();
                 Log.Instance.PrintMessage("Reiniciando Spotify", MessageType.Info);
-                Kernel.Spotify.LinkSpotify();
-                while (!Kernel.Spotify.AccountReady)
+                await Kernel.Spotify.LinkSpotify();
+                while (!Kernel.Spotify.IsSpotifyReady())
                 {
-                    //deadlock, sincrono
                     if (espera.Elapsed.TotalSeconds >= 20)
                     {
                         cancelado = true;
                         break;
                     }
+                    await System.Threading.Tasks.Task.Delay(50);
                 }
                 if (cancelado)
                 {
@@ -960,6 +960,7 @@ namespace Cassiopeia.src.Forms
                     Kernel.InternetAvaliable(false);
                     throw;
                 }
+                MessageBox.Show("Linked ok");
             }
         }
 

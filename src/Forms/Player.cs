@@ -44,7 +44,6 @@ namespace Cassiopeia.src.Forms
         private float Volumen;
         private PlaylistIU lrui;
         private ToolTip duracionView;
-        private FileInfo History;
         string Artist, Title = null;
         private bool foobar2000 = true;
         Process foobar2kInstance = null;
@@ -53,7 +52,6 @@ namespace Cassiopeia.src.Forms
         bool ShuffleState = false;
         string PreviousSpotifyID = "";
         bool VolumeHold = false, PositonHold = false, ShuffleHold = false;
-        private uint SongCount = 0;
         private Song NowPlaying;
         private AlbumData NowPlayingAlbum;
         Random Random { get; }
@@ -90,12 +88,6 @@ namespace Cassiopeia.src.Forms
                    buttonSpotify.Enabled = false;
             }
             Icon = Resources.iconoReproductor;
-            if (Config.HistoryEnabled)
-            {
-                DateTime now = DateTime.Now;
-                History = new FileInfo("Musical log " + now.Day + "-" + now.Month + "-" + now.Year + ".txt");
-                SongCount = 1;
-            }
             if (Kernel.MetadataStream) //inicia el programa con solo la imperesión
             {
                 notifyIconStream.Visible = true;
@@ -452,14 +444,14 @@ namespace Cassiopeia.src.Forms
 
             if (Config.HistoryEnabled)
             {
-                using (StreamWriter escritor = new StreamWriter(History.FullName, true))
+                using (StreamWriter escritor = new StreamWriter(Kernel.HistorialFileInfo.FullName, true))
                 {
                     AlbumData album = new AlbumData(Kernel.Genres[^1], "", Lector.Artist, (short)Lector.Year);
                     Song song = new Song(Lector.Title, Lector.Length, ref album);
                     NowPlaying = song;
                     NowPlayingAlbum = album;
-                    escritor.WriteLine(Utils.GetHistoryString(song, SongCount));
-                    SongCount++;
+                    escritor.WriteLine(Utils.GetHistoryString(song, Kernel.SongCount));
+                    Kernel.SongCount++;
                 }
             }
         }
@@ -511,10 +503,10 @@ namespace Cassiopeia.src.Forms
             }
             if (Config.HistoryEnabled)
             {
-                using (StreamWriter escritor = new StreamWriter(History.FullName, true))
+                using (StreamWriter escritor = new StreamWriter(Kernel.HistorialFileInfo.FullName, true))
                 {
-                    escritor.WriteLine(Utils.GetHistoryString(c, SongCount));
-                    SongCount++;
+                    escritor.WriteLine(Utils.GetHistoryString(c, Kernel.SongCount));
+                    Kernel.SongCount++;
                 }
             }
         }
@@ -794,12 +786,12 @@ namespace Cassiopeia.src.Forms
                         PreviousSpotifyID = SpotifyID;
                         if(Config.HistoryEnabled)
                         {
-                            using (StreamWriter escritor = new StreamWriter(History.FullName, true))
+                            using (StreamWriter escritor = new StreamWriter(Kernel.HistorialFileInfo.FullName, true))
                             {
                                 if (SpotifyPlayingSong is not null)
                                 {
-                                    escritor.WriteLine(Utils.GetHistoryString(SpotifyPlayingSong, SongCount));
-                                    SongCount++;
+                                    escritor.WriteLine(Utils.GetHistoryString(SpotifyPlayingSong, Kernel.SongCount));
+                                    Kernel.SongCount++;
                                 }
                             }
                         }
@@ -849,11 +841,10 @@ namespace Cassiopeia.src.Forms
                 }
                 if(Config.StreamEnabled)
                 {
-                    using (StreamWriter salida = new StreamWriter("np.txt"))
+                    using (StreamWriter salida = new StreamWriter(Kernel.StreamFileInfo.FullName))
                     {
-                        
                         TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
-                        salida.WriteLine(Utils.GetStreamString(SpotifyPlayingSong, SongCount, pos));
+                        salida.WriteLine(Utils.GetStreamString(SpotifyPlayingSong, Kernel.SongCount, pos));
                     }
                 }
             }
@@ -866,28 +857,12 @@ namespace Cassiopeia.src.Forms
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e) //tarea asíncrona que comprueba si el token ha caducado y espera a la tarea que lo refresque
         {
-            if (!Kernel.Spotify.IsTokenExpired())
-            {
-                try
-                {
-                    CurrentlyPlayingContext PC = Kernel.Spotify.GetPlayingContext();
-                    e.Result = PC;
-                }
-                catch (APIException ex) //There is a problem
-                {
-                    Log.PrintMessage(ex.Message, MessageType.Warning);
-                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-
-            }
-            else
-            {
-                Log.PrintMessage("Token expired!", MessageType.Warning);
-                while (Kernel.Spotify.IsTokenExpired())
-                {
-                    Thread.Sleep(50);
-                }
-            }
+            //Throws exception but it's catched and returns null
+            CurrentlyPlayingContext PC = Kernel.Spotify.GetPlayingContext();
+            if(PC is not null)
+                e.Result = PC;
+            else //we have a problem, just wait.
+                Thread.Sleep(100);
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -1234,7 +1209,7 @@ namespace Cassiopeia.src.Forms
         private void timerFoobar_Tick(object sender, EventArgs e)
         {
             foobar2kInstance = Process.GetProcessById(foobar2kInstance.Id);
-            using (StreamWriter salida = new StreamWriter("np.txt", false))
+            using (StreamWriter salida = new StreamWriter(Kernel.StreamFileInfo.FullName, false))
             {
                 salida.WriteLine(foobar2kInstance.MainWindowTitle);
             }

@@ -1,6 +1,8 @@
 # Cassiopeia Changelog
-#### 2.0.225.0
+#### 2.0.225.20
 - Reworked the login to Spotify, using PKCE
+- App now starts faster, no more browser open
+- Now metadata streams saves the historial, if enabled
 
 #### 2.0.224.0
 - Added a "low" latency mode and a "high" latency when syncing Spotify if the Player is visible to minimize CPU and network usage. (and API calls.)

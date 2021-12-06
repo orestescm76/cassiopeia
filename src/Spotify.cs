@@ -22,8 +22,7 @@ namespace Cassiopeia
         private readonly String PrivateKey = ClaveAPI.Spotify;
         public bool AccountReady = false;
         public bool AccountLinked = false;
-        private AuthorizationCodeTokenResponse Token;
-        private AuthorizationCodeRefreshResponse TokenRefresh;
+
         public DeviceResponse Device;
         string TokenRefreshCode;
         private PrivateUser User;
@@ -35,17 +34,9 @@ namespace Cassiopeia
             else
                 StartStreamMode();
         }
-        public void LinkSpotify()
+        public async Task LinkSpotify()
         {
             StartStreamMode();
-        }
-        public bool IsTokenExpired()
-        {
-            if (Token is not null)
-                return Token.IsExpired;
-            else if (TokenRefresh is not null)
-                return TokenRefresh.IsExpired;
-            return false;
         }
         private void Start()
         {
@@ -61,7 +52,6 @@ namespace Cassiopeia
                 if(SpotifyConfig is not null) //??
                 {
                     Kernel.InternetAvaliable(true);
-                    Kernel.InitSpotifyRefreshTokenTask();
                     Log.Instance.PrintMessage("Connected!", MessageType.Correct, crono, TimeType.Milliseconds);
                 }
                 else //yo  creoque esto nunca se ejecuta...
@@ -71,11 +61,11 @@ namespace Cassiopeia
                 }
 
             }
-            catch (APIException e)
+            catch (APIException ex)
             {
                 Kernel.InternetAvaliable(false);
-                Log.Instance.PrintMessage("No se ha podido conectar con Spotify", MessageType.Error);
-                System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
+                Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
         }
         private async void StartStreamMode()
@@ -129,34 +119,30 @@ namespace Cassiopeia
                 System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
         }
+        public bool IsSpotifyReady()
+        {
+            return AccountReady;
+        }
         private async Task StartLoginSpotify(Stopwatch crono)
         {
             Log.Instance.PrintMessage("Logging to Spotify", MessageType.Info);
             var json = await File.ReadAllTextAsync(AuthPath);
             var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
-            var auth = new PKCEAuthenticator(PublicKey, token!);
+            var auth = new PKCEAuthenticator(PublicKey, token);
             auth.TokenRefreshed += (sender, token) => File.WriteAllText(AuthPath, JsonConvert.SerializeObject(token));
             SpotifyConfig = SpotifyClientConfig.CreateDefault().WithAuthenticator(auth);
             SpotifyClient = new SpotifyClient(SpotifyConfig);
+            AccountReady = true;
             User = SpotifyClient.UserProfile.Current().Result;
             Log.Instance.PrintMessage("Connected as " + User.Email, MessageType.Correct, crono, TimeType.Seconds);
             Config.LinkedWithSpotify = true;
+            AccountLinked = true;
             Kernel.ActivarReproduccionSpotify();
             Kernel.InternetAvaliable(true);
             Kernel.BringMainFormFront();
-            AccountReady = true;
-            AccountLinked = true;
             crono.Stop();
         }
-        public async Task RefreshTokenAsync()
-        {
-            Log.Instance.PrintMessage("Refreshing Token...", MessageType.Info);
-            Token = null;
-            TokenRefresh = await new OAuthClient().RequestToken(new AuthorizationCodeRefreshRequest(PublicKey, PrivateKey, TokenRefreshCode));
-            SpotifyClient = new SpotifyClient(TokenRefresh.AccessToken);
-            TokenRefreshCode = TokenRefresh.RefreshToken;
-            Log.Instance.PrintMessage("Token refreshed!", MessageType.Correct);
-        }
+
         //Returns a list of albums based on a query.
         public List<SimpleAlbum> SearchAlbums(string query, int limit)
         {
@@ -474,11 +460,28 @@ namespace Cassiopeia
         }
         public Task<CurrentlyPlayingContext> GetPlayingContextAsync()
         {
-            return SpotifyClient.Player.GetCurrentPlayback();
+            try
+            {
+                return SpotifyClient.Player.GetCurrentPlayback();
+            }
+            catch (APIException ex)
+            {
+                Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
+                return null;
+            }
         }
         public CurrentlyPlayingContext GetPlayingContext()
         {
-            return SpotifyClient.Player.GetCurrentPlayback().Result;
+            try
+            {
+                return SpotifyClient.Player.GetCurrentPlayback().Result;
+            }
+            catch (APIException ex)
+            {
+
+                Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
+                return null;
+            }
         }
         //Plays or resumes playback on the first device
         public void PlayResume()
