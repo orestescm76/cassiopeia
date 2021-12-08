@@ -376,41 +376,41 @@ namespace Cassiopeia.src.Forms
             notifyIconReproduciendo.Text = Kernel.LocalTexts.GetString("click_reproductor");
         }
 
-        public void SetPATH(Song c) //probablemente deprecated pero configura los paths
-        {
-            directorioCanciones = new DirectoryInfo(c.AlbumFrom.SoundFilesPath);
-            foreach (FileInfo file in directorioCanciones.GetFiles())
-            {
-                try
-                {
-                    MetadataSong LM = new MetadataSong(file.FullName);
-                    if (LM.Evaluable() && c.Title.ToLower() == LM.Title.ToLower() && c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower())
-                    {
-                        c.Path = file.FullName;
-                        break;
-                    }
-                    else
-                    {
-                        if (file.FullName.ToLower().Contains(c.Title.ToLower()))
-                        {
-                            c.Path = file.FullName;
-                            SetWindowTitle(c.ToString());
-                            break;
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+        //public void SetPATH(Song c) //probablemente deprecated pero configura los paths
+        //{
+        //    directorioCanciones = new DirectoryInfo(c.AlbumFrom.SoundFilesPath);
+        //    foreach (FileInfo file in directorioCanciones.GetFiles())
+        //    {
+        //        try
+        //        {
+        //            MetadataSong LM = new MetadataSong(file.FullName);
+        //            if (LM.Evaluable() && c.Title.ToLower() == LM.Title.ToLower() && c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower())
+        //            {
+        //                c.Path = file.FullName;
+        //                break;
+        //            }
+        //            else
+        //            {
+        //                if (file.FullName.ToLower().Contains(c.Title.ToLower()))
+        //                {
+        //                    c.Path = file.FullName;
+        //                    SetWindowTitle(c.ToString());
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //        catch (Exception)
+        //        {
+        //            throw;
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
         public void PlaySong(string path) //reproduce una cancion por path
         {
             SetPlayerButtons(true);
-            pictureBoxCaratula.Image = Properties.Resources.albumdesconocido;
+            pictureBoxCaratula.Image = Resources.albumdesconocido;
             ConfigurarTimers(false);
             estadoReproductor = EstadoReproductor.Stop;
             DirectoryInfo dir = new DirectoryInfo(path);

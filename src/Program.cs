@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * CASSIOPEIA 2.0.225.30
+ * NET 5 PORT - OK
+ * SPOTIFYAPI 6 PORT - OK
+ * CODENAME STORM
+ * MADE BY ORESTESCM76
+ */
+
+using System;
 using System.Windows.Forms;
 using System.Diagnostics;
 

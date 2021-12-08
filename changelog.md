@@ -1,8 +1,10 @@
 # Cassiopeia Changelog
-#### 2.0.225.20
+#### 2.0.225.30
 - Reworked the login to Spotify, using PKCE
 - App now starts faster, no more browser open
 - Now metadata streams saves the historial, if enabled
+- Deleting a lot of albums doesn't take a century [FIX]
+- However, seleting all albums and deselecting takes a lot [KNOWN ISSUE]
 
 #### 2.0.224.0
 - Added a "low" latency mode and a "high" latency when syncing Spotify if the Player is visible to minimize CPU and network usage. (and API calls.)

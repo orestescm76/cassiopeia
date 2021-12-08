@@ -23,7 +23,6 @@ namespace Cassiopeia.src.Forms
     public partial class MainForm : Form
     {
         private bool borrando;
-        public static string BusquedaSpotify;
         private ListViewItemComparer lvwColumnSorter;
         public ViewType TipoVista;
         private delegate void SafeCallBringFront();
@@ -33,7 +32,6 @@ namespace Cassiopeia.src.Forms
         public MainForm()
         {
             InitializeComponent();
-            BusquedaSpotify = "";
             borrando = false;
 
             lvwColumnSorter = new ListViewItemComparer();
@@ -199,22 +197,23 @@ namespace Cassiopeia.src.Forms
 
         private void DeleteSelectedAlbums(ViewType tipoVista)
         {
-
             Stopwatch crono = Stopwatch.StartNew();
+            vistaAlbumes.BeginUpdate();
             borrando = true;
-            int cuantos = vistaAlbumes.SelectedItems.Count;
             switch (tipoVista)
             {
                 case ViewType.Digital:
                     Console.WriteLine("Deleting " + vistaAlbumes.SelectedItems.Count + " albums");
                     try
                     {
+                        
                         while (vistaAlbumes.SelectedIndices.Count != 0)
                         {
                             int i = vistaAlbumes.SelectedIndices[0];
                             AlbumData a = Kernel.Collection.GetAlbum(i);
                             Kernel.Collection.RemoveAlbum(ref a);
-                            vistaAlbumes.Items.Remove(vistaAlbumes.Items[i]);
+                            //vistaAlbumes.Items.Remove(vistaAlbumes.Items[i]);
+                            vistaAlbumes.Items.RemoveAt(i);
                         }
                     }
                     catch (InvalidOperationException ex)
@@ -269,9 +268,10 @@ namespace Cassiopeia.src.Forms
                     break;
             }
             borrando = false;
+            vistaAlbumes.EndUpdate();
             duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": 00:00:00";
-            LoadView();
             crono.Stop();
+            LoadView();
             Log.Instance.PrintMessage("Deletion completed.", MessageType.Correct, crono, TimeType.Milliseconds);
         }
 
@@ -448,10 +448,21 @@ namespace Cassiopeia.src.Forms
             }
             if (e.Control && e.KeyCode == Keys.A)
             {
-                foreach (ListViewItem item in vistaAlbumes.Items)
+                Log.Instance.PrintMessage("Begin selection", MessageType.Info);
+                Stopwatch crono = Stopwatch.StartNew();
+                vistaAlbumes.BeginUpdate();
+                for (int i = 0; i < vistaAlbumes.Items.Count; i++)
                 {
-                    item.Selected = true;
+                    vistaAlbumes.Items[i].Selected = true;
                 }
+                //foreach (ListViewItem item in vistaAlbumes.Items)
+                //{
+                    
+                //}
+                vistaAlbumes.EndUpdate();
+                //vistaAlbumes.Refresh();
+                crono.Stop();
+                Log.Instance.PrintMessage("Done", MessageType.Info, crono, TimeType.Milliseconds);
             }
             if (e.KeyCode == Keys.F5)
             {
@@ -484,19 +495,27 @@ namespace Cassiopeia.src.Forms
             selectedAlbum = null;
             if (!borrando)
             {
-                if (vistaAlbumes.SelectedIndices.Count >= 1)
+                if (vistaAlbumes.SelectedItems.Count == 1)
                 {
                     selectedAlbum = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]);
-                    if(vistaAlbumes.SelectedItems[0] is ListViewPhysicalAlbum)
-                    {
-                        ListViewPhysicalAlbum listViewPhysicalAlbum = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
-                        UpdateSidebar(Kernel.Collection.GetCDById(listViewPhysicalAlbum.ID));
-                    }
-                    else
-                        UpdateSidebar(selectedAlbum);
-                }
-                else
                     UpdateSidebar(selectedAlbum);
+                }
+                else if (vistaAlbumes.SelectedItems.Count == 0)
+                    UpdateSidebar(selectedAlbum);
+                    
+                //if (vistaAlbumes.SelectedIndices.Count >= 1)
+                //{
+                //    selectedAlbum = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]);
+                //    if(vistaAlbumes.SelectedItems[0] is ListViewPhysicalAlbum)
+                //    {
+                //        ListViewPhysicalAlbum listViewPhysicalAlbum = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
+                //        UpdateSidebar(Kernel.Collection.GetCDById(listViewPhysicalAlbum.ID));
+                //    }
+                //    else
+                //        UpdateSidebar(selectedAlbum);
+                //}
+                //else
+                //    UpdateSidebar(selectedAlbum);
                 TimeSpan seleccion = new TimeSpan();
                 foreach (ListViewItem album in vistaAlbumes.SelectedItems)
                 {
@@ -736,11 +755,6 @@ namespace Cassiopeia.src.Forms
                 Kernel.LoadCD(fichero);
             }
             LoadView();
-        }
-
-        private void vincularToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
         private void playSpotifyAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -995,17 +1009,6 @@ namespace Cassiopeia.src.Forms
                 sidebarCopyImageToolStripMenuItem.Enabled = false;
 
         }
-        private void vistaAlbumes_Click(object sender, EventArgs e)
-        {
-
-        }
         #endregion
-
-
-
-        private void panelSidebar_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

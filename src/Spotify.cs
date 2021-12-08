@@ -1,4 +1,11 @@
-﻿using System;
+﻿/*
+ * CASSIOPEIA 2.0.225.30
+ * SPOTIFY API WRAPPER
+ * CODENAME STORM
+ * MADE BY ORESTESCM76
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
@@ -24,7 +31,6 @@ namespace Cassiopeia
         public bool AccountLinked = false;
 
         public DeviceResponse Device;
-        string TokenRefreshCode;
         private PrivateUser User;
         private static string AuthPath = "spotifyLogin.json";
         public Spotify(bool linked)
@@ -86,19 +92,6 @@ namespace Cassiopeia
                         PKCETokenResponse token = await new OAuthClient().RequestToken(new PKCETokenRequest(PublicKey, response.Code, server.BaseUri, verifier));
                         await File.WriteAllTextAsync(AuthPath, JsonConvert.SerializeObject(token));
                         await StartLoginSpotify(crono);
-                        //Token = await new OAuthClient(SpotifyConfig).RequestToken(new AuthorizationCodeTokenRequest(PublicKey, PrivateKey, response.Code, server.BaseUri));
-                        //SpotifyClient = new SpotifyClient(Token.AccessToken);
-
-
-
-                        //Config.LinkedWithSpotify = true;
-                        //User = SpotifyClient.UserProfile.Current().Result;
-                        //Kernel.ActivarReproduccionSpotify();
-                        //Kernel.InternetAvaliable(true);
-                        //Kernel.BringMainFormFront();
-                        //TokenRefreshCode = Token.RefreshToken;
-                        //Log.Instance.PrintMessage("Connected as " + SpotifyClient.UserProfile.Current().Result.Email, MessageType.Correct, crono, TimeType.Seconds);
-                        //Kernel.InitSpotifyRefreshTokenTask();
                         server.Dispose();
                     };
                     var login = new LoginRequest(server.BaseUri, PublicKey, LoginRequest.ResponseType.Code)

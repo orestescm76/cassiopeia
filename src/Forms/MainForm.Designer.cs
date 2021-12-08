@@ -422,7 +422,6 @@
             this.vistaAlbumes.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.vistaAlbumes_DrawColumnHeader);
             this.vistaAlbumes.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.vistaAlbumes_ItemMouseHover);
             this.vistaAlbumes.SelectedIndexChanged += new System.EventHandler(this.vistaAlbumes_SelectedIndexChanged);
-            this.vistaAlbumes.Click += new System.EventHandler(this.vistaAlbumes_Click);
             this.vistaAlbumes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vistaAlbumes_KeyDown);
             this.vistaAlbumes.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaAlbumes_MouseDoubleClick);
             // 
@@ -523,7 +522,6 @@
             this.panelSidebar.Name = "panelSidebar";
             this.panelSidebar.Size = new System.Drawing.Size(292, 429);
             this.panelSidebar.TabIndex = 5;
-            this.panelSidebar.Paint += new System.Windows.Forms.PaintEventHandler(this.panelSidebar_Paint);
             // 
             // labelGeneralInfo
             // 

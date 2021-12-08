@@ -1,7 +1,6 @@
 ﻿/*
- * CASSIOPEIA 2.0.220.0
- * NET 5 PORT - OK
- * SPOTIFYAPI 6 PORT - OK
+ * CASSIOPEIA 2.0.225.30
+ * PROGRAM KERNEL. CORE FUNCTIONS, LOAD, SAVE, QUIT. METADATA STREAM
  * CODENAME STORM
  * MADE BY ORESTESCM76
  */
@@ -408,18 +407,6 @@ namespace Cassiopeia
 
         public static void Quit()
         {
-            if(TaskRefreshToken is not null)
-            {
-                RefreshTokenCancellation.Cancel();
-                try
-                {
-                    TaskRefreshToken.Wait();
-                }
-                catch (Exception)
-                {
-                    Log.Instance.PrintMessage("TaskRefreshToken is terminated", MessageType.Correct);
-                }
-            }
             if(!MetadataStream)
             {
                 SaveAlbums("discos.csv", SaveType.Digital);

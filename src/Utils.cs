@@ -6,7 +6,7 @@ namespace Cassiopeia
 {
     public static class Utils
     {
-        static public string ConvertToRomanNumeral(int arabicNumeral)
+        public static string ConvertToRomanNumeral(int arabicNumeral)
         {
             string romanNumeral = "";
             int x = arabicNumeral;
@@ -155,13 +155,6 @@ namespace Cassiopeia
             }
             return result;
         }
-        //using (StreamWriter salida = new StreamWriter("np.txt")) //se debería poder personalizar con filtros pero otro día
-        //{
-        //    TimeSpan np = TimeSpan.FromMilliseconds(PC.ProgressMs);
-        //    salida.WriteLine(PC.Item.Artists[0].Name + " - " + PC.Item.Name);
-        //    salida.Write(np.ToString(@"mm\:ss") + " / ");
-        //    salida.Write(dur.ToString(@"mm\:ss"));
-        //}
         public static string GetStreamString(Song s, uint songnum, TimeSpan pos)
         {
             string result = Config.StreamString;
@@ -214,7 +207,6 @@ namespace Cassiopeia
             {
                 //Select a random album from the collection.
                 Random random = new Random();
-                //AlbumData randomAlbum = Kernel.Collection.Albums[random.Next(Kernel.Collection.Albums.Count)];
                 AlbumData randomAlbum = Kernel.Collection.GetAlbum(random.Next(Kernel.Collection.Albums.Count));
                 return randomAlbum;
             }
