@@ -24,7 +24,7 @@ namespace Cassiopeia.src.Forms
     {
         private bool borrando;
         private ListViewItemComparer lvwColumnSorter;
-        public ViewType TipoVista;
+        public ViewType ViewType;
         private delegate void SafeCallBringFront();
         Log Log = Log.Instance;
         Size margins;
@@ -93,10 +93,10 @@ namespace Cassiopeia.src.Forms
         }
         private void LoadView()
         {
-            Log.Instance.PrintMessage("Loading view" + TipoVista, MessageType.Info);
+            Log.Instance.PrintMessage("Loading view" + ViewType, MessageType.Info);
             vistaAlbumes.Items.Clear();
             Stopwatch crono = Stopwatch.StartNew();
-            switch (TipoVista)
+            switch (ViewType)
             {
                 case ViewType.Digital:
                     ListViewItem[] items = new ListViewItem[Kernel.Collection.Albums.Count];
@@ -144,7 +144,13 @@ namespace Cassiopeia.src.Forms
             Text = Kernel.LocalTexts.GetString("titulo_ventana_principal");
 #endif
             archivoMenuItem1.Text = Kernel.LocalTexts.GetString("archivo");
+
             agregarAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("agregar_album");
+            toolStripButtonNewAlbum.ToolTipText = Kernel.LocalTexts.GetString("agregar_album");
+
+            nuevoToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevaBD");
+            toolStripButtonNewDatabase.ToolTipText = Kernel.LocalTexts.GetString("nuevaBD");
+
             abrirToolStripMenuItem.Text = Kernel.LocalTexts.GetString("abrir_registros");
             salirToolStripMenuItem.Text = Kernel.LocalTexts.GetString("salir");
             vistaAlbumes.Columns[0].Text = Kernel.LocalTexts.GetString("artista");
@@ -159,7 +165,6 @@ namespace Cassiopeia.src.Forms
             generarAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("generar_azar");
             borrarseleccionToolStripMenuItem.Text = Kernel.LocalTexts.GetString("borrar_seleccion");
             acercaDeToolStripMenuItem.Text = Kernel.LocalTexts.GetString("acerca") + " " + Kernel.LocalTexts.GetString("titulo_ventana_principal");
-            nuevoToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevaBD");
             clickDerechoMenuContexto.Items[0].Text = Kernel.LocalTexts.GetString("crearCD");
             cargarDiscosLegacyToolStripMenuItem.Text = Kernel.LocalTexts.GetString("cargarDiscosLegacy");
             verToolStripMenuItem.Text = Kernel.LocalTexts.GetString("ver");
@@ -180,7 +185,7 @@ namespace Cassiopeia.src.Forms
         }
         private void UpdateViewInfo()
         {
-            switch (TipoVista)
+            switch (ViewType)
             {
                 case ViewType.Digital:
                     toolStripStatusLabelViewInfo.Text = Kernel.LocalTexts.GetString("digital");
@@ -238,8 +243,6 @@ namespace Cassiopeia.src.Forms
                     {
                         MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado") + Environment.NewLine + ex.Message);
                     }
-
-
                     //for (int i = 0; i < cuantos; i++)
                     //{
                     //    //itemsABorrar[i] = vistaAlbumes.SelectedItems[i];
@@ -376,7 +379,7 @@ namespace Cassiopeia.src.Forms
             vistaAlbumes.Sort();
             LinkedList<AlbumData> nuevaLista = new LinkedList<AlbumData>();
             string[] s = null;
-            switch (TipoVista)
+            switch (ViewType)
             {
                 case ViewType.Digital:
                     s = new string[Kernel.Collection.Albums.Count];
@@ -402,7 +405,7 @@ namespace Cassiopeia.src.Forms
         {
             Application.Exit();
         }
-        private void agregarAlbumToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreateNewAlbum(object sender, EventArgs e)
         {
             CreateAlbum agregarAlbum = new CreateAlbum();
             agregarAlbum.Show();
@@ -413,7 +416,7 @@ namespace Cassiopeia.src.Forms
         private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             Stopwatch cronoTotal = Stopwatch.StartNew();
-            switch (TipoVista)
+            switch (ViewType)
             {
                 case ViewType.Digital:
                     foreach (ListViewItem item in vistaAlbumes.SelectedItems)
@@ -528,7 +531,7 @@ namespace Cassiopeia.src.Forms
         }
         private void borrarseleccionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DeleteSelectedAlbums(TipoVista);
+            DeleteSelectedAlbums(ViewType);
         }
         private void guardarcomo_Click(object sender, EventArgs e)
         {
@@ -537,7 +540,7 @@ namespace Cassiopeia.src.Forms
             guardarComo.InitialDirectory = Environment.CurrentDirectory;
             if (guardarComo.ShowDialog() == DialogResult.OK)
             {
-                guardarDiscos(Path.GetFullPath(guardarComo.FileName), (SaveType)TipoVista);
+                guardarDiscos(Path.GetFullPath(guardarComo.FileName), (SaveType)ViewType);
             }
         }
 
@@ -551,7 +554,7 @@ namespace Cassiopeia.src.Forms
                 return;
             }
             Random generador = new Random();
-            switch (TipoVista)
+            switch (ViewType)
             {
                 case ViewType.Digital:
                     int ganador = generador.Next(0, Kernel.Collection.Albums.Count);
@@ -577,22 +580,51 @@ namespace Cassiopeia.src.Forms
             About form = new About();
             form.Show();
         }
-        private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewDatabase(object sender, EventArgs e)
         {
-            DialogResult respuesta = MessageBox.Show(Kernel.LocalTexts.GetString("guardarBD"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (respuesta == DialogResult.Yes)
+            DialogResult respuesta = MessageBox.Show(Kernel.LocalTexts.GetString("guardarBD"), "", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            switch (respuesta)
             {
-                SaveFileDialog guardarComo = new SaveFileDialog();
-                guardarComo.Filter = Kernel.LocalTexts.GetString("archivo") + ".json(*.json)|*.json";
-                guardarComo.InitialDirectory = Environment.CurrentDirectory;
-                if (guardarComo.ShowDialog() == DialogResult.OK)
-                {
-                    guardarDiscos(Path.GetFullPath(guardarComo.FileName), SaveType.Digital);
-                    guardarDiscos(Path.GetFullPath(guardarComo.FileName.Replace(".json", "") + "-CD.json"), SaveType.CD);
-                }
+                case DialogResult.Cancel:
+                    break;
+                case DialogResult.Yes:
+                    SaveFileDialog guardarComo = new SaveFileDialog();
+                    guardarComo.InitialDirectory = Environment.CurrentDirectory;
+                    switch (ViewType)
+                    {
+                        case ViewType.Digital:
+                            guardarComo.Filter = Kernel.LocalTexts.GetString("archivo") + ".csv(*.csv)|*.csv";
+                            if (guardarComo.ShowDialog() == DialogResult.OK)
+                            {
+                                guardarDiscos(Path.GetFullPath(guardarComo.FileName), SaveType.Digital);
+                            }
+                            Kernel.Collection.Albums.Clear();
+                            break;
+                        case ViewType.CD:
+                            guardarComo.Filter = Kernel.LocalTexts.GetString("archivo") + ".json(*.json)|*.json";
+                            if (guardarComo.ShowDialog() == DialogResult.OK)
+                            {
+                                guardarDiscos(Path.GetFullPath(guardarComo.FileName.Replace(".json", "") + "-CD.json"), SaveType.CD);
+                            }
+                            Kernel.Collection.CDS.Clear();
+                            break;
+                        case ViewType.Vinyl:
+                            break;
+                        case ViewType.Cassette_Tape:
+                            break;
+                        default:
+                            break;
+
+                    }
+                    vistaAlbumes.Items.Clear();
+                    break;
+                case DialogResult.No:
+                    vistaAlbumes.Items.Clear();
+                    Kernel.Collection.Clear();
+                    break;
+                default:
+                    break;
             }
-            vistaAlbumes.Items.Clear();
-            Kernel.Collection.Clear();
         }
         private void crearCDToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -686,7 +718,7 @@ namespace Cassiopeia.src.Forms
         private void copiarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string i = null;
-            switch (TipoVista)
+            switch (ViewType)
             {
                 case ViewType.Digital:
                     i = CopyAlbumToClipboard(vistaAlbumes.SelectedIndices[0]);
@@ -705,7 +737,7 @@ namespace Cassiopeia.src.Forms
 
         private void viewCDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TipoVista = ViewType.CD;
+            ViewType = ViewType.CD;
             LoadView();
             digitalToolStripMenuItem.Checked = false;
             UpdateViewInfo();
@@ -713,7 +745,7 @@ namespace Cassiopeia.src.Forms
 
         private void digitalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TipoVista = ViewType.Digital;
+            ViewType = ViewType.Digital;
             vierCDToolStripMenuItem.Checked = false;
             LoadView();
             UpdateViewInfo();
@@ -897,7 +929,7 @@ namespace Cassiopeia.src.Forms
 
         private void clickDerechoMenuContexto_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            switch (TipoVista)
+            switch (ViewType)
             {
                 case ViewType.Digital:
                     clickDerechoMenuContexto.Items[0].Visible = true;

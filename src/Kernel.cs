@@ -61,7 +61,6 @@ namespace Cassiopeia
         public static Genre[] Genres = new Genre[IDGenres.Length];
 
         public static Task TaskRefreshToken;
-        private static Task TaskMetadataStream;
         private static CancellationTokenSource RefreshTokenCancellation = new CancellationTokenSource();
         private static CancellationTokenSource CancellationToken = new CancellationTokenSource();
         public static ResXResourceSet LocalTexts;
@@ -362,6 +361,7 @@ namespace Cassiopeia
                 else
                 {
                     Log.Instance.PrintMessage("discos.csv does not exist, a new database will be created...", MessageType.Warning);
+                    ReloadView();
                 }
             }
             if (File.Exists("paths.txt"))
@@ -511,7 +511,7 @@ namespace Cassiopeia
                         a.IdSpotify = datos[(int)CSV_Albums.SpotifyID];
                     if (!string.IsNullOrEmpty(datos[(int)CSV_Albums.SongFiles_DIR]))
                         a.SoundFilesPath = datos[(int)CSV_Albums.SongFiles_DIR];
-                    bool exito = false;
+                    bool exito = true;
                     for (int i = 0; i < nC; i++)
                     {
                         exito = false;
@@ -558,11 +558,12 @@ namespace Cassiopeia
                             }
                         }
                     }
-                    if (Collection.IsInCollection(a))
-                    {
-                        exito = false; //pues ya está repetido.
-                        Log.Instance.PrintMessage("Repeated album -> " + a.Artist + " - " + a.Title, MessageType.Warning);
-                    }
+                    //We won't check repeated albums because there shouldn't be any
+                    //if (Collection.IsInCollection(a))
+                    //{
+                    //    exito = false; //pues ya está repetido.
+                    //    Log.Instance.PrintMessage("Repeated album -> " + a.Artist + " - " + a.Title, MessageType.Warning);
+                    //}
 
                     if (exito)
                         Collection.AddAlbum(ref a);

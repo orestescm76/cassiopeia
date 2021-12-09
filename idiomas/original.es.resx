@@ -746,4 +746,48 @@
   <data name="showPanel" xml:space="preserve">
     <value>Mostrar panel lateral</value>
   </data>
+  <data name="cambiar_historial" xml:space="preserve">
+    <value>Configurar historial</value>
+  </data>
+  <data name="cambiar_stream" xml:space="preserve">
+    <value>Configurar la cadena de retransmisión</value>
+  </data>
+  <data name="enable_historial" xml:space="preserve">
+    <value>Activar historial de canciones a fichero</value>
+  </data>
+  <data name="enable_stream_log" xml:space="preserve">
+    <value>Activar retransmisión a archivo</value>
+  </data>
+  <data name="label_clipboard" xml:space="preserve">
+    <value>%artist% - Artista del álbum
+%title% - Título del álbum
+%year% - Año de salida
+%genre% - Género
+%length_min% - Duración en minutos
+%length_seconds% - Duración en segundos, como número entero
+%length% - Duración del álbum, formateado como: [HH:]MM:SS. 
+%totaltracks% - Número de canciones
+%path% - Ruta de archivos locales, si fuera posible</value>
+  </data>
+  <data name="label_historial" xml:space="preserve">
+    <value>%artist% - Artista de la canción
+%title% - Título de la canción
+%year% - Año de salida
+%length_min% - Duración en minutos
+%length_seconds% - Duración en segundos, como número entero
+%length% - Duración de la canción, formateado como: [HH:]MM:SS. 
+%path% - Ruta de la canción, si fuera posible</value>
+  </data>
+  <data name="label_stream" xml:space="preserve">
+    <value>%artist% - Artista
+%title% - Título de la canción
+%year% - Año de salida
+%album% - Nombre del álbum
+%track_num% - Número de canción escuchada
+%length% - Duración de la canción, formateado como [HH:]MM:SS.
+%pos% - Posición, formateado como MM:SS
+%time% - Hora actual, formateado como HH:MM
+%date% - Fecha de hoy
+\n - Nueva línea</value>
+  </data>
 </root>

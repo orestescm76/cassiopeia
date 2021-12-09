@@ -710,4 +710,25 @@
   <data name="showPanel" xml:space="preserve">
     <value></value>
   </data>
+  <data name="cambiar_historial" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="cambiar_stream" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="enable_historial" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="enable_stream_log" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="label_stream" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="label_historial" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="label_clipboard" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

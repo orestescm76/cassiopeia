@@ -68,8 +68,8 @@ namespace Cassiopeia.src.Forms
             buttonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
             treeViewConfiguracion.Nodes[0].Text = Kernel.LocalTexts.GetString("idioma");
             treeViewConfiguracion.Nodes[1].Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
-            treeViewConfiguracion.Nodes[2].Text = "HISTORIAL";
-            treeViewConfiguracion.Nodes[3].Text = "STREAM";
+            treeViewConfiguracion.Nodes[2].Text = Kernel.LocalTexts.GetString("cambiar_historial");
+            treeViewConfiguracion.Nodes[3].Text = Kernel.LocalTexts.GetString("cambiar_stream");
             treeViewConfiguracion.Nodes[4].Text = Kernel.LocalTexts.GetString("configView");
             treeViewConfiguracion.Nodes[4].Nodes[0].Text = Kernel.LocalTexts.GetString("tipografíaLyrics");
             treeViewConfiguracion.Nodes[4].Nodes[1].Text = Kernel.LocalTexts.GetString("colorsHighlight");
@@ -122,15 +122,8 @@ namespace Cassiopeia.src.Forms
             labelStringConfigHelp.Font = stringConfig.Font;
             labelStringConfigHelp.AutoSize = true;
             labelStringConfigHelp.Location = new Point(labelStringConfigPreview.Location.X, labelStringConfigPreview.Location.Y + 50);
-            labelStringConfigHelp.Text = @"%artist% - Album artist
-%title% - Album title
-%year% - Album release year
-%genre% - Album genre
-%length_min% - Album duration in minutes
-%length_seconds% - Album length in seconds, formatted as an integer
-%length% - Length of the album, formatted as [HH:]MM:SS. 
-%totaltracks% - Total number of tracks
-%path% - Path of local files, if avaliable";
+            SetLabelHelp(ActiveConfig);
+
             string Preview = "";
             AlbumData album = Utils.GetRandomAlbum();
             if (album is null)
@@ -150,8 +143,7 @@ namespace Cassiopeia.src.Forms
             ActiveConfig = ActiveConfig.History;
             labelStringConfigPreview = new Label();
             labelStringConfigHelp = new Label();
-            //groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
-            groupBoxRaiz.Text = "historial";
+            groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_stream");
             stringConfig = new TextBox();
             stringConfig.TextChanged += StringConfig_TextChanged;
             stringConfig.Location = new Point(35, groupBoxRaiz.Height / 4);
@@ -160,7 +152,7 @@ namespace Cassiopeia.src.Forms
             checkBoxHistoryConfigCheckBox.Click += checkBoxHistorialConfig_Click;
             checkBoxHistoryConfigCheckBox.Location = new Point(44, stringConfig.Location.Y - 25);
             checkBoxHistoryConfigCheckBox.Checked = Config.HistoryEnabled;
-            checkBoxHistoryConfigCheckBox.Text = "Enable historial";
+            checkBoxHistoryConfigCheckBox.Text = Kernel.LocalTexts.GetString("enable_historial");
             checkBoxHistoryConfigCheckBox.AutoSize = true;
             checkBoxHistoryConfigCheckBox.Font = new Font("Segoe UI", 9);
 
@@ -174,13 +166,7 @@ namespace Cassiopeia.src.Forms
             labelStringConfigHelp.Font = stringConfig.Font;
             labelStringConfigHelp.AutoSize = true;
             labelStringConfigHelp.Location = new Point(labelStringConfigPreview.Location.X, labelStringConfigPreview.Location.Y + 50);
-            labelStringConfigHelp.Text = @"%artist% - Song artist
-%title% - Song title
-%year% - Album release year
-%length_min% - Song duration in minutes
-%length_seconds% - Song length in seconds, formatted as an integer
-%length% - Length of the song, formatted as [HH:]MM:SS. 
-%path% - Path of the song, if avaliable";
+            SetLabelHelp(ActiveConfig);
 
             string Preview = Config.History;
 
@@ -205,8 +191,7 @@ namespace Cassiopeia.src.Forms
             labelStringConfigPreview = new Label();
             labelStringConfigPreview.AutoSize = true;
 
-            //groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
-            groupBoxRaiz.Text = "stream";
+            groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_stream");
             stringConfig = new TextBox();
             stringConfig.TextChanged += StringConfig_TextChanged;
             stringConfig.Location = new Point(35, groupBoxRaiz.Height / 4);
@@ -222,28 +207,15 @@ namespace Cassiopeia.src.Forms
             streamEnabledConfigCheckBox = new CheckBox();
             streamEnabledConfigCheckBox.Location = new Point(44, stringConfig.Location.Y - 25);
             streamEnabledConfigCheckBox.Checked = Config.StreamEnabled;
-            streamEnabledConfigCheckBox.Text = "Enable stream logging";
+            streamEnabledConfigCheckBox.Text = Kernel.LocalTexts.GetString("enable_stream_log");
             streamEnabledConfigCheckBox.AutoSize = true;
             streamEnabledConfigCheckBox.Font = new Font("Segoe UI", 9);
-            
-
-
 
             labelStringConfigHelp = new Label();
-            
             labelStringConfigHelp.Font = stringConfig.Font;
             labelStringConfigHelp.AutoSize = true;
             labelStringConfigHelp.Location = new Point(labelStringConfigPreview.Location.X, labelStringConfigPreview.Location.Y + 50);
-            labelStringConfigHelp.Text = @"%artist% - Song artist
-%title% - Song title
-%year% - Album release year
-%album% - Album name
-%track_num% - Number of listened song
-%length% - Length of the song, formatted as [HH:]MM:SS.
-%pos% - Position, formatted as MM:SS
-%time% - Local time, formatted as HH:MM
-%date% - Today's date
-\n - Sends a new line";
+            SetLabelHelp(ActiveConfig);
 
             string Preview = Config.History;
 
@@ -344,6 +316,29 @@ namespace Cassiopeia.src.Forms
 
             groupBoxRaiz.Controls.Add(btTextLyrics);
             groupBoxRaiz.Controls.Add(btTextView);
+        }
+        private void SetLabelHelp(ActiveConfig config)
+        {
+            switch (config)
+            {
+                case ActiveConfig.Language:
+                    break;
+                case ActiveConfig.Clipboard:
+                    labelStringConfigHelp.Text = Kernel.LocalTexts.GetString("label_clipboard");
+                    break;
+                case ActiveConfig.History:
+                    labelStringConfigHelp.Text = Kernel.LocalTexts.GetString("label_historial");
+                    break;
+                case ActiveConfig.Colors:
+                    break;
+                case ActiveConfig.TextFont:
+                    break;
+                case ActiveConfig.Stream:
+                    labelStringConfigHelp.Text = Kernel.LocalTexts.GetString("label_stream");
+                    break;
+                default:
+                    break;
+            }
         }
         private void Aplicar(ActiveConfig config)
         {

@@ -44,6 +44,8 @@ Doesn't require any installation, can be carried on a USB flash drive.
 	* From https://www.flaticon.com:
 		* Prosymbols. (Settings)
 		* Pixel perfect. (Playlist)
+		* Tempo doloe. (New)
+		* Freepink. (New database)
 	* Setyo Ari Wibowo; https://thenounproject.com (Lyrics)
 	* Microsoft (Player)
 	* Spotify (Spotify)

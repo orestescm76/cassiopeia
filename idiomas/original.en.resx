@@ -749,4 +749,48 @@
   <data name="showPanel" xml:space="preserve">
     <value>Show sidebar</value>
   </data>
+  <data name="cambiar_historial" xml:space="preserve">
+    <value>Change historial string</value>
+  </data>
+  <data name="cambiar_stream" xml:space="preserve">
+    <value>Change stream output string</value>
+  </data>
+  <data name="enable_historial" xml:space="preserve">
+    <value>Enable song historial to file</value>
+  </data>
+  <data name="enable_stream_log" xml:space="preserve">
+    <value>Enable song streaming to a file</value>
+  </data>
+  <data name="label_stream" xml:space="preserve">
+    <value>%artist% - Song artist
+%title% - Song title
+%year% - Album release year
+%album% - Album name
+%track_num% - Number of listened song
+%length% - Length of the song, formatted as [HH:]MM:SS.
+%pos% - Position, formatted as MM:SS
+%time% - Local time, formatted as HH:MM
+%date% - Today's date
+\n - Sends a new line"</value>
+  </data>
+  <data name="label_historial" xml:space="preserve">
+    <value>%artist% - Song artist
+%title% - Song title
+%year% - Album release year
+%length_min% - Song duration in minutes
+%length_seconds% - Song length in seconds, formatted as an integer
+%length% - Length of the song, formatted as [HH:]MM:SS. 
+%path% - Path of the song, if avaliable</value>
+  </data>
+  <data name="label_clipboard" xml:space="preserve">
+    <value>%artist% - Album artist
+%title% - Album title
+%year% - Album release year
+%genre% - Album genre
+%length_min% - Album duration in minutes
+%length_seconds% - Album length in seconds, formatted as an integer
+%length% - Length of the album, formatted as [HH:]MM:SS. 
+%totaltracks% - Total number of tracks
+%path% - Path of local files, if avaliable</value>
+  </data>
 </root>
