@@ -289,6 +289,7 @@ namespace Cassiopeia.src.Forms
         }
         private void UpdateSidebar(AlbumData a)
         {
+            int width = panelSidebar.Width-20;
             if(a is not null)
             {
                 if (pictureBoxSidebarCover.Image != Properties.Resources.albumdesconocido)
@@ -305,7 +306,14 @@ namespace Cassiopeia.src.Forms
                 labelInfoAlbum.Location = new Point(0, labelInfoAlbum.Location.Y);
                 labelInfoAlbum.Text = a.Artist + Environment.NewLine +
                                       a.Title + "(" + a.Year + ")" + Environment.NewLine +
-                                       a.Length + Environment.NewLine;    
+                                       a.Length + Environment.NewLine;
+                labelInfoAlbum.AutoSize = true;
+                if (labelInfoAlbum.Width > width)
+                {
+                    int height = labelInfoAlbum.Height;
+                    labelInfoAlbum.AutoSize = false;
+                    labelInfoAlbum.Size = new Size(width, height);
+                }
             }
             else
             {
@@ -383,7 +391,6 @@ namespace Cassiopeia.src.Forms
             }
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string fichero = openFileDialog.FileName;
                 switch (ViewType)
                 {
                     case ViewType.Digital:
@@ -401,6 +408,78 @@ namespace Cassiopeia.src.Forms
                 }
             }
             LoadView();
+        }
+        private void EditSelectedAlbum()
+        {
+            //maybe implement rest of views.
+            AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]);
+            EditAlbum editAlbumForm = new EditAlbum(ref a);
+            editAlbumForm.Show();
+        }
+        private void ShowSelectedAlbum()
+        {
+            Stopwatch cronoTotal = Stopwatch.StartNew();
+            switch (ViewType)
+            {
+                case ViewType.Digital:
+                    foreach (ListViewItem item in vistaAlbumes.SelectedItems)
+                    {
+                        AlbumData a = Kernel.Collection.GetAlbum(item.Index);
+                        AlbumViewer vistazo = new AlbumViewer(ref a);
+                        vistazo.Show();
+                    }
+                    break;
+                case ViewType.CD:
+                    foreach (ListViewItem cdViewItem in vistaAlbumes.SelectedItems)
+                    {
+                        string b = cdViewItem.SubItems[0].Text + "/**/" + cdViewItem.SubItems[1].Text;
+                        CompactDisc cd;
+                        Kernel.Collection.GetAlbum(b, out cd);
+                        AlbumViewer visCD = new AlbumViewer(ref cd);
+                        visCD.Show();
+                    }
+                    break;
+            }
+            cronoTotal.Stop();
+        }
+        private void ManageSongIcons()
+        {
+            if (vistaAlbumes.SelectedItems.Count == 1)
+            {
+                //Add the buttons.
+                ToolStripButton view = new ToolStripButton(Properties.Resources.view);
+                view.ToolTipText = Kernel.LocalTexts.GetString("ver");
+                view.Click += (object sender, EventArgs e) => ShowSelectedAlbum();
+                view.Name = "view";
+
+                ToolStripButton edit = new ToolStripButton(Properties.Resources.editing);
+                edit.ToolTipText = Kernel.LocalTexts.GetString("editar");
+                edit.Click += (object sender, EventArgs e) => EditSelectedAlbum();
+                edit.Name = "edit";
+
+                ToolStripButton delete = new ToolStripButton(Properties.Resources.delete);
+                delete.ToolTipText = Kernel.LocalTexts.GetString("borrar_seleccion");
+                delete.Click += (object sender, EventArgs e) => DeleteSelectedAlbums(ViewType);
+                delete.Name = "delete";
+
+                if (!toolStripMain.Items.ContainsKey("view"))
+                    toolStripMain.Items.Add(view);
+                if (!toolStripMain.Items.ContainsKey("edit"))
+                    toolStripMain.Items.Add(edit);
+                if(!toolStripMain.Items.ContainsKey("delete"))
+                    toolStripMain.Items.Add(delete);
+            }
+            else if (vistaAlbumes.SelectedItems.Count > 1)
+            {
+                toolStripMain.Items.RemoveByKey("view");
+                toolStripMain.Items.RemoveByKey("edit");
+            }
+            else
+            {
+                toolStripMain.Items.RemoveByKey("delete");
+                toolStripMain.Items.RemoveByKey("view");
+                toolStripMain.Items.RemoveByKey("edit");
+            }
         }
         #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
@@ -460,33 +539,6 @@ namespace Cassiopeia.src.Forms
         }
 
 
-        private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            Stopwatch cronoTotal = Stopwatch.StartNew();
-            switch (ViewType)
-            {
-                case ViewType.Digital:
-                    foreach (ListViewItem item in vistaAlbumes.SelectedItems)
-                    {
-                        AlbumData a = Kernel.Collection.GetAlbum(item.Index);
-                        AlbumViewer vistazo = new AlbumViewer(ref a);
-                        vistazo.Show();
-                    }
-                    break;
-                case ViewType.CD:
-                    foreach (ListViewItem cdViewItem in vistaAlbumes.SelectedItems)
-                    {
-                        string b = cdViewItem.SubItems[0].Text + "/**/" + cdViewItem.SubItems[1].Text;
-                        CompactDisc cd;
-                        Kernel.Collection.GetAlbum(b, out cd);
-                        AlbumViewer visCD = new AlbumViewer(ref cd);
-                        visCD.Show();
-                    }
-                    break;
-            }
-            cronoTotal.Stop();
-        }
-
         private void vistaAlbumes_KeyDown(object sender, KeyEventArgs e)
         {
             if (vistaAlbumes.SelectedItems.Count == 1 && (e.KeyCode == Keys.C && e.Control))
@@ -527,7 +579,7 @@ namespace Cassiopeia.src.Forms
             }
             if (e.KeyCode == Keys.Enter)
             {
-                vistaAlbumes_MouseDoubleClick(null, null);
+                ShowSelectedAlbum();
             }
             if (e.KeyCode == Keys.F11)
             {
@@ -542,6 +594,7 @@ namespace Cassiopeia.src.Forms
 
         private void vistaAlbumes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ManageSongIcons();
             selectedAlbum = null;
             if (!borrando)
             {
@@ -1103,9 +1156,20 @@ namespace Cassiopeia.src.Forms
                 sidebarCopyImageToolStripMenuItem.Enabled = false;
 
         }
+
         private void OpenDatabase(object sender, EventArgs e)
         {
             OpenFile();
+        }
+
+        private void vistaAlbumes_Click(object sender, EventArgs e)
+        {
+
+
+        }
+        private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ShowSelectedAlbum();
         }
         #endregion
     }

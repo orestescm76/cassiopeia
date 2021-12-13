@@ -90,6 +90,7 @@
             this.toolStripButtonNewDatabase = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonOpenDatabase = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSaveDatabase = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -421,6 +422,7 @@
             this.vistaAlbumes.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.vistaAlbumes_DrawColumnHeader);
             this.vistaAlbumes.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.vistaAlbumes_ItemMouseHover);
             this.vistaAlbumes.SelectedIndexChanged += new System.EventHandler(this.vistaAlbumes_SelectedIndexChanged);
+            this.vistaAlbumes.Click += new System.EventHandler(this.vistaAlbumes_Click);
             this.vistaAlbumes.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vistaAlbumes_KeyDown);
             this.vistaAlbumes.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaAlbumes_MouseDoubleClick);
             // 
@@ -577,7 +579,8 @@
             this.toolStripButtonNewAlbum,
             this.toolStripButtonNewDatabase,
             this.toolStripButtonOpenDatabase,
-            this.toolStripButtonSaveDatabase});
+            this.toolStripButtonSaveDatabase,
+            this.toolStripSeparator2});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
             this.toolStripMain.Padding = new System.Windows.Forms.Padding(4, 0, 2, 0);
@@ -625,6 +628,11 @@
             this.toolStripButtonSaveDatabase.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonSaveDatabase.Text = "toolStripButton1";
             this.toolStripButtonSaveDatabase.Click += new System.EventHandler(this.SaveActualDatabase);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // MainForm
             // 
@@ -723,5 +731,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonNewDatabase;
         private System.Windows.Forms.ToolStripButton toolStripButtonSaveDatabase;
         private System.Windows.Forms.ToolStripButton toolStripButtonOpenDatabase;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
