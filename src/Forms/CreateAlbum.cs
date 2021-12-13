@@ -94,7 +94,11 @@ namespace Cassiopeia.src.Forms
                         continue;
                 }
                 if (!cancelado)
+                {
                     Log.Instance.PrintMessage(artist + " - " + title + " added OK", MessageType.Correct);
+                    Kernel.SetSaveMark();
+                }
+
                 Kernel.ReloadView();
                 Close();
             }

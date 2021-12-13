@@ -254,6 +254,7 @@ namespace Cassiopeia
             a.Songs = songs;
             a.CanBeRemoved = true;
             Kernel.Collection.AddAlbum(ref a);
+            Kernel.SetSaveMark();
             return true;
         }
         public void ProcessAlbum(SimpleAlbum album)

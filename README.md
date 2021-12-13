@@ -45,7 +45,7 @@ Doesn't require any installation, can be carried on a USB flash drive.
 		* Prosymbols. (Settings)
 		* Pixel perfect. (Playlist)
 		* Tempo doloe. (New)
-		* Freepink. (New database)
+		* Freepik. (New database, Save)
 	* Setyo Ari Wibowo; https://thenounproject.com (Lyrics)
 	* Microsoft (Player)
 	* Spotify (Spotify)

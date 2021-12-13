@@ -94,6 +94,7 @@ namespace Cassiopeia.src.Forms
         private void buttonCerrar_Click(object sender, EventArgs e)
         {
             cancion.Lyrics = textBoxLyrics.Lines;
+            Kernel.SetSaveMark();
             this.Close();
         }
 

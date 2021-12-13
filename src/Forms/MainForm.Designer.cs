@@ -43,7 +43,6 @@
             this.cargarDiscosLegacyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.guardarcomo = new System.Windows.Forms.ToolStripMenuItem();
-            this.guardarCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.adminMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,16 +85,18 @@
             this.pictureBoxSidebarCover = new System.Windows.Forms.PictureBox();
             this.contextMenuSidebarCover = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.sidebarCopyImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripMain = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonNewAlbum = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonNewDatabase = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonOpenDatabase = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonSaveDatabase = new System.Windows.Forms.ToolStripButton();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
             this.panelSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSidebarCover)).BeginInit();
             this.contextMenuSidebarCover.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.toolStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // barraPrincipal
@@ -129,7 +130,6 @@
             this.cargarDiscosLegacyToolStripMenuItem,
             this.toolStripSeparator3,
             this.guardarcomo,
-            this.guardarCSVToolStripMenuItem,
             this.toolStripSeparator4,
             this.salirToolStripMenuItem});
             this.archivoMenuItem1.Name = "archivoMenuItem1";
@@ -216,14 +216,6 @@
             this.guardarcomo.Size = new System.Drawing.Size(289, 22);
             this.guardarcomo.Text = "guardarComoToolStripMenuItem";
             this.guardarcomo.Click += new System.EventHandler(this.guardarcomo_Click);
-            // 
-            // guardarCSVToolStripMenuItem
-            // 
-            this.guardarCSVToolStripMenuItem.Name = "guardarCSVToolStripMenuItem";
-            this.guardarCSVToolStripMenuItem.Size = new System.Drawing.Size(289, 22);
-            this.guardarCSVToolStripMenuItem.Text = "guardarCSV";
-            this.guardarCSVToolStripMenuItem.Visible = false;
-            this.guardarCSVToolStripMenuItem.Click += new System.EventHandler(this.guardarCSVToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
@@ -578,18 +570,20 @@
             this.sidebarCopyImageToolStripMenuItem.Text = "copiarImagenStrip";
             this.sidebarCopyImageToolStripMenuItem.Click += new System.EventHandler(this.copiarImagenStrip_Click);
             // 
-            // toolStrip1
+            // toolStripMain
             // 
-            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMain.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonNewAlbum,
-            this.toolStripButtonNewDatabase});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(4, 0, 2, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1131, 25);
-            this.toolStrip1.TabIndex = 6;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStripButtonNewDatabase,
+            this.toolStripButtonOpenDatabase,
+            this.toolStripButtonSaveDatabase});
+            this.toolStripMain.Location = new System.Drawing.Point(0, 24);
+            this.toolStripMain.Name = "toolStripMain";
+            this.toolStripMain.Padding = new System.Windows.Forms.Padding(4, 0, 2, 0);
+            this.toolStripMain.Size = new System.Drawing.Size(1131, 25);
+            this.toolStripMain.TabIndex = 6;
+            this.toolStripMain.Text = "toolStrip1";
             // 
             // toolStripButtonNewAlbum
             // 
@@ -612,12 +606,32 @@
             this.toolStripButtonNewDatabase.Text = "toolStripButtonNewDatabase";
             this.toolStripButtonNewDatabase.Click += new System.EventHandler(this.NewDatabase);
             // 
+            // toolStripButtonOpenDatabase
+            // 
+            this.toolStripButtonOpenDatabase.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonOpenDatabase.Image = global::Cassiopeia.Properties.Resources.open;
+            this.toolStripButtonOpenDatabase.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonOpenDatabase.Name = "toolStripButtonOpenDatabase";
+            this.toolStripButtonOpenDatabase.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonOpenDatabase.Text = "toolStripButton1";
+            this.toolStripButtonOpenDatabase.Click += new System.EventHandler(this.OpenDatabase);
+            // 
+            // toolStripButtonSaveDatabase
+            // 
+            this.toolStripButtonSaveDatabase.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonSaveDatabase.Image = global::Cassiopeia.Properties.Resources.diskette;
+            this.toolStripButtonSaveDatabase.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonSaveDatabase.Name = "toolStripButtonSaveDatabase";
+            this.toolStripButtonSaveDatabase.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonSaveDatabase.Text = "toolStripButton1";
+            this.toolStripButtonSaveDatabase.Click += new System.EventHandler(this.SaveActualDatabase);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1131, 503);
             this.ContextMenuStrip = this.clickDerechoMenuContexto;
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStripMain);
             this.Controls.Add(this.panelSidebar);
             this.Controls.Add(this.barraAbajo);
             this.Controls.Add(this.vistaAlbumes);
@@ -640,8 +654,8 @@
             this.panelSidebar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSidebarCover)).EndInit();
             this.contextMenuSidebarCover.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.toolStripMain.ResumeLayout(false);
+            this.toolStripMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -680,7 +694,6 @@
         private System.Windows.Forms.ToolStripMenuItem CargarCDToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem digitalToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem playSpotifyAlbumToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem guardarCSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproductorToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem abrirCDMenuItem;
@@ -705,8 +718,10 @@
         private System.Windows.Forms.Label labelGeneralInfo;
         private System.Windows.Forms.ContextMenuStrip contextMenuSidebarCover;
         private System.Windows.Forms.ToolStripMenuItem sidebarCopyImageToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStripMain;
         private System.Windows.Forms.ToolStripButton toolStripButtonNewAlbum;
         private System.Windows.Forms.ToolStripButton toolStripButtonNewDatabase;
+        private System.Windows.Forms.ToolStripButton toolStripButtonSaveDatabase;
+        private System.Windows.Forms.ToolStripButton toolStripButtonOpenDatabase;
     }
 }

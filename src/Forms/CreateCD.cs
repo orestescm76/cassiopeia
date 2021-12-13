@@ -136,6 +136,8 @@ namespace Cassiopeia.src.Forms
                 throw;
             }
             Kernel.Collection.AddCD(ref creatingCD);
+            Log.Instance.PrintMessage("CD added OK", MessageType.Correct);
+            Kernel.SetSaveMark();
 
         }
         private void buttonOK_Click(object sender, EventArgs e)
@@ -146,7 +148,6 @@ namespace Cassiopeia.src.Forms
             MediaCondition exterior = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoExterior.SelectedIndex.ToString());
             MediaCondition medio = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoMedio.SelectedIndex.ToString());
             SleeveType formato = (SleeveType)Enum.Parse(typeof(SleeveType), comboBoxFormatoCD.SelectedIndex.ToString());
-            string s = album.Artist + "_" + album.Title;
 
             if (edit) //Editing an existing CD
             {

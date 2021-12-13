@@ -151,6 +151,8 @@ namespace Cassiopeia.src.Forms
             nuevoToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevaBD");
             toolStripButtonNewDatabase.ToolTipText = Kernel.LocalTexts.GetString("nuevaBD");
 
+            toolStripButtonSaveDatabase.ToolTipText = "Guardar";
+
             abrirToolStripMenuItem.Text = Kernel.LocalTexts.GetString("abrir_registros");
             salirToolStripMenuItem.Text = Kernel.LocalTexts.GetString("salir");
             vistaAlbumes.Columns[0].Text = Kernel.LocalTexts.GetString("artista");
@@ -354,6 +356,51 @@ namespace Cassiopeia.src.Forms
             panelSidebar.Visible = false;
             Width -= panelSidebar.Width-20;
             Config.MainFormViewSidebar = false;
+        }
+        public void SetSaveMark()
+        {
+            toolStripButtonSaveDatabase.Image = Properties.Resources.diskette_mark;
+        }
+        private void OpenFile()
+        {
+            Log.PrintMessage("Opening from file", MessageType.Info);
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.CurrentDirectory;
+            switch (ViewType)
+            {
+                case ViewType.Digital:
+                    openFileDialog.Filter = Kernel.LocalTexts.GetString("archivo") + " .mdb (*.mdb)|*.mdb | " + Kernel.LocalTexts.GetString("archivo") + " .csv|*.csv";
+                    break;
+                case ViewType.CD:
+                    openFileDialog.Filter = Kernel.LocalTexts.GetString("archivo") + " .json (*.json)|*.json";
+                    break;
+                case ViewType.Vinyl:
+                    break;
+                case ViewType.Cassette_Tape:
+                    break;
+                default:
+                    break;
+            }
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fichero = openFileDialog.FileName;
+                switch (ViewType)
+                {
+                    case ViewType.Digital:
+                        Kernel.LoadCSVAlbums(openFileDialog.FileName);
+                        break;
+                    case ViewType.CD:
+                        Kernel.LoadCD(openFileDialog.FileName);
+                        break;
+                    case ViewType.Vinyl:
+                        break;
+                    case ViewType.Cassette_Tape:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            LoadView();
         }
         #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
@@ -818,10 +865,24 @@ namespace Cassiopeia.src.Forms
             }
         }
 
-        private void guardarCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SaveActualDatabase(object sender, EventArgs e)
         {
-            Kernel.SaveAlbums("discosCSV.csv", SaveType.Digital);
-            MessageBox.Show("Done!");
+            switch (ViewType)
+            {
+                case ViewType.Digital:
+                    Kernel.SaveAlbums("discosCSV.csv", SaveType.Digital, false);
+                    break;
+                case ViewType.CD:
+                    Kernel.SaveAlbums("discosCD.json", SaveType.CD);
+                    break;
+                case ViewType.Vinyl:
+                    break;
+                case ViewType.Cassette_Tape:
+                    break;
+                default:
+                    break;
+            }
+            toolStripButtonSaveDatabase.Image = Properties.Resources.diskette;
         }
 
         private void reproductorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1027,6 +1088,7 @@ namespace Cassiopeia.src.Forms
                 //SHOW
                 ShowSidebar();
             }
+            
         }
         private void copiarImagenStrip_Click(object sender, EventArgs e)
         {
@@ -1040,6 +1102,10 @@ namespace Cassiopeia.src.Forms
             if (selectedAlbum is null)
                 sidebarCopyImageToolStripMenuItem.Enabled = false;
 
+        }
+        private void OpenDatabase(object sender, EventArgs e)
+        {
+            OpenFile();
         }
         #endregion
     }

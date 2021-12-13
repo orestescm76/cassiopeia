@@ -132,6 +132,7 @@ namespace Cassiopeia.src.Forms
             Close();
             Kernel.ReloadView();
             Log.Instance.PrintMessage("Saved correctly", MessageType.Correct);
+            Kernel.SetSaveMark();
         }
 
         private void botonCancelar_Click(object sender, EventArgs e)

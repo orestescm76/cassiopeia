@@ -2,7 +2,7 @@
 #### 2.0.230.0
 - Added a ToolBox with easy access to common functions.
 - Added translations to ConfigForm
-
+- Now you know if you made any changes to the database.
 #### 2.0.225.30
 - Reworked the login to Spotify, using PKCE
 - App now starts faster, no more browser open

@@ -19,6 +19,7 @@ namespace Cassiopeia.src.Forms
         {
             cd.Anotaciones = textBox1.Lines;
             Log.Instance.PrintMessage("Guardado " + cd.Anotaciones.Length + " bytes", MessageType.Correct);
+            Kernel.SetSaveMark();
             Dispose();
         }
     }

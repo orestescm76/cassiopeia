@@ -64,6 +64,7 @@ namespace Cassiopeia.src.Forms
                 DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
                 crono.Stop();
                 Log.Instance.PrintMessage("Added " + listViewResultadoBusqueda.SelectedItems.Count + " albums", MessageType.Correct, crono, TimeType.Milliseconds);
+                Kernel.SetSaveMark();
                 Kernel.ReloadView();
             }
             else

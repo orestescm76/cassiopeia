@@ -842,5 +842,9 @@ namespace Cassiopeia
         {
             Application.Exit();
         }
+        public static void SetSaveMark()
+        {
+            MainForm.SetSaveMark();
+        }
     }
 }
