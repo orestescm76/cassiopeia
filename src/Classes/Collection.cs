@@ -5,14 +5,15 @@ namespace Cassiopeia.src.Classes
 {
     public class Collection
     {
-        public LinkedList<AlbumData> Albums { get; private set; }
+        public List<AlbumData> Albums { get; private set; }
+        public List<AlbumData> FilteredAlbums { get; set; }
         public List<CompactDisc> CDS { get; private set; }
         public Collection()
         {
-            Albums = new LinkedList<AlbumData>();
+            Albums = new List<AlbumData>();
             CDS = new List<CompactDisc>();
         }
-        public void AddAlbum(ref AlbumData album) { Albums.AddFirst(album); }
+        public void AddAlbum(ref AlbumData album) { Albums.Add(album); }
         public void RemoveAlbum(ref AlbumData album) 
         {
             if (album.CanBeRemoved)
@@ -52,15 +53,12 @@ namespace Cassiopeia.src.Classes
 
             return null;
         }
-        public AlbumData GetAlbum(int index)
+        public AlbumData GetAlbum(int index, bool filtered)
         {
-            LinkedListNode<AlbumData> it = Albums.First;
-            for (int i = 0; i < index; i++)
-            {
-                it = it.Next;
-            }
-            return it.Value;
-            //return Albums[index];
+            if (!filtered)
+                return Albums[index];
+            else
+                return FilteredAlbums[index];
         }
         public void GetAlbum(string s, out CompactDisc cd)
         {
@@ -72,7 +70,7 @@ namespace Cassiopeia.src.Classes
                     cd = cdd;
             }
         }
-        public void ChangeList(ref LinkedList<AlbumData> n)
+        public void ChangeList(ref List<AlbumData> n)
         {
             Albums = n;
         }
@@ -122,7 +120,7 @@ namespace Cassiopeia.src.Classes
                     a.CanBeRemoved = false;
             }
         }
-        public TimeSpan GetTotalTime(LinkedList<AlbumData> albums)
+        public TimeSpan GetTotalTime(List<AlbumData> albums)
         {
             TimeSpan time = new TimeSpan();
             foreach (AlbumData album in albums)

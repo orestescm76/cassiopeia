@@ -40,7 +40,7 @@ namespace Cassiopeia.src.Forms
 
             //We are visualising a digital album
             labelEstadoDisco.Hide();
-            if (!(albumToVisualize is null) && string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
+            if (albumToVisualize is not null && string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
             {
                 buttonAnotaciones.Enabled = false;
             }
@@ -269,10 +269,10 @@ namespace Cassiopeia.src.Forms
                     break;
             }
             labelData[(int)AlbumInfo.Genre] = Kernel.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine;
-            if (CDaVisualizar is null)
-                labelData[(int)AlbumInfo.Location] = Kernel.LocalTexts.GetString("localizacion") + ": " + albumToVisualize.SoundFilesPath + Environment.NewLine;
             if (string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
                 labelData[(int)AlbumInfo.Location] = "";
+            if (CDaVisualizar is null)
+                labelData[(int)AlbumInfo.Location] = Kernel.LocalTexts.GetString("localizacion") + ": " + albumToVisualize.SoundFilesPath + Environment.NewLine;
             else
             {
                 labelData[(int)AlbumInfo.Format] = Kernel.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
@@ -430,6 +430,8 @@ namespace Cassiopeia.src.Forms
                 c.IsBonus = !c.IsBonus;
             }
             LoadView();
+            Kernel.SetSaveMark();
+            Kernel.MainForm.ReloadView();
         }
 
         private void infoAlbum_Click(object sender, EventArgs e)

@@ -49,6 +49,7 @@
             this.generarAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.digitalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,7 +91,6 @@
             this.toolStripButtonNewDatabase = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonOpenDatabase = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSaveDatabase = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -236,7 +236,8 @@
             this.adminMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generarAlbumToolStripMenuItem,
             this.verLogToolStripMenuItem,
-            this.configToolStripMenuItem});
+            this.configToolStripMenuItem,
+            this.filterToolStripMenuItem});
             this.adminMenu.Name = "adminMenu";
             this.adminMenu.Size = new System.Drawing.Size(79, 20);
             this.adminMenu.Text = "administrar";
@@ -244,23 +245,30 @@
             // generarAlbumToolStripMenuItem
             // 
             this.generarAlbumToolStripMenuItem.Name = "generarAlbumToolStripMenuItem";
-            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.generarAlbumToolStripMenuItem.Text = "generarAlbum";
             this.generarAlbumToolStripMenuItem.Click += new System.EventHandler(this.generarAlbumToolStripMenuItem_Click);
             // 
             // verLogToolStripMenuItem
             // 
             this.verLogToolStripMenuItem.Name = "verLogToolStripMenuItem";
-            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.verLogToolStripMenuItem.Text = "verLog";
             this.verLogToolStripMenuItem.Click += new System.EventHandler(this.verLogToolStripMenuItem_Click);
             // 
             // configToolStripMenuItem
             // 
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
-            this.configToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.configToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.configToolStripMenuItem.Text = "config";
             this.configToolStripMenuItem.Click += new System.EventHandler(this.configToolStripMenuItem_Click);
+            // 
+            // filterToolStripMenuItem
+            // 
+            this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.filterToolStripMenuItem.Text = "filter";
+            this.filterToolStripMenuItem.Click += new System.EventHandler(this.filterToolStripMenuItem_Click);
             // 
             // verToolStripMenuItem
             // 
@@ -579,8 +587,7 @@
             this.toolStripButtonNewAlbum,
             this.toolStripButtonNewDatabase,
             this.toolStripButtonOpenDatabase,
-            this.toolStripButtonSaveDatabase,
-            this.toolStripSeparator2});
+            this.toolStripButtonSaveDatabase});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
             this.toolStripMain.Padding = new System.Windows.Forms.Padding(4, 0, 2, 0);
@@ -628,11 +635,6 @@
             this.toolStripButtonSaveDatabase.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonSaveDatabase.Text = "toolStripButton1";
             this.toolStripButtonSaveDatabase.Click += new System.EventHandler(this.SaveActualDatabase);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // MainForm
             // 
@@ -731,6 +733,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonNewDatabase;
         private System.Windows.Forms.ToolStripButton toolStripButtonSaveDatabase;
         private System.Windows.Forms.ToolStripButton toolStripButtonOpenDatabase;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
     }
 }

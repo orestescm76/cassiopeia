@@ -110,6 +110,8 @@ namespace Cassiopeia
                     return Properties.Resources.el;
                 case "it":
                     return Properties.Resources.it;
+                default:
+                    break;
             }
             return null;
         }

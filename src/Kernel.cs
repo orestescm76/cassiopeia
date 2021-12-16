@@ -17,6 +17,7 @@ using Cassiopeia.src.Forms;
 using System.Threading.Tasks;
 using System.Threading;
 using Cassiopeia.src.Classes;
+using System.Linq;
 
 namespace Cassiopeia
 {
@@ -64,7 +65,7 @@ namespace Cassiopeia
         private static CancellationTokenSource RefreshTokenCancellation = new CancellationTokenSource();
         private static CancellationTokenSource CancellationToken = new CancellationTokenSource();
         public static ResXResourceSet LocalTexts;
-        private static MainForm MainForm;
+        public static MainForm MainForm { get; private set; }
         public static Collection Collection;
 #if DEBUG
         public static bool Console = true;
@@ -181,7 +182,7 @@ namespace Cassiopeia
 
         public static void ReloadView()
         {
-            MainForm.Refrescar();
+            MainForm.ReloadView();
         }
         public static void LoadConfig()
         {
@@ -382,16 +383,11 @@ namespace Cassiopeia
         {
             switch (start)
             {
-                case StartType.Normal:
-                    Log.Instance.PrintMessage("Searching", MessageType.Info);
-                    Stopwatch crono = Stopwatch.StartNew();
-                    Song s = searchSong("the boys are back");
-                    Log.Instance.PrintMessage("ok", MessageType.Info, crono, TimeType.Milliseconds);
+                case StartType.Normal:                    
                     Log.Instance.PrintMessage("Running main form", MessageType.Info);
                     if(Spotify is not null && Spotify.AccountReady)
                         MainForm.RemoveLink();
                     Application.Run(MainForm);
-
                     break;
                 case StartType.PlayerOnly:
                     Application.Run(Player.Instancia);

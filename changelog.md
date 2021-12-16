@@ -1,4 +1,9 @@
 # Cassiopeia Changelog
+#### 2.0.231.0
+- Draft for filters.
+- Adding an album from a folder with local files caused to not being able to visualise it [FIX]
+- Roman to arabic function changed to allow bigger numbers. [ISSUE #15]
+
 #### 2.0.230.0
 - Added a ToolBox with easy access to common functions.
 - Added translations to ConfigForm
