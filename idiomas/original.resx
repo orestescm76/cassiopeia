@@ -437,7 +437,7 @@
     <value>Fusionar como canción por partes</value>
   </data>
   <data name="titulo" xml:space="preserve">
-    <value>Título</value>
+    <value>Título del álbum</value>
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
@@ -729,6 +729,18 @@
     <value></value>
   </data>
   <data name="label_clipboard" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="song_title" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="write_filter" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="filter" xml:space="preserve">
     <value></value>
   </data>
 </root>

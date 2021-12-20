@@ -186,6 +186,9 @@ namespace Cassiopeia.src.Forms
             importSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("importSpotify");
             sidebarCopyImageToolStripMenuItem.Text = Kernel.LocalTexts.GetString("copiarImagen");
             showSidebarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("showPanel");
+            
+            filterToolStripMenuItem.Text = Kernel.LocalTexts.GetString("filter");
+            toolStripButtonFilter.Text = filterToolStripMenuItem.Text;
             UpdateViewInfo();
         }
         private void UpdateViewInfo()
@@ -498,11 +501,42 @@ namespace Cassiopeia.src.Forms
                 toolStripMain.Items.RemoveByKey("lyrics");
             }
         }
-        public void ApplyFilter(string artist)
+        public void ApplyFilter(Filter filter)
         {
             filtered = true;
-            var query = from album in Kernel.Collection.Albums where album.Artist.ToLower() == artist.ToLower() select album;
-            List<AlbumData> list = query.ToList();
+            Log.PrintMessage("Applying filter", MessageType.Info);
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            IEnumerable<AlbumData> query = from album in Kernel.Collection.Albums select album;
+            HashSet<AlbumData> filteredSong = new();
+            if (!string.IsNullOrEmpty(filter.ContainsSongTitle))
+            {
+                foreach(var album in Kernel.Collection.Albums)
+                {
+                    foreach (var song in album.Songs)
+                    {
+                        if (song.Title.Contains(filter.ContainsSongTitle, StringComparison.OrdinalIgnoreCase))
+                            filteredSong.Add(album);
+                    }
+                }
+            }
+            if(filteredSong.Count == 0)
+            {
+                if (!string.IsNullOrEmpty(filter.Artist))
+                    query = from album in query where album.Artist.ToLower().Contains(filter.Artist) select album;
+                if (!string.IsNullOrEmpty(filter.Title))
+                    query = from album in query where album.Title.ToLower().Contains(filter.Title) select album;
+            }
+            else
+            {
+                query = filteredSong;
+                if (!string.IsNullOrEmpty(filter.Artist))
+                    query = from album in filteredSong where album.Artist.ToLower().Contains(filter.Artist) select album;
+                if (!string.IsNullOrEmpty(filter.Title))
+                    query = from album in filteredSong where album.Title.ToLower().Contains(filter.Title) select album;
+            }
+            stopwatch.Stop();
+            Log.PrintMessage("", MessageType.Correct, stopwatch, TimeType.Milliseconds);
+            List <AlbumData> list = query.ToList();
             Kernel.Collection.FilteredAlbums = list;
             //TEMP
             vistaAlbumes.Items.Clear();
@@ -550,18 +584,36 @@ namespace Cassiopeia.src.Forms
             vistaAlbumes.Sort();
             List<AlbumData> nuevaLista = new();
             string[] s = null;
-            switch (ViewType)
+            if(!filtered)
             {
-                case ViewType.Digital:
-                    s = new string[Kernel.Collection.Albums.Count];
-                    break;
-                case ViewType.CD:
-                    s = new string[Kernel.Collection.CDS.Count];
-                    break;
-                case ViewType.Vinyl:
-                    break;
-                default:
-                    break;
+                switch (ViewType)
+                {
+                    case ViewType.Digital:
+                        s = new string[Kernel.Collection.Albums.Count];
+                        break;
+                    case ViewType.CD:
+                        s = new string[Kernel.Collection.CDS.Count];
+                        break;
+                    case ViewType.Vinyl:
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                switch (ViewType)
+                {
+                    case ViewType.Digital:
+                        s = new string[Kernel.Collection.FilteredAlbums.Count];
+                        break;
+                    case ViewType.CD:
+                        break;
+                    case ViewType.Vinyl:
+                        break;
+                    default:
+                        break;
+                }
             }
             for (int i = 0; i < s.Length; i++)
             {
@@ -569,7 +621,10 @@ namespace Cassiopeia.src.Forms
                 AlbumData a = Kernel.Collection.GetAlbum(s[i]);
                 nuevaLista.Add(a);
             }
-            Kernel.Collection.ChangeList(ref nuevaLista);
+            if (!filtered)
+                Kernel.Collection.ChangeList(ref nuevaLista);
+            else
+                Kernel.Collection.FilteredAlbums = nuevaLista;
             vistaAlbumes.Refresh();
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1222,10 +1277,10 @@ namespace Cassiopeia.src.Forms
         {
             ShowSelectedAlbum();
         }
-        private void filterToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenFilterWindow(object sender, EventArgs e)
         {
             FilterForm filterForm = new();
-            filterForm.ShowDialog();
+            filterForm.Show();
         }
         #endregion
     }

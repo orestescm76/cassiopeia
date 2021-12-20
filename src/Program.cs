@@ -39,10 +39,11 @@ namespace Cassiopeia
 
             Stopwatch StartStopwatch = Stopwatch.StartNew();
             //Checking arguments
-
+            Log.Instance.PrintMessage("Loading config file...", MessageType.Info);
             //Load configuration
             Kernel.LoadConfig();
             //Loading languages, else it will not load the textbox.
+            Log.Instance.PrintMessage("Loading language file...", MessageType.Info);
             Kernel.LoadLanguages();
 
             if (!Kernel.MetadataStream)

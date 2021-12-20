@@ -8,8 +8,66 @@ namespace Cassiopeia
     {
         public static string ConvertToRomanNumeral(int arabicNumeral)
         {
+            if (arabicNumeral >= 0 || arabicNumeral <= 4000)
+                return "";
             string romanNumeral = "";
             int x = arabicNumeral;
+            switch (x / 1000)
+            {
+                case 1:
+                    romanNumeral += ("M");
+                    x -= 1000;
+                    break;
+                case 2:
+                    romanNumeral += ("MM");
+                    x -= 2000;
+                    break;
+                case 3:
+                    romanNumeral += ("MMM");
+                    x -= 3000;
+                    break;
+            }
+            switch (x / 100)
+            {
+                case 1:
+                    romanNumeral += ("C");
+                    x -= 100;
+                    break;
+                case 2:
+                    romanNumeral += ("CC");
+                    x -= 200;
+                    break;
+                case 3:
+                    romanNumeral += ("CCC");
+                    x -= 300;
+                    break;
+                case 4:
+                    romanNumeral += ("CD");
+                    x -= 400;
+                    break;
+                case 5:
+                    romanNumeral += ("D");
+                    x -= 500;
+                    break;
+                case 6:
+                    romanNumeral += ("DC");
+                    x -= 600;
+                    break;
+                case 7:
+                    romanNumeral += ("DCC");
+                    x -= 700;
+                    break;
+                case 8:
+                    romanNumeral += ("DCCC");
+                    x -= 800;
+                    break;
+                case 9:
+                    romanNumeral += ("MC");
+                    x -= 900;
+                    break;
+                default:
+                    break;
+            }
             switch (x / 10)
             {
                 case 1:

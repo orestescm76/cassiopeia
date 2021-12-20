@@ -229,14 +229,23 @@ namespace Cassiopeia
             DirectoryInfo cod = new DirectoryInfo("./idiomas");
             Languages = new String[cod.GetFiles().Length];
             int j = 0;
-            foreach (var idioma in cod.GetFiles())
+            try
             {
-                string id = idioma.Name.Replace(".resx", "");
-                id = id.Replace("original.", "");
-                Languages[j] = id;
-                j++;
+                foreach (var idioma in cod.GetFiles())
+                {
+                    string id = idioma.Name.Replace(".resx", "");
+                    id = id.Replace("original.", "");
+                    Languages[j] = id;
+                    j++;
+                }
+                NumLanguages = Languages.Length;
             }
-            NumLanguages = Languages.Length;
+            catch (DirectoryNotFoundException)
+            {
+                Log.Instance.PrintMessage("Couldn't find languages folder, cannot load", MessageType.Error);
+                Environment.Exit(-1);
+            }
+
         }
         static bool GetUpdate(out string newVer)
         {
@@ -767,7 +776,7 @@ namespace Cassiopeia
                 {
                     foreach (Song cancion in album.Songs)
                     {
-                        if (cancion.Lyrics != null && cancion.Lyrics.Length != 0)
+                        if (cancion.Lyrics is not null && cancion.Lyrics.Length != 0)
                         {
                             salida.WriteLine(album.Artist + ";" + cancion.Title + ";" + album.Title);
                             foreach (string line in cancion.Lyrics)
@@ -790,7 +799,6 @@ namespace Cassiopeia
         }
         public static int AllocConsole()
         {
-            
             return WinAPI.AllocConsole();
         }
         private static int FreeConsole()

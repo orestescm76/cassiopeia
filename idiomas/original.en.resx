@@ -438,7 +438,7 @@
     <value>Fusion as song with many parts</value>
   </data>
   <data name="titulo" xml:space="preserve">
-    <value>Title</value>
+    <value>Album title</value>
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
@@ -792,5 +792,17 @@
 %length% - Length of the album, formatted as [HH:]MM:SS. 
 %totaltracks% - Total number of tracks
 %path% - Path of local files, if avaliable</value>
+  </data>
+  <data name="song_title" xml:space="preserve">
+    <value>Song title (has priority)</value>
+  </data>
+  <data name="write_filter" xml:space="preserve">
+    <value>Write something to filter the colection</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filter</value>
   </data>
 </root>

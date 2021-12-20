@@ -91,6 +91,7 @@
             this.toolStripButtonNewDatabase = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonOpenDatabase = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSaveDatabase = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonFilter = new System.Windows.Forms.ToolStripButton();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -268,7 +269,7 @@
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
             this.filterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.filterToolStripMenuItem.Text = "filter";
-            this.filterToolStripMenuItem.Click += new System.EventHandler(this.filterToolStripMenuItem_Click);
+            this.filterToolStripMenuItem.Click += new System.EventHandler(this.OpenFilterWindow);
             // 
             // verToolStripMenuItem
             // 
@@ -587,7 +588,8 @@
             this.toolStripButtonNewAlbum,
             this.toolStripButtonNewDatabase,
             this.toolStripButtonOpenDatabase,
-            this.toolStripButtonSaveDatabase});
+            this.toolStripButtonSaveDatabase,
+            this.toolStripButtonFilter});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
             this.toolStripMain.Padding = new System.Windows.Forms.Padding(4, 0, 2, 0);
@@ -636,6 +638,16 @@
             this.toolStripButtonSaveDatabase.Text = "toolStripButton1";
             this.toolStripButtonSaveDatabase.Click += new System.EventHandler(this.SaveActualDatabase);
             // 
+            // toolStripButtonFilter
+            // 
+            this.toolStripButtonFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonFilter.Image = global::Cassiopeia.Properties.Resources.filter;
+            this.toolStripButtonFilter.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonFilter.Name = "toolStripButtonFilter";
+            this.toolStripButtonFilter.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonFilter.Text = "filter";
+            this.toolStripButtonFilter.Click += new System.EventHandler(this.OpenFilterWindow);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -654,6 +666,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Gestor de álbumes 0";
+            this.Click += new System.EventHandler(this.OpenFilterWindow);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.barraPrincipal.ResumeLayout(false);
             this.barraPrincipal.PerformLayout();
@@ -734,5 +747,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonSaveDatabase;
         private System.Windows.Forms.ToolStripButton toolStripButtonOpenDatabase;
         private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonFilter;
     }
 }

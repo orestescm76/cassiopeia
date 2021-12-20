@@ -790,4 +790,16 @@
 %date% - Fecha de hoy
 \n - Nueva línea</value>
   </data>
+  <data name="song_title" xml:space="preserve">
+    <value>Título de la canción (tiene prioridad)</value>
+  </data>
+  <data name="write_filter" xml:space="preserve">
+    <value>Escribe algo para filtrar la colección</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filtrar</value>
+  </data>
 </root>
