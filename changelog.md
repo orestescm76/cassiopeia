@@ -1,4 +1,7 @@
 # Cassiopeia Changelog
+#### 2.0.232.0
+- Adjusted LyricViewer buttons.
+
 #### 2.0.231.0
 - Draft for filters.
 - Adding an album from a folder with local files caused to not being able to visualise it [FIX]

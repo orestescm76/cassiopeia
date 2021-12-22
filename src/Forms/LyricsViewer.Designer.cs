@@ -48,20 +48,22 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxLyrics.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBoxLyrics.Location = new System.Drawing.Point(12, 12);
+            this.textBoxLyrics.Location = new System.Drawing.Point(14, 14);
+            this.textBoxLyrics.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxLyrics.Multiline = true;
             this.textBoxLyrics.Name = "textBoxLyrics";
             this.textBoxLyrics.ReadOnly = true;
             this.textBoxLyrics.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLyrics.Size = new System.Drawing.Size(425, 561);
+            this.textBoxLyrics.Size = new System.Drawing.Size(495, 416);
             this.textBoxLyrics.TabIndex = 0;
             // 
             // buttonEditar
             // 
-            this.buttonEditar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonEditar.Location = new System.Drawing.Point(177, 3);
+            this.buttonEditar.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonEditar.Location = new System.Drawing.Point(221, 3);
+            this.buttonEditar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonEditar.Name = "buttonEditar";
-            this.buttonEditar.Size = new System.Drawing.Size(75, 34);
+            this.buttonEditar.Size = new System.Drawing.Size(88, 39);
             this.buttonEditar.TabIndex = 1;
             this.buttonEditar.Text = "buttonEditar";
             this.buttonEditar.UseVisualStyleBackColor = true;
@@ -69,10 +71,10 @@
             // 
             // buttonLimpiar
             // 
-            this.buttonLimpiar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonLimpiar.Location = new System.Drawing.Point(3, 3);
+            this.buttonLimpiar.Location = new System.Drawing.Point(4, 3);
+            this.buttonLimpiar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonLimpiar.Name = "buttonLimpiar";
-            this.buttonLimpiar.Size = new System.Drawing.Size(75, 34);
+            this.buttonLimpiar.Size = new System.Drawing.Size(88, 39);
             this.buttonLimpiar.TabIndex = 2;
             this.buttonLimpiar.Text = "buttonLimpiar";
             this.buttonLimpiar.UseVisualStyleBackColor = true;
@@ -80,21 +82,23 @@
             // 
             // buttonBuscar
             // 
-            this.buttonBuscar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonBuscar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonBuscar.Enabled = false;
-            this.buttonBuscar.Location = new System.Drawing.Point(346, 3);
+            this.buttonBuscar.Location = new System.Drawing.Point(433, 3);
+            this.buttonBuscar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonBuscar.Name = "buttonBuscar";
-            this.buttonBuscar.Size = new System.Drawing.Size(75, 34);
+            this.buttonBuscar.Size = new System.Drawing.Size(88, 39);
             this.buttonBuscar.TabIndex = 3;
             this.buttonBuscar.Text = "buttonBuscar";
             this.buttonBuscar.UseVisualStyleBackColor = true;
             // 
             // buttonCerrar
             // 
-            this.buttonCerrar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonCerrar.Location = new System.Drawing.Point(177, 52);
+            this.buttonCerrar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonCerrar.Location = new System.Drawing.Point(221, 60);
+            this.buttonCerrar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonCerrar.Name = "buttonCerrar";
-            this.buttonCerrar.Size = new System.Drawing.Size(75, 34);
+            this.buttonCerrar.Size = new System.Drawing.Size(88, 39);
             this.buttonCerrar.TabIndex = 4;
             this.buttonCerrar.Text = "buttonCerrar";
             this.buttonCerrar.UseVisualStyleBackColor = true;
@@ -102,10 +106,11 @@
             // 
             // buttonDeshacer
             // 
-            this.buttonDeshacer.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonDeshacer.Location = new System.Drawing.Point(3, 52);
+            this.buttonDeshacer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonDeshacer.Location = new System.Drawing.Point(4, 60);
+            this.buttonDeshacer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonDeshacer.Name = "buttonDeshacer";
-            this.buttonDeshacer.Size = new System.Drawing.Size(75, 34);
+            this.buttonDeshacer.Size = new System.Drawing.Size(88, 39);
             this.buttonDeshacer.TabIndex = 5;
             this.buttonDeshacer.Text = "buttonDeshacer";
             this.buttonDeshacer.UseVisualStyleBackColor = true;
@@ -113,6 +118,7 @@
             // 
             // panel1
             // 
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.Controls.Add(this.buttonBack);
             this.panel1.Controls.Add(this.buttonNext);
             this.panel1.Controls.Add(this.buttonCerrar);
@@ -120,39 +126,47 @@
             this.panel1.Controls.Add(this.buttonBuscar);
             this.panel1.Controls.Add(this.buttonEditar);
             this.panel1.Controls.Add(this.buttonLimpiar);
-            this.panel1.Location = new System.Drawing.Point(13, 579);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 436);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(424, 89);
+            this.panel1.Size = new System.Drawing.Size(524, 103);
             this.panel1.TabIndex = 6;
             // 
             // buttonBack
             // 
-            this.buttonBack.Location = new System.Drawing.Point(84, 3);
+            this.buttonBack.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonBack.Location = new System.Drawing.Point(125, 3);
+            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(75, 34);
+            this.buttonBack.Size = new System.Drawing.Size(88, 39);
             this.buttonBack.TabIndex = 7;
-            this.buttonBack.Text = "button2";
+            this.buttonBack.Text = "buttonPrevious";
             this.buttonBack.UseVisualStyleBackColor = true;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(265, 3);
+            this.buttonNext.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.buttonNext.Location = new System.Drawing.Point(317, 3);
+            this.buttonNext.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonNext.Name = "buttonNext";
-            this.buttonNext.Size = new System.Drawing.Size(75, 34);
+            this.buttonNext.Size = new System.Drawing.Size(88, 39);
             this.buttonNext.TabIndex = 6;
-            this.buttonNext.Text = "button1";
+            this.buttonNext.Text = "buttonNext";
             this.buttonNext.UseVisualStyleBackColor = true;
             this.buttonNext.Click += new System.EventHandler(this.buttonNext_Click);
             // 
-            // VisorLyrics
+            // LyricsViewer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(449, 680);
+            this.ClientSize = new System.Drawing.Size(524, 539);
             this.Controls.Add(this.textBoxLyrics);
             this.Controls.Add(this.panel1);
-            this.Name = "VisorLyrics";
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.MinimumSize = new System.Drawing.Size(540, 578);
+            this.Name = "LyricsViewer";
             this.Text = "VisorLyrics";
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
