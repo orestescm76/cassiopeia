@@ -1,5 +1,5 @@
 ﻿/*
- * CASSIOPEIA 2.0.225.30
+ * CASSIOPEIA 2.0.231.10
  * PROGRAM KERNEL. CORE FUNCTIONS, LOAD, SAVE, QUIT. METADATA STREAM
  * CODENAME STORM
  * MADE BY ORESTESCM76
@@ -311,18 +311,18 @@ namespace Cassiopeia
             HistorialFileInfo = new FileInfo("Musical log " + now.Day + "-" + now.Month + "-" + now.Year + ".txt");
             StreamFileInfo = new FileInfo("np.txt");
         }
-        public static void InitSpotify()
+        public static async void InitSpotify()
         {
             if (SpotifyEnabled)
             {
+                Spotify = new();
                 if (!Config.LinkedWithSpotify)
-                    Spotify = new Spotify(false);
+                    Spotify.InitNormalMode();
                 else
                 {
-                    Spotify = new Spotify(true);
+                    await Spotify.InitStreamMode();
                     SpotifyReady = true;
                 }
-
             }
             else
             {

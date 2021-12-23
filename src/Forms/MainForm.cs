@@ -510,14 +510,7 @@ namespace Cassiopeia.src.Forms
             HashSet<AlbumData> filteredSong = new();
             if (!string.IsNullOrEmpty(filter.ContainsSongTitle))
             {
-                foreach(var album in Kernel.Collection.Albums)
-                {
-                    foreach (var song in album.Songs)
-                    {
-                        if (song.Title.Contains(filter.ContainsSongTitle, StringComparison.OrdinalIgnoreCase))
-                            filteredSong.Add(album);
-                    }
-                }
+                filteredSong = Utils.GetAlbumsWithSongTitle(filter.ContainsSongTitle);
             }
             if(filteredSong.Count == 0)
             {
@@ -1182,7 +1175,7 @@ namespace Cassiopeia.src.Forms
             {
                 Stopwatch espera = Stopwatch.StartNew();
                 Log.Instance.PrintMessage("Reiniciando Spotify", MessageType.Info);
-                await Kernel.Spotify.LinkSpotify();
+                Kernel.Spotify.InitStreamMode();
                 while (!Kernel.Spotify.IsSpotifyReady())
                 {
                     if (espera.Elapsed.TotalSeconds >= 20)

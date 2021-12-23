@@ -16,7 +16,6 @@
     <StartupObject>Cassiopeia.Program</StartupObject>
     <Version></Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <Nullable>disable</Nullable>
 	  <Deterministic>False</Deterministic>
     <DebugType>full</DebugType>

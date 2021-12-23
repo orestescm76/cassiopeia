@@ -92,6 +92,7 @@
             this.toolStripButtonOpenDatabase = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonSaveDatabase = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFilter = new System.Windows.Forms.ToolStripButton();
+            this.toolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -246,28 +247,28 @@
             // generarAlbumToolStripMenuItem
             // 
             this.generarAlbumToolStripMenuItem.Name = "generarAlbumToolStripMenuItem";
-            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generarAlbumToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.generarAlbumToolStripMenuItem.Text = "generarAlbum";
             this.generarAlbumToolStripMenuItem.Click += new System.EventHandler(this.generarAlbumToolStripMenuItem_Click);
             // 
             // verLogToolStripMenuItem
             // 
             this.verLogToolStripMenuItem.Name = "verLogToolStripMenuItem";
-            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.verLogToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.verLogToolStripMenuItem.Text = "verLog";
             this.verLogToolStripMenuItem.Click += new System.EventHandler(this.verLogToolStripMenuItem_Click);
             // 
             // configToolStripMenuItem
             // 
             this.configToolStripMenuItem.Name = "configToolStripMenuItem";
-            this.configToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.configToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.configToolStripMenuItem.Text = "config";
             this.configToolStripMenuItem.Click += new System.EventHandler(this.configToolStripMenuItem_Click);
             // 
             // filterToolStripMenuItem
             // 
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
-            this.filterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.filterToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.filterToolStripMenuItem.Text = "filter";
             this.filterToolStripMenuItem.Click += new System.EventHandler(this.OpenFilterWindow);
             // 
@@ -589,7 +590,8 @@
             this.toolStripButtonNewDatabase,
             this.toolStripButtonOpenDatabase,
             this.toolStripButtonSaveDatabase,
-            this.toolStripButtonFilter});
+            this.toolStripButtonFilter,
+            this.toolStripTextBoxSearch});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
             this.toolStripMain.Padding = new System.Windows.Forms.Padding(4, 0, 2, 0);
@@ -647,6 +649,14 @@
             this.toolStripButtonFilter.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonFilter.Text = "filter";
             this.toolStripButtonFilter.Click += new System.EventHandler(this.OpenFilterWindow);
+            // 
+            // toolStripTextBoxSearch
+            // 
+            this.toolStripTextBoxSearch.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripTextBoxSearch.Margin = new System.Windows.Forms.Padding(1, 0, 8, 0);
+            this.toolStripTextBoxSearch.Name = "toolStripTextBoxSearch";
+            this.toolStripTextBoxSearch.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.toolStripTextBoxSearch.Size = new System.Drawing.Size(100, 25);
             // 
             // MainForm
             // 
@@ -748,5 +758,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonOpenDatabase;
         private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButtonFilter;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSearch;
     }
 }

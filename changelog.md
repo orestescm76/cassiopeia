@@ -1,4 +1,7 @@
 # Cassiopeia Changelog
+#### 2.0.233.0
+- Textbox in the toolbar
+
 #### 2.0.232.0
 - Adjusted LyricViewer buttons.
 

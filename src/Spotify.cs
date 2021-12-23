@@ -33,16 +33,22 @@ namespace Cassiopeia
         public DeviceResponse Device;
         private PrivateUser User;
         private static string AuthPath = "spotifyLogin.json";
-        public Spotify(bool linked)
+        public Spotify()
         {
+            /*
             if (!linked)
                 Start();
             else
                 StartStreamMode();
+            */
         }
-        public async Task LinkSpotify()
+        public void InitNormalMode()
         {
-            StartStreamMode();
+            Start();
+        }
+        public async Task InitStreamMode()
+        {
+            await StartStreamMode();
         }
         private void Start()
         {
@@ -74,7 +80,7 @@ namespace Cassiopeia
                 MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
         }
-        private async void StartStreamMode()
+        private async Task StartStreamMode()
         {
             try
             {

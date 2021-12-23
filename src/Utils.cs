@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SpotifyAPI.Web;
 using Cassiopeia.src.Classes;
 
@@ -278,6 +279,20 @@ namespace Cassiopeia
             Random random = new Random();
             int index = random.Next(from.Songs.Count);
             return from.Songs[index];
+        }
+        public static HashSet<AlbumData> GetAlbumsWithSongTitle(string song)
+        {
+            HashSet<AlbumData> list = new();
+            for (int i = 0; i < Kernel.Collection.Albums.Count; i++)
+            {
+                for (int j = 0; j < Kernel.Collection.Albums[i].Songs.Count; j++)
+                {
+                    Song s = Kernel.Collection.Albums[i].Songs[j];
+                    if (s.Title.Contains(song, StringComparison.OrdinalIgnoreCase))
+                        list.Add(s.AlbumFrom);
+                }
+            }
+            return list;
         }
     }
 }
