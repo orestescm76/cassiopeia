@@ -1,5 +1,5 @@
 # Cassiopeia Changelog
-#### 2.0.233.0
+#### 2.0.234.0
 - Realtime filters
 - Ctrl+A and Esc (selecting albums) no longer blocks the program. [FIX]
 - However, if you click away, it hangs, need to check the event.
