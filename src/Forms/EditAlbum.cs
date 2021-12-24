@@ -8,9 +8,11 @@ namespace Cassiopeia.src.Forms
     public partial class EditAlbum : Form
     {
         private AlbumData albumAEditar;
-        public EditAlbum(ref AlbumData a)
+        bool fromMainView = false;
+        public EditAlbum(ref AlbumData a, bool fromMain = false)
         {
             InitializeComponent();
+            fromMainView = fromMain;
             Log.Instance.PrintMessage("Editing album " + a.Artist + " - " + a.Title, MessageType.Info);
             albumAEditar = a;
             textBoxArtista.Text = albumAEditar.Artist;
@@ -126,19 +128,24 @@ namespace Cassiopeia.src.Forms
                 Log.Instance.PrintMessage("Wrong input, won't change anything", MessageType.Warning);
                 MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
             }
-            AlbumViewer nuevo = new AlbumViewer(ref albumAEditar);
-            nuevo.Show();
+            if (!fromMainView)
+            {
+                AlbumViewer nuevo = new AlbumViewer(ref albumAEditar);
+                nuevo.Show();
+            }
             Kernel.ReloadView();
             Close();
-            Kernel.ReloadView();
             Log.Instance.PrintMessage("Saved correctly", MessageType.Correct);
             Kernel.SetSaveMark();
         }
 
         private void botonCancelar_Click(object sender, EventArgs e)
         {
-            AlbumViewer nuevo = new AlbumViewer(ref albumAEditar);
-            nuevo.Show();
+            if(!fromMainView)
+            {
+                AlbumViewer nuevo = new AlbumViewer(ref albumAEditar);
+                nuevo.Show();
+            }
             Close();
         }
 

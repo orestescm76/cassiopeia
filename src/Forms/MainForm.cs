@@ -31,6 +31,7 @@ namespace Cassiopeia.src.Forms
         Size margins;
         private AlbumData selectedAlbum = null;
         private bool filtered;
+        private bool selecting = false;
         public MainForm()
         {
             InitializeComponent();
@@ -97,6 +98,12 @@ namespace Cassiopeia.src.Forms
         private void LoadView()
         {
             Log.Instance.PrintMessage("Loading view" + ViewType, MessageType.Info);
+            if (filtered)
+            {
+                LoadFilteredView(Kernel.Collection.FilteredAlbums);
+                return;
+            }
+            vistaAlbumes.BeginUpdate();
             vistaAlbumes.Items.Clear();
             Stopwatch crono = Stopwatch.StartNew();
             switch (ViewType)
@@ -135,7 +142,7 @@ namespace Cassiopeia.src.Forms
                 default:
                     break;
             }
-
+            vistaAlbumes.EndUpdate();
             crono.Stop();
             Log.Instance.PrintMessage("Loaded", MessageType.Correct, crono, TimeType.Milliseconds);
         }
@@ -154,9 +161,11 @@ namespace Cassiopeia.src.Forms
             nuevoToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevaBD");
             toolStripButtonNewDatabase.ToolTipText = Kernel.LocalTexts.GetString("nuevaBD");
 
-            toolStripButtonSaveDatabase.ToolTipText = "Guardar";
+            toolStripButtonSaveDatabase.ToolTipText = Kernel.LocalTexts.GetString("save");
 
             abrirToolStripMenuItem.Text = Kernel.LocalTexts.GetString("abrir_registros");
+            toolStripButtonOpenDatabase.ToolTipText = abrirToolStripMenuItem.Text;
+
             salirToolStripMenuItem.Text = Kernel.LocalTexts.GetString("salir");
             vistaAlbumes.Columns[0].Text = Kernel.LocalTexts.GetString("artista");
             vistaAlbumes.Columns[1].Text = Kernel.LocalTexts.GetString("titulo");
@@ -164,7 +173,7 @@ namespace Cassiopeia.src.Forms
             vistaAlbumes.Columns[3].Text = Kernel.LocalTexts.GetString("duracion");
             vistaAlbumes.Columns[4].Text = Kernel.LocalTexts.GetString("genero");
             searchSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("buscar_Spotify");
-            guardarcomo.Text = Kernel.LocalTexts.GetString("guardar") + "...";
+            guardarcomo.Text = Kernel.LocalTexts.GetString("saveAs") + "...";
             seleccionToolStripMenuItem.Text = Kernel.LocalTexts.GetString("seleccion");
             adminMenu.Text = Kernel.LocalTexts.GetString("admin");
             generarAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("generar_azar");
@@ -189,6 +198,8 @@ namespace Cassiopeia.src.Forms
             
             filterToolStripMenuItem.Text = Kernel.LocalTexts.GetString("filter");
             toolStripButtonFilter.Text = filterToolStripMenuItem.Text;
+
+            toolStripTextBoxSearch.ToolTipText = Kernel.LocalTexts.GetString("write_filter");
             UpdateViewInfo();
         }
         private void UpdateViewInfo()
@@ -419,7 +430,7 @@ namespace Cassiopeia.src.Forms
         {
             //maybe implement rest of views.
             AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered);
-            EditAlbum editAlbumForm = new EditAlbum(ref a);
+            EditAlbum editAlbumForm = new EditAlbum(ref a, true);
             editAlbumForm.Show();
         }
         private void ShowSelectedAlbum()
@@ -530,21 +541,23 @@ namespace Cassiopeia.src.Forms
             stopwatch.Stop();
             Log.PrintMessage("", MessageType.Correct, stopwatch, TimeType.Milliseconds);
             List <AlbumData> list = query.ToList();
-            Kernel.Collection.FilteredAlbums = list;
-            //TEMP
-            vistaAlbumes.Items.Clear();
-            ListViewItem[] items = new ListViewItem[list.Count];
-            int i = 0;
-            foreach (AlbumData a in list)
+            LoadFilteredView(list);
+        }
+        public void ApplySearchFilter(Filter filter)
+        {
+            filtered = true;
+            IEnumerable<AlbumData> query = Kernel.Collection.Albums;
+            HashSet<AlbumData> filteredSong = new();
+            if (!string.IsNullOrEmpty(filter.ContainsSongTitle))
             {
-                String[] datos = a.ToStringArray();
-                items[i] = new ListViewItem(datos);
-                i++;
+                filteredSong = Utils.GetAlbumsWithSongTitle(filter.ContainsSongTitle);
             }
-            vistaAlbumes.Items.AddRange(items);
-            labelGeneralInfo.Text = "Num albums: " + list.Count + Environment.NewLine +
-            "Total duration: " + Kernel.Collection.GetTotalTime(list);
-            labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
+            query = from album in query where album.ID.ToLower().Contains(filter.Artist) || album.ID.ToLower().Contains(filter.Title) select album;
+
+            List<AlbumData> list = query.ToList();
+            list.AddRange(filteredSong);
+
+            LoadFilteredView(list);
         }
         public void ResetFilter()
         {
@@ -552,7 +565,25 @@ namespace Cassiopeia.src.Forms
             //Delete everything in the view and reload the database, it's quick
             LoadView();
         }
-
+        private void LoadFilteredView(List<AlbumData> albums)
+        {
+            Kernel.Collection.FilteredAlbums = albums;
+            vistaAlbumes.BeginUpdate();
+            vistaAlbumes.Items.Clear();
+            ListViewItem[] items = new ListViewItem[albums.Count];
+            int i = 0;
+            foreach (AlbumData a in albums)
+            {
+                String[] datos = a.ToStringArray();
+                items[i] = new ListViewItem(datos);
+                i++;
+            }
+            vistaAlbumes.Items.AddRange(items);
+            vistaAlbumes.EndUpdate();
+            labelGeneralInfo.Text = "Num albums: " + albums.Count + Environment.NewLine +
+            "Total duration: " + Kernel.Collection.GetTotalTime(albums);
+            labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
+        }
         #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -643,21 +674,12 @@ namespace Cassiopeia.src.Forms
             }
             if (e.Control && e.KeyCode == Keys.A)
             {
-                Log.Instance.PrintMessage("Begin selection", MessageType.Info);
-                Stopwatch crono = Stopwatch.StartNew();
-                vistaAlbumes.BeginUpdate();
+                selecting = true;
                 for (int i = 0; i < vistaAlbumes.Items.Count; i++)
                 {
                     vistaAlbumes.Items[i].Selected = true;
                 }
-                //foreach (ListViewItem item in vistaAlbumes.Items)
-                //{
-                    
-                //}
-                vistaAlbumes.EndUpdate();
-                //vistaAlbumes.Refresh();
-                crono.Stop();
-                Log.Instance.PrintMessage("Done", MessageType.Info, crono, TimeType.Milliseconds);
+                selecting = false;
             }
             if (e.KeyCode == Keys.F5)
             {
@@ -665,10 +687,12 @@ namespace Cassiopeia.src.Forms
             }
             if (e.KeyCode == Keys.Escape)
             {
-                foreach (ListViewItem item in vistaAlbumes.Items)
+                selecting = true;
+                for (int i = 0; i < vistaAlbumes.Items.Count; i++)
                 {
-                    item.Selected = false;
+                    vistaAlbumes.Items[i].Selected = false;
                 }
+                selecting = false;
             }
             if (e.KeyCode == Keys.Enter)
             {
@@ -689,33 +713,22 @@ namespace Cassiopeia.src.Forms
         {
             ManageSongIcons();
             selectedAlbum = null;
+            if (selecting)
+                return;
             if (!deleting)
             {
                 if (vistaAlbumes.SelectedItems.Count == 0)
                     UpdateSidebar(selectedAlbum);
-                //Refresh only if we have 1 selected item, else we refresh the sidebar many times with the same picture.
                 else if(vistaAlbumes.SelectedItems.Count == 1)
                 {
                     selectedAlbum = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered);
                     UpdateSidebar(selectedAlbum);
-                }    
-                //if (vistaAlbumes.SelectedIndices.Count >= 1)
-                //{
-                //    selectedAlbum = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0]);
-                //    if(vistaAlbumes.SelectedItems[0] is ListViewPhysicalAlbum)
-                //    {
-                //        ListViewPhysicalAlbum listViewPhysicalAlbum = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
-                //        UpdateSidebar(Kernel.Collection.GetCDById(listViewPhysicalAlbum.ID));
-                //    }
-                //    else
-                //        UpdateSidebar(selectedAlbum);
-                //}
-                //else
-                //    UpdateSidebar(selectedAlbum);
+                }
+                //PENDING FIX
                 TimeSpan seleccion = new TimeSpan();
-                foreach (ListViewItem album in vistaAlbumes.SelectedItems)
+                for (int i = 0; i < vistaAlbumes.SelectedItems.Count; i++)
                 {
-                    String a = album.SubItems[0].Text + "/**/" + album.SubItems[1].Text;
+                    String a = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
                     AlbumData ad = Kernel.Collection.GetAlbum(a);
                     seleccion += ad.Length;
                 }
@@ -1274,6 +1287,20 @@ namespace Cassiopeia.src.Forms
         {
             FilterForm filterForm = new();
             filterForm.Show();
+        }
+        private void toolStripTextBoxSearch_Click(object sender, EventArgs e)
+        {
+            toolStripTextBoxSearch.Text = String.Empty;
+            ResetFilter();
+        }
+
+        private void toolStripTextBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            Filter f = new();
+            f.Title = toolStripTextBoxSearch.Text;
+            f.Artist = toolStripTextBoxSearch.Text;
+            f.ContainsSongTitle = toolStripTextBoxSearch.Text;
+            ApplySearchFilter(f);
         }
         #endregion
     }

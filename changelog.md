@@ -1,5 +1,12 @@
 # Cassiopeia Changelog
 #### 2.0.233.0
+- Realtime filters
+- Ctrl+A and Esc (selecting albums) no longer blocks the program. [FIX]
+- However, if you click away, it hangs, need to check the event.
+- If you click "Edit album" from the toolbar, when you close, no longer shows the view album. [FIX]
+- why am i doing this on December 24th
+
+#### 2.0.233.0
 - Textbox in the toolbar
 
 #### 2.0.232.0

@@ -369,7 +369,7 @@
   <data name="GPlus" xml:space="preserve">
     <value>Πιο καλό (G+)</value>
   </data>
-  <data name="guardar" xml:space="preserve">
+  <data name="saveAs" xml:space="preserve">
     <value>Αποθήκευση ως</value>
   </data>
   <data name="Jewel" xml:space="preserve">

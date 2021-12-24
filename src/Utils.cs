@@ -289,7 +289,10 @@ namespace Cassiopeia
                 {
                     Song s = Kernel.Collection.Albums[i].Songs[j];
                     if (s.Title.Contains(song, StringComparison.OrdinalIgnoreCase))
+                    {
                         list.Add(s.AlbumFrom);
+                        break;
+                    }
                 }
             }
             return list;

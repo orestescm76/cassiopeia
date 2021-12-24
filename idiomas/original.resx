@@ -364,7 +364,7 @@
   <data name="GPlus" xml:space="preserve">
     <value>Bueno (G+)</value>
   </data>
-  <data name="guardar" xml:space="preserve">
+  <data name="saveAs" xml:space="preserve">
     <value>Guardar como</value>
   </data>
   <data name="guardarBD" xml:space="preserve">
@@ -741,6 +741,9 @@
     <value></value>
   </data>
   <data name="filter" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="save" xml:space="preserve">
     <value></value>
   </data>
 </root>

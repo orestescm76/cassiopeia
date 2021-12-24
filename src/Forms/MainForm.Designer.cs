@@ -656,7 +656,10 @@
             this.toolStripTextBoxSearch.Margin = new System.Windows.Forms.Padding(1, 0, 8, 0);
             this.toolStripTextBoxSearch.Name = "toolStripTextBoxSearch";
             this.toolStripTextBoxSearch.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStripTextBoxSearch.Size = new System.Drawing.Size(100, 25);
+            this.toolStripTextBoxSearch.Size = new System.Drawing.Size(150, 25);
+            this.toolStripTextBoxSearch.ToolTipText = "write";
+            this.toolStripTextBoxSearch.Click += new System.EventHandler(this.toolStripTextBoxSearch_Click);
+            this.toolStripTextBoxSearch.TextChanged += new System.EventHandler(this.toolStripTextBoxSearch_TextChanged);
             // 
             // MainForm
             // 

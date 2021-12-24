@@ -22,7 +22,7 @@ namespace Cassiopeia.src.Classes
 
         public List<Song> Songs { get; set; }
 
-        public String ID { get => Title+Artist; }
+        public String ID { get => Artist + " "+Title; }
         public String IdSpotify { get; set; }
 
         public String CoverPath { get; set; }
