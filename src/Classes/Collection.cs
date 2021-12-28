@@ -8,10 +8,12 @@ namespace Cassiopeia.src.Classes
         public List<AlbumData> Albums { get; private set; }
         public List<AlbumData> FilteredAlbums { get; set; }
         public List<CompactDisc> CDS { get; private set; }
+        public List<VinylAlbum> Vinyls { get; private set; }
         public Collection()
         {
             Albums = new List<AlbumData>();
             CDS = new List<CompactDisc>();
+            Vinyls = new();
         }
         public void AddAlbum(ref AlbumData album) { Albums.Add(album); }
         public void RemoveAlbum(ref AlbumData album) 
@@ -100,7 +102,7 @@ namespace Cassiopeia.src.Classes
                 if(item.Id == id)
                 {
                     CDS.Remove(item);
-                    ReleaseLock(item.Album);
+                    ReleaseLockCD(item.Album);
                     return;
                 }
             }
@@ -109,7 +111,7 @@ namespace Cassiopeia.src.Classes
         {
             CDS.Remove(cd);
         }
-        private void ReleaseLock(AlbumData a)
+        private void ReleaseLockCD(AlbumData a)
         {
             //First release the lock
             a.CanBeRemoved = true;
@@ -119,6 +121,19 @@ namespace Cassiopeia.src.Classes
                 if (cd.Album == a)
                     a.CanBeRemoved = false;
             }
+        }
+        public void AddVinyl(ref VinylAlbum v)
+        {
+            Vinyls.Add(v);
+        }
+        public VinylAlbum GetVinylByID(string id)
+        {
+            for (int i = 0; i < Vinyls.Count; i++)
+            {
+                if (Vinyls[i].Id == id)
+                    return Vinyls[i];
+            }
+            return null;
         }
         public TimeSpan GetTotalTime(List<AlbumData> albums)
         {

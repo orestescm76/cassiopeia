@@ -55,7 +55,7 @@ namespace Cassiopeia.src.Forms
                 this.edit = true;
                 comboBoxFormatoCD.SelectedItem = cdd.SleeveType;
                 comboBoxEstadoMedio.SelectedItem = cdd.Discos[numDisc-1].MediaCondition;
-                comboBoxEstadoExterior.SelectedItem = cdd.EstadoExterior;
+                comboBoxEstadoExterior.SelectedItem = cdd.SleeveCondition;
                 numericUpDownNumCanciones.Maximum = cdd.Discos[numDisc - 1].NumberOfSongs;
                 numericUpDownNumCanciones.Value = cdd.Discos[numDisc - 1].NumberOfSongs;
                 textBoxAño.Text = editingCD.Year.ToString();
@@ -153,7 +153,7 @@ namespace Cassiopeia.src.Forms
             {
                 editingCD.SleeveType = formato;
                 editingCD.Discos[numDisc - 1].MediaCondition = medio;
-                editingCD.EstadoExterior = exterior;
+                editingCD.SleeveCondition = exterior;
                 editingCD.Discos[numDisc - 1].NumberOfSongs=(short)numericUpDownNumCanciones.Value;
                 editingCD.Year = Convert.ToInt16(textBoxAño.Text);
                 editingCD.Country = textBoxPais.Text;

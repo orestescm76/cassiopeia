@@ -19,7 +19,7 @@ namespace Cassiopeia.src.Forms
     }
     public enum SaveType
     {
-        Digital, CD, Vinilo
+        Digital, CD, Vinyl, Cassette_Tape
     }
     public partial class MainForm : Form
     {
@@ -110,12 +110,10 @@ namespace Cassiopeia.src.Forms
             {
                 case ViewType.Digital:
                     ListViewItem[] items = new ListViewItem[Kernel.Collection.Albums.Count];
-                    int i = 0;
-                    foreach (AlbumData a in Kernel.Collection.Albums)
+                    for (int i = 0; i < Kernel.Collection.Albums.Count; i++)
                     {
-                        String[] datos = a.ToStringArray();
+                        String[] datos = Kernel.Collection.Albums[i].ToStringArray();
                         items[i] = new ListViewItem(datos);
-                        i++;
                     }
                     vistaAlbumes.Items.AddRange(items);
                     labelGeneralInfo.Text = "Num albums: " + Kernel.Collection.Albums.Count + Environment.NewLine +
@@ -138,6 +136,19 @@ namespace Cassiopeia.src.Forms
                     labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
                     break;
                 case ViewType.Vinyl:
+                    ListViewPhysicalAlbum[] vinyls = new ListViewPhysicalAlbum[Kernel.Collection.Vinyls.Count];
+                    int k = 0;
+                    foreach (VinylAlbum v in Kernel.Collection.Vinyls)
+                    {
+                        String[] datos = v.ToStringArray();
+                        vinyls[k] = new ListViewPhysicalAlbum(datos);
+                        vinyls[k].ID = v.Id;
+                        k++;
+                    }
+                    vistaAlbumes.Items.AddRange(vinyls);
+                    labelGeneralInfo.Text = "Num Vinyls: " + Kernel.Collection.Vinyls.Count + Environment.NewLine;// +
+                    //"Total duration: " + Kernel.Collection.GetTotalTime(Kernel.Collection.Vinyls);
+                    labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
                     break;
                 default:
                     break;
@@ -359,7 +370,7 @@ namespace Cassiopeia.src.Forms
                 labelInfoAlbum.Text = cd.Album.Artist + Environment.NewLine +
                                       cd.Album.Title + "(" + cd.Album.Year + ")" + Environment.NewLine +
                                        cd.Length + Environment.NewLine+
-                                       Kernel.LocalTexts.GetString("estado_exterior") + ": " + Kernel.LocalTexts.GetString(cd.EstadoExterior.ToString()) + Environment.NewLine+
+                                       Kernel.LocalTexts.GetString("estado_exterior") + ": " + Kernel.LocalTexts.GetString(cd.SleeveCondition.ToString()) + Environment.NewLine+
                                         "Number of discs: " + cd.Discos.Count;
             }
             else
@@ -453,6 +464,14 @@ namespace Cassiopeia.src.Forms
                         CompactDisc cd;
                         Kernel.Collection.GetAlbum(b, out cd);
                         AlbumViewer visCD = new AlbumViewer(ref cd);
+                        visCD.Show();
+                    }
+                    break;
+                case ViewType.Vinyl:
+                    foreach (ListViewPhysicalAlbum vinylListViewItem in vistaAlbumes.SelectedItems)
+                    {
+                        VinylAlbum v = Kernel.Collection.GetVinylByID(vinylListViewItem.ID);
+                        AlbumViewer visCD = new AlbumViewer(ref v);
                         visCD.Show();
                     }
                     break;
@@ -556,7 +575,8 @@ namespace Cassiopeia.src.Forms
 
             List<AlbumData> list = query.ToList();
             list.AddRange(filteredSong);
-
+            //filter duplicates
+            list = list.GroupBy(album => album.ID).Select(g => g.FirstOrDefault()).ToList();
             LoadFilteredView(list);
         }
         public void ResetFilter()
@@ -717,22 +737,25 @@ namespace Cassiopeia.src.Forms
                 return;
             if (!deleting)
             {
-                if (vistaAlbumes.SelectedItems.Count == 0)
-                    UpdateSidebar(selectedAlbum);
-                else if(vistaAlbumes.SelectedItems.Count == 1)
+                if(panelSidebar.Visible)
                 {
-                    selectedAlbum = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered);
-                    UpdateSidebar(selectedAlbum);
+                    if (vistaAlbumes.SelectedItems.Count == 0)
+                        UpdateSidebar(selectedAlbum);
+                    else if (vistaAlbumes.SelectedItems.Count == 1)
+                    {
+                        selectedAlbum = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered);
+                        UpdateSidebar(selectedAlbum);
+                    }
                 }
                 //PENDING FIX
-                TimeSpan seleccion = new TimeSpan();
-                for (int i = 0; i < vistaAlbumes.SelectedItems.Count; i++)
-                {
-                    String a = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
-                    AlbumData ad = Kernel.Collection.GetAlbum(a);
-                    seleccion += ad.Length;
-                }
-                duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
+                //TimeSpan seleccion = new TimeSpan();
+                //for (int i = 0; i < vistaAlbumes.SelectedItems.Count; i++)
+                //{
+                //    String a = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
+                //    AlbumData ad = Kernel.Collection.GetAlbum(a);
+                //    seleccion += ad.Length;
+                //}
+                //duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
             }
         }
         private void borrarseleccionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1303,5 +1326,21 @@ namespace Cassiopeia.src.Forms
             ApplySearchFilter(f);
         }
         #endregion
+
+        private void vinylToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            AlbumData a = Kernel.Collection.GetAlbum(seleccion);
+            CreateVinylCassette formV = new(ref a);
+            formV.Show();
+        }
+
+        private void vinylToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewType = ViewType.Vinyl;
+            LoadView();
+            digitalToolStripMenuItem.Checked = false;
+            UpdateViewInfo();
+        }
     }
 }

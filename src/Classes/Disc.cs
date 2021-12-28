@@ -29,12 +29,14 @@
             NumSongsFront = 0;
             NumSongsBack = 0;
             FrontSide = 'A';
+            MediaCondition = MediaCondition.M;
         }
         public VinylDisc(int numSongsFront, int numSongsBack, char frontSide, MediaCondition mediaCondition)
         {
             NumSongsFront = numSongsFront;
             NumSongsBack = numSongsBack;
             FrontSide = frontSide;
+            MediaCondition = mediaCondition;
         }
     } 
 }

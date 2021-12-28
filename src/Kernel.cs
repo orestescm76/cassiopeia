@@ -367,6 +367,7 @@ namespace Cassiopeia
                 {
                     LoadCSVAlbums("discos.csv");
                     LoadCD();
+                    LoadVinyl();
                 }
                 else
                 {
@@ -416,6 +417,7 @@ namespace Cassiopeia
             {
                 SaveAlbums("discos.csv", SaveType.Digital);
                 SaveAlbums("cd.json", SaveType.CD, true);
+                SaveAlbums("vinyl.json", SaveType.Vinyl, true);
                 SavePATHS();
                 SaveLyrics();
 
@@ -601,6 +603,25 @@ namespace Cassiopeia
                 }
             }
         }
+        public static void LoadVinyl(string fichero = "vinyl.json")
+        {
+            if (!File.Exists(fichero))
+                return;
+            Log.Instance.PrintMessage("Loading vinyls...", MessageType.Info);
+            using (StreamReader lector = new StreamReader(fichero))
+            {
+                string linea;
+                while (!lector.EndOfStream)
+                {
+                    linea = lector.ReadLine();
+                    VinylAlbum vinyl = JsonConvert.DeserializeObject<VinylAlbum>(linea);
+
+                    vinyl.InstallAlbum();
+                    Collection.AddVinyl(ref vinyl);
+                    vinyl.Album.CanBeRemoved = false;
+                }
+            }
+        }
         public static void LoadPATHS()
         {
             Log.Instance.PrintMessage("Loading PATHS", MessageType.Info);
@@ -687,6 +708,14 @@ namespace Cassiopeia
                                 salida.WriteLine(JsonConvert.SerializeObject(compacto));
                             }
                             break;
+                        case SaveType.Vinyl:
+                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the Vinyl data... (" + Collection.Vinyls.Count + " vinyls)", MessageType.Info);
+                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                            foreach (VinylAlbum vinyl in Collection.Vinyls)
+                            {
+                                salida.WriteLine(JsonConvert.SerializeObject(vinyl));
+                            }
+                            break;
                         default:
                             break;
                     }
@@ -727,7 +756,7 @@ namespace Cassiopeia
                             break;
                         case SaveType.CD:
                             break;
-                        case SaveType.Vinilo:
+                        case SaveType.Vinyl:
                             break;
                         default:
                             break;

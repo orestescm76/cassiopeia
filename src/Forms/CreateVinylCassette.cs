@@ -1,38 +1,32 @@
 ﻿using System;
 using System.Windows.Forms;
 using Cassiopeia.src.Classes;
-/*
+
 namespace Cassiopeia.src.Forms
 {
-    public partial class CreateVinyl : Form
+    public partial class CreateVinylCassette : Form
     {
         private AlbumData album;
         private VinylAlbum creatingVinyl = null;
         private VinylAlbum editingVinyl;
         private int numDisc;
-        private int NC;
+        private int NCA, NCB;
         private bool edit = false;
-        TimeSpan maxLength;
-        public CreateVinyl(ref AlbumData a)
+        public CreateVinylCassette(ref AlbumData a, bool vinyl = true)
         {
             InitializeComponent();
             album = a;
-            Log.Instance.PrintMessage("Creating a CD. Album length: "+a.Length, MessageType.Info);
+            Log.Instance.PrintMessage("Creating a Vinyl. Album length: "+a.Length, MessageType.Info);
             numDisc = 1;
-            NC = a.NumberOfSongs;
-            if (a.Length.TotalMinutes >= 60)
-                labelFrontLength.Text = a.Length.ToString(@"h\:mm\:ss");
-            else
-                labelFrontLength.Text = a.Length.ToString(@"mm\:ss");
-            //Now we need to check if the album needs one or more CDS.
-            //SetMaxLength();
-            //PutTexts();
+            //Now we need to check if the album needs one or more Vinyl.
+            SetMaxLength();
+            PutTexts();
         }
-        public CreateVinyl(ref VinylAlbum vinyl, int numDisc, bool edit = false)
+        public CreateVinylCassette(ref VinylAlbum vinyl, int numDisc, bool edit = false)
         {
             InitializeComponent();
             this.numDisc = numDisc;
-            album = vinyl.AlbumData;
+            album = vinyl.Album;
             editingVinyl = vinyl;
             creatingVinyl = vinyl;
             //If we're NOT editing
@@ -51,9 +45,9 @@ namespace Cassiopeia.src.Forms
                 Log.Instance.PrintMessage("Editando CD", MessageType.Info);
                 creatingVinyl = null;
                 this.edit = true;
-                comboBoxEstadoMedio.SelectedItem = vinyl.discList[numDisc-1].MediaCondition;
-                comboBoxEstadoExterior.SelectedItem = vinyl.EstadoExterior;
-                numericUpDownNumSongsFront.Value = vinyl.discList[numDisc-1].NumberOfSongs;
+                comboBoxEstadoMedio.SelectedItem = vinyl.DiscList[numDisc-1].MediaCondition;
+                comboBoxEstadoExterior.SelectedItem = vinyl.SleeveCondition;
+                numericUpDownNumSongsFront.Value = vinyl.DiscList[numDisc-1].NumberOfSongs;
                 textBoxAño.Text = editingVinyl.Year.ToString();
                 textBoxPais.Text = editingVinyl.Country;
             }
@@ -85,43 +79,61 @@ namespace Cassiopeia.src.Forms
         }
         private void SetMaxLength()
         {
-            //Get max number of songs for first CD.
-            int numSongs = 0;
+            //Get max number of songs for first vinyl.
+            int numSongsA = 0, numSongsB = 0, numSongs = 0;
             if (creatingVinyl is not null)
                 numSongs = editingVinyl.TotalSongs;
-            for (int i = numSongs; i < album.Songs.Count; i++)
-            {
-                maxLength += album.Songs[i].Length;
-                if (maxLength.TotalMinutes > 79.5)
-                {
-                    maxLength -= album.Songs[i].Length;
-                    break;
-                }
-                numSongs++;
-            }
-            if(creatingVinyl is not null)
-            {
-                numericUpDownNumSongsFront.Maximum = numSongs-editingVinyl.TotalSongs;
-                numericUpDownNumSongsFront.Value = numSongs- editingVinyl.TotalSongs;
-            }
-            else
-            {
-                numericUpDownNumSongsFront.Maximum = numSongs;
-                numericUpDownNumSongsFront.Value = numSongs;
-            }
+            //Calc numsongs for both sides.
+            //Side A
+            //TimeSpan a = TimeSpan.Zero;
+            //for (int i = 0; i < album.Songs.Count; i++)
+            //{
+            //    a += album.Songs[i].Length;
+            //    if(a.TotalMinutes > 35)
+            //    {
+            //        a -= album.Songs[i].Length;
+            //        break;
+            //    }
+            //    numSongsA++;
+            //}
+            //TimeSpan b = TimeSpan.Zero;
+            //for (int i = numSongsA; i < album.Songs.Count; i++)
+            //{
+            //    b += album.Songs[i].Length;
+            //    if (b.TotalMinutes > 35)
+            //    {
+            //        b -= album.Songs[i].Length;
+            //        break;
+            //    }
+            //    numSongsB++;
+            //}
+            numericUpDownNumSongsFront.Maximum = album.Songs.Count;
+            numericUpDownNumSongsBack.Maximum = album.Songs.Count;
+            
+            //if (creatingVinyl is not null)
+            //{
+            //    numericUpDownNumSongsFront.Maximum = numSongs-editingVinyl.TotalSongs;
+            //    numericUpDownNumSongsFront.Value = numSongsA;
+            //    numericUpDownNumSongsBack.Value = numSongsB;
+            //}
+            //else
+            //{
+
+            //    //numericUpDownNumSongsFront.Maximum = numSongs;
+            //    //numericUpDownNumSongsFront.Value = numSongs;
+            //}
 
         }
-        private void CreateNewCD(int nsFront, int nsBack)
+        private void CreateNewVinyl(int nsFront, int nsBack)
         {
             MediaCondition exterior = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoExterior.SelectedIndex.ToString());
             MediaCondition medio = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoMedio.SelectedIndex.ToString());
             string s = album.Artist + "_" + album.Title;
 
-            //Creating CD
+            //Creating Vinyl
             try
             {
-                //creatingVinyl = new VinylDisc(s, numberSongs, medio, exterior, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
-                //creatingVinyl = new VinylAlbum(s, nsFront, nsBack, exterior, medio, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
+                creatingVinyl = new VinylAlbum(album, nsFront, nsBack, exterior, medio, Convert.ToInt16(textBoxAño.Text), textBoxPais.Text);
             }
             catch (Exception)
             {
@@ -129,22 +141,23 @@ namespace Cassiopeia.src.Forms
                 MessageBox.Show("enter a good year ffs");
                 throw;
             }
-            //Kernel.Collection.AddCD(ref creatingVinyl);
-
+            Kernel.Collection.AddVinyl(ref creatingVinyl);
+            Log.Instance.PrintMessage("Vinyl added OK", MessageType.Correct);
+            Kernel.SetSaveMark();
         }
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            NC = (int)this.numericUpDownNumSongsFront.Value;
+            NCA = (int)this.numericUpDownNumSongsFront.Value;
+            NCB = (int)this.numericUpDownNumSongsBack.Value;
             album.CanBeRemoved = false;
 
             MediaCondition exterior = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoExterior.SelectedIndex.ToString());
             MediaCondition medio = (MediaCondition)Enum.Parse(typeof(MediaCondition), comboBoxEstadoMedio.SelectedIndex.ToString());
-            string s = album.Artist + "_" + album.Title;
 
-            if (edit) //Editing an existing CD
+            if (edit) //Editing an existing Vinyl
             {
-                editingVinyl.discList[numDisc - 1].MediaCondition = medio;
-                editingVinyl.EstadoExterior = exterior;
+                editingVinyl.DiscList[numDisc - 1].MediaCondition = medio;
+                editingVinyl.SleeveCondition = exterior;
                 //editingVinyl.discList[numDisc - 1].NumberOfSongs=(int)this.numericUpDownNumSongsFront.Value;
                 editingVinyl.Year = Convert.ToInt16(textBoxAño.Text);
                 editingVinyl.Country = textBoxPais.Text;
@@ -161,29 +174,30 @@ namespace Cassiopeia.src.Forms
                 Disc disc = new Disc(Convert.ToInt16(this.numericUpDownNumSongsFront.Value), medio);
                 //editingVinyl.Discos.Add(disc);
                 if (editingVinyl.TotalSongs != album.NumberOfSongs)
-                    AnotherCD();
+                    AnotherDisc();
                 else
                     Dispose();
             }
             else
             {
-                //We create the CD
+                //We create the Vinyl
                 try
                 {
-                    //CreateNewCD(NC);
+                    CreateNewVinyl(NCA, NCB);
                 }
                 catch (Exception)
                 {
                     return;
                 }
                 //The user might want a smaller CD, excluding the bonus songs. Or we need another disc 
-                if (NC != album.NumberOfSongs)
+                if (NCA + NCB != album.NumberOfSongs)
                 {
-                    AnotherCD();
+                    AnotherDisc();
                 }
-            }          
+            }
+            Close();
         }
-        private void AnotherCD()
+        private void AnotherDisc()
         {
             //Another CD?
             DialogResult res = MessageBox.Show("Another CD" + Environment.NewLine + "Quedan " + (album.Songs.Count - creatingVinyl.TotalSongs) + " canciones", "", MessageBoxButtons.YesNo);
@@ -197,7 +211,7 @@ namespace Cassiopeia.src.Forms
 
             else
             {
-                CreateVinyl newCD = new CreateVinyl(ref creatingVinyl, numDisc + 1);
+                CreateVinylCassette newCD = new CreateVinylCassette(ref creatingVinyl, numDisc + 1);
                 //We're done here
                 newCD.ShowDialog();
                 Dispose();
@@ -215,15 +229,35 @@ namespace Cassiopeia.src.Forms
                 len += album.Songs[i].Length;
             }
             if (len.TotalMinutes >= 60)
-                labelFrontLength.Text = len.ToString(@"h\:mm\:ss");
+                labelFrontLength.Text = "A: "+ len.ToString(@"h\:mm\:ss");
             else
-                labelFrontLength.Text = len.ToString(@"mm\:ss");
+                labelFrontLength.Text = "A: " + len.ToString(@"mm\:ss");
+            numericUpDownNumSongsFront.Maximum = album.Songs.Count - numericUpDownNumSongsBack.Value;
+            numericUpDownNumSongsBack.Maximum = album.Songs.Count - numericUpDownNumSongsFront.Value;
         }
 
         private void CreateVinyl_Load(object sender, EventArgs e)
         {
 
         }
+
+        private void numericUpDownNumSongsBack_ValueChanged(object sender, EventArgs e)
+        {
+            TimeSpan len = TimeSpan.Zero;
+            int numSongs = 0;
+            if (creatingVinyl is not null)
+                numSongs = creatingVinyl.TotalSongs;
+            numSongs += (int)numericUpDownNumSongsFront.Value;
+            for (int i = numSongs; i < numericUpDownNumSongsBack.Value + numSongs; i++)
+            {
+                len += album.Songs[i].Length;
+            }
+            if (len.TotalMinutes >= 60)
+                labelBackLength.Text = "B: " + len.ToString(@"h\:mm\:ss");
+            else
+                labelBackLength.Text = "B: " + len.ToString(@"mm\:ss");
+            numericUpDownNumSongsFront.Maximum = album.Songs.Count - numericUpDownNumSongsBack.Value;
+            numericUpDownNumSongsBack.Maximum = album.Songs.Count - numericUpDownNumSongsFront.Value;
+        }
     }
 }
-*/

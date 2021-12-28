@@ -16,7 +16,7 @@ namespace Cassiopeia.src.Classes
         public SleeveType SleeveType { get; set; }
         public int TotalSongs => getNumSongs();
 
-        public MediaCondition EstadoExterior { get; set; }
+        public MediaCondition SleeveCondition { get; set; }
         public short Year { get; set; }
         public string Country { get; set; }
         public string Artist { get; set; }
@@ -46,7 +46,9 @@ namespace Cassiopeia.src.Classes
         public CompactDisc(AlbumData album, int nc, MediaCondition e, MediaCondition ee, SleeveType f, short y, string p)
         {
             Album = album;
-            EstadoExterior = ee;
+            Artist = album.Artist;
+            Title = album.Title;
+            SleeveCondition = ee;
             Year = y;
             Country = p;
             SleeveType = f;

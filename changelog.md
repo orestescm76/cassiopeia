@@ -1,4 +1,9 @@
 # Cassiopeia Changelog
+#### 2.0.236.0
+- Added support for Vinyl albums
+- Fixed duplicated results in the real time filters.
+- Deleting doesn't refresh when list is filtered [ISSUE]
+
 #### 2.0.234.0
 - Realtime filters
 - Ctrl+A and Esc (selecting albums) no longer blocks the program. [FIX]

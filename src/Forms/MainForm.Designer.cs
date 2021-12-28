@@ -54,6 +54,7 @@
             this.viewModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.digitalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vierCDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vinylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showSidebarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.spotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchSpotifyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +81,7 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playSpotifyAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vinylToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSidebar = new System.Windows.Forms.Panel();
             this.labelGeneralInfo = new System.Windows.Forms.Label();
             this.labelInfoAlbum = new System.Windows.Forms.Label();
@@ -285,9 +287,10 @@
             // 
             this.viewModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.digitalToolStripMenuItem,
-            this.vierCDToolStripMenuItem});
+            this.vierCDToolStripMenuItem,
+            this.vinylToolStripMenuItem});
             this.viewModeToolStripMenuItem.Name = "viewModeToolStripMenuItem";
-            this.viewModeToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.viewModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.viewModeToolStripMenuItem.Text = "ViewMode";
             // 
             // digitalToolStripMenuItem
@@ -297,7 +300,7 @@
             this.digitalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.digitalToolStripMenuItem.Name = "digitalToolStripMenuItem";
             this.digitalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.digitalToolStripMenuItem.Tag = "digital";
             this.digitalToolStripMenuItem.Text = "digital";
             this.digitalToolStripMenuItem.Click += new System.EventHandler(this.digitalToolStripMenuItem_Click);
@@ -307,10 +310,18 @@
             this.vierCDToolStripMenuItem.CheckOnClick = true;
             this.vierCDToolStripMenuItem.Name = "vierCDToolStripMenuItem";
             this.vierCDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.vierCDToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.vierCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.vierCDToolStripMenuItem.Tag = "cd";
             this.vierCDToolStripMenuItem.Text = "CD";
             this.vierCDToolStripMenuItem.Click += new System.EventHandler(this.viewCDToolStripMenuItem_Click);
+            // 
+            // vinylToolStripMenuItem
+            // 
+            this.vinylToolStripMenuItem.Name = "vinylToolStripMenuItem";
+            this.vinylToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+            this.vinylToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vinylToolStripMenuItem.Text = "vinyl";
+            this.vinylToolStripMenuItem.Click += new System.EventHandler(this.vinylToolStripMenuItem_Click);
             // 
             // showSidebarToolStripMenuItem
             // 
@@ -318,7 +329,7 @@
             this.showSidebarToolStripMenuItem.CheckOnClick = true;
             this.showSidebarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showSidebarToolStripMenuItem.Name = "showSidebarToolStripMenuItem";
-            this.showSidebarToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
+            this.showSidebarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.showSidebarToolStripMenuItem.Text = "showPanel";
             this.showSidebarToolStripMenuItem.Click += new System.EventHandler(this.panelToolStripMenuItem_Click);
             // 
@@ -485,9 +496,10 @@
             this.crearCDToolStripMenuItem,
             this.copiarToolStripMenuItem,
             this.playSpotifyAlbumToolStripMenuItem,
-            this.verLyricsToolStripMenuItem});
+            this.verLyricsToolStripMenuItem,
+            this.vinylToolStripMenuItem1});
             this.clickDerechoMenuContexto.Name = "contextMenuStrip1";
-            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(120, 92);
+            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(120, 114);
             this.clickDerechoMenuContexto.Opening += new System.ComponentModel.CancelEventHandler(this.clickDerechoMenuContexto_Opening);
             // 
             // crearCDToolStripMenuItem
@@ -518,6 +530,13 @@
             this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
+            // 
+            // vinylToolStripMenuItem1
+            // 
+            this.vinylToolStripMenuItem1.Name = "vinylToolStripMenuItem1";
+            this.vinylToolStripMenuItem1.Size = new System.Drawing.Size(119, 22);
+            this.vinylToolStripMenuItem1.Text = "vinyl";
+            this.vinylToolStripMenuItem1.Click += new System.EventHandler(this.vinylToolStripMenuItem1_Click);
             // 
             // panelSidebar
             // 
@@ -762,5 +781,7 @@
         private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButtonFilter;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSearch;
+        private System.Windows.Forms.ToolStripMenuItem vinylToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem vinylToolStripMenuItem1;
     }
 }

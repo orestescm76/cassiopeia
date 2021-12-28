@@ -1,7 +1,6 @@
-﻿/*
-namespace Cassiopeia.src.Forms
+﻿namespace Cassiopeia.src.Forms
 {
-    partial class CreateVinyl
+    partial class CreateVinylCassette
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +28,7 @@ namespace Cassiopeia.src.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateVinyl));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateVinylCassette));
             this.comboBoxEstadoExterior = new System.Windows.Forms.ComboBox();
             this.comboBoxEstadoMedio = new System.Windows.Forms.ComboBox();
             this.buttonOK = new System.Windows.Forms.Button();
@@ -188,6 +187,7 @@ namespace Cassiopeia.src.Forms
             this.numericUpDownNumSongsBack.Name = "numericUpDownNumSongsBack";
             this.numericUpDownNumSongsBack.Size = new System.Drawing.Size(140, 23);
             this.numericUpDownNumSongsBack.TabIndex = 16;
+            this.numericUpDownNumSongsBack.ValueChanged += new System.EventHandler(this.numericUpDownNumSongsBack_ValueChanged);
             // 
             // label1
             // 
@@ -199,7 +199,7 @@ namespace Cassiopeia.src.Forms
             this.label1.TabIndex = 15;
             this.label1.Text = "numCancionesDisco";
             // 
-            // CreateVinyl
+            // CreateVinylCassette
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -223,9 +223,9 @@ namespace Cassiopeia.src.Forms
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
-            this.Name = "CreateVinyl";
+            this.Name = "CreateVinylCassette";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "CrearCD";
+            this.Text = "CreateVinyl";
             this.Load += new System.EventHandler(this.CreateVinyl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumSongsFront)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumSongsBack)).EndInit();
@@ -253,4 +253,3 @@ namespace Cassiopeia.src.Forms
         private System.Windows.Forms.Label label1;
     }
 }
-*/

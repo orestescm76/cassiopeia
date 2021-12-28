@@ -19,7 +19,7 @@ namespace Cassiopeia.src.Classes
         //no quiero guardarlo 2 veces, ni cargarlo 
         [Newtonsoft.Json.JsonIgnore]
         AlbumData Album { get; }
-        MediaCondition EstadoExterior { get; set; }
+        MediaCondition SleeveCondition { get; set; }
         short Year {get;set;}
         string Country { get; set; }
         string Artist { get; set; }
