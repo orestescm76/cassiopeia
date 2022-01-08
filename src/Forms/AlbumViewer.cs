@@ -131,7 +131,6 @@ namespace Cassiopeia.src.Forms
 
         private void CreateSongView()
         {
-            
             Song c;
             ListViewItem[] items;
             if (CDaVisualizar is null && ViewVinyl is null)
@@ -203,10 +202,7 @@ namespace Cassiopeia.src.Forms
                         }
                     }
                 }
-                vistaCanciones.Items.AddRange(items);
             }
-
-        
             else
             {
                 vistaCanciones.ShowGroups = true;
@@ -234,9 +230,9 @@ namespace Cassiopeia.src.Forms
                         songNum++;
                     }
                 }
-                vistaCanciones.Items.AddRange(items);
+                
             }
-
+            vistaCanciones.Items.AddRange(items);
         }
         private void SetTexts()
         {

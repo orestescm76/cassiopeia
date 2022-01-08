@@ -211,20 +211,18 @@ namespace Cassiopeia
         {
             String[] parseFecha = album.ReleaseDate.Split('-');
             string cover = album.Name + "_" + album.Artists[0].Name + ".jpg";
-
-            AlbumData a = new AlbumData(album.Name.Replace(";",""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + cover); //creamos A
-            if (Kernel.Collection.IsInCollection(a))
-            {
-                Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
-                Log.Instance.PrintMessage(a.ToString(), MessageType.Info);
-                return false;
-            }
-
             //Remove Windows forbidden characters so we can save the album cover.
             foreach (char ch in ForbiddenChars)
             {
                 if (cover.Contains(ch.ToString()))
                     cover = cover.Replace(ch.ToString(), string.Empty);
+            }
+            AlbumData a = new AlbumData(album.Name.Replace(";", ""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + cover); //creamos A
+            if (Kernel.Collection.IsInCollection(a))
+            {
+                Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
+                Log.Instance.PrintMessage(a.ToString(), MessageType.Info);
+                return false;
             }
             if (downloadCover)
             {

@@ -1,5 +1,5 @@
 ﻿/*
- * CASSIOPEIA 2.0.231.10
+ * CASSIOPEIA 2.0.236.10
  * PROGRAM KERNEL. CORE FUNCTIONS, LOAD, SAVE, QUIT. METADATA STREAM
  * CODENAME STORM
  * MADE BY ORESTESCM76
@@ -94,6 +94,8 @@ namespace Cassiopeia
 
         public async static void MetadataStreamTask()
         {
+            DateTime now = DateTime.Now;
+            HistorialFileInfo = new FileInfo("Musical log " + now.Day + "-" + now.Month + "-" + now.Year + ".txt");
             while (true)
             {
                 //Get context
@@ -114,6 +116,7 @@ namespace Cassiopeia
                             TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
                             salida.WriteLine(Utils.GetStreamString(track, SongCount, pos));
                         }
+                        /*
                         if (Config.HistoryEnabled)
                         {
                             using (StreamWriter streamWriter = new StreamWriter(HistorialFileInfo.FullName))
@@ -121,7 +124,7 @@ namespace Cassiopeia
                                 streamWriter.WriteLine(Utils.GetHistoryString(track, SongCount));
                                 SongCount++;
                             }
-                        }
+                        }*/
                     }
                     catch (Exception ex)
                     {
@@ -187,13 +190,21 @@ namespace Cassiopeia
         public static void LoadConfig()
         {
             Config.CargarConfiguracion();
-            LocalTexts = new ResXResourceSet(@"./idiomas/" + "original." + Config.Language + ".resx");
-        }
-        public static void ParseArgs(String[] args)
-        {
-            foreach (string Arg in args)
+            try
             {
-                switch (Arg)
+                LocalTexts = new ResXResourceSet(@"./idiomas/" + "original." + Config.Language + ".resx");
+            }
+            catch (Exception)
+            {
+                Log.Instance.PrintMessage("Unable to find languages folder, quitting...", MessageType.Error);
+                Environment.Exit(-1);
+            }
+        }
+        public static void ParseArgs(string[] args)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                switch (args[i])
                 {
                     case "-consola":
                     case "-console":
@@ -222,7 +233,6 @@ namespace Cassiopeia
                 }
             }
         }
-
 
         public static void LoadLanguages()
         {
@@ -502,7 +512,10 @@ namespace Cassiopeia
                     try
                     {
                         nC = Convert.ToInt16(datos[(int)CSV_Albums.NumSongs]);
-                        a = new AlbumData(g, datos[(int)CSV_Albums.Title], datos[(int)CSV_Albums.Artist], Convert.ToInt16(datos[(int)CSV_Albums.Year]), datos[(int)CSV_Albums.Cover_PATH]);
+                        string CoverPath = String.Empty;
+                        if (!string.IsNullOrEmpty(datos[(int)CSV_Albums.Cover_PATH]))
+                            CoverPath = Environment.CurrentDirectory + "\\" + datos[(int)CSV_Albums.Cover_PATH];
+                        a = new AlbumData(g, datos[(int)CSV_Albums.Title], datos[(int)CSV_Albums.Artist], Convert.ToInt16(datos[(int)CSV_Albums.Year]), CoverPath);
                         a.Type = (AlbumType)Convert.ToInt32(datos[(int)CSV_Albums.Type]);
                     }
                     catch (FormatException)
@@ -574,7 +587,8 @@ namespace Cassiopeia
 
                     if (exito)
                         Collection.AddAlbum(ref a);
-
+                    else
+                        Log.Instance.PrintMessage("Couldn't add the album", MessageType.Error);
 
                     a.CanBeRemoved = true;
                     lineaC++;
@@ -728,6 +742,7 @@ namespace Cassiopeia
                 {
                     switch (tipoGuardado)
                     {
+                        
                         case SaveType.Digital:
                             Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
                             Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
@@ -735,7 +750,8 @@ namespace Cassiopeia
                             {
                                 if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
                                 {
-                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + a.CoverPath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
+                                    string CoverRelativePath = Path.GetRelativePath(Environment.CurrentDirectory, a.CoverPath);
+                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + CoverRelativePath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
                                     for (int i = 0; i < a.NumberOfSongs; i++)
                                     {
                                         if (a.Songs[i] is LongSong longSong)

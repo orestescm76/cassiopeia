@@ -82,7 +82,7 @@ namespace Cassiopeia.src.Forms
                     {
                         ProcessURI(textBoxURISpotify.Text);
                     }
-                    catch (ArgumentException)
+                    catch (Exception)
                     {
                         MessageBox.Show(Kernel.LocalTexts.GetString("error_uri") + " (spotify:album:2dpdDyEGEsdnOUUePgkT6E)");
                     }

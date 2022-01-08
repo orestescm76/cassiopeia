@@ -751,7 +751,8 @@ namespace Cassiopeia.src.Forms
                 //TimeSpan seleccion = new TimeSpan();
                 //for (int i = 0; i < vistaAlbumes.SelectedItems.Count; i++)
                 //{
-                //    String a = vistaAlbumes.SelectedItems[i].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[i].SubItems[1].Text;
+                //    var selItem = vistaAlbumes.SelectedItems[i];
+                //    string a = selItem.SubItems[0].Text + "/**/" + selItem.SubItems[1].Text;
                 //    AlbumData ad = Kernel.Collection.GetAlbum(a);
                 //    seleccion += ad.Length;
                 //}
