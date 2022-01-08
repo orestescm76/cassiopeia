@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Cassiopeia.src.Classes;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Collections.Generic;
 using System.Linq;
-using Cassiopeia.src.Classes;
+using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
 {
@@ -206,7 +206,7 @@ namespace Cassiopeia.src.Forms
             importSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("importSpotify");
             sidebarCopyImageToolStripMenuItem.Text = Kernel.LocalTexts.GetString("copiarImagen");
             showSidebarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("showPanel");
-            
+
             filterToolStripMenuItem.Text = Kernel.LocalTexts.GetString("filter");
             toolStripButtonFilter.Text = filterToolStripMenuItem.Text;
 
@@ -241,7 +241,7 @@ namespace Cassiopeia.src.Forms
                     Console.WriteLine("Deleting " + vistaAlbumes.SelectedItems.Count + " albums");
                     try
                     {
-                        
+
                         while (vistaAlbumes.SelectedIndices.Count != 0)
                         {
                             int i = vistaAlbumes.SelectedIndices[0];
@@ -317,8 +317,8 @@ namespace Cassiopeia.src.Forms
         }
         private void UpdateSidebar(AlbumData a)
         {
-            int width = panelSidebar.Width-20;
-            if(a is not null)
+            int width = panelSidebar.Width - 20;
+            if (a is not null)
             {
                 if (pictureBoxSidebarCover.Image != Properties.Resources.albumdesconocido)
                     pictureBoxSidebarCover.Image = null;
@@ -357,7 +357,7 @@ namespace Cassiopeia.src.Forms
             {
                 if (pictureBoxSidebarCover.Image != Properties.Resources.albumdesconocido)
                     pictureBoxSidebarCover.Image = null;
-                if(!string.IsNullOrEmpty(cd.Album.CoverPath))
+                if (!string.IsNullOrEmpty(cd.Album.CoverPath))
                     pictureBoxSidebarCover.Image = Image.FromFile(cd.Album.CoverPath);
                 else
                     pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
@@ -369,8 +369,8 @@ namespace Cassiopeia.src.Forms
                 labelInfoAlbum.Location = new Point(0, labelInfoAlbum.Location.Y);
                 labelInfoAlbum.Text = cd.Album.Artist + Environment.NewLine +
                                       cd.Album.Title + "(" + cd.Album.Year + ")" + Environment.NewLine +
-                                       cd.Length + Environment.NewLine+
-                                       Kernel.LocalTexts.GetString("estado_exterior") + ": " + Kernel.LocalTexts.GetString(cd.SleeveCondition.ToString()) + Environment.NewLine+
+                                       cd.Length + Environment.NewLine +
+                                       Kernel.LocalTexts.GetString("estado_exterior") + ": " + Kernel.LocalTexts.GetString(cd.SleeveCondition.ToString()) + Environment.NewLine +
                                         "Number of discs: " + cd.Discos.Count;
             }
             else
@@ -390,7 +390,7 @@ namespace Cassiopeia.src.Forms
         private void HideSidebar()
         {
             panelSidebar.Visible = false;
-            Width -= panelSidebar.Width-20;
+            Width -= panelSidebar.Width - 20;
             Config.MainFormViewSidebar = false;
         }
         public void SetSaveMark()
@@ -511,7 +511,7 @@ namespace Cassiopeia.src.Forms
                     toolStripMain.Items.Add(view);
                 if (!toolStripMain.Items.ContainsKey("edit"))
                     toolStripMain.Items.Add(edit);
-                if(!toolStripMain.Items.ContainsKey("delete"))
+                if (!toolStripMain.Items.ContainsKey("delete"))
                     toolStripMain.Items.Add(delete);
                 if (!toolStripMain.Items.ContainsKey("lyrics"))
                     toolStripMain.Items.Add(lyrics);
@@ -542,7 +542,7 @@ namespace Cassiopeia.src.Forms
             {
                 filteredSong = Utils.GetAlbumsWithSongTitle(filter.ContainsSongTitle);
             }
-            if(filteredSong.Count == 0)
+            if (filteredSong.Count == 0)
             {
                 if (!string.IsNullOrEmpty(filter.Artist))
                     query = from album in query where album.Artist.ToLower().Contains(filter.Artist) select album;
@@ -559,7 +559,7 @@ namespace Cassiopeia.src.Forms
             }
             stopwatch.Stop();
             Log.PrintMessage("", MessageType.Correct, stopwatch, TimeType.Milliseconds);
-            List <AlbumData> list = query.ToList();
+            List<AlbumData> list = query.ToList();
             LoadFilteredView(list);
         }
         public void ApplySearchFilter(Filter filter)
@@ -628,7 +628,7 @@ namespace Cassiopeia.src.Forms
             vistaAlbumes.Sort();
             List<AlbumData> nuevaLista = new();
             string[] s = null;
-            if(!filtered)
+            if (!filtered)
             {
                 switch (ViewType)
                 {
@@ -737,7 +737,7 @@ namespace Cassiopeia.src.Forms
                 return;
             if (!deleting)
             {
-                if(panelSidebar.Visible)
+                if (panelSidebar.Visible)
                 {
                     if (vistaAlbumes.SelectedItems.Count == 0)
                         UpdateSidebar(selectedAlbum);
@@ -1021,7 +1021,7 @@ namespace Cassiopeia.src.Forms
         private void playSpotifyAlbumToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered); //it fucking works! no es O(1)
-            Log.PrintMessage("Trying to play "+a.ToString(), MessageType.Info);
+            Log.PrintMessage("Trying to play " + a.ToString(), MessageType.Info);
             if (string.IsNullOrEmpty(a.IdSpotify))
             {
                 try
@@ -1190,8 +1190,8 @@ namespace Cassiopeia.src.Forms
         private void MainForm_Resize(object sender, EventArgs e)
         {
             vistaAlbumes.Size = Size - margins;
-            if(!panelSidebar.Visible)
-                vistaAlbumes.Width = Width-20;
+            if (!panelSidebar.Visible)
+                vistaAlbumes.Width = Width - 20;
             else
             {
                 panelSidebar.Height = vistaAlbumes.Height;
@@ -1246,7 +1246,7 @@ namespace Cassiopeia.src.Forms
                 {
                     Log.PrintMessage(ex.Message, MessageType.Warning);
                     linkSpotifyStripMenuItem.Visible = true;
-                    
+
                     Kernel.InternetAvaliable(false);
                     throw;
                 }
@@ -1271,7 +1271,7 @@ namespace Cassiopeia.src.Forms
                 //SHOW
                 ShowSidebar();
             }
-            
+
         }
         private void copiarImagenStrip_Click(object sender, EventArgs e)
         {

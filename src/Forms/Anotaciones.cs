@@ -1,5 +1,5 @@
-﻿using System;
-using Cassiopeia.src.Classes;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms

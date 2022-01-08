@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Cassiopeia.src.Classes;
+using SpotifyAPI.Web;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-using SpotifyAPI.Web;
-using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {
@@ -29,10 +29,10 @@ namespace Cassiopeia.src.Forms
             buttonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
             buttonOK.Text = Kernel.LocalTexts.GetString("añadir");
             int n = 1;
-            foreach(SimpleAlbum a in listaBusqueda)
+            foreach (SimpleAlbum a in listaBusqueda)
             {
                 String[] parseFecha = a.ReleaseDate.Split('-');
-                String[] datos = { n.ToString(), a.Artists[0].Name, a.Name, parseFecha[0], a.TotalTracks.ToString()};
+                String[] datos = { n.ToString(), a.Artists[0].Name, a.Name, parseFecha[0], a.TotalTracks.ToString() };
                 n++;
                 ListViewItem i = new ListViewItem(datos);
                 listViewResultadoBusqueda.Items.Add(i);
@@ -51,7 +51,7 @@ namespace Cassiopeia.src.Forms
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            if(!EditarID)
+            if (!EditarID)
             {
                 Log.Instance.PrintMessage("Trying to add " + listViewResultadoBusqueda.SelectedItems.Count +
                     " albums", MessageType.Info);

@@ -43,7 +43,7 @@ namespace Cassiopeia.src.Forms
             labelAcercaDe.Text = acercadeTexto;
             int posX = Width - labelAcercaDe.Size.Width;
             labelAcercaDe.Location = new Point(posX / 2, pictureBoxBanner.Size.Height + 1);
-            labelBTC.Location = new Point((Width - labelBTC.Size.Width)/2, labelBTC.Location.Y);
+            labelBTC.Location = new Point((Width - labelBTC.Size.Width) / 2, labelBTC.Location.Y);
         }
         private void cambiarBanner()
         {

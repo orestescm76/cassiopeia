@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Windows.Forms;
-using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {
@@ -17,7 +17,7 @@ namespace Cassiopeia.src.Forms
         {
             InitializeComponent();
             album = a;
-            Log.Instance.PrintMessage("Creating a CD. Album length: "+a.Length, MessageType.Info);
+            Log.Instance.PrintMessage("Creating a CD. Album length: " + a.Length, MessageType.Info);
             numDisc = 1;
             NC = a.NumberOfSongs;
             if (a.Length.TotalMinutes >= 60)
@@ -36,7 +36,7 @@ namespace Cassiopeia.src.Forms
             editingCD = cdd;
             creatingCD = cdd;
             //If we're NOT editing
-            if(numDisc > 1 && !edit)
+            if (numDisc > 1 && !edit)
             {
                 labelFormato.Hide();
                 comboBoxFormatoCD.Hide();
@@ -48,13 +48,13 @@ namespace Cassiopeia.src.Forms
                 textBoxPais.Hide();
                 textBoxAño.Hide();
             }
-            else if(edit)
+            else if (edit)
             {
                 Log.Instance.PrintMessage("Editando CD", MessageType.Info);
                 creatingCD = null;
                 this.edit = true;
                 comboBoxFormatoCD.SelectedItem = cdd.SleeveType;
-                comboBoxEstadoMedio.SelectedItem = cdd.Discos[numDisc-1].MediaCondition;
+                comboBoxEstadoMedio.SelectedItem = cdd.Discos[numDisc - 1].MediaCondition;
                 comboBoxEstadoExterior.SelectedItem = cdd.SleeveCondition;
                 numericUpDownNumCanciones.Maximum = cdd.Discos[numDisc - 1].NumberOfSongs;
                 numericUpDownNumCanciones.Value = cdd.Discos[numDisc - 1].NumberOfSongs;
@@ -66,7 +66,7 @@ namespace Cassiopeia.src.Forms
         }
         private void PutTexts()
         {
-            if(creatingCD is not null || numDisc == 1)
+            if (creatingCD is not null || numDisc == 1)
                 Text = Kernel.LocalTexts.GetString("creando") + " CD " + numDisc;
             else
                 Text = Kernel.LocalTexts.GetString("editando") + " CD " + numDisc;
@@ -105,10 +105,10 @@ namespace Cassiopeia.src.Forms
                 }
                 numSongs++;
             }
-            if(creatingCD is not null)
+            if (creatingCD is not null)
             {
-                numericUpDownNumCanciones.Maximum = numSongs-editingCD.TotalSongs;
-                numericUpDownNumCanciones.Value = numSongs- editingCD.TotalSongs;
+                numericUpDownNumCanciones.Maximum = numSongs - editingCD.TotalSongs;
+                numericUpDownNumCanciones.Value = numSongs - editingCD.TotalSongs;
             }
             else
             {
@@ -154,7 +154,7 @@ namespace Cassiopeia.src.Forms
                 editingCD.SleeveType = formato;
                 editingCD.Discos[numDisc - 1].MediaCondition = medio;
                 editingCD.SleeveCondition = exterior;
-                editingCD.Discos[numDisc - 1].NumberOfSongs=(short)numericUpDownNumCanciones.Value;
+                editingCD.Discos[numDisc - 1].NumberOfSongs = (short)numericUpDownNumCanciones.Value;
                 editingCD.Year = Convert.ToInt16(textBoxAño.Text);
                 editingCD.Country = textBoxPais.Text;
                 AlbumViewer nuevo = new AlbumViewer(ref editingCD);
@@ -190,7 +190,7 @@ namespace Cassiopeia.src.Forms
                 {
                     AnotherCD();
                 }
-            }          
+            }
         }
         private void AnotherCD()
         {
@@ -219,7 +219,7 @@ namespace Cassiopeia.src.Forms
             if (creatingCD is not null)
                 numSongs = creatingCD.TotalSongs;
 
-            for (int i = numSongs; i < numericUpDownNumCanciones.Value+numSongs; i++)
+            for (int i = numSongs; i < numericUpDownNumCanciones.Value + numSongs; i++)
             {
                 len += album.Songs[i].Length;
             }

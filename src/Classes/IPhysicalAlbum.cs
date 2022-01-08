@@ -20,7 +20,7 @@ namespace Cassiopeia.src.Classes
         [Newtonsoft.Json.JsonIgnore]
         AlbumData Album { get; }
         MediaCondition SleeveCondition { get; set; }
-        short Year {get;set;}
+        short Year { get; set; }
         string Country { get; set; }
         string Artist { get; set; }
         string Title { get; set; }

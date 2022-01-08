@@ -40,10 +40,10 @@ namespace Cassiopeia
         }
         private void PrintInfo()
         {
-            PrintMessage("Cassiopeia - Music Manager " + Kernel.Version,MessageType.Info);
-            PrintMessage(".NET Version: " + Environment.Version,MessageType.Info);
-            PrintMessage("OS version: "+Environment.OSVersion.ToString(),MessageType.Info);
-            PrintMessage("Log created on " + DateTime.Now,MessageType.Info);
+            PrintMessage("Cassiopeia - Music Manager " + Kernel.Version, MessageType.Info);
+            PrintMessage(".NET Version: " + Environment.Version, MessageType.Info);
+            PrintMessage("OS version: " + Environment.OSVersion.ToString(), MessageType.Info);
+            PrintMessage("Log created on " + DateTime.Now, MessageType.Info);
         }
         public void ShowLog()
         {
@@ -90,7 +90,7 @@ namespace Cassiopeia
         public void PrintMessage(string message, MessageType messageType, string functionName)
         {
             string messageToProcess = "In function: " + functionName + " - " + message;
-            ProcessLogMessage(messageToProcess, messageType);            
+            ProcessLogMessage(messageToProcess, messageType);
         }
 
         private void ProcessLogMessage(string message, MessageType messageType)

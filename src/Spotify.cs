@@ -5,17 +5,17 @@
  * MADE BY ORESTESCM76
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
 using Cassiopeia.src.Classes;
+using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using Newtonsoft.Json;
 
 namespace Cassiopeia
 {
@@ -61,7 +61,7 @@ namespace Cassiopeia
                 SpotifyConfig = SpotifyClientConfig.CreateDefault().WithAuthenticator(new ClientCredentialsAuthenticator(PublicKey, PrivateKey));
                 SpotifyClient = new SpotifyClient(SpotifyConfig);
                 crono.Stop();
-                if(SpotifyConfig is not null) //??
+                if (SpotifyConfig is not null) //??
                 {
                     Kernel.InternetAvaliable(true);
                     Log.Instance.PrintMessage("Connected!", MessageType.Correct, crono, TimeType.Milliseconds);
@@ -171,7 +171,7 @@ namespace Cassiopeia
             Stopwatch crono = Stopwatch.StartNew();
             try
             {
-                SimpleAlbum album = SearchAlbums(a,1).First();
+                SimpleAlbum album = SearchAlbums(a, 1).First();
                 crono.Stop();
                 Log.Instance.PrintMessage("Búsqueda en Spotify ha finalizado correctamente", MessageType.Correct, crono, TimeType.Milliseconds);
 
@@ -249,7 +249,7 @@ namespace Cassiopeia
             List<SimpleTrack> albumSongs = album.Tracks.Items;
             for (int i = 0; i < albumSongs.Count; i++)
             {
-                songs.Add(new Song(albumSongs[i].Name.Replace(";",""), new TimeSpan(0, 0, 0, 0, albumSongs[i].DurationMs), ref a));
+                songs.Add(new Song(albumSongs[i].Name.Replace(";", ""), new TimeSpan(0, 0, 0, 0, albumSongs[i].DurationMs), ref a));
                 if (songs[i].Length.Milliseconds > 500)
                     songs[i].Length += new TimeSpan(0, 0, 0, 0, 1000 - songs[i].Length.Milliseconds);
                 else
@@ -327,7 +327,7 @@ namespace Cassiopeia
             {
                 Device = SpotifyClient.Player.GetAvailableDevices().Result;
                 List<string> temp = new List<string>();
-                temp.Add("spotify:track:"+uri);
+                temp.Add("spotify:track:" + uri);
                 PlayerResumePlaybackRequest request = new PlayerResumePlaybackRequest()
                 {
                     Uris = temp,
@@ -416,7 +416,7 @@ namespace Cassiopeia
                         //Add the albums
                         foreach (var a in savedAlbums.Items)
                         {
-                            if(a is not null)
+                            if (a is not null)
                                 ProcessAlbum(a.Album, covers);
                             loadBar.Progreso();
                         }

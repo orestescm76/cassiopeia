@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
 namespace Cassiopeia.src.Classes
 {
@@ -22,7 +22,7 @@ namespace Cassiopeia.src.Classes
 
         public List<Song> Songs { get; set; }
 
-        public String ID { get => Artist + " "+Title; }
+        public String ID { get => Artist + " " + Title; }
         public String IdSpotify { get; set; }
 
         public String CoverPath { get; set; }
@@ -140,7 +140,7 @@ namespace Cassiopeia.src.Classes
                 else
                     lengthBonus += song.Length; //If we want the total bonus song length we would add it here
             }
-            if(!bonus)
+            if (!bonus)
                 return length;
             return lengthBonus;
         }
@@ -150,13 +150,13 @@ namespace Cassiopeia.src.Classes
             //Returns whatever the clipboard string is.
             return ToClipboard();
         }
-        public static bool operator==(AlbumData a, AlbumData b)
+        public static bool operator ==(AlbumData a, AlbumData b)
         {
             if (a.Artist == b.Artist && a.Title == b.Title)
                 return true;
             return false;
         }
-        public static bool operator!=(AlbumData a, AlbumData b)
+        public static bool operator !=(AlbumData a, AlbumData b)
         {
             if (a.Artist != b.Artist && a.Title != b.Title)
                 return true;

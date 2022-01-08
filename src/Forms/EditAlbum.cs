@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {
@@ -101,13 +101,13 @@ namespace Cassiopeia.src.Forms
                 TimeSpan nuevaDuracion = new TimeSpan();
                 albumAEditar.SoundFilesPath = labelDirectorioActual.Text;
                 string[] uriSpotify = textBoxURISpotify.Text.Split(':');
-                if(uriSpotify.Length == 3)
+                if (uriSpotify.Length == 3)
                     albumAEditar.IdSpotify = (uriSpotify[2]);
                 else
                     albumAEditar.IdSpotify = (textBoxURISpotify.Text);
                 foreach (Song c in albumAEditar.Songs)
                 {
-                    if(!c.IsBonus)
+                    if (!c.IsBonus)
                         nuevaDuracion += c.Length;
                 }
             }
@@ -141,7 +141,7 @@ namespace Cassiopeia.src.Forms
 
         private void botonCancelar_Click(object sender, EventArgs e)
         {
-            if(!fromMainView)
+            if (!fromMainView)
             {
                 AlbumViewer nuevo = new AlbumViewer(ref albumAEditar);
                 nuevo.Show();
@@ -189,7 +189,7 @@ namespace Cassiopeia.src.Forms
         }
         private void vistaCanciones_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Delete)
+            if (e.KeyCode == Keys.Delete)
             {
                 ListViewItem[] itemsborrar = new ListViewItem[vistaCanciones.SelectedItems.Count];
                 int i = 0;

@@ -16,7 +16,7 @@ namespace Cassiopeia.src.Classes
             Vinyls = new();
         }
         public void AddAlbum(ref AlbumData album) { Albums.Add(album); }
-        public void RemoveAlbum(ref AlbumData album) 
+        public void RemoveAlbum(ref AlbumData album)
         {
             if (album.CanBeRemoved)
                 Albums.Remove(album);
@@ -26,7 +26,7 @@ namespace Cassiopeia.src.Classes
         public List<AlbumData> SearchAlbum(string title)
         {
             List<AlbumData> encontrados = new List<AlbumData>();
-            foreach(AlbumData a in Albums)
+            foreach (AlbumData a in Albums)
             {
                 if (a.Title == title)
                     encontrados.Add(a);
@@ -35,7 +35,7 @@ namespace Cassiopeia.src.Classes
         }
         public bool IsInCollection(AlbumData referenceAlbum)
         {
-            foreach(AlbumData album in Albums)
+            foreach (AlbumData album in Albums)
             {
                 if (album == referenceAlbum)
                     return true;
@@ -99,7 +99,7 @@ namespace Cassiopeia.src.Classes
         {
             foreach (CompactDisc item in CDS)
             {
-                if(item.Id == id)
+                if (item.Id == id)
                 {
                     CDS.Remove(item);
                     ReleaseLockCD(item.Album);

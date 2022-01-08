@@ -5,6 +5,8 @@
  * MADE BY ORESTESCM76
  */
 
+using Cassiopeia.src.Classes;
+using Cassiopeia.src.Forms;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,12 +14,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Resources;
-using System.Windows.Forms;
-using Cassiopeia.src.Forms;
-using System.Threading.Tasks;
 using System.Threading;
-using Cassiopeia.src.Classes;
-using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Cassiopeia
 {
@@ -173,7 +172,7 @@ namespace Cassiopeia
 
         public static void InternetAvaliable(bool i)
         {
-            if(!MetadataStream)
+            if (!MetadataStream)
                 MainForm.EnableInternet(i);
         }
 
@@ -315,7 +314,7 @@ namespace Cassiopeia
             Collection = new Collection();
             SpotifyReady = false;
             MainForm = new MainForm();
-            if(!SpotifyEnabled)
+            if (!SpotifyEnabled)
                 MainForm.EnableInternet(false);
             DateTime now = DateTime.Now;
             HistorialFileInfo = new FileInfo("Musical log " + now.Day + "-" + now.Month + "-" + now.Year + ".txt");
@@ -339,7 +338,7 @@ namespace Cassiopeia
                 SpotifyReady = false;
                 Log.Instance.PrintMessage("Cassiopeia has been launched with the -noSpotify option, there will not be any Spotify integration", MessageType.Info);
                 Spotify = null;
-                
+
             }
         }
         public static void InitGenres()
@@ -403,9 +402,9 @@ namespace Cassiopeia
         {
             switch (start)
             {
-                case StartType.Normal:                    
+                case StartType.Normal:
                     Log.Instance.PrintMessage("Running main form", MessageType.Info);
-                    if(Spotify is not null && Spotify.AccountReady)
+                    if (Spotify is not null && Spotify.AccountReady)
                         MainForm.RemoveLink();
                     Application.Run(MainForm);
                     break;
@@ -423,7 +422,7 @@ namespace Cassiopeia
 
         public static void Quit()
         {
-            if(!MetadataStream)
+            if (!MetadataStream)
             {
                 SaveAlbums("discos.csv", SaveType.Digital);
                 SaveAlbums("cd.json", SaveType.CD, true);
@@ -523,7 +522,7 @@ namespace Cassiopeia
                         SendErrorLoading(lineaC, file);
                         Environment.Exit(-1);
                     }
-                    catch(IndexOutOfRangeException)
+                    catch (IndexOutOfRangeException)
                     {
                         a.Type = AlbumType.Studio;
                     }
@@ -602,7 +601,7 @@ namespace Cassiopeia
         {
             if (!File.Exists(fichero))
                 return;
-            Log.Instance.PrintMessage("Loading CDS...",MessageType.Info);
+            Log.Instance.PrintMessage("Loading CDS...", MessageType.Info);
             using (StreamReader lector = new StreamReader(fichero))
             {
                 string linea;
@@ -742,7 +741,7 @@ namespace Cassiopeia
                 {
                     switch (tipoGuardado)
                     {
-                        
+
                         case SaveType.Digital:
                             Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
                             Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);

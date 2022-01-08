@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {
@@ -30,7 +24,7 @@ namespace Cassiopeia.src.Forms
             ConsejoDeshacer = new ToolTip();
             PonerTextos();
             textBoxLyrics.DeselectAll();
-            if(cancion.AlbumFrom is null)
+            if (cancion.AlbumFrom is null)
             {
                 buttonBack.Enabled = false;
                 buttonNext.Enabled = false;
@@ -78,7 +72,7 @@ namespace Cassiopeia.src.Forms
         #region Events
         private void buttonEditar_Click(object sender, EventArgs e)
         {
-            if(!textBoxLyrics.ReadOnly)
+            if (!textBoxLyrics.ReadOnly)
             {
                 textBoxLyrics.ReadOnly = true;
                 buttonEditar.Text = Kernel.LocalTexts.GetString("editar");
@@ -117,12 +111,12 @@ namespace Cassiopeia.src.Forms
         private void buttonBack_Click(object sender, EventArgs e)
         {
             Guardar();
-            CambiarCancion(cancion.AlbumFrom.GetSong(cancion.IndexInAlbum-2));
+            CambiarCancion(cancion.AlbumFrom.GetSong(cancion.IndexInAlbum - 2));
         }
         private void textBoxLyrics_MouseWheel(object sender, MouseEventArgs e)
         {
             Font tipografiaNew = Tipografia;
-            if(ModifierKeys == Keys.Control)
+            if (ModifierKeys == Keys.Control)
             {
                 if (e.Delta > 0)
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size + 2);

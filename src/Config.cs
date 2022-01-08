@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Resources;
-using System.Globalization;
 
 namespace Cassiopeia
 {
@@ -25,10 +25,10 @@ namespace Cassiopeia
         public static bool MainFormViewSidebar;
         private static ResXResourceSet cargador;
         private static ResXResourceWriter guardador;
-       
+
         public static void CargarConfiguracion()
         {
-            if(File.Exists("config.cfg"))
+            if (File.Exists("config.cfg"))
             {
                 try
                 {
@@ -88,8 +88,8 @@ namespace Cassiopeia
             guardador.AddResource("HistoryEnabled", HistoryEnabled);
             guardador.AddResource("ColorBonus", ColorBonus.ToArgb().ToString("X"));
             guardador.AddResource("ColorLongSong", ColorLongSong.ToArgb().ToString("X"));
-            guardador.AddResource("FontLyrics", FontLyrics.FontFamily.Name+","+ (int)FontLyrics.Size);
-            guardador.AddResource("FontView", FontView.FontFamily.Name+ "," + (int)FontView.Size);
+            guardador.AddResource("FontLyrics", FontLyrics.FontFamily.Name + "," + (int)FontLyrics.Size);
+            guardador.AddResource("FontView", FontView.FontFamily.Name + "," + (int)FontView.Size);
             guardador.AddResource("MainFormSize", MainFormSize);
             guardador.AddResource("MainFormViewSidebar", MainFormViewSidebar);
             guardador.AddResource("StreamString", StreamString);

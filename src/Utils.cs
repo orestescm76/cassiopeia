@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Cassiopeia.src.Classes;
 using SpotifyAPI.Web;
-using Cassiopeia.src.Classes;
+using System;
+using System.Collections.Generic;
 
 namespace Cassiopeia
 {

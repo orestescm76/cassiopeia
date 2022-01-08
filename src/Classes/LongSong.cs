@@ -12,8 +12,9 @@ namespace Cassiopeia.src.Classes
             Parts.Add(p);
         }
 
-        public override TimeSpan Length { 
-            get 
+        public override TimeSpan Length
+        {
+            get
             {
                 TimeSpan timeSpan = new TimeSpan();
 
@@ -23,10 +24,10 @@ namespace Cassiopeia.src.Classes
                 }
 
                 return timeSpan;
-            }         
+            }
         }
 
-        public LongSong() 
+        public LongSong()
         {
             Parts = new List<Song>();
         }

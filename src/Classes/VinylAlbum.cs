@@ -18,7 +18,7 @@ namespace Cassiopeia.src.Classes
         public string Id { get; set; }
 
         public TimeSpan Length => GetLength();
-        public VinylAlbum(): base()
+        public VinylAlbum() : base()
         {
 
         }

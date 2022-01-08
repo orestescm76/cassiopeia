@@ -1,16 +1,16 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Collections.ObjectModel;
-using CSCore.CoreAudioAPI;
-using System.Drawing;
-using SpotifyAPI.Web;
-using System.IO;
-using System.ComponentModel;
-using System.Threading;
-using System.Diagnostics;
-using Cassiopeia.Properties;
-using System.Collections.Generic;
+﻿using Cassiopeia.Properties;
 using Cassiopeia.src.Classes;
+using CSCore.CoreAudioAPI;
+using SpotifyAPI.Web;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
 {
@@ -79,13 +79,13 @@ namespace Cassiopeia.src.Forms
             trackBarVolumen.Value = 100;
             duracionView = new ToolTip();
             buttonAgregar.Hide();
-            if(Kernel.Spotify is null)
+            if (Kernel.Spotify is null)
                 buttonSpotify.Enabled = false;
             else
             {
                 buttonSpotify.Enabled = true;
                 if (!Kernel.Spotify.AccountReady)
-                   buttonSpotify.Enabled = false;
+                    buttonSpotify.Enabled = false;
             }
             Icon = Resources.iconoReproductor;
             if (Kernel.MetadataStream) //inicia el programa con solo la imperesión
@@ -250,7 +250,7 @@ namespace Cassiopeia.src.Forms
                 nucleo.Apagar();
                 SetPlayerButtons(false);
                 buttonDetener.Enabled = false;
-                
+
             }
             catch (Exception)
             {
@@ -302,10 +302,10 @@ namespace Cassiopeia.src.Forms
                 {
                     Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
                     if (File.Exists("./covers/np.jpg") && pictureBoxCaratula.Image != null)
-                    { 
+                    {
                         File.Delete("./covers/np.jpg");
                     }
-                        
+
                     cliente.DownloadFileAsync(new Uri(album.Images[1].Url), Environment.CurrentDirectory + "/covers/np.jpg");
                     cliente.DownloadFileCompleted += (s, e) =>
                     {
@@ -318,7 +318,7 @@ namespace Cassiopeia.src.Forms
                 }
                 catch (System.Net.WebException ex)
                 {
-                    if(firstTry)
+                    if (firstTry)
                     {
                         Log.PrintMessage("Couldn't download the album cover, retrying...", MessageType.Warning);
                         DownloadCoverAndSet(album, false);
@@ -784,7 +784,7 @@ namespace Cassiopeia.src.Forms
                             checkBoxAleatorio.Checked = false;
 
                         PreviousSpotifyID = SpotifyID;
-                        if(Config.HistoryEnabled)
+                        if (Config.HistoryEnabled)
                         {
                             using (StreamWriter escritor = new StreamWriter(Kernel.HistorialFileInfo.FullName, true))
                             {
@@ -801,7 +801,7 @@ namespace Cassiopeia.src.Forms
                             try
                             {
                                 DownloadCoverAndSet(SpotifyPlayingSong.Album, true);
-                                
+
                             }
                             catch (Exception ex)
                             {
@@ -832,14 +832,14 @@ namespace Cassiopeia.src.Forms
 
                     SpotifyPlayingSong = (FullTrack)PC.Item;
                     SetWindowTitle(SpotifyPlayingSong.Artists[0].Name + " - " + SpotifyPlayingSong.Name);
-                    if(!VolumeHold)
+                    if (!VolumeHold)
                         trackBarVolumen.Value = (int)PC.Device.VolumePercent;
                     if (string.IsNullOrEmpty(SpotifyPlayingSong.Id))
                         buttonAgregar.Enabled = false;
                     else
                         buttonAgregar.Enabled = true;
                 }
-                if(Config.StreamEnabled)
+                if (Config.StreamEnabled)
                 {
                     using (StreamWriter salida = new StreamWriter(Kernel.StreamFileInfo.FullName))
                     {
@@ -859,7 +859,7 @@ namespace Cassiopeia.src.Forms
         {
             //Throws exception but it's catched and returns null
             CurrentlyPlayingContext PC = Kernel.Spotify.GetPlayingContext();
-            if(PC is not null)
+            if (PC is not null)
                 e.Result = PC;
             else //we have a problem, just wait.
                 Thread.Sleep(100);
@@ -1110,7 +1110,7 @@ namespace Cassiopeia.src.Forms
             {
                 Kernel.Spotify.SetShuffle(ShuffleState);
             }
-                
+
         }
         private void buttonSaltarAdelante_Click(object sender, EventArgs e)
         {
@@ -1141,7 +1141,7 @@ namespace Cassiopeia.src.Forms
                     Detener();
                     break;
                 case Keys.MediaNextTrack:
-                    if(!SpotifySync)
+                    if (!SpotifySync)
                         SaltarAdelante();
                     break;
                 case Keys.MediaPreviousTrack:
@@ -1237,7 +1237,7 @@ namespace Cassiopeia.src.Forms
                 test = "Escuchando un CD con " + Kernel.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
                     Kernel.Version + "%20" + Kernel.CodeName;
             link += test;
-            Process.Start(new ProcessStartInfo("cmd",$"/c start {link}") { CreateNoWindow = true});
+            Process.Start(new ProcessStartInfo("cmd", $"/c start {link}") { CreateNoWindow = true });
         }
         private void Reproductor_DragDrop(object sender, DragEventArgs e)
         {
@@ -1262,7 +1262,7 @@ namespace Cassiopeia.src.Forms
                     if (FicheroLeible(canciones[i]))
                         input.Add(canciones[i]);
                 }
-                if(input.Count == 0)
+                if (input.Count == 0)
                 {
                     Log.Instance.PrintMessage("No valid songs are on the input, maybe wrong file extensions?", MessageType.Info);
                     return;
@@ -1273,7 +1273,7 @@ namespace Cassiopeia.src.Forms
                     CreatePlaylist(Kernel.LocalTexts.GetString("seleccion"));
                     foreach (string cancion in input)
                     {
-                        if(cancion is not null)
+                        if (cancion is not null)
                         {
                             Song clr = new Song();
                             clr.Path = cancion;

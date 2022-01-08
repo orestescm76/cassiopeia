@@ -18,13 +18,13 @@ namespace Cassiopeia.src.Forms
         public void AddText(String mensaje)
         {
             //Visual Studio complains that sometime this call is unsafe...
-            if(textBoxLog.InvokeRequired)
+            if (textBoxLog.InvokeRequired)
             {
                 var call = new SafeCallAddText(AddText);
-                textBoxLog.Invoke(call, new object[] {mensaje});
+                textBoxLog.Invoke(call, new object[] { mensaje });
             }
             else
-                textBoxLog.AppendText(mensaje+Environment.NewLine);
+                textBoxLog.AppendText(mensaje + Environment.NewLine);
         }
 
         private void VisorLog_FormClosing(object sender, FormClosingEventArgs e)

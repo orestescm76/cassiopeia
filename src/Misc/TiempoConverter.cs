@@ -3,7 +3,7 @@ using System;
 
 namespace Cassiopeia
 {
-    public class TiempoConverter: JsonConverter<TimeSpan>
+    public class TiempoConverter : JsonConverter<TimeSpan>
     {
         public override void WriteJson(JsonWriter writer, TimeSpan value, JsonSerializer serializer)
         {

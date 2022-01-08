@@ -23,7 +23,7 @@ namespace Cassiopeia.src.Forms
             progressBar1.Update();
             Application.DoEvents();
             count++;
-            if(update)
+            if (update)
                 label1.Text = Task + "(" + count + "/" + ElementosACargar + ")";
         }
     }

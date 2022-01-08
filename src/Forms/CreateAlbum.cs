@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Windows.Forms;
-using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {
     public partial class CreateAlbum : Form
     {
         private string caratula = "";
-        private String[] genresToSelect = new string[Kernel.Genres.Length-1];
+        private String[] genresToSelect = new string[Kernel.Genres.Length - 1];
         public CreateAlbum()
         {
             InitializeComponent();
@@ -26,7 +26,7 @@ namespace Cassiopeia.src.Forms
             addCaratula.Text = Kernel.LocalTexts.GetString("addcaratula");
             labelCaratula.Text = Kernel.LocalTexts.GetString("caratula");
             labelAlbumType.Text = Kernel.LocalTexts.GetString("tipoAlbum");
-            for (int i = 0; i < Kernel.Genres.Length-1; i++)
+            for (int i = 0; i < Kernel.Genres.Length - 1; i++)
             {
                 genresToSelect[i] = Kernel.Genres[i].Name;
             }

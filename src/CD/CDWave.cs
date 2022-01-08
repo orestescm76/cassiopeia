@@ -1,5 +1,5 @@
-﻿using Microsoft.Win32.SafeHandles;
-using CSCore;
+﻿using CSCore;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -141,11 +141,11 @@ namespace Cassiopeia.CD
             }
         }
         //implementado por sectores
-        public long Position 
-        { 
+        public long Position
+        {
             get
             {
-                return currentSector-startSector;
+                return currentSector - startSector;
             }
             set
             {

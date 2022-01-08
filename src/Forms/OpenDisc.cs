@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
@@ -43,7 +42,7 @@ namespace Cassiopeia.src.Forms
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            if(listViewDiscos.SelectedItems.Count == 1)
+            if (listViewDiscos.SelectedItems.Count == 1)
             {
                 Player.Instancia.PlayCD(listViewDiscos.SelectedItems[0].Text[0]);
                 Close();

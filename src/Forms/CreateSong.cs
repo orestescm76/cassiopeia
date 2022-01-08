@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Diagnostics;
-using Cassiopeia.src.Classes;
+using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
 {
@@ -40,14 +40,14 @@ namespace Cassiopeia.src.Forms
         }
         public CreateSong(ref Song c) //editar
         {
-            Log.Instance.PrintMessage("Editing song " + c.Title, MessageType.Info); 
+            Log.Instance.PrintMessage("Editing song " + c.Title, MessageType.Info);
             InitializeComponent();
             cual = -1;
             esLarga.Hide();
             cancion = c;
             editar = true;
             cancionlarga = null;
-            if(c is LongSong)
+            if (c is LongSong)
             {
                 minTextBox.Enabled = false;
                 secsTextBox.Enabled = false;
@@ -115,17 +115,18 @@ namespace Cassiopeia.src.Forms
             if (cual == -2)
                 cualdeVerdad = album.NumberOfSongs;
 
-            if(editar)
+            if (editar)
             {
                 Text = Kernel.LocalTexts.GetString("editando") + " " + cancion.Title;
                 buttonOK.Text = Kernel.LocalTexts.GetString("hecho");
-            } else
+            }
+            else
             {
-                Text = Kernel.LocalTexts.GetString("añadir_cancion") + " " + (cualdeVerdad+1);
+                Text = Kernel.LocalTexts.GetString("añadir_cancion") + " " + (cualdeVerdad + 1);
                 buttonOK.Text = Kernel.LocalTexts.GetString("hecho");
             }
 
-            if(cancionlarga != null)
+            if (cancionlarga != null)
             {
                 Text = Kernel.LocalTexts.GetString("añadir_cancion") + " " + Utils.ConvertToRomanNumeral(cual);
             }
@@ -142,7 +143,7 @@ namespace Cassiopeia.src.Forms
         {
             try
             {
-                if(!larga && cancionlarga is null) //caso normal
+                if (!larga && cancionlarga is null) //caso normal
                 {
                     min = Convert.ToInt32(minTextBox.Text);
                     sec = Convert.ToInt32(secsTextBox.Text);
@@ -164,7 +165,7 @@ namespace Cassiopeia.src.Forms
                         Close();
                     }
                 }
-                else if(larga && cancionlarga is null) //caso de que creemos una cancion larga, sin partes
+                else if (larga && cancionlarga is null) //caso de que creemos una cancion larga, sin partes
                 {
                     title = tituloTextBox.Text;
                     min = sec = 0;
@@ -182,7 +183,7 @@ namespace Cassiopeia.src.Forms
                             DialogResult = DialogResult.OK;
                     }
                 }
-                else if(cancionlarga is not null && larga == true)//parte de una cancion normal
+                else if (cancionlarga is not null && larga == true)//parte de una cancion normal
                 {
                     title = tituloTextBox.Text;
                     min = Convert.ToInt32(minTextBox.Text);
@@ -242,7 +243,7 @@ namespace Cassiopeia.src.Forms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            DialogResult =  DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
             Log.Instance.PrintMessage("Cancelled", MessageType.Info);
             Close();
         }

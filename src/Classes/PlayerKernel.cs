@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using Cassiopeia.CD;
 using CSCore;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 using CSCore.Streams;
-using Cassiopeia.CD;
+using System;
+using System.IO;
 
 namespace Cassiopeia.src.Classes
 {
@@ -57,7 +57,7 @@ namespace Cassiopeia.src.Classes
                     FileInfo info = new FileInfo(cual);
                     tamFich = info.Length;
                 }
-                
+
                 _output = new WasapiOut(false, AudioClientShareMode.Shared, 100);
                 //_sonido.Position = 0;
                 _output.Initialize(_sound);
@@ -114,7 +114,7 @@ namespace Cassiopeia.src.Classes
                 }
                 return TimeSpan.Zero;
             }
-                
+
         }
         public TimeSpan Posicion()
         {
@@ -161,7 +161,7 @@ namespace Cassiopeia.src.Classes
         }
         public void SetVolumen(float v)
         {
-            if(!(_output is null))
+            if (!(_output is null))
                 _output.Volume = v;
         }
         public void Detener() //detiene una canción

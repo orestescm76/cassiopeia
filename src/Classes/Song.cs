@@ -1,5 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Cassiopeia.src.Classes
 {
@@ -84,7 +84,7 @@ namespace Cassiopeia.src.Classes
         //Tame Impala;The Less I Know The Better;Currents
         public String SavePath()
         {
-            return AlbumFrom.Artist+";"+Title+";"+AlbumFrom.Title + Environment.NewLine+Path + Environment.NewLine;
+            return AlbumFrom.Artist + ";" + Title + ";" + AlbumFrom.Title + Environment.NewLine + Path + Environment.NewLine;
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Windows.Forms;
-using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {
@@ -16,7 +16,7 @@ namespace Cassiopeia.src.Forms
         {
             InitializeComponent();
             album = a;
-            Log.Instance.PrintMessage("Creating a Vinyl. Album length: "+a.Length, MessageType.Info);
+            Log.Instance.PrintMessage("Creating a Vinyl. Album length: " + a.Length, MessageType.Info);
             numDisc = 1;
             //Now we need to check if the album needs one or more Vinyl.
             SetMaxLength();
@@ -30,7 +30,7 @@ namespace Cassiopeia.src.Forms
             editingVinyl = vinyl;
             creatingVinyl = vinyl;
             //If we're NOT editing
-            if(numDisc > 1 && !edit)
+            if (numDisc > 1 && !edit)
             {
                 labelAñoPublicacion.Hide();
                 comboBoxEstadoExterior.Hide();
@@ -40,24 +40,24 @@ namespace Cassiopeia.src.Forms
                 textBoxPais.Hide();
                 textBoxAño.Hide();
             }
-            else if(edit)
+            else if (edit)
             {
                 Log.Instance.PrintMessage("Editando CD", MessageType.Info);
                 creatingVinyl = null;
                 this.edit = true;
-                comboBoxEstadoMedio.SelectedItem = vinyl.DiscList[numDisc-1].MediaCondition;
+                comboBoxEstadoMedio.SelectedItem = vinyl.DiscList[numDisc - 1].MediaCondition;
                 comboBoxEstadoExterior.SelectedItem = vinyl.SleeveCondition;
-                numericUpDownNumSongsFront.Value = vinyl.DiscList[numDisc-1].NumberOfSongs;
+                numericUpDownNumSongsFront.Value = vinyl.DiscList[numDisc - 1].NumberOfSongs;
                 textBoxAño.Text = editingVinyl.Year.ToString();
                 textBoxPais.Text = editingVinyl.Country;
             }
             //SetMaxLength();
             //PutTexts();
         }
-        
+
         private void PutTexts()
         {
-            if(creatingVinyl is not null || numDisc == 1)
+            if (creatingVinyl is not null || numDisc == 1)
                 Text = Kernel.LocalTexts.GetString("creando") + " CD " + numDisc;
             else
                 Text = Kernel.LocalTexts.GetString("editando") + " CD " + numDisc;
@@ -109,7 +109,7 @@ namespace Cassiopeia.src.Forms
             //}
             numericUpDownNumSongsFront.Maximum = album.Songs.Count;
             numericUpDownNumSongsBack.Maximum = album.Songs.Count;
-            
+
             //if (creatingVinyl is not null)
             //{
             //    numericUpDownNumSongsFront.Maximum = numSongs-editingVinyl.TotalSongs;
@@ -224,12 +224,12 @@ namespace Cassiopeia.src.Forms
             if (creatingVinyl is not null)
                 numSongs = creatingVinyl.TotalSongs;
 
-            for (int i = numSongs; i < numericUpDownNumSongsFront.Value+numSongs; i++)
+            for (int i = numSongs; i < numericUpDownNumSongsFront.Value + numSongs; i++)
             {
                 len += album.Songs[i].Length;
             }
             if (len.TotalMinutes >= 60)
-                labelFrontLength.Text = "A: "+ len.ToString(@"h\:mm\:ss");
+                labelFrontLength.Text = "A: " + len.ToString(@"h\:mm\:ss");
             else
                 labelFrontLength.Text = "A: " + len.ToString(@"mm\:ss");
             numericUpDownNumSongsFront.Maximum = album.Songs.Count - numericUpDownNumSongsBack.Value;

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using Cassiopeia.src.Classes;
 
 namespace Cassiopeia.src.Forms
 {
@@ -34,7 +34,7 @@ namespace Cassiopeia.src.Forms
 
         ToolTip ttbtColorBonus;
         ToolTip ttbtColorLongSong;
-        
+
         //For text config
         Button btTextLyrics;
         Button btTextView;
@@ -52,9 +52,9 @@ namespace Cassiopeia.src.Forms
         private void ConfigForm_Load(object sender, EventArgs e)
         {
             labelSelect.Show();
-            
+
             PonerTextos();
-            labelSelect.Location = new Point(groupBoxRaiz.Size.Width/2 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
+            labelSelect.Location = new Point(groupBoxRaiz.Size.Width / 2 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
             Icon = Properties.Resources.settings;
             treeViewConfiguracion.ExpandAll();
             SongPreview.SetAlbum(AlbumCopyPreview);
@@ -112,7 +112,7 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Text = Kernel.LocalTexts.GetString("cambiar_portapapeles");
             stringConfig = new TextBox();
             stringConfig.TextChanged += StringConfig_TextChanged;
-            stringConfig.Location = new Point(35, groupBoxRaiz.Height/4);
+            stringConfig.Location = new Point(35, groupBoxRaiz.Height / 4);
             Size size = stringConfig.Size; size.Width = 420; stringConfig.Size = size;
             stringConfig.Font = new Font("Segoe UI", 9);
             stringConfig.Text = Config.Clipboard;
@@ -156,7 +156,7 @@ namespace Cassiopeia.src.Forms
             checkBoxHistoryConfigCheckBox.AutoSize = true;
             checkBoxHistoryConfigCheckBox.Font = new Font("Segoe UI", 9);
 
-            Size size = stringConfig.Size; 
+            Size size = stringConfig.Size;
             size.Width = 420; stringConfig.Size = size;
             stringConfig.Font = new Font("Segoe UI", 9);
             stringConfig.Text = Config.History;
@@ -199,7 +199,7 @@ namespace Cassiopeia.src.Forms
             size.Width = 420; stringConfig.Size = size;
             stringConfig.Font = new Font("Segoe UI", 9);
             stringConfig.Text = Config.StreamString;
-            
+
 
             labelStringConfigPreview.Font = stringConfig.Font;
             labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
@@ -414,7 +414,7 @@ namespace Cassiopeia.src.Forms
         {
             foreach (Control item in groupBoxRaiz.Controls)
             {
-                item.Anchor =  AnchorStyles.Left;
+                item.Anchor = AnchorStyles.Left;
             }
         }
         private void StringConfig_TextChanged(object sender, EventArgs e)
@@ -503,7 +503,7 @@ namespace Cassiopeia.src.Forms
         private void buttonText_Click(object sender, EventArgs e)
         {
             Button btSender = (Button)sender;
-            
+
             FontDialog fontDialog = new FontDialog();
             fontDialog.Font = btSender.Font;
             fontDialog.ShowDialog();

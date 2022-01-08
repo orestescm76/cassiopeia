@@ -1,10 +1,10 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.IO;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Collections.Generic;
-using Cassiopeia.src.Classes;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
 {
@@ -31,7 +31,7 @@ namespace Cassiopeia.src.Forms
         private VinylAlbum ViewVinyl;
         private ListViewItemComparer lvwColumnSorter;
         private string[] labelData;
-        private int margin = 578-448;
+        private int margin = 578 - 448;
         public AlbumViewer(ref AlbumData a)
         {
             InitializeComponent();
@@ -76,7 +76,7 @@ namespace Cassiopeia.src.Forms
             vistaCanciones.MultiSelect = true;
             duracionSeleccionada.AutoSize = true;
             barraAbajo.Font = new Font("Segoe UI", 9);
-           
+
             SetTexts();
             LoadView();
         }
@@ -167,7 +167,7 @@ namespace Cassiopeia.src.Forms
                     for (int i = 0; i < ViewVinyl.DiscList[d].NumSongsFront; i++)
                     {
                         string[] data = new string[3];
-                        data[0] = side+(i + 1).ToString();
+                        data[0] = side + (i + 1).ToString();
                         c = albumToVisualize.Songs[i];
                         c.ToStringArray().CopyTo(data, 1);
                         items[i] = new ListViewItem(data);
@@ -187,7 +187,7 @@ namespace Cassiopeia.src.Forms
                     for (int i = ViewVinyl.DiscList[d].NumSongsFront; i < ViewVinyl.DiscList[d].NumberOfSongs; i++)
                     {
                         string[] data = new string[3];
-                        data[0] = side+(i- ViewVinyl.DiscList[d].NumSongsFront+1).ToString();
+                        data[0] = side + (i - ViewVinyl.DiscList[d].NumSongsFront + 1).ToString();
                         c = albumToVisualize.Songs[i];
                         c.ToStringArray().CopyTo(data, 1);
                         items[i] = new ListViewItem(data);
@@ -230,7 +230,7 @@ namespace Cassiopeia.src.Forms
                         songNum++;
                     }
                 }
-                
+
             }
             vistaCanciones.Items.AddRange(items);
         }
@@ -314,14 +314,14 @@ namespace Cassiopeia.src.Forms
             //}
             labelInfoAlbum.Text = "";
 
-            
+
             TimeSpan durBonus = albumToVisualize.BonusLength;
             labelData[(int)AlbumInfo.Artist] = Kernel.LocalTexts.GetString("artista") + ": " + albumToVisualize.Artist + Environment.NewLine;
             labelData[(int)AlbumInfo.Title] = Kernel.LocalTexts.GetString("titulo") + ": " + albumToVisualize.Title + Environment.NewLine;
             labelData[(int)AlbumInfo.Year] = Kernel.LocalTexts.GetString("año") + ": " + albumToVisualize.Year + Environment.NewLine;
 
             if (durBonus.TotalMilliseconds != 0)
-                labelData[(int)AlbumInfo.Length] =  Kernel.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine;
+                labelData[(int)AlbumInfo.Length] = Kernel.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + " (" + durBonus.ToString() + ")" + Environment.NewLine;
             else
                 labelData[(int)AlbumInfo.Length] = Kernel.LocalTexts.GetString("duracion") + ": " + albumToVisualize.Length.ToString() + Environment.NewLine;
 
@@ -422,7 +422,7 @@ namespace Cassiopeia.src.Forms
                     Song can = albumToVisualize.GetSong(cancion.SubItems[1].Text);
                     seleccion += can.Length;
                 }
-                else if(ViewVinyl is not null)
+                else if (ViewVinyl is not null)
                 {
                     Song can = albumToVisualize.GetSong(cancion.SubItems[1].Text);
                     seleccion += can.Length;
@@ -461,7 +461,7 @@ namespace Cassiopeia.src.Forms
                 Anotaciones anoForm = new Anotaciones(ref CDaVisualizar);
                 anoForm.ShowDialog();
             }
-            else if(ViewVinyl is not null)
+            else if (ViewVinyl is not null)
             {
 
             }
@@ -537,7 +537,7 @@ namespace Cassiopeia.src.Forms
         private void reproducirspotifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Song selected = albumToVisualize.GetSong(vistaCanciones.SelectedIndices[0]);
-            if(selected is not LongSong)
+            if (selected is not LongSong)
             {
                 try
                 {
@@ -603,7 +603,7 @@ namespace Cassiopeia.src.Forms
                 {
                     try
                     {
-                        if(LM.Evaluable() && string.IsNullOrEmpty(c.Path))
+                        if (LM.Evaluable() && string.IsNullOrEmpty(c.Path))
                         {
                             if ((c.Title.ToLower() == LM.Title.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower()))
                             {
@@ -630,13 +630,13 @@ namespace Cassiopeia.src.Forms
                 }
             }
             crono.Stop();
-            
+
             if (correcto)
             {
                 Log.Instance.PrintMessage("Finished without problems", MessageType.Correct, crono, TimeType.Milliseconds);
                 MessageBox.Show(Kernel.LocalTexts.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-                
+
             else
             {
                 foreach (Song cancion in albumToVisualize.Songs)
@@ -648,7 +648,7 @@ namespace Cassiopeia.src.Forms
                 }
                 MessageBox.Show(Kernel.LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            
+
             Kernel.SavePATHS();
         }
 

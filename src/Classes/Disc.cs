@@ -38,5 +38,5 @@
             FrontSide = frontSide;
             MediaCondition = mediaCondition;
         }
-    } 
+    }
 }
