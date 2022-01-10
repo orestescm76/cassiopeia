@@ -12,12 +12,14 @@ namespace Cassiopeia.src.Forms
         private int numDisc;
         private int NCA, NCB;
         private bool edit = false;
+        private char side;
         public CreateVinylCassette(ref AlbumData a, bool vinyl = true)
         {
             InitializeComponent();
             album = a;
             Log.Instance.PrintMessage("Creating a Vinyl. Album length: " + a.Length, MessageType.Info);
             numDisc = 1;
+            side = (char)('A' + (numDisc + (numDisc - 2)));
             //Now we need to check if the album needs one or more Vinyl.
             SetMaxLength();
             PutTexts();
@@ -26,6 +28,7 @@ namespace Cassiopeia.src.Forms
         {
             InitializeComponent();
             this.numDisc = numDisc;
+            side = (char)('A' + (numDisc + (numDisc - 2)));
             album = vinyl.Album;
             editingVinyl = vinyl;
             creatingVinyl = vinyl;
@@ -51,21 +54,22 @@ namespace Cassiopeia.src.Forms
                 textBoxAño.Text = editingVinyl.Year.ToString();
                 textBoxPais.Text = editingVinyl.Country;
             }
-            //SetMaxLength();
-            //PutTexts();
+            SetMaxLength();
+            PutTexts();
         }
 
         private void PutTexts()
         {
             if (creatingVinyl is not null || numDisc == 1)
-                Text = Kernel.LocalTexts.GetString("creando") + " CD " + numDisc;
+                Text = Kernel.LocalTexts.GetString("creando") + " " + Kernel.LocalTexts.GetString("vinyl") + " " + numDisc;
             else
-                Text = Kernel.LocalTexts.GetString("editando") + " CD " + numDisc;
+                Text = Kernel.LocalTexts.GetString("editando") + " " + Kernel.LocalTexts.GetString("vinyl") + " " + numDisc;
             labelEstadoExterior.Text = Kernel.LocalTexts.GetString("estado_exterior");
             labelEstadoMedio.Text = Kernel.LocalTexts.GetString("estado_medio");
             labelAñoPublicacion.Text = Kernel.LocalTexts.GetString("añoPublicacion");
             labelPaisPublicacion.Text = Kernel.LocalTexts.GetString("paisPublicacion");
-            labelNumSongsFront.Text = Kernel.LocalTexts.GetString("numcanciones");
+            labelNumSongsFront.Text = Kernel.LocalTexts.GetString("numcanciones") + " " + Kernel.LocalTexts.GetString("side") + " " + side;
+            labelNumSongsBack.Text = Kernel.LocalTexts.GetString("numcanciones") + " " + Kernel.LocalTexts.GetString("side") + " " + ++side;
             String[] eeT = new string[7];
             String[] fT = new string[4];
             for (int i = 0; i < eeT.Length; i++)
@@ -107,8 +111,16 @@ namespace Cassiopeia.src.Forms
             //    }
             //    numSongsB++;
             //}
-            numericUpDownNumSongsFront.Maximum = album.Songs.Count;
-            numericUpDownNumSongsBack.Maximum = album.Songs.Count;
+            if (numDisc == 1)
+            {
+                numericUpDownNumSongsFront.Maximum = album.Songs.Count;
+                numericUpDownNumSongsBack.Maximum = album.Songs.Count;
+            }
+            else
+            {
+                numericUpDownNumSongsFront.Maximum = album.Songs.Count - creatingVinyl.TotalSongs;
+                numericUpDownNumSongsBack.Maximum = album.Songs.Count - creatingVinyl.TotalSongs;
+            }
 
             //if (creatingVinyl is not null)
             //{
@@ -171,8 +183,8 @@ namespace Cassiopeia.src.Forms
             if (editingVinyl is not null)
             {
                 //We are creating another disc.
-                Disc disc = new Disc(Convert.ToInt16(this.numericUpDownNumSongsFront.Value), medio);
-                //editingVinyl.Discos.Add(disc);
+                VinylDisc vinylDisc = new(Convert.ToInt32(numericUpDownNumSongsFront.Value), Convert.ToInt32(numericUpDownNumSongsBack.Value), side, medio);
+                editingVinyl.AddDisc(vinylDisc);
                 if (editingVinyl.TotalSongs != album.NumberOfSongs)
                     AnotherDisc();
                 else
@@ -200,7 +212,7 @@ namespace Cassiopeia.src.Forms
         private void AnotherDisc()
         {
             //Another CD?
-            DialogResult res = MessageBox.Show("Another CD" + Environment.NewLine + "Quedan " + (album.Songs.Count - creatingVinyl.TotalSongs) + " canciones", "", MessageBoxButtons.YesNo);
+            DialogResult res = MessageBox.Show("Another Vinyl" + Environment.NewLine + "Quedan " + (album.Songs.Count - creatingVinyl.TotalSongs) + " canciones", "", MessageBoxButtons.YesNo);
             if (res == DialogResult.No)
             {
                 //AlbumViewer v = new AlbumViewer(ref creatingVinyl);
@@ -229,9 +241,9 @@ namespace Cassiopeia.src.Forms
                 len += album.Songs[i].Length;
             }
             if (len.TotalMinutes >= 60)
-                labelFrontLength.Text = "A: " + len.ToString(@"h\:mm\:ss");
+                labelFrontLength.Text = side + ": " + len.ToString(@"h\:mm\:ss");
             else
-                labelFrontLength.Text = "A: " + len.ToString(@"mm\:ss");
+                labelFrontLength.Text = side + ": " + len.ToString(@"mm\:ss");
             numericUpDownNumSongsFront.Maximum = album.Songs.Count - numericUpDownNumSongsBack.Value;
             numericUpDownNumSongsBack.Maximum = album.Songs.Count - numericUpDownNumSongsFront.Value;
         }
@@ -252,10 +264,11 @@ namespace Cassiopeia.src.Forms
             {
                 len += album.Songs[i].Length;
             }
+            char sideBack = (char)(side - 1);
             if (len.TotalMinutes >= 60)
-                labelBackLength.Text = "B: " + len.ToString(@"h\:mm\:ss");
+                labelBackLength.Text = sideBack + ": " + len.ToString(@"h\:mm\:ss");
             else
-                labelBackLength.Text = "B: " + len.ToString(@"mm\:ss");
+                labelBackLength.Text = sideBack + ": " + len.ToString(@"mm\:ss");
             numericUpDownNumSongsFront.Maximum = album.Songs.Count - numericUpDownNumSongsBack.Value;
             numericUpDownNumSongsBack.Maximum = album.Songs.Count - numericUpDownNumSongsFront.Value;
         }

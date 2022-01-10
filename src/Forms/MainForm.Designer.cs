@@ -81,7 +81,7 @@
             this.copiarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.playSpotifyAlbumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verLyricsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.vinylToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.createVinylToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSidebar = new System.Windows.Forms.Panel();
             this.labelGeneralInfo = new System.Windows.Forms.Label();
             this.labelInfoAlbum = new System.Windows.Forms.Label();
@@ -497,22 +497,22 @@
             this.copiarToolStripMenuItem,
             this.playSpotifyAlbumToolStripMenuItem,
             this.verLyricsToolStripMenuItem,
-            this.vinylToolStripMenuItem1});
+            this.createVinylToolStripMenuItem});
             this.clickDerechoMenuContexto.Name = "contextMenuStrip1";
-            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(120, 114);
+            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(181, 136);
             this.clickDerechoMenuContexto.Opening += new System.ComponentModel.CancelEventHandler(this.clickDerechoMenuContexto_Opening);
             // 
             // crearCDToolStripMenuItem
             // 
             this.crearCDToolStripMenuItem.Name = "crearCDToolStripMenuItem";
-            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.crearCDToolStripMenuItem.Text = "cd";
             this.crearCDToolStripMenuItem.Click += new System.EventHandler(this.crearCDToolStripMenuItem_Click);
             // 
             // copiarToolStripMenuItem
             // 
             this.copiarToolStripMenuItem.Name = "copiarToolStripMenuItem";
-            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copiarToolStripMenuItem.Text = "copiar";
             this.copiarToolStripMenuItem.Click += new System.EventHandler(this.copiarToolStripMenuItem_Click);
             // 
@@ -520,23 +520,23 @@
             // 
             this.playSpotifyAlbumToolStripMenuItem.Enabled = false;
             this.playSpotifyAlbumToolStripMenuItem.Name = "playSpotifyAlbumToolStripMenuItem";
-            this.playSpotifyAlbumToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.playSpotifyAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.playSpotifyAlbumToolStripMenuItem.Text = "Spotify";
             this.playSpotifyAlbumToolStripMenuItem.Click += new System.EventHandler(this.playSpotifyAlbumToolStripMenuItem_Click);
             // 
             // verLyricsToolStripMenuItem
             // 
             this.verLyricsToolStripMenuItem.Name = "verLyricsToolStripMenuItem";
-            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
             // 
-            // vinylToolStripMenuItem1
+            // createVinylToolStripMenuItem
             // 
-            this.vinylToolStripMenuItem1.Name = "vinylToolStripMenuItem1";
-            this.vinylToolStripMenuItem1.Size = new System.Drawing.Size(119, 22);
-            this.vinylToolStripMenuItem1.Text = "vinyl";
-            this.vinylToolStripMenuItem1.Click += new System.EventHandler(this.vinylToolStripMenuItem1_Click);
+            this.createVinylToolStripMenuItem.Name = "createVinylToolStripMenuItem";
+            this.createVinylToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createVinylToolStripMenuItem.Text = "vinyl";
+            this.createVinylToolStripMenuItem.Click += new System.EventHandler(this.vinylToolStripMenuItem1_Click);
             // 
             // panelSidebar
             // 
@@ -782,6 +782,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonFilter;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSearch;
         private System.Windows.Forms.ToolStripMenuItem vinylToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem vinylToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem createVinylToolStripMenuItem;
     }
 }

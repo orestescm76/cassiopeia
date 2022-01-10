@@ -746,4 +746,13 @@
   <data name="save" xml:space="preserve">
     <value></value>
   </data>
+  <data name="vinyl" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="createVinyl" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="side" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

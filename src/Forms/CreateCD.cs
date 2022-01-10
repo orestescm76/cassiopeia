@@ -1,4 +1,5 @@
 ﻿using Cassiopeia.src.Classes;
+using Cassiopeia.src.Classes;
 using System;
 using System.Windows.Forms;
 

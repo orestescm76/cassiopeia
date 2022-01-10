@@ -159,15 +159,18 @@ namespace Cassiopeia.src.Forms
                 vistaCanciones.ShowGroups = true;
                 items = new ListViewItem[ViewVinyl.TotalSongs];
                 char side = ViewVinyl.DiscList[0].FrontSide;
-                int sideNum = 0;
+                int songNum = 0; //Song number in array
+                int sideNum = 0; //id of group
+
                 for (int d = 0; d < ViewVinyl.DiscList.Count; d++)
                 {
                     vistaCanciones.Groups.Add(new ListViewGroup("Side " + side));
-
-                    for (int i = 0; i < ViewVinyl.DiscList[d].NumSongsFront; i++)
+                    int punt = songNum;
+                    int numSongSide = 1;
+                    for (int i = punt; i < ViewVinyl.DiscList[d].NumSongsFront + punt; i++)
                     {
                         string[] data = new string[3];
-                        data[0] = side + (i + 1).ToString();
+                        data[0] = side + numSongSide.ToString();
                         c = albumToVisualize.Songs[i];
                         c.ToStringArray().CopyTo(data, 1);
                         items[i] = new ListViewItem(data);
@@ -180,14 +183,18 @@ namespace Cassiopeia.src.Forms
                         {
                             items[i].BackColor = Config.ColorBonus;
                         }
+                        numSongSide++;
+                        songNum++;
                     }
                     side++;
                     sideNum++;
                     vistaCanciones.Groups.Add(new ListViewGroup("Side " + side));
-                    for (int i = ViewVinyl.DiscList[d].NumSongsFront; i < ViewVinyl.DiscList[d].NumberOfSongs; i++)
+                    punt = songNum;
+                    numSongSide = 1;
+                    for (int i = punt; i < ViewVinyl.DiscList[d].NumSongsBack + punt; i++)
                     {
                         string[] data = new string[3];
-                        data[0] = side + (i - ViewVinyl.DiscList[d].NumSongsFront + 1).ToString();
+                        data[0] = side + numSongSide.ToString();
                         c = albumToVisualize.Songs[i];
                         c.ToStringArray().CopyTo(data, 1);
                         items[i] = new ListViewItem(data);
@@ -200,7 +207,11 @@ namespace Cassiopeia.src.Forms
                         {
                             items[i].BackColor = Config.ColorBonus;
                         }
+                        songNum++;
+                        numSongSide++;
                     }
+                    side++;
+                    sideNum++;
                 }
             }
             else

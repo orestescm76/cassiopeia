@@ -36,7 +36,10 @@ namespace Cassiopeia.src.Classes
             Id = Id.Remove(Id.Length - 2);
             Id.Replace('+', 'm');
         }
-
+        public void AddDisc(VinylDisc disc)
+        {
+            DiscList.Add(disc);
+        }
         private int getNumSongs()
         {
             int sum = 0;

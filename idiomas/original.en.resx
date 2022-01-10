@@ -808,4 +808,16 @@
   <data name="save" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="vinyl" xml:space="preserve">
+    <value>Vinyl record</value>
+  </data>
+  <data name="createVinyl" xml:space="preserve">
+    <value>Create vinyl record</value>
+  </data>
+  <data name="creando" xml:space="preserve">
+    <value>Creating</value>
+  </data>
+  <data name="side" xml:space="preserve">
+    <value>side</value>
+  </data>
 </root>

@@ -749,7 +749,9 @@ namespace Cassiopeia
                             {
                                 if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
                                 {
-                                    string CoverRelativePath = Path.GetRelativePath(Environment.CurrentDirectory, a.CoverPath);
+                                    string CoverRelativePath = String.Empty;
+                                    if(!string.IsNullOrEmpty(a.CoverPath))
+                                        CoverRelativePath = Path.GetRelativePath(Environment.CurrentDirectory, a.CoverPath);
                                     salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + CoverRelativePath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
                                     for (int i = 0; i < a.NumberOfSongs; i++)
                                     {

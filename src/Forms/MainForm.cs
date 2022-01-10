@@ -43,7 +43,7 @@ namespace Cassiopeia.src.Forms
             vistaAlbumes.MultiSelect = true;
 
             vistaAlbumes.View = View.Details;
-            PonerTextos();
+            SetTexts();
             vistaAlbumes.FullRowSelect = true;
             duracionSeleccionada.AutoSize = true;
             barraAbajo.Font = new Font("Segoe UI", 10);
@@ -80,7 +80,7 @@ namespace Cassiopeia.src.Forms
         public void ReloadView()
         {
             vistaAlbumes.Font = Config.FontView;
-            PonerTextos();
+            SetTexts();
             LoadView();
         }
         public void EnableInternet(bool i)
@@ -157,7 +157,7 @@ namespace Cassiopeia.src.Forms
             crono.Stop();
             Log.Instance.PrintMessage("Loaded", MessageType.Correct, crono, TimeType.Milliseconds);
         }
-        private void PonerTextos()
+        private void SetTexts()
         {
 #if DEBUG
             Text = Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version + " Codename " + Kernel.CodeName + " DEBUG";
@@ -211,6 +211,9 @@ namespace Cassiopeia.src.Forms
             toolStripButtonFilter.Text = filterToolStripMenuItem.Text;
 
             toolStripTextBoxSearch.ToolTipText = Kernel.LocalTexts.GetString("write_filter");
+
+            vinylToolStripMenuItem.Text = Kernel.LocalTexts.GetString("vinyl");
+            createVinylToolStripMenuItem.Text = Kernel.LocalTexts.GetString("createVinyl");
             UpdateViewInfo();
         }
         private void UpdateViewInfo()
@@ -224,6 +227,7 @@ namespace Cassiopeia.src.Forms
                     toolStripStatusLabelViewInfo.Text = "CD";
                     break;
                 case ViewType.Vinyl:
+                    toolStripStatusLabelViewInfo.Text = Kernel.LocalTexts.GetString("vinyl");
                     break;
                 default:
                     break;
@@ -320,12 +324,23 @@ namespace Cassiopeia.src.Forms
             int width = panelSidebar.Width - 20;
             if (a is not null)
             {
+                if(pictureBoxSidebarCover.Image is not null)
+                    pictureBoxSidebarCover.Image.Dispose();
                 if (pictureBoxSidebarCover.Image != Properties.Resources.albumdesconocido)
                     pictureBoxSidebarCover.Image = null;
-                if (!string.IsNullOrEmpty(a.CoverPath))
-                    pictureBoxSidebarCover.Image = Image.FromFile(a.CoverPath);
                 else
                     pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
+                try
+                {
+                    if (!string.IsNullOrEmpty(a.CoverPath))
+                        pictureBoxSidebarCover.Image = Image.FromFile(a.CoverPath);
+                }
+                catch (Exception)
+                {
+                    Log.Instance.PrintMessage("Couldn't set the album cover on the sidebar", MessageType.Warning);
+                    pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
+                }
+
                 ////Doing this will allow me to replace album cover and not locking the file
                 //Image cover;
                 //using (var temp = new Bitmap(a.CoverPath))
@@ -458,7 +473,7 @@ namespace Cassiopeia.src.Forms
                     }
                     break;
                 case ViewType.CD:
-                    foreach (ListViewItem cdViewItem in vistaAlbumes.SelectedItems)
+                    foreach (ListViewPhysicalAlbum cdViewItem in vistaAlbumes.SelectedItems)
                     {
                         string b = cdViewItem.SubItems[0].Text + "/**/" + cdViewItem.SubItems[1].Text;
                         CompactDisc cd;
@@ -748,15 +763,16 @@ namespace Cassiopeia.src.Forms
                     }
                 }
                 //PENDING FIX
-                //TimeSpan seleccion = new TimeSpan();
-                //for (int i = 0; i < vistaAlbumes.SelectedItems.Count; i++)
-                //{
-                //    var selItem = vistaAlbumes.SelectedItems[i];
-                //    string a = selItem.SubItems[0].Text + "/**/" + selItem.SubItems[1].Text;
-                //    AlbumData ad = Kernel.Collection.GetAlbum(a);
-                //    seleccion += ad.Length;
-                //}
-                //duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
+                TimeSpan seleccion = new TimeSpan();
+                foreach (ListViewItem selItem in vistaAlbumes.SelectedItems)
+                {
+                    //string a = selItem.SubItems[0].Text + "/**/" + selItem.SubItems[1].Text;
+                    if (!filtered)
+                        seleccion += Kernel.Collection.Albums[selItem.Index].Length;
+                    else
+                        seleccion += Kernel.Collection.FilteredAlbums[selItem.Index].Length;
+                }
+                duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
             }
         }
         private void borrarseleccionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1326,7 +1342,6 @@ namespace Cassiopeia.src.Forms
             f.ContainsSongTitle = toolStripTextBoxSearch.Text;
             ApplySearchFilter(f);
         }
-        #endregion
 
         private void vinylToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -1343,5 +1358,6 @@ namespace Cassiopeia.src.Forms
             digitalToolStripMenuItem.Checked = false;
             UpdateViewInfo();
         }
+        #endregion
     }
 }

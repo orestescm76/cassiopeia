@@ -43,7 +43,7 @@
             this.labelFrontLength = new System.Windows.Forms.Label();
             this.labelBackLength = new System.Windows.Forms.Label();
             this.numericUpDownNumSongsBack = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelNumSongsBack = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumSongsFront)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumSongsBack)).BeginInit();
             this.SuspendLayout();
@@ -51,7 +51,7 @@
             // comboBoxEstadoExterior
             // 
             this.comboBoxEstadoExterior.FormattingEnabled = true;
-            this.comboBoxEstadoExterior.Location = new System.Drawing.Point(140, 14);
+            this.comboBoxEstadoExterior.Location = new System.Drawing.Point(205, 14);
             this.comboBoxEstadoExterior.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.comboBoxEstadoExterior.Name = "comboBoxEstadoExterior";
             this.comboBoxEstadoExterior.Size = new System.Drawing.Size(140, 23);
@@ -60,7 +60,7 @@
             // comboBoxEstadoMedio
             // 
             this.comboBoxEstadoMedio.FormattingEnabled = true;
-            this.comboBoxEstadoMedio.Location = new System.Drawing.Point(140, 59);
+            this.comboBoxEstadoMedio.Location = new System.Drawing.Point(205, 59);
             this.comboBoxEstadoMedio.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.comboBoxEstadoMedio.Name = "comboBoxEstadoMedio";
             this.comboBoxEstadoMedio.Size = new System.Drawing.Size(140, 23);
@@ -68,7 +68,7 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(100, 279);
+            this.buttonOK.Location = new System.Drawing.Point(140, 283);
             this.buttonOK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(88, 27);
@@ -89,7 +89,7 @@
             // 
             // textBoxPais
             // 
-            this.textBoxPais.Location = new System.Drawing.Point(140, 104);
+            this.textBoxPais.Location = new System.Drawing.Point(205, 104);
             this.textBoxPais.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxPais.Name = "textBoxPais";
             this.textBoxPais.Size = new System.Drawing.Size(140, 23);
@@ -127,7 +127,7 @@
             // 
             // textBoxAño
             // 
-            this.textBoxAño.Location = new System.Drawing.Point(140, 148);
+            this.textBoxAño.Location = new System.Drawing.Point(205, 148);
             this.textBoxAño.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxAño.Name = "textBoxAño";
             this.textBoxAño.Size = new System.Drawing.Size(140, 23);
@@ -145,7 +145,7 @@
             // 
             // numericUpDownNumSongsFront
             // 
-            this.numericUpDownNumSongsFront.Location = new System.Drawing.Point(140, 194);
+            this.numericUpDownNumSongsFront.Location = new System.Drawing.Point(205, 194);
             this.numericUpDownNumSongsFront.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericUpDownNumSongsFront.Maximum = new decimal(new int[] {
             0,
@@ -177,7 +177,7 @@
             // 
             // numericUpDownNumSongsBack
             // 
-            this.numericUpDownNumSongsBack.Location = new System.Drawing.Point(140, 232);
+            this.numericUpDownNumSongsBack.Location = new System.Drawing.Point(205, 232);
             this.numericUpDownNumSongsBack.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.numericUpDownNumSongsBack.Maximum = new decimal(new int[] {
             0,
@@ -189,24 +189,24 @@
             this.numericUpDownNumSongsBack.TabIndex = 16;
             this.numericUpDownNumSongsBack.ValueChanged += new System.EventHandler(this.numericUpDownNumSongsBack_ValueChanged);
             // 
-            // label1
+            // labelNumSongsBack
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 234);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(116, 15);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "numCancionesDisco";
+            this.labelNumSongsBack.AutoSize = true;
+            this.labelNumSongsBack.Location = new System.Drawing.Point(12, 234);
+            this.labelNumSongsBack.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelNumSongsBack.Name = "labelNumSongsBack";
+            this.labelNumSongsBack.Size = new System.Drawing.Size(116, 15);
+            this.labelNumSongsBack.TabIndex = 15;
+            this.labelNumSongsBack.Text = "numCancionesDisco";
             // 
             // CreateVinylCassette
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(293, 322);
+            this.ClientSize = new System.Drawing.Size(358, 322);
             this.Controls.Add(this.numericUpDownNumSongsBack);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelNumSongsBack);
             this.Controls.Add(this.labelBackLength);
             this.Controls.Add(this.labelFrontLength);
             this.Controls.Add(this.numericUpDownNumSongsFront);
@@ -250,6 +250,6 @@
         private System.Windows.Forms.Label labelFrontLength;
         private System.Windows.Forms.Label labelBackLength;
         private System.Windows.Forms.NumericUpDown numericUpDownNumSongsBack;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelNumSongsBack;
     }
 }
