@@ -12,8 +12,8 @@ namespace Cassiopeia.src.Forms
         }
         private void PonerTextos()
         {
-            Text = Program.LocalTexts.GetString("playlistName");
-            buttonOk.Text = Program.LocalTexts.GetString("aceptar");
+            Text = Kernel.LocalTexts.GetString("playlistName");
+            buttonOk.Text = Kernel.LocalTexts.GetString("aceptar");
         }
         private void WriteName_Load(object sender, EventArgs e)
         {
@@ -22,12 +22,18 @@ namespace Cassiopeia.src.Forms
 
         private void buttonOk_Click(object sender, EventArgs e)
         {
-            PlaylistName = textBoxName.Lines[0];
-            DialogResult = DialogResult.OK;
-            if (string.IsNullOrEmpty(PlaylistName))
+            if (textBoxName.Lines.Length != 0)
+            {
+                PlaylistName = textBoxName.Lines[0];
+                DialogResult = DialogResult.OK;
+                if (string.IsNullOrEmpty(PlaylistName))
+                    DialogResult = DialogResult.Cancel;
+            }
+            else
                 DialogResult = DialogResult.Cancel;
             Close();
             Dispose();
+
         }
     }
 }

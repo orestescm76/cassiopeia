@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public class Playlist
     {

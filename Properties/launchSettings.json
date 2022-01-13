@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Cassiopeia": {
+      "commandName": "Project",
+      "commandLineArgs": "-noSpotify",
+      "authenticationMode": "None"
+    },
+    "SpotifyDebug": {
+      "commandName": "Project",
+      "commandLineArgs": "-noUpdates -console"
+    },
+    "StreamMode": {
+      "commandName": "Project",
+      "commandLineArgs": "-modoStream -console"
+    }
+  }
+}

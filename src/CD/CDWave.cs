@@ -1,5 +1,5 @@
-﻿using Microsoft.Win32.SafeHandles;
-using CSCore;
+﻿using CSCore;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -141,16 +141,20 @@ namespace Cassiopeia.CD
             }
         }
         //implementado por sectores
-        public long Position 
-        { 
+        public long Position
+        {
             get
             {
-                return currentSector-startSector;
+                return currentSector - startSector;
             }
             set
             {
                 if (value > (endSector - startSector) && value < 0)
+                {
+                    Log.Instance.PrintMessage("Value exceeds the total number of sectors", MessageType.Error);
                     throw new ArgumentOutOfRangeException();
+                }
+
                 else
                 {
                     currentSector = (uint)(startSector + value);

@@ -31,7 +31,7 @@ namespace Cassiopeia
             if (!stream.CanRead)
                 throw new ArgumentException("Stream is not readable.", "stream");
             _stream = stream;
-            _vorbisReader = new VorbisReader(stream,false);
+            _vorbisReader = new VorbisReader(stream, false);
             WaveFormat = new WaveFormat(_vorbisReader.SampleRate, 16, _vorbisReader.Channels, AudioEncoding.IeeeFloat);
             posAnt = TimeSpan.Zero;
             _vorbisReader.SamplePosition = 0;
@@ -46,7 +46,7 @@ namespace Cassiopeia
         //got fixed through workitem #17, thanks for reporting @rgodart.
         public long Length
         {
-            get 
+            get
             {
                 return (long)_vorbisReader.TotalTime.TotalSeconds * WaveFormat.SampleRate * _vorbisReader.Channels;
             }

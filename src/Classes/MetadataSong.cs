@@ -1,9 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Drawing;
+using System.IO;
 using File = TagLib.File;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public class MetadataSong
     {

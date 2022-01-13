@@ -15,10 +15,10 @@ namespace Cassiopeia.src.Forms
         public SearchSpotify()
         {
             InitializeComponent();
-            Text = Program.LocalTexts.GetString("buscar_Spotify");
-            labelBusqueda.Text = Program.LocalTexts.GetString("busqueda_Spotify");
-            buttonOk.Text = Program.LocalTexts.GetString("buscar");
-            labelAlternativa.Text = Program.LocalTexts.GetString("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
+            Text = Kernel.LocalTexts.GetString("buscar_Spotify");
+            labelBusqueda.Text = Kernel.LocalTexts.GetString("busqueda_Spotify");
+            buttonOk.Text = Kernel.LocalTexts.GetString("buscar");
+            labelAlternativa.Text = Kernel.LocalTexts.GetString("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
             Icon = Properties.Resources.spotifyico;
         }
         private SearchType CheckQuery()
@@ -35,21 +35,28 @@ namespace Cassiopeia.src.Forms
             String[] uri = URI.Split(':');
             if (uri[1] != "album")
                 throw new ArgumentException();
-            Program._spotify.InsertarAlbumFromURI(uri[2]);
+            Kernel.Spotify.InsertAlbumFromURI(uri[2]);
+            Close();
             Dispose();
         }
         private DialogResult SearchAlbum(string query) //Invokes the form for the results. DialogResult determines if the user has completed the action.
         {
-            List<SpotifyAPI.Web.Models.SimpleAlbum> AlbumList = Program._spotify.SearchAlbums(query);
-            if (!(AlbumList is null))
+            try
             {
+                List<SpotifyAPI.Web.SimpleAlbum> AlbumList = Kernel.Spotify.SearchAlbums(query, 20);
                 SpotifyResults res = new SpotifyResults(ref AlbumList, false);
                 res.ShowDialog();
                 if (res.DialogResult == DialogResult.Cancel)
                     return DialogResult.Cancel;
                 else return DialogResult.OK;
+
             }
-            else return DialogResult.Cancel;
+            catch (SpotifyAPI.Web.APIException ex)
+            {
+                Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
+                return DialogResult.Cancel;
+            }
+
         }
         private void buttonOk_Click(object sender, EventArgs e)
         {
@@ -74,13 +81,13 @@ namespace Cassiopeia.src.Forms
                     {
                         ProcessURI(textBoxURISpotify.Text);
                     }
-                    catch (ArgumentException)
+                    catch (Exception)
                     {
-                        MessageBox.Show(Program.LocalTexts.GetString("error_uri") + " (spotify:album:2dpdDyEGEsdnOUUePgkT6E)");
+                        MessageBox.Show(Kernel.LocalTexts.GetString("error_uri") + " (spotify:album:2dpdDyEGEsdnOUUePgkT6E)");
                     }
                     break;
                 case SearchType.Unknown:
-                    MessageBox.Show(Program.LocalTexts.GetString("error_vacio2"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio2"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 default:
                     break;

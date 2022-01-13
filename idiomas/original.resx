@@ -364,7 +364,7 @@
   <data name="GPlus" xml:space="preserve">
     <value>Bueno (G+)</value>
   </data>
-  <data name="guardar" xml:space="preserve">
+  <data name="saveAs" xml:space="preserve">
     <value>Guardar como</value>
   </data>
   <data name="guardarBD" xml:space="preserve">
@@ -437,7 +437,7 @@
     <value>Fusionar como canción por partes</value>
   </data>
   <data name="titulo" xml:space="preserve">
-    <value>Título</value>
+    <value>Título del álbum</value>
     <comment>titulo de un album</comment>
   </data>
   <data name="titulo_ventana_principal" xml:space="preserve">
@@ -673,5 +673,98 @@
   </data>
   <data name="agradecimiento3" xml:space="preserve">
     <value> * Los creadores de NVorbis, CSCore y JAudio</value>
+  </data>
+  <data name="noDisqueteras" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="creando" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="tipoAlbum" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="estudio" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="live" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="compilacion" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="sencillo" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EP" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="importSpotify" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="importSpotifyWarning" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="showPanel" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="cambiar_historial" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="cambiar_stream" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="enable_historial" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="enable_stream_log" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="label_stream" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="label_historial" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="label_clipboard" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="song_title" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="write_filter" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="vinyl" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="createVinyl" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="side" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="createAnother" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="numOf" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="vinyls" xml:space="preserve">
+    <value></value>
   </data>
 </root>

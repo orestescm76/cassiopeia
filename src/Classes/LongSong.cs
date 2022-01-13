@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public class LongSong : Song
     {
@@ -12,8 +12,9 @@ namespace Cassiopeia
             Parts.Add(p);
         }
 
-        public override TimeSpan Length { 
-            get 
+        public override TimeSpan Length
+        {
+            get
             {
                 TimeSpan timeSpan = new TimeSpan();
 
@@ -23,10 +24,10 @@ namespace Cassiopeia
                 }
 
                 return timeSpan;
-            }         
+            }
         }
 
-        public LongSong() 
+        public LongSong()
         {
             Parts = new List<Song>();
         }

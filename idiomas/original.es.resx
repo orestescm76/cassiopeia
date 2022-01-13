@@ -364,7 +364,7 @@
   <data name="GPlus" xml:space="preserve">
     <value>Bueno (G+)</value>
   </data>
-  <data name="guardar" xml:space="preserve">
+  <data name="saveAs" xml:space="preserve">
     <value>Guardar como</value>
   </data>
   <data name="guardarBD" xml:space="preserve">
@@ -709,5 +709,119 @@
   </data>
   <data name="agradecimiento3" xml:space="preserve">
     <value> * Los creadores de NVorbis, CSCore y TagLib</value>
+  </data>
+  <data name="noDisqueteras" xml:space="preserve">
+    <value>No tienes disqueteras</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="creando" xml:space="preserve">
+    <value>Creando</value>
+  </data>
+  <data name="tipoAlbum" xml:space="preserve">
+    <value>Tipo</value>
+  </data>
+  <data name="estudio" xml:space="preserve">
+    <value>Estudio</value>
+  </data>
+  <data name="live" xml:space="preserve">
+    <value>En directo</value>
+  </data>
+  <data name="compilacion" xml:space="preserve">
+    <value>Compilación</value>
+  </data>
+  <data name="sencillo" xml:space="preserve">
+    <value>Sencillo</value>
+  </data>
+  <data name="EP" xml:space="preserve">
+    <value>EP (Reproducción extendida)</value>
+  </data>
+  <data name="importSpotify" xml:space="preserve">
+    <value>Importar colección de albums</value>
+  </data>
+  <data name="importSpotifyWarning" xml:space="preserve">
+    <value>Hay muchos discos. Si descarga las portadas, podría tardar un par de minutos. ¿Desea descargar las portadas?</value>
+  </data>
+  <data name="showPanel" xml:space="preserve">
+    <value>Mostrar panel lateral</value>
+  </data>
+  <data name="cambiar_historial" xml:space="preserve">
+    <value>Configurar historial</value>
+  </data>
+  <data name="cambiar_stream" xml:space="preserve">
+    <value>Configurar la cadena de retransmisión</value>
+  </data>
+  <data name="enable_historial" xml:space="preserve">
+    <value>Activar historial de canciones a fichero</value>
+  </data>
+  <data name="enable_stream_log" xml:space="preserve">
+    <value>Activar retransmisión a archivo</value>
+  </data>
+  <data name="label_clipboard" xml:space="preserve">
+    <value>%artist% - Artista del álbum
+%title% - Título del álbum
+%year% - Año de salida
+%genre% - Género
+%length_min% - Duración en minutos
+%length_seconds% - Duración en segundos, como número entero
+%length% - Duración del álbum, formateado como: [HH:]MM:SS. 
+%totaltracks% - Número de canciones
+%path% - Ruta de archivos locales, si fuera posible</value>
+  </data>
+  <data name="label_historial" xml:space="preserve">
+    <value>%artist% - Artista de la canción
+%title% - Título de la canción
+%year% - Año de salida
+%length_min% - Duración en minutos
+%length_seconds% - Duración en segundos, como número entero
+%length% - Duración de la canción, formateado como: [HH:]MM:SS. 
+%path% - Ruta de la canción, si fuera posible</value>
+  </data>
+  <data name="label_stream" xml:space="preserve">
+    <value>%artist% - Artista
+%title% - Título de la canción
+%year% - Año de salida
+%album% - Nombre del álbum
+%track_num% - Número de canción escuchada
+%length% - Duración de la canción, formateado como [HH:]MM:SS.
+%pos% - Posición, formateado como MM:SS
+%time% - Hora actual, formateado como HH:MM
+%date% - Fecha de hoy
+\n - Nueva línea</value>
+  </data>
+  <data name="song_title" xml:space="preserve">
+    <value>Título de la canción (tiene prioridad)</value>
+  </data>
+  <data name="write_filter" xml:space="preserve">
+    <value>Escribe algo para filtrar la colección</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="filter" xml:space="preserve">
+    <value>Filtrar</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="vinyl" xml:space="preserve">
+    <value>Vinilo</value>
+  </data>
+  <data name="createVinyl" xml:space="preserve">
+    <value>Crear disco de vinilo</value>
+  </data>
+  <data name="side" xml:space="preserve">
+    <value>lado</value>
+  </data>
+  <data name="createAnother" xml:space="preserve">
+    <value>¿Crear otro {media}?
+Quedan {num} canciones.</value>
+  </data>
+  <data name="numOf" xml:space="preserve">
+    <value>Número de</value>
+  </data>
+  <data name="vinyls" xml:space="preserve">
+    <value>discos de vinilo</value>
   </data>
 </root>

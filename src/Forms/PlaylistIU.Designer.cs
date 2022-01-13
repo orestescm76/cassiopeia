@@ -51,6 +51,8 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelTracksSelected = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -237,6 +239,19 @@
             this.toolStripStatusLabelTracksSelected.Name = "toolStripStatusLabelTracksSelected";
             this.toolStripStatusLabelTracksSelected.Size = new System.Drawing.Size(118, 19);
             this.toolStripStatusLabelTracksSelected.Text = "toolStripStatusLabel1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(192, 6);
+            // 
+            // toolStripMenuItemOpenFolder
+            // 
+            this.toolStripMenuItemOpenFolder.Name = "toolStripMenuItemOpenFolder";
+            this.toolStripMenuItemOpenFolder.Size = new System.Drawing.Size(195, 22);
+            this.toolStripMenuItemOpenFolder.Text = "open containing folder";
+            this.toolStripMenuItemOpenFolder.Click += new System.EventHandler(this.toolStripMenuItemOpenFolder_Click);
+            this.toolStripMenuItemOpenFolder.MouseEnter += new System.EventHandler(this.toolStripMenuItemOpenFolder_MouseEnter);
             // 
             // PlaylistIU
             // 

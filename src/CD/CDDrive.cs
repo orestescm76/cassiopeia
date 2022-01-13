@@ -1,8 +1,7 @@
-﻿using Microsoft.Win32.SafeHandles;
-using CSCore;
+﻿using CSCore;
+using Microsoft.Win32.SafeHandles;
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Cassiopeia.CD
 {
@@ -32,9 +31,9 @@ namespace Cassiopeia.CD
                 FileMode.Open,
                 0,
                 IntPtr.Zero);
-            if(handle.IsInvalid)
+            if (handle.IsInvalid)
             {
-                Console.WriteLine("No se puede abrir el CD");
+                Log.Instance.PrintMessage("Couldn't read the CD drive. Handle is invalid", MessageType.Error);
                 return null;
             }
             return new CDDrive(handle);

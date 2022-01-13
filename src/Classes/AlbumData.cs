@@ -1,10 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
+    public enum AlbumType
+    {
+        Studio,
+        Live,
+        Compilation,
+        EP,
+        Single
+    }
     public class AlbumData
     {
         public String Title { get; set; }
@@ -14,20 +22,22 @@ namespace Cassiopeia
 
         public List<Song> Songs { get; set; }
 
-        public String ID { get => Title+Artist; }
+        public String ID { get => Artist + " " + Title; }
         public String IdSpotify { get; set; }
 
         public String CoverPath { get; set; }
         public String SoundFilesPath { get; set; }
+        public AlbumType Type { get; set; }
 
         [JsonIgnore] public int NumberOfSongs { get { return Songs.Count; } }
-        [JsonIgnore] public TimeSpan Length { get => GetLength(); }
+        [JsonIgnore] public TimeSpan Length { get => GetLength(false); }
+        [JsonIgnore] public TimeSpan BonusLength { get => GetLength(true); }
         [JsonIgnore] public bool CanBeRemoved { get; set; }
 
         public AlbumData()
         {
             Songs = new List<Song>();
-            Genre = Program.Genres.Last();
+            Genre = Kernel.Genres.Last();
         }
 
         public AlbumData(Genre genre, string title = "", string artist = "", short year = 0, string coverPath = "")
@@ -60,22 +70,6 @@ namespace Cassiopeia
             Songs = other.Songs;
             CoverPath = other.CoverPath;
             CanBeRemoved = true;
-        }
-        //---COMPARISON---
-        public override bool Equals(Object other)
-        {
-            AlbumData albumData = other as AlbumData;
-            return ID == albumData.ID;
-        }
-
-        public static bool operator ==(AlbumData leftAlbumData, AlbumData rightAlbumData)
-        {
-            return leftAlbumData.ID == rightAlbumData.ID;
-        }
-
-        public static bool operator !=(AlbumData leftAlbumData, AlbumData rightAlbumData)
-        {
-            return !(leftAlbumData == rightAlbumData);
         }
 
         //---SONGS MANAGEMENT---
@@ -135,17 +129,20 @@ namespace Cassiopeia
         }
 
         //---DATA---
-        private TimeSpan GetLength()
+        private TimeSpan GetLength(bool bonus)
         {
             TimeSpan length = new TimeSpan();
-
+            TimeSpan lengthBonus = new TimeSpan();
             foreach (Song song in Songs)
             {
-                if (!song.IsBonus)
+                if (!song.IsBonus) //If this song is bonus don't add it
                     length += song.Length;
+                else
+                    lengthBonus += song.Length; //If we want the total bonus song length we would add it here
             }
-
-            return length;
+            if (!bonus)
+                return length;
+            return lengthBonus;
         }
 
         public override string ToString()
@@ -153,7 +150,18 @@ namespace Cassiopeia
             //Returns whatever the clipboard string is.
             return ToClipboard();
         }
-
+        public static bool operator ==(AlbumData a, AlbumData b)
+        {
+            if (a.Artist == b.Artist && a.Title == b.Title)
+                return true;
+            return false;
+        }
+        public static bool operator !=(AlbumData a, AlbumData b)
+        {
+            if (a.Artist != b.Artist && a.Title != b.Title)
+                return true;
+            return false;
+        }
         public String[] ToStringArray()
         {
             String[] datos = { Artist, Title, Year.ToString(), Length.ToString(), Genre.Name };
@@ -176,6 +184,10 @@ namespace Cassiopeia
                 clipboardText = clipboardText.Replace("%genre%", Genre.Name);
                 clipboardText = clipboardText.Replace("%length%", Length.ToString());
                 clipboardText = clipboardText.Replace("%length_seconds%", ((int)Length.TotalSeconds).ToString());
+                clipboardText = clipboardText.Replace("%length_seconds%", ((int)Length.TotalSeconds).ToString());
+                clipboardText = clipboardText.Replace("%length_min%", Length.TotalMinutes.ToString());
+                clipboardText = clipboardText.Replace("%totaltracks%", NumberOfSongs.ToString());
+                clipboardText = clipboardText.Replace("%path%", SoundFilesPath);
                 return clipboardText;
             }
             catch (NullReferenceException)

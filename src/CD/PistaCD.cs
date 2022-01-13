@@ -6,7 +6,7 @@ namespace Cassiopeia.CD
     {
         private readonly uint sectorInicio;
         private readonly uint sectorFinal;
-        public string ID { get;  }
+        public string ID { get; }
         public TimeSpan Duracion { get; }
         public PistaCD(uint startSector, uint endSector, string ID)
         {

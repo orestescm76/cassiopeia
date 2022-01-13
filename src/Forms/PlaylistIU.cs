@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cassiopeia.src.Classes;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -24,22 +25,22 @@ namespace Cassiopeia.src.Forms
         }
         private void PutTexts()
         {
-            fileToolStripMenuItem.Text = Program.LocalTexts.GetString("archivo");
-            newToolStripMenuItem.Text = Program.LocalTexts.GetString("nuevaPlaylist");
-            saveToolStripMenuItem.Text = Program.LocalTexts.GetString("guardar");
-            openToolStripMenuItem.Text = Program.LocalTexts.GetString("abrir");
-            addSongToolStripMenuItem.Text = Program.LocalTexts.GetString("añadir_cancion");
-            changeNameToolStripMenuItem.Text = Program.LocalTexts.GetString("cambiarNombrePL");
-            addSongToolStripMenuItem.Text = Program.LocalTexts.GetString("añadir_cancion");
-            listViewSongs.Columns[0].Text = Program.LocalTexts.GetString("reproduciendo");
-            listViewSongs.Columns[1].Text = Program.LocalTexts.GetString("artista");
-            listViewSongs.Columns[2].Text = Program.LocalTexts.GetString("titulo");
-            listViewSongs.Columns[3].Text = Program.LocalTexts.GetString("duracion");
-            toolStripStatusLabelTracksSelected.Text = "0 " + Program.LocalTexts.GetString("canciones");
+            fileToolStripMenuItem.Text = Kernel.LocalTexts.GetString("archivo");
+            newToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevaPlaylist");
+            saveToolStripMenuItem.Text = Kernel.LocalTexts.GetString("guardar");
+            openToolStripMenuItem.Text = Kernel.LocalTexts.GetString("abrir");
+            addSongToolStripMenuItem.Text = Kernel.LocalTexts.GetString("añadir_cancion");
+            changeNameToolStripMenuItem.Text = Kernel.LocalTexts.GetString("cambiarNombrePL");
+            addSongToolStripMenuItem.Text = Kernel.LocalTexts.GetString("añadir_cancion");
+            listViewSongs.Columns[0].Text = Kernel.LocalTexts.GetString("reproduciendo");
+            listViewSongs.Columns[1].Text = Kernel.LocalTexts.GetString("artista");
+            listViewSongs.Columns[2].Text = Kernel.LocalTexts.GetString("titulo");
+            listViewSongs.Columns[3].Text = Kernel.LocalTexts.GetString("duracion");
+            toolStripStatusLabelTracksSelected.Text = "0 " + Kernel.LocalTexts.GetString("canciones");
             toolStripStatusLabelDuration.Text = "0:00";
-            toolStripMenuItemPlay.Text = Program.LocalTexts.GetString("reproducir");
-            toolStripMenuItemRemove.Text = Program.LocalTexts.GetString("suprimir");
-            toolStripMenuItemOpenFolder.Text = Program.LocalTexts.GetString("openFolder");
+            toolStripMenuItemPlay.Text = Kernel.LocalTexts.GetString("reproducir");
+            toolStripMenuItemRemove.Text = Kernel.LocalTexts.GetString("suprimir");
+            toolStripMenuItemOpenFolder.Text = Kernel.LocalTexts.GetString("openFolder");
         }
         public void UpdateTime()
         {
@@ -73,7 +74,7 @@ namespace Cassiopeia.src.Forms
                 string[] data = new string[4];
                 data[0] = "";
                 //We can be playing a CD!
-                if(Reproductor.Instancia.ModoCD)
+                if (Player.Instancia.ModoCD)
                 {
                     data[1] = "";
                     data[2] = "";
@@ -82,7 +83,7 @@ namespace Cassiopeia.src.Forms
                     continue; //don't check anything else
                 }
                 //Pick song data if it's mandatory
-                if(string.IsNullOrEmpty(Playlist.Songs[i].Title))
+                if (string.IsNullOrEmpty(Playlist.Songs[i].Title))
                 {
                     MetadataSong lectorMetadatos = new MetadataSong(Playlist.Songs[i].Path);
                     data[1] = lectorMetadatos.Artist;
@@ -111,12 +112,15 @@ namespace Cassiopeia.src.Forms
         }
         public void SetActiveSong(int punt)
         {
-            if(punt != -1)
+            if (punt != -1)
             {
+                //Get the last one and set playing tick
+                int aux = Pointer;
                 listViewSongs.Items[punt].SubItems[0].Text = Playing;
                 Pointer = punt;
-                listViewSongs.Items[Pointer].SubItems[0].Text = "";
-                
+                //If we changed song, clean it
+                if (aux != Pointer)
+                    listViewSongs.Items[aux].SubItems[0].Text = "";
             }
             else
             {
@@ -128,14 +132,14 @@ namespace Cassiopeia.src.Forms
         }
         private void SavePlaylist()
         {
-            Log.Instance.PrintMessage("Guardando playlist", MessageType.Info);
+            Log.Instance.PrintMessage("Saving playlist", MessageType.Info);
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
             saveFileDialog.Filter = ".plf|*.plf";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Playlist.Save(saveFileDialog.FileName);
-                Log.Instance.PrintMessage("Guardado correctamente", MessageType.Correct);
+                Log.Instance.PrintMessage("Saved", MessageType.Correct);
             }
         }
         //I don't care if the user has multiple songs selected, i play the first one.
@@ -143,26 +147,27 @@ namespace Cassiopeia.src.Forms
         {
             SetActiveSong(listViewSongs.SelectedItems[0].Index);
             //Are we playing a CD?
-            if (Reproductor.Instancia.ModoCD)
-                Reproductor.Instancia.PlaySong(Pointer);
+            if (Player.Instancia.ModoCD)
+                Player.Instancia.PlaySong(Pointer);
 
             else
-                Reproductor.Instancia.PlaySong(Playlist[Pointer]);
-            
-            Reproductor.Instancia.ListaReproduccionPuntero = Pointer;
+                Player.Instancia.PlaySong(Playlist[Pointer]);
+
+            Player.Instancia.ListaReproduccionPuntero = Pointer;
         }
         //Gets the selected songs and removes them from the playlist
         private void RemoveSongs()
         {
-            Log.Instance.PrintMessage("Borrando canciones de la playlist", MessageType.Info);
+            Log.Instance.PrintMessage("Deleting songs off the playlist", MessageType.Info);
             Song[] selectedSongs = GetSelectedSongs();
             listViewSongs.SelectedItems.Clear();
             for (int i = 0; i < selectedSongs.Length; i++)
             {
                 Playlist.RemoveSong(selectedSongs[i]);
+                listViewSongs.SelectedItems[i].Remove();
             }
             RefreshView();
-            Log.Instance.PrintMessage("Borrado correcto", MessageType.Correct);
+            Log.Instance.PrintMessage("Deleted succesfully!", MessageType.Correct);
         }
         private void SetPlayVisibility(bool value)
         {
@@ -175,7 +180,7 @@ namespace Cassiopeia.src.Forms
             SetActiveSong(Pointer);
         }
 
-    #region Events
+        #region Events
 
         private void PlaylistIU_DragEnter(object sender, DragEventArgs e)
         {
@@ -184,12 +189,14 @@ namespace Cassiopeia.src.Forms
 
         private void PlaylistIU_DragDrop(object sender, DragEventArgs e)
         {
+            Log.Instance.PrintMessage("Detected Drag & Drop", MessageType.Info);
             Song c = null;
             string[] canciones = null;
-            if((c = (Song)e.Data.GetData(typeof(Song))) != null)
+            if ((c = (Song)e.Data.GetData(typeof(Song))) != null)
             {
-                if(!string.IsNullOrEmpty(c.Path))
+                if (!string.IsNullOrEmpty(c.Path))
                 {
+                    Log.Instance.PrintMessage("Adding " + c.Path, MessageType.Info);
                     Playlist.AddSong(c);
                 }
             }
@@ -197,14 +204,19 @@ namespace Cassiopeia.src.Forms
             {
                 foreach (string songPath in canciones)
                 {
+                    Log.Instance.PrintMessage("Adding " + songPath, MessageType.Info);
                     Song clr = new Song();
                     clr.Path = songPath;
                     Playlist.AddSong(clr);
                 }
             }
+            else
+            {
+                Log.Instance.PrintMessage("Can't process the data. Wrong input?", MessageType.Warning);
+            }
             RefreshView();
-            
-            Reproductor.Instancia.ActivarPorLista();
+
+            Player.Instancia.ActivarPorLista();
         }
 
         private void listViewSongs_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -220,7 +232,7 @@ namespace Cassiopeia.src.Forms
 
         private void PlaylistIU_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(e.CloseReason != CloseReason.ApplicationExitCall)
+            if (e.CloseReason != CloseReason.ApplicationExitCall)
             {
                 Hide();
                 e.Cancel = true;
@@ -244,20 +256,21 @@ namespace Cassiopeia.src.Forms
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Log.Instance.PrintMessage("Abriendo playlist", MessageType.Info);
+            Log.Instance.PrintMessage("Opening playlist", MessageType.Info);
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.InitialDirectory = Environment.CurrentDirectory;
             openFileDialog.Filter = ".plf|*.plf";
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
                     Playlist.Load(openFileDialog.FileName);
-                    Log.Instance.PrintMessage("Abierto correctamente", MessageType.Correct);
+                    Log.Instance.PrintMessage("Opened", MessageType.Correct);
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show(Program.LocalTexts.GetString("errrorLR"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Log.Instance.PrintMessage("Playlist file is invalid", MessageType.Error);
+                    MessageBox.Show(Kernel.LocalTexts.GetString("errrorLR"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             RefreshView();
@@ -285,14 +298,14 @@ namespace Cassiopeia.src.Forms
         {
             if (listViewSongs.SelectedItems.Count != 0)
             {
-                toolStripStatusLabelTracksSelected.Text = listViewSongs.SelectedItems.Count + " " + Program.LocalTexts.GetString("canciones");
+                toolStripStatusLabelTracksSelected.Text = listViewSongs.SelectedItems.Count + " " + Kernel.LocalTexts.GetString("canciones");
                 TimeSpan seleccion = new TimeSpan();
                 foreach (ListViewItem songItem in listViewSongs.SelectedItems)
                 {
                     Song song = Playlist[songItem.Index];
                     seleccion += song.Length;
                 }
-                if(seleccion.TotalMinutes < 60)
+                if (seleccion.TotalMinutes < 60)
                     toolStripStatusLabelDuration.Text = seleccion.ToString(@"mm\:ss");
                 else
                     toolStripStatusLabelDuration.Text = seleccion.ToString(@"hh\:mm\:ss");
@@ -300,14 +313,14 @@ namespace Cassiopeia.src.Forms
             else
             {
                 UpdateTime();
-                toolStripStatusLabelTracksSelected.Text = "0 " + Program.LocalTexts.GetString("canciones");
+                toolStripStatusLabelTracksSelected.Text = "0 " + Kernel.LocalTexts.GetString("canciones");
             }
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Creates a new playlist and sends it to the Player.
-            DialogResult result = MessageBox.Show(Program.LocalTexts.GetString("guardarPL"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(Kernel.LocalTexts.GetString("guardarPL"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             switch (result)
             {
                 case DialogResult.Yes:
@@ -318,9 +331,9 @@ namespace Cassiopeia.src.Forms
                 default:
                     break;
             }
-            if(result != DialogResult.Yes) //for some reason, the user cancels at the save dialog...
+            if (result != DialogResult.Yes) //for some reason, the user cancels at the save dialog...
             {
-                Reproductor.Instancia.CreatePlaylist(Program.LocalTexts.GetString("nuevaPlaylist"));
+                Player.Instancia.CreatePlaylist(Kernel.LocalTexts.GetString("nuevaPlaylist"));
                 Pointer = 0;
                 RefreshView();
             }
@@ -358,7 +371,7 @@ namespace Cassiopeia.src.Forms
                 SetPlayVisibility(false);
                 toolStripMenuItemOpenFolder.Enabled = false;
             }
-                
+
             else
             {
                 SetPlayVisibility(true);
@@ -370,12 +383,12 @@ namespace Cassiopeia.src.Forms
 
         private void toolStripMenuItemPlay_MouseEnter(object sender, EventArgs e)
         {
-            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoReproducir");
+            toolStripStatusLabelInfo.Text = Kernel.LocalTexts.GetString("infoReproducir");
         }
 
         private void toolStripMenuItemRemove_MouseEnter(object sender, EventArgs e)
         {
-            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoDelete");
+            toolStripStatusLabelInfo.Text = Kernel.LocalTexts.GetString("infoDelete");
         }
 
         private void toolStripMenuItemOpenFolder_Click(object sender, EventArgs e)
@@ -392,11 +405,11 @@ namespace Cassiopeia.src.Forms
 
         private void toolStripMenuItemOpenFolder_MouseEnter(object sender, EventArgs e)
         {
-            toolStripStatusLabelInfo.Text = Program.LocalTexts.GetString("infoOpenFolder");
+            toolStripStatusLabelInfo.Text = Kernel.LocalTexts.GetString("infoOpenFolder");
         }
         private void listViewSongs_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Delete)
+            if (e.KeyCode == Keys.Delete)
             {
                 RemoveSongs();
             }

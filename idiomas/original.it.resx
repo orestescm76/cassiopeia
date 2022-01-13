@@ -139,7 +139,7 @@
     <value> * @esgmonologos su Twitter per l'icona</value>
   </data>
   <data name="agradecimiento4" xml:space="preserve">
-    <value> * Coloro che mi hanno aiutato nel testare questo progetto e Delunado</value>
+    <value> * Coloro che mi hanno aiutato nel testare questo progetto</value>
   </data>
   <data name="abrir" xml:space="preserve">
     <value>Apri</value>
@@ -346,8 +346,7 @@
     <value>Modifica in corso</value>
   </data>
   <data name="editar" xml:space="preserve">
-    <value>Modifica
-</value>
+    <value>Modifica</value>
   </data>
   <data name="editar_anotaciones" xml:space="preserve">
     <value>Modifica note</value>
@@ -520,7 +519,7 @@
   <data name="GPlus" xml:space="preserve">
     <value>Molto buono (B+)</value>
   </data>
-  <data name="guardar" xml:space="preserve">
+  <data name="saveAs" xml:space="preserve">
     <value>Salva con nome</value>
   </data>
   <data name="guardarBD" xml:space="preserve">
@@ -708,5 +707,11 @@
   </data>
   <data name="verLyrics" xml:space="preserve">
     <value>Osserva il testo</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Errore</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Salva</value>
   </data>
 </root>

@@ -2,4 +2,5 @@ obj/
 bin/
 .vs/
 /.vs/aplicacion-gestormusica/v16/.suo
-
+/publish
+.\Properties\PublishProfiles\*

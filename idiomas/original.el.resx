@@ -369,7 +369,7 @@
   <data name="GPlus" xml:space="preserve">
     <value>Πιο καλό (G+)</value>
   </data>
-  <data name="guardar" xml:space="preserve">
+  <data name="saveAs" xml:space="preserve">
     <value>Αποθήκευση ως</value>
   </data>
   <data name="Jewel" xml:space="preserve">
@@ -707,5 +707,8 @@
   </data>
   <data name="errorBusquedaSpotify" xml:space="preserve">
     <value>Δεν είναι δυνατή η επεξεργασία του ερωτήματος. Ελέγξτε εάν και τα δύο κουτιά κειμένου έχουν κείμενο.</value>
+  </data>
+  <data name="error" xml:space="preserve">
+    <value>Σφάλμα</value>
   </data>
 </root>

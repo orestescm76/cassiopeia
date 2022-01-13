@@ -1,7 +1,7 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
-namespace Cassiopeia
+namespace Cassiopeia.src.Classes
 {
     public class Genre
     {

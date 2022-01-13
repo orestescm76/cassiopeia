@@ -5,7 +5,8 @@ using System.Runtime.InteropServices;
 
 namespace Cassiopeia
 {
-    //Clase para tener funciones de la API de Windows
+    //Clase para tener funciones de la API de Windows.
+    //Es Interna para que solo se limite a este ensamblado.
     internal class WinAPI
     {
         public enum CreationDisposition : uint
@@ -113,5 +114,9 @@ namespace Cassiopeia
             uint nOutBufferSize,
             ref uint lpBytesReturned,
             IntPtr lpOverlapped);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern int AllocConsole();
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern int FreeConsole();
     }
 }
