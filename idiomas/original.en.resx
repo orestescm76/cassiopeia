@@ -820,4 +820,14 @@
   <data name="side" xml:space="preserve">
     <value>side</value>
   </data>
+  <data name="createAnother" xml:space="preserve">
+    <value>Create another {media}?
+{num} songs remaining.</value>
+  </data>
+  <data name="numOf" xml:space="preserve">
+    <value>Number of</value>
+  </data>
+  <data name="vinyls" xml:space="preserve">
+    <value>vinyl records</value>
+  </data>
 </root>

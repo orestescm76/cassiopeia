@@ -755,4 +755,16 @@
   <data name="side" xml:space="preserve">
     <value></value>
   </data>
+  <data name="create" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="createAnother" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="numOf" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="vinyls" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

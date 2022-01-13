@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Cassiopeia.src.Classes
@@ -102,7 +103,7 @@ namespace Cassiopeia.src.Classes
                 if (item.Id == id)
                 {
                     CDS.Remove(item);
-                    ReleaseLockCD(item.Album);
+                    ReleaseLock(item.Album);
                     return;
                 }
             }
@@ -111,7 +112,19 @@ namespace Cassiopeia.src.Classes
         {
             CDS.Remove(cd);
         }
-        private void ReleaseLockCD(AlbumData a)
+        public void DeleteVinyl(string id)
+        {
+            foreach (var v in Vinyls)
+            {
+                if(v.Id == id)
+                {
+                    Vinyls.Remove(v);
+                    ReleaseLock(v.Album);
+                    return;
+                }
+            }
+        }
+        private void ReleaseLock(AlbumData a)
         {
             //First release the lock
             a.CanBeRemoved = true;
@@ -119,6 +132,11 @@ namespace Cassiopeia.src.Classes
             {
                 //If one copy refers that album, we cannot remove
                 if (cd.Album == a)
+                    a.CanBeRemoved = false;
+            }
+            foreach (var vinyl in Vinyls)
+            {
+                if (vinyl.Album == a)
                     a.CanBeRemoved = false;
             }
         }
@@ -152,6 +170,33 @@ namespace Cassiopeia.src.Classes
                 time += cd.Length;
             }
             return time;
+        }
+        public TimeSpan GetTotalTime(List<VinylAlbum> Vinyl)
+        {
+            TimeSpan time = new TimeSpan();
+            foreach (var v in Vinyl)
+            {
+                time += v.Length;
+            }
+            return time;
+        }
+        public List<AlbumData> GetCDAlbums()
+        {
+            HashSet<AlbumData> albums = new HashSet<AlbumData>();
+            foreach (var cd in CDS)
+            {
+                albums.Add(cd.Album);
+            }
+            return albums.ToList();
+        }
+        public List<AlbumData> GetVinylAlbums()
+        {
+            HashSet<AlbumData> albums = new HashSet<AlbumData>();
+            foreach (var vinyl in Vinyls)
+            {
+                albums.Add(vinyl.Album);
+            }
+            return albums.ToList();
         }
     }
 }

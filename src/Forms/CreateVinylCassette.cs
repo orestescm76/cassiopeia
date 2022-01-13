@@ -212,7 +212,8 @@ namespace Cassiopeia.src.Forms
         private void AnotherDisc()
         {
             //Another CD?
-            DialogResult res = MessageBox.Show("Another Vinyl" + Environment.NewLine + "Quedan " + (album.Songs.Count - creatingVinyl.TotalSongs) + " canciones", "", MessageBoxButtons.YesNo);
+            string msg = Kernel.LocalTexts.GetString("createAnother").Replace("{num}", (album.Songs.Count - creatingVinyl.TotalSongs).ToString()).Replace("{media}", Kernel.LocalTexts.GetString("vinyl"));
+            DialogResult res = MessageBox.Show(msg, "", MessageBoxButtons.YesNo);
             if (res == DialogResult.No)
             {
                 //AlbumViewer v = new AlbumViewer(ref creatingVinyl);

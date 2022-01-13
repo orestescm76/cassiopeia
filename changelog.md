@@ -1,13 +1,13 @@
 # Cassiopeia Changelog
-#### 2.0.236.30
+#### 2.0.236.70
 - Added support for Vinyl albums
 - Fixed duplicated results in the real time filters.
-- Deleting doesn't refresh when list is filtered [ISSUE]
 - Now cover paths are saved with relative path, saves about 14% of space.
-- Removed the selected album duration [ISSUE]
 - Now program writes to log if languages folder is not found
 - Fixed album cover was not saved correctly if downloading from Spotify
 - Fixed creating albums and viewing albums
+- Added localization
+- Temporarily removed the selected duration because it needs to be reimplemented.
 
 #### 2.0.234.0
 - Realtime filters

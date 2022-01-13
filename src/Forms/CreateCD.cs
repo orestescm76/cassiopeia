@@ -196,7 +196,8 @@ namespace Cassiopeia.src.Forms
         private void AnotherCD()
         {
             //Another CD?
-            DialogResult res = MessageBox.Show("Another CD" + Environment.NewLine + "Quedan " + (album.Songs.Count - creatingCD.TotalSongs) + " canciones", "", MessageBoxButtons.YesNo);
+            string msg = Kernel.LocalTexts.GetString("createAnother").Replace("{num}", (album.Songs.Count - creatingCD.TotalSongs).ToString()).Replace("{media}", "CD");
+            DialogResult res = MessageBox.Show(msg, "", MessageBoxButtons.YesNo);
             if (res == DialogResult.No)
             {
                 AlbumViewer v = new AlbumViewer(ref creatingCD);
