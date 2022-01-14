@@ -230,13 +230,18 @@ namespace Cassiopeia
                 {
                     try
                     {
-                        System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
+                        Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
                         webClient.DownloadFile(new Uri(album.Images[0].Url), Environment.CurrentDirectory + "/covers/" + cover);
                     }
                     catch (System.Net.WebException e)
                     {
                         Log.Instance.PrintMessage("Exception captured System.Net.WebException", MessageType.Warning);
                         MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        cover = "";
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Instance.PrintMessage("No album image!! Uri: " + album.Uri, MessageType.Warning);
                         cover = "";
                     }
                 }
@@ -416,9 +421,20 @@ namespace Cassiopeia
                         //Add the albums
                         foreach (var a in savedAlbums.Items)
                         {
-                            if (a is not null)
-                                ProcessAlbum(a.Album, covers);
-                            loadBar.Progreso();
+                            try
+                            {
+                                if (a is not null)
+                                    ProcessAlbum(a.Album, covers);
+                                loadBar.Progreso();
+                            }
+                            catch (Exception)
+                            {
+
+                                Log.Instance.PrintMessage("wtf", MessageType.Warning);
+                                Log.Instance.PrintMessage(a.Album.Uri, MessageType.Warning);
+                                continue;
+                            }
+
                         }
                         point += 20;
                         LibraryAlbumsRequest request = new LibraryAlbumsRequest()
@@ -436,6 +452,10 @@ namespace Cassiopeia
                 catch (APIException)
                 {
                     Log.Instance.PrintMessage("Failed to save user's library", MessageType.Error);
+                }
+                catch (Exception)
+                {
+                    Log.Instance.PrintMessage("wtf", MessageType.Warning);
                 }
 
             }
