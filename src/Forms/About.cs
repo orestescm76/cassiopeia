@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Cassiopeia.Properties;
 
 namespace Cassiopeia.src.Forms
 {
     public partial class About : Form
     {
-        private bool bannerAntiguo = false;
+        Image[] banners = new Image[] { Resources.banner_thalassa, Resources.banner1_5, Resources.banner1_6, Resources.banner1_7 };
+        int activeBanner = 0;
         public About()
         {
             InitializeComponent();
@@ -17,7 +19,7 @@ namespace Cassiopeia.src.Forms
         {
             labelAcercaDe.Text = "";
             labelAcercaDe.AutoSize = true;
-            string acercadeTexto = Kernel.Version + " Codename " + Kernel.CodeName;
+            string acercadeTexto = Kernel.Version + " Codename " + Kernel.Codename;
             acercadeTexto += Environment.NewLine;
             acercadeTexto += Kernel.LocalTexts.GetString("desarrolladoPor") + " Orestes Colomina Monsalve" + Environment.NewLine +
                 Kernel.LocalTexts.GetString("contacto") + Environment.NewLine + Environment.NewLine + Kernel.LocalTexts.GetString("agradecimientosA") + Environment.NewLine +
@@ -47,10 +49,10 @@ namespace Cassiopeia.src.Forms
         }
         private void cambiarBanner()
         {
-            if (!bannerAntiguo)
-                pictureBoxBanner.Image = Properties.Resources.banner1_6;
-            else
-                pictureBoxBanner.Image = Properties.Resources.banner1_5;
+            if (++activeBanner == banners.Length)
+                activeBanner = 0;
+            pictureBoxBanner.Image.Dispose();
+            pictureBoxBanner.Image = banners[activeBanner];
         }
         private void acercaDe_KeyDown(object sender, KeyEventArgs e)
         {
@@ -65,7 +67,6 @@ namespace Cassiopeia.src.Forms
         {
             if ((e.Control & e.Alt) && e.KeyCode == Keys.F9)
             {
-                bannerAntiguo = !bannerAntiguo;
                 cambiarBanner();
             }
         }

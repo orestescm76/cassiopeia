@@ -1,5 +1,5 @@
 ﻿/*
- * CASSIOPEIA 2.0.236.10
+ * CASSIOPEIA 2.0.238.0
  * PROGRAM KERNEL. CORE FUNCTIONS, LOAD, SAVE, QUIT. METADATA STREAM
  * CODENAME STORM
  * MADE BY ORESTESCM76
@@ -22,7 +22,7 @@ namespace Cassiopeia
 {
     public static class Kernel
     {
-        public static readonly string CodeName = "Storm";
+        public static readonly string Codename = "Θάλασσα";
         private enum CSV_Albums
         {
             Title,
@@ -91,6 +91,7 @@ namespace Cassiopeia
         public static FileInfo HistorialFileInfo;
         public static FileInfo StreamFileInfo;
 
+        private static bool Edited = false;
         public async static void MetadataStreamTask()
         {
             DateTime now = DateTime.Now;
@@ -107,6 +108,14 @@ namespace Cassiopeia
                     {
                         SongCount++;
                         SongID = track.Id;
+                        //Write once every song change.
+                        if (Config.HistoryEnabled)
+                        {
+                            using (StreamWriter streamWriter = new StreamWriter(HistorialFileInfo.FullName))
+                            {
+                                streamWriter.WriteLine(Utils.GetHistoryString(track, SongCount));
+                            }
+                        }
                     }
                     try
                     {
@@ -115,15 +124,8 @@ namespace Cassiopeia
                             TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
                             salida.WriteLine(Utils.GetStreamString(track, SongCount, pos));
                         }
-                        /*
-                        if (Config.HistoryEnabled)
-                        {
-                            using (StreamWriter streamWriter = new StreamWriter(HistorialFileInfo.FullName))
-                            {
-                                streamWriter.WriteLine(Utils.GetHistoryString(track, SongCount));
-                                SongCount++;
-                            }
-                        }*/
+
+
                     }
                     catch (Exception ex)
                     {
@@ -424,17 +426,24 @@ namespace Cassiopeia
         {
             if (!MetadataStream)
             {
-                SaveAlbums("discos.csv", SaveType.Digital);
-                SaveAlbums("cd.json", SaveType.CD, true);
-                SaveAlbums("vinyl.json", SaveType.Vinyl, true);
-                SavePATHS();
-                SaveLyrics();
+                if(Edited)
+                {
+                    DialogResult save = MessageBox.Show(LocalTexts.GetString("wantSave"), LocalTexts.GetString("titulo_ventana_principal"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (save == DialogResult.Yes)
+                    {
+                        SaveAlbums("discos.csv", SaveType.Digital);
+                        SaveAlbums("cd.json", SaveType.CD, true);
+                        SaveAlbums("vinyl.json", SaveType.Vinyl, true);
+                        SavePATHS();
+                        SaveLyrics();
+                    }
+                }
 
                 Config.MainFormSize = MainForm.Size;
-
+                Log.Instance.PrintMessage("Saving config...", MessageType.Info);
                 Config.GuardarConfiguracion();
 
-                Log.Instance.PrintMessage("Shutting down Player", MessageType.Info);
+                Log.Instance.PrintMessage("Shutting down Player...", MessageType.Info);
                 Player.Instancia.Apagar();
                 Player.Instancia.Dispose();
 
@@ -446,6 +455,7 @@ namespace Cassiopeia
 
             if (Console)
                 FreeConsole();
+            Application.Exit();
         }
 
         //Methods for loading and saving...
@@ -689,12 +699,12 @@ namespace Cassiopeia
                 pathsInfo.Refresh();
                 crono.Stop();
             }
+            Edited = false;
             Log.Instance.PrintMessage("Saved songs PATH", MessageType.Correct, crono, TimeType.Milliseconds);
             Log.Instance.PrintMessage("Filesize: " + pathsInfo.Length / 1024.0 + " kb", MessageType.Info);
         }
         public static void SaveAlbums(string path, SaveType tipoGuardado, bool json = false)
         {
-
             Stopwatch crono = Stopwatch.StartNew();
             FileInfo fich = new FileInfo(path);
             if (json)
@@ -783,6 +793,7 @@ namespace Cassiopeia
             }
             fich.Refresh();
             crono.Stop();
+            Edited = false;
             Log.Instance.PrintMessage(nameof(SaveAlbums) + "- Saved", MessageType.Correct, crono, TimeType.Milliseconds);
             Log.Instance.PrintMessage("Filesize: " + fich.Length / 1024.0 + " kb", MessageType.Info);
         }
@@ -835,6 +846,7 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
+            Edited = false;
             Log.Instance.PrintMessage("Saved lyrics", MessageType.Correct, crono, TimeType.Milliseconds);
             FileInfo lyrics = new FileInfo("lyrics.txt");
             Log.Instance.PrintMessage("Filesize: " + lyrics.Length / 1024.0 + " kb", MessageType.Info);
@@ -894,6 +906,7 @@ namespace Cassiopeia
         }
         public static void SetSaveMark()
         {
+            Edited = true;
             MainForm.SetSaveMark();
         }
     }

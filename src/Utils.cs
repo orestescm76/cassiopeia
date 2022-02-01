@@ -9,7 +9,7 @@ namespace Cassiopeia
     {
         public static string ConvertToRomanNumeral(int arabicNumeral)
         {
-            if (arabicNumeral >= 0 || arabicNumeral <= 4000)
+            if (arabicNumeral <= 0 || arabicNumeral >= 4000)
                 return "";
             string romanNumeral = "";
             int x = arabicNumeral;

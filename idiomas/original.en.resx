@@ -526,7 +526,7 @@
     <value>Player</value>
   </data>
   <data name="avisoSpotify" xml:space="preserve">
-    <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. The program will time 30 seconds before cancelling the vinculation. Do you wish to continue?</value>
+    <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. The program will time 20 seconds before cancelling the vinculation. Do you wish to continue?</value>
   </data>
   <data name="abrirCD" xml:space="preserve">
     <value>Open audio CD...</value>
@@ -829,5 +829,11 @@
   </data>
   <data name="vinyls" xml:space="preserve">
     <value>vinyl records</value>
+  </data>
+  <data name="wantSave" xml:space="preserve">
+    <value>Do you want to save all changes?</value>
+  </data>
+  <data name="linked_ok" xml:space="preserve">
+    <value>Linking successful</value>
   </data>
 </root>

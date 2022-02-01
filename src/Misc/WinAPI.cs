@@ -7,7 +7,7 @@ namespace Cassiopeia
 {
     //Clase para tener funciones de la API de Windows.
     //Es Interna para que solo se limite a este ensamblado.
-    internal class WinAPI
+    internal static class WinAPI
     {
         public enum CreationDisposition : uint
         {
@@ -118,5 +118,16 @@ namespace Cassiopeia
         internal static extern int AllocConsole();
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern int FreeConsole();
+        [DllImport("dwmapi.dll")]
+        internal static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+        public const int DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 = 19;
+        public const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
+        internal static bool UseDarkMode(IntPtr handle, bool enabled)
+        {
+            enabled = true;
+            var attrib = DWMWA_USE_IMMERSIVE_DARK_MODE;
+            int useImmersiveDarkMode = enabled ? 1 : 0;
+            return DwmSetWindowAttribute(handle, (int)attrib, ref useImmersiveDarkMode, sizeof(int)) == 0;
+        }
     }
 }

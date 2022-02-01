@@ -208,7 +208,7 @@
     <value>Artista</value>
   </data>
   <data name="avisoSpotify" xml:space="preserve">
-    <value>Connetterai quest'applicazione con il tuo account Spotify. Questo ti permetterà di riprodurre le canzoni di Spotify direttamente su questa app. Per annullare l'accesso dovrai recarti alla pagina web di Spotify.Avrai 30 secondi prima che il programma cancelli il vincolo. Desideri continuare?</value>
+    <value>Connetterai quest'applicazione con il tuo account Spotify. Questo ti permetterà di riprodurre le canzoni di Spotify direttamente su questa app. Per annullare l'accesso dovrai recarti alla pagina web di Spotify. Avrai 20 secondi prima che il programma cancelli il vincolo. Desideri continuare?</value>
   </data>
   <data name="ayuda_larga" xml:space="preserve">
     <value>Configura il modulo per creare una canzone di più parti</value>

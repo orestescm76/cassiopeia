@@ -72,7 +72,6 @@ namespace Cassiopeia
 #endif
             //ApplicationStart
             Kernel.StartApplication();
-            //Program halts here until Application.Exit is called.
             Kernel.Quit();
         }
     }

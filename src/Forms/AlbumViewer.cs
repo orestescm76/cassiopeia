@@ -711,7 +711,8 @@ namespace Cassiopeia.src.Forms
                 albumToVisualize.RemoveSong(songTitle);
 
             albumToVisualize.AddSong(cl, num); //IT works...
-
+            //This is an edit.
+            Kernel.SetSaveMark();
             ReloadView();
         }
 
@@ -736,6 +737,8 @@ namespace Cassiopeia.src.Forms
             longSong.Title = "---"; //This is for safe defusing
 
             albumToVisualize.RemoveSong(longSong.Title);
+            //This is an edit.
+            Kernel.SetSaveMark();
             ReloadView();
         }
 

@@ -155,7 +155,7 @@
     <value>Artista</value>
   </data>
   <data name="avisoSpotify" xml:space="preserve">
-    <value>Se va a vincular esta aplicación con tu cuenta de Spotify. Esto permitirá la reproducción de canciones desde Spotify en esta aplicación. Si deseas retirar el acceso tienes que ir a tu perfil en la web de Spotify. El programa contará 30 segundos para realizar la vinculación antes de cancelarse. ¿Desea continuar?</value>
+    <value>Se va a vincular esta aplicación con tu cuenta de Spotify. Esto permitirá la reproducción de canciones desde Spotify en esta aplicación. Si deseas retirar el acceso tienes que ir a tu perfil en la web de Spotify. El programa contará 20 segundos para realizar la vinculación antes de cancelarse. ¿Desea continuar?</value>
   </data>
   <data name="ayudaAñadir" xml:space="preserve">
     <value>Selecciona el álbum que quieres agregar y pulsa en "Añadir"</value>
@@ -823,5 +823,11 @@ Quedan {num} canciones.</value>
   </data>
   <data name="vinyls" xml:space="preserve">
     <value>discos de vinilo</value>
+  </data>
+  <data name="wantSave" xml:space="preserve">
+    <value>¿Desea guardar los cambios?</value>
+  </data>
+  <data name="linked_ok" xml:space="preserve">
+    <value>Vinculado correctamente</value>
   </data>
 </root>

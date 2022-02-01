@@ -1223,7 +1223,7 @@ namespace Cassiopeia.src.Forms
             if (SpotifySync && !string.IsNullOrEmpty(SpotifyPlayingSong.Id))
             {
                 test = Kernel.LocalTexts.GetString("compartirTwitter1").Replace(" ", "%20") + "%20https://open.spotify.com/track/" + SpotifyPlayingSong.Id + "%0a" +
-                    Kernel.LocalTexts.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Kernel.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Kernel.Version + "%20" + Kernel.CodeName;
+                    Kernel.LocalTexts.GetString("compartirTwitter2").Replace(" ", "%20") + "%20" + Kernel.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Kernel.Version + "%20" + Kernel.Codename;
             }
             else if (!ModoCD && Reproduciendo)
                 test = Kernel.LocalTexts.GetString("compartirLocal1").Replace(" ", "%20") + "%20" +
@@ -1232,10 +1232,10 @@ namespace Cassiopeia.src.Forms
                     NowPlayingAlbum.Artist.Replace(" ", "%20") + "%20" +
                     Kernel.LocalTexts.GetString("compartirLocal3").Replace(" ", "%20") + "%20" +
                     Kernel.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
-                    Kernel.Version + "%20" + Kernel.CodeName;
+                    Kernel.Version + "%20" + Kernel.Codename;
             else
                 test = "Escuchando un CD con " + Kernel.LocalTexts.GetString("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
-                    Kernel.Version + "%20" + Kernel.CodeName;
+                    Kernel.Version + "%20" + Kernel.Codename;
             link += test;
             Process.Start(new ProcessStartInfo("cmd", $"/c start {link}") { CreateNoWindow = true });
         }

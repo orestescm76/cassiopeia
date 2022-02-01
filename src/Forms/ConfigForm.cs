@@ -51,13 +51,15 @@ namespace Cassiopeia.src.Forms
 
         private void ConfigForm_Load(object sender, EventArgs e)
         {
-            labelSelect.Show();
+            //labelSelect.Show();
 
             PonerTextos();
             labelSelect.Location = new Point(groupBoxRaiz.Size.Width / 2 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
             Icon = Properties.Resources.settings;
             treeViewConfiguracion.ExpandAll();
+            labelSelect.Hide();
             SongPreview.SetAlbum(AlbumCopyPreview);
+            LoadLanguageConfig();
         }
         private void PonerTextos()
         {
@@ -523,6 +525,18 @@ namespace Cassiopeia.src.Forms
         private void groupBoxRaiz_Resize(object sender, EventArgs e)
         {
             labelSelect.Location = new Point(groupBoxRaiz.Size.Width / 2 - (labelSelect.Size.Width / 2), groupBoxRaiz.Size.Height / 2);
+        }
+
+        private void ConfigForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                CargarPagina(treeViewConfiguracion.SelectedNode.Tag.ToString());
+        }
+
+        private void treeViewConfiguracion_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                CargarPagina(treeViewConfiguracion.SelectedNode.Tag.ToString());
         }
     }
 }

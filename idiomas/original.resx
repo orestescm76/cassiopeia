@@ -767,4 +767,10 @@
   <data name="vinyls" xml:space="preserve">
     <value></value>
   </data>
+  <data name="wantSave" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="linked_ok" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

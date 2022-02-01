@@ -76,6 +76,7 @@ namespace Cassiopeia.src.Forms
                 panelSidebar.Visible = false;
                 vistaAlbumes.Width += panelSidebar.Width;
             }
+            //DarkMode();
             Log.PrintMessage("Main form created", MessageType.Correct);
         }
         public void ReloadView()
@@ -163,7 +164,7 @@ namespace Cassiopeia.src.Forms
         private void SetTexts()
         {
 #if DEBUG
-            Text = Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version + " Codename " + Kernel.CodeName + " DEBUG";
+            Text = Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version + " Codename " + Kernel.Codename + " DEBUG";
 #else
             Text = Kernel.LocalTexts.GetString("titulo_ventana_principal");
 #endif
@@ -754,6 +755,37 @@ namespace Cassiopeia.src.Forms
                     return null;
             }
         }
+        private void DarkMode()
+        {
+            // styles for dark mode
+            var backgroundColor = Color.FromArgb(12, 12, 12);
+            var foregroundColor = Color.White;
+            var panelColor = Color.FromArgb(28, 28, 28);
+            var buttonColor = Color.FromArgb(44, 44, 44);
+            var actionButtonColor = Color.DodgerBlue;
+            var buttonBorderSize = 0;
+            var buttonFlatStyle = FlatStyle.Flat;
+            var textboxBorderStyle = BorderStyle.None;
+
+            foreach (ToolStripMenuItem item in barraPrincipal.Items)
+            {
+                item.BackColor = backgroundColor;
+                item.ForeColor = foregroundColor;
+            }
+            foreach (Control control in Controls)
+            {
+                switch (control.GetType().ToString())
+                {
+                    default:
+                        control.BackColor = backgroundColor;
+                        control.ForeColor = foregroundColor;
+                        break;
+                }
+                this.BackColor = backgroundColor;
+                this.ForeColor = foregroundColor;
+
+            }
+        }
         #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -823,7 +855,7 @@ namespace Cassiopeia.src.Forms
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Kernel.Quit();
         }
         private void CreateNewAlbum(object sender, EventArgs e)
         {
@@ -958,7 +990,9 @@ namespace Cassiopeia.src.Forms
         private void acercaDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             About form = new About();
-            form.Show();
+            form.ShowDialog();
+            //fixes memory leak
+            form.Dispose();
         }
         private void NewDatabase(object sender, EventArgs e)
         {
@@ -1203,10 +1237,10 @@ namespace Cassiopeia.src.Forms
             switch (ViewType)
             {
                 case ViewType.Digital:
-                    Kernel.SaveAlbums("discosCSV.csv", SaveType.Digital, false);
+                    Kernel.SaveAlbums("discos.csv", SaveType.Digital, false);
                     break;
                 case ViewType.CD:
-                    Kernel.SaveAlbums("discosCD.json", SaveType.CD);
+                    Kernel.SaveAlbums("cd.json", SaveType.CD);
                     break;
                 case ViewType.Vinyl:
                     break;
@@ -1361,7 +1395,7 @@ namespace Cassiopeia.src.Forms
             if (eleccion == DialogResult.Yes)
             {
                 Stopwatch espera = Stopwatch.StartNew();
-                Log.Instance.PrintMessage("Reiniciando Spotify", MessageType.Info);
+                Log.Instance.PrintMessage("Linking with Spotify", MessageType.Info);
                 await Kernel.Spotify.InitStreamMode();
                 while (!Kernel.Spotify.IsSpotifyReady())
                 {
@@ -1374,7 +1408,7 @@ namespace Cassiopeia.src.Forms
                 }
                 if (cancelado)
                 {
-                    Log.PrintMessage("Se ha cancelado la vinculación por tiempo de espera.", MessageType.Warning);
+                    Log.PrintMessage("Linking cancelled.", MessageType.Warning);
                     MessageBox.Show(Kernel.LocalTexts.GetString("errorVinculacion"));
                     Kernel.InternetAvaliable(true);
                     return;
@@ -1400,7 +1434,7 @@ namespace Cassiopeia.src.Forms
                     Kernel.InternetAvaliable(false);
                     throw;
                 }
-                MessageBox.Show("Linked ok");
+                MessageBox.Show(Kernel.LocalTexts.GetString("linked_ok"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

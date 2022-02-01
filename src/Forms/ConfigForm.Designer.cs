@@ -84,6 +84,7 @@
             this.treeViewConfiguracion.TabIndex = 0;
             this.treeViewConfiguracion.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewConfiguracion_AfterSelect);
             this.treeViewConfiguracion.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewConfiguracion_NodeMouseClick);
+            this.treeViewConfiguracion.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewConfiguracion_KeyDown);
             // 
             // buttonAplicar
             // 
@@ -153,7 +154,6 @@
             // 
             // ConfigForm
             // 
-            this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancelar;
@@ -168,6 +168,7 @@
             this.Name = "ConfigForm";
             this.Text = "Config";
             this.Load += new System.EventHandler(this.ConfigForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ConfigForm_KeyDown);
             this.groupBoxRaiz.ResumeLayout(false);
             this.groupBoxRaiz.PerformLayout();
             this.ResumeLayout(false);

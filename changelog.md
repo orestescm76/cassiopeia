@@ -1,5 +1,11 @@
 # Cassiopeia Changelog
-#### 2.0.236.70
+#### 2.0.237.0
+- Added a save confirmation when closing and having unmodified changes.
+- Fixed crash when using the keyboard in ConfigForm. [FIX]
+- Fixed viewing of LongSongs [FIX]
+- Fixed opening multiple About forms [FIX]
+------------------
+#### 2.0.236.80
 - Added support for Vinyl albums
 - Fixed duplicated results in the real time filters.
 - Now cover paths are saved with relative path, saves about 14% of space.
@@ -8,6 +14,7 @@
 - Fixed creating albums and viewing albums
 - Added localization
 - Temporarily removed the selected duration because it needs to be reimplemented.
+- Fixed adding an album with Spotify if it doesn't have images.
 
 #### 2.0.234.0
 - Realtime filters

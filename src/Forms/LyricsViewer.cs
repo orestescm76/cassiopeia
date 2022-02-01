@@ -89,7 +89,7 @@ namespace Cassiopeia.src.Forms
         {
             cancion.Lyrics = textBoxLyrics.Lines;
             Kernel.SetSaveMark();
-            this.Close();
+            Close();
         }
 
         private void buttonLimpiar_Click(object sender, EventArgs e)
