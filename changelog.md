@@ -1,11 +1,12 @@
 # Cassiopeia Changelog
-#### 2.0.237.0
+#### 2.0.237.20
+- Ported to NET 6 because it is faster and LTS.
 - Added a save confirmation when closing and having unmodified changes.
 - Fixed crash when using the keyboard in ConfigForm. [FIX]
 - Fixed viewing of LongSongs [FIX]
 - Fixed opening multiple About forms [FIX]
-------------------
-#### 2.0.236.80
+
+#### 2.0.236.80 - RELEASE
 - Added support for Vinyl albums
 - Fixed duplicated results in the real time filters.
 - Now cover paths are saved with relative path, saves about 14% of space.

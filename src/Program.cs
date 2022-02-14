@@ -23,6 +23,8 @@ namespace Cassiopeia
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            //Set exit event
+            Application.ApplicationExit += (sender, args) => Kernel.Quit();
             Kernel.ParseArgs(args);
             int console;
             if (Kernel.Console)
@@ -72,7 +74,6 @@ namespace Cassiopeia
 #endif
             //ApplicationStart
             Kernel.StartApplication();
-            Kernel.Quit();
         }
     }
 }

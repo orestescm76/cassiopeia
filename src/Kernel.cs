@@ -455,7 +455,6 @@ namespace Cassiopeia
 
             if (Console)
                 FreeConsole();
-            Application.Exit();
         }
 
         //Methods for loading and saving...

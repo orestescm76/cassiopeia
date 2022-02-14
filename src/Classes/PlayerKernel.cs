@@ -164,7 +164,7 @@ namespace Cassiopeia.src.Classes
             if (!(_output is null))
                 _output.Volume = v;
         }
-        public void Detener() //detiene una canción
+        public void Stop() //detiene una canción
         {
             _output.Stop();
             _sound.SetPosition(TimeSpan.Zero);

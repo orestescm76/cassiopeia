@@ -149,7 +149,6 @@ namespace Cassiopeia.src.Forms
             //Are we playing a CD?
             if (Player.Instancia.ModoCD)
                 Player.Instancia.PlaySong(Pointer);
-
             else
                 Player.Instancia.PlaySong(Playlist[Pointer]);
 

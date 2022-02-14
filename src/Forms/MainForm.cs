@@ -855,7 +855,7 @@ namespace Cassiopeia.src.Forms
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Kernel.Quit();
+            Application.Exit();
         }
         private void CreateNewAlbum(object sender, EventArgs e)
         {
