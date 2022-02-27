@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -115,7 +116,7 @@ namespace Cassiopeia
             {
                 Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage(e.Message, MessageType.Error);
-                System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
         }
         public bool IsSpotifyReady()
@@ -217,7 +218,7 @@ namespace Cassiopeia
                 if (cover.Contains(ch.ToString()))
                     cover = cover.Replace(ch.ToString(), string.Empty);
             }
-            AlbumData a = new AlbumData(album.Name.Replace(";", ""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + cover); //creamos A
+            AlbumData a = new AlbumData(album.Name.Replace(";", ""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), ""); //creamos A
             if (Kernel.Collection.IsInCollection(a))
             {
                 Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
@@ -226,25 +227,8 @@ namespace Cassiopeia
             }
             if (downloadCover)
             {
-                using (System.Net.WebClient webClient = new System.Net.WebClient())
-                {
-                    try
-                    {
-                        Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
-                        webClient.DownloadFile(new Uri(album.Images[0].Url), Environment.CurrentDirectory + "/covers/" + cover);
-                    }
-                    catch (System.Net.WebException e)
-                    {
-                        Log.Instance.PrintMessage("Exception captured System.Net.WebException", MessageType.Warning);
-                        MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        cover = "";
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Instance.PrintMessage("No album image!! Uri: " + album.Uri, MessageType.Warning);
-                        cover = "";
-                    }
-                }
+                DownloadCover(album, cover);
+                a.CoverPath = Environment.CurrentDirectory + "/covers/" + cover;
             }
             else
                 a.CoverPath = "";
@@ -262,9 +246,37 @@ namespace Cassiopeia
             }
             a.Songs = songs;
             a.CanBeRemoved = true;
+            
             Kernel.Collection.AddAlbum(ref a);
             Kernel.SetSaveMark();
             return true;
+        }
+        private async void DownloadCover(FullAlbum album, string file_name)
+        {
+            using (HttpClient httpClient = new())
+            {
+                try
+                {
+                    Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
+                    var respuesta = await httpClient.GetAsync(new Uri(album.Images[0].Url));
+                    respuesta.EnsureSuccessStatusCode();
+                    await using var ms = await respuesta.Content.ReadAsStreamAsync();
+                    await using var fs = File.Create(Environment.CurrentDirectory + "/covers/" + file_name);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.CopyTo(fs);
+                }
+                catch (HttpRequestException e)
+                {
+                    Log.Instance.PrintMessage("Exception captured System.Net.HttpRequestException", MessageType.Warning);
+                    MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    file_name = "";
+                }
+                catch (Exception e)
+                {
+                    Log.Instance.PrintMessage("No album image!! Uri: " + album.Uri, MessageType.Warning);
+                    file_name = "";
+                }
+            }
         }
         public void ProcessAlbum(SimpleAlbum album)
         {

@@ -7,7 +7,7 @@ namespace Cassiopeia.CD
 {
     public sealed class CDDrive : IDisposable
     {
-        private readonly SafeFileHandle safeHandle;
+        public readonly SafeFileHandle safeHandle;
         private CDDrive(SafeFileHandle sf)
         {
             safeHandle = sf;

@@ -755,37 +755,38 @@ namespace Cassiopeia.src.Forms
                     return null;
             }
         }
-        private void DarkMode()
-        {
-            // styles for dark mode
-            var backgroundColor = Color.FromArgb(12, 12, 12);
-            var foregroundColor = Color.White;
-            var panelColor = Color.FromArgb(28, 28, 28);
-            var buttonColor = Color.FromArgb(44, 44, 44);
-            var actionButtonColor = Color.DodgerBlue;
-            var buttonBorderSize = 0;
-            var buttonFlatStyle = FlatStyle.Flat;
-            var textboxBorderStyle = BorderStyle.None;
+        
+        //private void DarkMode()
+        //{
+        //    // styles for dark mode
+        //    var backgroundColor = Color.FromArgb(12, 12, 12);
+        //    var foregroundColor = Color.White;
+        //    var panelColor = Color.FromArgb(28, 28, 28);
+        //    var buttonColor = Color.FromArgb(44, 44, 44);
+        //    var actionButtonColor = Color.DodgerBlue;
+        //    var buttonBorderSize = 0;
+        //    var buttonFlatStyle = FlatStyle.Flat;
+        //    var textboxBorderStyle = BorderStyle.None;
+        //    foreach (ToolStripMenuItem item in barraPrincipal.Items)
+        //    {
+        //        item.BackColor = backgroundColor;
+        //        item.ForeColor = foregroundColor;
+        //    }
+        //    foreach (Control control in Controls)
+        //    {
+        //        switch (control.GetType().ToString())
+        //        {
+        //            default:
+        //                control.BackColor = backgroundColor;
+        //                control.ForeColor = foregroundColor;
+        //                break;
+        //        }
+        //        this.BackColor = backgroundColor;
+        //        this.ForeColor = foregroundColor;
 
-            foreach (ToolStripMenuItem item in barraPrincipal.Items)
-            {
-                item.BackColor = backgroundColor;
-                item.ForeColor = foregroundColor;
-            }
-            foreach (Control control in Controls)
-            {
-                switch (control.GetType().ToString())
-                {
-                    default:
-                        control.BackColor = backgroundColor;
-                        control.ForeColor = foregroundColor;
-                        break;
-                }
-                this.BackColor = backgroundColor;
-                this.ForeColor = foregroundColor;
-
-            }
-        }
+        //    }
+        //}
+        
         #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -855,7 +856,7 @@ namespace Cassiopeia.src.Forms
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Close();
         }
         private void CreateNewAlbum(object sender, EventArgs e)
         {
@@ -1278,75 +1279,10 @@ namespace Cassiopeia.src.Forms
 
         private void nuevoAlbumDesdeCarpetaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Log.PrintMessage("Creating an album from a directory.", MessageType.Info);
-
-            AlbumData a = new AlbumData();
             FolderBrowserDialog browserDialog = new FolderBrowserDialog();
             DialogResult result = browserDialog.ShowDialog();
-            //To avoid a random song order, i create an array to store the songs. 150 should be big enough.
-            Song[] tempStorage = new Song[150];
-            int numSongs = 0; //to keep track of how many songs i've addded.
-            if (result != DialogResult.Cancel)
-            {
-                Stopwatch crono = Stopwatch.StartNew();
-                DirectoryInfo carpeta = new DirectoryInfo(browserDialog.SelectedPath);
-                Config.LastOpenedDirectory = carpeta.FullName;
-                foreach (var filename in carpeta.GetFiles())
-                {
-
-                    switch (Path.GetExtension(filename.FullName))
-                    {
-                        case ".mp3":
-                        case ".ogg":
-                        case ".flac":
-                            MetadataSong LM = new MetadataSong(filename.FullName);
-                            if (a.NeedsMetadata())
-                            {
-                                a.Title = LM.AlbumFrom;
-                                a.Artist = LM.Artist;
-                                a.Year = (short)LM.Year;
-                                if (LM.Cover is not null && !File.Exists("cover.jpg"))
-                                {
-                                    Bitmap cover = new Bitmap(LM.Cover);
-                                    cover.Save(carpeta.FullName + "\\cover.jpg", ImageFormat.Jpeg);
-                                    a.CoverPath = carpeta.FullName + "\\cover.jpg";
-                                }
-                            }
-                            Song c = new Song(LM.Title, (int)LM.Length.TotalMilliseconds, false);
-                            if (LM.TrackNumber != 0) //A music file with no track number? Can happen. Instead, do the normal process.
-                            {
-                                tempStorage[LM.TrackNumber - 1] = c;
-                                numSongs++;
-                            }
-                            else
-                                a.AddSong(c);
-                            c.SetAlbum(a);
-                            c.Path = filename.FullName;
-                            LM.Dispose();
-                            break;
-                        case ".jpg":
-                            if (filename.Name == "folder.jpg" || filename.Name == "cover.jpg")
-                                a.CoverPath = filename.FullName;
-                            break;
-                    }
-                }
-                if (numSongs != 0) //The counter has been updated and songs had a track number.
-                {
-                    //This list goes to the album.
-                    List<Song> songList = new List<Song>();
-                    for (int i = 0; i < numSongs; i++)
-                    {
-                        //Copy the correct song order.
-                        songList.Add(tempStorage[i]);
-                    }
-                    a.Songs = songList;
-                }
-                a.SoundFilesPath = carpeta.FullName;
-                Kernel.Collection.AddAlbum(ref a);
-                crono.Stop();
-                Log.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
-                ReloadView();
-            }
+            if(result != DialogResult.Cancel)
+                Kernel.CreateAndAddAlbumFromFolder(browserDialog.SelectedPath);
         }
 
         private void configToolStripMenuItem_Click(object sender, EventArgs e)

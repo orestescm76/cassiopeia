@@ -5,6 +5,7 @@ using CSCore.SoundOut;
 using CSCore.Streams;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Cassiopeia.src.Classes
 {
@@ -61,7 +62,7 @@ namespace Cassiopeia.src.Classes
                 _output = new WasapiOut(false, AudioClientShareMode.Shared, 100);
                 //_sonido.Position = 0;
                 _output.Initialize(_sound);
-                Log.Instance.PrintMessage("Cargado correctamente" + cual, MessageType.Correct);
+                Log.Instance.PrintMessage("Loaded " + cual, MessageType.Correct);
             }
             catch (IOException ex)
             {
@@ -181,12 +182,11 @@ namespace Cassiopeia.src.Classes
         //Lee un cd de audio segun los ficheros CDA que genera Windows
         public PistaCD[] LeerCD(char Disco)
         {
-            Log.Instance.PrintMessage("Leyendo CD", MessageType.Info);
-            DirectoryInfo DiscoD = null;
-            FileInfo[] Ficheros = null;
+            Log.Instance.PrintMessage("Reading CD", MessageType.Info);
+            FileInfo[] Ficheros;
             try
             {
-                DiscoD = new DirectoryInfo(Disco + ":\\");
+                DirectoryInfo DiscoD = new DirectoryInfo(Disco + ":\\");
                 Ficheros = DiscoD.GetFiles();
             }
             catch (IOException)
@@ -221,6 +221,7 @@ namespace Cassiopeia.src.Classes
             }
             return Pistas;
         }
+
         public void ReproducirCD(char disp)
         {
             Disquetera = CDDrive.Open(disp);

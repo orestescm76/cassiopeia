@@ -86,9 +86,9 @@ namespace Cassiopeia
         public extern static int DeviceIoControl(
             SafeFileHandle hDevice,
             uint dwIoControlCode,
-            [In] ref PREVENT_MEDIA_REMOVAL lpInBuffer,
+            IntPtr lpInBuffer,
             uint nInBufferSize,
-            IntPtr lpOutBuffer,
+            CDROM_TOC lpOutBuffer,
             uint nOutBufferSize,
             ref uint lpBytesReturned,
             IntPtr lpOverlapped);
@@ -102,6 +102,17 @@ namespace Cassiopeia
             IntPtr lpOutBuffer,
             int nOutBufferSize,
             ref int lpBytesReturned,
+            IntPtr lpOverlapped);
+
+        [DllImport("Kernel32.dll", SetLastError = true)]
+        public extern static int DeviceIoControl(
+            SafeFileHandle hDevice,
+            uint dwIoControlCode,
+            [In] ref PREVENT_MEDIA_REMOVAL lpInBuffer,
+            uint nInBufferSize,
+            IntPtr lpOutBuffer,
+            uint nOutBufferSize,
+            ref uint lpBytesReturned,
             IntPtr lpOverlapped);
 
         [DllImport("Kernel32.dll", SetLastError = true)]

@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Resources;
@@ -907,6 +909,74 @@ namespace Cassiopeia
         {
             Edited = true;
             MainForm.SetSaveMark();
+        }
+        
+        public static void CreateAndAddAlbumFromFolder(string path)
+        {
+            Log.Instance.PrintMessage("Creating an album from a directory.", MessageType.Info);
+
+            AlbumData a = new AlbumData();
+
+            //To avoid a random song order, i create an array to store the songs. 150 SHOULD be big enough.
+            Song[] tempStorage = new Song[150];
+            int numSongs = 0; //to keep track of how many songs i've addded.
+            Stopwatch crono = Stopwatch.StartNew();
+            DirectoryInfo carpeta = new DirectoryInfo(path);
+            Config.LastOpenedDirectory = carpeta.FullName;
+            foreach (var filename in carpeta.GetFiles())
+            {
+                switch (Path.GetExtension(filename.FullName))
+                {
+                    case ".mp3":
+                    case ".ogg":
+                    case ".flac":
+                        MetadataSong LM = new MetadataSong(filename.FullName);
+                        if (a.NeedsMetadata())
+                        {
+                            a.Title = LM.AlbumFrom;
+                            a.Artist = LM.Artist;
+                            a.Year = (short)LM.Year;
+                            if (LM.Cover is not null && !File.Exists("cover.jpg"))
+                            {
+                                Bitmap cover = new Bitmap(LM.Cover);
+                                cover.Save(carpeta.FullName + "\\cover.jpg", ImageFormat.Jpeg);
+                                a.CoverPath = carpeta.FullName + "\\cover.jpg";
+                            }
+                        }
+                        Song c = new Song(LM.Title, (int)LM.Length.TotalMilliseconds, false);
+                        if (LM.TrackNumber != 0) //A music file with no track number? Can happen. Instead, do the normal process.
+                        {
+                            tempStorage[LM.TrackNumber - 1] = c;
+                            numSongs++;
+                        }
+                        else
+                            a.AddSong(c);
+                        c.SetAlbum(a);
+                        c.Path = filename.FullName;
+                        LM.Dispose();
+                        break;
+                    case ".jpg":
+                        if (filename.Name == "folder.jpg" || filename.Name == "cover.jpg")
+                            a.CoverPath = filename.FullName;
+                        break;
+                }
+                if (numSongs != 0) //The counter has been updated and songs had a track number.
+                {
+                    //This list goes to the album.
+                    List<Song> songList = new List<Song>();
+                    for (int i = 0; i < numSongs; i++)
+                    {
+                        //Copy the correct song order.
+                        songList.Add(tempStorage[i]);
+                    }
+                    a.Songs = songList;
+                }
+                a.SoundFilesPath = carpeta.FullName;
+                Collection.AddAlbum(ref a);
+                crono.Stop();
+                Log.Instance.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
+                ReloadView();
+            }
         }
     }
 }
