@@ -429,7 +429,11 @@ namespace Cassiopeia.src.Forms
         private void HideSidebar()
         {
             panelSidebar.Visible = false;
-            Width -= panelSidebar.Width - 20;
+            if (WindowState != FormWindowState.Maximized)
+                Width -= panelSidebar.Width - 20;
+            else
+                vistaAlbumes.Width += panelSidebar.Width;
+            
             Config.MainFormViewSidebar = false;
         }
         public void SetSaveMark()
@@ -544,6 +548,18 @@ namespace Cassiopeia.src.Forms
                 lyrics.Click += (object sender, EventArgs e) => verLyricsToolStripMenuItem_Click(sender, e);
                 lyrics.Name = "lyrics";
 
+
+                ToolStripButton addCD = new(Properties.Resources.addcd);
+                addCD.ToolTipText = Kernel.LocalTexts.GetString("crearCD");
+                addCD.Click += (object sender, EventArgs e) => CreateCDFromSelectionAndAdd();
+                addCD.Name = "addCD";
+
+
+                ToolStripButton addvinyl = new(Properties.Resources.vinyl);
+                addvinyl.ToolTipText = Kernel.LocalTexts.GetString("createVinyl");
+                addvinyl.Click += (object sender, EventArgs e) => CreateVinylRecordFromSelectionAndAdd();
+                addvinyl.Name = "addvinyl";
+
                 if (!toolStripMain.Items.ContainsKey("separator_song"))
                     toolStripMain.Items.Add(toolStripSeparator);
                 if (!toolStripMain.Items.ContainsKey("view"))
@@ -554,12 +570,21 @@ namespace Cassiopeia.src.Forms
                     toolStripMain.Items.Add(delete);
                 if (!toolStripMain.Items.ContainsKey("lyrics"))
                     toolStripMain.Items.Add(lyrics);
+                if (!toolStripMain.Items.ContainsKey("addCD"))
+                    toolStripMain.Items.Add(addCD);
+                if (!toolStripMain.Items.ContainsKey("addvinyl"))
+                    toolStripMain.Items.Add(addvinyl);
             }
+            //Remove buttons for actions which requires only one album
             else if (vistaAlbumes.SelectedItems.Count > 1)
             {
                 toolStripMain.Items.RemoveByKey("view");
                 toolStripMain.Items.RemoveByKey("edit");
                 toolStripMain.Items.RemoveByKey("lyrics");
+                toolStripMain.Items.RemoveByKey("lyrics");
+                toolStripMain.Items.RemoveByKey("addCD");
+                toolStripMain.Items.RemoveByKey("addvinyl");
+
             }
             else
             {
@@ -567,7 +592,8 @@ namespace Cassiopeia.src.Forms
                 toolStripMain.Items.RemoveByKey("delete");
                 toolStripMain.Items.RemoveByKey("view");
                 toolStripMain.Items.RemoveByKey("edit");
-                toolStripMain.Items.RemoveByKey("lyrics");
+                toolStripMain.Items.RemoveByKey("addCD");
+                toolStripMain.Items.RemoveByKey("addvinyl");
             }
         }
         public void ApplyFilter(Filter filter)
@@ -787,6 +813,21 @@ namespace Cassiopeia.src.Forms
         //    }
         //}
         
+        private void CreateCDFromSelectionAndAdd()
+        {
+            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            AlbumData a = Kernel.Collection.GetAlbum(seleccion);
+            CreateCD formCD = new CreateCD(ref a);
+            formCD.Show();
+        }
+        
+        private void CreateVinylRecordFromSelectionAndAdd()
+        {
+            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            AlbumData a = Kernel.Collection.GetAlbum(seleccion);
+            CreateVinylCassette formV = new(ref a);
+            formV.Show();
+        }
         #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
         {
@@ -1043,10 +1084,7 @@ namespace Cassiopeia.src.Forms
         }
         private void crearCDToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
-            AlbumData a = Kernel.Collection.GetAlbum(seleccion);
-            CreateCD formCD = new CreateCD(ref a);
-            formCD.Show();
+            CreateCDFromSelectionAndAdd();
         }
         private void colorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1449,10 +1487,7 @@ namespace Cassiopeia.src.Forms
 
         private void vinylToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
-            AlbumData a = Kernel.Collection.GetAlbum(seleccion);
-            CreateVinylCassette formV = new(ref a);
-            formV.Show();
+            CreateVinylRecordFromSelectionAndAdd();
         }
 
         private void vinylToolStripMenuItem_Click(object sender, EventArgs e)

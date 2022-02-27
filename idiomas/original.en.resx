@@ -812,7 +812,7 @@
     <value>Vinyl record</value>
   </data>
   <data name="createVinyl" xml:space="preserve">
-    <value>Create vinyl record</value>
+    <value>Create vinyl record from selection</value>
   </data>
   <data name="creando" xml:space="preserve">
     <value>Creating</value>

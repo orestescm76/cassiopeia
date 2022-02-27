@@ -95,6 +95,7 @@
             this.toolStripButtonSaveDatabase = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFilter = new System.Windows.Forms.ToolStripButton();
             this.toolStripTextBoxSearch = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSearchLabel = new System.Windows.Forms.ToolStripLabel();
             this.barraPrincipal.SuspendLayout();
             this.barraAbajo.SuspendLayout();
             this.clickDerechoMenuContexto.SuspendLayout();
@@ -426,7 +427,6 @@
             this.year,
             this.duracion,
             this.genero});
-            this.vistaAlbumes.Cursor = System.Windows.Forms.Cursors.Default;
             this.vistaAlbumes.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.vistaAlbumes.ForeColor = System.Drawing.SystemColors.WindowText;
             this.vistaAlbumes.FullRowSelect = true;
@@ -609,7 +609,8 @@
             this.toolStripButtonOpenDatabase,
             this.toolStripButtonSaveDatabase,
             this.toolStripButtonFilter,
-            this.toolStripTextBoxSearch});
+            this.toolStripTextBoxSearch,
+            this.toolStripSearchLabel});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
             this.toolStripMain.Padding = new System.Windows.Forms.Padding(4, 0, 2, 0);
@@ -678,6 +679,16 @@
             this.toolStripTextBoxSearch.ToolTipText = "write";
             this.toolStripTextBoxSearch.Click += new System.EventHandler(this.toolStripTextBoxSearch_Click);
             this.toolStripTextBoxSearch.TextChanged += new System.EventHandler(this.toolStripTextBoxSearch_TextChanged);
+            // 
+            // toolStripSearchLabel
+            // 
+            this.toolStripSearchLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSearchLabel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSearchLabel.Image = global::Cassiopeia.Properties.Resources.search;
+            this.toolStripSearchLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.toolStripSearchLabel.Name = "toolStripSearchLabel";
+            this.toolStripSearchLabel.Size = new System.Drawing.Size(16, 22);
+            this.toolStripSearchLabel.Text = "toolStripLabel1";
             // 
             // MainForm
             // 
@@ -782,5 +793,6 @@
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxSearch;
         private System.Windows.Forms.ToolStripMenuItem vinylToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createVinylToolStripMenuItem;
+        private System.Windows.Forms.ToolStripLabel toolStripSearchLabel;
     }
 }

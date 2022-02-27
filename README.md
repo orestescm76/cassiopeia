@@ -46,17 +46,21 @@ Doesn't require any installation, can be carried on a USB flash drive.
 		* Pixel perfect. (Playlist)
 		* Tempo doloe. (New)
 		* Freepik. (New database, Save)
-	* Setyo Ari Wibowo; https://thenounproject.com (Lyrics)
+		* Taufik Ramadhan. (New CD)
+		* Those Icons (Vinyl record)
+		* Kiranshastry (Search)
+	* From https://thenounproject.com
+		* Setyo Ari Wibowo. (Lyrics)
 	* Microsoft (Player)
 	* Spotify (Spotify)
 	* @esgmonologos (Main icon)
 
 ### Currently working on:
 * Greek translation
+* Refreshing UI
 * Completing the config window.
 
 ### Stuff to do:
 * Improvements in the UI
-* Support for vinyl records
 * Any good suggestion I may recieve
 * Refactoring code

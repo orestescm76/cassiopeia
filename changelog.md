@@ -1,4 +1,8 @@
 # Cassiopeia Changelog
+#### 2.0.238.0
+- Added 3 new icons. Add CD, Add vinyl and a search icon to illustrate the textbox.
+- Fixed hiding / showing the sidebar when window is maximized. [FIX]
+
 #### 2.0.237.20
 - Ported to NET 6 because it is faster and LTS.
 - Added a save confirmation when closing and having unmodified changes.
@@ -8,14 +12,14 @@
 
 #### 2.0.236.80 - RELEASE
 - Added support for Vinyl albums
-- Fixed duplicated results in the real time filters.
+- Fixed duplicated results in the real time filters. [FIX]
 - Now cover paths are saved with relative path, saves about 14% of space.
 - Now program writes to log if languages folder is not found
-- Fixed album cover was not saved correctly if downloading from Spotify
-- Fixed creating albums and viewing albums
+- Fixed album cover was not saved correctly if downloading from Spotify [FIX]
+- Fixed creating albums and viewing albums [FIX]
 - Added localization
 - Temporarily removed the selected duration because it needs to be reimplemented.
-- Fixed adding an album with Spotify if it doesn't have images.
+- Fixed adding an album with Spotify if it doesn't have images. [FIX]
 
 #### 2.0.234.0
 - Realtime filters
