@@ -26,6 +26,7 @@ namespace Cassiopeia.src.Forms
             addCaratula.Text = Kernel.LocalTexts.GetString("addcaratula");
             labelCaratula.Text = Kernel.LocalTexts.GetString("caratula");
             labelAlbumType.Text = Kernel.LocalTexts.GetString("tipoAlbum");
+            labelCoverPATH.Text = "";
             for (int i = 0; i < Kernel.Genres.Length - 1; i++)
             {
                 genresToSelect[i] = Kernel.Genres[i].Name;
@@ -52,9 +53,9 @@ namespace Cassiopeia.src.Forms
             {
                 string fichero = abrirImagen.FileName;
                 caratula = fichero;
-                ruta.Text = fichero;
+                labelCoverPATH.Text = fichero;
             }
-            Log.Instance.PrintMessage("Image " + ruta + " loaded", MessageType.Correct);
+            Log.Instance.PrintMessage("Image " + labelCoverPATH + " loaded", MessageType.Correct);
         }
         private void buttonAddAlbum_Click(object sender, EventArgs e)
         {

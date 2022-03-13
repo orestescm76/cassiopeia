@@ -61,7 +61,8 @@ namespace Cassiopeia
             }
             else
             {
-                Language = "es";
+                //Detect system language
+                Language = Kernel.GetSystemLanguage();
                 LinkedWithSpotify = false;
                 LastOpenedDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
                 Clipboard = "%artist% - %title% (%year%)";

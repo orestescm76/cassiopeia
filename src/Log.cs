@@ -52,8 +52,9 @@ namespace Cassiopeia
 
         public void CloseLog()
         {
-            file.Close();
+            logView.Close();
             logView.Dispose();
+            file.Close();
         }
 
         public void PrintMessage(string message, MessageType messageType)

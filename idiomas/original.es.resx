@@ -830,4 +830,7 @@ Quedan {num} canciones.</value>
   <data name="linked_ok" xml:space="preserve">
     <value>Vinculado correctamente</value>
   </data>
+  <data name="numPartes" xml:space="preserve">
+    <value>Número de partes</value>
+  </data>
 </root>

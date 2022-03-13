@@ -23,8 +23,13 @@ namespace Cassiopeia
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Log.InitLog();
+            /*LOADING PROCESS*/
+            Log.Instance.PrintMessage("Starting...", MessageType.Info);
             //Set exit event
             Application.ApplicationExit += (sender, args) => Kernel.Quit();
+            Log.Instance.PrintMessage("Parsing arguments... (" + args.Length + " args)", MessageType.Info);
+            //Checking arguments
             Kernel.ParseArgs(args);
             int console;
             if (Kernel.Console)
@@ -35,18 +40,16 @@ namespace Cassiopeia
 #if DEBUG
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
 #endif
-            Log.InitLog();
-            /*LOADING PROCESS*/
-            Log.Instance.PrintMessage("Starting...", MessageType.Info);
 
             Stopwatch StartStopwatch = Stopwatch.StartNew();
-            //Checking arguments
-            Log.Instance.PrintMessage("Loading config file...", MessageType.Info);
-            //Load configuration
-            Kernel.LoadConfig();
             //Loading languages, else it will not load the textbox.
             Log.Instance.PrintMessage("Loading language file...", MessageType.Info);
             Kernel.LoadLanguages();
+            
+            //Load configuration
+            Log.Instance.PrintMessage("Loading config file...", MessageType.Info);
+            Kernel.LoadConfig();
+
 
             if (!Kernel.MetadataStream)
             {

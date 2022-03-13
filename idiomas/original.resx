@@ -773,4 +773,7 @@
   <data name="linked_ok" xml:space="preserve">
     <value></value>
   </data>
+  <data name="numPartes" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

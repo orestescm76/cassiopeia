@@ -377,7 +377,7 @@
             // 
             this.borrarseleccionToolStripMenuItem.Name = "borrarseleccionToolStripMenuItem";
             this.borrarseleccionToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.borrarseleccionToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.borrarseleccionToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.borrarseleccionToolStripMenuItem.Text = "borrar_seleccion";
             this.borrarseleccionToolStripMenuItem.Click += new System.EventHandler(this.borrarseleccionToolStripMenuItem_Click);
             // 
@@ -493,25 +493,26 @@
             // 
             this.clickDerechoMenuContexto.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.crearCDToolStripMenuItem,
+            this.createVinylToolStripMenuItem,
             this.copiarToolStripMenuItem,
             this.playSpotifyAlbumToolStripMenuItem,
-            this.verLyricsToolStripMenuItem,
-            this.createVinylToolStripMenuItem});
+            this.verLyricsToolStripMenuItem});
             this.clickDerechoMenuContexto.Name = "contextMenuStrip1";
-            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(120, 114);
+            this.clickDerechoMenuContexto.Size = new System.Drawing.Size(181, 136);
             this.clickDerechoMenuContexto.Opening += new System.ComponentModel.CancelEventHandler(this.clickDerechoMenuContexto_Opening);
             // 
             // crearCDToolStripMenuItem
             // 
             this.crearCDToolStripMenuItem.Name = "crearCDToolStripMenuItem";
-            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.crearCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.crearCDToolStripMenuItem.Tag = "createCD";
             this.crearCDToolStripMenuItem.Text = "cd";
             this.crearCDToolStripMenuItem.Click += new System.EventHandler(this.crearCDToolStripMenuItem_Click);
             // 
             // copiarToolStripMenuItem
             // 
             this.copiarToolStripMenuItem.Name = "copiarToolStripMenuItem";
-            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.copiarToolStripMenuItem.Text = "copiar";
             this.copiarToolStripMenuItem.Click += new System.EventHandler(this.copiarToolStripMenuItem_Click);
             // 
@@ -519,21 +520,22 @@
             // 
             this.playSpotifyAlbumToolStripMenuItem.Enabled = false;
             this.playSpotifyAlbumToolStripMenuItem.Name = "playSpotifyAlbumToolStripMenuItem";
-            this.playSpotifyAlbumToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.playSpotifyAlbumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.playSpotifyAlbumToolStripMenuItem.Text = "Spotify";
             this.playSpotifyAlbumToolStripMenuItem.Click += new System.EventHandler(this.playSpotifyAlbumToolStripMenuItem_Click);
             // 
             // verLyricsToolStripMenuItem
             // 
             this.verLyricsToolStripMenuItem.Name = "verLyricsToolStripMenuItem";
-            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
             this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
             // 
             // createVinylToolStripMenuItem
             // 
             this.createVinylToolStripMenuItem.Name = "createVinylToolStripMenuItem";
-            this.createVinylToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.createVinylToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createVinylToolStripMenuItem.Tag = "createVinyl";
             this.createVinylToolStripMenuItem.Text = "vinyl";
             this.createVinylToolStripMenuItem.Click += new System.EventHandler(this.vinylToolStripMenuItem1_Click);
             // 

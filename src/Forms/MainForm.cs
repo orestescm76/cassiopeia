@@ -1334,15 +1334,23 @@ namespace Cassiopeia.src.Forms
             switch (ViewType)
             {
                 case ViewType.Digital:
-                    clickDerechoMenuContexto.Items[0].Visible = true;
-                    break;
-                case ViewType.CD:
-                    clickDerechoMenuContexto.Items[0].Visible = false;
+                    clickDerechoMenuContexto.Items.Find("createVinylToolStripMenuItem", false)[0].Visible = true;
+                    clickDerechoMenuContexto.Items.Find("crearCDToolStripMenuItem", false)[0].Visible = true;
                     break;
                 case ViewType.Vinyl:
+                case ViewType.CD:
+                    clickDerechoMenuContexto.Items.Find("createVinylToolStripMenuItem", false)[0].Visible = false;
+                    clickDerechoMenuContexto.Items.Find("crearCDToolStripMenuItem", false)[0].Visible = false;
                     break;
                 default:
                     break;
+            }
+            if(vistaAlbumes.SelectedItems.Count == 0)
+            {
+                foreach (ToolStripItem item in clickDerechoMenuContexto.Items)
+                {
+                    item.Enabled = false;
+                }
             }
         }
         private void MainForm_Resize(object sender, EventArgs e)

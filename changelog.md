@@ -1,4 +1,11 @@
 # Cassiopeia Changelog
+#### 2.0.239.0
+- Cassiopeia autodetects the system language in order to set itself.
+- Fixed context menu when not selecting any album [FIX]
+- Fixed context menu when view is on CD or Vinyl mode [FIX]
+- Tweaked the CreateAlbum form [FIX]
+- Some fixes in label location in CreateSong form [FIX]
+
 #### 2.0.238.0
 - Added 3 new icons. Add CD, Add vinyl and a search icon to illustrate the textbox.
 - Fixed hiding / showing the sidebar when window is maximized. [FIX]

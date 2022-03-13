@@ -1,7 +1,7 @@
 ﻿/*
- * CASSIOPEIA 2.0.238.0
+ * CASSIOPEIA 2.0.239.0
  * PROGRAM KERNEL. CORE FUNCTIONS, LOAD, SAVE, QUIT. METADATA STREAM
- * CODENAME STORM
+ * CODENAME Θάλασσα
  * MADE BY ORESTESCM76
  */
 
@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
+using System.Linq;
 using System.IO;
 using System.Net;
 using System.Resources;
@@ -977,6 +979,14 @@ namespace Cassiopeia
                 Log.Instance.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
                 ReloadView();
             }
+        }
+        public static String GetSystemLanguage()
+        {
+            CultureInfo ci = CultureInfo.CurrentUICulture;
+            string lan = ci.Name.Split('-')[0];
+            if (!Languages.Contains(lan))
+                lan = "en";
+            return lan;
         }
     }
 }
