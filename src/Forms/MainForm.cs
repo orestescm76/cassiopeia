@@ -581,7 +581,6 @@ namespace Cassiopeia.src.Forms
                 toolStripMain.Items.RemoveByKey("view");
                 toolStripMain.Items.RemoveByKey("edit");
                 toolStripMain.Items.RemoveByKey("lyrics");
-                toolStripMain.Items.RemoveByKey("lyrics");
                 toolStripMain.Items.RemoveByKey("addCD");
                 toolStripMain.Items.RemoveByKey("addvinyl");
 
@@ -594,6 +593,7 @@ namespace Cassiopeia.src.Forms
                 toolStripMain.Items.RemoveByKey("edit");
                 toolStripMain.Items.RemoveByKey("addCD");
                 toolStripMain.Items.RemoveByKey("addvinyl");
+                toolStripMain.Items.RemoveByKey("lyrics");
             }
         }
         public void ApplyFilter(Filter filter)

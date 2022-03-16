@@ -1,30 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <_LastSelectedProfileId>S:\Programacion\C#\cassiopeia\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
-    <ActiveDebugProfile>SpotifyDebug</ActiveDebugProfile>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup>
+    <ActiveDebugProfile>SpotifyDebug</ActiveDebugProfile>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="src\Forms\About.cs">
-    <Compile Update="src\Forms\OpenDisc.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\AlbumViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Forms\CreateAlbum.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\CreateSong.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="src\Forms\Anotaciones.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\BarraCarga.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\ConfigForm.cs">
@@ -39,7 +28,16 @@
     <Compile Update="src\Forms\CreateSong.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="src\Forms\CreateVinylCassette.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="src\Forms\EditAlbum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\FilterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Forms\LoadBar.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\LogViewer.cs">

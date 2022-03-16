@@ -31,7 +31,7 @@ namespace Cassiopeia.src.Forms
         private VinylAlbum ViewVinyl;
         private ListViewItemComparer lvwColumnSorter;
         private string[] labelData;
-        private int margin = 578 - 448;
+        //private int margin = 578 - 448;
         public AlbumViewer(ref AlbumData a)
         {
             InitializeComponent();
@@ -41,12 +41,12 @@ namespace Cassiopeia.src.Forms
 
             //We are visualising a digital album
             labelEstadoDisco.Hide();
+            
             if (albumToVisualize is not null && string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
             {
                 buttonAnotaciones.Enabled = false;
-            }
-            if (string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
                 buttonPATH.Enabled = false;
+            }
             vistaCanciones.Font = Config.FontView;
             SetTexts();
             LoadView();
@@ -360,9 +360,9 @@ namespace Cassiopeia.src.Forms
             labelData[(int)AlbumInfo.Genre] = Kernel.LocalTexts.GetString("genero") + ": " + albumToVisualize.Genre.Name + Environment.NewLine;
             if (string.IsNullOrEmpty(albumToVisualize.SoundFilesPath))
                 labelData[(int)AlbumInfo.Location] = "";
-            if (CDaVisualizar is null)
-                labelData[(int)AlbumInfo.Location] = Kernel.LocalTexts.GetString("localizacion") + ": " + albumToVisualize.SoundFilesPath + Environment.NewLine;
             else
+                labelData[(int)AlbumInfo.Location] = Kernel.LocalTexts.GetString("localizacion") + ": " + albumToVisualize.SoundFilesPath + Environment.NewLine;
+            if (CDaVisualizar is not null)
             {
                 labelData[(int)AlbumInfo.Format] = Kernel.LocalTexts.GetString(CDaVisualizar.SleeveType.ToString()) + Environment.NewLine;
                 labelData[(int)AlbumInfo.PublishYear] = Kernel.LocalTexts.GetString("añoPublicacion") + ": " + CDaVisualizar.Year + Environment.NewLine;

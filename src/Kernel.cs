@@ -973,12 +973,13 @@ namespace Cassiopeia
                     }
                     a.Songs = songList;
                 }
-                a.SoundFilesPath = carpeta.FullName;
-                Collection.AddAlbum(ref a);
-                crono.Stop();
-                Log.Instance.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
-                ReloadView();
             }
+            a.SoundFilesPath = carpeta.FullName;
+            a.Type = AlbumType.Studio;
+            Collection.AddAlbum(ref a);
+            crono.Stop();
+            Log.Instance.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
+            ReloadView();
         }
         public static String GetSystemLanguage()
         {
