@@ -211,10 +211,6 @@ namespace Cassiopeia
             {
                 switch (args[i])
                 {
-                    case "-consola":
-                    case "-console":
-                        Console = true;
-                        break;
                     case "-noSpotify":
                         SpotifyEnabled = false;
                         break;
@@ -979,6 +975,7 @@ namespace Cassiopeia
             Collection.AddAlbum(ref a);
             crono.Stop();
             Log.Instance.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
+            SetSaveMark();
             ReloadView();
         }
         public static String GetSystemLanguage()
@@ -988,6 +985,71 @@ namespace Cassiopeia
             if (!Languages.Contains(lan))
                 lan = "en";
             return lan;
+        }
+        public static void SetPathsForAlbum(AlbumData a)
+        {
+            Log.Instance.PrintMessage("Searching songs for " + a.ToString(), MessageType.Info);
+            Stopwatch crono = Stopwatch.StartNew();
+            bool correcto = true;
+            DirectoryInfo directorioCanciones = new DirectoryInfo(a.SoundFilesPath);
+            foreach (FileInfo file in directorioCanciones.GetFiles())
+            {
+                string extension = Path.GetExtension(file.FullName);
+                if (extension != ".ogg" && extension != ".mp3" && extension != ".flac")
+                    continue;
+                MetadataSong LM = new MetadataSong(file.FullName);
+                foreach (Song c in a.Songs)
+                {
+                    try
+                    {
+                        if (LM.Evaluable() && !string.IsNullOrEmpty(c.Path))
+                        {
+                            if ((c.Title.ToLower() == LM.Title.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower()))
+                            {
+                                c.Path = file.FullName;
+                                Log.Instance.PrintMessage(c.Title + " linked successfully!", MessageType.Correct);
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (file.FullName.ToLower().Contains(c.Title.ToLower()))
+                            {
+                                c.Path = file.FullName;
+                                Log.Instance.PrintMessage(c.Title + " linked successfully", MessageType.Correct);
+                                break;
+                            }
+                            correcto = false;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        correcto = false;
+                    }
+
+                }
+            }
+            crono.Stop();
+
+            if (correcto)
+            {
+                Log.Instance.PrintMessage("Finished without problems", MessageType.Correct, crono, TimeType.Milliseconds);
+                MessageBox.Show(Kernel.LocalTexts.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            else
+            {
+                foreach (Song cancion in a.Songs)
+                {
+                    if (string.IsNullOrEmpty(cancion.Path)) //No se ha encontrado
+                    {
+                        Log.Instance.PrintMessage(cancion.Title + " couldn't be linked...", MessageType.Warning);
+                    }
+                }
+                MessageBox.Show(Kernel.LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            Kernel.SavePATHS();
         }
     }
 }

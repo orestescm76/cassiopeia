@@ -97,7 +97,7 @@
             // 
             this.labelCaratula.AutoSize = true;
             this.labelCaratula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelCaratula.Location = new System.Drawing.Point(14, 265);
+            this.labelCaratula.Location = new System.Drawing.Point(14, 289);
             this.labelCaratula.Name = "labelCaratula";
             this.labelCaratula.Size = new System.Drawing.Size(40, 17);
             this.labelCaratula.TabIndex = 4;
@@ -107,7 +107,7 @@
             // 
             this.labelRuta.AutoSize = true;
             this.labelRuta.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelRuta.Location = new System.Drawing.Point(16, 306);
+            this.labelRuta.Location = new System.Drawing.Point(14, 319);
             this.labelRuta.Name = "labelRuta";
             this.labelRuta.Size = new System.Drawing.Size(210, 15);
             this.labelRuta.TabIndex = 5;
@@ -140,7 +140,7 @@
             // botonCaratula
             // 
             this.botonCaratula.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.botonCaratula.Location = new System.Drawing.Point(302, 258);
+            this.botonCaratula.Location = new System.Drawing.Point(302, 276);
             this.botonCaratula.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.botonCaratula.Name = "botonCaratula";
             this.botonCaratula.Size = new System.Drawing.Size(223, 30);
@@ -189,13 +189,13 @@
             // vistaCanciones
             // 
             this.vistaCanciones.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.vistaCanciones.HideSelection = false;
-            this.vistaCanciones.Location = new System.Drawing.Point(11, 338);
+            this.vistaCanciones.Location = new System.Drawing.Point(14, 353);
             this.vistaCanciones.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.vistaCanciones.Name = "vistaCanciones";
             this.vistaCanciones.Size = new System.Drawing.Size(514, 109);
             this.vistaCanciones.TabIndex = 9;
             this.vistaCanciones.UseCompatibleStateImageBehavior = false;
+            this.vistaCanciones.SelectedIndexChanged += new System.EventHandler(this.botonCaratula_Click);
             this.vistaCanciones.KeyDown += new System.Windows.Forms.KeyEventHandler(this.vistaCanciones_KeyDown);
             this.vistaCanciones.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.vistaCanciones_MouseDoubleClick);
             // 
@@ -243,10 +243,11 @@
             // 
             this.labelDirectorioActual.AutoSize = true;
             this.labelDirectorioActual.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelDirectorioActual.Location = new System.Drawing.Point(14, 394);
+            this.labelDirectorioActual.Location = new System.Drawing.Point(14, 261);
             this.labelDirectorioActual.Name = "labelDirectorioActual";
-            this.labelDirectorioActual.Size = new System.Drawing.Size(0, 15);
+            this.labelDirectorioActual.Size = new System.Drawing.Size(28, 15);
             this.labelDirectorioActual.TabIndex = 14;
+            this.labelDirectorioActual.Text = "aaa";
             // 
             // textBoxURISpotify
             // 
@@ -277,7 +278,7 @@
             this.labelAlbumType.TabIndex = 17;
             this.labelAlbumType.Text = "type";
             // 
-            // editarAlbum
+            // EditAlbum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -308,7 +309,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "editarAlbum";
+            this.Name = "EditAlbum";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "editarAlbum";
             this.ResumeLayout(false);

@@ -9,6 +9,7 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace Cassiopeia
 {
@@ -23,20 +24,23 @@ namespace Cassiopeia
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Log.InitLog();
-            /*LOADING PROCESS*/
-            Log.Instance.PrintMessage("Starting...", MessageType.Info);
-            //Set exit event
-            Application.ApplicationExit += (sender, args) => Kernel.Quit();
-            Log.Instance.PrintMessage("Parsing arguments... (" + args.Length + " args)", MessageType.Info);
-            //Checking arguments
-            Kernel.ParseArgs(args);
+            //Check if console is needed
+            if (args.Contains("-consola") || args.Contains("-console"))
+                Kernel.Console = true;
             int console;
             if (Kernel.Console)
             {
                 console = Kernel.AllocConsole();
                 Console.CancelKeyPress += (sender, args) => Kernel.Quit();
             }
+            /*LOADING PROCESS*/
+            Log.InitLog();
+            Log.Instance.PrintMessage("Starting...", MessageType.Info);
+            //Set exit event
+            Application.ApplicationExit += (sender, args) => Kernel.Quit();
+            Log.Instance.PrintMessage("Parsing arguments... (" + args.Length + " args)", MessageType.Info);
+            //Checking arguments
+            Kernel.ParseArgs(args);
 #if DEBUG
             System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
 #endif

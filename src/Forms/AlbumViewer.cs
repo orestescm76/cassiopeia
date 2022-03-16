@@ -600,67 +600,7 @@ namespace Cassiopeia.src.Forms
         }
         private void buttonPATH_Click(object sender, EventArgs e)
         {
-            Log.Instance.PrintMessage("Searching songs for " + albumToVisualize.ToString(), MessageType.Info);
-            Stopwatch crono = Stopwatch.StartNew();
-            bool correcto = true;
-            DirectoryInfo directorioCanciones = new DirectoryInfo(albumToVisualize.SoundFilesPath);
-            foreach (FileInfo file in directorioCanciones.GetFiles())
-            {
-                string extension = Path.GetExtension(file.FullName);
-                if (extension != ".ogg" && extension != ".mp3" && extension != ".flac")
-                    continue;
-                MetadataSong LM = new MetadataSong(file.FullName);
-                foreach (Song c in albumToVisualize.Songs)
-                {
-                    try
-                    {
-                        if (LM.Evaluable() && string.IsNullOrEmpty(c.Path))
-                        {
-                            if ((c.Title.ToLower() == LM.Title.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower()))
-                            {
-                                c.Path = file.FullName;
-                                Log.Instance.PrintMessage(c.Title + " linked successfully!", MessageType.Correct);
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if (file.FullName.ToLower().Contains(c.Title.ToLower()))
-                            {
-                                c.Path = file.FullName;
-                                Log.Instance.PrintMessage(c.Title + " linked successfully", MessageType.Correct);
-                                break;
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        correcto = false;
-                    }
-
-                }
-            }
-            crono.Stop();
-
-            if (correcto)
-            {
-                Log.Instance.PrintMessage("Finished without problems", MessageType.Correct, crono, TimeType.Milliseconds);
-                MessageBox.Show(Kernel.LocalTexts.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-            else
-            {
-                foreach (Song cancion in albumToVisualize.Songs)
-                {
-                    if (string.IsNullOrEmpty(cancion.Path)) //No se ha encontrado
-                    {
-                        Log.Instance.PrintMessage(cancion.Title + " couldn't be linked...", MessageType.Warning);
-                    }
-                }
-                MessageBox.Show(Kernel.LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-            Kernel.SavePATHS();
+            Kernel.SetPathsForAlbum(albumToVisualize);
         }
 
         private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
