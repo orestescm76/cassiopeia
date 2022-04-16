@@ -1,5 +1,11 @@
 # Cassiopeia Changelog
-#### 2.0.239.30
+#### 2.0.240.0
+- Changed the main datastructure to a Dictionary. It should be faster.
+- Fixed slow start up [FIX]
+- Fix on the Lyrics Viewer when changing the font size.
+- Made update check async [FIX]
+
+#### 2.0.239.40
 - Cassiopeia autodetects the system language in order to set itself.
 - Fixed context menu when not selecting any album [FIX]
 - Fixed context menu when view is on CD or Vinyl mode [FIX]
@@ -10,6 +16,7 @@
 - Fixed creating new album from a directory [FIX]
 - Fixed the location of the sound folder in EditAlbum [FIX]
 - Fixed the linking of sound files and album [FIX]
+- Fixed closing Spotify on the Player [FIX]
 
 #### 2.0.238.0
 - Added 3 new icons. Add CD, Add vinyl and a search icon to illustrate the textbox.

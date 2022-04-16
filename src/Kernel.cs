@@ -21,6 +21,7 @@ using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Http;
 
 namespace Cassiopeia
 {
@@ -179,7 +180,11 @@ namespace Cassiopeia
         public static void InternetAvaliable(bool i)
         {
             if (!MetadataStream)
+            {
                 MainForm.EnableInternet(i);
+                if(Player.Instancia is not null)
+                    Player.Instancia.SetSpotify(i);
+            }
         }
 
         public static void ActivarReproduccionSpotify()
@@ -258,58 +263,85 @@ namespace Cassiopeia
             }
 
         }
-        static bool GetUpdate(out string newVer)
+        static async Task<bool> GetUpdate()
         {
-            HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/cassiopeia/releases");
             string contenido = string.Empty;
-            GithubRequest.Accept = "text/html,application/vnd.github.v3+json";
-            GithubRequest.UserAgent = ".NET Framework Test Agent"; //Si no lo pongo, 403.
-            try
+            using (HttpClient httpClient = new())
             {
-                using (HttpWebResponse respuesta = (HttpWebResponse)GithubRequest.GetResponse())
-                using (Stream flujo = respuesta.GetResponseStream())
-                using (StreamReader lector = new StreamReader(flujo))
+                httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Cassiopeia 2.0");
+                var gitHubResponse = await httpClient.GetAsync("https://api.github.com/repos/orestescm76/cassiopeia/releases");
+                try
                 {
-                    while (!lector.EndOfStream)
-                        contenido += lector.ReadLine();
+                    gitHubResponse.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException ex)
+                {
+                    Log.Instance.PrintMessage("There was a problem when trying to fetch updates...", MessageType.Error);
+                    Log.Instance.PrintMessage("Server response: " + ex.StatusCode, MessageType.Info);
+                    return false;
+                }
+                var responseStream = gitHubResponse.Content.ReadAsStream();
+                using (StreamReader lector = new(responseStream))
+                {
+                    while(!lector.EndOfStream)
+                        contenido+=lector.ReadLine();
                 }
             }
-            catch (WebException e)
-            {
-                Log.Instance.PrintMessage("There was a problem when trying to fetch updates...", MessageType.Error);
-                Log.Instance.PrintMessage("Server response: " + e.Response, MessageType.Info);
-                newVer = string.Empty;
-                return false;
-            }
+            
+            //HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/cassiopeia/releases");
+            ////string contenido = string.Empty;
+            //GithubRequest.Accept = "text/html,application/vnd.github.v3+json";
+            //GithubRequest.UserAgent = ".NET Framework Test Agent"; //Si no lo pongo, 403.
+            //try
+            //{
+            //    using (HttpWebResponse respuesta = (HttpWebResponse)GithubRequest.GetResponse())
+            //    using (Stream flujo = respuesta.GetResponseStream())
+            //    //using (StreamReader lector = new StreamReader(flujo))
+            //    //{
+            //    //    while (!lector.EndOfStream)
+            //    //        contenido += lector.ReadLine();
+            //    //}
+            //}
+            //catch (WebException e)
+            //{
+            //    Log.Instance.PrintMessage("There was a problem when trying to fetch updates...", MessageType.Error);
+            //    Log.Instance.PrintMessage("Server response: " + e.Response, MessageType.Info);
+            //    newVer = string.Empty;
+            //    return false;
+            //}
 
             int indexVersion = contenido.IndexOf("tag_name");
+            string newVer;
             newVer = contenido.Substring(indexVersion, 40);
             newVer = newVer.Split('\"')[2];
             int newVerInt = 0, oldVerInt = 0;
 
             string[] oldVerArr = Version.Split('.');
             string[] newVerArr = newVer.Split('.');
+            newVerInt = Convert.ToInt32(newVerArr[2]);
+            oldVerInt = Convert.ToInt32(oldVerArr[2]);
             if (newVerArr[0].Length == 2)
                 newVerArr[0] = newVerArr[0].Remove(0, 1);
             if (Convert.ToInt32(newVerArr[0]) > Convert.ToInt32(oldVerArr[0])) //2>1?
                 return true;
-            else if (Convert.ToInt32(newVerArr[2]) > Convert.ToInt32(oldVerArr[2])) //214 > 200?
+            else if (newVerInt > oldVerInt) //214 > 200?
                 return true;
-            else if (Convert.ToInt32(newVerArr[3]) > Convert.ToInt32(oldVerArr[3])) //2.0.x.20 > 2.0.x.10
+            else if (Convert.ToInt32(newVerArr[3]) > Convert.ToInt32(oldVerArr[3]) && newVerInt == oldVerInt) //2.0.x.20 > 2.0.x.10
                 return true;
 
             return false; //same version.
         }
-        public static void CheckForUpdates()
+        public static async void CheckForUpdates()
         {
-            string newVersion;
-            if (GetUpdate(out newVersion))
+            if (await GetUpdate())
             {
-                Log.Instance.PrintMessage("A new update is avaliable: " + newVersion, MessageType.Info);
-                DialogResult act = MessageBox.Show(LocalTexts.GetString("actualizacion1") + Environment.NewLine + newVersion + Environment.NewLine + LocalTexts.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
+                Log.Instance.PrintMessage("A new update is avaliable", MessageType.Info);
+                DialogResult act = MessageBox.Show(LocalTexts.GetString("actualizacion1") + Environment.NewLine + /*newVersion + */ Environment.NewLine + LocalTexts.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
                 if (act == DialogResult.Yes)
                     Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
             }
+            else
+                Log.Instance.PrintMessage("No updates avaliable", MessageType.Info);
         }
         public static void CreateProgram()
         {
@@ -682,11 +714,11 @@ namespace Cassiopeia
             FileInfo pathsInfo = new FileInfo("paths.txt");
             using (StreamWriter salida = pathsInfo.CreateText())
             {
-                foreach (AlbumData album in Collection.Albums)
+                foreach (var pair in Collection.Albums)
                 {
-                    if (string.IsNullOrEmpty(album.SoundFilesPath))
+                    if (string.IsNullOrEmpty(pair.Value.SoundFilesPath))
                         continue;
-                    foreach (Song cancion in album.Songs)
+                    foreach (Song cancion in pair.Value.Songs)
                     {
                         if (!string.IsNullOrEmpty(cancion.Path))
                         {
@@ -694,6 +726,18 @@ namespace Cassiopeia
                         }
                     }
                 }
+                //foreach (AlbumData album in Collection.Albums)
+                //{
+                //    if (string.IsNullOrEmpty(album.SoundFilesPath))
+                //        continue;
+                //    foreach (Song cancion in album.Songs)
+                //    {
+                //        if (!string.IsNullOrEmpty(cancion.Path))
+                //        {
+                //            salida.Write(cancion.SavePath());
+                //        }
+                //    }
+                //}
                 salida.Flush();
                 pathsInfo.Refresh();
                 crono.Stop();
@@ -715,12 +759,18 @@ namespace Cassiopeia
                         case SaveType.Digital:
                             Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
                             Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            foreach (AlbumData a in Collection.Albums)
+                            foreach (var pair in Collection.Albums)
                             {
                                 JsonSerializer s = new JsonSerializer();
                                 s.TypeNameHandling = TypeNameHandling.All;
-                                salida.WriteLine(JsonConvert.SerializeObject(a));
+                                salida.WriteLine(JsonConvert.SerializeObject(pair.Value));
                             }
+                            //foreach (AlbumData a in Collection.Albums)
+                            //{
+                            //    JsonSerializer s = new JsonSerializer();
+                            //    s.TypeNameHandling = TypeNameHandling.All;
+                            //    salida.WriteLine(JsonConvert.SerializeObject(a));
+                            //}
                             break;
                         case SaveType.CD:
                             Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the CD data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
@@ -754,7 +804,8 @@ namespace Cassiopeia
                         case SaveType.Digital:
                             Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
                             Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            foreach (AlbumData a in Collection.Albums)
+                            //foreach (AlbumData a in Collection.Albums)
+                            foreach (var a in Collection.Albums.Values)
                             {
                                 if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
                                 {
@@ -828,7 +879,8 @@ namespace Cassiopeia
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamWriter salida = new FileInfo("lyrics.txt").CreateText()) //change?
             {
-                foreach (AlbumData album in Collection.Albums)
+                //foreach (AlbumData album in Collection.Albums)
+                foreach (AlbumData album in Collection.Albums.Values)
                 {
                     foreach (Song cancion in album.Songs)
                     {
@@ -873,7 +925,8 @@ namespace Cassiopeia
         }
         public static Song searchSong(string keyword)
         {
-            foreach (AlbumData album in Collection.Albums)
+            //foreach (AlbumData album in Collection.Albums)
+            foreach (AlbumData album in Collection.Albums.Values)
             {
                 foreach (Song song in album.Songs)
                 {

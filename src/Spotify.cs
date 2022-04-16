@@ -1,7 +1,6 @@
 ﻿/*
- * CASSIOPEIA 2.0.225.30
  * SPOTIFY API WRAPPER
- * CODENAME STORM
+ * CODENAME THALASSA
  * MADE BY ORESTESCM76
  */
 
@@ -105,7 +104,7 @@ namespace Cassiopeia
                     {
                         CodeChallenge = challenge,
                         CodeChallengeMethod = "S256",
-                        Scope = new List<string> { Scopes.UserReadEmail, Scopes.UserReadPrivate, Scopes.Streaming, Scopes.PlaylistReadPrivate, Scopes.UserReadPlaybackState, Scopes.UserLibraryRead }
+                        Scope = new List<string> { Scopes.UserReadEmail, Scopes.UserReadPrivate, Scopes.Streaming, Scopes.UserReadPlaybackState, Scopes.UserLibraryRead }
                     };
                     BrowserUtil.Open(login.ToUri());
                 }

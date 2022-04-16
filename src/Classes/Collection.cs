@@ -6,60 +6,74 @@ namespace Cassiopeia.src.Classes
 {
     public class Collection
     {
-        public List<AlbumData> Albums { get; private set; }
+        public Dictionary<string, AlbumData> Albums { get; private set; }
         public List<AlbumData> FilteredAlbums { get; set; }
         public List<CompactDisc> CDS { get; private set; }
         public List<VinylAlbum> Vinyls { get; private set; }
         public Collection()
         {
-            Albums = new List<AlbumData>();
+            Albums = new Dictionary<string, AlbumData>();
             CDS = new List<CompactDisc>();
             Vinyls = new();
         }
-        public void AddAlbum(ref AlbumData album) { Albums.Add(album); }
+        public void AddAlbum(ref AlbumData album)
+        {
+            try
+            {
+                Albums.Add(album.Artist + "/**/" + album.Title, album);
+            }
+            catch (ArgumentException)
+            {
+                Log.Instance.PrintMessage("Already added!", MessageType.Warning);
+                Log.Instance.PrintMessage(album.Artist + " - " + album.Title, MessageType.Warning);
+            }
+        }
         public void RemoveAlbum(ref AlbumData album)
         {
             if (album.CanBeRemoved)
-                Albums.Remove(album);
+                Albums.Remove(album.Artist + "/**/" + album.Title);
             else
-                throw new InvalidOperationException(album.Artist + " - " + album.Title);
+                throw new InvalidOperationException(album.Artist + "/**/" + album.Title);
         }
         public List<AlbumData> SearchAlbum(string title)
         {
             List<AlbumData> encontrados = new List<AlbumData>();
-            foreach (AlbumData a in Albums)
-            {
-                if (a.Title == title)
-                    encontrados.Add(a);
-            }
+            encontrados = Albums.Where(pair => pair.Value.Title.Contains(title)).Select(pair => pair.Value).ToList();
+            //foreach (AlbumData a in Albums)
+            //{
+            //    if (a.Title == title)
+            //        encontrados.Add(a);
+            //}
             return encontrados;
         }
         public bool IsInCollection(AlbumData referenceAlbum)
         {
-            foreach (AlbumData album in Albums)
-            {
-                if (album == referenceAlbum)
-                    return true;
-            }
-            return false;
+            return Albums.ContainsValue(referenceAlbum);
+            //foreach (AlbumData album in Albums)
+            //{
+            //    if (album == referenceAlbum)
+            //        return true;
+            //}
+            //return false;
         }
 
         public AlbumData GetAlbum(string s) //s is equal to Black Sabbath/**/Paranoid
         {
+            return Albums["s"];
             String[] busqueda = s.Split("/**/");
-
-            foreach (AlbumData album in Albums)
-            {
-                if (album.Artist == busqueda[0] && album.Title == busqueda[1])
-                    return album;
-            }
+            
+            //foreach (AlbumData album in Albums)
+            //{
+            //    if (album.Artist == busqueda[0] && album.Title == busqueda[1])
+            //        return album;
+            //}
 
             return null;
         }
         public AlbumData GetAlbum(int index, bool filtered)
         {
             if (!filtered)
-                return Albums[index];
+                return Albums.Values.ToArray()[index];
             else
                 return FilteredAlbums[index];
         }
@@ -73,7 +87,7 @@ namespace Cassiopeia.src.Classes
                     cd = cdd;
             }
         }
-        public void ChangeList(ref List<AlbumData> n)
+        public void ChangeAlbums(ref Dictionary<string, AlbumData> n)
         {
             Albums = n;
         }

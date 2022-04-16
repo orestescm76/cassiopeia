@@ -112,14 +112,21 @@ namespace Cassiopeia.src.Forms
             {
                 case ViewType.Digital:
                     ListViewItem[] items = new ListViewItem[Kernel.Collection.Albums.Count];
-                    for (int i = 0; i < Kernel.Collection.Albums.Count; i++)
+                    int i = 0;
+                    foreach (var pair in Kernel.Collection.Albums)
                     {
-                        String[] datos = Kernel.Collection.Albums[i].ToStringArray();
+                        string[] datos = pair.Value.ToStringArray();
                         items[i] = new ListViewItem(datos);
+                        i++;
                     }
+                    //for (int i = 0; i < Kernel.Collection.Albums.Count; i++)
+                    //{
+                    //    String[] datos = Kernel.Collection.Albums[i].ToStringArray();
+                    //    items[i] = new ListViewItem(datos);
+                    //}
                     vistaAlbumes.Items.AddRange(items);
                     labelGeneralInfo.Text = Kernel.LocalTexts.GetString("numOf") + ": " + Kernel.LocalTexts.GetString("albumes").ToLower() +" " + Kernel.Collection.Albums.Count + Environment.NewLine +
-                    "Total duration: " + Kernel.Collection.GetTotalTime(Kernel.Collection.Albums);
+                    "Total duration: " + Kernel.Collection.GetTotalTime(Kernel.Collection.Albums.Select(pair => pair.Value).ToList());
                     labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
                     break;
                 case ViewType.CD:
@@ -359,9 +366,10 @@ namespace Cassiopeia.src.Forms
                     if (!string.IsNullOrEmpty(a.CoverPath))
                         pictureBoxSidebarCover.Image = Image.FromFile(a.CoverPath);
                 }
-                catch (Exception)
+                catch (FileNotFoundException PataPumParriba)
                 {
                     Log.Instance.PrintMessage("Couldn't set the album cover on the sidebar", MessageType.Warning);
+                    Log.Instance.PrintMessage("This file cannot be found: "+PataPumParriba.Message, MessageType.Warning);
                     pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
                 }
 
@@ -478,6 +486,7 @@ namespace Cassiopeia.src.Forms
                         break;
                 }
             }
+            Kernel.SetSaveMark();
             LoadView();
         }
         private void EditSelectedAlbum()
@@ -525,55 +534,61 @@ namespace Cassiopeia.src.Forms
         {
             if (vistaAlbumes.SelectedItems.Count == 1)
             {
-                ToolStripSeparator toolStripSeparator = new();
-                toolStripSeparator.Name = "separator_song";
                 //Add the buttons.
-                ToolStripButton view = new ToolStripButton(Properties.Resources.view);
-                view.ToolTipText = Kernel.LocalTexts.GetString("ver");
-                view.Click += (object sender, EventArgs e) => ShowSelectedAlbum();
-                view.Name = "view";
-
-                ToolStripButton edit = new ToolStripButton(Properties.Resources.editing);
-                edit.ToolTipText = Kernel.LocalTexts.GetString("editar");
-                edit.Click += (object sender, EventArgs e) => EditSelectedAlbum();
-                edit.Name = "edit";
-
-                ToolStripButton delete = new ToolStripButton(Properties.Resources.delete);
-                delete.ToolTipText = Kernel.LocalTexts.GetString("borrar_seleccion");
-                delete.Click += (object sender, EventArgs e) => DeleteSelectedAlbums(ViewType);
-                delete.Name = "delete";
-
-                ToolStripButton lyrics = new ToolStripButton(Properties.Resources.lyrics);
-                lyrics.ToolTipText = Kernel.LocalTexts.GetString("verLyrics");
-                lyrics.Click += (object sender, EventArgs e) => verLyricsToolStripMenuItem_Click(sender, e);
-                lyrics.Name = "lyrics";
-
-
-                ToolStripButton addCD = new(Properties.Resources.addcd);
-                addCD.ToolTipText = Kernel.LocalTexts.GetString("crearCD");
-                addCD.Click += (object sender, EventArgs e) => CreateCDFromSelectionAndAdd();
-                addCD.Name = "addCD";
-
-
-                ToolStripButton addvinyl = new(Properties.Resources.vinyl);
-                addvinyl.ToolTipText = Kernel.LocalTexts.GetString("createVinyl");
-                addvinyl.Click += (object sender, EventArgs e) => CreateVinylRecordFromSelectionAndAdd();
-                addvinyl.Name = "addvinyl";
-
                 if (!toolStripMain.Items.ContainsKey("separator_song"))
+                {
+                    ToolStripSeparator toolStripSeparator = new();
+                    toolStripSeparator.Name = "separator_song";
                     toolStripMain.Items.Add(toolStripSeparator);
+                }
                 if (!toolStripMain.Items.ContainsKey("view"))
+                {
+                    ToolStripButton view = new ToolStripButton(Properties.Resources.view);
+                    view.ToolTipText = Kernel.LocalTexts.GetString("ver");
+                    view.Click += (object sender, EventArgs e) => ShowSelectedAlbum();
+                    view.Name = "view";
                     toolStripMain.Items.Add(view);
+                }
                 if (!toolStripMain.Items.ContainsKey("edit"))
+                {
+                    ToolStripButton edit = new ToolStripButton(Properties.Resources.editing);
+                    edit.ToolTipText = Kernel.LocalTexts.GetString("editar");
+                    edit.Click += (object sender, EventArgs e) => EditSelectedAlbum();
+                    edit.Name = "edit";
                     toolStripMain.Items.Add(edit);
+                }
                 if (!toolStripMain.Items.ContainsKey("delete"))
+                {
+                    ToolStripButton delete = new ToolStripButton(Properties.Resources.delete);
+                    delete.ToolTipText = Kernel.LocalTexts.GetString("borrar_seleccion");
+                    delete.Click += (object sender, EventArgs e) => DeleteSelectedAlbums(ViewType);
+                    delete.Name = "delete";
                     toolStripMain.Items.Add(delete);
+                }
                 if (!toolStripMain.Items.ContainsKey("lyrics"))
+                {
+                    ToolStripButton lyrics = new ToolStripButton(Properties.Resources.lyrics);
+                    lyrics.ToolTipText = Kernel.LocalTexts.GetString("verLyrics");
+                    lyrics.Click += (object sender, EventArgs e) => verLyricsToolStripMenuItem_Click(sender, e);
+                    lyrics.Name = "lyrics";
                     toolStripMain.Items.Add(lyrics);
+                }
                 if (!toolStripMain.Items.ContainsKey("addCD"))
+                {
+                    ToolStripButton addCD = new(Properties.Resources.addcd);
+                    addCD.ToolTipText = Kernel.LocalTexts.GetString("crearCD");
+                    addCD.Click += (object sender, EventArgs e) => CreateCDFromSelectionAndAdd();
+                    addCD.Name = "addCD";
                     toolStripMain.Items.Add(addCD);
+                }
                 if (!toolStripMain.Items.ContainsKey("addvinyl"))
+                {
+                    ToolStripButton addvinyl = new(Properties.Resources.vinyl);
+                    addvinyl.ToolTipText = Kernel.LocalTexts.GetString("createVinyl");
+                    addvinyl.Click += (object sender, EventArgs e) => CreateVinylRecordFromSelectionAndAdd();
+                    addvinyl.Name = "addvinyl";
                     toolStripMain.Items.Add(addvinyl);
+                }
             }
             //Remove buttons for actions which requires only one album
             else if (vistaAlbumes.SelectedItems.Count > 1)
@@ -606,7 +621,7 @@ namespace Cassiopeia.src.Forms
             switch (ViewType)
             {
                 case ViewType.Digital:
-                    query = Kernel.Collection.Albums;
+                    query = Kernel.Collection.Albums.Values;
                     break;
                 case ViewType.CD:
                     query = Kernel.Collection.GetCDAlbums();
@@ -655,7 +670,7 @@ namespace Cassiopeia.src.Forms
             switch (ViewType)
             {
                 case ViewType.Digital:
-                    query = Kernel.Collection.Albums;
+                    query = Kernel.Collection.Albums.Values;
                     break;
                 case ViewType.CD:
                     query = Kernel.Collection.GetCDAlbums();
@@ -850,7 +865,7 @@ namespace Cassiopeia.src.Forms
                 lvwColumnSorter.Orden = SortOrder.Descending;
             }
             vistaAlbumes.Sort();
-            List<AlbumData> nuevaLista = new();
+            Dictionary<string, AlbumData> nuevaLista = new();
             string[] s = null;
             if (!filtered)
             {
@@ -887,12 +902,12 @@ namespace Cassiopeia.src.Forms
             {
                 s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "/**/" + vistaAlbumes.Items[i].SubItems[1].Text;
                 AlbumData a = Kernel.Collection.GetAlbum(s[i]);
-                nuevaLista.Add(a);
+                nuevaLista.Add(vistaAlbumes.Items[i].SubItems[0].Text + "/**/" + vistaAlbumes.Items[i].SubItems[1].Text, a);
             }
             if (!filtered)
-                Kernel.Collection.ChangeList(ref nuevaLista);
+                Kernel.Collection.ChangeAlbums(ref nuevaLista);
             else
-                Kernel.Collection.FilteredAlbums = nuevaLista;
+                Kernel.Collection.FilteredAlbums = nuevaLista.Values.ToList();
             vistaAlbumes.Refresh();
         }
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)

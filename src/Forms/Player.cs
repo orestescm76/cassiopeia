@@ -229,11 +229,11 @@ namespace Cassiopeia.src.Forms
             labelPosicion.Text = "0:00";
             labelDuracion.Text = "XX:XX";
             Volumen = 1.0f;
-            SetWindowTitle("");
+            SetWindowTitle(Kernel.LocalTexts.GetString("reproductor"));
             toolStripStatusLabelCorreoUsuario.Text = "";
             labelDatosCancion.Text = "";
             Icon = Resources.iconoReproductor;
-            checkBoxFoobar.Visible = true;
+            //checkBoxFoobar.Visible = true;
             SetPlayerButtons(false);
             buttonDetener.Enabled = true;
             File.Delete("./covers/np.jpg");
@@ -753,7 +753,11 @@ namespace Cassiopeia.src.Forms
             else
                 return time.ToString(@"mm\:ss");
         }
-
+        //Sets the Spotify Switch button
+        public void SetSpotify(bool flag)
+        {
+            buttonSpotify.Enabled = flag;
+        }
         #region Events
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {

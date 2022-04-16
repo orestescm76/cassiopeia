@@ -45,7 +45,7 @@ namespace Cassiopeia.src.Forms
             textBoxLyrics.Lines = cancion.Lyrics;
             Text = cancion.ToString();
             textBoxLyrics.DeselectAll();
-            if (object.ReferenceEquals(cancion.AlbumFrom, null))
+            if (cancion.AlbumFrom is null)
             {
                 buttonBack.Enabled = false;
                 buttonNext.Enabled = false;
@@ -67,6 +67,7 @@ namespace Cassiopeia.src.Forms
         private void Guardar()
         {
             cancion.Lyrics = textBoxLyrics.Lines;
+            Kernel.SetSaveMark();
             Log.Instance.PrintMessage("Lyrics saved!", MessageType.Correct);
         }
         #region Events
@@ -87,8 +88,7 @@ namespace Cassiopeia.src.Forms
 
         private void buttonCerrar_Click(object sender, EventArgs e)
         {
-            cancion.Lyrics = textBoxLyrics.Lines;
-            Kernel.SetSaveMark();
+            Guardar();
             Close();
         }
 
@@ -115,19 +115,19 @@ namespace Cassiopeia.src.Forms
         }
         private void textBoxLyrics_MouseWheel(object sender, MouseEventArgs e)
         {
-            Font tipografiaNew = Tipografia;
             if (ModifierKeys == Keys.Control)
             {
+                Font tipografiaNew = Tipografia;
                 if (e.Delta > 0)
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size + 2);
                 else
                     tipografiaNew = new Font(Tipografia.FontFamily.Name, Tipografia.Size - 2);
+                if (tipografiaNew.Size <= 2 || tipografiaNew.Size >= 75)
+                    tipografiaNew = Tipografia; //no se cambia
+                textBoxLyrics.Font = Tipografia = tipografiaNew;
+                Text = cancion.ToString() + " (" + Tipografia.Size + ")";
+                Log.Instance.PrintMessage("Changed font size to " + tipografiaNew.Size, MessageType.Info);
             }
-            if (tipografiaNew.Size <= 2 || tipografiaNew.Size >= 75)
-                tipografiaNew = Tipografia; //no se cambia
-            textBoxLyrics.Font = Tipografia = tipografiaNew;
-            Text = cancion.ToString() + " (" + Tipografia.Size + ")";
-            Log.Instance.PrintMessage("Changed font size to " + tipografiaNew.Size, MessageType.Info);
         }
         #endregion
     }
