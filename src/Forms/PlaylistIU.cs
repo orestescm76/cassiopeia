@@ -27,7 +27,7 @@ namespace Cassiopeia.src.Forms
         {
             fileToolStripMenuItem.Text = Kernel.LocalTexts.GetString("archivo");
             newToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevaPlaylist");
-            saveToolStripMenuItem.Text = Kernel.LocalTexts.GetString("guardar");
+            saveToolStripMenuItem.Text = Kernel.LocalTexts.GetString("saveAs");
             openToolStripMenuItem.Text = Kernel.LocalTexts.GetString("abrir");
             addSongToolStripMenuItem.Text = Kernel.LocalTexts.GetString("añadir_cancion");
             changeNameToolStripMenuItem.Text = Kernel.LocalTexts.GetString("cambiarNombrePL");

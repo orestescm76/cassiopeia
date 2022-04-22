@@ -4,6 +4,7 @@
 - Fixed slow start up [FIX]
 - Fix on the Lyrics Viewer when changing the font size.
 - Made update check async [FIX]
+- Fixed saving text not showing in PlaylistUI [FIX]
 
 #### 2.0.239.40
 - Cassiopeia autodetects the system language in order to set itself.
