@@ -1,10 +1,11 @@
 # Cassiopeia Changelog
-#### 2.0.240.0
+#### 2.0.240.10
 - Changed the main datastructure to a Dictionary. It should be faster.
 - Fixed slow start up [FIX]
 - Fix on the Lyrics Viewer when changing the font size.
 - Made update check async [FIX]
 - Fixed saving text not showing in PlaylistUI [FIX]
+- Fixed memory leak when selecting many albums [FIX]
 
 #### 2.0.239.40
 - Cassiopeia autodetects the system language in order to set itself.

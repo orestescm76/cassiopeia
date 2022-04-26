@@ -198,9 +198,7 @@ namespace Cassiopeia.src.Classes
 
         public bool NeedsMetadata()
         {
-            if (string.IsNullOrEmpty(Artist) || string.IsNullOrEmpty(Title))
-                return true;
-            else return false;
+            return string.IsNullOrEmpty(Artist) || string.IsNullOrEmpty(Title);
         }
     }
 }

@@ -97,6 +97,8 @@ namespace Cassiopeia
         public static FileInfo StreamFileInfo;
 
         private static bool Edited = false;
+
+        public static string SearchSeparator = "/**/";
         public async static void MetadataStreamTask()
         {
             DateTime now = DateTime.Now;

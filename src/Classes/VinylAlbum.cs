@@ -57,7 +57,7 @@ namespace Cassiopeia.src.Classes
         }
         public void InstallAlbum()
         {
-            Album = Kernel.Collection.GetAlbum(Artist + "/**/" + Title);
+            Album = Kernel.Collection.GetAlbum(Artist + Kernel.SearchSeparator + Title);
         }
         private TimeSpan GetLength()
         {

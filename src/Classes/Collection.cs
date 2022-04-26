@@ -20,7 +20,7 @@ namespace Cassiopeia.src.Classes
         {
             try
             {
-                Albums.Add(album.Artist + "/**/" + album.Title, album);
+                Albums.Add(album.Artist + Kernel.SearchSeparator + album.Title, album);
             }
             catch (ArgumentException)
             {
@@ -31,9 +31,9 @@ namespace Cassiopeia.src.Classes
         public void RemoveAlbum(ref AlbumData album)
         {
             if (album.CanBeRemoved)
-                Albums.Remove(album.Artist + "/**/" + album.Title);
+                Albums.Remove(album.Artist + Kernel.SearchSeparator + album.Title);
             else
-                throw new InvalidOperationException(album.Artist + "/**/" + album.Title);
+                throw new InvalidOperationException(album.Artist + Kernel.SearchSeparator + album.Title);
         }
         public List<AlbumData> SearchAlbum(string title)
         {
@@ -59,8 +59,9 @@ namespace Cassiopeia.src.Classes
 
         public AlbumData GetAlbum(string s) //s is equal to Black Sabbath/**/Paranoid
         {
-            return Albums["s"];
-            String[] busqueda = s.Split("/**/");
+            return Albums[s];
+            
+            //String[] busqueda = s.Split(Kernel.SearchSeparator);
             
             //foreach (AlbumData album in Albums)
             //{
@@ -68,7 +69,7 @@ namespace Cassiopeia.src.Classes
             //        return album;
             //}
 
-            return null;
+            //return null;
         }
         public AlbumData GetAlbum(int index, bool filtered)
         {
@@ -80,7 +81,7 @@ namespace Cassiopeia.src.Classes
         public void GetAlbum(string s, out CompactDisc cd)
         {
             cd = null;
-            String[] busqueda = s.Split("/**/");
+            String[] busqueda = s.Split(Kernel.SearchSeparator);
             foreach (CompactDisc cdd in CDS)
             {
                 if (cdd.Album.Artist == busqueda[0] && cdd.Album.Title == busqueda[1])

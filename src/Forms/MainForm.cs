@@ -354,30 +354,28 @@ namespace Cassiopeia.src.Forms
         {
             int width = panelSidebar.Width - 20;
             if (a is not null)
-            {
-                if(pictureBoxSidebarCover.Image is not null)
-                    pictureBoxSidebarCover.Image.Dispose();
-                if (pictureBoxSidebarCover.Image != Properties.Resources.albumdesconocido)
-                    pictureBoxSidebarCover.Image = null;
-                else
-                    pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
+            {   
                 try
                 {
                     if (!string.IsNullOrEmpty(a.CoverPath))
-                        pictureBoxSidebarCover.Image = Image.FromFile(a.CoverPath);
+                    {
+                        //Doing this will allow me to replace album cover and not locking the file
+                        Image cover;
+                        using (var temp = new Bitmap(a.CoverPath))
+                            cover = new Bitmap(temp);
+                        pictureBoxSidebarCover.Image = cover;
+                        //free mem
+                        GC.Collect();
+                    }
                 }
-                catch (FileNotFoundException PataPumParriba)
+                catch (Exception PataPumParriba)
                 {
                     Log.Instance.PrintMessage("Couldn't set the album cover on the sidebar", MessageType.Warning);
                     Log.Instance.PrintMessage("This file cannot be found: "+PataPumParriba.Message, MessageType.Warning);
                     pictureBoxSidebarCover.Image = Properties.Resources.albumdesconocido;
                 }
 
-                ////Doing this will allow me to replace album cover and not locking the file
-                //Image cover;
-                //using (var temp = new Bitmap(a.CoverPath))
-                //    cover = new Bitmap(temp);
-                //pictureBoxSidebarCover.Image = cover;
+
                 labelInfoAlbum.Location = new Point(0, labelInfoAlbum.Location.Y);
                 labelInfoAlbum.Text = a.Artist + Environment.NewLine +
                                       a.Title + "(" + a.Year + ")" + Environment.NewLine +
@@ -498,13 +496,12 @@ namespace Cassiopeia.src.Forms
         }
         private void ShowSelectedAlbum()
         {
-            Stopwatch cronoTotal = Stopwatch.StartNew();
             switch (ViewType)
             {
                 case ViewType.Digital:
                     foreach (ListViewItem item in vistaAlbumes.SelectedItems)
                     {
-                        AlbumData albumToShow = Kernel.Collection.GetAlbum(item.Index, filtered);
+                        AlbumData albumToShow = GetSelectedAlbumFromView();
                         AlbumViewer vistazo = new AlbumViewer(ref albumToShow);
                         vistazo.Show();
                     }
@@ -512,7 +509,7 @@ namespace Cassiopeia.src.Forms
                 case ViewType.CD:
                     foreach (ListViewPhysicalAlbum cdViewItem in vistaAlbumes.SelectedItems)
                     {
-                        string b = cdViewItem.SubItems[0].Text + "/**/" + cdViewItem.SubItems[1].Text;
+                        string b = cdViewItem.SubItems[0].Text + Kernel.SearchSeparator + cdViewItem.SubItems[1].Text;
                         CompactDisc cd;
                         Kernel.Collection.GetAlbum(b, out cd);
                         AlbumViewer visCD = new AlbumViewer(ref cd);
@@ -528,7 +525,6 @@ namespace Cassiopeia.src.Forms
                     }
                     break;
             }
-            cronoTotal.Stop();
         }
         private void ManageSongIcons()
         {
@@ -778,19 +774,23 @@ namespace Cassiopeia.src.Forms
 
         }
 
-        private AlbumData GetAlbumFromView()
+        private AlbumData GetSelectedAlbumFromView()
         {
-            ListViewPhysicalAlbum item = null;
+            ListViewPhysicalAlbum physicalItem = null;
+            
             switch (ViewType)
             {
                 case ViewType.Digital:
-                    return Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered);
+                    var item = vistaAlbumes.SelectedItems[0];
+                    string query = item.SubItems[0].Text + Kernel.SearchSeparator + item.SubItems[1].Text;
+                    selectedAlbum = Kernel.Collection.GetAlbum(query);
+                    return Kernel.Collection.GetAlbum(query);
                 case ViewType.CD:
                     item = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
-                    return Kernel.Collection.GetCDById(item.ID).Album;
+                    return Kernel.Collection.GetCDById(physicalItem.ID).Album;
                 case ViewType.Vinyl:
                     item = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
-                    return Kernel.Collection.GetVinylByID(item.ID).Album;
+                    return Kernel.Collection.GetVinylByID(physicalItem.ID).Album;
                 case ViewType.Cassette_Tape:
                 default:
                     return null;
@@ -830,7 +830,7 @@ namespace Cassiopeia.src.Forms
         
         private void CreateCDFromSelectionAndAdd()
         {
-            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
             AlbumData a = Kernel.Collection.GetAlbum(seleccion);
             CreateCD formCD = new CreateCD(ref a);
             formCD.Show();
@@ -838,7 +838,7 @@ namespace Cassiopeia.src.Forms
         
         private void CreateVinylRecordFromSelectionAndAdd()
         {
-            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + "/**/" + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
             AlbumData a = Kernel.Collection.GetAlbum(seleccion);
             CreateVinylCassette formV = new(ref a);
             formV.Show();
@@ -900,9 +900,9 @@ namespace Cassiopeia.src.Forms
             }
             for (int i = 0; i < s.Length; i++)
             {
-                s[i] = vistaAlbumes.Items[i].SubItems[0].Text + "/**/" + vistaAlbumes.Items[i].SubItems[1].Text;
+                s[i] = vistaAlbumes.Items[i].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.Items[i].SubItems[1].Text;
                 AlbumData a = Kernel.Collection.GetAlbum(s[i]);
-                nuevaLista.Add(vistaAlbumes.Items[i].SubItems[0].Text + "/**/" + vistaAlbumes.Items[i].SubItems[1].Text, a);
+                nuevaLista.Add(vistaAlbumes.Items[i].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.Items[i].SubItems[1].Text, a);
             }
             if (!filtered)
                 Kernel.Collection.ChangeAlbums(ref nuevaLista);
@@ -978,13 +978,10 @@ namespace Cassiopeia.src.Forms
             {
                 if (panelSidebar.Visible)
                 {
-                    if (vistaAlbumes.SelectedItems.Count == 0)
+                    if (vistaAlbumes.SelectedItems.Count == 0) //set the sidebar with no cover
                         UpdateSidebar(selectedAlbum);
                     else if (vistaAlbumes.SelectedItems.Count == 1)
-                    {
-                        selectedAlbum = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered);
-                        UpdateSidebar(GetAlbumFromView());
-                    }
+                        UpdateSidebar(GetSelectedAlbumFromView());
                 }
                 //PENDING FIX
                 //TimeSpan seleccion = new TimeSpan();
@@ -1479,10 +1476,10 @@ namespace Cassiopeia.src.Forms
             if (vistaAlbumes.SelectedItems.Count == 1)
             {
                 selectedAlbum = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered);
-                UpdateSidebar(GetAlbumFromView());
+                UpdateSidebar(GetSelectedAlbumFromView());
             }
             else if (vistaAlbumes.SelectedItems.Count == 0)
-                UpdateSidebar(GetAlbumFromView());
+                UpdateSidebar(GetSelectedAlbumFromView());
         }
         private void vistaAlbumes_MouseDoubleClick(object sender, MouseEventArgs e)
         {

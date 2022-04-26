@@ -139,9 +139,7 @@ namespace Cassiopeia.src.Classes
         }
         public bool ComprobarSonido()
         {
-            if (_sound == null || _output == null)
-                return false;
-            else return true;
+            return _sound == null || _output == null;
         }
         public void Apagar() { Limpiar(); }
         public String GetDatos()
