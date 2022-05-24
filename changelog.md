@@ -1,4 +1,7 @@
 # Cassiopeia Changelog
+#### 2.0.241.0
+- Gweedo Weedo Really Fast Startup [FIX]
+
 #### 2.0.240.50
 - Changed the main datastructure to a Dictionary. It should be faster.
 - Fixed slow start up [FIX]

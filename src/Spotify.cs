@@ -85,7 +85,7 @@ namespace Cassiopeia
             try
             {
                 Log.Instance.PrintMessage("Trying to connect Spotify account", MessageType.Info, "Spotify.StartStreamMode()");
-                Kernel.InternetAvaliable(false);
+                //Kernel.InternetAvaliable(false);
                 Stopwatch crono = Stopwatch.StartNew();
                 if (!File.Exists(AuthPath))
                 {
@@ -142,7 +142,8 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Connected as " + User.Email, MessageType.Correct, crono, TimeType.Seconds);
             Config.LinkedWithSpotify = true;
             AccountLinked = true;
-            SignalLogin();
+            if(!Kernel.MetadataStream)
+                SignalLogin();
             crono.Stop();
         }
         private async void SignalLogin()

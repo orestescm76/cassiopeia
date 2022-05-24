@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
@@ -35,9 +36,10 @@ namespace Cassiopeia.src.Forms
         public MainForm()
         {
             InitializeComponent();
+            //Load Spotify
+            this.Load += async (sender, args) => await Task.Run(() => Kernel.InitSpotify());
             deleting = false;
             filtered = false;
-
             lvwColumnSorter = new ListViewItemComparer();
             vistaAlbumes.ListViewItemSorter = lvwColumnSorter;
             vistaAlbumes.MultiSelect = true;
@@ -56,6 +58,7 @@ namespace Cassiopeia.src.Forms
                 linkSpotifyStripMenuItem.Visible = false;
             else
                 importSpotifyStripMenuItem.Enabled = false;
+            spotifyStripMenuItem.Enabled = false;
             cargarDiscosLegacyToolStripMenuItem.Visible = false;
             vistaAlbumes.Font = Config.FontView;
             margins = Size - vistaAlbumes.Size;
@@ -79,6 +82,12 @@ namespace Cassiopeia.src.Forms
             //DarkMode();
             Log.PrintMessage("Main form created", MessageType.Correct);
         }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ReloadView()
         {
             vistaAlbumes.Font = Config.FontView;

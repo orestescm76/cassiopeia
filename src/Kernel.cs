@@ -366,6 +366,7 @@ namespace Cassiopeia
                 else
                 {
                     await Spotify.InitStreamMode();
+                    
                     SpotifyReady = true;
                 }
             }
@@ -937,7 +938,7 @@ namespace Cassiopeia
             }
             return null;
         }
-        private static void InitMetadataStream()
+        private static async void InitMetadataStream()
         {
             Log.Instance.PrintMessage("Starting stream mode...", MessageType.Info);
             notifyIconMetadataStream = new NotifyIcon();
@@ -945,9 +946,10 @@ namespace Cassiopeia
             notifyIconMetadataStream.Icon = Properties.Resources.spotifyico;
             notifyIconMetadataStream.DoubleClick += NotifyIconMetadataStream_DoubleClick;
             notifyIconMetadataStream.Visible = true;
+            await Task.Run(()=>InitSpotify());
             while (!Spotify.AccountReady)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(1);
             }
             Log.Instance.PrintMessage("Starting task...", MessageType.Info);
             MetadataStreamTask();

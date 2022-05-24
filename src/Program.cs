@@ -10,6 +10,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cassiopeia
 {
@@ -53,8 +54,7 @@ namespace Cassiopeia
             //Load configuration
             Log.Instance.PrintMessage("Loading config file...", MessageType.Info);
             Kernel.LoadConfig();
-
-
+            
             if (!Kernel.MetadataStream)
             {
                 //Create genres
@@ -64,12 +64,12 @@ namespace Cassiopeia
                 //Load the files
                 Kernel.LoadFiles();
                 //Init Spotify
-                Kernel.InitSpotify();
+                //Main form does that for us
                 //Create player Instance
                 Kernel.InitPlayer();
             }
-            else
-                Kernel.InitSpotify();
+            //else
+            //    Task.Run(() => Kernel.InitSpotify());
             //We're done!
             StartStopwatch.Stop();
             Log.Instance.PrintMessage("Application loaded!", MessageType.Correct, StartStopwatch, TimeType.Seconds);
