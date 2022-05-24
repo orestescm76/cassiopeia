@@ -1,11 +1,14 @@
 # Cassiopeia Changelog
-#### 2.0.240.10
+#### 2.0.240.50
 - Changed the main datastructure to a Dictionary. It should be faster.
 - Fixed slow start up [FIX]
-- Fix on the Lyrics Viewer when changing the font size.
+- Fix on the Lyrics Viewer when changing the font size. [FIX]
 - Made update check async [FIX]
 - Fixed saving text not showing in PlaylistUI [FIX]
 - Fixed memory leak when selecting many albums [FIX]
+- Catched exception when not logging to Spotify correctly [FIX]
+- Fix editing album breaks the program [FIX]
+- Did i made the Spotify login async? [FIX]
 
 #### 2.0.239.40
 - Cassiopeia autodetects the system language in order to set itself.
@@ -85,7 +88,7 @@
 - Contains the album cover, total albums, duration and some stats for selected album.
 - Config form is resizable and smaller.
 - Namespace refactor
-- Changed data structure to a linked list
+- Changed data structure to a linked list (tf?)
 - Fixed the manual add album
 - Proof of concept for a future search function.
 

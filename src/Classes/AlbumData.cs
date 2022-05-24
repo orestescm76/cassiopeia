@@ -28,6 +28,7 @@ namespace Cassiopeia.src.Classes
         public String CoverPath { get; set; }
         public String SoundFilesPath { get; set; }
         public AlbumType Type { get; set; }
+        public string Key { get => Artist + Kernel.SearchSeparator + Title; }
 
         [JsonIgnore] public int NumberOfSongs { get { return Songs.Count; } }
         [JsonIgnore] public TimeSpan Length { get => GetLength(false); }

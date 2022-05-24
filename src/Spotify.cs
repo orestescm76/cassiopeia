@@ -117,6 +117,12 @@ namespace Cassiopeia
                 Log.Instance.PrintMessage(e.Message, MessageType.Error);
                 MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
             }
+            catch (Exception e)
+            {
+                Kernel.InternetAvaliable(false);
+                Log.Instance.PrintMessage(e.Message, MessageType.Error);
+                MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
+            }
         }
         public bool IsSpotifyReady()
         {
@@ -136,10 +142,19 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Connected as " + User.Email, MessageType.Correct, crono, TimeType.Seconds);
             Config.LinkedWithSpotify = true;
             AccountLinked = true;
-            Kernel.ActivarReproduccionSpotify();
-            Kernel.InternetAvaliable(true);
-            Kernel.BringMainFormFront();
+            SignalLogin();
             crono.Stop();
+        }
+        private async void SignalLogin()
+        {
+            await Task.Run(() =>
+            {
+                Kernel.ActivarReproduccionSpotify();
+                Kernel.InternetAvaliable(true);
+                Kernel.MainForm.RemoveLink();
+                Kernel.BringMainFormFront();
+
+            });
         }
 
         //Returns a list of albums based on a query.

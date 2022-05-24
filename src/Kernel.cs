@@ -440,8 +440,7 @@ namespace Cassiopeia
             {
                 case StartType.Normal:
                     Log.Instance.PrintMessage("Running main form", MessageType.Info);
-                    if (Spotify is not null && Spotify.AccountReady)
-                        MainForm.RemoveLink();
+
                     Application.Run(MainForm);
                     break;
                 case StartType.PlayerOnly:
@@ -1033,7 +1032,7 @@ namespace Cassiopeia
             SetSaveMark();
             ReloadView();
         }
-        public static String GetSystemLanguage()
+        public static string GetSystemLanguage()
         {
             CultureInfo ci = CultureInfo.CurrentUICulture;
             string lan = ci.Name.Split('-')[0];
@@ -1089,7 +1088,7 @@ namespace Cassiopeia
             if (correcto)
             {
                 Log.Instance.PrintMessage("Finished without problems", MessageType.Correct, crono, TimeType.Milliseconds);
-                MessageBox.Show(Kernel.LocalTexts.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(LocalTexts.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             else
@@ -1101,10 +1100,10 @@ namespace Cassiopeia
                         Log.Instance.PrintMessage(cancion.Title + " couldn't be linked...", MessageType.Warning);
                     }
                 }
-                MessageBox.Show(Kernel.LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            Kernel.SavePATHS();
+            SavePATHS();
         }
     }
 }

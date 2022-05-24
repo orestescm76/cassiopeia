@@ -90,8 +90,16 @@ namespace Cassiopeia.src.Forms
             try//si está vacío pues guarda vacío
             {
                 Log.Instance.PrintMessage("Trying to save", MessageType.Info);
+                //Check if the title has been modified
+                
+                if(albumAEditar.Title != textBoxTitulo.Text)
+                {
+                    //Remove the album first from the collection
+                    Kernel.Collection.Albums.Remove(albumAEditar.Key);
+                    albumAEditar.Title = textBoxTitulo.Text;
+                    Kernel.Collection.Albums.Add(albumAEditar.Key, albumAEditar);
+                }
                 albumAEditar.Artist = textBoxArtista.Text;
-                albumAEditar.Title = textBoxTitulo.Text;
                 albumAEditar.Year = Convert.ToInt16(textBoxAño.Text);
                 string gn = comboBoxGeneros.SelectedItem.ToString();
                 Genre g = Kernel.Genres[Kernel.FindTranslatedGenre(gn)];

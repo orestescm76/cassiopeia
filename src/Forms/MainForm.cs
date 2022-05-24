@@ -49,9 +49,9 @@ namespace Cassiopeia.src.Forms
             barraAbajo.Font = new Font("Segoe UI", 10);
             duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": 00:00:00";
             duracionSeleccionada.Visible = false;
-            vistaAlbumes.DrawItem += (sender, e) => { e.DrawDefault = true; };
-            vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
-            vistaAlbumes.OwnerDraw = true;
+            //vistaAlbumes.DrawItem += (sender, e) => { e.DrawDefault = true; };
+            //vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
+            //vistaAlbumes.OwnerDraw = true;
             if (Config.LinkedWithSpotify)
                 linkSpotifyStripMenuItem.Visible = false;
             else
@@ -985,12 +985,15 @@ namespace Cassiopeia.src.Forms
                 }
                 //PENDING FIX
                 //TimeSpan seleccion = new TimeSpan();
+
                 //foreach (ListViewItem selItem in vistaAlbumes.SelectedItems)
                 //{
-                //    if (!filtered)
-                //        seleccion += Kernel.Collection.Albums[selItem.Index].Length;
-                //    else
-                //        seleccion += Kernel.Collection.FilteredAlbums[selItem.Index].Length;
+                //    string search = selItem.SubItems[0].Text + Kernel.SearchSeparator + selItem.SubItems[1].Text;
+                //    seleccion += Kernel.Collection.Albums[search].Length;
+                //    //if (!filtered)
+                //    //    seleccion += Kernel.Collection.Albums[selItem.Index].Length;
+                //    //else
+                //    //    seleccion += Kernel.Collection.FilteredAlbums[selItem.Index].Length;
                 //}
                 //duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
             }
