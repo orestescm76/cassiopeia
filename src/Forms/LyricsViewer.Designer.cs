@@ -83,7 +83,6 @@
             // buttonBuscar
             // 
             this.buttonBuscar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBuscar.Enabled = false;
             this.buttonBuscar.Location = new System.Drawing.Point(433, 3);
             this.buttonBuscar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonBuscar.Name = "buttonBuscar";
@@ -91,6 +90,7 @@
             this.buttonBuscar.TabIndex = 3;
             this.buttonBuscar.Text = "buttonBuscar";
             this.buttonBuscar.UseVisualStyleBackColor = true;
+            this.buttonBuscar.Click += new System.EventHandler(this.buttonBuscar_Click);
             // 
             // buttonCerrar
             // 

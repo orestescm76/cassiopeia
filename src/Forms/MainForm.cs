@@ -499,7 +499,10 @@ namespace Cassiopeia.src.Forms
         private void EditSelectedAlbum()
         {
             //maybe implement rest of views.
-            AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered);
+            //var selected = vistaAlbumes.SelectedItems[0];
+            //string query = selected.SubItems[0].Text + Kernel.SearchSeparator + selected.SubItems[1].Text;
+            //AlbumData a = Kernel.Collection.GetAlbum(query);
+            AlbumData a = GetSelectedAlbumFromView();
             EditAlbum editAlbumForm = new EditAlbum(ref a, true);
             editAlbumForm.Show();
         }
@@ -574,7 +577,7 @@ namespace Cassiopeia.src.Forms
                 {
                     ToolStripButton lyrics = new ToolStripButton(Properties.Resources.lyrics);
                     lyrics.ToolTipText = Kernel.LocalTexts.GetString("verLyrics");
-                    lyrics.Click += (object sender, EventArgs e) => verLyricsToolStripMenuItem_Click(sender, e);
+                    lyrics.Click += (object sender, EventArgs e) => OpenLyricsForSelectedAlbum(sender, e);
                     lyrics.Name = "lyrics";
                     toolStripMain.Items.Add(lyrics);
                 }
@@ -839,16 +842,18 @@ namespace Cassiopeia.src.Forms
         
         private void CreateCDFromSelectionAndAdd()
         {
-            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
-            AlbumData a = Kernel.Collection.GetAlbum(seleccion);
+            //string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            //AlbumData a = Kernel.Collection.GetAlbum(seleccion);
+            AlbumData a = GetSelectedAlbumFromView();
             CreateCD formCD = new CreateCD(ref a);
             formCD.Show();
         }
         
         private void CreateVinylRecordFromSelectionAndAdd()
         {
-            string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
-            AlbumData a = Kernel.Collection.GetAlbum(seleccion);
+            //string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            //AlbumData a = Kernel.Collection.GetAlbum(seleccion);
+            AlbumData a = GetSelectedAlbumFromView();
             CreateVinylCassette formV = new(ref a);
             formV.Show();
         }
@@ -970,6 +975,8 @@ namespace Cassiopeia.src.Forms
             {
                 Player.Instancia.Show();
             }
+            if (e.Control && e.KeyCode == Keys.L && vistaAlbumes.SelectedItems.Count == 1)
+                OpenLyricsForSelectedAlbum(null, null);
         }
 
         private void vistaAlbumes_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
@@ -1326,9 +1333,9 @@ namespace Cassiopeia.src.Forms
             AD.ShowDialog();
         }
 
-        private void verLyricsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenLyricsForSelectedAlbum(object sender, EventArgs e)
         {
-            AlbumData a = Kernel.Collection.GetAlbum(vistaAlbumes.SelectedIndices[0], filtered);
+            AlbumData a = GetSelectedAlbumFromView();
             Song cancion = a.GetSong(0);
             LyricsViewer VL = new LyricsViewer(cancion);
             VL.Show();

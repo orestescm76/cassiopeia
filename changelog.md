@@ -1,4 +1,8 @@
 # Cassiopeia Changelog
+#### 2.0.242.0
+- Search lyrics now implemented
+- Added a keyboard shortcut to open LyricsViewer (Ctrl + L)
+
 #### 2.0.241.0
 - Gweedo Weedo Really Fast Startup [FIX]
 

@@ -1,4 +1,5 @@
 ﻿using Cassiopeia.src.Classes;
+using HtmlAgilityPack;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
@@ -288,5 +289,23 @@ namespace Cassiopeia
             }
             return found;
         }
+        public static bool GetLyrics(string artist, string title, out string lyrics)
+        {
+            artist = artist.Replace(' ', '-').ToLower();
+            title = title.Replace(' ', '-').ToLower();
+            var link = "http://www.songlyrics.com/" + artist + "/" + title + "-lyrics";
+            HtmlWeb web = new();
+            var htmlDoc = web.Load(link);
+            var lyricsDoc = htmlDoc.GetElementbyId("songLyricsDiv");
+            //pass to string with proper formatting...
+
+            lyrics = lyricsDoc.InnerText.Replace("<br>", Environment.NewLine).Replace("\n", Environment.NewLine);
+            if (lyrics.Contains("Sorry, we have no"))
+            {
+                lyrics = "";
+                return false;
+            }
+            return true;
+        } 
     }
 }

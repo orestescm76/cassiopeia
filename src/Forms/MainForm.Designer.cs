@@ -529,7 +529,7 @@
             this.verLyricsToolStripMenuItem.Name = "verLyricsToolStripMenuItem";
             this.verLyricsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.verLyricsToolStripMenuItem.Text = "verLyrics";
-            this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.verLyricsToolStripMenuItem_Click);
+            this.verLyricsToolStripMenuItem.Click += new System.EventHandler(this.OpenLyricsForSelectedAlbum);
             // 
             // createVinylToolStripMenuItem
             // 

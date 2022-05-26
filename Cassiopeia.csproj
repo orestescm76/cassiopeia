@@ -62,6 +62,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <PackageReference Include="CSCore" Version="1.2.1.2" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.42" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NVorbis" Version="0.10.4" />
     <PackageReference Include="SpotifyAPI.Web" Version="6.2.2" />
