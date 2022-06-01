@@ -1031,7 +1031,6 @@ namespace Cassiopeia
             Collection.AddAlbum(ref a);
             crono.Stop();
             Log.Instance.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
-            SetSaveMark();
             ReloadView();
         }
         public static string GetSystemLanguage()

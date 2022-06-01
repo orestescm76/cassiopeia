@@ -202,8 +202,7 @@ namespace Cassiopeia
         }
         public bool InsertAlbumFromURI(string uri)
         {
-            Log.Instance.PrintMessage("Inserting album with URI " + uri, MessageType.Info);
-            Stopwatch crono = Stopwatch.StartNew();
+
             bool res;
             try
             {
@@ -213,13 +212,10 @@ namespace Cassiopeia
             }
             catch (APIException e)
             {
-                crono.Stop();
                 Log.Instance.PrintMessage("Album was not inserted...", MessageType.Warning);
                 Log.Instance.PrintMessage(e.Message, MessageType.Warning);
                 return false;
             }
-            crono.Stop();
-            Log.Instance.PrintMessage("Added", MessageType.Correct, crono, TimeType.Milliseconds);
             Kernel.ReloadView();
             return res;
         }
@@ -234,12 +230,12 @@ namespace Cassiopeia
                     cover = cover.Replace(ch.ToString(), string.Empty);
             }
             AlbumData a = new AlbumData(album.Name.Replace(";", ""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), ""); //creamos A
-            if (Kernel.Collection.IsInCollection(a))
-            {
-                Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
-                Log.Instance.PrintMessage(a.ToString(), MessageType.Info);
-                return false;
-            }
+            //if (Kernel.Collection.IsInCollection(a))
+            //{
+            //    Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
+            //    Log.Instance.PrintMessage(a.ToString(), MessageType.Info);
+            //    return false;
+            //}
             if (downloadCover)
             {
                 DownloadCover(album, cover);
@@ -262,9 +258,8 @@ namespace Cassiopeia
             a.Songs = songs;
             a.CanBeRemoved = true;
             
-            Kernel.Collection.AddAlbum(ref a);
-            Kernel.SetSaveMark();
-            return true;
+            
+            return Kernel.Collection.AddAlbum(ref a);
         }
         private async void DownloadCover(FullAlbum album, string file_name)
         {

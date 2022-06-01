@@ -833,4 +833,7 @@ Quedan {num} canciones.</value>
   <data name="numPartes" xml:space="preserve">
     <value>Número de partes</value>
   </data>
+  <data name="lyricsNotAvailable" xml:space="preserve">
+    <value>No se ha podido encontrar la letra</value>
+  </data>
 </root>

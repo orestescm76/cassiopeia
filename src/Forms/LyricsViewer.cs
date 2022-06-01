@@ -180,7 +180,7 @@ namespace Cassiopeia.src.Forms
                 //do we have proper lyrics?
                 string lyrics = "";
                 if(!Utils.GetLyrics(Song.AlbumFrom.Artist, Song.Title, out lyrics))
-                    MessageBox.Show("No lyrics available", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(Kernel.LocalTexts.GetString("lyricsNotAvailable"), "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 else
                     textBoxLyrics.Text = lyrics;
             }
