@@ -49,7 +49,7 @@ namespace Cassiopeia.src.Forms
             vistaAlbumes.FullRowSelect = true;
             duracionSeleccionada.AutoSize = true;
             barraAbajo.Font = new Font("Segoe UI", 10);
-            duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": 00:00:00";
+            duracionSeleccionada.Text = Kernel.GetText("dur_total") + ": 00:00:00";
             duracionSeleccionada.Visible = false;
             //vistaAlbumes.DrawItem += (sender, e) => { e.DrawDefault = true; };
             //vistaAlbumes.DrawSubItem += (sender, e) => { e.DrawDefault = true; };
@@ -93,6 +93,7 @@ namespace Cassiopeia.src.Forms
             vistaAlbumes.Font = Config.FontView;
             SetTexts();
             LoadView();
+            ManageSongIcons();
         }
         public void EnableInternet(bool i)
         {
@@ -134,7 +135,7 @@ namespace Cassiopeia.src.Forms
                     //    items[i] = new ListViewItem(datos);
                     //}
                     vistaAlbumes.Items.AddRange(items);
-                    labelGeneralInfo.Text = Kernel.LocalTexts.GetString("numOf") + ": " + Kernel.LocalTexts.GetString("albumes").ToLower() +" " + Kernel.Collection.Albums.Count + Environment.NewLine +
+                    labelGeneralInfo.Text = Kernel.GetText("numOf") + ": " + Kernel.GetText("albumes").ToLower() +" " + Kernel.Collection.Albums.Count + Environment.NewLine +
                     "Total duration: " + Kernel.Collection.GetTotalTime(Kernel.Collection.Albums.Select(pair => pair.Value).ToList());
                     labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
                     break;
@@ -151,8 +152,8 @@ namespace Cassiopeia.src.Forms
 
                     vistaAlbumes.Items.AddRange(cds);
 
-                    labelGeneralInfo.Text = Kernel.LocalTexts.GetString("numOf") + " CDS: " + Kernel.Collection.CDS.Count + Environment.NewLine +
-                    Kernel.LocalTexts.GetString("dur_total") + ": " + Kernel.Collection.GetTotalTime(Kernel.Collection.CDS);
+                    labelGeneralInfo.Text = Kernel.GetText("numOf") + " CDS: " + Kernel.Collection.CDS.Count + Environment.NewLine +
+                    Kernel.GetText("dur_total") + ": " + Kernel.Collection.GetTotalTime(Kernel.Collection.CDS);
                     labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
                     break;
                 case ViewType.Vinyl:
@@ -166,8 +167,8 @@ namespace Cassiopeia.src.Forms
                         k++;
                     }
                     vistaAlbumes.Items.AddRange(vinyls);
-                    labelGeneralInfo.Text = Kernel.LocalTexts.GetString("numOf") + " " + Kernel.LocalTexts.GetString("vinyls") + ": " + Kernel.Collection.Vinyls.Count + Environment.NewLine + 
-                        Kernel.LocalTexts.GetString("dur_total") + ": " + Kernel.Collection.GetTotalTime(Kernel.Collection.Vinyls);
+                    labelGeneralInfo.Text = Kernel.GetText("numOf") + " " + Kernel.GetText("vinyls") + ": " + Kernel.Collection.Vinyls.Count + Environment.NewLine + 
+                        Kernel.GetText("dur_total") + ": " + Kernel.Collection.GetTotalTime(Kernel.Collection.Vinyls);
                     labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
                     break;
                 default:
@@ -180,60 +181,60 @@ namespace Cassiopeia.src.Forms
         private void SetTexts()
         {
 #if DEBUG
-            Text = Kernel.LocalTexts.GetString("titulo_ventana_principal") + " " + Kernel.Version + " Codename " + Kernel.Codename + " DEBUG";
+            Text = Kernel.GetText("titulo_ventana_principal") + " " + Kernel.Version + " Codename " + Kernel.Codename + " DEBUG";
 #else
-            Text = Kernel.LocalTexts.GetString("titulo_ventana_principal");
+            Text = Kernel.GetText("titulo_ventana_principal");
 #endif
-            archivoMenuItem1.Text = Kernel.LocalTexts.GetString("archivo");
+            archivoMenuItem1.Text = Kernel.GetText("archivo");
 
-            agregarAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("agregar_album");
-            toolStripButtonNewAlbum.ToolTipText = Kernel.LocalTexts.GetString("agregar_album");
+            agregarAlbumToolStripMenuItem.Text = Kernel.GetText("agregar_album");
+            toolStripButtonNewAlbum.ToolTipText = Kernel.GetText("agregar_album");
 
-            nuevoToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevaBD");
-            toolStripButtonNewDatabase.ToolTipText = Kernel.LocalTexts.GetString("nuevaBD");
+            nuevoToolStripMenuItem.Text = Kernel.GetText("nuevaBD");
+            toolStripButtonNewDatabase.ToolTipText = Kernel.GetText("nuevaBD");
 
-            toolStripButtonSaveDatabase.ToolTipText = Kernel.LocalTexts.GetString("save");
+            toolStripButtonSaveDatabase.ToolTipText = Kernel.GetText("save");
 
-            abrirToolStripMenuItem.Text = Kernel.LocalTexts.GetString("abrir_registros");
+            abrirToolStripMenuItem.Text = Kernel.GetText("abrir_registros");
             toolStripButtonOpenDatabase.ToolTipText = abrirToolStripMenuItem.Text;
 
-            salirToolStripMenuItem.Text = Kernel.LocalTexts.GetString("salir");
-            vistaAlbumes.Columns[0].Text = Kernel.LocalTexts.GetString("artista");
-            vistaAlbumes.Columns[1].Text = Kernel.LocalTexts.GetString("titulo");
-            vistaAlbumes.Columns[2].Text = Kernel.LocalTexts.GetString("año");
-            vistaAlbumes.Columns[3].Text = Kernel.LocalTexts.GetString("duracion");
-            vistaAlbumes.Columns[4].Text = Kernel.LocalTexts.GetString("genero");
-            searchSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("buscar_Spotify");
-            guardarcomo.Text = Kernel.LocalTexts.GetString("saveAs") + "...";
-            seleccionToolStripMenuItem.Text = Kernel.LocalTexts.GetString("seleccion");
-            adminMenu.Text = Kernel.LocalTexts.GetString("admin");
-            generarAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("generar_azar");
-            borrarseleccionToolStripMenuItem.Text = Kernel.LocalTexts.GetString("borrar_seleccion");
-            acercaDeToolStripMenuItem.Text = Kernel.LocalTexts.GetString("acerca") + " " + Kernel.LocalTexts.GetString("titulo_ventana_principal");
-            clickDerechoMenuContexto.Items[0].Text = Kernel.LocalTexts.GetString("crearCD");
-            cargarDiscosLegacyToolStripMenuItem.Text = Kernel.LocalTexts.GetString("cargarDiscosLegacy");
-            verToolStripMenuItem.Text = Kernel.LocalTexts.GetString("ver");
-            digitalToolStripMenuItem.Text = Kernel.LocalTexts.GetString("digital");
-            copiarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("copiar");
-            linkSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("vincular");
-            playSpotifyAlbumToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproducirSpotify");
-            reproductorToolStripMenuItem.Text = Kernel.LocalTexts.GetString("reproductor");
-            abrirCDMenuItem.Text = Kernel.LocalTexts.GetString("abrirCD") + "...";
-            verLyricsToolStripMenuItem.Text = Kernel.LocalTexts.GetString("verLyrics");
-            verLogToolStripMenuItem.Text = Kernel.LocalTexts.GetString("verLog");
-            nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = Kernel.LocalTexts.GetString("nuevoAlbumDesdeCarpeta");
-            configToolStripMenuItem.Text = Kernel.LocalTexts.GetString("configuracion");
-            importSpotifyStripMenuItem.Text = Kernel.LocalTexts.GetString("importSpotify");
-            sidebarCopyImageToolStripMenuItem.Text = Kernel.LocalTexts.GetString("copiarImagen");
-            showSidebarToolStripMenuItem.Text = Kernel.LocalTexts.GetString("showPanel");
+            salirToolStripMenuItem.Text = Kernel.GetText("salir");
+            vistaAlbumes.Columns[0].Text = Kernel.GetText("artista");
+            vistaAlbumes.Columns[1].Text = Kernel.GetText("titulo");
+            vistaAlbumes.Columns[2].Text = Kernel.GetText("año");
+            vistaAlbumes.Columns[3].Text = Kernel.GetText("duracion");
+            vistaAlbumes.Columns[4].Text = Kernel.GetText("genero");
+            searchSpotifyStripMenuItem.Text = Kernel.GetText("buscar_Spotify");
+            guardarcomo.Text = Kernel.GetText("saveAs") + "...";
+            seleccionToolStripMenuItem.Text = Kernel.GetText("seleccion");
+            adminMenu.Text = Kernel.GetText("admin");
+            generarAlbumToolStripMenuItem.Text = Kernel.GetText("generar_azar");
+            borrarseleccionToolStripMenuItem.Text = Kernel.GetText("borrar_seleccion");
+            acercaDeToolStripMenuItem.Text = Kernel.GetText("acerca") + " " + Kernel.GetText("titulo_ventana_principal");
+            clickDerechoMenuContexto.Items[0].Text = Kernel.GetText("crearCD");
+            cargarDiscosLegacyToolStripMenuItem.Text = Kernel.GetText("cargarDiscosLegacy");
+            verToolStripMenuItem.Text = Kernel.GetText("ver");
+            digitalToolStripMenuItem.Text = Kernel.GetText("digital");
+            copiarToolStripMenuItem.Text = Kernel.GetText("copiar");
+            linkSpotifyStripMenuItem.Text = Kernel.GetText("vincular");
+            playSpotifyAlbumToolStripMenuItem.Text = Kernel.GetText("reproducirSpotify");
+            reproductorToolStripMenuItem.Text = Kernel.GetText("reproductor");
+            abrirCDMenuItem.Text = Kernel.GetText("abrirCD") + "...";
+            verLyricsToolStripMenuItem.Text = Kernel.GetText("verLyrics");
+            verLogToolStripMenuItem.Text = Kernel.GetText("verLog");
+            nuevoAlbumDesdeCarpetaToolStripMenuItem.Text = Kernel.GetText("nuevoAlbumDesdeCarpeta");
+            configToolStripMenuItem.Text = Kernel.GetText("configuracion");
+            importSpotifyStripMenuItem.Text = Kernel.GetText("importSpotify");
+            sidebarCopyImageToolStripMenuItem.Text = Kernel.GetText("copiarImagen");
+            showSidebarToolStripMenuItem.Text = Kernel.GetText("showPanel");
 
-            filterToolStripMenuItem.Text = Kernel.LocalTexts.GetString("filter");
+            filterToolStripMenuItem.Text = Kernel.GetText("filter");
             toolStripButtonFilter.Text = filterToolStripMenuItem.Text;
 
-            toolStripTextBoxSearch.ToolTipText = Kernel.LocalTexts.GetString("write_filter");
+            toolStripTextBoxSearch.ToolTipText = Kernel.GetText("write_filter");
 
-            vinylToolStripMenuItem.Text = Kernel.LocalTexts.GetString("vinyl");
-            createVinylToolStripMenuItem.Text = Kernel.LocalTexts.GetString("createVinyl");
+            vinylToolStripMenuItem.Text = Kernel.GetText("vinyl");
+            createVinylToolStripMenuItem.Text = Kernel.GetText("createVinyl");
             UpdateViewInfo();
         }
         private void UpdateViewInfo()
@@ -241,13 +242,13 @@ namespace Cassiopeia.src.Forms
             switch (ViewType)
             {
                 case ViewType.Digital:
-                    toolStripStatusLabelViewInfo.Text = Kernel.LocalTexts.GetString("digital");
+                    toolStripStatusLabelViewInfo.Text = Kernel.GetText("digital");
                     break;
                 case ViewType.CD:
                     toolStripStatusLabelViewInfo.Text = "CD";
                     break;
                 case ViewType.Vinyl:
-                    toolStripStatusLabelViewInfo.Text = Kernel.LocalTexts.GetString("vinyl");
+                    toolStripStatusLabelViewInfo.Text = Kernel.GetText("vinyl");
                     break;
                 default:
                     break;
@@ -277,7 +278,7 @@ namespace Cassiopeia.src.Forms
                     }
                     catch (InvalidOperationException ex)
                     {
-                        MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado") + Environment.NewLine + ex.Message);
+                        MessageBox.Show(Kernel.GetText("errorBorrado") + Environment.NewLine + ex.Message);
                     }
                     break;
                 case ViewType.CD:
@@ -295,7 +296,7 @@ namespace Cassiopeia.src.Forms
                     }
                     catch (InvalidOperationException ex)
                     {
-                        MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado") + Environment.NewLine + ex.Message);
+                        MessageBox.Show(Kernel.GetText("errorBorrado") + Environment.NewLine + ex.Message);
                     }
                     //for (int i = 0; i < cuantos; i++)
                     //{
@@ -334,7 +335,7 @@ namespace Cassiopeia.src.Forms
                     }
                     catch (InvalidOperationException ex)
                     {
-                        MessageBox.Show(Kernel.LocalTexts.GetString("errorBorrado") + Environment.NewLine + ex.Message);
+                        MessageBox.Show(Kernel.GetText("errorBorrado") + Environment.NewLine + ex.Message);
                     }
                     break;
                 default:
@@ -342,7 +343,7 @@ namespace Cassiopeia.src.Forms
             }
             deleting = false;
             vistaAlbumes.EndUpdate();
-            duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": 00:00:00";
+            duracionSeleccionada.Text = Kernel.GetText("dur_total") + ": 00:00:00";
             crono.Stop();
             if(!filtered)
                 LoadView();
@@ -424,7 +425,7 @@ namespace Cassiopeia.src.Forms
                 labelInfoAlbum.Text = cd.Album.Artist + Environment.NewLine +
                                       cd.Album.Title + "(" + cd.Album.Year + ")" + Environment.NewLine +
                                        cd.Length + Environment.NewLine +
-                                       Kernel.LocalTexts.GetString("estado_exterior") + ": " + Kernel.LocalTexts.GetString(cd.SleeveCondition.ToString()) + Environment.NewLine +
+                                       Kernel.GetText("estado_exterior") + ": " + Kernel.GetText(cd.SleeveCondition.ToString()) + Environment.NewLine +
                                         "Number of discs: " + cd.Discos.Count;
             }
             else
@@ -455,6 +456,10 @@ namespace Cassiopeia.src.Forms
         {
             toolStripButtonSaveDatabase.Image = Properties.Resources.diskette_mark;
         }
+        public void CleanSaveMark()
+        {
+            toolStripButtonSaveDatabase.Image = Properties.Resources.diskette;
+        }
         private void OpenFile()
         {
             Log.PrintMessage("Opening from file", MessageType.Info);
@@ -463,10 +468,10 @@ namespace Cassiopeia.src.Forms
             switch (ViewType)
             {
                 case ViewType.Digital:
-                    openFileDialog.Filter = Kernel.LocalTexts.GetString("archivo") + " .mdb (*.mdb)|*.mdb | " + Kernel.LocalTexts.GetString("archivo") + " .csv|*.csv";
+                    openFileDialog.Filter = Kernel.GetText("archivo") + " .mdb (*.mdb)|*.mdb | " + Kernel.GetText("archivo") + " .csv|*.csv";
                     break;
                 case ViewType.CD:
-                    openFileDialog.Filter = Kernel.LocalTexts.GetString("archivo") + " .json (*.json)|*.json";
+                    openFileDialog.Filter = Kernel.GetText("archivo") + " .json (*.json)|*.json";
                     break;
                 case ViewType.Vinyl:
                     break;
@@ -552,7 +557,7 @@ namespace Cassiopeia.src.Forms
                 if (!toolStripMain.Items.ContainsKey("view"))
                 {
                     ToolStripButton view = new ToolStripButton(Properties.Resources.view);
-                    view.ToolTipText = Kernel.LocalTexts.GetString("ver");
+                    view.ToolTipText = Kernel.GetText("ver");
                     view.Click += (object sender, EventArgs e) => ShowSelectedAlbum();
                     view.Name = "view";
                     toolStripMain.Items.Add(view);
@@ -560,7 +565,7 @@ namespace Cassiopeia.src.Forms
                 if (!toolStripMain.Items.ContainsKey("edit"))
                 {
                     ToolStripButton edit = new ToolStripButton(Properties.Resources.editing);
-                    edit.ToolTipText = Kernel.LocalTexts.GetString("editar");
+                    edit.ToolTipText = Kernel.GetText("editar");
                     edit.Click += (object sender, EventArgs e) => EditSelectedAlbum();
                     edit.Name = "edit";
                     toolStripMain.Items.Add(edit);
@@ -568,7 +573,7 @@ namespace Cassiopeia.src.Forms
                 if (!toolStripMain.Items.ContainsKey("delete"))
                 {
                     ToolStripButton delete = new ToolStripButton(Properties.Resources.delete);
-                    delete.ToolTipText = Kernel.LocalTexts.GetString("borrar_seleccion");
+                    delete.ToolTipText = Kernel.GetText("borrar_seleccion");
                     delete.Click += (object sender, EventArgs e) => DeleteSelectedAlbums(ViewType);
                     delete.Name = "delete";
                     toolStripMain.Items.Add(delete);
@@ -576,7 +581,7 @@ namespace Cassiopeia.src.Forms
                 if (!toolStripMain.Items.ContainsKey("lyrics"))
                 {
                     ToolStripButton lyrics = new ToolStripButton(Properties.Resources.lyrics);
-                    lyrics.ToolTipText = Kernel.LocalTexts.GetString("verLyrics");
+                    lyrics.ToolTipText = Kernel.GetText("verLyrics");
                     lyrics.Click += (object sender, EventArgs e) => OpenLyricsForSelectedAlbum(sender, e);
                     lyrics.Name = "lyrics";
                     toolStripMain.Items.Add(lyrics);
@@ -584,7 +589,7 @@ namespace Cassiopeia.src.Forms
                 if (!toolStripMain.Items.ContainsKey("addCD"))
                 {
                     ToolStripButton addCD = new(Properties.Resources.addcd);
-                    addCD.ToolTipText = Kernel.LocalTexts.GetString("crearCD");
+                    addCD.ToolTipText = Kernel.GetText("crearCD");
                     addCD.Click += (object sender, EventArgs e) => CreateCDFromSelectionAndAdd();
                     addCD.Name = "addCD";
                     toolStripMain.Items.Add(addCD);
@@ -592,7 +597,7 @@ namespace Cassiopeia.src.Forms
                 if (!toolStripMain.Items.ContainsKey("addvinyl"))
                 {
                     ToolStripButton addvinyl = new(Properties.Resources.vinyl);
-                    addvinyl.ToolTipText = Kernel.LocalTexts.GetString("createVinyl");
+                    addvinyl.ToolTipText = Kernel.GetText("createVinyl");
                     addvinyl.Click += (object sender, EventArgs e) => CreateVinylRecordFromSelectionAndAdd();
                     addvinyl.Name = "addvinyl";
                     toolStripMain.Items.Add(addvinyl);
@@ -798,10 +803,10 @@ namespace Cassiopeia.src.Forms
                     selectedAlbum = Kernel.Collection.GetAlbum(query);
                     return Kernel.Collection.GetAlbum(query);
                 case ViewType.CD:
-                    item = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
+                    physicalItem = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
                     return Kernel.Collection.GetCDById(physicalItem.ID).Album;
                 case ViewType.Vinyl:
-                    item = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
+                    physicalItem = (ListViewPhysicalAlbum)vistaAlbumes.SelectedItems[0];
                     return Kernel.Collection.GetVinylByID(physicalItem.ID).Album;
                 case ViewType.Cassette_Tape:
                 default:
@@ -1011,7 +1016,7 @@ namespace Cassiopeia.src.Forms
                 //    //else
                 //    //    seleccion += Kernel.Collection.FilteredAlbums[selItem.Index].Length;
                 //}
-                //duracionSeleccionada.Text = Kernel.LocalTexts.GetString("dur_total") + ": " + seleccion.ToString();
+                //duracionSeleccionada.Text = Kernel.GetText("dur_total") + ": " + seleccion.ToString();
             }
         }
         private void borrarseleccionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1021,7 +1026,7 @@ namespace Cassiopeia.src.Forms
         private void guardarcomo_Click(object sender, EventArgs e)
         {
             SaveFileDialog guardarComo = new SaveFileDialog();
-            guardarComo.Filter = Kernel.LocalTexts.GetString("archivo") + ".csv(*.csv)|*.csv";
+            guardarComo.Filter = Kernel.GetText("archivo") + ".csv(*.csv)|*.csv";
             guardarComo.InitialDirectory = Environment.CurrentDirectory;
             if (guardarComo.ShowDialog() == DialogResult.OK)
             {
@@ -1035,7 +1040,7 @@ namespace Cassiopeia.src.Forms
             if (vistaAlbumes.Items.Count == 0)
             {
                 Log.PrintMessage("Cancelado por no haber álbumes", MessageType.Warning);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_noAlbumes"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Kernel.GetText("error_noAlbumes"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             Random generador = new Random();
@@ -1069,7 +1074,7 @@ namespace Cassiopeia.src.Forms
         }
         private void NewDatabase(object sender, EventArgs e)
         {
-            DialogResult respuesta = MessageBox.Show(Kernel.LocalTexts.GetString("guardarBD"), "", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            DialogResult respuesta = MessageBox.Show(Kernel.GetText("guardarBD"), "", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             switch (respuesta)
             {
                 case DialogResult.Cancel:
@@ -1080,7 +1085,7 @@ namespace Cassiopeia.src.Forms
                     switch (ViewType)
                     {
                         case ViewType.Digital:
-                            guardarComo.Filter = Kernel.LocalTexts.GetString("archivo") + ".csv(*.csv)|*.csv";
+                            guardarComo.Filter = Kernel.GetText("archivo") + ".csv(*.csv)|*.csv";
                             if (guardarComo.ShowDialog() == DialogResult.OK)
                             {
                                 guardarDiscos(Path.GetFullPath(guardarComo.FileName), SaveType.Digital);
@@ -1088,7 +1093,7 @@ namespace Cassiopeia.src.Forms
                             Kernel.Collection.Albums.Clear();
                             break;
                         case ViewType.CD:
-                            guardarComo.Filter = Kernel.LocalTexts.GetString("archivo") + ".json(*.json)|*.json";
+                            guardarComo.Filter = Kernel.GetText("archivo") + ".json(*.json)|*.json";
                             if (guardarComo.ShowDialog() == DialogResult.OK)
                             {
                                 guardarDiscos(Path.GetFullPath(guardarComo.FileName.Replace(".json", "") + "-CD.json"), SaveType.CD);
@@ -1202,10 +1207,11 @@ namespace Cassiopeia.src.Forms
         private void copiarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string i = null;
+            //temp
+            i = CopyAlbumToClipboard(vistaAlbumes.SelectedIndices[0]);
             switch (ViewType)
             {
                 case ViewType.Digital:
-                    i = CopyAlbumToClipboard(vistaAlbumes.SelectedIndices[0]);
                     break;
                 case ViewType.CD:
                     break;
@@ -1239,7 +1245,7 @@ namespace Cassiopeia.src.Forms
         {
             Log.PrintMessage("Opening from file", MessageType.Info);
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
-            openFileDialog1.Filter = Kernel.LocalTexts.GetString("archivo") + " .mdb (*.mdb)|*.mdb | " + Kernel.LocalTexts.GetString("archivo") + " .csv|*.csv";
+            openFileDialog1.Filter = Kernel.GetText("archivo") + " .mdb (*.mdb)|*.mdb | " + Kernel.GetText("archivo") + " .csv|*.csv";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
@@ -1252,7 +1258,7 @@ namespace Cassiopeia.src.Forms
         {
             Log.PrintMessage("Opening from file", MessageType.Info);
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
-            openFileDialog1.Filter = Kernel.LocalTexts.GetString("archivo") + " .csv (*.csv)|*.csv";
+            openFileDialog1.Filter = Kernel.GetText("archivo") + " .csv (*.csv)|*.csv";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
@@ -1264,7 +1270,7 @@ namespace Cassiopeia.src.Forms
         {
             Log.PrintMessage("Opening from file", MessageType.Info);
             openFileDialog1.InitialDirectory = Environment.CurrentDirectory;
-            openFileDialog1.Filter = Kernel.LocalTexts.GetString("archivo") + " .json (*.json)|*.json";
+            openFileDialog1.Filter = Kernel.GetText("archivo") + " .json (*.json)|*.json";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fichero = openFileDialog1.FileName;
@@ -1404,7 +1410,7 @@ namespace Cassiopeia.src.Forms
         private async void linkSpotifyStripMenuItem_Click(object sender, EventArgs e)
         {
             bool cancelado = false;
-            DialogResult eleccion = MessageBox.Show(Kernel.LocalTexts.GetString("avisoSpotify"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            DialogResult eleccion = MessageBox.Show(Kernel.GetText("avisoSpotify"), "", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (eleccion == DialogResult.Yes)
             {
                 Stopwatch espera = Stopwatch.StartNew();
@@ -1422,7 +1428,7 @@ namespace Cassiopeia.src.Forms
                 if (cancelado)
                 {
                     Log.PrintMessage("Linking cancelled.", MessageType.Warning);
-                    MessageBox.Show(Kernel.LocalTexts.GetString("errorVinculacion"));
+                    MessageBox.Show(Kernel.GetText("errorVinculacion"));
                     Kernel.InternetAvaliable(true);
                     return;
                 }
@@ -1431,7 +1437,7 @@ namespace Cassiopeia.src.Forms
                     if (!Kernel.Spotify.UserIsPremium())
                     {
                         Log.PrintMessage("User is not premium", MessageType.Warning);
-                        MessageBox.Show(Kernel.LocalTexts.GetString("noPremium"));
+                        MessageBox.Show(Kernel.GetText("noPremium"));
                     }
                     else
                         Log.PrintMessage("User is premium", MessageType.Info);
@@ -1447,7 +1453,7 @@ namespace Cassiopeia.src.Forms
                     Kernel.InternetAvaliable(false);
                     throw;
                 }
-                MessageBox.Show(Kernel.LocalTexts.GetString("linked_ok"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(Kernel.GetText("linked_ok"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

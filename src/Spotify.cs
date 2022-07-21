@@ -61,7 +61,7 @@ namespace Cassiopeia
                 SpotifyConfig = SpotifyClientConfig.CreateDefault().WithAuthenticator(new ClientCredentialsAuthenticator(PublicKey, PrivateKey));
                 SpotifyClient = new SpotifyClient(SpotifyConfig);
                 crono.Stop();
-                if (SpotifyConfig is not null) //??
+                if (SpotifyClient is not null) //??
                 {
                     Kernel.InternetAvaliable(true);
                     Log.Instance.PrintMessage("Connected!", MessageType.Correct, crono, TimeType.Milliseconds);
@@ -77,7 +77,7 @@ namespace Cassiopeia
             {
                 Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
+                MessageBox.Show(Kernel.GetText("error_internet"));
             }
         }
         private async Task StartStreamMode()
@@ -115,13 +115,13 @@ namespace Cassiopeia
             {
                 Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage(e.Message, MessageType.Error);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
+                MessageBox.Show(Kernel.GetText("error_internet"));
             }
             catch (Exception e)
             {
                 Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage(e.Message, MessageType.Error);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
+                MessageBox.Show(Kernel.GetText("error_internet"));
             }
         }
         public bool IsSpotifyReady()
@@ -257,8 +257,6 @@ namespace Cassiopeia
             }
             a.Songs = songs;
             a.CanBeRemoved = true;
-            
-            
             return Kernel.Collection.AddAlbum(ref a);
         }
         private async void DownloadCover(FullAlbum album, string file_name)
@@ -278,7 +276,7 @@ namespace Cassiopeia
                 catch (HttpRequestException e)
                 {
                     Log.Instance.PrintMessage("Exception captured System.Net.HttpRequestException", MessageType.Warning);
-                    MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Kernel.GetText("errorPortada"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     file_name = "";
                 }
                 catch (Exception e)
@@ -428,7 +426,7 @@ namespace Cassiopeia
                     bool covers = true;
                     if (limit > 100)
                     {
-                        DialogResult dr = Kernel.Warn(Kernel.LocalTexts.GetString("importSpotifyWarning"));
+                        DialogResult dr = Kernel.Warn(Kernel.GetText("importSpotifyWarning"));
                         if (dr == DialogResult.Cancel)
                             return;
                         if (dr == DialogResult.No)

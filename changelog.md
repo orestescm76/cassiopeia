@@ -1,10 +1,17 @@
 # Cassiopeia Changelog
-#### 2.0.242.10
-- Search lyrics now implemented
-- Added a keyboard shortcut to open LyricsViewer (Ctrl + L)
-- Internal fixes
+#### 2.0.244.10
+- Now we're able to calculate the disk ID (CBBD1)
+- Some fixes in the Player [FIX]
+- Fixed CreateCD form, which wasn't closing [FIX]
+- Now the viewer reports the CD duration. [FIX]
 
-#### 2.0.241.0
+#### 2.0.242.20
+- Search lyrics now implemented, very basic.
+- Added a keyboard shortcut to open LyricsViewer (Ctrl + L)
+- Corrected the save mark. [FIX]
+- Icons were visible when user exited out of EditForm. That could crash the program. [FIX]
+
+#### 2.0.241.0 - DEBUG RELEASE
 - Gweedo Weedo Really Fast Startup [FIX]
 
 #### 2.0.240.50

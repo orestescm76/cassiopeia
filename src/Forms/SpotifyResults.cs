@@ -18,16 +18,16 @@ namespace Cassiopeia.src.Forms
             InitializeComponent();
             EditarID = edit;
             AlbumAEditar = album;
-            Text = Kernel.LocalTexts.GetString("resultado_busqueda");
-            labelAyuda.Text = Kernel.LocalTexts.GetString("ayudaAñadir");
-            labelResultado.Text = Kernel.LocalTexts.GetString("seHanEncontrado") + l.Count + " " + Kernel.LocalTexts.GetString("resultados");
+            Text = Kernel.GetText("resultado_busqueda");
+            labelAyuda.Text = Kernel.GetText("ayudaAñadir");
+            labelResultado.Text = Kernel.GetText("seHanEncontrado") + l.Count + " " + Kernel.GetText("resultados");
             listaBusqueda = l;
-            listViewResultadoBusqueda.Columns[1].Text = Kernel.LocalTexts.GetString("artista");
-            listViewResultadoBusqueda.Columns[2].Text = Kernel.LocalTexts.GetString("titulo");
-            listViewResultadoBusqueda.Columns[3].Text = Kernel.LocalTexts.GetString("año");
-            listViewResultadoBusqueda.Columns[4].Text = Kernel.LocalTexts.GetString("numcanciones");
-            buttonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
-            buttonOK.Text = Kernel.LocalTexts.GetString("añadir");
+            listViewResultadoBusqueda.Columns[1].Text = Kernel.GetText("artista");
+            listViewResultadoBusqueda.Columns[2].Text = Kernel.GetText("titulo");
+            listViewResultadoBusqueda.Columns[3].Text = Kernel.GetText("año");
+            listViewResultadoBusqueda.Columns[4].Text = Kernel.GetText("numcanciones");
+            buttonCancelar.Text = Kernel.GetText("cancelar");
+            buttonOK.Text = Kernel.GetText("añadir");
             int n = 1;
             foreach (SimpleAlbum a in listaBusqueda)
             {

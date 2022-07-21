@@ -12,7 +12,7 @@ namespace Cassiopeia.src.Forms
             InitializeComponent();
             this.cd = cd;
             textBox1.Lines = cd.Anotaciones;
-            buttonOk.Text = Kernel.LocalTexts.GetString("hecho");
+            buttonOk.Text = Kernel.GetText("hecho");
         }
 
         private void buttonOk_Click(object sender, EventArgs e)

@@ -151,18 +151,18 @@ namespace Cassiopeia.src.Classes
             //Returns whatever the clipboard string is.
             return ToClipboard();
         }
-        public static bool operator ==(AlbumData a, AlbumData b)
-        {
-            if (a.Artist == b.Artist && a.Title == b.Title)
-                return true;
-            return false;
-        }
-        public static bool operator !=(AlbumData a, AlbumData b)
-        {
-            if (a.Artist != b.Artist && a.Title != b.Title)
-                return true;
-            return false;
-        }
+        //public static bool operator ==(AlbumData a, AlbumData b)
+        //{
+        //    if (a.Artist == b.Artist && a.Title == b.Title)
+        //        return true;
+        //    return false;
+        //}
+        //public static bool operator !=(AlbumData a, AlbumData b)
+        //{
+        //    if (a.Artist != b.Artist && a.Title != b.Title)
+        //        return true;
+        //    return false;
+        //}
         public String[] ToStringArray()
         {
             String[] datos = { Artist, Title, Year.ToString(), Length.ToString(), Genre.Name };

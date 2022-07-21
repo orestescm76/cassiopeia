@@ -68,7 +68,7 @@ namespace Cassiopeia.src.Classes
             {
                 Log.Instance.PrintMessage("Error de IO", MessageType.Error);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                Kernel.ShowError(Kernel.LocalTexts.GetString("errorReproduccion"));
+                Kernel.ShowError(Kernel.GetText("errorReproduccion"));
                 _output = null;
                 _sound = null;
                 throw;
@@ -181,6 +181,7 @@ namespace Cassiopeia.src.Classes
         public PistaCD[] LeerCD(char Disco)
         {
             Log.Instance.PrintMessage("Reading CD", MessageType.Info);
+            Disquetera.readTOC();
             FileInfo[] Ficheros;
             try
             {
@@ -190,33 +191,39 @@ namespace Cassiopeia.src.Classes
             catch (IOException)
             {
                 Log.Instance.PrintMessage("Cannot read the CD Drive. Is the device ready?", MessageType.Error);
-                Kernel.ShowError(Kernel.LocalTexts.GetString("errorCD"));
+                Kernel.ShowError(Kernel.GetText("errorCD"));
                 return null;
             }
-            PistaCD[] Pistas = new PistaCD[Ficheros.Length];
-            //Lectura .CDA
-            string ID = "";
-            for (int i = 0; i < Ficheros.Length; i++)
+            PistaCD[] Pistas = new PistaCD[Disquetera.GetNumTracks()];
+            for (int i = 0; i < Pistas.Length; i++)
             {
-                using (BinaryReader br = new BinaryReader(new FileStream(Ficheros[i].FullName, FileMode.Open, FileAccess.Read)))
-                {
-                    br.ReadBytes(24);
-                    byte[] idR = br.ReadBytes(4);
-                    byte[] id = new byte[4];
-                    int c = 0;
-
-                    for (int j = 3; j >= 0; j--)
-                    {
-                        id[c++] = idR[j];
-                    }
-
-                    ID = BitConverter.ToString(id);
-                    ID = ID.Replace("-", "");
-                    uint sectorInicial = br.ReadUInt32();
-                    uint duracionSectores = br.ReadUInt32();
-                    Pistas[i] = new PistaCD(sectorInicial, sectorInicial + duracionSectores, ID);
-                }
+                int startSec, endSec;
+                Disquetera.GetSectorTrack(i+1, out startSec, out endSec);
+                Pistas[i] = new PistaCD(startSec, endSec);
             }
+            ////Lectura .CDA
+            //string ID = "";
+            //for (int i = 0; i < Ficheros.Length; i++)
+            //{
+            //    using (BinaryReader br = new BinaryReader(new FileStream(Ficheros[i].FullName, FileMode.Open, FileAccess.Read)))
+            //    {
+            //        br.ReadBytes(24);
+            //        byte[] idR = br.ReadBytes(4);
+            //        byte[] id = new byte[4];
+            //        int c = 0;
+
+            //        for (int j = 3; j >= 0; j--)
+            //        {
+            //            id[c++] = idR[j];
+            //        }
+
+            //        ID = BitConverter.ToString(id);
+            //        ID = ID.Replace("-", "");
+            //        uint sectorInicial = br.ReadUInt32();
+            //        uint duracionSectores = br.ReadUInt32();
+            //        Pistas[i] = new PistaCD((int)sectorInicial, (int)sectorInicial + (int)duracionSectores, ID);
+            //    }
+            //}
             return Pistas;
         }
 
@@ -229,6 +236,7 @@ namespace Cassiopeia.src.Classes
                 throw new IOException();
             }
             FormatoSonido = FormatoSonido.CDA;
+            
             PistaCD[] Pistas = LeerCD(disp);
             if (Pistas == null)
                 return;
@@ -250,5 +258,6 @@ namespace Cassiopeia.src.Classes
         {
             _sound.Position = sector;
         }
+
     }
 }

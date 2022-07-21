@@ -28,20 +28,20 @@ namespace Cassiopeia.src.Forms
         }
         private void ponerTextos()
         {
-            Text = Kernel.LocalTexts.GetString("editando") + " " + albumAEditar.Artist + " - " + albumAEditar.Title;
-            labelArtista.Text = Kernel.LocalTexts.GetString("artista");
-            labelTitulo.Text = Kernel.LocalTexts.GetString("titulo");
-            labelAño.Text = Kernel.LocalTexts.GetString("año");
-            labelGeneros.Text = Kernel.LocalTexts.GetString("genero");
-            labelCaratula.Text = Kernel.LocalTexts.GetString("caratula");
-            labelDirectorio.Text = Kernel.LocalTexts.GetString("directorio");
-            labelURISpotify.Text = Kernel.LocalTexts.GetString("uriSpotify");
-            labelAlbumType.Text = Kernel.LocalTexts.GetString("tipoAlbum");
-            botonOkDoomer.Text = Kernel.LocalTexts.GetString("hecho");
-            botonCancelar.Text = Kernel.LocalTexts.GetString("cancelar");
-            botonCaratula.Text = Kernel.LocalTexts.GetString("buscar");
-            buttonAñadirCancion.Text = Kernel.LocalTexts.GetString("añadir_cancion");
-            buttonDirectorio.Text = Kernel.LocalTexts.GetString("buscarDirectorio");
+            Text = Kernel.GetText("editando") + " " + albumAEditar.Artist + " - " + albumAEditar.Title;
+            labelArtista.Text = Kernel.GetText("artista");
+            labelTitulo.Text = Kernel.GetText("titulo");
+            labelAño.Text = Kernel.GetText("año");
+            labelGeneros.Text = Kernel.GetText("genero");
+            labelCaratula.Text = Kernel.GetText("caratula");
+            labelDirectorio.Text = Kernel.GetText("directorio");
+            labelURISpotify.Text = Kernel.GetText("uriSpotify");
+            labelAlbumType.Text = Kernel.GetText("tipoAlbum");
+            botonOkDoomer.Text = Kernel.GetText("hecho");
+            botonCancelar.Text = Kernel.GetText("cancelar");
+            botonCaratula.Text = Kernel.GetText("buscar");
+            buttonAñadirCancion.Text = Kernel.GetText("añadir_cancion");
+            buttonDirectorio.Text = Kernel.GetText("buscarDirectorio");
             labelDirectorioActual.Text = albumAEditar.SoundFilesPath;
             string[] generosTraducidos = new string[Kernel.Genres.Length - 1];
             for (int i = 0; i < generosTraducidos.Length; i++)
@@ -59,11 +59,11 @@ namespace Cassiopeia.src.Forms
             comboBoxGeneros.SelectedIndex = index;
 
             string[] types = new string[5];
-            types[(int)AlbumType.Studio] = Kernel.LocalTexts.GetString("estudio");
-            types[(int)AlbumType.Live] = Kernel.LocalTexts.GetString("live");
-            types[(int)AlbumType.Compilation] = Kernel.LocalTexts.GetString("compilacion");
-            types[(int)AlbumType.EP] = Kernel.LocalTexts.GetString("EP");
-            types[(int)AlbumType.Single] = Kernel.LocalTexts.GetString("sencillo");
+            types[(int)AlbumType.Studio] = Kernel.GetText("estudio");
+            types[(int)AlbumType.Live] = Kernel.GetText("live");
+            types[(int)AlbumType.Compilation] = Kernel.GetText("compilacion");
+            types[(int)AlbumType.EP] = Kernel.GetText("EP");
+            types[(int)AlbumType.Single] = Kernel.GetText("sencillo");
             comboBoxAlbumType.Items.AddRange(types);
             comboBoxAlbumType.SelectedIndex = (int)albumAEditar.Type;
 
@@ -122,19 +122,19 @@ namespace Cassiopeia.src.Forms
             catch (NullReferenceException)
             {
                 Log.Instance.PrintMessage("Can't save the edit", MessageType.Warning);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio1"));
+                MessageBox.Show(Kernel.GetText("error_vacio1"));
             }
 
             catch (FormatException)
             {
                 Log.Instance.PrintMessage("Wrong input, won't change anything", MessageType.Warning);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
+                MessageBox.Show(Kernel.GetText("error_formato"));
                 //throw;
             }
             catch (IndexOutOfRangeException)
             {
                 Log.Instance.PrintMessage("Wrong input, won't change anything", MessageType.Warning);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
+                MessageBox.Show(Kernel.GetText("error_formato"));
             }
             if (!fromMainView)
             {
@@ -160,7 +160,7 @@ namespace Cassiopeia.src.Forms
         private void botonCaratula_Click(object sender, EventArgs e)
         {
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Kernel.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.Filter = Kernel.GetText("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = albumAEditar.SoundFilesPath ?? Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {

@@ -56,14 +56,14 @@ namespace Cassiopeia.src.Forms
         }
         private void PonerTextos()
         {
-            buttonBuscar.Text = Kernel.LocalTexts.GetString("buscar");
-            buttonEditar.Text = Kernel.LocalTexts.GetString("editar");
-            buttonCerrar.Text = Kernel.LocalTexts.GetString("cerrar");
-            buttonLimpiar.Text = Kernel.LocalTexts.GetString("limpiar");
-            buttonDeshacer.Text = Kernel.LocalTexts.GetString("deshacer");
-            ConsejoDeshacer.SetToolTip(buttonDeshacer, Kernel.LocalTexts.GetString("consejoDeshacer"));
-            buttonBack.Text = Kernel.LocalTexts.GetString("anterior");
-            buttonNext.Text = Kernel.LocalTexts.GetString("siguiente");
+            buttonBuscar.Text = Kernel.GetText("buscar");
+            buttonEditar.Text = Kernel.GetText("editar");
+            buttonCerrar.Text = Kernel.GetText("cerrar");
+            buttonLimpiar.Text = Kernel.GetText("limpiar");
+            buttonDeshacer.Text = Kernel.GetText("deshacer");
+            ConsejoDeshacer.SetToolTip(buttonDeshacer, Kernel.GetText("consejoDeshacer"));
+            buttonBack.Text = Kernel.GetText("anterior");
+            buttonNext.Text = Kernel.GetText("siguiente");
         }
         private void Guardar()
         {
@@ -77,12 +77,12 @@ namespace Cassiopeia.src.Forms
             if (!textBoxLyrics.ReadOnly)
             {
                 textBoxLyrics.ReadOnly = true;
-                buttonEditar.Text = Kernel.LocalTexts.GetString("editar");
+                buttonEditar.Text = Kernel.GetText("editar");
             }
             else
             {
                 textBoxLyrics.ReadOnly = false;
-                buttonEditar.Text = Kernel.LocalTexts.GetString("aceptar");
+                buttonEditar.Text = Kernel.GetText("aceptar");
 
             }
         }
@@ -180,7 +180,7 @@ namespace Cassiopeia.src.Forms
                 //do we have proper lyrics?
                 string lyrics = "";
                 if(!Utils.GetLyrics(Song.AlbumFrom.Artist, Song.Title, out lyrics))
-                    MessageBox.Show(Kernel.LocalTexts.GetString("lyricsNotAvailable"), "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(Kernel.GetText("lyricsNotAvailable"), "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 else
                     textBoxLyrics.Text = lyrics;
             }

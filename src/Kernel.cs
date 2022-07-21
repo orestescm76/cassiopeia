@@ -99,6 +99,12 @@ namespace Cassiopeia
         private static bool Edited = false;
 
         public static string SearchSeparator = "/**/";
+
+        public static string GetText(string key)
+        {
+            return LocalTexts.GetString(key);
+        }
+
         public async static void MetadataStreamTask()
         {
             DateTime now = DateTime.Now;
@@ -441,7 +447,7 @@ namespace Cassiopeia
             {
                 case StartType.Normal:
                     Log.Instance.PrintMessage("Running main form", MessageType.Info);
-
+                    CleanSaveMark();
                     Application.Run(MainForm);
                     break;
                 case StartType.PlayerOnly:
@@ -620,24 +626,18 @@ namespace Cassiopeia
                             }
                         }
                     }
-                    //We won't check repeated albums because there shouldn't be any
-                    //if (Collection.IsInCollection(a))
-                    //{
-                    //    exito = false; //pues ya está repetido.
-                    //    Log.Instance.PrintMessage("Repeated album -> " + a.Artist + " - " + a.Title, MessageType.Warning);
-                    //}
 
                     if (exito)
                         Collection.AddAlbum(ref a);
                     else
-                        Log.Instance.PrintMessage("Couldn't add the album", MessageType.Error);
+                        Log.Instance.PrintMessage("Couldn't add the album " + a, MessageType.Error);
 
                     a.CanBeRemoved = true;
                     lineaC++;
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Milliseconds);
+            Log.Instance.PrintMessage("Loaded " + Collection.Albums.Count + " albums", MessageType.Correct, crono, TimeType.Milliseconds);
             ReloadView();
         }
         public static void LoadCD(string fichero = "cd.json")
@@ -754,94 +754,90 @@ namespace Cassiopeia
             FileInfo fich = new FileInfo(path);
             if (json)
             {
-                using (StreamWriter salida = fich.CreateText())
+                using StreamWriter salida = fich.CreateText();
+                switch (tipoGuardado)
                 {
-                    switch (tipoGuardado)
-                    {
-                        case SaveType.Digital:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
-                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            foreach (var pair in Collection.Albums)
-                            {
-                                JsonSerializer s = new JsonSerializer();
-                                s.TypeNameHandling = TypeNameHandling.All;
-                                salida.WriteLine(JsonConvert.SerializeObject(pair.Value));
-                            }
-                            //foreach (AlbumData a in Collection.Albums)
-                            //{
-                            //    JsonSerializer s = new JsonSerializer();
-                            //    s.TypeNameHandling = TypeNameHandling.All;
-                            //    salida.WriteLine(JsonConvert.SerializeObject(a));
-                            //}
-                            break;
-                        case SaveType.CD:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the CD data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
-                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            foreach (CompactDisc compacto in Collection.CDS)
-                            {
-                                salida.WriteLine(JsonConvert.SerializeObject(compacto));
-                            }
-                            break;
-                        case SaveType.Vinyl:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the Vinyl data... (" + Collection.Vinyls.Count + " vinyls)", MessageType.Info);
-                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            foreach (VinylAlbum vinyl in Collection.Vinyls)
-                            {
-                                salida.WriteLine(JsonConvert.SerializeObject(vinyl));
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    salida.Flush();
+                    case SaveType.Digital:
+                        Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
+                        Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                        foreach (var pair in Collection.Albums)
+                        {
+                            JsonSerializer s = new JsonSerializer();
+                            s.TypeNameHandling = TypeNameHandling.All;
+                            salida.WriteLine(JsonConvert.SerializeObject(pair.Value));
+                        }
+                        //foreach (AlbumData a in Collection.Albums)
+                        //{
+                        //    JsonSerializer s = new JsonSerializer();
+                        //    s.TypeNameHandling = TypeNameHandling.All;
+                        //    salida.WriteLine(JsonConvert.SerializeObject(a));
+                        //}
+                        break;
+                    case SaveType.CD:
+                        Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the CD data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
+                        Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                        foreach (CompactDisc compacto in Collection.CDS)
+                        {
+                            salida.WriteLine(JsonConvert.SerializeObject(compacto));
+                        }
+                        break;
+                    case SaveType.Vinyl:
+                        Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the Vinyl data... (" + Collection.Vinyls.Count + " vinyls)", MessageType.Info);
+                        Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                        foreach (VinylAlbum vinyl in Collection.Vinyls)
+                        {
+                            salida.WriteLine(JsonConvert.SerializeObject(vinyl));
+                        }
+                        break;
+                    default:
+                        break;
                 }
+                salida.Flush();
             }
             else
             {
-                using (StreamWriter salida = fich.CreateText())
+                using StreamWriter salida = fich.CreateText();
+                switch (tipoGuardado)
                 {
-                    switch (tipoGuardado)
-                    {
 
-                        case SaveType.Digital:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
-                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            //foreach (AlbumData a in Collection.Albums)
-                            foreach (var a in Collection.Albums.Values)
+                    case SaveType.Digital:
+                        Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
+                        Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                        //foreach (AlbumData a in Collection.Albums)
+                        foreach (var a in Collection.Albums.Values)
+                        {
+                            if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
                             {
-                                if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
+                                string CoverRelativePath = String.Empty;
+                                if (!string.IsNullOrEmpty(a.CoverPath))
+                                    CoverRelativePath = Path.GetRelativePath(Environment.CurrentDirectory, a.CoverPath);
+                                salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + CoverRelativePath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
+                                for (int i = 0; i < a.NumberOfSongs; i++)
                                 {
-                                    string CoverRelativePath = String.Empty;
-                                    if(!string.IsNullOrEmpty(a.CoverPath))
-                                        CoverRelativePath = Path.GetRelativePath(Environment.CurrentDirectory, a.CoverPath);
-                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + CoverRelativePath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
-                                    for (int i = 0; i < a.NumberOfSongs; i++)
+                                    if (a.Songs[i] is LongSong longSong)
                                     {
-                                        if (a.Songs[i] is LongSong longSong)
+                                        salida.WriteLine(longSong.Title + ";" + longSong.Parts.Count);//no tiene duracion y son 2 datos a guardar
+                                        foreach (Song parte in longSong.Parts)
                                         {
-                                            salida.WriteLine(longSong.Title + ";" + longSong.Parts.Count);//no tiene duracion y son 2 datos a guardar
-                                            foreach (Song parte in longSong.Parts)
-                                            {
-                                                salida.WriteLine(parte.Title + ";" + (int)(parte.Length.TotalSeconds));
-                                            }
-
+                                            salida.WriteLine(parte.Title + ";" + (int)(parte.Length.TotalSeconds));
                                         }
-                                        else //titulo;400;0
-                                            salida.WriteLine(a.Songs[i].Title + ";" + (int)a.Songs[i].Length.TotalSeconds + ";" + Convert.ToInt32(a.Songs[i].IsBonus));
+
                                     }
+                                    else //titulo;400;0
+                                        salida.WriteLine(a.Songs[i].Title + ";" + (int)a.Songs[i].Length.TotalSeconds + ";" + Convert.ToInt32(a.Songs[i].IsBonus));
                                 }
-                                salida.WriteLine();
                             }
-                            break;
-                        case SaveType.CD:
-                            break;
-                        case SaveType.Vinyl:
-                            break;
-                        default:
-                            break;
-                    }
-                    salida.Flush();
+                            salida.WriteLine();
+                        }
+                        break;
+                    case SaveType.CD:
+                        break;
+                    case SaveType.Vinyl:
+                        break;
+                    default:
+                        break;
                 }
+                salida.Flush();
             }
             fich.Refresh();
             crono.Stop();
@@ -963,6 +959,11 @@ namespace Cassiopeia
         {
             Edited = true;
             MainForm.SetSaveMark();
+        }
+        private static void CleanSaveMark()
+        {
+            Edited = false;
+            MainForm.CleanSaveMark();
         }
         
         public static void CreateAndAddAlbumFromFolder(string path)

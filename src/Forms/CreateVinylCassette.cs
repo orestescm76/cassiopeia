@@ -61,21 +61,21 @@ namespace Cassiopeia.src.Forms
         private void PutTexts()
         {
             if (creatingVinyl is not null || numDisc == 1)
-                Text = Kernel.LocalTexts.GetString("creando") + " " + Kernel.LocalTexts.GetString("vinyl") + " " + numDisc;
+                Text = Kernel.GetText("creando") + " " + Kernel.GetText("vinyl") + " " + numDisc;
             else
-                Text = Kernel.LocalTexts.GetString("editando") + " " + Kernel.LocalTexts.GetString("vinyl") + " " + numDisc;
-            labelEstadoExterior.Text = Kernel.LocalTexts.GetString("estado_exterior");
-            labelEstadoMedio.Text = Kernel.LocalTexts.GetString("estado_medio");
-            labelAñoPublicacion.Text = Kernel.LocalTexts.GetString("añoPublicacion");
-            labelPaisPublicacion.Text = Kernel.LocalTexts.GetString("paisPublicacion");
-            labelNumSongsFront.Text = Kernel.LocalTexts.GetString("numcanciones") + " " + Kernel.LocalTexts.GetString("side") + " " + side;
-            labelNumSongsBack.Text = Kernel.LocalTexts.GetString("numcanciones") + " " + Kernel.LocalTexts.GetString("side") + " " + ++side;
+                Text = Kernel.GetText("editando") + " " + Kernel.GetText("vinyl") + " " + numDisc;
+            labelEstadoExterior.Text = Kernel.GetText("estado_exterior");
+            labelEstadoMedio.Text = Kernel.GetText("estado_medio");
+            labelAñoPublicacion.Text = Kernel.GetText("añoPublicacion");
+            labelPaisPublicacion.Text = Kernel.GetText("paisPublicacion");
+            labelNumSongsFront.Text = Kernel.GetText("numcanciones") + " " + Kernel.GetText("side") + " " + side;
+            labelNumSongsBack.Text = Kernel.GetText("numcanciones") + " " + Kernel.GetText("side") + " " + ++side;
             String[] eeT = new string[7];
             String[] fT = new string[4];
             for (int i = 0; i < eeT.Length; i++)
-                eeT[i] = Kernel.LocalTexts.GetString(Enum.GetName(typeof(MediaCondition), i));
+                eeT[i] = Kernel.GetText(Enum.GetName(typeof(MediaCondition), i));
             for (int i = 0; i < fT.Length; i++)
-                fT[i] = Kernel.LocalTexts.GetString(Enum.GetName(typeof(SleeveType), i));
+                fT[i] = Kernel.GetText(Enum.GetName(typeof(SleeveType), i));
             comboBoxEstadoMedio.Items.AddRange(eeT);
             comboBoxEstadoExterior.Items.AddRange(eeT);
             comboBoxEstadoMedio.SelectedIndex = 0;
@@ -212,7 +212,7 @@ namespace Cassiopeia.src.Forms
         private void AnotherDisc()
         {
             //Another CD?
-            string msg = Kernel.LocalTexts.GetString("createAnother").Replace("{num}", (album.Songs.Count - creatingVinyl.TotalSongs).ToString()).Replace("{media}", Kernel.LocalTexts.GetString("vinyl"));
+            string msg = Kernel.GetText("createAnother").Replace("{num}", (album.Songs.Count - creatingVinyl.TotalSongs).ToString()).Replace("{media}", Kernel.GetText("vinyl"));
             DialogResult res = MessageBox.Show(msg, "", MessageBoxButtons.YesNo);
             if (res == DialogResult.No)
             {

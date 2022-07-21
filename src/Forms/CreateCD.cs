@@ -68,21 +68,21 @@ namespace Cassiopeia.src.Forms
         private void PutTexts()
         {
             if (creatingCD is not null || numDisc == 1)
-                Text = Kernel.LocalTexts.GetString("creando") + " CD " + numDisc;
+                Text = Kernel.GetText("creando") + " CD " + numDisc;
             else
-                Text = Kernel.LocalTexts.GetString("editando") + " CD " + numDisc;
-            labelEstadoExterior.Text = Kernel.LocalTexts.GetString("estado_exterior");
-            labelEstadoMedio.Text = Kernel.LocalTexts.GetString("estado_medio");
-            labelFormato.Text = Kernel.LocalTexts.GetString("formato");
-            labelAñoPublicacion.Text = Kernel.LocalTexts.GetString("añoPublicacion");
-            labelPaisPublicacion.Text = Kernel.LocalTexts.GetString("paisPublicacion");
-            labelNumCanciones.Text = Kernel.LocalTexts.GetString("numcanciones");
+                Text = Kernel.GetText("editando") + " CD " + numDisc;
+            labelEstadoExterior.Text = Kernel.GetText("estado_exterior");
+            labelEstadoMedio.Text = Kernel.GetText("estado_medio");
+            labelFormato.Text = Kernel.GetText("formato");
+            labelAñoPublicacion.Text = Kernel.GetText("añoPublicacion");
+            labelPaisPublicacion.Text = Kernel.GetText("paisPublicacion");
+            labelNumCanciones.Text = Kernel.GetText("numcanciones");
             String[] eeT = new string[7];
             String[] fT = new string[4];
             for (int i = 0; i < eeT.Length; i++)
-                eeT[i] = Kernel.LocalTexts.GetString(Enum.GetName(typeof(MediaCondition), i));
+                eeT[i] = Kernel.GetText(Enum.GetName(typeof(MediaCondition), i));
             for (int i = 0; i < fT.Length; i++)
-                fT[i] = Kernel.LocalTexts.GetString(Enum.GetName(typeof(SleeveType), i));
+                fT[i] = Kernel.GetText(Enum.GetName(typeof(SleeveType), i));
             comboBoxEstadoMedio.Items.AddRange(eeT);
             comboBoxEstadoExterior.Items.AddRange(eeT);
             comboBoxFormatoCD.Items.AddRange(fT);
@@ -133,7 +133,7 @@ namespace Cassiopeia.src.Forms
             catch (Exception)
             {
                 //msgbox please enter a valid year...
-                MessageBox.Show("enter a good year ffs");
+                MessageBox.Show(Kernel.GetText("errorAño"));
                 throw;
             }
             Kernel.Collection.AddCD(ref creatingCD);
@@ -182,8 +182,9 @@ namespace Cassiopeia.src.Forms
                 {
                     CreateNewCD(NC);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
                     return;
                 }
                 //The user might want a smaller CD, excluding the bonus songs. Or we need another disc 
@@ -191,12 +192,14 @@ namespace Cassiopeia.src.Forms
                 {
                     AnotherCD();
                 }
+                else
+                    Close();
             }
         }
         private void AnotherCD()
         {
             //Another CD?
-            string msg = Kernel.LocalTexts.GetString("createAnother").Replace("{num}", (album.Songs.Count - creatingCD.TotalSongs).ToString()).Replace("{media}", "CD");
+            string msg = Kernel.GetText("createAnother").Replace("{num}", (album.Songs.Count - creatingCD.TotalSongs).ToString()).Replace("{media}", "CD");
             DialogResult res = MessageBox.Show(msg, "", MessageBoxButtons.YesNo);
             if (res == DialogResult.No)
             {

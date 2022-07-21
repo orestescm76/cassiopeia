@@ -125,6 +125,7 @@ namespace Cassiopeia
             uint nOutBufferSize,
             ref uint lpBytesReturned,
             IntPtr lpOverlapped);
+
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern int AllocConsole();
         [DllImport("kernel32.dll", SetLastError = true)]

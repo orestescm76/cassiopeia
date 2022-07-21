@@ -12,8 +12,8 @@ namespace Cassiopeia.src.Forms
         }
         private void PonerTextos()
         {
-            Text = Kernel.LocalTexts.GetString("abrirCD");
-            buttonPlay.Text = Kernel.LocalTexts.GetString("reproducir");
+            Text = Kernel.GetText("abrirCD");
+            buttonPlay.Text = Kernel.GetText("reproducir");
             buttonRip.Text = "Rip";
         }
         private void AbrirDisco_Load(object sender, EventArgs e)
@@ -31,7 +31,7 @@ namespace Cassiopeia.src.Forms
             if (listViewDiscos.Items.Count == 0)
             {
                 Log.Instance.PrintMessage("No CD Drives avaliable", MessageType.Warning);
-                MessageBox.Show(Kernel.LocalTexts.GetString("noDisqueteras"));
+                MessageBox.Show(Kernel.GetText("noDisqueteras"));
                 Close();
                 Dispose();
             }
