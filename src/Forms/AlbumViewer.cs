@@ -371,6 +371,15 @@ namespace Cassiopeia.src.Forms
                 labelData[(int)AlbumInfo.MediaWear] = Kernel.GetText("estado_medio") + ": " + Kernel.GetText(CDaVisualizar.Discos[0].MediaCondition.ToString()) + Environment.NewLine;
                 labelData[(int)AlbumInfo.Length] = Kernel.GetText("duracion") + ": " + CDaVisualizar.Length.ToString() + Environment.NewLine;
             }
+            else if (ViewVinyl is not null)
+            {
+                labelData[(int)AlbumInfo.PublishYear] = Kernel.GetText("añoPublicacion") + ": " + ViewVinyl.Year + Environment.NewLine;
+                labelData[(int)AlbumInfo.PublishCountry] = Kernel.GetText("paisPublicacion") + ": " + ViewVinyl.Country + Environment.NewLine;
+                labelData[(int)AlbumInfo.CoverWear] = Kernel.GetText("estado_exterior") + ": " + Kernel.GetText(ViewVinyl.SleeveCondition.ToString()) + Environment.NewLine;
+                labelData[(int)AlbumInfo.MediaWear] = Kernel.GetText("estado_medio") + ": " + Kernel.GetText(ViewVinyl.DiscList[0].MediaCondition.ToString()) + Environment.NewLine;
+                labelData[(int)AlbumInfo.Length] = Kernel.GetText("duracion") + ": " + ViewVinyl.Length.ToString() + Environment.NewLine;
+                vistaCanciones.Columns[0].Width = -2;
+            }
             foreach (string data in labelData)
             {
                 if (data is not null)
@@ -470,12 +479,13 @@ namespace Cassiopeia.src.Forms
         {
             if (CDaVisualizar is not null)
             {
-                Anotaciones anoForm = new Anotaciones(ref CDaVisualizar);
+                Anotaciones anoForm = new Anotaciones(CDaVisualizar);
                 anoForm.ShowDialog();
             }
             else if (ViewVinyl is not null)
             {
-
+                Anotaciones anoForm = new Anotaciones(ViewVinyl);
+                anoForm.ShowDialog();
             }
             else
             {

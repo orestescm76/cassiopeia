@@ -658,7 +658,7 @@
             this.toolStripButtonSaveDatabase.Name = "toolStripButtonSaveDatabase";
             this.toolStripButtonSaveDatabase.Size = new System.Drawing.Size(23, 22);
             this.toolStripButtonSaveDatabase.Text = "toolStripButton1";
-            this.toolStripButtonSaveDatabase.Click += new System.EventHandler(this.SaveActualDatabase);
+            this.toolStripButtonSaveDatabase.Click += new System.EventHandler(this.SaveAll);
             // 
             // toolStripButtonFilter
             // 

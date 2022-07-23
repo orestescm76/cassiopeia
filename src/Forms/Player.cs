@@ -47,7 +47,7 @@ namespace Cassiopeia.src.Forms
         string Artist, Title = null;
         private bool foobar2000 = true;
         Process foobar2kInstance = null;
-        string SpotifyID = null;
+        string SpotifyID = "";
         bool Reproduciendo = false;
         bool ShuffleState = false;
         string PreviousSpotifyID = "";
@@ -213,10 +213,11 @@ namespace Cassiopeia.src.Forms
         private void ApagarSpotify()
         {
             Log.Instance.PrintMessage("Shutting down Spotify", MessageType.Info);
+            timerSpotify.Enabled = false;
             backgroundWorker.CancelAsync();
+
             buttoncrearLR.Show();
             buttonSpotify.Text = Kernel.GetText("cambiarSpotify");
-            timerSpotify.Enabled = false;
             estadoReproductor = EstadoReproductor.Stop;
             SpotifySync = false;
             timerCancion.Enabled = false;
@@ -651,7 +652,7 @@ namespace Cassiopeia.src.Forms
                 Kernel.Spotify.SkipNext();
             else
             {
-                if (Playlist != null)
+                if (Playlist is not null)
                 {
                     if (Playlist.IsOutside(ListaReproduccionPuntero))
                     {
@@ -766,31 +767,29 @@ namespace Cassiopeia.src.Forms
         {
             CurrentlyPlayingContext PC = (CurrentlyPlayingContext)e.Result; //datos de spotify
 
-            if (PC != null && PC.Item != null) //si son válidos
+            if (PC != null && PC.Item != null && !backgroundWorker.CancellationPending) //si son válidos
             {
-                if (PC.Item.Type == ItemType.Track)
-                {
-                    SpotifyPlayingSong = (FullTrack)PC.Item;
-                    dur = new TimeSpan(0, 0, 0, 0, SpotifyPlayingSong.DurationMs);
-                    SpotifyID = SpotifyPlayingSong.Id;
-                    trackBarPosicion.Maximum = (int)dur.TotalSeconds;
-                }
-                else SpotifyPlayingSong = null;
+                SpotifyID = SpotifyPlayingSong.Id;
                 pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
                 if (!Kernel.MetadataStream)
                 {
-                    //update trackbar
-                    trackBarPosicion.Value = (int)pos.TotalSeconds;
                     //if we don't have an image or we have the same one
                     if (SpotifyID != PreviousSpotifyID || !File.Exists("./covers/np.jpg"))
                     {
+                        if (PC.Item.Type == ItemType.Track)
+                        {
+                            SpotifyPlayingSong = (FullTrack)PC.Item;
+                            dur = new TimeSpan(0, 0, 0, 0, SpotifyPlayingSong.DurationMs);
+                            trackBarPosicion.Maximum = (int)dur.TotalSeconds;
+                            PreviousSpotifyID = SpotifyID;
+                        }
+                        else SpotifyPlayingSong = null;
                         //Update shuffle state not too often, when changin songs
                         if (PC.ShuffleState)
                             checkBoxAleatorio.Checked = true;
                         else
                             checkBoxAleatorio.Checked = false;
 
-                        PreviousSpotifyID = SpotifyID;
                         if (Config.HistoryEnabled)
                         {
                             using (StreamWriter escritor = new StreamWriter(Kernel.HistorialFileInfo.FullName, true))
@@ -823,6 +822,8 @@ namespace Cassiopeia.src.Forms
                             pictureBoxCaratula.Image.Dispose();
                             pictureBoxCaratula.Image = Resources.albumdesconocido;
                         }
+                        //update trackbar
+                        trackBarPosicion.Value = (int)pos.TotalSeconds;
                     }
                     if (PC.IsPlaying)
                     {
@@ -881,12 +882,10 @@ namespace Cassiopeia.src.Forms
         {
             using (var enumerador = new MMDeviceEnumerator())
             {
-                using (var mmColeccion = enumerador.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
+                using var mmColeccion = enumerador.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active);
+                foreach (var item in mmColeccion)
                 {
-                    foreach (var item in mmColeccion)
-                    {
-                        _devices.Add(item);
-                    }
+                    _devices.Add(item);
                 }
             }
             Log.PrintMessage("Starting player in local mode", MessageType.Info);

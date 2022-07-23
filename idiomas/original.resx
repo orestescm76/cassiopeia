@@ -782,4 +782,7 @@
   <data name="errorAño" xml:space="preserve">
     <value></value>
   </data>
+  <data name="viewMode" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

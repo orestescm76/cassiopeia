@@ -472,8 +472,8 @@ namespace Cassiopeia
                     if (save == DialogResult.Yes)
                     {
                         SaveAlbums("discos.csv", SaveType.Digital);
-                        SaveAlbums("cd.json", SaveType.CD, true);
-                        SaveAlbums("vinyl.json", SaveType.Vinyl, true);
+                        SaveAlbums("cd.json", SaveType.CD);
+                        SaveAlbums("vinyl.json", SaveType.Vinyl);
                         SavePATHS();
                         SaveLyrics();
                     }
@@ -748,97 +748,69 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Saved songs PATH", MessageType.Correct, crono, TimeType.Milliseconds);
             Log.Instance.PrintMessage("Filesize: " + pathsInfo.Length / 1024.0 + " kb", MessageType.Info);
         }
-        public static void SaveAlbums(string path, SaveType tipoGuardado, bool json = false)
+        public static void SaveAlbums(string path, SaveType tipoGuardado)
         {
             Stopwatch crono = Stopwatch.StartNew();
             FileInfo fich = new FileInfo(path);
-            if (json)
+            using StreamWriter salida = fich.CreateText();
+            switch (tipoGuardado)
             {
-                using StreamWriter salida = fich.CreateText();
-                switch (tipoGuardado)
-                {
-                    case SaveType.Digital:
-                        Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
-                        Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                        foreach (var pair in Collection.Albums)
-                        {
-                            JsonSerializer s = new JsonSerializer();
-                            s.TypeNameHandling = TypeNameHandling.All;
-                            salida.WriteLine(JsonConvert.SerializeObject(pair.Value));
-                        }
-                        //foreach (AlbumData a in Collection.Albums)
-                        //{
-                        //    JsonSerializer s = new JsonSerializer();
-                        //    s.TypeNameHandling = TypeNameHandling.All;
-                        //    salida.WriteLine(JsonConvert.SerializeObject(a));
-                        //}
+                case SaveType.Digital:
+                    if (Collection.Albums.Count == 0)
                         break;
-                    case SaveType.CD:
-                        Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the CD data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
-                        Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                        foreach (CompactDisc compacto in Collection.CDS)
+                    Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
+                    Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                    //foreach (AlbumData a in Collection.Albums)
+                    foreach (var a in Collection.Albums.Values)
+                    {
+                        if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
                         {
-                            salida.WriteLine(JsonConvert.SerializeObject(compacto));
-                        }
-                        break;
-                    case SaveType.Vinyl:
-                        Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the Vinyl data... (" + Collection.Vinyls.Count + " vinyls)", MessageType.Info);
-                        Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                        foreach (VinylAlbum vinyl in Collection.Vinyls)
-                        {
-                            salida.WriteLine(JsonConvert.SerializeObject(vinyl));
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                salida.Flush();
-            }
-            else
-            {
-                using StreamWriter salida = fich.CreateText();
-                switch (tipoGuardado)
-                {
-
-                    case SaveType.Digital:
-                        Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
-                        Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                        //foreach (AlbumData a in Collection.Albums)
-                        foreach (var a in Collection.Albums.Values)
-                        {
-                            if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
+                            string CoverRelativePath = String.Empty;
+                            if (!string.IsNullOrEmpty(a.CoverPath))
+                                CoverRelativePath = Path.GetRelativePath(Environment.CurrentDirectory, a.CoverPath);
+                            salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + CoverRelativePath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
+                            for (int i = 0; i < a.NumberOfSongs; i++)
                             {
-                                string CoverRelativePath = String.Empty;
-                                if (!string.IsNullOrEmpty(a.CoverPath))
-                                    CoverRelativePath = Path.GetRelativePath(Environment.CurrentDirectory, a.CoverPath);
-                                salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + CoverRelativePath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
-                                for (int i = 0; i < a.NumberOfSongs; i++)
+                                if (a.Songs[i] is LongSong longSong)
                                 {
-                                    if (a.Songs[i] is LongSong longSong)
+                                    salida.WriteLine(longSong.Title + ";" + longSong.Parts.Count);//no tiene duracion y son 2 datos a guardar
+                                    foreach (Song parte in longSong.Parts)
                                     {
-                                        salida.WriteLine(longSong.Title + ";" + longSong.Parts.Count);//no tiene duracion y son 2 datos a guardar
-                                        foreach (Song parte in longSong.Parts)
-                                        {
-                                            salida.WriteLine(parte.Title + ";" + (int)(parte.Length.TotalSeconds));
-                                        }
-
+                                        salida.WriteLine(parte.Title + ";" + (int)(parte.Length.TotalSeconds));
                                     }
-                                    else //titulo;400;0
-                                        salida.WriteLine(a.Songs[i].Title + ";" + (int)a.Songs[i].Length.TotalSeconds + ";" + Convert.ToInt32(a.Songs[i].IsBonus));
+
                                 }
+                                else //titulo;400;0
+                                    salida.WriteLine(a.Songs[i].Title + ";" + (int)a.Songs[i].Length.TotalSeconds + ";" + Convert.ToInt32(a.Songs[i].IsBonus));
                             }
-                            salida.WriteLine();
                         }
+                        salida.WriteLine();
+                    }
+                    break;
+                case SaveType.CD:
+                    if (Collection.CDS.Count == 0)
                         break;
-                    case SaveType.CD:
+                    Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the CD data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
+                    Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                    foreach (CompactDisc compacto in Collection.CDS)
+                    {
+                        salida.WriteLine(JsonConvert.SerializeObject(compacto));
+                    }
+                    break;
+                case SaveType.Vinyl:
+                    if (Collection.Vinyls.Count == 0)
                         break;
-                    case SaveType.Vinyl:
-                        break;
-                    default:
-                        break;
-                }
-                salida.Flush();
+                    Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the Vinyl data... (" + Collection.Vinyls.Count + " vinyls)", MessageType.Info);
+                    Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                    foreach (VinylAlbum vinyl in Collection.Vinyls)
+                    {
+                        salida.WriteLine(JsonConvert.SerializeObject(vinyl));
+                    }
+                    break;
+                default:
+                    break;
             }
+            salida.Flush();
             fich.Refresh();
             crono.Stop();
             Edited = false;

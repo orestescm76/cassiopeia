@@ -235,6 +235,7 @@ namespace Cassiopeia.src.Forms
 
             vinylToolStripMenuItem.Text = Kernel.GetText("vinyl");
             createVinylToolStripMenuItem.Text = Kernel.GetText("createVinyl");
+            viewModeToolStripMenuItem.Text = Kernel.GetText("viewMode");
             UpdateViewInfo();
         }
         private void UpdateViewInfo()
@@ -353,12 +354,9 @@ namespace Cassiopeia.src.Forms
             Log.Instance.PrintMessage("Deletion completed.", MessageType.Correct, crono, TimeType.Milliseconds);
         }
        
-        private void guardarDiscos(string nombre, SaveType tipoGuardado)
+        private void saveAlbums(string nombre, SaveType tipoGuardado)
         {
-            if (tipoGuardado == SaveType.Digital)
-                Kernel.SaveAlbums(nombre, SaveType.Digital);
-            else
-                Kernel.SaveAlbums(nombre, tipoGuardado, true);
+            Kernel.SaveAlbums(nombre, tipoGuardado);
         }
         private void UpdateSidebar(AlbumData a)
         {
@@ -1030,7 +1028,7 @@ namespace Cassiopeia.src.Forms
             guardarComo.InitialDirectory = Environment.CurrentDirectory;
             if (guardarComo.ShowDialog() == DialogResult.OK)
             {
-                guardarDiscos(Path.GetFullPath(guardarComo.FileName), (SaveType)ViewType);
+                saveAlbums(Path.GetFullPath(guardarComo.FileName), (SaveType)ViewType);
             }
         }
 
@@ -1088,7 +1086,7 @@ namespace Cassiopeia.src.Forms
                             guardarComo.Filter = Kernel.GetText("archivo") + ".csv(*.csv)|*.csv";
                             if (guardarComo.ShowDialog() == DialogResult.OK)
                             {
-                                guardarDiscos(Path.GetFullPath(guardarComo.FileName), SaveType.Digital);
+                                saveAlbums(Path.GetFullPath(guardarComo.FileName), SaveType.Digital);
                             }
                             Kernel.Collection.Albums.Clear();
                             break;
@@ -1096,7 +1094,7 @@ namespace Cassiopeia.src.Forms
                             guardarComo.Filter = Kernel.GetText("archivo") + ".json(*.json)|*.json";
                             if (guardarComo.ShowDialog() == DialogResult.OK)
                             {
-                                guardarDiscos(Path.GetFullPath(guardarComo.FileName.Replace(".json", "") + "-CD.json"), SaveType.CD);
+                                saveAlbums(Path.GetFullPath(guardarComo.FileName.Replace(".json", "") + "-CD.json"), SaveType.CD);
                             }
                             Kernel.Collection.CDS.Clear();
                             break;
@@ -1308,23 +1306,11 @@ namespace Cassiopeia.src.Forms
             }
         }
 
-        private void SaveActualDatabase(object sender, EventArgs e)
+        private void SaveAll(object sender, EventArgs e)
         {
-            switch (ViewType)
-            {
-                case ViewType.Digital:
-                    Kernel.SaveAlbums("discos.csv", SaveType.Digital, false);
-                    break;
-                case ViewType.CD:
-                    Kernel.SaveAlbums("cd.json", SaveType.CD);
-                    break;
-                case ViewType.Vinyl:
-                    break;
-                case ViewType.Cassette_Tape:
-                    break;
-                default:
-                    break;
-            }
+            Kernel.SaveAlbums("discos.csv", SaveType.Digital);
+            Kernel.SaveAlbums("cd.json", SaveType.CD);
+            Kernel.SaveAlbums("vinyl.json", SaveType.Vinyl);
             toolStripButtonSaveDatabase.Image = Properties.Resources.diskette;
         }
 

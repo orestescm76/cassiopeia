@@ -131,10 +131,15 @@ namespace Cassiopeia
         private async Task StartLoginSpotify(Stopwatch crono)
         {
             Log.Instance.PrintMessage("Logging to Spotify", MessageType.Info);
+            //Leer token existente
             var json = await File.ReadAllTextAsync(AuthPath);
+            //Pasar a objeto token
             var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
+            //Crear autenticador
             var auth = new PKCEAuthenticator(PublicKey, token);
+            //Definir el evento para refrescar el token automáticamente
             auth.TokenRefreshed += (sender, token) => File.WriteAllText(AuthPath, JsonConvert.SerializeObject(token));
+            //Crear los objetos Spotify
             SpotifyConfig = SpotifyClientConfig.CreateDefault().WithAuthenticator(auth);
             SpotifyClient = new SpotifyClient(SpotifyConfig);
             AccountReady = true;

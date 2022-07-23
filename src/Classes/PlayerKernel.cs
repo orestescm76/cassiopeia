@@ -45,7 +45,7 @@ namespace Cassiopeia.src.Classes
             try
             {
                 Log.Instance.PrintMessage("Intentando cargar " + cual, MessageType.Info);
-                if (Path.GetExtension(cual) == ".ogg")
+                if (FormatoSonido == FormatoSonido.OGG)
                 {
                     FileStream stream = new FileStream(cual, FileMode.Open, FileAccess.Read);
                     NVorbis = new NVorbisSource(stream);

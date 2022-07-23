@@ -845,4 +845,7 @@
   <data name="errorAño" xml:space="preserve">
     <value>Please, enter a valid year.</value>
   </data>
+  <data name="viewMode" xml:space="preserve">
+    <value>Change view type</value>
+  </data>
 </root>

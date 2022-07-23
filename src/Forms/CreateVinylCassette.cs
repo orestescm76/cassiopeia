@@ -13,6 +13,7 @@ namespace Cassiopeia.src.Forms
         private int NCA, NCB;
         private bool edit = false;
         private char side;
+        private bool canceled = true;
         public CreateVinylCassette(ref AlbumData a, bool vinyl = true)
         {
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace Cassiopeia.src.Forms
             album = vinyl.Album;
             editingVinyl = vinyl;
             creatingVinyl = vinyl;
-            //If we're NOT editing
+            //If we're NOT editing, but adding a new one
             if (numDisc > 1 && !edit)
             {
                 labelAñoPublicacion.Hide();
@@ -45,7 +46,7 @@ namespace Cassiopeia.src.Forms
             }
             else if (edit)
             {
-                Log.Instance.PrintMessage("Editando CD", MessageType.Info);
+                Log.Instance.PrintMessage("Editing vinyl", MessageType.Info);
                 creatingVinyl = null;
                 this.edit = true;
                 comboBoxEstadoMedio.SelectedItem = vinyl.DiscList[numDisc - 1].MediaCondition;
@@ -150,7 +151,7 @@ namespace Cassiopeia.src.Forms
             catch (Exception)
             {
                 //msgbox please enter a valid year...
-                MessageBox.Show("enter a good year ffs");
+                MessageBox.Show(Kernel.GetText("errorAño"));
                 throw;
             }
             Kernel.Collection.AddVinyl(ref creatingVinyl);
@@ -159,6 +160,7 @@ namespace Cassiopeia.src.Forms
         }
         private void buttonOK_Click(object sender, EventArgs e)
         {
+            canceled = false;
             NCA = (int)this.numericUpDownNumSongsFront.Value;
             NCB = (int)this.numericUpDownNumSongsBack.Value;
             album.CanBeRemoved = false;
@@ -236,6 +238,8 @@ namespace Cassiopeia.src.Forms
             int numSongs = 0;
             if (creatingVinyl is not null)
                 numSongs = creatingVinyl.TotalSongs;
+            numericUpDownNumSongsFront.Maximum = album.Songs.Count - numSongs - numericUpDownNumSongsBack.Value;
+            numericUpDownNumSongsBack.Maximum = album.Songs.Count - numSongs - numericUpDownNumSongsFront.Value;
 
             for (int i = numSongs; i < numericUpDownNumSongsFront.Value + numSongs; i++)
             {
@@ -245,13 +249,22 @@ namespace Cassiopeia.src.Forms
                 labelFrontLength.Text = side + ": " + len.ToString(@"h\:mm\:ss");
             else
                 labelFrontLength.Text = side + ": " + len.ToString(@"mm\:ss");
-            numericUpDownNumSongsFront.Maximum = album.Songs.Count - numericUpDownNumSongsBack.Value;
-            numericUpDownNumSongsBack.Maximum = album.Songs.Count - numericUpDownNumSongsFront.Value;
         }
 
         private void CreateVinyl_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void CreateVinylCassette_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(canceled)
+            {
+                //Cancel the creation.
+                Log.Instance.PrintMessage("Cancelling insertion", MessageType.Info);
+                if(creatingVinyl is not null)
+                    Kernel.Collection.Vinyls.Remove(creatingVinyl);
+            }
         }
 
         private void numericUpDownNumSongsBack_ValueChanged(object sender, EventArgs e)
@@ -260,6 +273,8 @@ namespace Cassiopeia.src.Forms
             int numSongs = 0;
             if (creatingVinyl is not null)
                 numSongs = creatingVinyl.TotalSongs;
+            numericUpDownNumSongsFront.Maximum = album.Songs.Count - numSongs - numericUpDownNumSongsBack.Value;
+            numericUpDownNumSongsBack.Maximum = album.Songs.Count - numSongs - numericUpDownNumSongsFront.Value;
             numSongs += (int)numericUpDownNumSongsFront.Value;
             for (int i = numSongs; i < numericUpDownNumSongsBack.Value + numSongs; i++)
             {
@@ -270,8 +285,6 @@ namespace Cassiopeia.src.Forms
                 labelBackLength.Text = sideBack + ": " + len.ToString(@"h\:mm\:ss");
             else
                 labelBackLength.Text = sideBack + ": " + len.ToString(@"mm\:ss");
-            numericUpDownNumSongsFront.Maximum = album.Songs.Count - numericUpDownNumSongsBack.Value;
-            numericUpDownNumSongsBack.Maximum = album.Songs.Count - numericUpDownNumSongsFront.Value;
         }
     }
 }
