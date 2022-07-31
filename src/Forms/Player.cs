@@ -353,7 +353,7 @@ namespace Cassiopeia.src.Forms
             return "";
         }
         //Plays the playlist from the start. UI shouldn't be null and should be refreshed here.
-        public void ReproducirLista()
+        public void PlayList()
         {
             ListaReproduccionPuntero = 0;
             PlaylistUI.RefreshView();
@@ -524,7 +524,7 @@ namespace Cassiopeia.src.Forms
             {
                 Playlist.AddSong(song);
             }
-            ReproducirLista();
+            PlayList();
         }
         public void PlaySong(int Pista)
         {
@@ -1010,7 +1010,7 @@ namespace Cassiopeia.src.Forms
                         if (Playlist == null)
                             Playlist = new Playlist("Selección");
                         Playlist.AddSong(c);
-                        ReproducirLista();
+                        PlayList();
                     }
                 }
                 catch (Exception ex)
@@ -1288,7 +1288,7 @@ namespace Cassiopeia.src.Forms
                             Playlist.AddSong(clr);
                         }
                     }
-                    ReproducirLista();
+                    PlayList();
                 }
                 else
                 {

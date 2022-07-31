@@ -1,5 +1,5 @@
 ﻿/*
- * CASSIOPEIA 2.0.242.0
+ * CASSIOPEIA 2.0.245.10
  * PROGRAM KERNEL. CORE FUNCTIONS, LOAD, SAVE, QUIT. METADATA STREAM
  * CODENAME Θάλασσα
  * MADE BY ORESTESCM76
@@ -104,7 +104,6 @@ namespace Cassiopeia
         {
             return LocalTexts.GetString(key);
         }
-
         public async static void MetadataStreamTask()
         {
             DateTime now = DateTime.Now;
@@ -158,7 +157,6 @@ namespace Cassiopeia
             ReloadView();
             Player.Instancia.RefrescarTextos();
         }
-
         public static int FindGenre(string g)
         {
             for (int i = 0; i < IDGenres.Length; i++)
@@ -184,7 +182,6 @@ namespace Cassiopeia
                 Genres[i].Name = LocalTexts.GetString("genero_" + Genres[i].Id);
             }
         }
-
         public static void InternetAvaliable(bool i)
         {
             if (!MetadataStream)
@@ -194,13 +191,11 @@ namespace Cassiopeia
                     Player.Instancia.SetSpotify(i);
             }
         }
-
         public static void ActivarReproduccionSpotify()
         {
             if (!MetadataStream)
                 MainForm.ActivarReproduccionSpotify();
         }
-
         public static void ReloadView()
         {
             MainForm.ReloadView();
@@ -247,7 +242,6 @@ namespace Cassiopeia
                 }
             }
         }
-
         public static void LoadLanguages()
         {
             DirectoryInfo cod = new DirectoryInfo("./idiomas");
@@ -351,7 +345,7 @@ namespace Cassiopeia
             else
                 Log.Instance.PrintMessage("No updates avaliable", MessageType.Info);
         }
-        public static void CreateProgram()
+        public static void InitProgram()
         {
             Collection = new Collection();
             SpotifyReady = false;
@@ -1078,6 +1072,10 @@ namespace Cassiopeia
             }
 
             SavePATHS();
+        }
+        public static void ResetSpotifyLink()
+        {
+            MainForm.ResetSpotifyLink();
         }
     }
 }

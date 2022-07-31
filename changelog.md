@@ -1,10 +1,11 @@
 # Cassiopeia Changelog
-#### 2.0.245.0
+#### 2.0.245.10
 - Fixed CD saving [FIX]
 - Fixed Vinyl addition [FIX]
 - Clicking a song in EditAlbum opened a File Explorer [FIX]
 - Tweaked the saving function. [FIX]
 - Fixed the Spotify sync in Player [FIX]
+- Bugfixing the ViewAlbum with Vinyl [FIX]
 
 #### 2.0.244.10
 - Now we're able to calculate the disk ID (CBBD1)

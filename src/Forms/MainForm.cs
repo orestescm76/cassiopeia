@@ -37,7 +37,7 @@ namespace Cassiopeia.src.Forms
         {
             InitializeComponent();
             //Load Spotify
-            this.Load += async (sender, args) => await Task.Run(() => Kernel.InitSpotify());
+            Load += async (sender, args) => await Task.Run(() => Kernel.InitSpotify());
             deleting = false;
             filtered = false;
             lvwColumnSorter = new ListViewItemComparer();
@@ -648,7 +648,6 @@ namespace Cassiopeia.src.Forms
             //Get albums if there is a song title
             if (!string.IsNullOrEmpty(filter.ContainsSongTitle))
             {
-
                 albumContainsSong = Utils.GetAlbumsWithSongTitle(query.ToList(), filter.ContainsSongTitle);
             }
             //from album in Kernel.Collection.Albums select album;
@@ -859,6 +858,12 @@ namespace Cassiopeia.src.Forms
             AlbumData a = GetSelectedAlbumFromView();
             CreateVinylCassette formV = new(ref a);
             formV.Show();
+        }
+        //Update the UI
+        public void ResetSpotifyLink()
+        {
+            linkSpotifyStripMenuItem.Visible = true;
+            importSpotifyStripMenuItem.Visible = false;
         }
         #region Events
         private void OrdenarColumnas(object sender, ColumnClickEventArgs e)
@@ -1409,7 +1414,7 @@ namespace Cassiopeia.src.Forms
                         cancelado = true;
                         break;
                     }
-                    await System.Threading.Tasks.Task.Delay(50);
+                    await Task.Delay(50);
                 }
                 if (cancelado)
                 {

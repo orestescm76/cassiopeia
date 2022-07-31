@@ -842,4 +842,7 @@ Quedan {num} canciones.</value>
   <data name="viewMode" xml:space="preserve">
     <value>Cambiar de vista</value>
   </data>
+  <data name="lado" xml:space="preserve">
+    <value>Cara</value>
+  </data>
 </root>

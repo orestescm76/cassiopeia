@@ -848,4 +848,7 @@
   <data name="viewMode" xml:space="preserve">
     <value>Change view type</value>
   </data>
+  <data name="lado" xml:space="preserve">
+    <value>Side</value>
+  </data>
 </root>

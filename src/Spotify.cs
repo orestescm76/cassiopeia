@@ -73,7 +73,7 @@ namespace Cassiopeia
                 }
 
             }
-            catch (APIException ex)
+            catch (Exception ex)
             {
                 Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
@@ -111,17 +111,19 @@ namespace Cassiopeia
                 else
                     await StartLoginSpotify(crono);
             }
-            catch (APIException e)
-            {
-                Kernel.InternetAvaliable(false);
-                Log.Instance.PrintMessage(e.Message, MessageType.Error);
-                MessageBox.Show(Kernel.GetText("error_internet"));
-            }
             catch (Exception e)
             {
                 Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage(e.Message, MessageType.Error);
-                MessageBox.Show(Kernel.GetText("error_internet"));
+                if (e.InnerException.Message == "invalid_grant")
+                {
+                    Log.Instance.PrintMessage("App was delinked from Spotify, relaunching", MessageType.Warning);
+                    Kernel.ResetSpotifyLink();
+                    Config.LinkedWithSpotify = false;
+                    Start();
+                }
+                else
+                    MessageBox.Show(Kernel.GetText("error_internet"));
             }
         }
         public bool IsSpotifyReady()
@@ -421,7 +423,7 @@ namespace Cassiopeia
         {
             if (User is not null)
             {
-                List<FullAlbum> albums = new List<FullAlbum>();
+                List<FullAlbum> albums = new();
                 try
                 {
                     //Get albums
@@ -455,7 +457,7 @@ namespace Cassiopeia
                             catch (Exception)
                             {
 
-                                Log.Instance.PrintMessage("wtf", MessageType.Warning);
+                                Log.Instance.PrintMessage("GetUserAlbums() - Album could not be added", MessageType.Warning);
                                 Log.Instance.PrintMessage(a.Album.Uri, MessageType.Warning);
                                 continue;
                             }
@@ -478,9 +480,10 @@ namespace Cassiopeia
                 {
                     Log.Instance.PrintMessage("Failed to save user's library", MessageType.Error);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    Log.Instance.PrintMessage("wtf", MessageType.Warning);
+                    Log.Instance.PrintMessage("GetUserAlbums() - Something happened", MessageType.Warning);
+                    Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
                 }
 
             }

@@ -41,7 +41,7 @@ namespace Cassiopeia.src.Forms
         }
         private void Recargar()
         {
-            if (Song.Lyrics == null)
+            if (Song.Lyrics is null)
                 Song.Lyrics = new string[0];
             textBoxLyrics.Lines = Song.Lyrics;
             Text = Song.ToString();

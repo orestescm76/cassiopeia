@@ -162,9 +162,10 @@ namespace Cassiopeia.src.Forms
                 int songNum = 0; //Song number in array
                 int sideNum = 0; //id of group
 
+                vistaCanciones.Columns[0].Width = -2;
                 for (int d = 0; d < ViewVinyl.DiscList.Count; d++)
                 {
-                    vistaCanciones.Groups.Add(new ListViewGroup("Side " + side));
+                    vistaCanciones.Groups.Add(new ListViewGroup(Kernel.GetText("lado") + " " + side));
                     int punt = songNum;
                     int numSongSide = 1;
                     for (int i = punt; i < ViewVinyl.DiscList[d].NumSongsFront + punt; i++)
@@ -188,7 +189,7 @@ namespace Cassiopeia.src.Forms
                     }
                     side++;
                     sideNum++;
-                    vistaCanciones.Groups.Add(new ListViewGroup("Side " + side));
+                    vistaCanciones.Groups.Add(new ListViewGroup(Kernel.GetText("lado") + " " + side));
                     punt = songNum;
                     numSongSide = 1;
                     for (int i = punt; i < ViewVinyl.DiscList[d].NumSongsBack + punt; i++)
@@ -214,7 +215,7 @@ namespace Cassiopeia.src.Forms
                     sideNum++;
                 }
             }
-            else
+            else //do CD routine
             {
                 vistaCanciones.ShowGroups = true;
                 items = new ListViewItem[CDaVisualizar.TotalSongs];
@@ -368,7 +369,6 @@ namespace Cassiopeia.src.Forms
                 labelData[(int)AlbumInfo.PublishYear] = Kernel.GetText("añoPublicacion") + ": " + CDaVisualizar.Year + Environment.NewLine;
                 labelData[(int)AlbumInfo.PublishCountry] = Kernel.GetText("paisPublicacion") + ": " + CDaVisualizar.Country + Environment.NewLine;
                 labelData[(int)AlbumInfo.CoverWear] = Kernel.GetText("estado_exterior") + ": " + Kernel.GetText(CDaVisualizar.SleeveCondition.ToString()) + Environment.NewLine;
-                labelData[(int)AlbumInfo.MediaWear] = Kernel.GetText("estado_medio") + ": " + Kernel.GetText(CDaVisualizar.Discos[0].MediaCondition.ToString()) + Environment.NewLine;
                 labelData[(int)AlbumInfo.Length] = Kernel.GetText("duracion") + ": " + CDaVisualizar.Length.ToString() + Environment.NewLine;
             }
             else if (ViewVinyl is not null)
@@ -376,9 +376,8 @@ namespace Cassiopeia.src.Forms
                 labelData[(int)AlbumInfo.PublishYear] = Kernel.GetText("añoPublicacion") + ": " + ViewVinyl.Year + Environment.NewLine;
                 labelData[(int)AlbumInfo.PublishCountry] = Kernel.GetText("paisPublicacion") + ": " + ViewVinyl.Country + Environment.NewLine;
                 labelData[(int)AlbumInfo.CoverWear] = Kernel.GetText("estado_exterior") + ": " + Kernel.GetText(ViewVinyl.SleeveCondition.ToString()) + Environment.NewLine;
-                labelData[(int)AlbumInfo.MediaWear] = Kernel.GetText("estado_medio") + ": " + Kernel.GetText(ViewVinyl.DiscList[0].MediaCondition.ToString()) + Environment.NewLine;
                 labelData[(int)AlbumInfo.Length] = Kernel.GetText("duracion") + ": " + ViewVinyl.Length.ToString() + Environment.NewLine;
-                vistaCanciones.Columns[0].Width = -2;
+                
             }
             foreach (string data in labelData)
             {
@@ -494,15 +493,13 @@ namespace Cassiopeia.src.Forms
                 {
                     Player.Instancia.Playlist.AddSong(cancion);
                 }
-                Player.Instancia.ReproducirLista();
+                Player.Instancia.PlayList();
             }
         }
 
         private void labelEstadoDisco_Click(object sender, EventArgs e)
         {
-            if (CDaVisualizar.Discos.Count == 1)
-                return;
-            else
+            if(CDaVisualizar is not null && CDaVisualizar.Discos.Count != 1)
             {
                 switch (numDisco)
                 {
@@ -513,6 +510,22 @@ namespace Cassiopeia.src.Forms
                     case 2:
                         numDisco = 1;
                         labelEstadoDisco.Text = Kernel.GetText("estado_medio") + " " + numDisco + ": " + Kernel.GetText(CDaVisualizar.Discos[numDisco - 1].MediaCondition.ToString()) + Environment.NewLine;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if(ViewVinyl is not null && ViewVinyl.DiscList.Count != 1)
+            {
+                switch (numDisco)
+                {
+                    case 1:
+                        numDisco = 2;
+                        labelEstadoDisco.Text = Kernel.GetText("estado_medio") + " " + numDisco + ": " + Kernel.GetText(ViewVinyl.DiscList[numDisco - 1].MediaCondition.ToString()) + Environment.NewLine;
+                        break;
+                    case 2:
+                        numDisco = 1;
+                        labelEstadoDisco.Text = Kernel.GetText("estado_medio") + " " + numDisco + ": " + Kernel.GetText(ViewVinyl.DiscList[numDisco - 1].MediaCondition.ToString()) + Environment.NewLine;
                         break;
                     default:
                         break;

@@ -60,7 +60,7 @@ namespace Cassiopeia
                 //Create genres
                 Kernel.InitGenres();
                 //Create program
-                Kernel.CreateProgram();
+                Kernel.InitProgram();
                 //Load the files
                 Kernel.LoadFiles();
                 //Init Spotify

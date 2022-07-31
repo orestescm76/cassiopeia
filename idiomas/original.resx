@@ -785,4 +785,10 @@
   <data name="viewMode" xml:space="preserve">
     <value></value>
   </data>
+  <data name="lado" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="errorSpotify" xml:space="preserve">
+    <value></value>
+  </data>
 </root>
