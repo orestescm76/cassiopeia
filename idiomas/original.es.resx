@@ -845,4 +845,7 @@ Quedan {num} canciones.</value>
   <data name="lado" xml:space="preserve">
     <value>Cara</value>
   </data>
+  <data name="compartirLetra" xml:space="preserve">
+    <value>Compartir en Twitter</value>
+  </data>
 </root>

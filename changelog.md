@@ -1,4 +1,7 @@
 # Cassiopeia Changelog
+#### 2.0.246.0
+- Added a button to share lyrics on Twitter
+
 #### 2.0.245.10
 - Fixed CD saving [FIX]
 - Fixed Vinyl addition [FIX]

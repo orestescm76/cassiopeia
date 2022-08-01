@@ -851,4 +851,7 @@
   <data name="lado" xml:space="preserve">
     <value>Side</value>
   </data>
+  <data name="compartirLetra" xml:space="preserve">
+    <value>Share selection on Twitter</value>
+  </data>
 </root>

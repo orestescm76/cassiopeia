@@ -3,6 +3,7 @@ using HtmlAgilityPack;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Cassiopeia.src.Forms
 {
@@ -64,6 +65,7 @@ namespace Cassiopeia.src.Forms
             ConsejoDeshacer.SetToolTip(buttonDeshacer, Kernel.GetText("consejoDeshacer"));
             buttonBack.Text = Kernel.GetText("anterior");
             buttonNext.Text = Kernel.GetText("siguiente");
+            buttonCompartir.Text = Kernel.GetText("compartirLetra");
         }
         private void Guardar()
         {
@@ -188,6 +190,20 @@ namespace Cassiopeia.src.Forms
             {
                 Console.WriteLine("fuck you, " + ex.Message);
             }
+        }
+        private void buttonCompartir_Click(object sender, EventArgs e)
+        {
+            string selected = textBoxLyrics.SelectedText;
+            string link = "https://twitter.com/intent/tweet?text=";
+            link += selected.Replace(" ", "%20").Replace("\r\n", "%0a%0c");
+            //Process.Start(new ProcessStartInfo("cmd", $"/c start {link}") { CreateNoWindow = true });
+            Process.Start(new ProcessStartInfo("cmd", $"/c start {link}") { CreateNoWindow = true });
+        }
+        private void textBoxLyrics_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (textBoxLyrics.SelectedText.Length != 0)
+                buttonCompartir.Enabled = true;
+            else buttonCompartir.Enabled = false;
         }
         #endregion
 
