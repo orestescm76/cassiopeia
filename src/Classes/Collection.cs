@@ -10,11 +10,13 @@ namespace Cassiopeia.src.Classes
         public List<AlbumData> FilteredAlbums { get; set; }
         public List<CompactDisc> CDS { get; private set; }
         public List<VinylAlbum> Vinyls { get; private set; }
+        public List<CassetteTape> Tapes { get; private set; }
         public Collection()
         {
             Albums = new Dictionary<string, AlbumData>();
             CDS = new List<CompactDisc>();
             Vinyls = new();
+            Tapes = new();
         }
         public bool AddAlbum(ref AlbumData album)
         {
@@ -161,6 +163,12 @@ namespace Cassiopeia.src.Classes
         public void AddVinyl(ref VinylAlbum v)
         {
             Vinyls.Add(v);
+            v.Album.CanBeRemoved = false;
+        }
+        public void AddTape(ref CassetteTape t)
+        {
+            Tapes.Add(t);
+            t.Album.CanBeRemoved = false;
         }
         public VinylAlbum GetVinylByID(string id)
         {
@@ -168,6 +176,15 @@ namespace Cassiopeia.src.Classes
             {
                 if (Vinyls[i].Id == id)
                     return Vinyls[i];
+            }
+            return null;
+        }
+        public CassetteTape GetTapeByID(string id)
+        {
+            for (int i = 0; i < Tapes.Count; i++)
+            {
+                if (Tapes[i].Id == id)
+                    return Tapes[i];
             }
             return null;
         }

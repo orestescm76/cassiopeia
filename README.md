@@ -45,7 +45,7 @@ Doesn't require any installation, can be carried on a USB flash drive.
 		* Prosymbols. (Settings)
 		* Pixel perfect. (Playlist)
 		* Tempo doloe. (New)
-		* Freepik. (New database, Save)
+		* Freepik. (New database, Save, Cassette tape)
 		* Taufik Ramadhan. (New CD)
 		* Those Icons (Vinyl record)
 		* Kiranshastry (Search)

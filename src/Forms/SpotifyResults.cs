@@ -55,15 +55,17 @@ namespace Cassiopeia.src.Forms
             {
                 Log.Instance.PrintMessage("Trying to add " + listViewResultadoBusqueda.SelectedItems.Count +
                     " albums", MessageType.Info);
+                int num = 0;
                 Stopwatch crono = Stopwatch.StartNew();
                 for (int i = 0; i < listViewResultadoBusqueda.SelectedItems.Count; i++)
                 {
                     int cual = Convert.ToInt32(listViewResultadoBusqueda.SelectedItems[i].SubItems[0].Text);//la imagen tiene url
-                    Kernel.Spotify.ProcessAlbum(listaBusqueda[cual - 1]);
+                    if (Kernel.Spotify.ProcessAlbum(listaBusqueda[cual - 1]))
+                        num++;
                 }
                 DialogResult = DialogResult.OK; //quiza molaria una pantallita de carga
                 crono.Stop();
-                Log.Instance.PrintMessage("Added " + listViewResultadoBusqueda.SelectedItems.Count + " albums", MessageType.Correct, crono, TimeType.Milliseconds);
+                Log.Instance.PrintMessage("Added " + num + " albums", MessageType.Correct, crono, TimeType.Milliseconds);
                 
                 Kernel.ReloadView();
             }

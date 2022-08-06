@@ -293,10 +293,10 @@ namespace Cassiopeia
                 }
             }
         }
-        public void ProcessAlbum(SimpleAlbum album)
+        public bool ProcessAlbum(SimpleAlbum album)
         {
             FullAlbum fullAlbum = SpotifyClient.Albums.Get(album.Id).Result;
-            ProcessAlbum(fullAlbum);
+            return ProcessAlbum(fullAlbum);
         }
         public bool UserIsPremium()
         {
@@ -304,7 +304,7 @@ namespace Cassiopeia
             {
                 return SpotifyClient.UserProfile.Current().Result.Product == "premium" ? true : false;
             }
-            catch (APIException ex)
+            catch (Exception ex)
             {
                 Log.Instance.PrintMessage("Couldn't retrieve user type", MessageType.Warning);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Warning);

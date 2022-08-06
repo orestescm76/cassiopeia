@@ -35,7 +35,19 @@ namespace Cassiopeia
                 Console.CancelKeyPress += (sender, args) => Kernel.Quit();
             }
             /*LOADING PROCESS*/
-            Log.InitLog();
+            try
+            {
+                Log.InitLog();
+            }
+            catch (Exception)
+            {
+                if(Kernel.Console)
+                {
+                    Console.WriteLine("ERROR. Is another instance of Cassiopeia running?");
+                    Console.ReadKey();
+                }
+                Environment.Exit(-1);
+            }
             Log.Instance.PrintMessage("Starting...", MessageType.Info);
             //Set exit event
             Application.ApplicationExit += (sender, args) => Kernel.Quit();

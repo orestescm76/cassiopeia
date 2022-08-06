@@ -79,6 +79,7 @@ namespace Cassiopeia.src.Forms
             trackBarVolumen.Value = 100;
             duracionView = new ToolTip();
             buttonAgregar.Hide();
+            ListaReproduccionPuntero = -1;
             if (Kernel.Spotify is null)
                 buttonSpotify.Enabled = false;
             else
@@ -612,7 +613,7 @@ namespace Cassiopeia.src.Forms
             buttoncrearLR.Text = Kernel.GetText("verLR");
             Playlist lr = new Playlist(Title);
             Playlist = lr;
-            ListaReproduccionPuntero = 0;
+            ListaReproduccionPuntero = -1;
             if (PlaylistUI is null)
                 CreatePlaylistUI();
             PlaylistUI.Playlist = lr;

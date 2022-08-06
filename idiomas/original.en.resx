@@ -854,4 +854,7 @@
   <data name="compartirLetra" xml:space="preserve">
     <value>Share selection on Twitter</value>
   </data>
+  <data name="tape" xml:space="preserve">
+    <value>Cassette Tape</value>
+  </data>
 </root>

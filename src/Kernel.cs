@@ -414,6 +414,7 @@ namespace Cassiopeia
                     LoadCSVAlbums("discos.csv");
                     LoadCD();
                     LoadVinyl();
+                    LoadTapes();
                 }
                 else
                 {
@@ -468,6 +469,7 @@ namespace Cassiopeia
                         SaveAlbums("discos.csv", SaveType.Digital);
                         SaveAlbums("cd.json", SaveType.CD);
                         SaveAlbums("vinyl.json", SaveType.Vinyl);
+                        SaveAlbums("tapes.json", SaveType.Cassette_Tape);
                         SavePATHS();
                         SaveLyrics();
                     }
@@ -672,6 +674,25 @@ namespace Cassiopeia
                 }
             }
         }
+        public static void LoadTapes(string fichero = "tapes.json")
+        {
+            if (!File.Exists(fichero))
+                return;
+            Log.Instance.PrintMessage("Loading tapes...", MessageType.Info);
+            using (StreamReader lector = new StreamReader(fichero))
+            {
+                string linea;
+                while (!lector.EndOfStream)
+                {
+                    linea = lector.ReadLine();
+                    CassetteTape tape = JsonConvert.DeserializeObject<CassetteTape>(linea);
+
+                    tape.InstallAlbum();
+                    Collection.AddTape(ref tape);
+                    tape.Album.CanBeRemoved = false;
+                }
+            }
+        }
         public static void LoadPATHS()
         {
             Log.Instance.PrintMessage("Loading PATHS", MessageType.Info);
@@ -799,6 +820,16 @@ namespace Cassiopeia
                     foreach (VinylAlbum vinyl in Collection.Vinyls)
                     {
                         salida.WriteLine(JsonConvert.SerializeObject(vinyl));
+                    }
+                    break;
+                case SaveType.Cassette_Tape:
+                    if (Collection.Tapes.Count == 0)
+                        break;
+                    Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the Tapes data... (" + Collection.Tapes.Count + " vinyls)", MessageType.Info);
+                    Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                    foreach (CassetteTape tape in Collection.Tapes)
+                    {
+                        salida.WriteLine(JsonConvert.SerializeObject(tape));
                     }
                     break;
                 default:

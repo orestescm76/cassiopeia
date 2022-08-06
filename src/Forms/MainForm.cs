@@ -171,6 +171,21 @@ namespace Cassiopeia.src.Forms
                         Kernel.GetText("dur_total") + ": " + Kernel.Collection.GetTotalTime(Kernel.Collection.Vinyls);
                     labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
                     break;
+                case ViewType.Cassette_Tape:
+                    ListViewPhysicalAlbum[] tapes = new ListViewPhysicalAlbum[Kernel.Collection.Tapes.Count];
+                    int f = 0;
+                    foreach (CassetteTape tape in Kernel.Collection.Tapes)
+                    {
+                        String[] datos = tape.ToStringArray();
+                        tapes[f] = new ListViewPhysicalAlbum(datos);
+                        tapes[f].ID = tape.Id;
+                        f++;
+                    }
+                    vistaAlbumes.Items.AddRange(tapes);
+                    labelGeneralInfo.Text = Kernel.GetText("numOf") + " " + Kernel.GetText("tape") + ": " + Kernel.Collection.Vinyls.Count + Environment.NewLine +
+                        Kernel.GetText("dur_total") + ": " + Kernel.Collection.GetTotalTime(Kernel.Collection.Vinyls);
+                    labelGeneralInfo.Location = new Point((panelSidebar.Width - labelGeneralInfo.Width) / 2, labelGeneralInfo.Location.Y);
+                    break;
                 default:
                     break;
             }
@@ -539,6 +554,14 @@ namespace Cassiopeia.src.Forms
                         visCD.Show();
                     }
                     break;
+                case ViewType.Cassette_Tape:
+                    foreach (ListViewPhysicalAlbum tapeListViewItem in vistaAlbumes.SelectedItems)
+                    {
+                        CassetteTape t = Kernel.Collection.GetTapeByID(tapeListViewItem.ID);
+                        AlbumViewer visCD = new AlbumViewer(ref t);
+                        visCD.Show();
+                    }
+                    break;
             }
         }
         private void ManageSongIcons()
@@ -600,6 +623,14 @@ namespace Cassiopeia.src.Forms
                     addvinyl.Name = "addvinyl";
                     toolStripMain.Items.Add(addvinyl);
                 }
+                if (!toolStripMain.Items.ContainsKey("addtape"))
+                {
+                    ToolStripButton addtape = new(Properties.Resources.cassette);
+                    addtape.ToolTipText = Kernel.GetText("");
+                    addtape.Click += (object sender, EventArgs e) => CreateTapeFromSelectionAndAdd();
+                    addtape.Name = "addtape";
+                    toolStripMain.Items.Add(addtape);
+                }
             }
             //Remove buttons for actions which requires only one album
             else if (vistaAlbumes.SelectedItems.Count > 1)
@@ -609,6 +640,7 @@ namespace Cassiopeia.src.Forms
                 toolStripMain.Items.RemoveByKey("lyrics");
                 toolStripMain.Items.RemoveByKey("addCD");
                 toolStripMain.Items.RemoveByKey("addvinyl");
+                toolStripMain.Items.RemoveByKey("addtape");
 
             }
             else
@@ -619,6 +651,7 @@ namespace Cassiopeia.src.Forms
                 toolStripMain.Items.RemoveByKey("edit");
                 toolStripMain.Items.RemoveByKey("addCD");
                 toolStripMain.Items.RemoveByKey("addvinyl");
+                toolStripMain.Items.RemoveByKey("addtape");
                 toolStripMain.Items.RemoveByKey("lyrics");
             }
         }
@@ -856,8 +889,16 @@ namespace Cassiopeia.src.Forms
             //string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
             //AlbumData a = Kernel.Collection.GetAlbum(seleccion);
             AlbumData a = GetSelectedAlbumFromView();
-            CreateVinylCassette formV = new(ref a);
+            CreateVinylCassette formV = new(ref a, false);
             formV.Show();
+        }
+        private void CreateTapeFromSelectionAndAdd()
+        {
+            //string seleccion = vistaAlbumes.SelectedItems[0].SubItems[0].Text + Kernel.SearchSeparator + vistaAlbumes.SelectedItems[0].SubItems[1].Text;
+            //AlbumData a = Kernel.Collection.GetAlbum(seleccion);
+            AlbumData a = GetSelectedAlbumFromView();
+            CreateVinylCassette form = new(ref a, true);
+            form.Show();
         }
         //Update the UI
         public void ResetSpotifyLink()
@@ -1316,6 +1357,7 @@ namespace Cassiopeia.src.Forms
             Kernel.SaveAlbums("discos.csv", SaveType.Digital);
             Kernel.SaveAlbums("cd.json", SaveType.CD);
             Kernel.SaveAlbums("vinyl.json", SaveType.Vinyl);
+            Kernel.SaveAlbums("tapes.json", SaveType.Cassette_Tape);
             toolStripButtonSaveDatabase.Image = Properties.Resources.diskette;
         }
 
@@ -1533,6 +1575,15 @@ namespace Cassiopeia.src.Forms
             digitalToolStripMenuItem.Checked = false;
             UpdateViewInfo();
         }
+        private void tapeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewType = ViewType.Cassette_Tape;
+            LoadView();
+            digitalToolStripMenuItem.Checked = false;
+            UpdateViewInfo();
+        }
+
         #endregion
+
     }
 }

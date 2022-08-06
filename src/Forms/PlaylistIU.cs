@@ -17,7 +17,7 @@ namespace Cassiopeia.src.Forms
             Playlist = lr;
             LoadView();
             listViewSongs.Size = Size;
-            Pointer = 0;
+            Pointer = -1;
             Text = lr.Name;
             PutTexts();
             toolStripStatusLabelInfo.Width = statusStrip.Size.Width - 200;
@@ -120,7 +120,7 @@ namespace Cassiopeia.src.Forms
                 listViewSongs.Items[punt].SubItems[0].Text = Playing;
                 Pointer = punt;
                 //If we changed song, clean it
-                if (aux != Pointer)
+                if (aux != Pointer && aux != -1)
                     listViewSongs.Items[aux].SubItems[0].Text = "";
             }
             else
