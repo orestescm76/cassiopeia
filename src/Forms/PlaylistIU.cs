@@ -11,6 +11,7 @@ namespace Cassiopeia.src.Forms
         public Playlist Playlist { get; set; }
         private string Playing = "▶";
         private int Pointer;
+        private bool Deleting = false;
         public PlaylistIU(Playlist lr)
         {
             InitializeComponent();
@@ -159,14 +160,15 @@ namespace Cassiopeia.src.Forms
         private void RemoveSongs()
         {
             Log.Instance.PrintMessage("Deleting songs off the playlist", MessageType.Info);
+            Deleting = true;
             Song[] selectedSongs = GetSelectedSongs();
-            listViewSongs.SelectedItems.Clear();
             for (int i = 0; i < selectedSongs.Length; i++)
             {
                 Playlist.RemoveSong(selectedSongs[i]);
                 listViewSongs.SelectedItems[i].Remove();
             }
             RefreshView();
+            Deleting = false;
             Log.Instance.PrintMessage("Deleted succesfully!", MessageType.Correct);
         }
         private void SetPlayVisibility(bool value)
@@ -296,7 +298,7 @@ namespace Cassiopeia.src.Forms
         //Called everytime the user selects a song in the UI.
         private void listViewSongs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listViewSongs.SelectedItems.Count != 0)
+            if (listViewSongs.SelectedItems.Count != 0 && !Deleting)
             {
                 toolStripStatusLabelTracksSelected.Text = listViewSongs.SelectedItems.Count + " " + Kernel.GetText("canciones");
                 TimeSpan seleccion = new TimeSpan();

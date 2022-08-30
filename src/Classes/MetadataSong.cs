@@ -19,9 +19,17 @@ namespace Cassiopeia.src.Classes
 
         public MetadataSong(string filePath)
         {
-            //This new library doesn't care about the file.
-            songFile = File.Create(filePath);
+            try
+            {
+                //This new library doesn't care about the file.
+                songFile = File.Create(filePath);
 
+            }
+            catch (Exception ex)
+            {
+                Log.Instance.PrintMessage("Couldn't open the file. " + ex.Message, MessageType.Warning);
+                return;
+            }
             Artist = songFile.Tag.FirstPerformer;
             Title = songFile.Tag.Title;
             AlbumFrom = songFile.Tag.Album;

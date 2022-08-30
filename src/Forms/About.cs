@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define TFG
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Cassiopeia.Properties;
@@ -24,8 +25,11 @@ namespace Cassiopeia.src.Forms
             acercadeTexto += Kernel.GetText("desarrolladoPor") + " Orestes Colomina Monsalve" + Environment.NewLine +
                 Kernel.GetText("contacto") + Environment.NewLine + Environment.NewLine + Kernel.GetText("agradecimientosA") + Environment.NewLine +
                 Kernel.GetText("agradecimiento1") + Environment.NewLine + "https://github.com/JohnnyCrazy/SpotifyAPI-NET" + Environment.NewLine +
-                Kernel.GetText("agradecimiento3") + Environment.NewLine +
-                Kernel.GetText("agradecimiento4") + Environment.NewLine;
+                Kernel.GetText("agradecimiento3") + Environment.NewLine;
+#if TFG
+#else
+                acercadeTexto += Kernel.GetText("agradecimiento4") + Environment.NewLine;
+#endif
 
             switch (Config.Language)
             {
@@ -46,6 +50,10 @@ namespace Cassiopeia.src.Forms
             int posX = Width - labelAcercaDe.Size.Width;
             labelAcercaDe.Location = new Point(posX / 2, pictureBoxBanner.Size.Height + 1);
             labelBTC.Location = new Point((Width - labelBTC.Size.Width) / 2, labelBTC.Location.Y);
+#if TFG
+            labelBTC.Visible = false;
+            pictureBoxBTC.Visible = false;
+#endif
         }
         private void cambiarBanner()
         {
