@@ -35,6 +35,7 @@
             this.buttonCerrar = new System.Windows.Forms.Button();
             this.buttonDeshacer = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonCompartir = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
@@ -56,6 +57,7 @@
             this.textBoxLyrics.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxLyrics.Size = new System.Drawing.Size(495, 416);
             this.textBoxLyrics.TabIndex = 0;
+            this.textBoxLyrics.MouseUp += new System.Windows.Forms.MouseEventHandler(this.textBoxLyrics_MouseUp);
             // 
             // buttonEditar
             // 
@@ -83,14 +85,14 @@
             // buttonBuscar
             // 
             this.buttonBuscar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBuscar.Enabled = false;
-            this.buttonBuscar.Location = new System.Drawing.Point(433, 3);
+            this.buttonBuscar.Location = new System.Drawing.Point(420, 3);
             this.buttonBuscar.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonBuscar.Name = "buttonBuscar";
-            this.buttonBuscar.Size = new System.Drawing.Size(88, 39);
+            this.buttonBuscar.Size = new System.Drawing.Size(101, 39);
             this.buttonBuscar.TabIndex = 3;
             this.buttonBuscar.Text = "buttonBuscar";
             this.buttonBuscar.UseVisualStyleBackColor = true;
+            this.buttonBuscar.Click += new System.EventHandler(this.buttonBuscar_Click);
             // 
             // buttonCerrar
             // 
@@ -119,6 +121,7 @@
             // panel1
             // 
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.buttonCompartir);
             this.panel1.Controls.Add(this.buttonBack);
             this.panel1.Controls.Add(this.buttonNext);
             this.panel1.Controls.Add(this.buttonCerrar);
@@ -132,6 +135,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(524, 103);
             this.panel1.TabIndex = 6;
+            // 
+            // buttonCompartir
+            // 
+            this.buttonCompartir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCompartir.Enabled = false;
+            this.buttonCompartir.Location = new System.Drawing.Point(420, 60);
+            this.buttonCompartir.Name = "buttonCompartir";
+            this.buttonCompartir.Size = new System.Drawing.Size(101, 39);
+            this.buttonCompartir.TabIndex = 8;
+            this.buttonCompartir.Text = "buttonCompartir";
+            this.buttonCompartir.UseVisualStyleBackColor = true;
+            this.buttonCompartir.Click += new System.EventHandler(this.buttonCompartir_Click);
             // 
             // buttonBack
             // 
@@ -185,5 +200,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.Button buttonNext;
+        private System.Windows.Forms.Button buttonCompartir;
     }
 }

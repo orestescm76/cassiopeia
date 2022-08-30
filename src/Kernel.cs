@@ -1,7 +1,7 @@
 ﻿/*
- * CASSIOPEIA 2.0.236.10
+ * CASSIOPEIA 2.0.245.10
  * PROGRAM KERNEL. CORE FUNCTIONS, LOAD, SAVE, QUIT. METADATA STREAM
- * CODENAME STORM
+ * CODENAME Θάλασσα
  * MADE BY ORESTESCM76
  */
 
@@ -11,18 +11,23 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Globalization;
+using System.Linq;
 using System.IO;
 using System.Net;
 using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Http;
 
 namespace Cassiopeia
 {
     public static class Kernel
     {
-        public static readonly string CodeName = "Storm";
+        public static readonly string Codename = "Θάλασσα";
         private enum CSV_Albums
         {
             Title,
@@ -91,6 +96,14 @@ namespace Cassiopeia
         public static FileInfo HistorialFileInfo;
         public static FileInfo StreamFileInfo;
 
+        private static bool Edited = false;
+
+        public static string SearchSeparator = "/**/";
+
+        public static string GetText(string key)
+        {
+            return LocalTexts.GetString(key);
+        }
         public async static void MetadataStreamTask()
         {
             DateTime now = DateTime.Now;
@@ -107,6 +120,14 @@ namespace Cassiopeia
                     {
                         SongCount++;
                         SongID = track.Id;
+                        //Write once every song change.
+                        if (Config.HistoryEnabled)
+                        {
+                            using (StreamWriter streamWriter = new StreamWriter(HistorialFileInfo.FullName))
+                            {
+                                streamWriter.WriteLine(Utils.GetHistoryString(track, SongCount));
+                            }
+                        }
                     }
                     try
                     {
@@ -115,15 +136,8 @@ namespace Cassiopeia
                             TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
                             salida.WriteLine(Utils.GetStreamString(track, SongCount, pos));
                         }
-                        /*
-                        if (Config.HistoryEnabled)
-                        {
-                            using (StreamWriter streamWriter = new StreamWriter(HistorialFileInfo.FullName))
-                            {
-                                streamWriter.WriteLine(Utils.GetHistoryString(track, SongCount));
-                                SongCount++;
-                            }
-                        }*/
+
+
                     }
                     catch (Exception ex)
                     {
@@ -143,7 +157,6 @@ namespace Cassiopeia
             ReloadView();
             Player.Instancia.RefrescarTextos();
         }
-
         public static int FindGenre(string g)
         {
             for (int i = 0; i < IDGenres.Length; i++)
@@ -169,19 +182,20 @@ namespace Cassiopeia
                 Genres[i].Name = LocalTexts.GetString("genero_" + Genres[i].Id);
             }
         }
-
         public static void InternetAvaliable(bool i)
         {
             if (!MetadataStream)
+            {
                 MainForm.EnableInternet(i);
+                if(Player.Instancia is not null)
+                    Player.Instancia.SetSpotify(i);
+            }
         }
-
         public static void ActivarReproduccionSpotify()
         {
             if (!MetadataStream)
                 MainForm.ActivarReproduccionSpotify();
         }
-
         public static void ReloadView()
         {
             MainForm.ReloadView();
@@ -205,10 +219,6 @@ namespace Cassiopeia
             {
                 switch (args[i])
                 {
-                    case "-consola":
-                    case "-console":
-                        Console = true;
-                        break;
                     case "-noSpotify":
                         SpotifyEnabled = false;
                         break;
@@ -232,7 +242,6 @@ namespace Cassiopeia
                 }
             }
         }
-
         public static void LoadLanguages()
         {
             DirectoryInfo cod = new DirectoryInfo("./idiomas");
@@ -256,60 +265,87 @@ namespace Cassiopeia
             }
 
         }
-        static bool GetUpdate(out string newVer)
+        static async Task<bool> GetUpdate()
         {
-            HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/cassiopeia/releases");
             string contenido = string.Empty;
-            GithubRequest.Accept = "text/html,application/vnd.github.v3+json";
-            GithubRequest.UserAgent = ".NET Framework Test Agent"; //Si no lo pongo, 403.
-            try
+            using (HttpClient httpClient = new())
             {
-                using (HttpWebResponse respuesta = (HttpWebResponse)GithubRequest.GetResponse())
-                using (Stream flujo = respuesta.GetResponseStream())
-                using (StreamReader lector = new StreamReader(flujo))
+                httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Cassiopeia 2.0");
+                var gitHubResponse = await httpClient.GetAsync("https://api.github.com/repos/orestescm76/cassiopeia/releases");
+                try
                 {
-                    while (!lector.EndOfStream)
-                        contenido += lector.ReadLine();
+                    gitHubResponse.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException ex)
+                {
+                    Log.Instance.PrintMessage("There was a problem when trying to fetch updates...", MessageType.Error);
+                    Log.Instance.PrintMessage("Server response: " + ex.StatusCode, MessageType.Info);
+                    return false;
+                }
+                var responseStream = gitHubResponse.Content.ReadAsStream();
+                using (StreamReader lector = new(responseStream))
+                {
+                    while(!lector.EndOfStream)
+                        contenido+=lector.ReadLine();
                 }
             }
-            catch (WebException e)
-            {
-                Log.Instance.PrintMessage("There was a problem when trying to fetch updates...", MessageType.Error);
-                Log.Instance.PrintMessage("Server response: " + e.Response, MessageType.Info);
-                newVer = string.Empty;
-                return false;
-            }
+            
+            //HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/cassiopeia/releases");
+            ////string contenido = string.Empty;
+            //GithubRequest.Accept = "text/html,application/vnd.github.v3+json";
+            //GithubRequest.UserAgent = ".NET Framework Test Agent"; //Si no lo pongo, 403.
+            //try
+            //{
+            //    using (HttpWebResponse respuesta = (HttpWebResponse)GithubRequest.GetResponse())
+            //    using (Stream flujo = respuesta.GetResponseStream())
+            //    //using (StreamReader lector = new StreamReader(flujo))
+            //    //{
+            //    //    while (!lector.EndOfStream)
+            //    //        contenido += lector.ReadLine();
+            //    //}
+            //}
+            //catch (WebException e)
+            //{
+            //    Log.Instance.PrintMessage("There was a problem when trying to fetch updates...", MessageType.Error);
+            //    Log.Instance.PrintMessage("Server response: " + e.Response, MessageType.Info);
+            //    newVer = string.Empty;
+            //    return false;
+            //}
 
             int indexVersion = contenido.IndexOf("tag_name");
+            string newVer;
             newVer = contenido.Substring(indexVersion, 40);
             newVer = newVer.Split('\"')[2];
             int newVerInt = 0, oldVerInt = 0;
 
             string[] oldVerArr = Version.Split('.');
             string[] newVerArr = newVer.Split('.');
+            newVerInt = Convert.ToInt32(newVerArr[2]);
+            oldVerInt = Convert.ToInt32(oldVerArr[2]);
             if (newVerArr[0].Length == 2)
                 newVerArr[0] = newVerArr[0].Remove(0, 1);
             if (Convert.ToInt32(newVerArr[0]) > Convert.ToInt32(oldVerArr[0])) //2>1?
                 return true;
-            else if (Convert.ToInt32(newVerArr[2]) > Convert.ToInt32(oldVerArr[2])) //214 > 200?
+            else if (newVerInt > oldVerInt) //214 > 200?
                 return true;
-            else if (Convert.ToInt32(newVerArr[3]) > Convert.ToInt32(oldVerArr[3])) //2.0.x.20 > 2.0.x.10
+            else if (Convert.ToInt32(newVerArr[3]) > Convert.ToInt32(oldVerArr[3]) && newVerInt == oldVerInt) //2.0.x.20 > 2.0.x.10
                 return true;
 
             return false; //same version.
         }
-        public static void CheckForUpdates()
+        public static async void CheckForUpdates()
         {
-            string newVersion;
-            if (GetUpdate(out newVersion))
+            if (await GetUpdate())
             {
-                Log.Instance.PrintMessage("A new update is avaliable: " + newVersion, MessageType.Info);
-                DialogResult act = MessageBox.Show(LocalTexts.GetString("actualizacion1") + Environment.NewLine + newVersion + Environment.NewLine + LocalTexts.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
+                Log.Instance.PrintMessage("A new update is avaliable", MessageType.Info);
+                DialogResult act = MessageBox.Show(LocalTexts.GetString("actualizacion1") + Environment.NewLine + /*newVersion + */ Environment.NewLine + LocalTexts.GetString("actualizacion2"), "", MessageBoxButtons.YesNo);
                 if (act == DialogResult.Yes)
                     Process.Start("https://github.com/orestescm76/aplicacion-gestormusica/releases");
             }
+            else
+                Log.Instance.PrintMessage("No updates avaliable", MessageType.Info);
         }
-        public static void CreateProgram()
+        public static void InitProgram()
         {
             Collection = new Collection();
             SpotifyReady = false;
@@ -330,6 +366,7 @@ namespace Cassiopeia
                 else
                 {
                     await Spotify.InitStreamMode();
+                    
                     SpotifyReady = true;
                 }
             }
@@ -377,6 +414,7 @@ namespace Cassiopeia
                     LoadCSVAlbums("discos.csv");
                     LoadCD();
                     LoadVinyl();
+                    LoadTapes();
                 }
                 else
                 {
@@ -404,8 +442,7 @@ namespace Cassiopeia
             {
                 case StartType.Normal:
                     Log.Instance.PrintMessage("Running main form", MessageType.Info);
-                    if (Spotify is not null && Spotify.AccountReady)
-                        MainForm.RemoveLink();
+                    CleanSaveMark();
                     Application.Run(MainForm);
                     break;
                 case StartType.PlayerOnly:
@@ -424,17 +461,25 @@ namespace Cassiopeia
         {
             if (!MetadataStream)
             {
-                SaveAlbums("discos.csv", SaveType.Digital);
-                SaveAlbums("cd.json", SaveType.CD, true);
-                SaveAlbums("vinyl.json", SaveType.Vinyl, true);
-                SavePATHS();
-                SaveLyrics();
+                if(Edited)
+                {
+                    DialogResult save = MessageBox.Show(LocalTexts.GetString("wantSave"), LocalTexts.GetString("titulo_ventana_principal"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (save == DialogResult.Yes)
+                    {
+                        SaveAlbums("discos.csv", SaveType.Digital);
+                        SaveAlbums("cd.json", SaveType.CD);
+                        SaveAlbums("vinyl.json", SaveType.Vinyl);
+                        SaveAlbums("tapes.json", SaveType.Cassette_Tape);
+                        SavePATHS();
+                        SaveLyrics();
+                    }
+                }
 
                 Config.MainFormSize = MainForm.Size;
-
+                Log.Instance.PrintMessage("Saving config...", MessageType.Info);
                 Config.GuardarConfiguracion();
 
-                Log.Instance.PrintMessage("Shutting down Player", MessageType.Info);
+                Log.Instance.PrintMessage("Shutting down Player...", MessageType.Info);
                 Player.Instancia.Apagar();
                 Player.Instancia.Dispose();
 
@@ -577,24 +622,18 @@ namespace Cassiopeia
                             }
                         }
                     }
-                    //We won't check repeated albums because there shouldn't be any
-                    //if (Collection.IsInCollection(a))
-                    //{
-                    //    exito = false; //pues ya está repetido.
-                    //    Log.Instance.PrintMessage("Repeated album -> " + a.Artist + " - " + a.Title, MessageType.Warning);
-                    //}
 
                     if (exito)
                         Collection.AddAlbum(ref a);
                     else
-                        Log.Instance.PrintMessage("Couldn't add the album", MessageType.Error);
+                        Log.Instance.PrintMessage("Couldn't add the album " + a, MessageType.Error);
 
                     a.CanBeRemoved = true;
                     lineaC++;
                 }
             }
             crono.Stop();
-            Log.Instance.PrintMessage("Cargados " + Collection.Albums.Count + " álbumes correctamente", MessageType.Correct, crono, TimeType.Milliseconds);
+            Log.Instance.PrintMessage("Loaded " + Collection.Albums.Count + " albums", MessageType.Correct, crono, TimeType.Milliseconds);
             ReloadView();
         }
         public static void LoadCD(string fichero = "cd.json")
@@ -632,6 +671,25 @@ namespace Cassiopeia
                     vinyl.InstallAlbum();
                     Collection.AddVinyl(ref vinyl);
                     vinyl.Album.CanBeRemoved = false;
+                }
+            }
+        }
+        public static void LoadTapes(string fichero = "tapes.json")
+        {
+            if (!File.Exists(fichero))
+                return;
+            Log.Instance.PrintMessage("Loading tapes...", MessageType.Info);
+            using (StreamReader lector = new StreamReader(fichero))
+            {
+                string linea;
+                while (!lector.EndOfStream)
+                {
+                    linea = lector.ReadLine();
+                    CassetteTape tape = JsonConvert.DeserializeObject<CassetteTape>(linea);
+
+                    tape.InstallAlbum();
+                    Collection.AddTape(ref tape);
+                    tape.Album.CanBeRemoved = false;
                 }
             }
         }
@@ -673,11 +731,11 @@ namespace Cassiopeia
             FileInfo pathsInfo = new FileInfo("paths.txt");
             using (StreamWriter salida = pathsInfo.CreateText())
             {
-                foreach (AlbumData album in Collection.Albums)
+                foreach (var pair in Collection.Albums)
                 {
-                    if (string.IsNullOrEmpty(album.SoundFilesPath))
+                    if (string.IsNullOrEmpty(pair.Value.SoundFilesPath))
                         continue;
-                    foreach (Song cancion in album.Songs)
+                    foreach (Song cancion in pair.Value.Songs)
                     {
                         if (!string.IsNullOrEmpty(cancion.Path))
                         {
@@ -685,104 +743,102 @@ namespace Cassiopeia
                         }
                     }
                 }
+                //foreach (AlbumData album in Collection.Albums)
+                //{
+                //    if (string.IsNullOrEmpty(album.SoundFilesPath))
+                //        continue;
+                //    foreach (Song cancion in album.Songs)
+                //    {
+                //        if (!string.IsNullOrEmpty(cancion.Path))
+                //        {
+                //            salida.Write(cancion.SavePath());
+                //        }
+                //    }
+                //}
                 salida.Flush();
                 pathsInfo.Refresh();
                 crono.Stop();
             }
+            Edited = false;
             Log.Instance.PrintMessage("Saved songs PATH", MessageType.Correct, crono, TimeType.Milliseconds);
             Log.Instance.PrintMessage("Filesize: " + pathsInfo.Length / 1024.0 + " kb", MessageType.Info);
         }
-        public static void SaveAlbums(string path, SaveType tipoGuardado, bool json = false)
+        public static void SaveAlbums(string path, SaveType tipoGuardado)
         {
-
             Stopwatch crono = Stopwatch.StartNew();
             FileInfo fich = new FileInfo(path);
-            if (json)
+            using StreamWriter salida = fich.CreateText();
+            switch (tipoGuardado)
             {
-                using (StreamWriter salida = fich.CreateText())
-                {
-                    switch (tipoGuardado)
+                case SaveType.Digital:
+                    if (Collection.Albums.Count == 0)
+                        break;
+                    Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
+                    Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                    //foreach (AlbumData a in Collection.Albums)
+                    foreach (var a in Collection.Albums.Values)
                     {
-                        case SaveType.Digital:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
-                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            foreach (AlbumData a in Collection.Albums)
+                        if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
+                        {
+                            string CoverRelativePath = String.Empty;
+                            if (!string.IsNullOrEmpty(a.CoverPath))
+                                CoverRelativePath = Path.GetRelativePath(Environment.CurrentDirectory, a.CoverPath);
+                            salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + CoverRelativePath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
+                            for (int i = 0; i < a.NumberOfSongs; i++)
                             {
-                                JsonSerializer s = new JsonSerializer();
-                                s.TypeNameHandling = TypeNameHandling.All;
-                                salida.WriteLine(JsonConvert.SerializeObject(a));
-                            }
-                            break;
-                        case SaveType.CD:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the CD data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
-                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            foreach (CompactDisc compacto in Collection.CDS)
-                            {
-                                salida.WriteLine(JsonConvert.SerializeObject(compacto));
-                            }
-                            break;
-                        case SaveType.Vinyl:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the Vinyl data... (" + Collection.Vinyls.Count + " vinyls)", MessageType.Info);
-                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            foreach (VinylAlbum vinyl in Collection.Vinyls)
-                            {
-                                salida.WriteLine(JsonConvert.SerializeObject(vinyl));
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    salida.Flush();
-                }
-            }
-            else
-            {
-                using (StreamWriter salida = fich.CreateText())
-                {
-                    switch (tipoGuardado)
-                    {
-
-                        case SaveType.Digital:
-                            Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the album data... (" + Collection.Albums.Count + " albums)", MessageType.Info);
-                            Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
-                            foreach (AlbumData a in Collection.Albums)
-                            {
-                                if (a.Songs[0] is not null) //no puede ser un album con 0 canciones
+                                if (a.Songs[i] is LongSong longSong)
                                 {
-                                    string CoverRelativePath = String.Empty;
-                                    if(!string.IsNullOrEmpty(a.CoverPath))
-                                        CoverRelativePath = Path.GetRelativePath(Environment.CurrentDirectory, a.CoverPath);
-                                    salida.WriteLine(a.Title + ";" + a.Artist + ";" + a.Year + ";" + a.NumberOfSongs + ";" + a.Genre.Id + ";" + CoverRelativePath + ";" + a.IdSpotify + ";" + a.SoundFilesPath + ";" + (int)a.Type);
-                                    for (int i = 0; i < a.NumberOfSongs; i++)
+                                    salida.WriteLine(longSong.Title + ";" + longSong.Parts.Count);//no tiene duracion y son 2 datos a guardar
+                                    foreach (Song parte in longSong.Parts)
                                     {
-                                        if (a.Songs[i] is LongSong longSong)
-                                        {
-                                            salida.WriteLine(longSong.Title + ";" + longSong.Parts.Count);//no tiene duracion y son 2 datos a guardar
-                                            foreach (Song parte in longSong.Parts)
-                                            {
-                                                salida.WriteLine(parte.Title + ";" + (int)(parte.Length.TotalSeconds));
-                                            }
-
-                                        }
-                                        else //titulo;400;0
-                                            salida.WriteLine(a.Songs[i].Title + ";" + (int)a.Songs[i].Length.TotalSeconds + ";" + Convert.ToInt32(a.Songs[i].IsBonus));
+                                        salida.WriteLine(parte.Title + ";" + (int)(parte.Length.TotalSeconds));
                                     }
+
                                 }
-                                salida.WriteLine();
+                                else //titulo;400;0
+                                    salida.WriteLine(a.Songs[i].Title + ";" + (int)a.Songs[i].Length.TotalSeconds + ";" + Convert.ToInt32(a.Songs[i].IsBonus));
                             }
-                            break;
-                        case SaveType.CD:
-                            break;
-                        case SaveType.Vinyl:
-                            break;
-                        default:
-                            break;
+                        }
+                        salida.WriteLine();
                     }
-                    salida.Flush();
-                }
+                    break;
+                case SaveType.CD:
+                    if (Collection.CDS.Count == 0)
+                        break;
+                    Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the CD data... (" + Collection.CDS.Count + " cds)", MessageType.Info);
+                    Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                    foreach (CompactDisc compacto in Collection.CDS)
+                    {
+                        salida.WriteLine(JsonConvert.SerializeObject(compacto));
+                    }
+                    break;
+                case SaveType.Vinyl:
+                    if (Collection.Vinyls.Count == 0)
+                        break;
+                    Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the Vinyl data... (" + Collection.Vinyls.Count + " vinyls)", MessageType.Info);
+                    Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                    foreach (VinylAlbum vinyl in Collection.Vinyls)
+                    {
+                        salida.WriteLine(JsonConvert.SerializeObject(vinyl));
+                    }
+                    break;
+                case SaveType.Cassette_Tape:
+                    if (Collection.Tapes.Count == 0)
+                        break;
+                    Log.Instance.PrintMessage(nameof(SaveAlbums) + " - Saving the Tapes data... (" + Collection.Tapes.Count + " vinyls)", MessageType.Info);
+                    Log.Instance.PrintMessage("Filename: " + path, MessageType.Info);
+                    foreach (CassetteTape tape in Collection.Tapes)
+                    {
+                        salida.WriteLine(JsonConvert.SerializeObject(tape));
+                    }
+                    break;
+                default:
+                    break;
             }
+            salida.Flush();
             fich.Refresh();
             crono.Stop();
+            Edited = false;
             Log.Instance.PrintMessage(nameof(SaveAlbums) + "- Saved", MessageType.Correct, crono, TimeType.Milliseconds);
             Log.Instance.PrintMessage("Filesize: " + fich.Length / 1024.0 + " kb", MessageType.Info);
         }
@@ -818,7 +874,8 @@ namespace Cassiopeia
             Stopwatch crono = Stopwatch.StartNew();
             using (StreamWriter salida = new FileInfo("lyrics.txt").CreateText()) //change?
             {
-                foreach (AlbumData album in Collection.Albums)
+                //foreach (AlbumData album in Collection.Albums)
+                foreach (AlbumData album in Collection.Albums.Values)
                 {
                     foreach (Song cancion in album.Songs)
                     {
@@ -835,6 +892,7 @@ namespace Cassiopeia
                 }
             }
             crono.Stop();
+            Edited = false;
             Log.Instance.PrintMessage("Saved lyrics", MessageType.Correct, crono, TimeType.Milliseconds);
             FileInfo lyrics = new FileInfo("lyrics.txt");
             Log.Instance.PrintMessage("Filesize: " + lyrics.Length / 1024.0 + " kb", MessageType.Info);
@@ -862,7 +920,8 @@ namespace Cassiopeia
         }
         public static Song searchSong(string keyword)
         {
-            foreach (AlbumData album in Collection.Albums)
+            //foreach (AlbumData album in Collection.Albums)
+            foreach (AlbumData album in Collection.Albums.Values)
             {
                 foreach (Song song in album.Songs)
                 {
@@ -872,7 +931,7 @@ namespace Cassiopeia
             }
             return null;
         }
-        private static void InitMetadataStream()
+        private static async void InitMetadataStream()
         {
             Log.Instance.PrintMessage("Starting stream mode...", MessageType.Info);
             notifyIconMetadataStream = new NotifyIcon();
@@ -880,9 +939,10 @@ namespace Cassiopeia
             notifyIconMetadataStream.Icon = Properties.Resources.spotifyico;
             notifyIconMetadataStream.DoubleClick += NotifyIconMetadataStream_DoubleClick;
             notifyIconMetadataStream.Visible = true;
+            await Task.Run(()=>InitSpotify());
             while (!Spotify.AccountReady)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(1);
             }
             Log.Instance.PrintMessage("Starting task...", MessageType.Info);
             MetadataStreamTask();
@@ -894,7 +954,159 @@ namespace Cassiopeia
         }
         public static void SetSaveMark()
         {
+            Edited = true;
             MainForm.SetSaveMark();
+        }
+        private static void CleanSaveMark()
+        {
+            Edited = false;
+            MainForm.CleanSaveMark();
+        }
+        
+        public static void CreateAndAddAlbumFromFolder(string path)
+        {
+            Log.Instance.PrintMessage("Creating an album from a directory.", MessageType.Info);
+
+            AlbumData a = new AlbumData();
+
+            //To avoid a random song order, i create an array to store the songs. 150 SHOULD be big enough.
+            Song[] tempStorage = new Song[150];
+            int numSongs = 0; //to keep track of how many songs i've addded.
+            Stopwatch crono = Stopwatch.StartNew();
+            DirectoryInfo carpeta = new DirectoryInfo(path);
+            Config.LastOpenedDirectory = carpeta.FullName;
+            foreach (var filename in carpeta.GetFiles())
+            {
+                switch (Path.GetExtension(filename.FullName))
+                {
+                    case ".mp3":
+                    case ".ogg":
+                    case ".flac":
+                        MetadataSong LM = new MetadataSong(filename.FullName);
+                        if (a.NeedsMetadata())
+                        {
+                            a.Title = LM.AlbumFrom;
+                            a.Artist = LM.Artist;
+                            a.Year = (short)LM.Year;
+                            if (LM.Cover is not null && !File.Exists("cover.jpg"))
+                            {
+                                Bitmap cover = new Bitmap(LM.Cover);
+                                cover.Save(carpeta.FullName + "\\cover.jpg", ImageFormat.Jpeg);
+                                a.CoverPath = carpeta.FullName + "\\cover.jpg";
+                            }
+                        }
+                        Song c = new Song(LM.Title, (int)LM.Length.TotalMilliseconds, false);
+                        if (LM.TrackNumber != 0) //A music file with no track number? Can happen. Instead, do the normal process.
+                        {
+                            tempStorage[LM.TrackNumber - 1] = c;
+                            numSongs++;
+                        }
+                        else
+                            a.AddSong(c);
+                        c.SetAlbum(a);
+                        c.Path = filename.FullName;
+                        LM.Dispose();
+                        break;
+                    case ".jpg":
+                        if (filename.Name == "folder.jpg" || filename.Name == "cover.jpg")
+                            a.CoverPath = filename.FullName;
+                        break;
+                }
+                if (numSongs != 0) //The counter has been updated and songs had a track number.
+                {
+                    //This list goes to the album.
+                    List<Song> songList = new List<Song>();
+                    for (int i = 0; i < numSongs; i++)
+                    {
+                        //Copy the correct song order.
+                        songList.Add(tempStorage[i]);
+                    }
+                    a.Songs = songList;
+                }
+            }
+            a.SoundFilesPath = carpeta.FullName;
+            a.Type = AlbumType.Studio;
+            Collection.AddAlbum(ref a);
+            crono.Stop();
+            Log.Instance.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
+            ReloadView();
+        }
+        public static string GetSystemLanguage()
+        {
+            CultureInfo ci = CultureInfo.CurrentUICulture;
+            string lan = ci.Name.Split('-')[0];
+            if (!Languages.Contains(lan))
+                lan = "en";
+            return lan;
+        }
+        public static void SetPathsForAlbum(AlbumData a)
+        {
+            Log.Instance.PrintMessage("Searching songs for " + a.ToString(), MessageType.Info);
+            Stopwatch crono = Stopwatch.StartNew();
+            bool correcto = true;
+            DirectoryInfo directorioCanciones = new DirectoryInfo(a.SoundFilesPath);
+            foreach (FileInfo file in directorioCanciones.GetFiles())
+            {
+                string extension = Path.GetExtension(file.FullName);
+                if (extension != ".ogg" && extension != ".mp3" && extension != ".flac")
+                    continue;
+                MetadataSong LM = new MetadataSong(file.FullName);
+                foreach (Song c in a.Songs)
+                {
+                    try
+                    {
+                        if (LM.Evaluable() && !string.IsNullOrEmpty(c.Path))
+                        {
+                            if ((c.Title.ToLower() == LM.Title.ToLower()) && (c.AlbumFrom.Artist.ToLower() == LM.Artist.ToLower()))
+                            {
+                                c.Path = file.FullName;
+                                Log.Instance.PrintMessage(c.Title + " linked successfully!", MessageType.Correct);
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (file.FullName.ToLower().Contains(c.Title.ToLower()))
+                            {
+                                c.Path = file.FullName;
+                                Log.Instance.PrintMessage(c.Title + " linked successfully", MessageType.Correct);
+                                break;
+                            }
+                            correcto = false;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        correcto = false;
+                    }
+
+                }
+            }
+            crono.Stop();
+
+            if (correcto)
+            {
+                Log.Instance.PrintMessage("Finished without problems", MessageType.Correct, crono, TimeType.Milliseconds);
+                MessageBox.Show(LocalTexts.GetString("pathsCorrectos"), "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            else
+            {
+                foreach (Song cancion in a.Songs)
+                {
+                    if (string.IsNullOrEmpty(cancion.Path)) //No se ha encontrado
+                    {
+                        Log.Instance.PrintMessage(cancion.Title + " couldn't be linked...", MessageType.Warning);
+                    }
+                }
+                MessageBox.Show(LocalTexts.GetString("pathsError"), "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            SavePATHS();
+        }
+        public static void ResetSpotifyLink()
+        {
+            MainForm.ResetSpotifyLink();
         }
     }
 }

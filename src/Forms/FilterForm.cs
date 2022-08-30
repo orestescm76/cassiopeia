@@ -14,13 +14,13 @@ namespace Cassiopeia.src.Forms
 
         private void PutTexts()
         {
-            Text = Kernel.LocalTexts.GetString("filter");
-            labelWriteFilter.Text = Kernel.LocalTexts.GetString("write_filter");
-            labelArtist.Text = Kernel.LocalTexts.GetString("artista");
-            labelTitle.Text = Kernel.LocalTexts.GetString("titulo");
-            labelSongTitle.Text = Kernel.LocalTexts.GetString("song_title");
-            buttonOk.Text = Kernel.LocalTexts.GetString("aceptar");
-            buttonReset.Text = Kernel.LocalTexts.GetString("reset");
+            Text = Kernel.GetText("filter");
+            labelWriteFilter.Text = Kernel.GetText("write_filter");
+            labelArtist.Text = Kernel.GetText("artista");
+            labelTitle.Text = Kernel.GetText("titulo");
+            labelSongTitle.Text = Kernel.GetText("song_title");
+            buttonOk.Text = Kernel.GetText("aceptar");
+            buttonReset.Text = Kernel.GetText("reset");
         }
 
         private void buttonOk_Click(object sender, EventArgs e)

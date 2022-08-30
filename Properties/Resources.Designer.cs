@@ -73,9 +73,29 @@ namespace Cassiopeia.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap addcd {
+            get {
+                object obj = ResourceManager.GetObject("addcd", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap albumdesconocido {
             get {
                 object obj = ResourceManager.GetObject("albumdesconocido", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap banner_thalassa {
+            get {
+                object obj = ResourceManager.GetObject("banner_thalassa", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -126,6 +146,16 @@ namespace Cassiopeia.Properties {
         internal static System.Drawing.Bitmap ca {
             get {
                 object obj = ResourceManager.GetObject("ca", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cassette {
+            get {
+                object obj = ResourceManager.GetObject("cassette", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -301,6 +331,16 @@ namespace Cassiopeia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap search {
+            get {
+                object obj = ResourceManager.GetObject("search", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon settings {
@@ -326,6 +366,16 @@ namespace Cassiopeia.Properties {
         internal static System.Drawing.Bitmap view {
             get {
                 object obj = ResourceManager.GetObject("view", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap vinyl {
+            get {
+                object obj = ResourceManager.GetObject("vinyl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

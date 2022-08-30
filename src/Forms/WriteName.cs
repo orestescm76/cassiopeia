@@ -12,8 +12,8 @@ namespace Cassiopeia.src.Forms
         }
         private void PonerTextos()
         {
-            Text = Kernel.LocalTexts.GetString("playlistName");
-            buttonOk.Text = Kernel.LocalTexts.GetString("aceptar");
+            Text = Kernel.GetText("playlistName");
+            buttonOk.Text = Kernel.GetText("aceptar");
         }
         private void WriteName_Load(object sender, EventArgs e)
         {

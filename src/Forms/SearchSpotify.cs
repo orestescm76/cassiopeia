@@ -15,10 +15,10 @@ namespace Cassiopeia.src.Forms
         public SearchSpotify()
         {
             InitializeComponent();
-            Text = Kernel.LocalTexts.GetString("buscar_Spotify");
-            labelBusqueda.Text = Kernel.LocalTexts.GetString("busqueda_Spotify");
-            buttonOk.Text = Kernel.LocalTexts.GetString("buscar");
-            labelAlternativa.Text = Kernel.LocalTexts.GetString("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
+            Text = Kernel.GetText("buscar_Spotify");
+            labelBusqueda.Text = Kernel.GetText("busqueda_Spotify");
+            buttonOk.Text = Kernel.GetText("buscar");
+            labelAlternativa.Text = Kernel.GetText("introduce_uri") + " (spotify:album:7pgQk5VJbjTzIKsU8fheig)";
             Icon = Properties.Resources.spotifyico;
         }
         private SearchType CheckQuery()
@@ -83,11 +83,11 @@ namespace Cassiopeia.src.Forms
                     }
                     catch (Exception)
                     {
-                        MessageBox.Show(Kernel.LocalTexts.GetString("error_uri") + " (spotify:album:2dpdDyEGEsdnOUUePgkT6E)");
+                        MessageBox.Show(Kernel.GetText("error_uri") + " (spotify:album:2dpdDyEGEsdnOUUePgkT6E)");
                     }
                     break;
                 case SearchType.Unknown:
-                    MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio2"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Kernel.GetText("error_vacio2"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 default:
                     break;

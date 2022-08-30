@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.listViewSongs = new System.Windows.Forms.ListView();
-            this.columnPlaying = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnArtista = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnDuration = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnPlaying = new System.Windows.Forms.ColumnHeader();
+            this.columnArtista = new System.Windows.Forms.ColumnHeader();
+            this.columnName = new System.Windows.Forms.ColumnHeader();
+            this.columnDuration = new System.Windows.Forms.ColumnHeader();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemPlay = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
@@ -51,8 +51,6 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelInfo = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelTracksSelected = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItemOpenFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -70,10 +68,10 @@
             this.columnDuration});
             this.listViewSongs.ContextMenuStrip = this.contextMenuStrip;
             this.listViewSongs.FullRowSelect = true;
-            this.listViewSongs.HideSelection = false;
-            this.listViewSongs.Location = new System.Drawing.Point(0, 27);
+            this.listViewSongs.Location = new System.Drawing.Point(0, 31);
+            this.listViewSongs.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.listViewSongs.Name = "listViewSongs";
-            this.listViewSongs.Size = new System.Drawing.Size(506, 365);
+            this.listViewSongs.Size = new System.Drawing.Size(590, 421);
             this.listViewSongs.TabIndex = 0;
             this.listViewSongs.UseCompatibleStateImageBehavior = false;
             this.listViewSongs.View = System.Windows.Forms.View.Details;
@@ -156,7 +154,8 @@
             this.changeNameToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(506, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(590, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -219,9 +218,10 @@
             this.toolStripStatusLabelInfo,
             this.toolStripStatusLabelDuration,
             this.toolStripStatusLabelTracksSelected});
-            this.statusStrip.Location = new System.Drawing.Point(0, 393);
+            this.statusStrip.Location = new System.Drawing.Point(0, 457);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(506, 24);
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.statusStrip.Size = new System.Drawing.Size(590, 24);
             this.statusStrip.TabIndex = 2;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -240,32 +240,20 @@
             this.toolStripStatusLabelTracksSelected.Size = new System.Drawing.Size(118, 19);
             this.toolStripStatusLabelTracksSelected.Text = "toolStripStatusLabel1";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(192, 6);
-            // 
-            // toolStripMenuItemOpenFolder
-            // 
-            this.toolStripMenuItemOpenFolder.Name = "toolStripMenuItemOpenFolder";
-            this.toolStripMenuItemOpenFolder.Size = new System.Drawing.Size(195, 22);
-            this.toolStripMenuItemOpenFolder.Text = "open containing folder";
-            this.toolStripMenuItemOpenFolder.Click += new System.EventHandler(this.toolStripMenuItemOpenFolder_Click);
-            this.toolStripMenuItemOpenFolder.MouseEnter += new System.EventHandler(this.toolStripMenuItemOpenFolder_MouseEnter);
-            // 
             // PlaylistIU
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(506, 417);
+            this.ClientSize = new System.Drawing.Size(590, 481);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.listViewSongs);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "PlaylistIU";
-            this.Text = "ListaReproduccionUI";
+            this.Text = "8";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PlaylistIU_FormClosing);
             this.SizeChanged += new System.EventHandler(this.PlaylistIU_SizeChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.PlaylistIU_DragDrop);

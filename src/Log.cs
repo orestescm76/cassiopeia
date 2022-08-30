@@ -30,9 +30,16 @@ namespace Cassiopeia
         {
             timeSinceStart = Stopwatch.StartNew();
             logView = new LogViewer();
-            file = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false);
-            file.AutoFlush = true;
-            logView = new LogViewer();
+            try
+            {
+                file = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", false);
+                file.AutoFlush = true;
+                logView = new LogViewer();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             if (file != null)
             {
                 PrintInfo();
@@ -52,8 +59,9 @@ namespace Cassiopeia
 
         public void CloseLog()
         {
-            file.Close();
+            logView.Close();
             logView.Dispose();
+            file.Close();
         }
 
         public void PrintMessage(string message, MessageType messageType)

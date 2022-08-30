@@ -68,9 +68,9 @@ namespace Cassiopeia.src.Classes
                 Log.Instance.PrintMessage("Trying to remove an unexistant song from playlist " + Name, MessageType.Error);
         }
 
-        public bool IsLastSong(int index)
+        public bool IsOutside(int index)
         {
-            return (index == Songs.Count - 1);
+            return index == Songs.Count;
         }
 
         public bool IsFirstSong(int i)

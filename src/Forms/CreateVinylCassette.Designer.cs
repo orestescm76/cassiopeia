@@ -226,6 +226,7 @@
             this.Name = "CreateVinylCassette";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CreateVinyl";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateVinylCassette_FormClosing);
             this.Load += new System.EventHandler(this.CreateVinyl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumSongsFront)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumSongsBack)).EndInit();

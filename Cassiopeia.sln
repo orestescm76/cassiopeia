@@ -8,19 +8,25 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AE1A8EF6-780D-44A4-9831-94222D3C5324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AE1A8EF6-780D-44A4-9831-94222D3C5324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE1A8EF6-780D-44A4-9831-94222D3C5324}.Debug|x64.ActiveCfg = Release|x64
+		{AE1A8EF6-780D-44A4-9831-94222D3C5324}.Debug|x64.Build.0 = Release|x64
 		{AE1A8EF6-780D-44A4-9831-94222D3C5324}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE1A8EF6-780D-44A4-9831-94222D3C5324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE1A8EF6-780D-44A4-9831-94222D3C5324}.Release|x64.ActiveCfg = Release|x64
+		{AE1A8EF6-780D-44A4-9831-94222D3C5324}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_PrefixTranslations = False
 		SolutionGuid = {CF28BB5B-CB95-4BE3-BBEC-77F4656BF61D}
+		RESX_PrefixTranslations = False
 	EndGlobalSection
 EndGlobal

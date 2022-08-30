@@ -1,4 +1,5 @@
 ﻿using Cassiopeia.src.Classes;
+using HtmlAgilityPack;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace Cassiopeia
     {
         public static string ConvertToRomanNumeral(int arabicNumeral)
         {
-            if (arabicNumeral >= 0 || arabicNumeral <= 4000)
+            if (arabicNumeral <= 0 || arabicNumeral >= 4000)
                 return "";
             string romanNumeral = "";
             int x = arabicNumeral;
@@ -115,39 +116,30 @@ namespace Cassiopeia
             {
                 case 1:
                     romanNumeral += ("I");
-                    x -= 10;
                     break;
                 case 2:
                     romanNumeral += ("II");
-                    x -= 20;
                     break;
                 case 3:
                     romanNumeral += ("III");
-                    x -= 30;
                     break;
                 case 4:
                     romanNumeral += ("IV");
-                    x -= 40;
                     break;
                 case 5:
                     romanNumeral += ("V");
-                    x -= 50;
                     break;
                 case 6:
                     romanNumeral += ("VI");
-                    x -= 60;
                     break;
                 case 7:
                     romanNumeral += ("VII");
-                    x -= 70;
                     break;
                 case 8:
                     romanNumeral += ("VIII");
-                    x -= 80;
                     break;
                 case 9:
                     romanNumeral += ("IX");
-                    x -= 90;
                     break;
                 default:
                     break;
@@ -297,5 +289,23 @@ namespace Cassiopeia
             }
             return found;
         }
+        public static bool GetLyrics(string artist, string title, out string lyrics)
+        {
+            artist = artist.Replace(' ', '-').ToLower();
+            title = title.Replace(' ', '-').ToLower();
+            var link = "http://www.songlyrics.com/" + artist + "/" + title + "-lyrics";
+            HtmlWeb web = new();
+            var htmlDoc = web.Load(link);
+            var lyricsDoc = htmlDoc.GetElementbyId("songLyricsDiv");
+            //pass to string with proper formatting...
+
+            lyrics = lyricsDoc.InnerText.Replace("<br>", Environment.NewLine).Replace("\n", Environment.NewLine);
+            if (lyrics.Contains("Sorry, we have no"))
+            {
+                lyrics = "";
+                return false;
+            }
+            return true;
+        } 
     }
 }

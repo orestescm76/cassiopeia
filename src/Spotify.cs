@@ -1,7 +1,6 @@
 ﻿/*
- * CASSIOPEIA 2.0.225.30
  * SPOTIFY API WRAPPER
- * CODENAME STORM
+ * CODENAME THALASSA
  * MADE BY ORESTESCM76
  */
 
@@ -14,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -61,7 +61,7 @@ namespace Cassiopeia
                 SpotifyConfig = SpotifyClientConfig.CreateDefault().WithAuthenticator(new ClientCredentialsAuthenticator(PublicKey, PrivateKey));
                 SpotifyClient = new SpotifyClient(SpotifyConfig);
                 crono.Stop();
-                if (SpotifyConfig is not null) //??
+                if (SpotifyClient is not null) //??
                 {
                     Kernel.InternetAvaliable(true);
                     Log.Instance.PrintMessage("Connected!", MessageType.Correct, crono, TimeType.Milliseconds);
@@ -73,11 +73,11 @@ namespace Cassiopeia
                 }
 
             }
-            catch (APIException ex)
+            catch (Exception ex)
             {
                 Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
+                MessageBox.Show(Kernel.GetText("error_internet"));
             }
         }
         private async Task StartStreamMode()
@@ -85,7 +85,7 @@ namespace Cassiopeia
             try
             {
                 Log.Instance.PrintMessage("Trying to connect Spotify account", MessageType.Info, "Spotify.StartStreamMode()");
-                Kernel.InternetAvaliable(false);
+                //Kernel.InternetAvaliable(false);
                 Stopwatch crono = Stopwatch.StartNew();
                 if (!File.Exists(AuthPath))
                 {
@@ -104,18 +104,26 @@ namespace Cassiopeia
                     {
                         CodeChallenge = challenge,
                         CodeChallengeMethod = "S256",
-                        Scope = new List<string> { Scopes.UserReadEmail, Scopes.UserReadPrivate, Scopes.Streaming, Scopes.PlaylistReadPrivate, Scopes.UserReadPlaybackState, Scopes.UserLibraryRead }
+                        Scope = new List<string> { Scopes.UserReadEmail, Scopes.UserReadPrivate, Scopes.Streaming, Scopes.UserReadPlaybackState, Scopes.UserLibraryRead }
                     };
                     BrowserUtil.Open(login.ToUri());
                 }
                 else
                     await StartLoginSpotify(crono);
             }
-            catch (APIException e)
+            catch (Exception e)
             {
                 Kernel.InternetAvaliable(false);
                 Log.Instance.PrintMessage(e.Message, MessageType.Error);
-                System.Windows.Forms.MessageBox.Show(Kernel.LocalTexts.GetString("error_internet"));
+                if (e.InnerException.Message == "invalid_grant")
+                {
+                    Log.Instance.PrintMessage("App was delinked from Spotify, relaunching", MessageType.Warning);
+                    Kernel.ResetSpotifyLink();
+                    Config.LinkedWithSpotify = false;
+                    Start();
+                }
+                else
+                    MessageBox.Show(Kernel.GetText("error_internet"));
             }
         }
         public bool IsSpotifyReady()
@@ -125,10 +133,15 @@ namespace Cassiopeia
         private async Task StartLoginSpotify(Stopwatch crono)
         {
             Log.Instance.PrintMessage("Logging to Spotify", MessageType.Info);
+            //Leer token existente
             var json = await File.ReadAllTextAsync(AuthPath);
+            //Pasar a objeto token
             var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
+            //Crear autenticador
             var auth = new PKCEAuthenticator(PublicKey, token);
+            //Definir el evento para refrescar el token automáticamente
             auth.TokenRefreshed += (sender, token) => File.WriteAllText(AuthPath, JsonConvert.SerializeObject(token));
+            //Crear los objetos Spotify
             SpotifyConfig = SpotifyClientConfig.CreateDefault().WithAuthenticator(auth);
             SpotifyClient = new SpotifyClient(SpotifyConfig);
             AccountReady = true;
@@ -136,10 +149,20 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Connected as " + User.Email, MessageType.Correct, crono, TimeType.Seconds);
             Config.LinkedWithSpotify = true;
             AccountLinked = true;
-            Kernel.ActivarReproduccionSpotify();
-            Kernel.InternetAvaliable(true);
-            Kernel.BringMainFormFront();
+            if(!Kernel.MetadataStream)
+                SignalLogin();
             crono.Stop();
+        }
+        private async void SignalLogin()
+        {
+            await Task.Run(() =>
+            {
+                Kernel.ActivarReproduccionSpotify();
+                Kernel.InternetAvaliable(true);
+                Kernel.MainForm.RemoveLink();
+                Kernel.BringMainFormFront();
+
+            });
         }
 
         //Returns a list of albums based on a query.
@@ -186,8 +209,7 @@ namespace Cassiopeia
         }
         public bool InsertAlbumFromURI(string uri)
         {
-            Log.Instance.PrintMessage("Inserting album with URI " + uri, MessageType.Info);
-            Stopwatch crono = Stopwatch.StartNew();
+
             bool res;
             try
             {
@@ -197,13 +219,10 @@ namespace Cassiopeia
             }
             catch (APIException e)
             {
-                crono.Stop();
                 Log.Instance.PrintMessage("Album was not inserted...", MessageType.Warning);
                 Log.Instance.PrintMessage(e.Message, MessageType.Warning);
                 return false;
             }
-            crono.Stop();
-            Log.Instance.PrintMessage("Added", MessageType.Correct, crono, TimeType.Milliseconds);
             Kernel.ReloadView();
             return res;
         }
@@ -217,29 +236,17 @@ namespace Cassiopeia
                 if (cover.Contains(ch.ToString()))
                     cover = cover.Replace(ch.ToString(), string.Empty);
             }
-            AlbumData a = new AlbumData(album.Name.Replace(";", ""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), Environment.CurrentDirectory + "/covers/" + cover); //creamos A
-            if (Kernel.Collection.IsInCollection(a))
-            {
-                Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
-                Log.Instance.PrintMessage(a.ToString(), MessageType.Info);
-                return false;
-            }
+            AlbumData a = new AlbumData(album.Name.Replace(";", ""), album.Artists[0].Name.Replace(";", ""), Convert.ToInt16(parseFecha[0]), ""); //creamos A
+            //if (Kernel.Collection.IsInCollection(a))
+            //{
+            //    Log.Instance.PrintMessage("Adding duplicate album", MessageType.Warning);
+            //    Log.Instance.PrintMessage(a.ToString(), MessageType.Info);
+            //    return false;
+            //}
             if (downloadCover)
             {
-                using (System.Net.WebClient webClient = new System.Net.WebClient())
-                {
-                    try
-                    {
-                        System.IO.Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
-                        webClient.DownloadFile(new Uri(album.Images[0].Url), Environment.CurrentDirectory + "/covers/" + cover);
-                    }
-                    catch (System.Net.WebException e)
-                    {
-                        Log.Instance.PrintMessage("Exception captured System.Net.WebException", MessageType.Warning);
-                        MessageBox.Show(Kernel.LocalTexts.GetString("errorPortada"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        cover = "";
-                    }
-                }
+                DownloadCover(album, cover);
+                a.CoverPath = Environment.CurrentDirectory + "/covers/" + cover;
             }
             else
                 a.CoverPath = "";
@@ -257,14 +264,39 @@ namespace Cassiopeia
             }
             a.Songs = songs;
             a.CanBeRemoved = true;
-            Kernel.Collection.AddAlbum(ref a);
-            Kernel.SetSaveMark();
-            return true;
+            return Kernel.Collection.AddAlbum(ref a);
         }
-        public void ProcessAlbum(SimpleAlbum album)
+        private async void DownloadCover(FullAlbum album, string file_name)
+        {
+            using (HttpClient httpClient = new())
+            {
+                try
+                {
+                    Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
+                    var respuesta = await httpClient.GetAsync(new Uri(album.Images[0].Url));
+                    respuesta.EnsureSuccessStatusCode();
+                    await using var ms = await respuesta.Content.ReadAsStreamAsync();
+                    await using var fs = File.Create(Environment.CurrentDirectory + "/covers/" + file_name);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    ms.CopyTo(fs);
+                }
+                catch (HttpRequestException e)
+                {
+                    Log.Instance.PrintMessage("Exception captured System.Net.HttpRequestException", MessageType.Warning);
+                    MessageBox.Show(Kernel.GetText("errorPortada"), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    file_name = "";
+                }
+                catch (Exception e)
+                {
+                    Log.Instance.PrintMessage("No album image!! Uri: " + album.Uri, MessageType.Warning);
+                    file_name = "";
+                }
+            }
+        }
+        public bool ProcessAlbum(SimpleAlbum album)
         {
             FullAlbum fullAlbum = SpotifyClient.Albums.Get(album.Id).Result;
-            ProcessAlbum(fullAlbum);
+            return ProcessAlbum(fullAlbum);
         }
         public bool UserIsPremium()
         {
@@ -272,7 +304,7 @@ namespace Cassiopeia
             {
                 return SpotifyClient.UserProfile.Current().Result.Product == "premium" ? true : false;
             }
-            catch (APIException ex)
+            catch (Exception ex)
             {
                 Log.Instance.PrintMessage("Couldn't retrieve user type", MessageType.Warning);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
@@ -391,7 +423,7 @@ namespace Cassiopeia
         {
             if (User is not null)
             {
-                List<FullAlbum> albums = new List<FullAlbum>();
+                List<FullAlbum> albums = new();
                 try
                 {
                     //Get albums
@@ -401,7 +433,7 @@ namespace Cassiopeia
                     bool covers = true;
                     if (limit > 100)
                     {
-                        DialogResult dr = Kernel.Warn(Kernel.LocalTexts.GetString("importSpotifyWarning"));
+                        DialogResult dr = Kernel.Warn(Kernel.GetText("importSpotifyWarning"));
                         if (dr == DialogResult.Cancel)
                             return;
                         if (dr == DialogResult.No)
@@ -416,9 +448,20 @@ namespace Cassiopeia
                         //Add the albums
                         foreach (var a in savedAlbums.Items)
                         {
-                            if (a is not null)
-                                ProcessAlbum(a.Album, covers);
-                            loadBar.Progreso();
+                            try
+                            {
+                                if (a is not null)
+                                    ProcessAlbum(a.Album, covers);
+                                loadBar.Progreso();
+                            }
+                            catch (Exception)
+                            {
+
+                                Log.Instance.PrintMessage("GetUserAlbums() - Album could not be added", MessageType.Warning);
+                                Log.Instance.PrintMessage(a.Album.Uri, MessageType.Warning);
+                                continue;
+                            }
+
                         }
                         point += 20;
                         LibraryAlbumsRequest request = new LibraryAlbumsRequest()
@@ -436,6 +479,11 @@ namespace Cassiopeia
                 catch (APIException)
                 {
                     Log.Instance.PrintMessage("Failed to save user's library", MessageType.Error);
+                }
+                catch (Exception ex)
+                {
+                    Log.Instance.PrintMessage("GetUserAlbums() - Something happened", MessageType.Warning);
+                    Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
                 }
 
             }

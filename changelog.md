@@ -1,13 +1,79 @@
 # Cassiopeia Changelog
-#### 2.0.236.70
+#### 2.0.247.0
+- Cassette tapes
+- Cassiopeia exists normally if it finds another instance running [FIX]
+
+#### 2.0.246.0
+- Added a button to share lyrics on Twitter
+
+#### 2.0.245.10
+- Fixed CD saving [FIX]
+- Fixed Vinyl addition [FIX]
+- Clicking a song in EditAlbum opened a File Explorer [FIX]
+- Tweaked the saving function. [FIX]
+- Fixed the Spotify sync in Player [FIX]
+- Bugfixing the ViewAlbum with Vinyl [FIX]
+
+#### 2.0.244.10
+- Now we're able to calculate the disk ID (CBBD1)
+- Some fixes in the Player [FIX]
+- Fixed CreateCD form, which wasn't closing [FIX]
+- Now the viewer reports the CD duration. [FIX]
+
+#### 2.0.242.20
+- Search lyrics now implemented, very basic.
+- Added a keyboard shortcut to open LyricsViewer (Ctrl + L)
+- Corrected the save mark. [FIX]
+- Icons were visible when user exited out of EditForm. That could crash the program. [FIX]
+
+#### 2.0.241.0 - DEBUG RELEASE
+- Gweedo Weedo Really Fast Startup [FIX]
+
+#### 2.0.240.50
+- Changed the main datastructure to a Dictionary. It should be faster.
+- Fixed slow start up [FIX]
+- Fix on the Lyrics Viewer when changing the font size. [FIX]
+- Made update check async [FIX]
+- Fixed saving text not showing in PlaylistUI [FIX]
+- Fixed memory leak when selecting many albums [FIX]
+- Catched exception when not logging to Spotify correctly [FIX]
+- Fix editing album breaks the program [FIX]
+- Did i made the Spotify login async? [FIX]
+
+#### 2.0.239.40
+- Cassiopeia autodetects the system language in order to set itself.
+- Fixed context menu when not selecting any album [FIX]
+- Fixed context menu when view is on CD or Vinyl mode [FIX]
+- Tweaked the CreateAlbum form [FIX]
+- Some fixes in label location in CreateSong form [FIX]
+- Removed localization if album doesn't have a location folder [FIX]
+- Fixed lyrics icon not removing when dropping the selection [FIX]
+- Fixed creating new album from a directory [FIX]
+- Fixed the location of the sound folder in EditAlbum [FIX]
+- Fixed the linking of sound files and album [FIX]
+- Fixed closing Spotify on the Player [FIX]
+
+#### 2.0.238.0
+- Added 3 new icons. Add CD, Add vinyl and a search icon to illustrate the textbox.
+- Fixed hiding / showing the sidebar when window is maximized. [FIX]
+
+#### 2.0.237.20
+- Ported to NET 6 because it is faster and LTS.
+- Added a save confirmation when closing and having unmodified changes.
+- Fixed crash when using the keyboard in ConfigForm. [FIX]
+- Fixed viewing of LongSongs [FIX]
+- Fixed opening multiple About forms [FIX]
+
+#### 2.0.236.80 - RELEASE
 - Added support for Vinyl albums
-- Fixed duplicated results in the real time filters.
+- Fixed duplicated results in the real time filters. [FIX]
 - Now cover paths are saved with relative path, saves about 14% of space.
 - Now program writes to log if languages folder is not found
-- Fixed album cover was not saved correctly if downloading from Spotify
-- Fixed creating albums and viewing albums
+- Fixed album cover was not saved correctly if downloading from Spotify [FIX]
+- Fixed creating albums and viewing albums [FIX]
 - Added localization
 - Temporarily removed the selected duration because it needs to be reimplemented.
+- Fixed adding an album with Spotify if it doesn't have images. [FIX]
 
 #### 2.0.234.0
 - Realtime filters
@@ -52,7 +118,7 @@
 - Contains the album cover, total albums, duration and some stats for selected album.
 - Config form is resizable and smaller.
 - Namespace refactor
-- Changed data structure to a linked list
+- Changed data structure to a linked list (tf?)
 - Fixed the manual add album
 - Proof of concept for a future search function.
 

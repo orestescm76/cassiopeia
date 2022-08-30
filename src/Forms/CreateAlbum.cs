@@ -16,16 +16,17 @@ namespace Cassiopeia.src.Forms
         }
         private void ponerTextos()
         {
-            Text = Kernel.LocalTexts.GetString("agregar_album");
-            labelArtista.Text = Kernel.LocalTexts.GetString("artista");
-            labelTitulo.Text = Kernel.LocalTexts.GetString("titulo");
-            labelAño.Text = Kernel.LocalTexts.GetString("año");
-            labelNumCanciones.Text = Kernel.LocalTexts.GetString("numcanciones");
-            labelGenero.Text = Kernel.LocalTexts.GetString("genero");
-            buttonAddAlbum.Text = Kernel.LocalTexts.GetString("añadir");
-            addCaratula.Text = Kernel.LocalTexts.GetString("addcaratula");
-            labelCaratula.Text = Kernel.LocalTexts.GetString("caratula");
-            labelAlbumType.Text = Kernel.LocalTexts.GetString("tipoAlbum");
+            Text = Kernel.GetText("agregar_album");
+            labelArtista.Text = Kernel.GetText("artista");
+            labelTitulo.Text = Kernel.GetText("titulo");
+            labelAño.Text = Kernel.GetText("año");
+            labelNumCanciones.Text = Kernel.GetText("numcanciones");
+            labelGenero.Text = Kernel.GetText("genero");
+            buttonAddAlbum.Text = Kernel.GetText("añadir");
+            addCaratula.Text = Kernel.GetText("addcaratula");
+            labelCaratula.Text = Kernel.GetText("caratula");
+            labelAlbumType.Text = Kernel.GetText("tipoAlbum");
+            labelCoverPATH.Text = "";
             for (int i = 0; i < Kernel.Genres.Length - 1; i++)
             {
                 genresToSelect[i] = Kernel.Genres[i].Name;
@@ -34,11 +35,11 @@ namespace Cassiopeia.src.Forms
             comboBoxGenres.Items.AddRange(genresToSelect);
 
             string[] types = new string[5];
-            types[(int)AlbumType.Studio] = Kernel.LocalTexts.GetString("estudio");
-            types[(int)AlbumType.Live] = Kernel.LocalTexts.GetString("live");
-            types[(int)AlbumType.Compilation] = Kernel.LocalTexts.GetString("compilacion");
-            types[(int)AlbumType.EP] = Kernel.LocalTexts.GetString("EP");
-            types[(int)AlbumType.Single] = Kernel.LocalTexts.GetString("sencillo");
+            types[(int)AlbumType.Studio] = Kernel.GetText("estudio");
+            types[(int)AlbumType.Live] = Kernel.GetText("live");
+            types[(int)AlbumType.Compilation] = Kernel.GetText("compilacion");
+            types[(int)AlbumType.EP] = Kernel.GetText("EP");
+            types[(int)AlbumType.Single] = Kernel.GetText("sencillo");
             comboBoxAlbumType.Items.AddRange(types);
             comboBoxAlbumType.SelectedIndex = 0;
         }
@@ -46,15 +47,15 @@ namespace Cassiopeia.src.Forms
         {
             Log.Instance.PrintMessage("Looking for album cover", MessageType.Info);
             OpenFileDialog abrirImagen = new OpenFileDialog();
-            abrirImagen.Filter = Kernel.LocalTexts.GetString("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
+            abrirImagen.Filter = Kernel.GetText("archivo") + " .jpg, .png|*.jpg;*.png;*.jpeg";
             abrirImagen.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             if (abrirImagen.ShowDialog() == DialogResult.OK)
             {
                 string fichero = abrirImagen.FileName;
                 caratula = fichero;
-                ruta.Text = fichero;
+                labelCoverPATH.Text = fichero;
             }
-            Log.Instance.PrintMessage("Image " + ruta + " loaded", MessageType.Correct);
+            Log.Instance.PrintMessage("Image " + labelCoverPATH + " loaded", MessageType.Correct);
         }
         private void buttonAddAlbum_Click(object sender, EventArgs e)
         {
@@ -94,10 +95,7 @@ namespace Cassiopeia.src.Forms
                         continue;
                 }
                 if (!cancelado)
-                {
                     Log.Instance.PrintMessage(artist + " - " + title + " added OK", MessageType.Correct);
-                    Kernel.SetSaveMark();
-                }
 
                 Kernel.ReloadView();
                 Close();
@@ -105,13 +103,13 @@ namespace Cassiopeia.src.Forms
             catch (NullReferenceException ex)
             {
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_vacio1"));
+                MessageBox.Show(Kernel.GetText("error_vacio1"));
             }
 
             catch (FormatException ex)
             {
                 Log.Instance.PrintMessage(ex.Message, MessageType.Error);
-                MessageBox.Show(Kernel.LocalTexts.GetString("error_formato"));
+                MessageBox.Show(Kernel.GetText("error_formato"));
                 //throw;
             }
         }

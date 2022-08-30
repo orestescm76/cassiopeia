@@ -755,9 +755,6 @@
   <data name="side" xml:space="preserve">
     <value></value>
   </data>
-  <data name="create" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="createAnother" xml:space="preserve">
     <value></value>
   </data>
@@ -765,6 +762,36 @@
     <value></value>
   </data>
   <data name="vinyls" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="wantSave" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="linked_ok" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="numPartes" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="lyricsNotAvailable" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="errorAño" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="viewMode" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="lado" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="errorSpotify" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="compartirLetra" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="tape" xml:space="preserve">
     <value></value>
   </data>
 </root>

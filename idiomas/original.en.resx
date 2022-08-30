@@ -526,7 +526,7 @@
     <value>Player</value>
   </data>
   <data name="avisoSpotify" xml:space="preserve">
-    <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. The program will time 30 seconds before cancelling the vinculation. Do you wish to continue?</value>
+    <value>You're going to link this application with your Spotify account. This will allow playing songs on Spotify from this application. If you wish to revoke access you'll have to go to the Spotify webpage. The program will time 20 seconds before cancelling the vinculation. Do you wish to continue?</value>
   </data>
   <data name="abrirCD" xml:space="preserve">
     <value>Open audio CD...</value>
@@ -812,7 +812,7 @@
     <value>Vinyl record</value>
   </data>
   <data name="createVinyl" xml:space="preserve">
-    <value>Create vinyl record</value>
+    <value>Create vinyl record from selection</value>
   </data>
   <data name="creando" xml:space="preserve">
     <value>Creating</value>
@@ -829,5 +829,32 @@
   </data>
   <data name="vinyls" xml:space="preserve">
     <value>vinyl records</value>
+  </data>
+  <data name="wantSave" xml:space="preserve">
+    <value>Do you want to save all changes?</value>
+  </data>
+  <data name="linked_ok" xml:space="preserve">
+    <value>Linking successful</value>
+  </data>
+  <data name="numPartes" xml:space="preserve">
+    <value>Number of parts</value>
+  </data>
+  <data name="lyricsNotAvailable" xml:space="preserve">
+    <value>Lyrics not available</value>
+  </data>
+  <data name="errorAño" xml:space="preserve">
+    <value>Please, enter a valid year.</value>
+  </data>
+  <data name="viewMode" xml:space="preserve">
+    <value>Change view type</value>
+  </data>
+  <data name="lado" xml:space="preserve">
+    <value>Side</value>
+  </data>
+  <data name="compartirLetra" xml:space="preserve">
+    <value>Share selection on Twitter</value>
+  </data>
+  <data name="tape" xml:space="preserve">
+    <value>Cassette Tape</value>
   </data>
 </root>

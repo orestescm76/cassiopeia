@@ -28,6 +28,7 @@ namespace Cassiopeia.src.Classes
         public String CoverPath { get; set; }
         public String SoundFilesPath { get; set; }
         public AlbumType Type { get; set; }
+        public string Key { get => Artist + Kernel.SearchSeparator + Title; }
 
         [JsonIgnore] public int NumberOfSongs { get { return Songs.Count; } }
         [JsonIgnore] public TimeSpan Length { get => GetLength(false); }
@@ -150,18 +151,18 @@ namespace Cassiopeia.src.Classes
             //Returns whatever the clipboard string is.
             return ToClipboard();
         }
-        public static bool operator ==(AlbumData a, AlbumData b)
-        {
-            if (a.Artist == b.Artist && a.Title == b.Title)
-                return true;
-            return false;
-        }
-        public static bool operator !=(AlbumData a, AlbumData b)
-        {
-            if (a.Artist != b.Artist && a.Title != b.Title)
-                return true;
-            return false;
-        }
+        //public static bool operator ==(AlbumData a, AlbumData b)
+        //{
+        //    if (a.Artist == b.Artist && a.Title == b.Title)
+        //        return true;
+        //    return false;
+        //}
+        //public static bool operator !=(AlbumData a, AlbumData b)
+        //{
+        //    if (a.Artist != b.Artist && a.Title != b.Title)
+        //        return true;
+        //    return false;
+        //}
         public String[] ToStringArray()
         {
             String[] datos = { Artist, Title, Year.ToString(), Length.ToString(), Genre.Name };
@@ -198,9 +199,7 @@ namespace Cassiopeia.src.Classes
 
         public bool NeedsMetadata()
         {
-            if (string.IsNullOrEmpty(Artist) || string.IsNullOrEmpty(Title))
-                return true;
-            else return false;
+            return string.IsNullOrEmpty(Artist) || string.IsNullOrEmpty(Title);
         }
     }
 }

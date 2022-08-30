@@ -4,19 +4,23 @@ namespace Cassiopeia.CD
 {
     public class PistaCD
     {
-        private readonly uint sectorInicio;
-        private readonly uint sectorFinal;
+        private int sectorInicio;
+        private int sectorFinal;
+        public int startTime { get; private set; }
+        public int endTime { get; private set; }
         public string ID { get; }
         public TimeSpan Duracion { get; }
-        public PistaCD(uint startSector, uint endSector, string ID)
+        public PistaCD(int startSector, int endSector)
         {
             this.sectorInicio = startSector;
             this.sectorFinal = endSector;
-            uint numSectores = endSector - startSector;
+            int numSectores = endSector - startSector;
+            this.startTime = sectorInicio / 75;
+            this.endTime = sectorFinal / 75;
             Duracion = TimeSpan.FromSeconds(numSectores / 75.0);
         }
 
-        internal uint StartSector
+        internal int StartSector
         {
             get
             {
@@ -24,12 +28,16 @@ namespace Cassiopeia.CD
             }
         }
 
-        internal uint EndSector
+        internal int EndSector
         {
             get
             {
                 return this.sectorFinal;
             }
+        }
+        public void fixSector()
+        {
+            sectorFinal++;
         }
     }
 }
