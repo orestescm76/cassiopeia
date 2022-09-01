@@ -1,7 +1,9 @@
 # Cassiopeia Changelog
-#### 2.0.247.0
+#### 2.0.247.30
 - Cassette tapes
 - Cassiopeia exists normally if it finds another instance running [FIX]
+- Fix slow loading and memory leak [FIX]
+- Fix CD playing [FIX]
 
 #### 2.0.246.0
 - Added a button to share lyrics on Twitter

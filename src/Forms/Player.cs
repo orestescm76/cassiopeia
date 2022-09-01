@@ -158,6 +158,7 @@ namespace Cassiopeia.src.Forms
             if (nucleo.PistasCD == null) //fail?
                 return;
             ModoCD = true;
+            ListaReproduccionPuntero = 0;
             PrepararReproductor();
             SetWindowTitle("CD - Pista 1");
             CreatePlaylist("CD-A");
@@ -166,6 +167,7 @@ namespace Cassiopeia.src.Forms
                 Song c = new Song("Pista " + (i + 1), (int)nucleo.PistasCD[i].Duracion.TotalMilliseconds, false);
                 Playlist.AddSong(c);
             }
+            PlaylistUI.SetActiveSong(ListaReproduccionPuntero);
             PlaylistUI.RefreshView();
             Show();
         }

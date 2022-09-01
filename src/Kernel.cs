@@ -1,5 +1,5 @@
 ﻿/*
- * CASSIOPEIA 2.0.245.10
+ * CASSIOPEIA 2.0.247.30
  * PROGRAM KERNEL. CORE FUNCTIONS, LOAD, SAVE, QUIT. METADATA STREAM
  * CODENAME Θάλασσα
  * MADE BY ORESTESCM76
@@ -1027,6 +1027,7 @@ namespace Cassiopeia
             a.SoundFilesPath = carpeta.FullName;
             a.Type = AlbumType.Studio;
             Collection.AddAlbum(ref a);
+            SetSaveMark();
             crono.Stop();
             Log.Instance.PrintMessage("Operation completed", MessageType.Correct, crono, TimeType.Milliseconds);
             ReloadView();

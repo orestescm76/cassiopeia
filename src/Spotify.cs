@@ -264,6 +264,7 @@ namespace Cassiopeia
             }
             a.Songs = songs;
             a.CanBeRemoved = true;
+            Kernel.SetSaveMark();
             return Kernel.Collection.AddAlbum(ref a);
         }
         private async void DownloadCover(FullAlbum album, string file_name)

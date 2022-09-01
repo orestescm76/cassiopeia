@@ -30,7 +30,7 @@ namespace Cassiopeia.src.Classes
                 Log.Instance.PrintMessage(album.Artist + " - " + album.Title, MessageType.Warning);
                 return false;
             }
-            Kernel.SetSaveMark();
+            
             return true;
         }
         public void RemoveAlbum(ref AlbumData album)

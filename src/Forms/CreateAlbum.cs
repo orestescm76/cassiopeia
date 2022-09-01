@@ -98,6 +98,7 @@ namespace Cassiopeia.src.Forms
                     Log.Instance.PrintMessage(artist + " - " + title + " added OK", MessageType.Correct);
 
                 Kernel.ReloadView();
+                Kernel.SetSaveMark();
                 Close();
             }
             catch (NullReferenceException ex)
