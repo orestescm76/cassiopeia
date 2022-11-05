@@ -49,18 +49,16 @@ Doesn't require any installation, can be carried on a USB flash drive.
 		* Taufik Ramadhan. (New CD)
 		* Those Icons (Vinyl record)
 		* Kiranshastry (Search)
+		* Smashicons (Main icon)
 	* From https://thenounproject.com
 		* Setyo Ari Wibowo. (Lyrics)
 	* Microsoft (Player)
 	* Spotify (Spotify)
-	* @esgmonologos (Main icon)
-
+	
 ### Currently working on:
-* Greek translation
-* Refreshing UI
-* Completing the config window.
+* Reimplementing Player
+* Refactoring code
+* Improvements in the UI
 
 ### Stuff to do:
-* Improvements in the UI
 * Any good suggestion I may recieve
-* Refactoring code

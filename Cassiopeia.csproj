@@ -35,6 +35,10 @@
     <WarningsAsErrors />
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\icono.ico" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

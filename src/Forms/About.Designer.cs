@@ -53,7 +53,7 @@
             // 
             this.pictureBoxBanner.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxBanner.ErrorImage = null;
-            this.pictureBoxBanner.Image = global::Cassiopeia.Properties.Resources.banner_thalassa;
+            this.pictureBoxBanner.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxBanner.Image")));
             this.pictureBoxBanner.InitialImage = null;
             this.pictureBoxBanner.Location = new System.Drawing.Point(0, -2);
             this.pictureBoxBanner.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

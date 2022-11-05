@@ -1,6 +1,6 @@
 ﻿/*
  * SPOTIFY API WRAPPER
- * CODENAME THALASSA
+ * CODENAME BETRAYAL
  * MADE BY ORESTESCM76
  */
 
@@ -149,7 +149,7 @@ namespace Cassiopeia
             Log.Instance.PrintMessage("Connected as " + User.Email, MessageType.Correct, crono, TimeType.Seconds);
             Config.LinkedWithSpotify = true;
             AccountLinked = true;
-            if(!Kernel.MetadataStream)
+            if (!Kernel.MetadataStream)
                 SignalLogin();
             crono.Stop();
         }
@@ -531,12 +531,15 @@ namespace Cassiopeia
             }
         }
         //Plays or resumes playback on the first device
-        public void PlayResume()
+        public void PlayResume(bool playing)
         {
             try
             {
                 //Device = SpotifyClient.Player.GetAvailableDevices().Result;
-                SpotifyClient.Player.ResumePlayback();
+                if (playing)
+                    SpotifyClient.Player.PausePlayback();
+                else
+                    SpotifyClient.Player.ResumePlayback();
             }
             catch (APIException ex)
             {

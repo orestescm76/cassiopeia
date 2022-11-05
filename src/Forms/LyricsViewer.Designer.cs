@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LyricsViewer));
             this.textBoxLyrics = new System.Windows.Forms.TextBox();
             this.buttonEditar = new System.Windows.Forms.Button();
             this.buttonLimpiar = new System.Windows.Forms.Button();
@@ -179,6 +180,7 @@
             this.ClientSize = new System.Drawing.Size(524, 539);
             this.Controls.Add(this.textBoxLyrics);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MinimumSize = new System.Drawing.Size(540, 578);
             this.Name = "LyricsViewer";

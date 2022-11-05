@@ -141,7 +141,7 @@ namespace Cassiopeia.src.Classes
         {
             return _sound == null || _output == null;
         }
-        public void Apagar() { Limpiar(); }
+        public void Shutdown() { Limpiar(); }
         public String GetDatos()
         {
             switch (FormatoSonido)

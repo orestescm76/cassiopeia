@@ -37,6 +37,7 @@
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("view", new System.Windows.Forms.TreeNode[] {
             treeNode5,
             treeNode6});
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigForm));
             this.treeViewConfiguracion = new System.Windows.Forms.TreeView();
             this.buttonAplicar = new System.Windows.Forms.Button();
             this.buttonCancelar = new System.Windows.Forms.Button();
@@ -163,6 +164,7 @@
             this.Controls.Add(this.buttonCancelar);
             this.Controls.Add(this.buttonAplicar);
             this.Controls.Add(this.treeViewConfiguracion);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MinimumSize = new System.Drawing.Size(744, 445);
             this.Name = "ConfigForm";

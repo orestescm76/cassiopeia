@@ -292,7 +292,7 @@
             this.vinylToolStripMenuItem,
             this.tapeToolStripMenuItem});
             this.viewModeToolStripMenuItem.Name = "viewModeToolStripMenuItem";
-            this.viewModeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewModeToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.viewModeToolStripMenuItem.Text = "ViewMode";
             // 
             // digitalToolStripMenuItem
@@ -302,7 +302,7 @@
             this.digitalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.digitalToolStripMenuItem.Name = "digitalToolStripMenuItem";
             this.digitalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.digitalToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.digitalToolStripMenuItem.Tag = "digital";
             this.digitalToolStripMenuItem.Text = "digital";
             this.digitalToolStripMenuItem.Click += new System.EventHandler(this.digitalToolStripMenuItem_Click);
@@ -312,7 +312,7 @@
             this.vierCDToolStripMenuItem.CheckOnClick = true;
             this.vierCDToolStripMenuItem.Name = "vierCDToolStripMenuItem";
             this.vierCDToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.vierCDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vierCDToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.vierCDToolStripMenuItem.Tag = "cd";
             this.vierCDToolStripMenuItem.Text = "CD";
             this.vierCDToolStripMenuItem.Click += new System.EventHandler(this.viewCDToolStripMenuItem_Click);
@@ -321,7 +321,7 @@
             // 
             this.vinylToolStripMenuItem.Name = "vinylToolStripMenuItem";
             this.vinylToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
-            this.vinylToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.vinylToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.vinylToolStripMenuItem.Text = "vinyl";
             this.vinylToolStripMenuItem.Click += new System.EventHandler(this.vinylToolStripMenuItem_Click);
             // 
@@ -329,7 +329,7 @@
             // 
             this.tapeToolStripMenuItem.Name = "tapeToolStripMenuItem";
             this.tapeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
-            this.tapeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.tapeToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.tapeToolStripMenuItem.Text = "tape";
             this.tapeToolStripMenuItem.Click += new System.EventHandler(this.tapeToolStripMenuItem_Click);
             // 
@@ -339,7 +339,7 @@
             this.showSidebarToolStripMenuItem.CheckOnClick = true;
             this.showSidebarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showSidebarToolStripMenuItem.Name = "showSidebarToolStripMenuItem";
-            this.showSidebarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showSidebarToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.showSidebarToolStripMenuItem.Text = "showPanel";
             this.showSidebarToolStripMenuItem.Click += new System.EventHandler(this.panelToolStripMenuItem_Click);
             // 

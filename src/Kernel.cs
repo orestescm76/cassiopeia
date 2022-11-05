@@ -14,20 +14,19 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
-using System.Linq;
 using System.IO;
-using System.Net;
+using System.Linq;
+using System.Net.Http;
 using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net.Http;
 
 namespace Cassiopeia
 {
     public static class Kernel
     {
-        public static readonly string Codename = "Θάλασσα";
+        public static readonly string Codename = "Betrayal";
         private enum CSV_Albums
         {
             Title,
@@ -187,7 +186,7 @@ namespace Cassiopeia
             if (!MetadataStream)
             {
                 MainForm.EnableInternet(i);
-                if(Player.Instancia is not null)
+                if (Player.Instancia is not null && Spotify.AccountReady)
                     Player.Instancia.SetSpotify(i);
             }
         }
@@ -285,11 +284,11 @@ namespace Cassiopeia
                 var responseStream = gitHubResponse.Content.ReadAsStream();
                 using (StreamReader lector = new(responseStream))
                 {
-                    while(!lector.EndOfStream)
-                        contenido+=lector.ReadLine();
+                    while (!lector.EndOfStream)
+                        contenido += lector.ReadLine();
                 }
             }
-            
+
             //HttpWebRequest GithubRequest = WebRequest.CreateHttp("https://api.github.com/repos/orestescm76/cassiopeia/releases");
             ////string contenido = string.Empty;
             //GithubRequest.Accept = "text/html,application/vnd.github.v3+json";
@@ -366,7 +365,7 @@ namespace Cassiopeia
                 else
                 {
                     await Spotify.InitStreamMode();
-                    
+
                     SpotifyReady = true;
                 }
             }
@@ -461,7 +460,7 @@ namespace Cassiopeia
         {
             if (!MetadataStream)
             {
-                if(Edited)
+                if (Edited)
                 {
                     DialogResult save = MessageBox.Show(LocalTexts.GetString("wantSave"), LocalTexts.GetString("titulo_ventana_principal"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (save == DialogResult.Yes)
@@ -939,7 +938,7 @@ namespace Cassiopeia
             notifyIconMetadataStream.Icon = Properties.Resources.spotifyico;
             notifyIconMetadataStream.DoubleClick += NotifyIconMetadataStream_DoubleClick;
             notifyIconMetadataStream.Visible = true;
-            await Task.Run(()=>InitSpotify());
+            await Task.Run(() => InitSpotify());
             while (!Spotify.AccountReady)
             {
                 Thread.Sleep(1);
@@ -962,7 +961,7 @@ namespace Cassiopeia
             Edited = false;
             MainForm.CleanSaveMark();
         }
-        
+
         public static void CreateAndAddAlbumFromFolder(string path)
         {
             Log.Instance.PrintMessage("Creating an album from a directory.", MessageType.Info);

@@ -94,7 +94,6 @@
             this.vistaCanciones.ContextMenuStrip = this.clickDerechoConfig;
             this.vistaCanciones.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.vistaCanciones.FullRowSelect = true;
-            this.vistaCanciones.HideSelection = false;
             this.vistaCanciones.Location = new System.Drawing.Point(13, 238);
             this.vistaCanciones.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.vistaCanciones.Name = "vistaCanciones";
@@ -268,7 +267,7 @@
             this.buttonPATH.UseVisualStyleBackColor = true;
             this.buttonPATH.Click += new System.EventHandler(this.buttonPATH_Click);
             // 
-            // visualizarAlbum
+            // AlbumViewer
             // 
             this.AcceptButton = this.okDoomerButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -288,7 +287,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(988, 578);
-            this.Name = "visualizarAlbum";
+            this.Name = "AlbumViewer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "visualizarAlbum";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.visualizarAlbum_KeyDown);

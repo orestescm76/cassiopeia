@@ -30,9 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Player));
-            this.trackBarPosicion = new System.Windows.Forms.TrackBar();
+            this.trackBarPosition = new System.Windows.Forms.TrackBar();
             this.buttonReproducirPausar = new System.Windows.Forms.Button();
-            this.timerCancion = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.buttonAbrir = new System.Windows.Forms.Button();
             this.labelPosicion = new System.Windows.Forms.Label();
@@ -42,15 +41,14 @@
             this.toolStripStatusLabelCorreoUsuario = new System.Windows.Forms.ToolStripStatusLabel();
             this.trackBarVolumen = new System.Windows.Forms.TrackBar();
             this.buttonSpotify = new System.Windows.Forms.Button();
-            this.timerSpotify = new System.Windows.Forms.Timer(this.components);
             this.labelVolumen = new System.Windows.Forms.Label();
             this.labelPorcentaje = new System.Windows.Forms.Label();
             this.checkBoxAleatorio = new System.Windows.Forms.CheckBox();
             this.buttonSaltarAdelante = new System.Windows.Forms.Button();
             this.buttonSaltarAtras = new System.Windows.Forms.Button();
             this.pictureBoxCaratula = new System.Windows.Forms.PictureBox();
-            this.timerMetadatos = new System.Windows.Forms.Timer(this.components);
-            this.buttonAgregar = new System.Windows.Forms.Button();
+            this.timerMetadataRefresh = new System.Windows.Forms.Timer(this.components);
+            this.buttonAdd = new System.Windows.Forms.Button();
             this.notifyIconStream = new System.Windows.Forms.NotifyIcon(this.components);
             this.checkBoxFoobar = new System.Windows.Forms.CheckBox();
             this.timerFoobar = new System.Windows.Forms.Timer(this.components);
@@ -58,26 +56,27 @@
             this.buttoncrearLR = new System.Windows.Forms.Button();
             this.buttonDetener = new System.Windows.Forms.Button();
             this.notifyIconReproduciendo = new System.Windows.Forms.NotifyIcon(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).BeginInit();
+            this.timerUIRefresh = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarPosition)).BeginInit();
             this.barraAbajoDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCaratula)).BeginInit();
             this.SuspendLayout();
             // 
-            // trackBarPosicion
+            // trackBarPosition
             // 
-            this.trackBarPosicion.Location = new System.Drawing.Point(-8, 368);
-            this.trackBarPosicion.Maximum = 500;
-            this.trackBarPosicion.Name = "trackBarPosicion";
-            this.trackBarPosicion.Size = new System.Drawing.Size(384, 45);
-            this.trackBarPosicion.TabIndex = 1;
-            this.trackBarPosicion.TabStop = false;
-            this.trackBarPosicion.TickFrequency = 0;
-            this.trackBarPosicion.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.trackBarPosicion.Scroll += new System.EventHandler(this.trackBarPosicion_Scroll);
-            this.trackBarPosicion.ValueChanged += new System.EventHandler(this.trackBarPosicion_ValueChanged);
-            this.trackBarPosicion.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseDown);
-            this.trackBarPosicion.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseUp);
+            this.trackBarPosition.Location = new System.Drawing.Point(-8, 368);
+            this.trackBarPosition.Maximum = 500;
+            this.trackBarPosition.Name = "trackBarPosition";
+            this.trackBarPosition.Size = new System.Drawing.Size(384, 45);
+            this.trackBarPosition.TabIndex = 1;
+            this.trackBarPosition.TabStop = false;
+            this.trackBarPosition.TickFrequency = 0;
+            this.trackBarPosition.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBarPosition.Scroll += new System.EventHandler(this.trackBarPosicion_Scroll);
+            this.trackBarPosition.ValueChanged += new System.EventHandler(this.trackBarPosicion_ValueChanged);
+            this.trackBarPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseDown);
+            this.trackBarPosition.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarPosicion_MouseUp);
             // 
             // buttonReproducirPausar
             // 
@@ -89,11 +88,6 @@
             this.buttonReproducirPausar.Text = "4";
             this.buttonReproducirPausar.UseVisualStyleBackColor = true;
             this.buttonReproducirPausar.Click += new System.EventHandler(this.buttonReproducirPausar_Click);
-            // 
-            // timerCancion
-            // 
-            this.timerCancion.Enabled = true;
-            this.timerCancion.Tick += new System.EventHandler(this.timerCancion_Tick);
             // 
             // openFileDialog1
             // 
@@ -108,7 +102,6 @@
             this.buttonAbrir.TabIndex = 3;
             this.buttonAbrir.Text = "abrir_cancion";
             this.buttonAbrir.UseVisualStyleBackColor = true;
-            this.buttonAbrir.Visible = false;
             this.buttonAbrir.Click += new System.EventHandler(this.buttonAbrir_Click);
             // 
             // labelPosicion
@@ -172,6 +165,7 @@
             // 
             // buttonSpotify
             // 
+            this.buttonSpotify.Enabled = false;
             this.buttonSpotify.Location = new System.Drawing.Point(0, 544);
             this.buttonSpotify.Name = "buttonSpotify";
             this.buttonSpotify.Size = new System.Drawing.Size(102, 46);
@@ -180,11 +174,6 @@
             this.buttonSpotify.Text = "cambiar a Spotify";
             this.buttonSpotify.UseVisualStyleBackColor = true;
             this.buttonSpotify.Click += new System.EventHandler(this.buttonSpotify_Click);
-            // 
-            // timerSpotify
-            // 
-            this.timerSpotify.Interval = 150;
-            this.timerSpotify.Tick += new System.EventHandler(this.timerSpotify_Tick);
             // 
             // labelVolumen
             // 
@@ -250,21 +239,21 @@
             this.pictureBoxCaratula.TabIndex = 0;
             this.pictureBoxCaratula.TabStop = false;
             // 
-            // timerMetadatos
+            // timerMetadataRefresh
             // 
-            this.timerMetadatos.Interval = 750;
-            this.timerMetadatos.Tick += new System.EventHandler(this.timerMetadatos_Tick);
+            this.timerMetadataRefresh.Interval = 750;
+            this.timerMetadataRefresh.Tick += new System.EventHandler(this.timerMetadatos_Tick);
             // 
-            // buttonAgregar
+            // buttonAdd
             // 
-            this.buttonAgregar.Location = new System.Drawing.Point(108, 544);
-            this.buttonAgregar.Name = "buttonAgregar";
-            this.buttonAgregar.Size = new System.Drawing.Size(115, 46);
-            this.buttonAgregar.TabIndex = 14;
-            this.buttonAgregar.TabStop = false;
-            this.buttonAgregar.Text = "Agregar a la BBDD";
-            this.buttonAgregar.UseVisualStyleBackColor = true;
-            this.buttonAgregar.Click += new System.EventHandler(this.buttonAgregar_Click);
+            this.buttonAdd.Location = new System.Drawing.Point(108, 544);
+            this.buttonAdd.Name = "buttonAdd";
+            this.buttonAdd.Size = new System.Drawing.Size(115, 46);
+            this.buttonAdd.TabIndex = 14;
+            this.buttonAdd.TabStop = false;
+            this.buttonAdd.Text = "Agregar a la BBDD";
+            this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.buttonAgregar_Click);
             // 
             // notifyIconStream
             // 
@@ -284,7 +273,7 @@
             this.checkBoxFoobar.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.checkBoxFoobar.UseVisualStyleBackColor = true;
             this.checkBoxFoobar.Visible = false;
-            this.checkBoxFoobar.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBoxFoobar.CheckedChanged += new System.EventHandler(this.checkBoxFoobar_CheckedChanged);
             // 
             // timerFoobar
             // 
@@ -330,6 +319,10 @@
             this.notifyIconReproduciendo.Text = "notifyIconReproduciendo";
             this.notifyIconReproduciendo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIconReproduciendo_MouseClick);
             // 
+            // timerUIRefresh
+            // 
+            this.timerUIRefresh.Tick += new System.EventHandler(this.timerUIRefresh_Tick);
+            // 
             // Player
             // 
             this.AllowDrop = true;
@@ -340,7 +333,7 @@
             this.Controls.Add(this.buttoncrearLR);
             this.Controls.Add(this.buttonTwit);
             this.Controls.Add(this.checkBoxFoobar);
-            this.Controls.Add(this.buttonAgregar);
+            this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.buttonSaltarAtras);
             this.Controls.Add(this.buttonSaltarAdelante);
             this.Controls.Add(this.checkBoxAleatorio);
@@ -353,7 +346,7 @@
             this.Controls.Add(this.labelPosicion);
             this.Controls.Add(this.buttonAbrir);
             this.Controls.Add(this.buttonReproducirPausar);
-            this.Controls.Add(this.trackBarPosicion);
+            this.Controls.Add(this.trackBarPosition);
             this.Controls.Add(this.pictureBoxCaratula);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.KeyPreview = true;
@@ -365,7 +358,7 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Reproductor_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Reproductor_DragEnter);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Reproductor_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarPosicion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarPosition)).EndInit();
             this.barraAbajoDatos.ResumeLayout(false);
             this.barraAbajoDatos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarVolumen)).EndInit();
@@ -378,9 +371,8 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBoxCaratula;
-        private System.Windows.Forms.TrackBar trackBarPosicion;
+        private System.Windows.Forms.TrackBar trackBarPosition;
         private System.Windows.Forms.Button buttonReproducirPausar;
-        private System.Windows.Forms.Timer timerCancion;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button buttonAbrir;
         private System.Windows.Forms.Label labelPosicion;
@@ -389,15 +381,14 @@
         private System.Windows.Forms.ToolStripStatusLabel labelDatosCancion;
         private System.Windows.Forms.TrackBar trackBarVolumen;
         private System.Windows.Forms.Button buttonSpotify;
-        private System.Windows.Forms.Timer timerSpotify;
         private System.Windows.Forms.Label labelVolumen;
         private System.Windows.Forms.Label labelPorcentaje;
         private System.Windows.Forms.CheckBox checkBoxAleatorio;
         private System.Windows.Forms.Button buttonSaltarAdelante;
         private System.Windows.Forms.Button buttonSaltarAtras;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCorreoUsuario;
-        private System.Windows.Forms.Timer timerMetadatos;
-        private System.Windows.Forms.Button buttonAgregar;
+        private System.Windows.Forms.Timer timerMetadataRefresh;
+        private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.NotifyIcon notifyIconStream;
         private System.Windows.Forms.CheckBox checkBoxFoobar;
         private System.Windows.Forms.Timer timerFoobar;
@@ -405,5 +396,6 @@
         private System.Windows.Forms.Button buttoncrearLR;
         private System.Windows.Forms.Button buttonDetener;
         private System.Windows.Forms.NotifyIcon notifyIconReproduciendo;
+        private System.Windows.Forms.Timer timerUIRefresh;
     }
 }

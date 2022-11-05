@@ -1,5 +1,10 @@
 # Cassiopeia Changelog
-#### 2.0.247.30
+#### 2.1.250.0 - Codename Betrayal
+- Reimplementation in progress of Player. Separated the methods into a nice interface
+- New fresh icon
+
+
+#### 2.0.247.30 [TFG demo version]
 - Cassette tapes
 - Cassiopeia exists normally if it finds another instance running [FIX]
 - Fix slow loading and memory leak [FIX]

@@ -8,7 +8,7 @@ namespace Cassiopeia.src.Forms
 {
     public partial class About : Form
     {
-        Image[] banners = new Image[] { Resources.banner_thalassa, Resources.banner1_5, Resources.banner1_6, Resources.banner1_7 };
+        Image[] banners = new Image[] { Resources.banner_betrayal, Resources.banner_thalassa, Resources.banner1_5, Resources.banner1_6, Resources.banner1_7 };
         int activeBanner = 0;
         public About()
         {

@@ -574,12 +574,12 @@ namespace Cassiopeia.src.Forms
             }
             else
             {
-                Player.Instancia.CreatePlaylist(albumToVisualize.ToString());
-                foreach (Song cancion in albumToVisualize.Songs)
-                {
-                    Player.Instancia.Playlist.AddSong(cancion);
-                }
-                Player.Instancia.PlayList();
+                //Player.Instancia.CreatePlaylist(albumToVisualize.ToString());
+                //foreach (Song cancion in albumToVisualize.Songs)
+                //{
+                //    Player.Instancia.Playlist.AddSong(cancion);
+                //}
+                //Player.Instancia.PlayList();
             }
         }
 

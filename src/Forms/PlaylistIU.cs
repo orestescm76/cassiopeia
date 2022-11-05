@@ -153,8 +153,6 @@ namespace Cassiopeia.src.Forms
                 Player.Instancia.PlaySong(Pointer);
             else
                 Player.Instancia.PlaySong(Playlist[Pointer]);
-
-            Player.Instancia.ListaReproduccionPuntero = Pointer;
         }
         //Gets the selected songs and removes them from the playlist
         private void RemoveSongs()
