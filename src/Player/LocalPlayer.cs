@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Windows.Media.Capture;
 
 namespace Cassiopeia.src.Player
 {
@@ -112,6 +113,13 @@ namespace Cassiopeia.src.Player
             try
             {
                 PlayerKernel.CargarCancion(path);
+                MetadataSong = new MetadataSong(path);
+                CurrentSong = new LocalSong
+                {
+                    Artist = MetadataSong.Artist,
+                    Title = MetadataSong.Title
+                };
+                
                 PlayerKernel.Reproducir();
             }
             catch (Exception e)
@@ -124,6 +132,7 @@ namespace Cassiopeia.src.Player
         }
         public void PlaySong(Song s)
         {
+            
             if (s.AlbumFrom is null) //Puede darse el caso de que sea una canción local suelta, usamos el otro método.
             {
                 PlaySong(s.Path);
@@ -138,7 +147,6 @@ namespace Cassiopeia.src.Player
                 PlayerKernel.CargarCancion(s.Path);
                 PlayerKernel.SetVolumen(Volume);
                 PlayerKernel.Reproducir();
-
                 CurrentSong = s;
             }
             catch (Exception)
@@ -168,19 +176,21 @@ namespace Cassiopeia.src.Player
 
         public Image GetCover()
         {
-            if (string.IsNullOrEmpty(CurrentSong.AlbumFrom.CoverPath))
+            //if we reach this statement LM shouldn't be null
+            if(CurrentSong.AlbumFrom is null)
+                return MetadataSong.Cover;
+            if (string.IsNullOrEmpty(CurrentSong.AlbumFrom?.CoverPath))
                 return System.Drawing.Image.FromFile(CurrentSong.AlbumFrom.CoverPath);
             else
             {
-                if (File.Exists(CurrentSong.AlbumFrom.SoundFilesPath + "\\cover.jpg"))
+                if (File.Exists(CurrentSong.AlbumFrom?.SoundFilesPath + "\\cover.jpg"))
                     return System.Drawing.Image.FromFile(CurrentSong.AlbumFrom.SoundFilesPath + "\\cover.jpg");
-                else if (File.Exists(CurrentSong.AlbumFrom.SoundFilesPath + "\\cover.png"))
+                else if (File.Exists(CurrentSong.AlbumFrom?.SoundFilesPath + "\\cover.png"))
                     return System.Drawing.Image.FromFile(CurrentSong.AlbumFrom.SoundFilesPath + "\\cover.png");
-                else if (File.Exists(CurrentSong.AlbumFrom.SoundFilesPath + "\\folder.jpg"))
+                else if (File.Exists(CurrentSong.AlbumFrom?.SoundFilesPath + "\\folder.jpg"))
                     return System.Drawing.Image.FromFile(CurrentSong.AlbumFrom.SoundFilesPath + "\\folder.jpg");
             }
-            //if we reach this statement LM shouldn't be null
-            return MetadataSong.Cover;
+            return null;
         }
         public void Previous()
         {

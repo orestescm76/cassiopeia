@@ -21,8 +21,7 @@ namespace Cassiopeia.src.Player
         public float Volume { get; set; }
         public int PlaylistPointer { get; set; }
         public Playlist Playlist { get; set; }
-        public PrivateUser User { get; set; }
-        private PrivateUser user;
+        public PrivateUser User { get; private set; }
         bool SpotifyListo = false;
         public bool UserIsPremium { get; private set; }
         bool SpotifySync;
@@ -48,8 +47,8 @@ namespace Cassiopeia.src.Player
         {
             try
             {
-                user = Kernel.Spotify.GetPrivateUser();
-                Log.Instance.PrintMessage("Starting player with Spotify mode, e-mail: " + user.Email, MessageType.Info);
+                Log.Instance.PrintMessage("Starting player with Spotify mode, e-mail: " + User.Email, MessageType.Info);
+                User = Kernel.Spotify.GetPrivateUser();
                 UserIsPremium = Kernel.Spotify.UserIsPremium();
             }
             catch (APIException ex)
