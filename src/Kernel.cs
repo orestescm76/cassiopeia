@@ -105,27 +105,39 @@ namespace Cassiopeia
         }
         public async static void MetadataStreamTask()
         {
+            SongCount = 1;
+            Stopwatch songTimer = new();
             DateTime now = DateTime.Now;
             HistorialFileInfo = new FileInfo("Musical log " + now.Day + "-" + now.Month + "-" + now.Year + ".txt");
             while (true)
             {
                 //Get context
-                SpotifyAPI.Web.CurrentlyPlayingContext PC = await Spotify.GetPlayingContextAsync();
+                SpotifyAPI.Web.CurrentlyPlayingContext PC = null;
+                try
+                {
+                    PC = await Spotify.GetPlayingContextAsync();
+
+                }
+                catch (Exception ex)
+                {
+                    Log.Instance.PrintMessage("Couldn't get the Playing Context", MessageType.Error);
+                    Log.Instance.PrintMessage(ex.Message, MessageType.Error);
+                }
                 //Write to the file, but check if it is null, if it is, we had a problem
                 if (PC is not null && PC.Item is not null)
                 {
                     SpotifyAPI.Web.FullTrack track = (SpotifyAPI.Web.FullTrack)PC.Item;
                     if (track.Id != SongID)
                     {
-                        SongCount++;
+                        if(songTimer.Elapsed.TotalSeconds > 60)
+                            SongCount++;
+                        songTimer.Restart();
                         SongID = track.Id;
                         //Write once every song change.
                         if (Config.HistoryEnabled)
                         {
-                            using (StreamWriter streamWriter = new StreamWriter(HistorialFileInfo.FullName))
-                            {
-                                streamWriter.WriteLine(Utils.GetHistoryString(track, SongCount));
-                            }
+                            using StreamWriter streamWriter = new StreamWriter(HistorialFileInfo.FullName, true);
+                            streamWriter.WriteLine(Utils.GetHistoryString(track, SongCount));
                         }
                     }
                     try
@@ -134,6 +146,8 @@ namespace Cassiopeia
                         {
                             TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
                             salida.WriteLine(Utils.GetStreamString(track, SongCount, pos));
+                            //output is the first one
+                            notifyIconMetadataStream.ContextMenuStrip.Items[0].Text = Utils.GetStreamString(track, SongCount, pos);
                         }
 
 
@@ -144,7 +158,7 @@ namespace Cassiopeia
                     }
 
                 }
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
             }
         }
         public static void ChangeLanguage(String lang)
@@ -938,6 +952,28 @@ namespace Cassiopeia
             notifyIconMetadataStream.Icon = Properties.Resources.spotifyico;
             notifyIconMetadataStream.DoubleClick += NotifyIconMetadataStream_DoubleClick;
             notifyIconMetadataStream.Visible = true;
+            //Create the menu strip
+            ContextMenuStrip notifyIconMetadataStreamContextMenu = new();
+            ToolStripMenuItem output = new ToolStripMenuItem();
+            output.Enabled = false;
+            output.Text = "";
+            notifyIconMetadataStreamContextMenu.Items.Add(output);
+            //---
+            ToolStripMenuItem openConfig = new ToolStripMenuItem();
+            openConfig.Text = GetText("configuracion");
+            openConfig.Click += OpenConfig_Click;
+            notifyIconMetadataStreamContextMenu.Items.Add(openConfig);
+            //---
+            ToolStripMenuItem resetNum = new ToolStripMenuItem();
+            resetNum.Text = GetText("resetNum");
+            resetNum.Click += ResetNum_Click;
+            notifyIconMetadataStreamContextMenu.Items.Add(resetNum);
+            //---
+            ToolStripMenuItem quit = new ToolStripMenuItem();
+            quit.Text = GetText("salir");
+            quit.Click += NotifyIconMetadataStream_DoubleClick;
+            notifyIconMetadataStreamContextMenu.Items.Add(quit);
+            notifyIconMetadataStream.ContextMenuStrip = notifyIconMetadataStreamContextMenu;
             await Task.Run(() => InitSpotify());
             while (!Spotify.AccountReady)
             {
@@ -945,6 +981,20 @@ namespace Cassiopeia
             }
             Log.Instance.PrintMessage("Starting task...", MessageType.Info);
             MetadataStreamTask();
+        }
+
+        private static void ResetNum_Click(object sender, EventArgs e)
+        {
+            SongCount = 1;
+        }
+
+        private static void OpenConfig_Click(object sender, EventArgs e)
+        {
+            ConfigForm configForm = new(true)
+            {
+                ActiveConfig = ActiveConfig.Stream
+            };
+            configForm.ShowDialog();
         }
 
         private static void NotifyIconMetadataStream_DoubleClick(object sender, EventArgs e)

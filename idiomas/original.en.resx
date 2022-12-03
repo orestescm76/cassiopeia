@@ -857,4 +857,7 @@
   <data name="tape" xml:space="preserve">
     <value>Cassette Tape</value>
   </data>
+  <data name="resetNum" xml:space="preserve">
+    <value>Reset song numbering</value>
+  </data>
 </root>

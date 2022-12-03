@@ -1,8 +1,13 @@
 # Cassiopeia Changelog
+#### 2.1.252.0
+- New context menu for metadata stream
+- Now if you skip a song too soon, it doesn't count for the song count.
+- Fixed a Spotify login bug. (invalid_grant) [FIX]
+- Fixed the metadata song history [FIX]
+
 #### 2.1.250.0 - Codename Betrayal
 - Reimplementation in progress of Player. Separated the methods into a nice interface
 - New fresh icon
-
 
 #### 2.0.247.30 [TFG demo version]
 - Cassette tapes

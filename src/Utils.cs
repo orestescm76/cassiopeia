@@ -252,7 +252,7 @@ namespace Cassiopeia
         }
         public static AlbumData GetRandomAlbum()
         {
-            if (Kernel.Collection.Albums.Count == 0)
+            if (Kernel.Collection is null || Kernel.Collection.Albums.Count == 0)
                 return null;
             else
             {

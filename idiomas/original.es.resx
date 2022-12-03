@@ -851,4 +851,7 @@ Quedan {num} canciones.</value>
   <data name="tape" xml:space="preserve">
     <value>Cinta de casete</value>
   </data>
+  <data name="resetNum" xml:space="preserve">
+    <value>Reiniciar numeración</value>
+  </data>
 </root>

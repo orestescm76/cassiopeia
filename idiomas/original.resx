@@ -794,4 +794,7 @@
   <data name="tape" xml:space="preserve">
     <value></value>
   </data>
+  <data name="resetNum" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

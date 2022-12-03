@@ -35,9 +35,10 @@ namespace Cassiopeia.src.Forms
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(109, 38);
+            this.buttonOk.Location = new System.Drawing.Point(127, 44);
+            this.buttonOk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(75, 23);
+            this.buttonOk.Size = new System.Drawing.Size(88, 27);
             this.buttonOk.TabIndex = 0;
             this.buttonOk.Text = "buttonOk";
             this.buttonOk.UseVisualStyleBackColor = true;
@@ -45,19 +46,21 @@ namespace Cassiopeia.src.Forms
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(12, 12);
+            this.textBoxName.Location = new System.Drawing.Point(14, 14);
+            this.textBoxName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(265, 20);
+            this.textBoxName.Size = new System.Drawing.Size(308, 23);
             this.textBoxName.TabIndex = 1;
             // 
             // WriteName
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(289, 68);
+            this.ClientSize = new System.Drawing.Size(337, 78);
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.buttonOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "WriteName";
             this.Text = "WriteName";
             this.Load += new System.EventHandler(this.WriteName_Load);

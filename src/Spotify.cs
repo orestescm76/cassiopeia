@@ -120,6 +120,7 @@ namespace Cassiopeia
                     Log.Instance.PrintMessage("App was delinked from Spotify, relaunching", MessageType.Warning);
                     Kernel.ResetSpotifyLink();
                     Config.LinkedWithSpotify = false;
+                    File.Delete(AuthPath);
                     Start();
                 }
                 else
@@ -309,7 +310,7 @@ namespace Cassiopeia
             {
                 Log.Instance.PrintMessage("Couldn't retrieve user type", MessageType.Warning);
                 Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
-                throw ex;
+                throw;
             }
         }
         public void PlayAlbum(string uri)

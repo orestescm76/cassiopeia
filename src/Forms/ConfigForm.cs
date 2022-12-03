@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
 {
-    enum ActiveConfig
+    public enum ActiveConfig
     {
         Language,
         Clipboard,
@@ -27,9 +27,9 @@ namespace Cassiopeia.src.Forms
         CheckBox streamEnabledConfigCheckBox;
 
         AlbumData AlbumCopyPreview = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973); //Only used if the collection is empty.
-        Song SongPreview = new Song("A National Acrobat", 375000, false);
+        Song SongPreview;
 
-        Button btColorBonus;
+    Button btColorBonus;
         Button btColorLongSong;
 
         ToolTip ttbtColorBonus;
@@ -43,12 +43,34 @@ namespace Cassiopeia.src.Forms
         ToolTip ttbtTextView;
 
         Random random = new Random();
-        ActiveConfig ActiveConfig;
+        public ActiveConfig ActiveConfig { get; set; }
         public ConfigForm()
         {
             InitializeComponent();
+            SongPreview = new()
+            {
+                Title = "A National Acrobat",
+                Length = TimeSpan.FromMilliseconds(375000),
+                IsBonus = false,
+                AlbumFrom = AlbumCopyPreview
+            };
         }
-
+        public ConfigForm(bool loadMetadata)
+        {
+            InitializeComponent();
+            SongPreview = new()
+            {
+                Title = "A National Acrobat",
+                Length = TimeSpan.FromMilliseconds(375000),
+                IsBonus = false,
+                AlbumFrom = AlbumCopyPreview
+            };
+            if (loadMetadata)
+            {
+                treeViewConfiguracion.Visible = false;
+                LoadStreamConfig();
+            }
+        }
         private void ConfigForm_Load(object sender, EventArgs e)
         {
             //labelSelect.Show();
@@ -59,7 +81,8 @@ namespace Cassiopeia.src.Forms
             treeViewConfiguracion.ExpandAll();
             labelSelect.Hide();
             SongPreview.SetAlbum(AlbumCopyPreview);
-            LoadLanguageConfig();
+            //LoadLanguageConfig();
+
         }
         private void PonerTextos()
         {

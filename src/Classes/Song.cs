@@ -5,7 +5,7 @@ namespace Cassiopeia.src.Classes
 {
     public class Song
     {
-        [JsonIgnore] public AlbumData AlbumFrom { get; protected set; }
+        [JsonIgnore] public AlbumData AlbumFrom { get; set; }
         public string Title { get; set; }
         [JsonConverter(typeof(TiempoConverter))] public virtual TimeSpan Length { get; set; }
         public bool IsBonus { get; set; }
