@@ -1,4 +1,7 @@
 # Cassiopeia Changelog
+#### 2.1.253.0
+- First step on reading local files with new implementation.
+
 #### 2.1.252.0
 - New context menu for metadata stream
 - Now if you skip a song too soon, it doesn't count for the song count.

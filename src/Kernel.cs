@@ -1031,15 +1031,15 @@ namespace Cassiopeia
                     case ".mp3":
                     case ".ogg":
                     case ".flac":
-                        MetadataSong LM = new MetadataSong(filename.FullName);
+                        LocalSong LM = new LocalSong(filename.FullName);
                         if (a.NeedsMetadata())
                         {
-                            a.Title = LM.AlbumFrom;
+                            a.Title = LM.Album;
                             a.Artist = LM.Artist;
                             a.Year = (short)LM.Year;
-                            if (LM.Cover is not null && !File.Exists("cover.jpg"))
+                            if (LM.AlbumCover is not null && !File.Exists("cover.jpg"))
                             {
-                                Bitmap cover = new Bitmap(LM.Cover);
+                                Bitmap cover = new Bitmap(LM.AlbumCover);
                                 cover.Save(carpeta.FullName + "\\cover.jpg", ImageFormat.Jpeg);
                                 a.CoverPath = carpeta.FullName + "\\cover.jpg";
                             }
@@ -1100,7 +1100,7 @@ namespace Cassiopeia
                 string extension = Path.GetExtension(file.FullName);
                 if (extension != ".ogg" && extension != ".mp3" && extension != ".flac")
                     continue;
-                MetadataSong LM = new MetadataSong(file.FullName);
+                LocalSong LM = new LocalSong(file.FullName);
                 foreach (Song c in a.Songs)
                 {
                     try

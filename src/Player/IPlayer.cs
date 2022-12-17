@@ -24,6 +24,11 @@ namespace Cassiopeia.src.Player
         /// <returns></returns>
         public Image GetCover();
         public string GetSongPlaying();
+        /// <summary>
+        /// Returns the song info like bitrate
+        /// </summary>
+        /// <returns></returns>
+        public string GetSongInfo();
         public void Init();
         public void Play();
         public void Pause();

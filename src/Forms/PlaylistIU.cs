@@ -84,13 +84,12 @@ namespace Cassiopeia.src.Forms
                     continue; //don't check anything else
                 }
                 //Pick song data if it's mandatory
-                if (string.IsNullOrEmpty(Playlist.Songs[i].Title))
+                if (Playlist.Songs[i] is LocalSong localsong)
                 {
-                    MetadataSong lectorMetadatos = new MetadataSong(Playlist.Songs[i].Path);
-                    data[1] = lectorMetadatos.Artist;
-                    data[2] = lectorMetadatos.Title;
-                    data[3] = GetSongTime(lectorMetadatos.Length);
-                    Playlist.Songs[i].Length = lectorMetadatos.Length;
+                    data[1] = localsong.Artist;
+                    data[2] = localsong.Title;
+                    data[3] = GetSongTime(localsong.Length);
+
                 }
                 else
                 {

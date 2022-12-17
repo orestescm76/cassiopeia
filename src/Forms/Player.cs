@@ -388,7 +388,7 @@ namespace Cassiopeia.src.Forms
             //    }
             //}
         }
-        public void PlaySong(Song c) //reproduce una cancion
+        public void PlaySong(Song c) //reproduce una cancion llamando al reproductor local
         {
             var local = (LocalPlayer)PlayerImplementation;
             local.PlaySong(c);
@@ -440,7 +440,7 @@ namespace Cassiopeia.src.Forms
         }
         private void SetPlayerUI()
         {
-            trackBarPosition.Value = 0; //reseteo
+            trackPosition.Value = 0; //reseteo
             dur = PlayerImplementation.Duration;
             pos = TimeSpan.Zero;
             //if (ModoCD)
@@ -455,25 +455,6 @@ namespace Cassiopeia.src.Forms
             Reproduciendo = true;
             ConfigTimers(true);
             SetPlayerButtons(true);
-        }
-
-        private bool FicheroLeible(string s)
-        {
-            string Ext = Path.GetExtension(s);
-            switch (Ext)
-            {
-                case ".mp3":
-                    timerMetadataRefresh.Enabled = false;
-                    return true;
-                case ".ogg":
-                    timerMetadataRefresh.Enabled = true;
-                    return true;
-                case ".flac":
-                    timerMetadataRefresh.Enabled = false;
-                    return true;
-                default:
-                    return false;
-            }
         }
 
         //Controls the player buttons
@@ -765,16 +746,13 @@ namespace Cassiopeia.src.Forms
                 songPath = openFileDialog1.FileName;
                 try
                 {
-                    if (FicheroLeible(songPath))
-                    {
-                        Song c = new Song();
-                        c.Path = songPath;
-
-                        if (PlayerImplementation.Playlist is null)
-                            CreatePlaylist("Selección");
-                        PlayerImplementation.Playlist.AddSong(c);
-                        PlayPlaylist();
-                    }
+                    //if no playlist
+                    //todo change name
+                    if (PlayerImplementation.Playlist is null)
+                        CreatePlaylist("Selección");
+                    LocalSong song = new LocalSong(songPath);
+                    PlayerImplementation.Playlist.AddSong(song);
+                    PlayPlaylist();
                 }
                 catch (Exception ex)
                 {
@@ -1025,8 +1003,7 @@ namespace Cassiopeia.src.Forms
                 List<string> input = new List<string>();
                 for (int i = 0; i < canciones.Length; i++)
                 {
-                    if (FicheroLeible(canciones[i]))
-                        input.Add(canciones[i]);
+                    input.Add(canciones[i]);
                 }
                 if (input.Count == 0)
                 {

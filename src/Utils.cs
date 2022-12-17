@@ -173,13 +173,26 @@ namespace Cassiopeia
             string result = Config.Clipboard;
             try
             {
-                result = result.Replace("%track_num%", songnum.ToString());
-                result = result.Replace("%artist%", s.AlbumFrom.Artist);
-                result = result.Replace("%title%", s.Title);
-                result = result.Replace("%length%", s.Length.ToString(@"mm\:ss"));
-                result = result.Replace("%date%", DateTime.Now.Date.ToString("d"));
-                result = result.Replace("%time%", DateTime.Now.ToString("HH:mm"));
-                result = result.Replace("%year%", s.AlbumFrom.Year.ToString());
+                if(s is LocalSong localSong)
+                {
+                    result = result.Replace("%track_num%", localSong.ToString());
+                    result = result.Replace("%artist%", localSong.Artist);
+                    result = result.Replace("%title%", localSong.Title);
+                    result = result.Replace("%length%", localSong.Length.ToString(@"mm\:ss"));
+                    result = result.Replace("%date%", DateTime.Now.Date.ToString("d"));
+                    result = result.Replace("%time%", DateTime.Now.ToString("HH:mm"));
+                    result = result.Replace("%year%", localSong.Year.ToString());
+                }
+                else
+                {
+                    result = result.Replace("%track_num%", songnum.ToString());
+                    result = result.Replace("%artist%", s.AlbumFrom.Artist);
+                    result = result.Replace("%title%", s.Title);
+                    result = result.Replace("%length%", s.Length.ToString(@"mm\:ss"));
+                    result = result.Replace("%date%", DateTime.Now.Date.ToString("d"));
+                    result = result.Replace("%time%", DateTime.Now.ToString("HH:mm"));
+                    result = result.Replace("%year%", s.AlbumFrom.Year.ToString());
+                }
             }
             catch (NullReferenceException)
             {

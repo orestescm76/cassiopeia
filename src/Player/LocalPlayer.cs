@@ -14,15 +14,14 @@ namespace Cassiopeia.src.Player
         private readonly PlayerKernel PlayerKernel;
         private readonly ObservableCollection<MMDevice> AudioDevices;
         public PlayingState State { get; set; }
-        public TimeSpan Duration { get => PlayerKernel.Posicion(); }
-        public TimeSpan Position { get => PlayerKernel.Duracion(); }
+        public TimeSpan Duration { get => PlayerKernel.Duracion(); }
+        public TimeSpan Position { get => PlayerKernel.Posicion(); }
         public bool Shuffle { get; set; }
         public float Volume { get; set; }
         public int PlaylistPointer { get; set; }
         public Playlist Playlist { get; set; }
 
         private Song CurrentSong;
-        private MetadataSong MetadataSong;
         private bool ShuffleState = false;
         private Random Random;
         public LocalPlayer()
@@ -106,41 +105,29 @@ namespace Cassiopeia.src.Player
             PlayerKernel.Reproducir();
             State = PlayingState.Playing;
         }
-        private void PlaySong(string path)
-        {
-            State = PlayingState.Stop;
-            PlayerKernel.Shutdown();
-            try
-            {
-                PlayerKernel.CargarCancion(path);
-                MetadataSong = new MetadataSong(path);
-                CurrentSong = new LocalSong
-                {
-                    Artist = MetadataSong.Artist,
-                    Title = MetadataSong.Title
-                };
-                
-                PlayerKernel.Reproducir();
-            }
-            catch (Exception e)
-            {
-                Log.Instance.PrintMessage("A problem happened playing the song", MessageType.Error);
-                Log.Instance.PrintMessage(e.Message, MessageType.Error);
-                MessageBox.Show(Kernel.GetText("errorReproduccion"));
-                return;
-            }
-        }
+        //private void PlaySong(string path)
+        //{
+        //    State = PlayingState.Stop;
+        //    PlayerKernel.Shutdown();
+        //    try
+        //    {
+        //        PlayerKernel.CargarCancion(path);
+        //        MetadataSong = new LocalSong(path);                
+        //        PlayerKernel.Reproducir();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Log.Instance.PrintMessage("A problem happened playing the song", MessageType.Error);
+        //        Log.Instance.PrintMessage(e.Message, MessageType.Error);
+        //        MessageBox.Show(Kernel.GetText("errorReproduccion"));
+        //        return;
+        //    }
+        //}
         public void PlaySong(Song s)
         {
             
-            if (s.AlbumFrom is null) //Puede darse el caso de que sea una canción local suelta, usamos el otro método.
-            {
-                PlaySong(s.Path);
-                return;
-            }
             State = PlayingState.Stop;
 
-            MetadataSong = new MetadataSong(s.Path);
             PlayerKernel.Shutdown();
             try
             {
@@ -176,9 +163,12 @@ namespace Cassiopeia.src.Player
 
         public Image GetCover()
         {
-            //if we reach this statement LM shouldn't be null
+            //if we deal with a local file
             if(CurrentSong.AlbumFrom is null)
-                return MetadataSong.Cover;
+            {
+                LocalSong localSong = (LocalSong)CurrentSong;
+                return localSong.AlbumCover;
+            }
             if (string.IsNullOrEmpty(CurrentSong.AlbumFrom?.CoverPath))
                 return System.Drawing.Image.FromFile(CurrentSong.AlbumFrom.CoverPath);
             else
@@ -222,7 +212,7 @@ namespace Cassiopeia.src.Player
         }
         public string GetSongPlaying()
         {
-            return PlayerKernel.GetDatos();
+            return CurrentSong.ToString();
         }
 
         public void PlaySong(LongSong song)
@@ -238,6 +228,11 @@ namespace Cassiopeia.src.Player
         void IPlayer.PlaySong(int Track)
         {
             throw new NotImplementedException();
+        }
+
+        public string GetSongInfo()
+        {
+            return PlayerKernel.GetDatos();
         }
     }
 }

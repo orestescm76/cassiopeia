@@ -5,25 +5,22 @@ using File = TagLib.File;
 
 namespace Cassiopeia.src.Classes
 {
-    public class MetadataSong
+    public class LocalSong : Song
     {
         private readonly File songFile;
 
         public string Artist { get; private set; }
-        public string Title { get; private set; }
         public int TrackNumber { get; private set; }
-        public string AlbumFrom { get; private set; }
+        public string Album { get; private set; }
         public int Year { get; private set; }
-        public Image Cover { get; set; }
-        public TimeSpan Length { get; private set; }
-
-        public MetadataSong(string filePath)
+        public Image AlbumCover { get; set; }
+        public LocalSong(string filePath)
         {
             try
             {
                 //This new library doesn't care about the file.
                 songFile = File.Create(filePath);
-
+                Path = filePath;
             }
             catch (Exception ex)
             {
@@ -32,7 +29,7 @@ namespace Cassiopeia.src.Classes
             }
             Artist = songFile.Tag.FirstPerformer;
             Title = songFile.Tag.Title;
-            AlbumFrom = songFile.Tag.Album;
+            Album = songFile.Tag.Album;
             TrackNumber = (int)songFile.Tag.Track;
             Length = songFile.Properties.Duration;
             Year = (int)songFile.Tag.Year;
@@ -45,13 +42,13 @@ namespace Cassiopeia.src.Classes
 
                     using (MemoryStream memoryStream = new MemoryStream(imageData))
                     {
-                        Cover = Image.FromStream(memoryStream);
+                        AlbumCover = Image.FromStream(memoryStream);
                     }
                 }
                 catch (Exception)
                 {
                     Log.Instance.PrintMessage("Cannot extract the internal cover.", MessageType.Warning);
-                    Cover = null;
+                    AlbumCover = null;
                 }
             }
 
@@ -71,6 +68,10 @@ namespace Cassiopeia.src.Classes
         public void Dispose()
         {
             songFile.Dispose();
+        }
+        public override string ToString()
+        {
+            return Artist + " - " + Title;
         }
     }
 }
