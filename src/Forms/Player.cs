@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Cassiopeia.src.Forms
@@ -42,6 +43,10 @@ namespace Cassiopeia.src.Forms
         public static Player Instancia { get => instance; }
         public bool SpotifyListo;
         public bool SpotifySync;
+
+        private CancellationTokenSource RefreshTaskTokenSource;
+        private CancellationToken RefreshTaskCancellationToken;
+        private Task RefreshSpotifyTask;
         public static void Init()
         {
             instance = new Player();
@@ -156,10 +161,25 @@ namespace Cassiopeia.src.Forms
         private void PrepararSpotify(SpotifyPlayer spotifyPlayer)
         {
             SpotifySync = true;
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += BackgroundWorker_DoWork;
-            backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
-            backgroundWorker.WorkerSupportsCancellation = true;
+            //backgroundWorker = new BackgroundWorker();
+            //backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            //backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+            //backgroundWorker.WorkerSupportsCancellation = true;
+            //Prepare async task
+            RefreshTaskTokenSource = new CancellationTokenSource();
+            RefreshTaskCancellationToken = RefreshTaskTokenSource.Token;
+            RefreshSpotifyTask = Task.Run(() =>
+            {
+                while(!RefreshTaskCancellationToken.IsCancellationRequested)
+                {
+                    //get playing context async
+                    SpotifyPlayer spotifyPlayer = PlayerImplementation as SpotifyPlayer;
+                    spotifyPlayer.RefreshPlayingContext();
+                    RefreshSpotifyUI();
+                }
+            }
+            );
+
             toolStripStatusLabelCorreoUsuario.Text = Kernel.GetText("conectadoComo") + " " + spotifyPlayer.User.DisplayName;
         }
         public void Apagar()
@@ -536,104 +556,13 @@ namespace Cassiopeia.src.Forms
         }
 
         #region Events
+        private void RefreshSpotifyUI()
+        {
+
+        }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //CurrentlyPlayingContext PC = (CurrentlyPlayingContext)e.Result; //datos de spotify
 
-            //if (PC != null && PC.Item != null && !backgroundWorker.CancellationPending) //si son válidos
-            //{
-            //    SpotifyID = SpotifyPlayingSong.Id;
-            //    pos = new TimeSpan(0, 0, 0, 0, PC.ProgressMs);
-            //    if (!Kernel.MetadataStream)
-            //    {
-            //        //if we don't have an image or we have the same one
-            //        if (SpotifyID != PreviousSpotifyID || !File.Exists("./covers/np.jpg"))
-            //        {
-            //            if (PC.Item.Type == ItemType.Track)
-            //            {
-            //                SpotifyPlayingSong = (FullTrack)PC.Item;
-            //                dur = new TimeSpan(0, 0, 0, 0, SpotifyPlayingSong.DurationMs);
-            //                trackBarPosition.Maximum = (int)dur.TotalSeconds;
-            //                PreviousSpotifyID = SpotifyID;
-            //            }
-            //            else SpotifyPlayingSong = null;
-            //            //Update shuffle state not too often, when changin songs
-            //            if (PC.ShuffleState)
-            //                checkBoxAleatorio.Checked = true;
-            //            else
-            //                checkBoxAleatorio.Checked = false;
-
-            //            if (Config.HistoryEnabled)
-            //            {
-            //                using (StreamWriter escritor = new StreamWriter(Kernel.HistorialFileInfo.FullName, true))
-            //                {
-            //                    if (SpotifyPlayingSong is not null)
-            //                    {
-            //                        escritor.WriteLine(Utils.GetHistoryString(SpotifyPlayingSong, Kernel.SongCount));
-            //                        Kernel.SongCount++;
-            //                    }
-            //                }
-            //            }
-            //            //Check if local song
-            //            if (!string.IsNullOrEmpty(SpotifyID))
-            //            {
-            //                try
-            //                {
-            //                    DownloadCoverAndSet(SpotifyPlayingSong.Album, true);
-
-            //                }
-            //                catch (Exception ex)
-            //                {
-            //                    pictureBoxCaratula.Image = Resources.albumdesconocido;
-            //                    Log.Instance.PrintMessage("Couldn't set the new cover!" + ex.Message, MessageType.Warning);
-            //                }
-            //            }
-            //            else
-            //            {
-            //                Log.PrintMessage("Local song detected.", MessageType.Info);
-            //                trackBarPosition.Maximum = (int)dur.TotalSeconds;
-            //                pictureBoxCaratula.Image.Dispose();
-            //                pictureBoxCaratula.Image = Resources.albumdesconocido;
-            //            }
-            //            //update trackbar
-            //            trackBarPosition.Value = (int)pos.TotalSeconds;
-            //        }
-            //        if (PC.IsPlaying)
-            //        {
-            //            PlayerImplementation.State = PlayingState.Playing;
-            //            buttonReproducirPausar.Text = GetTextButtonPlayer(PlayerImplementation.State);
-            //            timerUIRefresh.Enabled = true;
-            //        }
-            //        else
-            //        {
-            //            PlayerImplementation.State = PlayingState.Paused;
-            //            buttonReproducirPausar.Text = GetTextButtonPlayer(PlayerImplementation.State);
-            //            timerUIRefresh.Enabled = false;
-            //        }
-
-            //        SpotifyPlayingSong = (FullTrack)PC.Item;
-            //        SetWindowTitle(SpotifyPlayingSong.Artists[0].Name + " - " + SpotifyPlayingSong.Name);
-            //        if (!VolumeHold)
-            //            trackBarVolumen.Value = (int)PC.Device.VolumePercent;
-            //        if (string.IsNullOrEmpty(SpotifyPlayingSong.Id))
-            //            buttonAdd.Enabled = false;
-            //        else
-            //            buttonAdd.Enabled = true;
-            //    }
-            //    if (Config.StreamEnabled)
-            //    {
-            //        using (StreamWriter salida = new StreamWriter(Kernel.StreamFileInfo.FullName))
-            //        {
-            //            TimeSpan pos = TimeSpan.FromMilliseconds(PC.ProgressMs);
-            //            salida.WriteLine(Utils.GetStreamString(SpotifyPlayingSong, Kernel.SongCount, pos));
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    SetWindowTitle("No Spotify context");
-            //    //reset the player but once.
-            //}
         }
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e) //tarea asíncrona que comprueba si el token ha caducado y espera a la tarea que lo refresque

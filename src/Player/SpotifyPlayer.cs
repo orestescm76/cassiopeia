@@ -34,7 +34,7 @@ namespace Cassiopeia.src.Player
             Init();
         }
         //Refreshes the PlayingContext.
-        private async void RefreshPlayingContext()
+        public async void RefreshPlayingContext()
         {
             PlayingContext = await SpotifyAPI.GetPlayingContextAsync();
             if (PlayingContext is not null)
