@@ -28,11 +28,31 @@ namespace Cassiopeia.src.Player
         public FullTrack PlayingSong { get; private set; }
         public string PreviousSpotifyID { get; private set; }
         private readonly Spotify SpotifyAPI = Kernel.Spotify;
+        private CurrentlyPlayingContext PlayingContext;
         public SpotifyPlayer()
         {
             Init();
         }
+        //Refreshes the PlayingContext.
+        private async void RefreshPlayingContext()
+        {
+            PlayingContext = await SpotifyAPI.GetPlayingContextAsync();
+            if (PlayingContext is not null)
+            {
+                //Detect change in song
+                if (PreviousSpotifyID != PlayingSong.Id)
+                {
+                    PreviousSpotifyID = PlayingSong.Id;
+                    PlayingSong = PlayingContext.Item as FullTrack;
+                    //Update new duration
+                    Duration = TimeSpan.FromMilliseconds(PlayingSong.DurationMs);
 
+                }
+                Position = TimeSpan.FromMilliseconds(PlayingContext.ProgressMs);
+                Volume = (float)PlayingContext.Device.VolumePercent;
+                Shuffle = PlayingContext.ShuffleState;
+            }
+        }
         public void Dispose()
         {
             throw new NotImplementedException();
@@ -97,26 +117,25 @@ namespace Cassiopeia.src.Player
             SpotifyAPI.SkipPrevious();
         }
 
-        public void Seek()
+        public void Seek(int where)
         {
-            throw new NotImplementedException();
+            SpotifyAPI.SeekTo(where);
         }
 
         public void SetShuffle()
         {
-            throw new NotImplementedException();
+            SpotifyAPI.SetShuffle(!Shuffle);
+            Shuffle = !Shuffle;
         }
 
         public void Stop()
         {
             Log.Instance.PrintMessage("Shutting down Spotify", MessageType.Info);
-
-
         }
 
         public string GetSongPlaying()
         {
-            throw new NotImplementedException();
+            return PlayingSong.Artists.First().Name + " - " + PlayingSong.Name + " (" + PlayingSong.Album.Name + ")";
         }
 
         public System.Drawing.Image GetCover()
@@ -126,7 +145,8 @@ namespace Cassiopeia.src.Player
 
         public void PlaySong(string path)
         {
-            throw new NotImplementedException();
+            //path is song URI in this case
+            SpotifyAPI.PlaySong(path);
         }
 
         public void PlaySong(Song c)
@@ -142,6 +162,12 @@ namespace Cassiopeia.src.Player
         public void PlaySong(LongSong song)
         {
             throw new NotImplementedException();
+        }
+
+        public string GetSongInfo()
+        {
+            //since this is spofify we don't really have much technical info
+            return string.Empty;
         }
     }
 }

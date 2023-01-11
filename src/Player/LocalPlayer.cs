@@ -195,7 +195,7 @@ namespace Cassiopeia.src.Player
             }
         }
 
-        public void Seek()
+        public void Seek(int where)
         {
             throw new NotImplementedException();
         }

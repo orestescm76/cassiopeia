@@ -440,7 +440,7 @@ namespace Cassiopeia.src.Forms
         }
         private void SetPlayerUI()
         {
-            trackPosition.Value = 0; //reseteo
+            trackBarPosition.Value = 0; //reseteo
             dur = PlayerImplementation.Duration;
             pos = TimeSpan.Zero;
             //if (ModoCD)

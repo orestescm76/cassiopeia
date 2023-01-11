@@ -23,6 +23,10 @@ namespace Cassiopeia.src.Player
         /// </summary>
         /// <returns></returns>
         public Image GetCover();
+        /// <summary>
+        /// Returns the name of the playing song
+        /// </summary>
+        /// <returns>Artist - Title (Album)</returns>
         public string GetSongPlaying();
         /// <summary>
         /// Returns the song info like bitrate
@@ -33,7 +37,11 @@ namespace Cassiopeia.src.Player
         public void Play();
         public void Pause();
         public void Stop();
-        public void Seek();
+        /// <summary>
+        /// Seeks the song
+        /// </summary>
+        /// <param name="where">Where to, in local player seconds; in Spotify milliseconds</param>
+        public void Seek(int where);
         public void Previous();
         public void Next();
         public void SetShuffle();
