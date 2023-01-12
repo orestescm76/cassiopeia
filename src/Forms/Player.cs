@@ -273,52 +273,7 @@ namespace Cassiopeia.src.Forms
                 return;
 
         }
-        private void DownloadCoverAndSet(SimpleAlbum album, bool firstTry)
-        {
-            if (album is null)
-                return;
-            using (System.Net.WebClient cliente = new System.Net.WebClient())
-            {
-                try
-                {
-                    Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
-                    if (File.Exists("./covers/np.jpg") && pictureBoxCaratula.Image != null)
-                    {
-                        File.Delete("./covers/np.jpg");
-                    }
 
-                    cliente.DownloadFileAsync(new Uri(album.Images[1].Url), Environment.CurrentDirectory + "/covers/np.jpg");
-                    cliente.DownloadFileCompleted += (s, e) =>
-                    {
-                        //Doing this will allow me to replace album cover and not locking the file
-                        System.Drawing.Image cover;
-                        using (var temp = new Bitmap("./covers/np.jpg"))
-                            cover = new Bitmap(temp);
-                        pictureBoxCaratula.Image = cover;
-                    };
-                }
-                catch (System.Net.WebException ex)
-                {
-                    if (firstTry)
-                    {
-                        Log.PrintMessage("Couldn't download the album cover, retrying...", MessageType.Warning);
-                        DownloadCoverAndSet(album, false);
-                    }
-                    else
-                    {
-                        Log.PrintMessage("Second try failed.", MessageType.Error);
-                        Log.PrintMessage(ex.Status.ToString(), MessageType.Warning);
-
-                    }
-                    pictureBoxCaratula.Image = Resources.albumdesconocido;
-                    File.Delete("./covers/np.jpg");
-                }
-                catch (IOException)
-                {
-                    Log.PrintMessage("Couldn't download the album cover, cannot replace...", MessageType.Error);
-                }
-            }
-        }
         private string GetTextButtonPlayer(PlayingState er)
         {
             switch (er)
@@ -558,7 +513,15 @@ namespace Cassiopeia.src.Forms
         #region Events
         private void RefreshSpotifyUI()
         {
-
+            //spotify info is refreshed
+            var SpotifyPlayer = PlayerImplementation as SpotifyPlayer;
+            pos = SpotifyPlayer.Position;
+            trackBarPosition.Maximum = (int)SpotifyPlayer.Duration.TotalSeconds;
+            trackBarPosition.Value = (int)pos.TotalSeconds;
+            trackBarVolumen.Value = (int)SpotifyPlayer.Volume;
+            checkBoxAleatorio.Checked = SpotifyPlayer.Shuffle;
+            buttonReproducirPausar.Text = GetTextButtonPlayer(PlayerImplementation.State);
+            SetWindowTitle(PlayerImplementation.GetSongPlaying());
         }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {

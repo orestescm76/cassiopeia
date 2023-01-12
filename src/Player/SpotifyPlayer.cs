@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,14 +30,18 @@ namespace Cassiopeia.src.Player
         public string PreviousSpotifyID { get; private set; }
         private readonly Spotify SpotifyAPI = Kernel.Spotify;
         private CurrentlyPlayingContext PlayingContext;
+        private readonly string CoverFileName = "./covers/np.jpg";
         public SpotifyPlayer()
         {
             Init();
+            PlayingSong = new();
+            PlayingSong.Id = "aaa";
+            PreviousSpotifyID = "";
         }
         //Refreshes the PlayingContext.
-        public async void RefreshPlayingContext()
+        public void RefreshPlayingContext()
         {
-            PlayingContext = await SpotifyAPI.GetPlayingContextAsync();
+            PlayingContext = SpotifyAPI.GetPlayingContextAsync().Result;
             if (PlayingContext is not null)
             {
                 //Detect change in song
@@ -46,11 +51,15 @@ namespace Cassiopeia.src.Player
                     PlayingSong = PlayingContext.Item as FullTrack;
                     //Update new duration
                     Duration = TimeSpan.FromMilliseconds(PlayingSong.DurationMs);
-
+                    DownloadCover(PlayingSong.Album, true);
                 }
                 Position = TimeSpan.FromMilliseconds(PlayingContext.ProgressMs);
                 Volume = (float)PlayingContext.Device.VolumePercent;
                 Shuffle = PlayingContext.ShuffleState;
+                if (PlayingContext.IsPlaying)
+                    State = PlayingState.Playing;
+                else
+                    State = PlayingState.Paused;
             }
         }
         public void Dispose()
@@ -67,9 +76,9 @@ namespace Cassiopeia.src.Player
         {
             try
             {
-                Log.Instance.PrintMessage("Starting player with Spotify mode, e-mail: " + User.Email, MessageType.Info);
                 User = Kernel.Spotify.GetPrivateUser();
                 UserIsPremium = Kernel.Spotify.UserIsPremium();
+                Log.Instance.PrintMessage("Starting player with Spotify mode, e-mail: " + User.Email, MessageType.Info);
             }
             catch (APIException ex)
             {
@@ -135,12 +144,20 @@ namespace Cassiopeia.src.Player
 
         public string GetSongPlaying()
         {
-            return PlayingSong.Artists.First().Name + " - " + PlayingSong.Name + " (" + PlayingSong.Album.Name + ")";
+            if (PlayingSong.Album is not null || PlayingSong.Name is not null)
+                return PlayingSong.Artists.First().Name + " - " + PlayingSong.Name + " (" + PlayingSong.Album.Name + ")";
+            else return string.Empty;
         }
 
         public System.Drawing.Image GetCover()
         {
-            throw new NotImplementedException();
+            //Doing this will allow me to replace album cover and not locking the file
+            if (File.Exists(CoverFileName))
+            {
+                using (var temp = new Bitmap(CoverFileName))
+                    return new Bitmap(temp);
+            }
+            else return Properties.Resources.albumdesconocido;
         }
 
         public void PlaySong(string path)
@@ -168,6 +185,47 @@ namespace Cassiopeia.src.Player
         {
             //since this is spofify we don't really have much technical info
             return string.Empty;
+        }
+        private void DownloadCover(SimpleAlbum album, bool firstTry)
+        {
+            if (album is null)
+                return;
+            using (System.Net.WebClient cliente = new System.Net.WebClient())
+            {
+                try
+                {
+                    Directory.CreateDirectory(Environment.CurrentDirectory + "/covers");
+                    if (File.Exists(CoverFileName))
+                    {
+                        File.Delete(CoverFileName);
+                    }
+                    if (string.IsNullOrEmpty(album.Id))
+                    {
+                        File.Delete(CoverFileName);
+                        return;
+                    }
+                    cliente.DownloadFileAsync(new Uri(album.Images[1].Url), Environment.CurrentDirectory + CoverFileName);
+                }
+                catch (System.Net.WebException ex)
+                {
+                    if (firstTry)
+                    {
+                        Log.Instance.PrintMessage("Couldn't download the album cover, retrying...", MessageType.Warning);
+                        DownloadCover(album, false);
+                    }
+                    else
+                    {
+                        Log.Instance.PrintMessage("Second try failed.", MessageType.Error);
+                        Log.Instance.PrintMessage(ex.Status.ToString(), MessageType.Warning);
+
+                    }
+                    File.Delete(CoverFileName);
+                }
+                catch (IOException)
+                {
+                    Log.Instance.PrintMessage("Couldn't download the album cover, cannot replace...", MessageType.Error);
+                }
+            }
         }
     }
 }
