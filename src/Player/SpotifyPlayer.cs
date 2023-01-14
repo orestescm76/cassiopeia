@@ -31,6 +31,9 @@ namespace Cassiopeia.src.Player
         private readonly Spotify SpotifyAPI = Kernel.Spotify;
         private CurrentlyPlayingContext PlayingContext;
         private readonly string CoverFileName = "./covers/np.jpg";
+
+        public event EventHandler SongChanged;
+
         public SpotifyPlayer()
         {
             Init();

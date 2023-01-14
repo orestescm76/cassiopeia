@@ -161,6 +161,7 @@ namespace Cassiopeia.src.Forms
         private void PrepararSpotify(SpotifyPlayer spotifyPlayer)
         {
             SpotifySync = true;
+            
             //backgroundWorker = new BackgroundWorker();
             //backgroundWorker.DoWork += BackgroundWorker_DoWork;
             //backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
@@ -170,7 +171,8 @@ namespace Cassiopeia.src.Forms
             RefreshTaskCancellationToken = RefreshTaskTokenSource.Token;
             RefreshSpotifyTask = Task.Run(() =>
             {
-                while(!RefreshTaskCancellationToken.IsCancellationRequested)
+                ConfigTimers(true);
+                while (!RefreshTaskCancellationToken.IsCancellationRequested)
                 {
                     //get playing context async
                     SpotifyPlayer spotifyPlayer = PlayerImplementation as SpotifyPlayer;
@@ -521,6 +523,7 @@ namespace Cassiopeia.src.Forms
             trackBarVolumen.Value = (int)SpotifyPlayer.Volume;
             checkBoxAleatorio.Checked = SpotifyPlayer.Shuffle;
             buttonReproducirPausar.Text = GetTextButtonPlayer(PlayerImplementation.State);
+            
             SetWindowTitle(PlayerImplementation.GetSongPlaying());
         }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

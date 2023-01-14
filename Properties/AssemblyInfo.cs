@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Número de compilación
 //      Revisión
 //
-[assembly: AssemblyVersion("2.1.255.10")]
+[assembly: AssemblyVersion("2.1.255.20")]
 [assembly: NeutralResourcesLanguage("es")]

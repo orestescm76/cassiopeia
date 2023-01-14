@@ -50,6 +50,7 @@ namespace Cassiopeia.src.Player
         public void PlaySong(Song c);
         public void PlaySong(int Track);
         public void PlaySong(LongSong song);
+        public event EventHandler SongChanged;
     }
     public enum PlayingState
     {

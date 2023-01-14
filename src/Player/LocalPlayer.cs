@@ -24,6 +24,9 @@ namespace Cassiopeia.src.Player
         private Song CurrentSong;
         private bool ShuffleState = false;
         private Random Random;
+
+        public event EventHandler SongChanged;
+
         public LocalPlayer()
         {
             Log.Instance.PrintMessage("Loading player in local mode", MessageType.Info);
