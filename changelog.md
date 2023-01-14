@@ -1,5 +1,5 @@
 # Cassiopeia Changelog
-#### 2.1.255.20
+#### 2.1.256.0
 - WIP Spotify sync implementation
 
 #### 2.1.253.0

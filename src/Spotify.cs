@@ -515,7 +515,7 @@ namespace Cassiopeia
             catch (APIException ex)
             {
                 Log.Instance.PrintMessage(ex.Message, MessageType.Warning);
-                return null;
+                throw ex;
             }
         }
         public CurrentlyPlayingContext GetPlayingContext()

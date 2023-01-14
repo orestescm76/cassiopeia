@@ -169,20 +169,18 @@ namespace Cassiopeia.src.Forms
             //Prepare async task
             RefreshTaskTokenSource = new CancellationTokenSource();
             RefreshTaskCancellationToken = RefreshTaskTokenSource.Token;
+            
             RefreshSpotifyTask = Task.Run(() =>
             {
-                ConfigTimers(true);
                 while (!RefreshTaskCancellationToken.IsCancellationRequested)
                 {
                     //get playing context async
-                    SpotifyPlayer spotifyPlayer = PlayerImplementation as SpotifyPlayer;
                     spotifyPlayer.RefreshPlayingContext();
                     RefreshSpotifyUI();
                 }
             }
             );
-
-            toolStripStatusLabelCorreoUsuario.Text = Kernel.GetText("conectadoComo") + " " + spotifyPlayer.User.DisplayName;
+            ConfigTimers(true);
         }
         public void Apagar()
         {
@@ -197,19 +195,18 @@ namespace Cassiopeia.src.Forms
         private void ApagarSpotify()
         {
             Log.Instance.PrintMessage("Shutting down Spotify", MessageType.Info);
-            backgroundWorker.CancelAsync();
+            RefreshTaskTokenSource.Cancel();
             buttoncrearLR.Show();
             buttonSpotify.Text = Kernel.GetText("cambiarSpotify");
             PlayerImplementation.State = PlayingState.Stop;
             SpotifySync = false;
-            timerUIRefresh.Enabled = false;
-            timerMetadataRefresh.Enabled = false;
+            ConfigTimers(false);
             pictureBoxCaratula.Image = Resources.albumdesconocido;
             buttonAbrir.Enabled = true;
             trackBarPosition.Value = 0;
             trackBarPosition.Maximum = 0;
-            dur = new TimeSpan(0);
-            pos = new TimeSpan(0);
+            dur = TimeSpan.Zero;
+            pos = TimeSpan.Zero;
             labelPosicion.Text = "0:00";
             labelDuracion.Text = "XX:XX";
             Volumen = 1.0f;
@@ -231,10 +228,11 @@ namespace Cassiopeia.src.Forms
             //Create Spotify player implementation
             PlayerImplementation = new SpotifyPlayer();
             SpotifyPlayer spotifyPlayer = (SpotifyPlayer)PlayerImplementation;
+            spotifyPlayer.CoverAvailable += SpotifyPlayer_CoverAvailable;
+            spotifyPlayer.SongChanged += SpotifyPlayer_SongChanged;
             try
             {
-                timerMetadataRefresh.Enabled = false;
-                timerUIRefresh.Enabled = false;
+                ConfigTimers(false);
                 checkBoxFoobar.Visible = false;
                 SetPlayerButtons(false);
                 buttonDetener.Enabled = false;
@@ -274,6 +272,17 @@ namespace Cassiopeia.src.Forms
             else
                 return;
 
+        }
+
+        private void SpotifyPlayer_SongChanged(object sender, EventArgs e)
+        {
+            SetWindowTitle(PlayerImplementation.GetSongPlaying());
+            dur = PlayerImplementation.Duration;
+        }
+
+        private void SpotifyPlayer_CoverAvailable(object sender, EventArgs e)
+        {
+            pictureBoxCaratula.Image = PlayerImplementation.GetCover();
         }
 
         private string GetTextButtonPlayer(PlayingState er)
@@ -523,8 +532,7 @@ namespace Cassiopeia.src.Forms
             trackBarVolumen.Value = (int)SpotifyPlayer.Volume;
             checkBoxAleatorio.Checked = SpotifyPlayer.Shuffle;
             buttonReproducirPausar.Text = GetTextButtonPlayer(PlayerImplementation.State);
-            
-            SetWindowTitle(PlayerImplementation.GetSongPlaying());
+
         }
         private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -582,7 +590,8 @@ namespace Cassiopeia.src.Forms
                 labelDuracion.Text = GetSongTime(dur);
             }
             double val = pos.TotalMilliseconds / dur.TotalMilliseconds * trackBarPosition.Maximum;
-            trackBarPosition.Value = (int)val;
+            if(!double.IsNaN(val))
+                trackBarPosition.Value = (int)val;
 
             if (pos.Minutes == dur.Minutes && pos.Seconds == dur.Seconds)
             {
@@ -710,7 +719,9 @@ namespace Cassiopeia.src.Forms
         }
         private void trackBarVolumen_Scroll(object sender, EventArgs e)
         {
-            //Volumen = (float)trackBarVolumen.Value / 100;
+            
+            Volumen = (float)trackBarVolumen.Value / 100;
+            PlayerImplementation.Volume = Volumen;
             //if (!SpotifySync && !(nucleo.ComprobarSonido()))
             //    nucleo.SetVolumen(Volumen);
         }
@@ -790,7 +801,7 @@ namespace Cassiopeia.src.Forms
 
         private void timerMetadatos_Tick(object sender, EventArgs e)
         {
-            labelDatosCancion.Text = PlayerImplementation.GetSongPlaying();
+            //labelDatosCancion.Text = PlayerImplementation.GetSongPlaying();
         }
 
         private void buttonSpotify_Click(object sender, EventArgs e)

@@ -33,10 +33,12 @@ namespace Cassiopeia.src.Player
         private readonly string CoverFileName = "./covers/np.jpg";
 
         public event EventHandler SongChanged;
+        public event EventHandler CoverAvailable;
 
         public SpotifyPlayer()
         {
             Init();
+            //init previoussong
             PlayingSong = new();
             PlayingSong.Id = "aaa";
             PreviousSpotifyID = "";
@@ -44,17 +46,26 @@ namespace Cassiopeia.src.Player
         //Refreshes the PlayingContext.
         public void RefreshPlayingContext()
         {
-            PlayingContext = SpotifyAPI.GetPlayingContextAsync().Result;
+            try
+            {
+                PlayingContext = SpotifyAPI.GetPlayingContextAsync().Result;
+
+            }
+            catch (APIException)
+            {
+                PlayingContext = null;
+            }
             if (PlayingContext is not null)
             {
+                PlayingSong = PlayingContext.Item as FullTrack;
                 //Detect change in song
                 if (PreviousSpotifyID != PlayingSong.Id)
                 {
                     PreviousSpotifyID = PlayingSong.Id;
-                    PlayingSong = PlayingContext.Item as FullTrack;
                     //Update new duration
                     Duration = TimeSpan.FromMilliseconds(PlayingSong.DurationMs);
                     DownloadCover(PlayingSong.Album, true);
+                    SongChanged.Invoke(null, null);
                 }
                 Position = TimeSpan.FromMilliseconds(PlayingContext.ProgressMs);
                 Volume = (float)PlayingContext.Device.VolumePercent;
@@ -67,7 +78,7 @@ namespace Cassiopeia.src.Player
         }
         public void Dispose()
         {
-            throw new NotImplementedException();
+            GC.SuppressFinalize(this);
         }
 
         public void HandleDragDrop()
@@ -207,6 +218,7 @@ namespace Cassiopeia.src.Player
                         File.Delete(CoverFileName);
                         return;
                     }
+                    cliente.DownloadFileCompleted += Cliente_DownloadFileCompleted;
                     cliente.DownloadFileAsync(new Uri(album.Images[1].Url), Environment.CurrentDirectory + CoverFileName);
                 }
                 catch (System.Net.WebException ex)
@@ -229,6 +241,11 @@ namespace Cassiopeia.src.Player
                     Log.Instance.PrintMessage("Couldn't download the album cover, cannot replace...", MessageType.Error);
                 }
             }
+        }
+
+        private void Cliente_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            CoverAvailable.Invoke(null, null);
         }
     }
 }
