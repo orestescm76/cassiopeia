@@ -23,6 +23,7 @@ namespace Cassiopeia
         public static Font FontView;
         public static Size MainFormSize;
         public static bool MainFormViewSidebar;
+        public static string TwitterShare;
         private static ResXResourceSet cargador;
         private static ResXResourceWriter guardador;
 
@@ -41,6 +42,7 @@ namespace Cassiopeia
                     HistoryEnabled = (bool)cargador.GetObject("HistoryEnabled");
                     StreamString = cargador.GetString("StreamString");
                     StreamEnabled = (bool)cargador.GetObject("StreamEnabled");
+                    TwitterShare = cargador.GetString("TwitterShare");
                     //Load the colors
                     ColorLongSong = Color.FromArgb(int.Parse(cargador.GetString("ColorLongSong"), NumberStyles.HexNumber));
                     ColorBonus = Color.FromArgb(int.Parse(cargador.GetString("ColorBonus"), NumberStyles.HexNumber));
@@ -68,6 +70,7 @@ namespace Cassiopeia
                 Clipboard = "%artist% - %title% (%year%)";
                 History = "#%track_num%. %artist% - %title%";
                 StreamString = "#%track_num%. %artist% - %title%";
+                TwitterShare = "%link%";
                 StreamEnabled = false;
                 HistoryEnabled = true;
                 ColorLongSong = Color.Salmon;
@@ -87,6 +90,7 @@ namespace Cassiopeia
             guardador.AddResource("Clipboard", Clipboard);
             guardador.AddResource("History", History);
             guardador.AddResource("HistoryEnabled", HistoryEnabled);
+            guardador.AddResource("TwitterShare", TwitterShare);
             guardador.AddResource("ColorBonus", ColorBonus.ToArgb().ToString("X"));
             guardador.AddResource("ColorLongSong", ColorLongSong.ToArgb().ToString("X"));
             guardador.AddResource("FontLyrics", FontLyrics.FontFamily.Name + "," + (int)FontLyrics.Size);

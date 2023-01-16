@@ -32,11 +32,12 @@
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("portapapeles");
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("historial");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("stream");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("text");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("colors");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("view", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6});
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("twitter");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("text");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("colors");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("view", new System.Windows.Forms.TreeNode[] {
+            treeNode6,
+            treeNode7});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigForm));
             this.treeViewConfiguracion = new System.Windows.Forms.TreeView();
             this.buttonAplicar = new System.Windows.Forms.Button();
@@ -66,21 +67,25 @@
             treeNode4.Name = "stream";
             treeNode4.Tag = "stream";
             treeNode4.Text = "stream";
-            treeNode5.Name = "text";
-            treeNode5.Tag = "text";
-            treeNode5.Text = "text";
-            treeNode6.Name = "colors";
-            treeNode6.Tag = "colors";
-            treeNode6.Text = "colors";
-            treeNode7.Name = "visual";
-            treeNode7.Tag = "view";
-            treeNode7.Text = "view";
+            treeNode5.Name = "twitter";
+            treeNode5.Tag = "twitter";
+            treeNode5.Text = "twitter";
+            treeNode6.Name = "text";
+            treeNode6.Tag = "text";
+            treeNode6.Text = "text";
+            treeNode7.Name = "colors";
+            treeNode7.Tag = "colors";
+            treeNode7.Text = "colors";
+            treeNode8.Name = "visual";
+            treeNode8.Tag = "view";
+            treeNode8.Text = "view";
             this.treeViewConfiguracion.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
             treeNode4,
-            treeNode7});
+            treeNode5,
+            treeNode8});
             this.treeViewConfiguracion.Size = new System.Drawing.Size(220, 353);
             this.treeViewConfiguracion.TabIndex = 0;
             this.treeViewConfiguracion.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewConfiguracion_AfterSelect);

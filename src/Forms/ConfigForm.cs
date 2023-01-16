@@ -13,7 +13,8 @@ namespace Cassiopeia.src.Forms
         History,
         Colors,
         TextFont,
-        Stream
+        Stream,
+        Twitter
     }
     public partial class ConfigForm : Form
     {
@@ -29,7 +30,7 @@ namespace Cassiopeia.src.Forms
         AlbumData AlbumCopyPreview = new AlbumData("Sabbath Bloddy Sabbath", "Black Sabbath", 1973); //Only used if the collection is empty.
         Song SongPreview;
 
-    Button btColorBonus;
+        Button btColorBonus;
         Button btColorLongSong;
 
         ToolTip ttbtColorBonus;
@@ -43,6 +44,7 @@ namespace Cassiopeia.src.Forms
         ToolTip ttbtTextView;
 
         Random random = new Random();
+
         public ActiveConfig ActiveConfig { get; set; }
         public ConfigForm()
         {
@@ -95,9 +97,10 @@ namespace Cassiopeia.src.Forms
             treeViewConfiguracion.Nodes[1].Text = Kernel.GetText("cambiar_portapapeles");
             treeViewConfiguracion.Nodes[2].Text = Kernel.GetText("cambiar_historial");
             treeViewConfiguracion.Nodes[3].Text = Kernel.GetText("cambiar_stream");
-            treeViewConfiguracion.Nodes[4].Text = Kernel.GetText("configView");
-            treeViewConfiguracion.Nodes[4].Nodes[0].Text = Kernel.GetText("tipografíaLyrics");
-            treeViewConfiguracion.Nodes[4].Nodes[1].Text = Kernel.GetText("colorsHighlight");
+            treeViewConfiguracion.Nodes[4].Text = Kernel.GetText("cambiarTwitter");
+            treeViewConfiguracion.Nodes[5].Text = Kernel.GetText("configView");
+            treeViewConfiguracion.Nodes[5].Nodes[0].Text = Kernel.GetText("tipografíaLyrics");
+            treeViewConfiguracion.Nodes[5].Nodes[1].Text = Kernel.GetText("colorsHighlight");
         }
         private void LoadLanguageConfig()
         {
@@ -256,7 +259,46 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Controls.Add(streamEnabledConfigCheckBox);
             SetLeftAnchor();
         }
+        private void LoadTwitterConfig()
+        {
+            ActiveConfig = ActiveConfig.Stream;
 
+            labelStringConfigPreview = new Label();
+            labelStringConfigPreview.AutoSize = true;
+
+            groupBoxRaiz.Text = Kernel.GetText("twitter_share");
+            stringConfig = new TextBox();
+            stringConfig.TextChanged += StringConfig_TextChanged;
+            stringConfig.Location = new Point(35, groupBoxRaiz.Height / 4);
+            Size size = stringConfig.Size;
+            size.Width = 420; stringConfig.Size = size;
+            stringConfig.Font = new Font("Segoe UI", 9);
+            stringConfig.Text = Config.StreamString;
+
+
+            labelStringConfigPreview.Font = stringConfig.Font;
+            labelStringConfigPreview.Location = new Point(stringConfig.Location.X, stringConfig.Location.Y + 30);
+
+            labelStringConfigHelp = new Label();
+            labelStringConfigHelp.Font = stringConfig.Font;
+            labelStringConfigHelp.AutoSize = true;
+            labelStringConfigHelp.Location = new Point(labelStringConfigPreview.Location.X, labelStringConfigPreview.Location.Y + 50);
+            SetLabelHelp(ActiveConfig);
+
+            string Preview = Config.History;
+
+            AlbumData album = Utils.GetRandomAlbum();
+            if (album is not null)
+                SongPreview = Utils.GetRandomSong(album);
+
+            StringConfig_TextChanged(null, null);
+
+            groupBoxRaiz.Controls.Add(stringConfig);
+            groupBoxRaiz.Controls.Add(labelStringConfigPreview);
+            groupBoxRaiz.Controls.Add(labelStringConfigHelp);
+            groupBoxRaiz.Controls.Add(streamEnabledConfigCheckBox);
+            SetLeftAnchor();
+        }
         private void LoadColorConfig()
         {
             ActiveConfig = ActiveConfig.Colors;
@@ -354,12 +396,11 @@ namespace Cassiopeia.src.Forms
                 case ActiveConfig.History:
                     labelStringConfigHelp.Text = Kernel.GetText("label_historial");
                     break;
-                case ActiveConfig.Colors:
-                    break;
-                case ActiveConfig.TextFont:
-                    break;
                 case ActiveConfig.Stream:
                     labelStringConfigHelp.Text = Kernel.GetText("label_stream");
+                    break;
+                case ActiveConfig.Twitter:
+                    labelStringConfigHelp.Text = Kernel.GetText("label_twitter");
                     break;
                 default:
                     break;
@@ -428,6 +469,9 @@ namespace Cassiopeia.src.Forms
                 case "stream":
                     LoadStreamConfig();
                     break;
+                case "twitter":
+                    LoadTwitterConfig();
+                    break;
                 default:
                     groupBoxRaiz.Controls.Add(labelSelect);
                     labelSelect.Show();
@@ -480,6 +524,19 @@ namespace Cassiopeia.src.Forms
                         Preview = Preview.Replace("%date%", DateTime.Now.Date.ToString("d"));
                         Preview = Preview.Replace("%time%", DateTime.Now.ToString("HH:mm"));
                         Preview = Preview.Replace("%year%", SongPreview.AlbumFrom.Year.ToString());
+                        Preview = Preview.Replace("\\n", Environment.NewLine);
+                        break;
+                    case ActiveConfig.Twitter:
+                        Preview = Preview.Replace("%track_num%", num.ToString());
+                        Preview = Preview.Replace("%artist%", SongPreview.AlbumFrom.Artist);
+                        Preview = Preview.Replace("%album%", SongPreview.AlbumFrom.Title);
+                        Preview = Preview.Replace("%title%", SongPreview.Title);
+                        Preview = Preview.Replace("%length%", SongPreview.Length.ToString(@"mm\:ss"));
+                        Preview = Preview.Replace("%pos%", TimeSpan.FromSeconds(random.Next((int)SongPreview.Length.TotalSeconds)).ToString(@"mm\:ss"));
+                        Preview = Preview.Replace("%date%", DateTime.Now.Date.ToString("d"));
+                        Preview = Preview.Replace("%time%", DateTime.Now.ToString("HH:mm"));
+                        Preview = Preview.Replace("%year%", SongPreview.AlbumFrom.Year.ToString());
+                        Preview = Preview.Replace("%link%", "https://open.spotify.com/track/3elIkBzbWu7K5SSAJz5q5x");
                         Preview = Preview.Replace("\\n", Environment.NewLine);
                         break;
                     default:

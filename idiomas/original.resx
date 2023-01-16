@@ -797,4 +797,13 @@
   <data name="resetNum" xml:space="preserve">
     <value></value>
   </data>
+  <data name="twitter_share" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="label_twitter" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="cambiarTwitter" xml:space="preserve">
+    <value></value>
+  </data>
 </root>
