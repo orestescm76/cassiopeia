@@ -194,13 +194,15 @@ namespace Cassiopeia.src.Forms
         }
         private void ApagarSpotify()
         {
-            Log.Instance.PrintMessage("Shutting down Spotify", MessageType.Info);
+            //call log
+            PlayerImplementation.Stop();
+            //cancel refresh
             RefreshTaskTokenSource.Cancel();
+            ConfigTimers(false);
             buttoncrearLR.Show();
             buttonSpotify.Text = Kernel.GetText("cambiarSpotify");
             PlayerImplementation.State = PlayingState.Stop;
             SpotifySync = false;
-            ConfigTimers(false);
             pictureBoxCaratula.Image = Resources.albumdesconocido;
             buttonAbrir.Enabled = true;
             trackBarPosition.Value = 0;
@@ -220,6 +222,9 @@ namespace Cassiopeia.src.Forms
             if (File.Exists("./covers/np.jpg"))
                 File.Delete("./covers/np.jpg");
             buttonAdd.Hide();
+            trackBarPosition.Value = 0;
+            trackBarVolumen.Value = 100;
+            labelPorcentaje.Text = string.Empty;
         }
         public void ActivateSpotifySync()
         {
@@ -870,23 +875,8 @@ namespace Cassiopeia.src.Forms
             var spotifyPlayer = (SpotifyPlayer)PlayerImplementation;
             string test;
             string link = "https://twitter.com/intent/tweet?text=";
-            if (SpotifySync && !string.IsNullOrEmpty(spotifyPlayer.PlayingSong.Id))
-            {
-                test = Kernel.GetText("compartirTwitter1").Replace(" ", "%20") + "%20https://open.spotify.com/track/" + spotifyPlayer.PlayingSong.Id + "%0a" +
-                    Kernel.GetText("compartirTwitter2").Replace(" ", "%20") + "%20" + Kernel.GetText("titulo_ventana_principal").Replace(" ", "%20") + "%20" + Kernel.Version + "%20" + Kernel.Codename;
-            }
-            else if (!ModoCD && Reproduciendo)
-                test = Kernel.GetText("compartirLocal1").Replace(" ", "%20") + "%20" +
-                    NowPlaying.Title.Replace(" ", "%20") + "%20" +
-                    Kernel.GetText("compartirLocal2").Replace(" ", "%20") + "%20" +
-                    NowPlayingAlbum.Artist.Replace(" ", "%20") + "%20" +
-                    Kernel.GetText("compartirLocal3").Replace(" ", "%20") + "%20" +
-                    Kernel.GetText("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
-                    Kernel.Version + "%20" + Kernel.Codename;
-            else
-                test = "Escuchando un CD con " + Kernel.GetText("titulo_ventana_principal").Replace(" ", "%20") + "%20" +
-                    Kernel.Version + "%20" + Kernel.Codename;
-            link += test;
+            link += Utils.GetTwitterShare(spotifyPlayer.PlayingSong);
+
             Process.Start(new ProcessStartInfo("cmd", $"/c start {link}") { CreateNoWindow = true });
         }
         private void Reproductor_DragDrop(object sender, DragEventArgs e)

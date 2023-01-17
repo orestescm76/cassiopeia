@@ -3,6 +3,7 @@ using HtmlAgilityPack;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Cassiopeia
 {
@@ -319,6 +320,29 @@ namespace Cassiopeia
                 return false;
             }
             return true;
-        } 
+        }
+        public static string GetTwitterShare(FullTrack track)
+        {
+            string result = Config.TwitterShare;
+            try
+            {
+                result = result.Replace("%artist%", track.Artists[0].Name);
+                result = result.Replace("%album%", track.Album.Name);
+                result = result.Replace("%title%", track.Name);
+                result = result.Replace("%length%", TimeSpan.FromMilliseconds(track.DurationMs).ToString(@"mm\:ss"));
+                result = result.Replace("%pos%","");//, TimeSpan.FromSeconds(random.Next((int)SongPreview.Length.TotalSeconds)).ToString(@"mm\:ss")); ;
+                result = result.Replace("%date%", DateTime.Now.Date.ToString("d"));
+                result = result.Replace("%time%", DateTime.Now.ToString("HH:mm"));
+                result = result.Replace("%year%", track.Album.ReleaseDate);
+                result = result.Replace("%link%", "https://open.spotify.com/track/"+track.Uri);
+                result = result.Replace("\\n", Environment.NewLine);
+            }
+            catch (Exception)
+            {
+                return result;
+            }
+            result = result.Replace(" ", "%20");
+            return result;
+        }
     }
 }

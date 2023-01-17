@@ -261,7 +261,7 @@ namespace Cassiopeia.src.Forms
         }
         private void LoadTwitterConfig()
         {
-            ActiveConfig = ActiveConfig.Stream;
+            ActiveConfig = ActiveConfig.Twitter;
 
             labelStringConfigPreview = new Label();
             labelStringConfigPreview.AutoSize = true;
@@ -296,7 +296,6 @@ namespace Cassiopeia.src.Forms
             groupBoxRaiz.Controls.Add(stringConfig);
             groupBoxRaiz.Controls.Add(labelStringConfigPreview);
             groupBoxRaiz.Controls.Add(labelStringConfigHelp);
-            groupBoxRaiz.Controls.Add(streamEnabledConfigCheckBox);
             SetLeftAnchor();
         }
         private void LoadColorConfig()
@@ -438,6 +437,9 @@ namespace Cassiopeia.src.Forms
                 case ActiveConfig.Stream:
                     Config.StreamEnabled = streamEnabledConfigCheckBox.Checked;
                     Config.StreamString = stringConfig.Text;
+                    break;
+                case ActiveConfig.Twitter:
+                    Config.TwitterShare = stringConfig.Text;
                     break;
                 default:
                     break;
