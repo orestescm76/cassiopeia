@@ -47,6 +47,7 @@ namespace Cassiopeia.src.Forms
         private CancellationTokenSource RefreshTaskTokenSource;
         private CancellationToken RefreshTaskCancellationToken;
         private Task RefreshSpotifyTask;
+        private int TimeRefreshUI = 150;
         public static void Init()
         {
             instance = new Player();
@@ -56,8 +57,8 @@ namespace Cassiopeia.src.Forms
         {
             InitializeComponent();
             PlayerImplementation = new LocalPlayer();
-            Activated += (object sender, EventArgs e) => { timerUIRefresh.Interval = 150; };
-            Deactivate += (object sender, EventArgs e) => { timerUIRefresh.Interval = 1000; };
+            Activated += (object sender, EventArgs e) => { TimeRefreshUI = 150; timerUIRefresh.Interval = TimeRefreshUI; };
+            Deactivate += (object sender, EventArgs e) => { TimeRefreshUI = 1000; timerUIRefresh.Interval = TimeRefreshUI; };
             SetPlayerButtons(false);
             timerUIRefresh.Enabled = false;
             trackBarPosition.Enabled = false;
@@ -170,13 +171,14 @@ namespace Cassiopeia.src.Forms
             RefreshTaskTokenSource = new CancellationTokenSource();
             RefreshTaskCancellationToken = RefreshTaskTokenSource.Token;
             
-            RefreshSpotifyTask = Task.Run(() =>
+            RefreshSpotifyTask = Task.Run(async() =>
             {
                 while (!RefreshTaskCancellationToken.IsCancellationRequested)
                 {
                     //get playing context async
                     spotifyPlayer.RefreshPlayingContext();
                     RefreshSpotifyUI();
+                    await Task.Delay(TimeRefreshUI);
                 }
             }
             );
@@ -622,23 +624,23 @@ namespace Cassiopeia.src.Forms
 
         private void Reproductor_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //if (!Kernel.PlayerMode || !Kernel.MetadataStream)
-            //{
-            //    Hide();
-            //    if (Reproduciendo || SpotifySync)
-            //        notifyIconReproduciendo.Visible = true;
-            //    if (e.CloseReason != CloseReason.ApplicationExitCall)
-            //        e.Cancel = true;
-            //    else
-            //        e.Cancel = false;
-            //}
-            //else
-            //{
-            //    if (nucleo != null)
-            //        nucleo.Apagar();
-            //    Dispose();
-            //    Application.Exit();
-            //}
+            if (!Kernel.PlayerMode || !Kernel.MetadataStream)
+            {
+                Hide();
+                if (Reproduciendo || SpotifySync)
+                    notifyIconReproduciendo.Visible = true;
+                if (e.CloseReason != CloseReason.ApplicationExitCall)
+                    e.Cancel = true;
+                else
+                    e.Cancel = false;
+            }
+            else
+            {
+                if(PlayerImplementation is not null)
+                    PlayerImplementation.Stop();
+                Dispose();
+                Application.Exit();
+            }
 
         }
 

@@ -1,6 +1,6 @@
 # Cassiopeia Changelog
-#### 2.1.256.0
-- WIP Spotify sync implementation
+#### 2.1.257.20
+- First step new Spotify Implementation
 
 #### 2.1.253.0
 - First step on reading local files with new implementation.

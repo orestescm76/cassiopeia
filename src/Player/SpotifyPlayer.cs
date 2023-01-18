@@ -59,7 +59,7 @@ namespace Cassiopeia.src.Player
             {
                 PlayingSong = PlayingContext.Item as FullTrack;
                 //Detect change in song
-                if (PreviousSpotifyID != PlayingSong.Id)
+                if (PreviousSpotifyID != PlayingSong.Id && PlayingSong is not null)
                 {
                     PreviousSpotifyID = PlayingSong.Id;
                     //Update new duration
