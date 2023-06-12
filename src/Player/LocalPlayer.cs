@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Windows.Media.Capture;
+using static Cassiopeia.src.Player.IPlayer;
 
 namespace Cassiopeia.src.Player
 {
@@ -20,6 +21,7 @@ namespace Cassiopeia.src.Player
         public float Volume { get; set; }
         public int PlaylistPointer { get; set; }
         public Playlist Playlist { get; set; }
+        public VolumeChanged VolumeChanged { get; set; }
 
         private Song CurrentSong;
         private bool ShuffleState = false;
@@ -34,10 +36,15 @@ namespace Cassiopeia.src.Player
             AudioDevices = new ObservableCollection<MMDevice>();
             Volume = 0.5f;
             PlaylistPointer = -1;
-
             Random = new();
+            VolumeChanged = ChangeVolume;
         }
 
+        private void ChangeVolume(float newVol)
+        {
+            PlayerKernel.SetVolumen(newVol);
+            Volume = newVol;
+        }
         void IDisposable.Dispose()
         {
             Stop();

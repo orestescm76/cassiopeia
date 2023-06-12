@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Cassiopeia.Properties;
 using Cassiopeia.src.Classes;
+using CSCore.CoreAudioAPI;
 using SpotifyAPI.Web;
 
 namespace Cassiopeia.src.Player
@@ -28,12 +29,15 @@ namespace Cassiopeia.src.Player
         bool SpotifySync;
         public FullTrack PlayingSong { get; private set; }
         public string PreviousSpotifyID { get; private set; }
+        VolumeChanged IPlayer.VolumeChanged { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         private readonly Spotify SpotifyAPI = Kernel.Spotify;
         private CurrentlyPlayingContext PlayingContext;
         private readonly string CoverFileName = "./covers/np.jpg";
 
         public event EventHandler SongChanged;
         public event EventHandler CoverAvailable;
+        public event EventHandler VolumeChanged;
 
         public SpotifyPlayer()
         {

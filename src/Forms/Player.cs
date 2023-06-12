@@ -728,9 +728,7 @@ namespace Cassiopeia.src.Forms
         {
             
             Volumen = (float)trackBarVolumen.Value / 100;
-            PlayerImplementation.Volume = Volumen;
-            //if (!SpotifySync && !(nucleo.ComprobarSonido()))
-            //    nucleo.SetVolumen(Volumen);
+            PlayerImplementation.VolumeChanged(Volumen);
         }
 
         private void trackBarVolumen_MouseDown(object sender, MouseEventArgs e)

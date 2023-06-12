@@ -93,7 +93,7 @@ namespace Cassiopeia.src.Forms
                 }
                 else
                 {
-                    data[1] = Playlist.Songs[i].AlbumFrom.Artist;
+                    data[1] = Playlist.Songs[i].AlbumFrom?.Artist;
                     data[2] = Playlist.Songs[i].Title;
                     data[3] = GetSongTime(Playlist.Songs[i].Length);
                 }
@@ -161,8 +161,8 @@ namespace Cassiopeia.src.Forms
             Song[] selectedSongs = GetSelectedSongs();
             for (int i = 0; i < selectedSongs.Length; i++)
             {
-                Playlist.RemoveSong(selectedSongs[i]);
                 listViewSongs.SelectedItems[i].Remove();
+                Playlist.RemoveSong(selectedSongs[i]);
             }
             RefreshView();
             Deleting = false;
@@ -204,9 +204,8 @@ namespace Cassiopeia.src.Forms
                 foreach (string songPath in canciones)
                 {
                     Log.Instance.PrintMessage("Adding " + songPath, MessageType.Info);
-                    Song clr = new Song();
-                    clr.Path = songPath;
-                    Playlist.AddSong(clr);
+                    LocalSong song = new LocalSong(songPath);
+                    Playlist.AddSong(song);
                 }
             }
             else

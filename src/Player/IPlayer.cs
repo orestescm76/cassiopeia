@@ -18,6 +18,8 @@ namespace Cassiopeia.src.Player
         public float Volume { get; set; }
         public int PlaylistPointer { get; set; }
         public Playlist Playlist { get; set; }
+        VolumeChanged VolumeChanged { get; set; }
+
         /// <summary>
         /// Gets the cover for the playing song
         /// </summary>
@@ -51,11 +53,14 @@ namespace Cassiopeia.src.Player
         public void PlaySong(int Track);
         public void PlaySong(LongSong song);
         public event EventHandler SongChanged;
+
     }
+    
     public enum PlayingState
     {
         Playing,
         Paused,
         Stop
     }
+    public delegate void VolumeChanged(float newVol);
 }
