@@ -1,36 +1,37 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using Cassiopeia.src.VM;
 
 namespace Cassiopeia.src.Classes
 {
     public class Collection
     {
-        public Dictionary<string, AlbumData> Albums { get; private set; }
+        public ObservableCollections.ObservableList<AlbumData> Albums { get; set; }
         public List<AlbumData> FilteredAlbums { get; set; }
         public List<CompactDisc> CDS { get; private set; }
         public List<VinylAlbum> Vinyls { get; private set; }
         public List<CassetteTape> Tapes { get; private set; }
         public Collection()
         {
-            Albums = new Dictionary<string, AlbumData>();
+            Albums = new ObservableCollections.ObservableList<AlbumData>();
             CDS = new List<CompactDisc>();
             Vinyls = new();
             Tapes = new();
         }
         public bool AddAlbum(ref AlbumData album)
         {
-            //try
-            //{
-            //    Albums.Add(album.Artist + Kernel.SearchSeparator + album.Title, album);
-            //}
-            //catch (ArgumentException)
-            //{
-            //    Log.Instance.PrintMessage("Already added!", MessageType.Warning);
-            //    Log.Instance.PrintMessage(album.Artist + " - " + album.Title, MessageType.Warning);
-            //    return false;
-            //}
-            
+            try
+            {
+                Albums.Add(/*album.Artist + Kernel.SearchSeparator + album.Title,*/ album);
+            }
+            catch (ArgumentException)
+            {
+                Log.Instance.PrintMessage("already added!", MessageType.Warning);
+                Log.Instance.PrintMessage(album.Artist + " - " + album.Title, MessageType.Warning);
+                return false;
+            }
+
             return true;
         }
         public void RemoveAlbum(ref AlbumData album)
@@ -43,7 +44,7 @@ namespace Cassiopeia.src.Classes
         public List<AlbumData> SearchAlbum(string title)
         {
             List<AlbumData> encontrados = new List<AlbumData>();
-            encontrados = Albums.Where(pair => pair.Value.Title.Contains(title)).Select(pair => pair.Value).ToList();
+            encontrados = Albums.Where(pair => pair.Title.Contains(title)).Select(pair => pair).ToList();
             //foreach (AlbumData a in Albums)
             //{
             //    if (a.Title == title)
@@ -51,38 +52,38 @@ namespace Cassiopeia.src.Classes
             //}
             return encontrados;
         }
-        public bool IsInCollection(AlbumData referenceAlbum)
-        {
-            return Albums.ContainsValue(referenceAlbum);
-            //foreach (AlbumData album in Albums)
-            //{
-            //    if (album == referenceAlbum)
-            //        return true;
-            //}
-            //return false;
-        }
+        //public bool IsInCollection(AlbumData referenceAlbum)
+        //{
+        //    return Albums.Contains(referenceAlbum);
+        //    //foreach (AlbumData album in Albums)
+        //    //{
+        //    //    if (album == referenceAlbum)
+        //    //        return true;
+        //    //}
+        //    //return false;
+        //}
 
-        public AlbumData GetAlbum(string s) //s is equal to Black Sabbath/**/Paranoid
-        {
-            return Albums[s];
+        //public AlbumData GetAlbum(string s) //s is equal to Black Sabbath/**/Paranoid
+        //{
+        //    return Albums[s];
             
-            //String[] busqueda = s.Split(Kernel.SearchSeparator);
+        //    //String[] busqueda = s.Split(Kernel.SearchSeparator);
             
-            //foreach (AlbumData album in Albums)
-            //{
-            //    if (album.Artist == busqueda[0] && album.Title == busqueda[1])
-            //        return album;
-            //}
+        //    //foreach (AlbumData album in Albums)
+        //    //{
+        //    //    if (album.Artist == busqueda[0] && album.Title == busqueda[1])
+        //    //        return album;
+        //    //}
 
-            //return null;
-        }
-        public AlbumData GetAlbum(int index, bool filtered)
-        {
-            if (!filtered)
-                return Albums.Values.ToArray()[index];
-            else
-                return FilteredAlbums[index];
-        }
+        //    //return null;
+        //}
+        //public AlbumData GetAlbum(int index, bool filtered)
+        //{
+        //    if (!filtered)
+        //        return Albums.Values.ToArray()[index];
+        //    else
+        //        return FilteredAlbums[index];
+        //}
         //public void GetAlbum(string s, out CompactDisc cd)
         //{
         //    cd = null;
@@ -93,10 +94,10 @@ namespace Cassiopeia.src.Classes
         //            cd = cdd;
         //    }
         //}
-        public void ChangeAlbums(ref Dictionary<string, AlbumData> n)
-        {
-            Albums = n;
-        }
+        //public void ChangeAlbums(ref Dictionary<string, AlbumData> n)
+        //{
+        //    Albums = n;
+        //}
         public void Clear()
         {
             Albums.Clear();

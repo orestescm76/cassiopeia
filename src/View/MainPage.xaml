@@ -4,18 +4,22 @@
              xmlns:vm="clr-namespace:Cassiopeia.VM"
              x:Class="Cassiopeia.MainPage">
     <Grid>
-        <VerticalStackLayout>
-            <ListView ItemsSource="{Binding List}">
+
+            <ListView ItemsSource="{Binding Collection.Albums}"
+                      VerticalScrollBarVisibility="Always">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label Text="{Binding .}" TextColor="White" />
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding Artist}" TextColor="White" />
+                            <Label Text="{Binding Title}" TextColor="White" />
+                            
+                        </HorizontalStackLayout>
                         </ViewCell>
-                    </DataTemplate>
+
+                </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Label Text="fuck"/>
-        </VerticalStackLayout>
 
     </Grid>
 </ContentPage>

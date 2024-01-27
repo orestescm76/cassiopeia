@@ -120,4 +120,82 @@
   <data name="menu_archivo" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="genero_blackmetal" xml:space="preserve">
+    <value>Black Metal</value>
+  </data>
+  <data name="genero_blues" xml:space="preserve">
+    <value>Blues rock</value>
+  </data>
+  <data name="genero_chiptune" xml:space="preserve">
+    <value>Chiptune</value>
+  </data>
+  <data name="genero_clasica" xml:space="preserve">
+    <value>Classical music</value>
+  </data>
+  <data name="genero_disco" xml:space="preserve">
+    <value>Disco</value>
+  </data>
+  <data name="genero_electronica" xml:space="preserve">
+    <value>Electronical music</value>
+  </data>
+  <data name="genero_flamenquito" xml:space="preserve">
+    <value>Flamenco</value>
+  </data>
+  <data name="genero_folk" xml:space="preserve">
+    <value>Folk</value>
+  </data>
+  <data name="genero_funk" xml:space="preserve">
+    <value>Funk</value>
+  </data>
+  <data name="genero_hardrock" xml:space="preserve">
+    <value>Hard rock</value>
+  </data>
+  <data name="genero_heavymetal" xml:space="preserve">
+    <value>Heavy Metal</value>
+  </data>
+  <data name="genero_indierock" xml:space="preserve">
+    <value>Indie Rock</value>
+  </data>
+  <data name="genero_jazz" xml:space="preserve">
+    <value>Jazz</value>
+  </data>
+  <data name="genero_jazz fusion" xml:space="preserve">
+    <value>Jazz fusion</value>
+  </data>
+  <data name="genero_new wave" xml:space="preserve">
+    <value>New wave</value>
+  </data>
+  <data name="genero_pop" xml:space="preserve">
+    <value>Pop</value>
+  </data>
+  <data name="genero_postpunk" xml:space="preserve">
+    <value>Post-punk</value>
+  </data>
+  <data name="genero_postrock" xml:space="preserve">
+    <value>Post-rock</value>
+  </data>
+  <data name="genero_progmetal" xml:space="preserve">
+    <value>Progressive metal</value>
+  </data>
+  <data name="genero_punk" xml:space="preserve">
+    <value>Punk</value>
+  </data>
+  <data name="genero_rockprog" xml:space="preserve">
+    <value>Progressive rock</value>
+  </data>
+  <data name="genero_rockpsicodelico" xml:space="preserve">
+    <value>Psychedellic rock</value>
+  </data>
+  <data name="genero_rocksinfonico" xml:space="preserve">
+    <value>Symphonic rock</value>
+  </data>
+  <data name="genero_ska" xml:space="preserve">
+    <value>Ska</value>
+  </data>
+  <data name="genero_stoner" xml:space="preserve">
+    <value>Stoner rock/metal</value>
+  </data>
+  <data name="genero_vaporwave" xml:space="preserve">
+    <value>Stoner rock/metal</value>
+  </data>
 </root>

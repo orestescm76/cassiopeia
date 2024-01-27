@@ -1,4 +1,7 @@
 # Cassiopeia Changelog
+#### 3.0.270.0
+- First step with MAUI reimplement
+
 #### 2.1.257.20
 - First step new Spotify Implementation
 

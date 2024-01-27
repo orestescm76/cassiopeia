@@ -47,6 +47,8 @@
 		<WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize>
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<Platforms>AnyCPU;x64</Platforms>
+		<AssemblyVersion>3.0.270.0</AssemblyVersion>
+		<FileVersion>3.0.270.0</FileVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
@@ -69,6 +71,26 @@
 		<WindowsPackageType>None</WindowsPackageType>
 		<WindowsAppSDKSelfContained Condition="'$(IsUnpackaged)' == 'true'">true</WindowsAppSDKSelfContained>
 		<SelfContained Condition="'$(IsUnpackaged)' == 'true'">true</SelfContained>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.22000.0|AnyCPU'">
+	  <ApplicationVersion>3</ApplicationVersion>
+	  <ApplicationDisplayVersion>3.0.270</ApplicationDisplayVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.22000.0|x64'">
+	  <ApplicationVersion>3</ApplicationVersion>
+	  <ApplicationDisplayVersion>3.0.270</ApplicationDisplayVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.22000.0|AnyCPU'">
+	  <ApplicationVersion>3</ApplicationVersion>
+	  <ApplicationDisplayVersion>3.0.270</ApplicationDisplayVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.22000.0|x64'">
+	  <ApplicationVersion>3</ApplicationVersion>
+	  <ApplicationDisplayVersion>3.0.270</ApplicationDisplayVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
