@@ -1,74 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
-  </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>SpotifyDebug</ActiveDebugProfile>
+    <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
+    <ActiveDebugFramework>net8.0-windows10.0.19041.0</ActiveDebugFramework>
+    <ActiveDebugProfile>Windows Machine</ActiveDebugProfile>
+    <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
+    <UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <_LastSelectedProfileId>MSIX-win10-x64.pubxml</_LastSelectedProfileId>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="src\Forms\About.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\AlbumViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\Anotaciones.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\ConfigForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\CreateAlbum.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\CreateCD.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\CreateSong.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\CreateVinylCassette.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\EditAlbum.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\FilterForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\LoadBar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\LogViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\LyricsViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\OpenDisc.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\Player.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\PlaylistIU.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\SearchSpotify.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\SpotifyResults.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="src\Forms\WriteName.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <EmbeddedResource Update="Resources\Strings\Strings.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Strings\Strings.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Platforms\Windows\App.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Platforms\Windows\Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\Styles\Colors.xaml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
 </Project>

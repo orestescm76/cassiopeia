@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Cassiopeia.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Cassiopeia"
+    xmlns:vm="clr-namespace:Cassiopeia.VM"
+    xmlns:strings="clr-namespace:Cassiopeia.Resources.Strings"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Cassiopeia"
+    BindingContextChanged="Shell_BindingContextChanged">
+    <ShellContent>
+        <local:MainPage x:Name="MainPage"/>
+
+    </ShellContent>
+    <Shell.MenuBarItems>
+        <MenuBarItem Text="{x:Static strings:Strings.menu_archivo}">
+            <MenuFlyoutItem Text="Nueva base de datos">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="N" Modifiers="Ctrl,Shift"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Nuevo álbum">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="N" Modifiers="Ctrl"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Nuevo álbum desde directorio"/>
+            <MenuFlyoutItem Text="Abrir registros desde un fichero"/>
+            <MenuFlyoutItem Text="Abrir CD de audio"
+                            IsEnabled="False"/>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Guardar como...">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="S" Modifiers="Ctrl"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Salir"
+                            Command="{Binding CommandClose}">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F4" Modifiers="Alt"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+        </MenuBarItem>
+        <MenuBarItem Text="Administrar">
+            
+        </MenuBarItem>
+        <MenuBarItem  Text="Ver"></MenuBarItem>
+        <MenuBarItem  Text="Spotify"></MenuBarItem>
+        <MenuBarItem  Text="Selección"></MenuBarItem>
+        <MenuBarItem  Text="Acerca de"></MenuBarItem>
+        
+    </Shell.MenuBarItems>
+</Shell>
