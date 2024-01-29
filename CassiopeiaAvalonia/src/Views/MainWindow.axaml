@@ -1,12 +1,17 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:CassiopeiaAvalonia.ViewModels"
+        xmlns:vm="using:Cassiopeia.VM"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:CassiopeiaAvalonia.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CassiopeiaAvalonia.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="CassiopeiaAvalonia">
-        <views:MainView />
+        Title="Cassiopeia">
+	<DockPanel>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="File"/>
+		</Menu>
+		<views:MainView />
+	</DockPanel>
 </Window>

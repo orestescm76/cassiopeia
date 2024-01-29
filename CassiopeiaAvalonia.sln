@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassiopeiaAvalonia", "CassiopeiaAvalonia\CassiopeiaAvalonia.csproj", "{CC04CDF4-6B96-41EA-B90F-885E6A6CF78B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cassiopeia", "CassiopeiaAvalonia\Cassiopeia.csproj", "{CC04CDF4-6B96-41EA-B90F-885E6A6CF78B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassiopeiaAvalonia.Desktop", "CassiopeiaAvalonia.Desktop\CassiopeiaAvalonia.Desktop.csproj", "{FDE5183B-D565-498E-A086-93CF2D350779}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cassiopeia.Desktop", "CassiopeiaAvalonia.Desktop\Cassiopeia.Desktop.csproj", "{FDE5183B-D565-498E-A086-93CF2D350779}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

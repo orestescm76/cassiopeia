@@ -2,8 +2,7 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-
-using CassiopeiaAvalonia.ViewModels;
+using Cassiopeia.VM;
 using CassiopeiaAvalonia.Views;
 
 namespace CassiopeiaAvalonia;
@@ -25,14 +24,14 @@ public partial class App : Application
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainVM()
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainVM()
             };
         }
 
