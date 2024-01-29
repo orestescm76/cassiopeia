@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassiopeiaAvalonia", "CassiopeiaAvalonia\CassiopeiaAvalonia.csproj", "{CC04CDF4-6B96-41EA-B90F-885E6A6CF78B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CassiopeiaAvalonia.Desktop", "CassiopeiaAvalonia.Desktop\CassiopeiaAvalonia.Desktop.csproj", "{FDE5183B-D565-498E-A086-93CF2D350779}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC04CDF4-6B96-41EA-B90F-885E6A6CF78B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC04CDF4-6B96-41EA-B90F-885E6A6CF78B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC04CDF4-6B96-41EA-B90F-885E6A6CF78B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC04CDF4-6B96-41EA-B90F-885E6A6CF78B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDE5183B-D565-498E-A086-93CF2D350779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDE5183B-D565-498E-A086-93CF2D350779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDE5183B-D565-498E-A086-93CF2D350779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDE5183B-D565-498E-A086-93CF2D350779}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4285F7E-8F1D-472D-AFDA-49652C6B7017}
+	EndGlobalSection
+EndGlobal
