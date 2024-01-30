@@ -7,14 +7,17 @@
     <AssemblyName>Cassiopeia</AssemblyName>
     <RootNamespace>Cassiopeia</RootNamespace>
   </PropertyGroup>
-
-  
   <ItemGroup>
-    <AvaloniaResource Include="Assets\**" />
+    <None Remove="Assets\icono.ico" />
+  </ItemGroup>
+  <ItemGroup>
+	  <AvaloniaResource Include="Assets\avalonia-logo.ico" />
+	  <AvaloniaResource Include="Assets\icono.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.2" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Avalonia.Fonts.Inter" Version="$(AvaloniaVersion)" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
@@ -23,4 +26,20 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Strings\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Strings\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

@@ -4,13 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:CassiopeiaAvalonia.Views"
+		xmlns:strings="clr-namespace:Cassiopeia.Strings"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CassiopeiaAvalonia.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/icono.ico"
         Title="Cassiopeia">
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
-			<MenuItem Header="File"/>
+			<MenuItem Header="{x:Static strings:Strings.menu_archivo}">
+				<MenuItem Header="Nueva base de datos"/>
+				<Separator/>
+				<MenuItem Header="Nuevo álbum"/>
+				<MenuItem Header="Nuevo álbum desde directorio"/>
+				<MenuItem Header="Abrir registros desde un fichero">
+					<MenuItem Header="CD"/>
+					<MenuItem Header="Vinilo"/>
+				</MenuItem>
+				
+				
+				<MenuItem Header="Guardar como"/>
+				<Separator/>
+				<MenuItem Header="Salir"/>
+			</MenuItem>
 		</Menu>
 		<views:MainView />
 	</DockPanel>

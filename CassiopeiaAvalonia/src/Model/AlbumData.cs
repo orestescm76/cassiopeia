@@ -14,25 +14,25 @@ namespace Cassiopeia.src.Classes
     }
     public class AlbumData
     {
-        public String Title { get; set; }
         public String Artist { get; set; }
+        public String Title { get; set; }
         public short Year { get; set; }
-        public Genre Genre { get; set; }
+        internal Genre Genre { get; set; }
 
-        public List<Song> Songs { get; set; }
+        internal List<Song> Songs { get; set; }
 
-        public String ID { get => Artist + " " + Title; }
-        public String IdSpotify { get; set; }
+        internal String ID { get => Artist + " " + Title; }
+        internal String IdSpotify { get; set; }
 
-        public String CoverPath { get; set; }
-        public String SoundFilesPath { get; set; }
+        internal String CoverPath { get; set; }
+        internal String SoundFilesPath { get; set; }
         public AlbumType Type { get; set; }
        // public string Key { get => Artist + Kernel.SearchSeparator + Title; }
 
-        [JsonIgnore] public int NumberOfSongs { get { return Songs.Count; } }
+        [JsonIgnore] internal int NumberOfSongs { get { return Songs.Count; } }
         [JsonIgnore] public TimeSpan Length { get => GetLength(false); }
-        [JsonIgnore] public TimeSpan BonusLength { get => GetLength(true); }
-        [JsonIgnore] public bool CanBeRemoved { get; set; }
+        [JsonIgnore] internal TimeSpan BonusLength { get => GetLength(true); }
+        [JsonIgnore] internal bool CanBeRemoved { get; set; }
 
         public AlbumData()
         {
